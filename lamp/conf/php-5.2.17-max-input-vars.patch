@@ -1,0 +1,81 @@
+diff -u -r php-5.2.17/configure php-5.2.17-patched/configure
+--- php-5.2.17/configure	2011-01-07 07:04:43.000000000 +0800
++++ php-5.2.17-patched/configure	2011-12-31 11:46:11.000000000 +0800
+@@ -2165,7 +2165,7 @@
+ PHP_MAJOR_VERSION=5
+ PHP_MINOR_VERSION=2
+ PHP_RELEASE_VERSION=17
+-PHP_EXTRA_VERSION=""
++PHP_EXTRA_VERSION="p1"
+ PHP_VERSION="$PHP_MAJOR_VERSION.$PHP_MINOR_VERSION.$PHP_RELEASE_VERSION$PHP_EXTRA_VERSION"
+ PHP_VERSION_ID=`expr $PHP_MAJOR_VERSION \* 10000 + $PHP_MINOR_VERSION \* 100 + $PHP_RELEASE_VERSION`
+ 
+diff -u -r php-5.2.17/configure.in php-5.2.17-patched/configure.in
+--- php-5.2.17/configure.in	2011-01-07 07:01:19.000000000 +0800
++++ php-5.2.17-patched/configure.in	2011-12-31 09:59:05.000000000 +0800
+@@ -42,7 +42,7 @@
+ PHP_MAJOR_VERSION=5
+ PHP_MINOR_VERSION=2
+ PHP_RELEASE_VERSION=17
+-PHP_EXTRA_VERSION=""
++PHP_EXTRA_VERSION="p1"
+ PHP_VERSION="$PHP_MAJOR_VERSION.$PHP_MINOR_VERSION.$PHP_RELEASE_VERSION$PHP_EXTRA_VERSION"
+ PHP_VERSION_ID=`expr [$]PHP_MAJOR_VERSION \* 10000 + [$]PHP_MINOR_VERSION \* 100 + [$]PHP_RELEASE_VERSION`
+ 
+diff -u -r php-5.2.17/main/main.c php-5.2.17-patched/main/main.c
+--- php-5.2.17/main/main.c	2010-06-20 04:47:24.000000000 +0800
++++ php-5.2.17-patched/main/main.c	2011-12-31 09:59:05.000000000 +0800
+@@ -457,6 +457,7 @@
+ 
+ 	STD_PHP_INI_BOOLEAN("allow_url_fopen",		"1",		PHP_INI_SYSTEM,		OnUpdateBool,		allow_url_fopen,		php_core_globals,	core_globals)
+ 	STD_PHP_INI_BOOLEAN("allow_url_include",	"0",		PHP_INI_SYSTEM,		OnUpdateBool,		allow_url_include,		php_core_globals,	core_globals)
++	STD_PHP_INI_ENTRY("max_input_vars",         "1000",     PHP_INI_SYSTEM|PHP_INI_PERDIR,      OnUpdateLongGEZero, max_input_vars, php_core_globals, core_globals)
+ 	STD_PHP_INI_BOOLEAN("always_populate_raw_post_data",	"0",	PHP_INI_SYSTEM|PHP_INI_PERDIR,	OnUpdateBool,	always_populate_raw_post_data,	php_core_globals,	core_globals)
+ 
+ 	STD_PHP_INI_ENTRY("realpath_cache_size",	"16K",		PHP_INI_SYSTEM,		OnUpdateLong,	realpath_cache_size_limit,	virtual_cwd_globals,	cwd_globals)
+diff -u -r php-5.2.17/main/php_globals.h php-5.2.17-patched/main/php_globals.h
+--- php-5.2.17/main/php_globals.h	2010-01-03 17:23:27.000000000 +0800
++++ php-5.2.17-patched/main/php_globals.h	2011-12-31 09:59:05.000000000 +0800
+@@ -160,6 +160,7 @@
+ 	zend_bool com_initialized;
+ #endif
+ 	long max_input_nesting_level;
++	long max_input_vars;
+ 	zend_bool in_user_include;
+ 	zend_bool in_error_log;
+ };
+diff -u -r php-5.2.17/main/php_variables.c php-5.2.17-patched/main/php_variables.c
+--- php-5.2.17/main/php_variables.c	2010-01-03 17:23:27.000000000 +0800
++++ php-5.2.17-patched/main/php_variables.c	2011-12-31 09:59:05.000000000 +0800
+@@ -187,6 +187,9 @@
+ 				}
+ 				if (zend_symtable_find(symtable1, escaped_index, index_len + 1, (void **) &gpc_element_p) == FAILURE
+ 					|| Z_TYPE_PP(gpc_element_p) != IS_ARRAY) {
++					if (zend_hash_num_elements(symtable1) >= PG(max_input_vars)) {
++						php_error_docref(NULL TSRMLS_CC, E_ERROR, "Input variables exceeded %ld. To increase the limit change max_input_vars in php.ini.", PG(max_input_vars));
++					}
+ 					MAKE_STD_ZVAL(gpc_element);
+ 					array_init(gpc_element);
+ 					zend_symtable_update(symtable1, escaped_index, index_len + 1, &gpc_element, sizeof(zval *), (void **) &gpc_element_p);
+@@ -232,6 +235,9 @@
+ 				zend_symtable_exists(symtable1, escaped_index, index_len + 1)) {
+ 				zval_ptr_dtor(&gpc_element);
+ 			} else {
++				if (zend_hash_num_elements(symtable1) >= PG(max_input_vars)) {
++					php_error_docref(NULL TSRMLS_CC, E_ERROR, "Input variables exceeded %ld. To increase the limit change max_input_vars in php.ini.", PG(max_input_vars));
++				}
+ 				zend_symtable_update(symtable1, escaped_index, index_len + 1, &gpc_element, sizeof(zval *), (void **) &gpc_element_p);
+ 			}
+ 			if (escaped_index != index) {
+diff -u -r php-5.2.17/main/php_version.h php-5.2.17-patched/main/php_version.h
+--- php-5.2.17/main/php_version.h	2011-01-07 07:01:19.000000000 +0800
++++ php-5.2.17-patched/main/php_version.h	2011-12-31 11:46:13.000000000 +0800
+@@ -3,6 +3,6 @@
+ #define PHP_MAJOR_VERSION 5
+ #define PHP_MINOR_VERSION 2
+ #define PHP_RELEASE_VERSION 17
+-#define PHP_EXTRA_VERSION ""
+-#define PHP_VERSION "5.2.17"
++#define PHP_EXTRA_VERSION "p1"
++#define PHP_VERSION "5.2.17p1"
+ #define PHP_VERSION_ID 50217
