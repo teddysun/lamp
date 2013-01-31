@@ -161,7 +161,7 @@ mkdir -p /data/www/default/
 chmod -R 755 /data/www/default/
 #
 \cp -f $cur_dir/conf/httpd2.4.conf /usr/local/apache/conf/httpd.conf
-\cp -f $cur_dir/conf/httpd-default.conf /usr/local/apache/conf/httpd-default.conf
+\cp -f $cur_dir/conf/httpd-default.conf /usr/local/apache/conf/extra/httpd-default.conf
 \cp -f $cur_dir/conf/index.html /data/www/default/index.html
 \cp -f $cur_dir/conf/lamp.gif /data/www/default/lamp.gif
 \cp -f $cur_dir/conf/p.php /data/www/default/p.php
