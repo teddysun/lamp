@@ -8,21 +8,33 @@
 2、MySQL 5.5.30
 3、PHP 5.3.21 + ZendGuardLoader
 4、phpMyAdmin 3.5.6
-5、xcache 2.0.1 (可选)
+5、OCI8 + oracle-instantclient  (可选安装，支持PHP连接Oracle数据库)
+6、xcache 2.0.1 (可选安装)
+7、xcache 3.0.1 (推荐安装)
+
+注意：6、7二者只能选其一安装。
 
 如何安装：
-第一步，禁止SELINUX,运行./disable.sh
-
-第二步，终端中输入以下命令：
+第一步，终端中输入以下命令：
 cd /root
 wget http://teddysun.googlecode.com/files/lamp1.2.tar.gz
 tar -zxvf lamp1.2.tar.gz
 cd /root/lamp1.2
 chmod +x *.sh
+
+第二步，禁止SELINUX
+终端中输入以下命令：
+cd /root/lamp1.2
+./disable.sh
+
+第三步，安装LAMP
+终端中输入以下命令：
+cd /root/lamp1.2
 ./lamp.sh 2>&1 | tee lamp.log
 
 安装其它：
-1、（建议）执行脚本xcache.sh安装xcache 2.0.1。(命令：./xcache.sh)
+1、（可选安装）执行脚本xcache_2.0.1.sh安装xcache 2.0.1。(命令：./xcache_2.0.1.sh)
+   （推荐安装）执行脚本xcache_3.0.1.sh安装xcache 3.0.1。(命令：./xcache_3.0.1.sh)
 2、执行脚本php5.3_oci8_oracle11g.sh安装OCI8扩展以及oracle-instantclient11.2（命令：./php5.3_oci8_oracle11g.sh）
 3、执行脚本php5.3_oci8_oracle10g.sh安装OCI8扩展以及oracle-instantclient10.2（命令：./php5.3_oci8_oracle10g.sh）
 
@@ -38,7 +50,7 @@ vi /etc/hosts
 
 
 使用提示：
-lamp uninstall：一键删除LAMP（删除之前注意备份好数据！）。
+lamp uninstall：一键删除LAMP（删除之前一定要注意备份数据！！）。
 
 程序目录：
 mysql安装目录: /usr/local/mysql
