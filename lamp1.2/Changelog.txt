@@ -1,0 +1,41 @@
+版本1.2：Release date:2013/02/06
+更新记录：
+1、升级MySQL版本为5.5.30；
+2、升级PHP版本为5.3.21；
+3、更新探针p.php文件;
+4、升级Xcache版本为2.0.1(登录xcache管理界面：http://您的IP地址或域名/xcache，用户名：admin密码：123456)；
+5、优化安装脚本判断逻辑。
+
+
+版本1.1：Release date:2013/01/30
+更新记录：
+1、去除Apache和PHP低版本的安装脚本选择；
+2、去除ZendOptimizer 3.3.9(脚本zend.sh) ，pure-ftpd-1.0.36。(脚本pureftpd.sh)；
+3、优化lamp.sh脚本，以及相关配置文件；
+4、不再支持Apache的httpd-vhosts.conf配置文件，改为单一安装。
+5、phpMyAdmin升级到3.5.6，优化配置文件中的默认语言为简体中文。
+
+
+版本1.0：Release date:2013/01/14
+适用环境：
+系统支持：CentOS-5 (32bit/64bit)或CentOS-6 (32bit/64bit)
+内存要求：≥256M
+
+将会安装:
+1、Apache 2.2.22或Apache 2.4.3
+2、MySQL 5.5.29
+3、PHP 5.2.17或PHP 5.3.20 + ZendGuardLoader
+4、phpMyAdmin 3.5.5
+5、ZendOptimizer 3.3.9 (可选，只适合PHP 5.2.17)
+6、xcache 1.3.2 (可选)
+7、pure-ftpd-1.0.36（可选）
+
+安装其它：
+1、（可选）执行脚本pureftpd.sh安装pure-ftpd-1.0.36。(命令：./pureftpd.sh)
+2、（可选）执行脚本zend.sh安装ZendOptimizer 3.3.9。(命令：./zend.sh) 注意：不适用于PHP 5.3.20
+3、（建议）执行脚本xcache.sh安装xcache 1.3.2。(命令：./xcache.sh)
+4、执行脚本php5.3_oci8_oracle11g.sh安装OCI8扩展以及oracle-instantclient11.2（命令：./php5.3_oci8_oracle11g.sh）
+5、执行脚本php5.3_oci8_oracle10g.sh安装OCI8扩展以及oracle-instantclient10.2（命令：./php5.3_oci8_oracle10g.sh）
+
+备注：4、5两者选其一执行即可（可选）。该脚本是为了使PHP可以连接Oracle数据库。若连接的数据库版本为10.2，则执行5，否则执行4。
+
