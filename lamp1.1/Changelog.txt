@@ -1,22 +1,3 @@
-Install LAMP just for CentOS!
-
-LAMP(Linux+Apache+MySQL+PHP)
-如何安装：
-
-第一步，下载安装包及运行
-终端中输入以下命令：
-cd /root
-wget http://teddysun.googlecode.com/files/lamp1.1.tar.gz
-tar -zxvf lamp1.1.tar.gz
-cd /root/lamp1.1
-chmod +x *.sh
-./lamp.sh 2>&1 | tee lamp.log
-
-第二步，禁止SELINUX
-终端中输入以下命令：
-cd /root/lamp1.1
-./disable.sh
-
 版本1.1：Release date:2013/01/30
 更新记录：
 1、去除Apache和PHP低版本的安装脚本选择；
