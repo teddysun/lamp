@@ -40,7 +40,18 @@ cd /root/lamp1.2
 
 备注：2、3两者选其一执行即可（可选）。该脚本是为了使PHP可以连接Oracle数据库。若连接的数据库版本为10.2，则执行3，否则执行2。
 
-注意：Oracle数据库连接错误排查
+注意1:执行脚本时出现下面的错误提示时。
+-bash: ./lamp.sh: /bin/bash^M: bad interpreter: No such file or directory
+
+是因为Windows下和Linux下的文件编码不同所致。
+解决办法是：
+执行
+vi lamp.sh
+输入命令
+:set ff=unix #注意，包括冒号
+回车后，输入ZZ（注意为大写连续2个字母Z），即可。
+
+注意2：Oracle数据库连接错误排查
 一般连接外部oracle服务器那一步骤时，可能会出现ORA-24408:could not generate unique server group name这样的错误，解决办法是在hosts中将主机名添加即可：
 vi /etc/hosts
 127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4 nupctest
