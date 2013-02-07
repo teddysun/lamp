@@ -267,12 +267,7 @@ fi
 #===============================================================================================
 function install_libmcrypt(){
 cd $cur_dir/untar/libmcrypt-2.5.8
-./configure --prefix=/usr 2>/root/lamp_errors.log
-code=$?
-error_control $code "libmcrypt-2.5.8"
-make  2>/root/lamp_errors.log
-code=$?
-error_control $code "libmcrypt-2.5.8"
+./configure --prefix=/usr
 make install
 echo "============================libmcrypt-2.5.8 install completed!============================"
 }
