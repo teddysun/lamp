@@ -7,7 +7,6 @@ if [ $(id -u) != "0" ]; then
     quit "You must be root to run this script!"
 fi
 cur_dir=`pwd`
-[ ! -d $cur_dir/untar ] && mkdir $cur_dir/untar
 #download pure-ftpd 
 cd $cur_dir
 if [ -s pure-ftpd-1.0.36.tar.gz ]; then
@@ -22,9 +21,8 @@ fi
 
 #install pure-ftpd 
 echo "============================pure-ftpd  install============================================"
-cd $cur_dir
+rm -rf $cur_dir/untar/
 mkdir -p $cur_dir/untar/
-rm -rf $cur_dir/untar/*
 tar xzf pure-ftpd-1.0.36.tar.gz -C $cur_dir/untar/
 cd $cur_dir/untar/pure-ftpd-1.0.36
 ./configure
