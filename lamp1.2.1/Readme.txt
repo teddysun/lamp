@@ -1,12 +1,12 @@
 本脚本适用环境：
 系统支持：CentOS-5 (32bit/64bit)或CentOS-6 (32bit/64bit)
-内存要求：≥256M
+内存要求：≥512M
 日期：2013年02月22日
 
 将会安装:
 1、Apache 2.4.3
 2、MySQL 5.5.30
-3、PHP 5.3.22 + ZendGuardLoader
+3、PHP 5.3.22 + ZendGuardLoader(Zend出品的加速器)
 4、phpMyAdmin 3.5.7
 5、OCI8 + oracle-instantclient  (可选安装，支持PHP连接Oracle数据库)
 6、xcache 2.0.1 (可选安装)
@@ -31,7 +31,7 @@ cd /root/lamp1.2.1
 第三步，安装LAMP
 终端中输入以下命令：
 cd /root/lamp1.2.1
-./lamp.sh 2>&1 | tee lamp.log
+./lamp.sh | tee lamp.log
 
 安装其它：
 1、（可选安装）执行脚本xcache_2.0.1.sh安装xcache 2.0.1。(命令：./xcache_2.0.1.sh)
@@ -62,7 +62,6 @@ vi /etc/hosts
 
 上面的代码中，test即为主机名。然后重启网络服务即可。service network restart
 
-
 使用提示：
 lamp add(del,list)：创建（删除，列出）虚拟主机。
 lamp ftp(add|del|list)：创建（删除，列出）ftp用户。
@@ -78,12 +77,9 @@ apache安装目录： /usr/local/apache
 mysql命令: /etc/init.d/mysqld(start|stop|restart|reload|status)
        或：service mysqld(start|stop|restart|reload|status)
 apache命令: /etc/init.d/httpd(start|stop|restart|reload|status)
-       或：service httpd(start|stop|restart|reload|status)
-pure-ftpd命令：/etc/init.d/pure-ftpd(start|stop|restart|reload|status)
-       或：service pure-ftpd(start|stop|restart|reload|status)        
+       或：service httpd(start|stop|restart|reload|status)      
 
 网站根目录：
 安装完后默认的web根目录： /data/www/default
-
 
 最后，祝你使用愉快！
