@@ -224,7 +224,7 @@ printf "
 #                                                  #
 # Install L2TP bash script                         #
 # Version: 1.0                                     #
-# Author: teddysun                                 #
+# Author: teddysun <http://teddysun.com>           #
 # enjoy it!!                                       #
 ####################################################
 if there are no [FAILED] above, then you can
