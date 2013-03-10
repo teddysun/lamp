@@ -419,7 +419,7 @@ echo "or Press Ctrl+c to cancel"
 char=`get_char`
 echo ""
 done
-if [ "$uninstall" = "y" ]  ;then
+if [ "$uninstall" == "y" ]  ;then
 killall httpd
 killall mysqld
 rm -rf /usr/local/apache/ /etc/init.d/httpd /usr/local/apache /usr/sbin/httpd /usr/sbin/apachectl /var/log/httpd /var/lock/subsys/httpd /var/spool/mail/apache /etc/logrotate.d/httpd
