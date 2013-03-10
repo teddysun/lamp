@@ -391,7 +391,7 @@ read -p "(Default: n):" uninstall
 if [ -z $uninstall ]; then
 	uninstall="n"
 fi
-if [ "$UNINSTALL" != "y" ]; then
+if [ "$uninstall" != "y" ]; then
 	clear
 	echo "==========================="
 	echo "You canceled the uninstall!"
