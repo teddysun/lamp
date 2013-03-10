@@ -384,8 +384,6 @@ echo "============================phpMyAdmin3.5.7 install completed=============
 #USAGE:uninstall_lamp
 #===============================================================================================
 function uninstall_lamp(){
-while true
-do
 echo "Are you sure uninstall LAMP? (y/n)"
 read -p "(Default: n):" uninstall
 if [ -z $uninstall ]; then
@@ -418,7 +416,6 @@ echo "Press any key to start uninstall..."
 echo "or Press Ctrl+c to cancel"
 char=`get_char`
 echo ""
-done
 if [ "$uninstall" == "y" ]  ;then
 killall httpd
 killall mysqld
