@@ -2,10 +2,10 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===============================================================================================
-#   SYSTEM REQUIRED:  CentOS-5 (32bit/64bit) or CentOS-6 (32bit/64bit)
-#   DESCRIPTION:  install L2TP
+#   SYSTEM REQUIRED:  Ubuntu (32bit/64bit)
+#   DESCRIPTION:  Install L2TP
 #   VERSION:   1.0
-#   AUTHOR:    teddysun
+#   AUTHOR:    Teddysun <http://teddysun.com>
 #===============================================================================================
 # Make sure only root can run our script
 if [[ $EUID -ne 0 ]]; then
@@ -55,9 +55,8 @@ echo "Press any key to start...or Press Ctrl+c to cancel"
 char=`get_char`
 clear
 
-mknod /dev/random c 1 9
 #install some necessary tools
-yum install -y ppp iptables make gcc gmp-devel xmlto bison flex libpcap-devel lsof vim-enhanced
+apt-get install -y ppp iptables make gcc gmp-devel libgmp3-dev bison flex libpcap-devel lsof vim
 #
 cur_dir=`pwd`
 mkdir -p $cur_dir/l2tp
@@ -138,8 +137,8 @@ EOF
 cat >>/etc/ipsec.secrets<<EOF
 $tmpip %any: PSK "$mypsk"
 EOF
-sed -i 's/net.ipv4.ip_forward = 0/net.ipv4.ip_forward = 1/g' /etc/sysctl.conf
-sed -i 's/net.ipv4.conf.default.rp_filter = 1/net.ipv4.conf.default.rp_filter = 0/g' /etc/sysctl.conf
+sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+sed -i 's/#net.ipv6.conf.all.forwarding=1/net.ipv6.conf.all.forwarding=1/g' /etc/sysctl.conf
 sysctl -p
 iptables --table nat --append POSTROUTING --jump MASQUERADE
 for each in /proc/sys/net/ipv4/conf/*
