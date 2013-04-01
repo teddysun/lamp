@@ -31,8 +31,9 @@ mknod /dev/ppp c 108 0
 echo 1 > /proc/sys/net/ipv4/ip_forward
 echo "mknod /dev/ppp c 108 0" >> /etc/rc.local
 echo "echo 1 > /proc/sys/net/ipv4/ip_forward" >> /etc/rc.local
-echo "localip 172.16.36.1" >> /etc/pptpd.conf
-echo "remoteip 172.16.36.2-254" >> /etc/pptpd.conf
+sed -i 's/logwtmp/#logwtmp/g' /etc/pptpd.conf
+echo "localip 192.168.8.1" >> /etc/pptpd.conf
+echo "remoteip 192.168.8.2-254" >> /etc/pptpd.conf
 echo "ms-dns 8.8.8.8" >> /etc/ppp/options.pptpd
 echo "ms-dns 8.8.4.4" >> /etc/ppp/options.pptpd
 
@@ -43,13 +44,14 @@ fi
 
 echo "vpn pptpd ${pass} *" >> /etc/ppp/chap-secrets
 
-iptables -t nat -A POSTROUTING -s 172.16.36.0/24 -j SNAT --to-source `ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk 'NR==1 { print $1}'`
-iptables -A FORWARD -p tcp --syn -s 172.16.36.0/24 -j TCPMSS --set-mss 1356
+iptables -t nat -A POSTROUTING -s 192.168.8.0/24 -j SNAT --to-source `ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk 'NR==1 { print $1}'`
+iptables -A FORWARD -p tcp --syn -s 192.168.8.0/24 -j TCPMSS --set-mss 1356
 service iptables save
 chkconfig --add pptpd
 chkconfig pptpd on
 service iptables restart
 service pptpd start
+pptpd -f
  
 echo "VPN service is installed, your VPN username is vpn, VPN password is ${pass}"
 
