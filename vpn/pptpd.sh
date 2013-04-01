@@ -51,7 +51,6 @@ chkconfig --add pptpd
 chkconfig pptpd on
 service iptables restart
 service pptpd start
-pptpd -f
  
 echo "VPN service is installed, your VPN username is vpn, VPN password is ${pass}"
 
