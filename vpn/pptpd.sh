@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===============================================================================================
-#   SYSTEM REQUIRED:  CentOS-5 (32bit/64bit) or CentOS-6 (32bit/64bit)
+#   SYSTEM REQUIRED: CentOS-6 (32bit/64bit)
 #   DESCRIPTION:  install pptpd
 #===============================================================================================
 cur_dir=`pwd`
