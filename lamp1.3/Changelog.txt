@@ -1,13 +1,14 @@
 版本1.3：Release date:2013/04/11
 更新记录：
 1、升级PHP到版本5.4.13；
-2、升级phpMyAdmin到版本为3.5.8；
-3、升级Apache到版本为2.4.4；
-4、升级apr-util到版本1.5.2；
-5、优化oci8_oracle脚本，配置其extension为no-debug-non-zts-20100525；
-6、优化xcache脚本，配置其extension为no-debug-non-zts-20100525；
-7、升级PHP探针文件到最新版v0.4.7；
-8、因ZendGuardLoader只适用于PHP5.3.x系列，故在此版本中去除。
+2、升级MySQL版本为5.6.10；
+3、升级phpMyAdmin到版本为3.5.8；
+4、升级Apache到版本为2.4.4；
+5、升级apr-util到版本1.5.2；
+6、优化oci8_oracle脚本，配置其extension为no-debug-non-zts-20100525；
+7、优化xcache脚本，配置其extension为no-debug-non-zts-20100525；
+8、升级PHP探针文件到最新版v0.4.7；
+9、因ZendGuardLoader只适用于PHP5.3.x系列，故在此版本中去除。
 
 版本1.2.1：Release date:2013/02/22
 更新记录：
