@@ -2,7 +2,7 @@
 更新记录：
 1、升级PHP到版本5.4.13；
 2、升级phpMyAdmin到版本为3.5.8；
-3、升级Apache到版本为2.4.3；
+3、升级Apache到版本为2.4.4；
 4、升级apr-util到版本1.5.2；
 5、优化oci8_oracle脚本，配置其extension为no-debug-non-zts-20100525；
 6、优化xcache脚本，配置其extension为no-debug-non-zts-20100525；
