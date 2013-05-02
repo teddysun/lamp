@@ -5,6 +5,10 @@ export PATH
 #   Description:  Scan /var/log/secure and block illegal ip by iptables
 #   Author:       Teddysun
 #######################################################################
+if [ $(id -u) != "0" ]; then
+	printf "Error: You must be root to run this script!"
+	exit 1
+fi
 
 rm -rf /var/log/loginFailIP.log
 
@@ -17,5 +21,6 @@ do
     if [ `/sbin/iptables -L -n|grep -v grep|grep $ip -c` -eq 0 ] ; then
         /sbin/iptables -A INPUT -s $ip -j LOGINFAIL_LIST
         echo "$ip has been blocked!!"
+		echo -e "$ip has been blocked!!" >> /root/blockedip.log
     fi
 done
