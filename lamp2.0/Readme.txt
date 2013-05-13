@@ -1,13 +1,13 @@
 本脚本适用环境：
 系统支持：CentOS5.x (32bit/64bit)或CentOS6.x (32bit/64bit)
 内存要求：≥256M
-日期：2013年04月28日
+日期：2013年05月13日
 
 将会安装:
 1、Apache 2.4.4
 2、MySQL 5.6.11
-3、PHP 5.4.14
-4、phpMyAdmin 3.5.8.1
+3、PHP 5.4.15
+4、phpMyAdmin 4.0.0
 5、OCI8 + oracle-instantclient  (可选安装，支持PHP连接Oracle数据库)
 6、xcache 2.0.1 (可选安装)
 7、xcache 3.0.1 (推荐安装)
