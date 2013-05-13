@@ -13,8 +13,8 @@
 ## 将会安装
 * 1、`Apache 2.4.4`
 * 2、`MySQL 5.6.11`
-* 3、`PHP 5.4.14`
-* 4、`phpMyAdmin 3.5.8.1`
+* 3、`PHP 5.4.15`
+* 4、`phpMyAdmin 4.0.0`
 * 5、`OCI8 + oracle-instantclient`  (可选安装，支持`PHP`连接`Oracle`数据库)
 * 6、`xcache 2.0.1` (可选安装)
 * 7、`xcache 3.0.1` (推荐安装)
