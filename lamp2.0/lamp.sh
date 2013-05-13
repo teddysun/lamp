@@ -17,9 +17,9 @@ rootness
 disable_selinux
 pre_installation_settings
 download_files "mysql-5.6.11.tar.gz" 
-download_files "php-5.4.14.tar.gz"
+download_files "php-5.4.15.tar.gz"
 download_files "httpd-2.4.4.tar.gz" 
-download_files "phpMyAdmin-3.5.8.1-all-languages.tar.gz"
+download_files "phpMyAdmin-4.0.0-all-languages.tar.gz"
 download_files "apr-1.4.6.tar.gz"
 download_files "apr-util-1.5.2.tar.gz"
 download_files "libiconv-1.14.tar.gz"
@@ -58,8 +58,8 @@ echo "MySQL data location:$mysqldata"
 echo "Default Document Root:/data/www/default"
 echo "Installed Apache version:2.4.4"
 echo "Installed MySQL version:5.6.11"
-echo "Installed PHP version:5.4.14"
-echo "Installed phpMyAdmin version:3.5.8.1"
+echo "Installed PHP version:5.4.15"
+echo "Installed phpMyAdmin version:4.0.0"
 echo "Enjoy it! ^_^"
 echo ""
 echo "=========================================================================================="
@@ -323,13 +323,13 @@ echo "============================re2c-0.13.5 install completed!================
 #===============================================================================================
 function install_php(){
 if [ ! -d /usr/local/php ];then
-echo "============================Start install PHP5.4.14======================================="
+echo "============================Start install PHP5.4.15======================================="
 #ldap module 
 if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
 	cp -frp /usr/lib64/libldap* /usr/lib/
 	ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
 fi
-cd $cur_dir/untar/php-5.4.14
+cd $cur_dir/untar/php-5.4.15
 ./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs  --with-config-file-path=/usr/local/php/etc --with-mysqli=/usr/local/mysql/bin/mysql_config --with-mysql-sock=/usr/local/mysql/mysql.sock --with-config-file-scan-dir=/usr/local/php/php.d --with-openssl --with-zlib --with-curl --enable-ftp --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-xmlrpc --enable-calendar --with-imap --with-kerberos --with-imap-ssl --with-ldap --enable-bcmath --enable-exif --enable-wddx --enable-tokenizer --enable-simplexml --enable-sockets --enable-ctype --enable-gd-native-ttf --enable-mbstring --enable-intl --enable-xml --enable-dom --enable-json --enable-session --enable-soap --with-mcrypt --enable-zip --with-iconv=/usr/local/libiconv --with-mysql=/usr/local/mysql --with-icu-dir=/usr --with-mhash=/usr --with-pcre-dir --without-pear
 make install
 mkdir -p /usr/local/php/etc
@@ -338,7 +338,7 @@ cp -f $cur_dir/conf/php5.4.ini /usr/local/php/etc/php.ini
 rm -rf /etc/php.ini
 ln -s /usr/local/php/etc/php.ini  /etc/php.ini
 ln -s /usr/local/php/bin/php /usr/bin/php
-echo "============================PHP5.4.14 install completed!=================================="
+echo "============================PHP5.4.15 install completed!=================================="
 else
 echo "============================PHP had been installed!======================================="
 fi
@@ -348,9 +348,9 @@ fi
 #Usage:install_phpmyadmin
 #===============================================================================================
 function install_phpmyadmin(){
-echo "============================phpMyAdmin3.5.8.1 install======================================="
+echo "============================phpMyAdmin4.0.0 install======================================="
 cd $cur_dir
-mv untar/phpMyAdmin-3.5.8.1-all-languages /data/www/default/phpmyadmin
+mv untar/phpMyAdmin-4.0.0-all-languages /data/www/default/phpmyadmin
 cp -f $cur_dir/conf/config.inc.php /data/www/default/phpmyadmin/config.inc.php
 chmod -R 755 /data/www/default/phpmyadmin
 mkdir -p /data/www/default/phpmyadmin/upload/
@@ -358,7 +358,7 @@ mkdir -p /data/www/default/phpmyadmin/save/
 chown -R apache:apache /data/www
 #Start httpd service
 service httpd start
-echo "============================phpMyAdmin3.5.8.1 install completed============================="
+echo "============================phpMyAdmin4.0.0 install completed============================="
 }
 
 #===============================================================================================
