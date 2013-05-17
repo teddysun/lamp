@@ -187,7 +187,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
 	mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525
 	\cp -f /usr/local/php.bak/etc/php.ini /usr/local/php/etc/php.ini
 	\cp -f /usr/local/php.bak/php.d/* /usr/local/php/php.d/*
-	\cp -f /usr/local/php.bak/lib/php/extensions/no-debug-non-zts-20100525/* /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/*
+	\cp -f /usr/local/php.bak/lib/php/extensions/no-debug-non-zts-20100525/* /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/
 	#Restart httpd service
 	service httpd restart
 	echo "===================== PHP5 Update completed! ===================="
