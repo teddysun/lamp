@@ -226,7 +226,7 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
 	echo -e "phpmyadmin\t${LATEST_PMA}" > $cur_dir/pmaversion.txt
 	rm -rf $cur_dir/phpMyAdmin-${LATEST_PMA}-all-languages
 	#Reload httpd service
-	service httpd resload
+	service httpd reload
 	echo "===================== phpMyAdmin Update completed! ===================="
 	echo ""
 fi
