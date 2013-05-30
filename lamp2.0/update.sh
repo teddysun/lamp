@@ -222,6 +222,7 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
 	mkdir -p /data/www/default/phpmyadmin/save/
 	chown -R apache:apache /data/www/default/phpmyadmin
 	
+	cd $cur_dir
 	rm -rf $cur_dir/pmaversion.txt
 	echo -e "phpmyadmin\t${LATEST_PMA}" > $cur_dir/pmaversion.txt
 	rm -rf $cur_dir/phpMyAdmin-${LATEST_PMA}-all-languages
