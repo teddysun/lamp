@@ -173,7 +173,7 @@ echo "============================Start install Apache2.4.6=====================
 mv $cur_dir/untar/apr-1.4.8 $cur_dir/untar/httpd-2.4.6/srclib/apr
 mv $cur_dir/untar/apr-util-1.5.2 $cur_dir/untar/httpd-2.4.6/srclib/apr-util
 cd $cur_dir/untar/httpd-2.4.6
-./configure --prefix=/usr/local/apache --enable-so --enable-deflate=shared --enable-ssl=shared --enable-expires=shared  --enable-headers=shared --enable-rewrite=shared --enable-static-support  --with-included-apr --enable-modules=all --enable-mods-shared=all --with-mpm=prefork
+./configure --prefix=/usr/local/apache --enable-so --enable-dav --enable-deflate=shared --enable-ssl=shared --enable-expires=shared  --enable-headers=shared --enable-rewrite=shared --enable-static-support  --with-included-apr --enable-modules=all --enable-mods-shared=all --with-mpm=prefork
 make install
 cp -f $cur_dir/conf/httpd.init /etc/init.d/httpd
 chmod +x /etc/init.d/httpd
