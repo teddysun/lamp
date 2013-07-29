@@ -32,7 +32,7 @@ make;
 echo '';
 echo '';
 echo '';
-echo "======= Script description and score comparison: ======= ";
+echo "======= Script description and score comparison completed! ======= ";
 echo '';
 echo '';
 echo '';
