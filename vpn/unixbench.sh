@@ -9,12 +9,20 @@ export PATH
 mkdir -p /opt/unixbench;
 cd /opt/unixbench;
 
-# Download unixbench
-wget http://teddysun.googlecode.com/files/unixbench-5.1.2.tar.gz;
-tar -xzf unixbench-5.1.2.tar.gz;
-cd unixbench-5.1.2;
+# Download UnixBench5.1.3
+if [ -s UnixBench5.1.3.tgz ]; then
+  echo "UnixBench5.1.3.tgz [found]"
+else
+ echo "UnixBench5.1.3.tgz not found!!!download now......"
+ if ! wget -c http://byte-unixbench.googlecode.com/files/UnixBench5.1.3.tgz;then
+	echo "Failed to download UnixBench5.1.3.tgz,please download it to "/opt/unixbench" directory manually and rerun the install script."
+	exit 1
+ fi
+fi
+tar -xzf UnixBench5.1.3.tgz;
+cd UnixBench;
 
-yum -y install gcc gcc-c autoconf gcc-c++ time
+yum -y install gcc gcc-c autoconf gcc-c++ time perl-Time-HiRes
 
 #Run unixbench
 sed -i "s/GRAPHIC_TESTS = defined/#GRAPHIC_TESTS = defined/g" ./Makefile
