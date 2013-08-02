@@ -6,7 +6,6 @@ export PATH
 #   Description:  Auto Update Script for PHP && phpMyAdmin
 #   Author: Teddysun <i@teddysun.com>
 #   Intro:  https://code.google.com/p/teddysun/
-#           http://teddysun.com/lamp
 #===============================================================================================
 if [[ $EUID -ne 0 ]]; then
    echo "Error:This script must be run as root!" 1>&2
@@ -21,7 +20,6 @@ echo "#############################################################"
 echo "# Auto Update Script for PHP && phpMyAdmin"
 echo "# System Required:  CentOS5.x (32bit/64bit) or CentOS6.x (32bit/64bit)"
 echo "# Intro: https://code.google.com/p/teddysun/"
-echo "#        http://teddysun.com/lamp/"
 echo "#"
 echo "# Author: Teddysun <i@teddysun.com>"
 echo "#"
@@ -224,11 +222,12 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
 	mkdir -p /data/www/default/phpmyadmin/save/
 	chown -R apache:apache /data/www/default/phpmyadmin
 	
+	cd $cur_dir
 	rm -rf $cur_dir/pmaversion.txt
 	echo -e "phpmyadmin\t${LATEST_PMA}" > $cur_dir/pmaversion.txt
 	rm -rf $cur_dir/phpMyAdmin-${LATEST_PMA}-all-languages
 	#Reload httpd service
-	service httpd resload
+	service httpd reload
 	echo "===================== phpMyAdmin Update completed! ===================="
 	echo ""
 fi
