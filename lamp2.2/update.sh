@@ -31,7 +31,7 @@ if [ ! -s /usr/bin/php ]; then
 	ln -s /usr/local/php/bin/php /usr/bin/php
 fi
 
-LATEST_PHP=$(curl -s http://www.php.net/downloads.php | awk '/Old stable/{print $3}' | grep '5.4')
+LATEST_PHP=$(curl -s http://www.php.net/downloads.php | awk '/Old Stable/{print $3}' | grep '5.4')
 INSTALLED_PHP=$(php -r 'echo PHP_VERSION;' 2>/dev/null);
 
 echo -e "Latest version of PHP: \033[41;37m $LATEST_PHP \033[0m"
