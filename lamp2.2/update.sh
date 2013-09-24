@@ -128,7 +128,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
 	\mv /usr/local/php /usr/local/php.bak
 	cd $cur_dir
 	if [ ! -s php-${LATEST_PHP}.tar.gz ]; then
-		LATEST_PHP_LINK="http://us.php.net/distributions/php-${LATEST_PHP}.tar.gz"
+		LATEST_PHP_LINK="http://us1.php.net/distributions/php-${LATEST_PHP}.tar.gz"
 		BACKUP_PHP_LINK="http://teddysun.googlecode.com/files/php-${LATEST_PHP}.tar.gz"
 		untar ${LATEST_PHP_LINK} ${BACKUP_PHP_LINK}
 	else
