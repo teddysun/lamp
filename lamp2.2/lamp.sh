@@ -17,10 +17,10 @@ function install_lamp(){
 rootness
 disable_selinux
 pre_installation_settings
-download_files "mysql-5.6.13.tar.gz" 
-download_files "php-5.4.19.tar.gz"
-download_files "httpd-2.4.6.tar.gz" 
-download_files "phpMyAdmin-4.0.5-all-languages.tar.gz"
+download_files "mysql-5.6.14.tar.gz"
+download_files "php-5.4.21.tar.gz"
+download_files "httpd-2.4.6.tar.gz"
+download_files "phpMyAdmin-4.0.8-all-languages.tar.gz"
 download_files "apr-1.4.8.tar.gz"
 download_files "apr-util-1.5.2.tar.gz"
 download_files "libiconv-1.14.tar.gz"
@@ -58,9 +58,9 @@ echo "MySQL root password:$mysqlrootpwd"
 echo "MySQL data location:$mysqldata"
 echo "Default Document Root:/data/www/default"
 echo "Installed Apache version:2.4.6"
-echo "Installed MySQL version:5.6.13"
-echo "Installed PHP version:5.4.19"
-echo "Installed phpMyAdmin version:4.0.5"
+echo "Installed MySQL version:5.6.14"
+echo "Installed PHP version:5.4.21"
+echo "Installed phpMyAdmin version:4.0.8"
 echo "Welcome to visit:http://teddysun.com/lamp"
 echo "Enjoy it! ^_^"
 echo ""
@@ -122,6 +122,8 @@ stty $SAVEDSTTY
 echo ""
 echo "Press any key to start...or Press Ctrl+C to cancel"
 char=`get_char`
+#CPU Number
+Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
 #Remove Packages
 rpm -e httpd
 rpm -e mysql
@@ -174,6 +176,7 @@ mv $cur_dir/untar/apr-1.4.8 $cur_dir/untar/httpd-2.4.6/srclib/apr
 mv $cur_dir/untar/apr-util-1.5.2 $cur_dir/untar/httpd-2.4.6/srclib/apr-util
 cd $cur_dir/untar/httpd-2.4.6
 ./configure --prefix=/usr/local/apache --enable-so --enable-dav --enable-deflate=shared --enable-ssl=shared --enable-expires=shared  --enable-headers=shared --enable-rewrite=shared --enable-static-support  --with-included-apr --enable-modules=all --enable-mods-shared=all --with-mpm=prefork
+make -j $Cpunum
 make install
 cp -f $cur_dir/conf/httpd.init /etc/init.d/httpd
 chmod +x /etc/init.d/httpd
@@ -213,13 +216,14 @@ fi
 #===============================================================================================
 function install_mysql(){
 if [ ! -d /usr/local/mysql ];then
-#install MySQL5.6.13
-echo "============================Start install MySQL5.6.13====================================="
+#install MySQL5.6.14
+echo "============================Start install MySQL5.6.14====================================="
 cd $cur_dir/
 /usr/sbin/groupadd mysql
 /usr/sbin/useradd -g mysql mysql
-cd $cur_dir/untar/mysql-5.6.13
+cd $cur_dir/untar/mysql-5.6.14
 cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=complex -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1
+make -j $Cpunum
 make install
 chmod +w /usr/local/mysql
 chown -R mysql:mysql /usr/local/mysql
@@ -254,7 +258,7 @@ delete from mysql.user where not (user='root') ;
 flush privileges;
 exit
 EOF
-echo "============================MySQL5.6.13 install completed================================="
+echo "============================MySQL5.6.14 install completed================================="
 else
 echo "============================MySQL had been installed!====================================="
 fi
@@ -326,15 +330,16 @@ echo "============================re2c-0.13.5 install completed!================
 #===============================================================================================
 function install_php(){
 if [ ! -d /usr/local/php ];then
-#install PHP5.4.19
-echo "============================Start install PHP5.4.19======================================="
+#install PHP5.4.21
+echo "============================Start install PHP5.4.21======================================="
 #ldap module 
 if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
 	cp -frp /usr/lib64/libldap* /usr/lib/
 	ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
 fi
-cd $cur_dir/untar/php-5.4.19
+cd $cur_dir/untar/php-5.4.21
 ./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs  --with-config-file-path=/usr/local/php/etc --with-mysqli=/usr/local/mysql/bin/mysql_config --with-mysql-sock=/usr/local/mysql/mysql.sock --with-config-file-scan-dir=/usr/local/php/php.d --with-openssl --with-zlib --with-curl --enable-ftp --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-xmlrpc --enable-calendar --with-imap --with-kerberos --with-imap-ssl --with-ldap --enable-bcmath --enable-exif --enable-wddx --enable-tokenizer --enable-simplexml --enable-sockets --enable-ctype --enable-gd-native-ttf --enable-mbstring --enable-intl --enable-xml --enable-dom --enable-json --enable-session --enable-soap --with-mcrypt --enable-zip --with-iconv=/usr/local/libiconv --with-mysql=/usr/local/mysql --with-icu-dir=/usr --with-mhash=/usr --with-pcre-dir --without-pear
+make -j $Cpunum
 make install
 mkdir -p /usr/local/php/etc
 mkdir -p /usr/local/php/php.d
@@ -342,7 +347,7 @@ cp -f $cur_dir/conf/php5.4.ini /usr/local/php/etc/php.ini
 rm -rf /etc/php.ini
 ln -s /usr/local/php/etc/php.ini  /etc/php.ini
 ln -s /usr/local/php/bin/php /usr/bin/php
-echo "============================PHP5.4.19 install completed!=================================="
+echo "============================PHP5.4.21 install completed!=================================="
 else
 echo "============================PHP had been installed!======================================="
 fi
@@ -352,9 +357,9 @@ fi
 #Usage:install_phpmyadmin
 #===============================================================================================
 function install_phpmyadmin(){
-echo "============================phpMyAdmin4.0.5 install======================================="
+echo "============================phpMyAdmin4.0.8 install======================================="
 cd $cur_dir
-mv untar/phpMyAdmin-4.0.5-all-languages /data/www/default/phpmyadmin
+mv untar/phpMyAdmin-4.0.8-all-languages /data/www/default/phpmyadmin
 cp -f $cur_dir/conf/config.inc.php /data/www/default/phpmyadmin/config.inc.php
 chmod -R 755 /data/www/default/phpmyadmin
 mkdir -p /data/www/default/phpmyadmin/upload/
@@ -362,7 +367,7 @@ mkdir -p /data/www/default/phpmyadmin/save/
 chown -R apache:apache /data/www
 #Start httpd service
 service httpd start
-echo "============================phpMyAdmin4.0.5 install completed============================="
+echo "============================phpMyAdmin4.0.8 install completed============================="
 }
 
 #===============================================================================================
