@@ -12,9 +12,9 @@
 
 ## 将会安装
 * 1、`Apache 2.4.6`
-* 2、`MySQL 5.6.13`
-* 3、`PHP 5.4.19`
-* 4、`phpMyAdmin 4.0.5`
+* 2、`MySQL 5.6.14`
+* 3、`PHP 5.4.21`
+* 4、`phpMyAdmin 4.0.8`
 * 5、`OCI8 + oracle-instantclient`  (可选安装，支持`PHP`连接`Oracle`数据库)
 * 6、`xcache 2.0.1` (可选安装)
 * 7、`xcache 3.0.3` (推荐安装)
@@ -26,15 +26,15 @@
 ### 第一步，终端中输入以下命令：
 
     cd /root
-    wget http://teddysun.googlecode.com/files/lamp2.2.tar.gz
-    tar -zxvf lamp2.2.tar.gz
-    cd /root/lamp2.2
+    wget --no-check-certificate https://github.com/teddysun/lamp/archive/master.zip -O lamp.zip
+    unzip lamp.zip
+    cd /root/lamp-master/lamp2.2
     chmod +x *.sh
 
 ### 第二步，安装LAMP
 终端中输入以下命令：
 
-    cd /root/lamp2.2
+    cd /root/lamp-master/lamp2.2
     ./lamp.sh | tee lamp.log
 
 ### 安装其它：
