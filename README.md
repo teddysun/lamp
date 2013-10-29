@@ -26,15 +26,15 @@
 ### 第一步，终端中输入以下命令：
 
     cd /root
-    wget http://teddysun.googlecode.com/files/lamp2.2.tar.gz
-    tar -zxvf lamp2.2.tar.gz
-    cd /root/lamp2.2
+    wget --no-check-certificate https://github.com/teddysun/lamp/archive/master.zip -O lamp.zip
+    unzip lamp.zip
+    cd /root/lamp-master/lamp2.2
     chmod +x *.sh
 
 ### 第二步，安装LAMP
 终端中输入以下命令：
 
-    cd /root/lamp2.2
+    cd /root/lamp-master/lamp2.2
     ./lamp.sh | tee lamp.log
 
 ### 安装其它：
