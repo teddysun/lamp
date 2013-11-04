@@ -8,19 +8,16 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统`Root`权限
 * 建议使用干净系统全新安装
-* Release日期：2013年08月23日
+* Release日期：2013年11月04日
 
 ## 将会安装
 * 1、`Apache 2.4.6`
 * 2、`MySQL 5.6.14`
 * 3、`PHP 5.4.21`
 * 4、`phpMyAdmin 4.0.8`
-* 5、`OCI8 + oracle-instantclient`  (可选安装，支持`PHP`连接`Oracle`数据库)
-* 6、`xcache 2.0.1` (可选安装)
-* 7、`xcache 3.0.3` (推荐安装)
-* 8、`pure-ftpd-1.0.36`（可选安装）
-
-**注意**：6、7二者只能选其一安装
+* 5、`xcache 3.1.0` (推荐安装)
+* 6、`OCI8 + oracle-instantclient`（可选安装，支持`PHP`连接`Oracle`数据库）
+* 7、`pure-ftpd-1.0.36`（可选安装）
 
 ## 如何安装
 ### 第一步，终端中输入以下命令：
@@ -39,8 +36,7 @@
 
 ### 安装其它：
 
-* 1、（可选安装）执行脚本`xcache_2.0.1.sh`安装`xcache 2.0.1`。(命令：`./xcache_2.0.1.sh`)
-*   （推荐安装）执行脚本`xcache_3.0.3.sh`安装`xcache 3.0.3`。(命令：`./xcache_3.0.3.sh`)
+* 1、（推荐安装）执行脚本`xcache_3.1.0.sh`安装`xcache 3.1.0`。(命令：`./xcache_3.1.0.sh`)
 * 2、执行脚本`php5.4_oci8_oracle11g.sh`安装OCI8扩展以及`oracle-instantclient11.2`（命令：`./php5.4_oci8_oracle11g.sh`）
 * 3、执行脚本`php5.4_oci8_oracle10g.sh`安装OCI8扩展以及`oracle-instantclient10.2`（命令：`./php5.4_oci8_oracle10g.sh`）
 * 4、（可选安装）执行脚本`pureftpd.sh`安装`pure-ftpd-1.0.36`。(命令：`./pureftpd.sh`)
