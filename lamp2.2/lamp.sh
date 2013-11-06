@@ -190,6 +190,7 @@ ln -fs /usr/local/apache/bin/apachectl
 cd /var/log
 rm -rf httpd/
 ln -s /usr/local/apache/logs httpd
+ln -s /usr/local/apache/conf/httpd.conf /etc/httpd/conf/httpd.conf
 groupadd apache
 useradd -g apache apache
 mkdir -p /data/www/default/
