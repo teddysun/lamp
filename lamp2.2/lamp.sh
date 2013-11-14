@@ -443,6 +443,7 @@ webdir="/data/www/$domain"
 DocumentRoot="$webdir/web"
 logsdir="$webdir/logs"
 mkdir -p $DocumentRoot $logsdir
+chown -R apache.apache $webdir
 #Create database or not	
 while true
 do
