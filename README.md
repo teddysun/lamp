@@ -1,6 +1,7 @@
 ## 简介
 1.  `LAMP` 指的是 `Linux` + `Apache` + `MySQL` + `PHP` 运行环境。
 2.	`LAMP` 一键安装是用 `Linux Shell` 语言编写的，用于在 `Linux` 系统(`Redhat`/`CentOS`/`Fedora`)上一键安装 `LAMP`环境的工具脚本。
+3.	**本脚本特色**：支持`PHP`自带所有组件;第三方组件支持`Zend`和`XCache`(可选安装)；支持`MySQL`和`SQLite`数据库;支持OCI8组件（可让`PHP`连接`Oracle`数据库）；命令行新增虚拟主机，操作简便；自助升级`PHP`和`phpMyAdmin`版本；支持创建`FTP`用户；卸载简便；
 
 ## 本脚本的系统需求
 * 需要`2GB`以上磁盘剩余空间
@@ -8,13 +9,13 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统`Root`权限
 * 建议使用干净系统全新安装
-* Release日期：2013年11月04日
+* Release日期：2013年11月22日
 
 ## 将会安装
 * 1、`Apache 2.4.6`
 * 2、`MySQL 5.6.14`
-* 3、`PHP 5.4.21`
-* 4、`phpMyAdmin 4.0.8`
+* 3、`PHP 5.4.22`
+* 4、`phpMyAdmin 4.0.9`
 * 5、`xcache 3.1.0` (推荐安装)
 * 6、`OCI8 + oracle-instantclient`（可选安装，支持`PHP`连接`Oracle`数据库）
 * 7、`pure-ftpd-1.0.36`（可选安装）
@@ -50,7 +51,7 @@
 
 安装完`lamp.sh`一段时间后，如果你发现`PHP`或`phpMyAdmin`官网已更新，那即可运行此脚本更新到最新版。
 
-2013/08/23修改：PHP5.5.x系列Release没多久，待测试其兼容性后再做升级，因此该脚本升级PHP的版本为5.4.x系列的最新版。
+因PHP5.5.x系列Release没多久，很多软件还不兼容该版本，因此脚本升级PHP的版本为5.4.x系列的最新版。
 ###使用方法：
 
     ./update.sh | tee update.log
