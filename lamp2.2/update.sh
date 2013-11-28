@@ -141,6 +141,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
 	--with-apxs2=/usr/local/apache/bin/apxs  \
 	--with-config-file-path=/usr/local/php/etc \
 	--with-mysqli=/usr/local/mysql/bin/mysql_config \
+	--with-pdo-mysql \
 	--with-mysql-sock=/usr/local/mysql/mysql.sock \
 	--with-config-file-scan-dir=/usr/local/php/php.d \
 	--with-openssl \
