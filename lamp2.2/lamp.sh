@@ -26,7 +26,7 @@ StartDateSecond='';
 # Get IP address
 IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ print $1}'`;
 # Version
-MySQLVersion='mysql-5.6.14';
+MySQLVersion='mysql-5.6.15';
 PHPVersion='php-5.4.22';
 ApacheVersion='httpd-2.4.6';
 phpMyAdminVersion='phpMyAdmin-4.0.9-all-languages';
