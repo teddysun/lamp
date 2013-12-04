@@ -281,9 +281,12 @@ EOF
 		ln -s /usr/local/mysql/lib/mysql /usr/lib64/mysql
 	else
 		ln -s /usr/local/mysql/lib/mysql /usr/lib/mysql
-	fi
-	ln -s /usr/local/mysql/bin/mysql /usr/bin
-	ln -s /usr/local/mysql/bin/mysqladmin /usr/bin
+	fi	
+	ln -s /usr/local/mysql/bin/mysqlshow /usr/bin/mysqlshow
+	ln -s /usr/local/mysql/bin/mysqladmin /usr/bin/mysqladmin
+	ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql
+	ln -s /usr/local/mysql/bin/mysqldump /usr/bin/mysqldump
+	ln -s /usr/local/mysql/bin/mysqlimport /usr/bin/mysqlimport
 	#Start mysqld service
 	service mysqld start
 	/usr/local/mysql/bin/mysqladmin password $mysqlrootpwd
@@ -394,17 +397,23 @@ function install_php(){
 #Usage:install_phpmyadmin
 #===============================================================================================
 function install_phpmyadmin(){
-echo "Start Installing ${phpMyAdminVersion}"
-cd $cur_dir
-mv untar/$phpMyAdminVersion /data/www/default/phpmyadmin
-cp -f $cur_dir/conf/config.inc.php /data/www/default/phpmyadmin/config.inc.php
-chmod -R 755 /data/www/default/phpmyadmin
-mkdir -p /data/www/default/phpmyadmin/upload/
-mkdir -p /data/www/default/phpmyadmin/save/
-chown -R apache:apache /data/www
-#Start httpd service
-service httpd start
-echo "${phpMyAdminVersion} Install completed!"
+	if [ ! -d /data/www/default/phpmyadmin ];then
+		echo "Start Installing ${phpMyAdminVersion}"
+		cd $cur_dir
+		mv untar/$phpMyAdminVersion /data/www/default/phpmyadmin
+		cp -f $cur_dir/conf/config.inc.php /data/www/default/phpmyadmin/config.inc.php
+		#Create phpmyadmin database
+		mysql -uroot -p$mysqlrootpwd < /data/www/default/phpmyadmin/examples/create_tables.sql
+		chmod -R 755 /data/www/default/phpmyadmin
+		mkdir -p /data/www/default/phpmyadmin/upload/
+		mkdir -p /data/www/default/phpmyadmin/save/
+		chown -R apache:apache /data/www/default
+		echo "${phpMyAdminVersion} Install completed!"
+	else
+		echo "PHPMyAdmin had been installed!"
+	fi
+	#Start httpd service
+	service httpd start
 }
 
 #===============================================================================================
