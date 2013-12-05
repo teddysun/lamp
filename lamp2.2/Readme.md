@@ -9,13 +9,13 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统`Root`权限
 * 建议使用干净系统全新安装
-* Release日期：2013年12月3日
+* Release日期：2013年12月5日
 
 ## 将会安装
 * 1、`Apache 2.4.6`
 * 2、`MySQL 5.6.15`
 * 3、`PHP 5.4.22`
-* 4、`phpMyAdmin 4.0.9`
+* 4、`phpMyAdmin 4.0.10`
 * 5、`xcache 3.1.0` (推荐安装)
 * 6、`OCI8 + oracle-instantclient`（可选安装，支持`PHP`连接`Oracle`数据库）
 * 7、`pure-ftpd-1.0.36`（可选安装）
