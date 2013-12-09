@@ -232,8 +232,6 @@ function install_apache(){
 		chmod -R 755 /data/www/default/
 		#Copy to config files
 		cp -f $cur_dir/conf/httpd2.4.conf /usr/local/apache/conf/httpd.conf
-		rm -f /etc/httpd/conf/httpd.conf
-		ln -s /usr/local/apache/conf/httpd.conf /etc/httpd/conf/httpd.conf
 		cp -f $cur_dir/conf/httpd-vhosts.conf /usr/local/apache/conf/extra/httpd-vhosts.conf
 		cp -f $cur_dir/conf/httpd-default.conf /usr/local/apache/conf/extra/httpd-default.conf
 		mkdir -p /usr/local/apache/conf/vhost/
