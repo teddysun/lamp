@@ -1,10 +1,10 @@
 ## 简介
-1.  `LAMP` 指的是 `Linux` + `Apache` + `MySQL` + `PHP` 运行环境。
-2.	`LAMP` 一键安装是用 `Linux Shell` 语言编写的，用于在 `Linux` 系统(`Redhat`/`CentOS`/`Fedora`)上一键安装 `LAMP`环境的工具脚本。
-3.	**本脚本特色**：支持`PHP`自带所有组件;第三方组件支持`Zend`和`XCache`(可选安装)；支持`MySQL`和`SQLite`数据库;支持OCI8组件（可让`PHP`连接`Oracle`数据库）；命令行新增虚拟主机，操作简便；自助升级`PHP`和`phpMyAdmin`版本；支持创建`FTP`用户；卸载简便；
+* 1.  `LAMP` 指的是 `Linux` + `Apache` + `MySQL` + `PHP` 运行环境
+* 2.	`LAMP` 一键安装是用 `Linux Shell` 语言编写的，用于在 `Linux` 系统(`Redhat`/`CentOS`/`Fedora`)上一键安装 `LAMP`环境的工具脚本。
+* **关于本脚本**：支持`PHP`自带所有组件；第三方组件支持`Zend`和`XCache`(可选安装)；支持`MySQL`和`SQLite`数据库;支持OCI8组件（可让`PHP`连接`Oracle`数据库）；命令行新增虚拟主机，操作简便；自助升级`PHP`和`phpMyAdmin`版本；支持创建`FTP`用户；卸载简便
 
 ## 本脚本的系统需求
-* 需要`2GB`以上磁盘剩余空间
+* 需要`2GB`及以上磁盘剩余空间
 * 需要`256M`及以上内存空间
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统`Root`权限
@@ -39,13 +39,12 @@
 
 * 1、（推荐安装）执行脚本`xcache_3.1.0.sh`安装`xcache 3.1.0`。(命令：`./xcache_3.1.0.sh`)
 * 2、执行脚本`php5.4_oci8_oracle11g.sh`安装OCI8扩展以及`oracle-instantclient11.2`（命令：`./php5.4_oci8_oracle11g.sh`）
-* 3、执行脚本`php5.4_oci8_oracle10g.sh`安装OCI8扩展以及`oracle-instantclient10.2`（命令：`./php5.4_oci8_oracle10g.sh`）
-* 4、（可选安装）执行脚本`pureftpd.sh`安装`pure-ftpd-1.0.36`。(命令：`./pureftpd.sh`)
+* 3、（可选安装）执行脚本`pureftpd.sh`安装`pure-ftpd-1.0.36`。(命令：`./pureftpd.sh`)
 
-**备注**：2、3两者选其一执行即可（可选）。该脚本是为了使`PHP`可以连接`Oracle`数据库。若连接的数据库版本为10.2，则执行3，否则执行2。
+**备注**：脚本`php5.4_oci8_oracle11g.sh`是为了使`PHP`可以连接`Oracle`数据库。
 
 
-**关于升级脚本**
+**关于update.sh**
 
 新增`update.sh`脚本，目的是为了自动检测和升级`PHP、phpMyAdmin`。这两种软件版本更新比较频繁，因此才会有此脚本，一劳永逸。
 
@@ -70,7 +69,7 @@
 
     :set ff=unix 
 
-回车后，输入ZZ（即Shift+zz），即可保存退出。
+回车后，输入ZZ（两个大写字母Z），即可保存退出。
 
 2、Oracle数据库连接错误排查
 一般连接外部oracle服务器那一步骤时，可能会出现`ORA-24408:could not generate unique server group name`这样的错误，解决办法是在`hosts`中将主机名添加即可：
