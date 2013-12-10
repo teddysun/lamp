@@ -62,7 +62,7 @@ fi
 #===============================================================================
 function recompile_oci8(){
 echo "============================oci8 install======================================================="
-cd $cur_dir/untar/oci8-1.4.9
+cd $cur_dir/untar/oci8-2.0.6
 export PHP_PREFIX="/usr/local/php"
 $PHP_PREFIX/bin/phpize
 ./configure --with-php-config=$PHP_PREFIX/bin/php-config
@@ -93,7 +93,7 @@ exit
 #===============================================================================
 function install_oci8(){
 rootness
-download_files "oci8-1.4.9.tgz"
+download_files "oci8-2.0.6.tgz"
 if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
 	download_files "oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm"
 	download_files "oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64.rpm"
@@ -103,7 +103,7 @@ else
 fi
 rm -rf $cur_dir/untar
 mkdir -p $cur_dir/untar
-tar xzf oci8-1.4.9.tgz -C $cur_dir/untar/
+tar xzf oci8-2.0.6.tgz -C $cur_dir/untar/
 install_instant
 recompile_oci8
 }
