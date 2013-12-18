@@ -221,6 +221,7 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
 	fi
 	mkdir -p /data/www/default/phpmyadmin/upload/
 	mkdir -p /data/www/default/phpmyadmin/save/
+	cp -f /data/www/default/phpmyadmin/examples/create_tables.sql /data/www/default/phpmyadmin/upload/
 	chown -R apache:apache /data/www/default/phpmyadmin
 	
 	cd $cur_dir
