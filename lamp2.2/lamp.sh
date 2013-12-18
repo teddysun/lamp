@@ -27,16 +27,16 @@ StartDateSecond='';
 IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ print $1}'`;
 # Version
 MySQLVersion='mysql-5.6.15';
-PHPVersion='php-5.4.22';
-ApacheVersion='httpd-2.4.6';
-phpMyAdminVersion='phpMyAdmin-4.0.10-all-languages';
-aprVersion='apr-1.4.8';
-aprutilVersion='apr-util-1.5.2';
+PHPVersion='php-5.4.23';
+ApacheVersion='httpd-2.4.7';
+phpMyAdminVersion='phpMyAdmin-4.1.1-all-languages';
+aprVersion='apr-1.5.0';
+aprutilVersion='apr-util-1.5.3';
 libiconvVersion='libiconv-1.14';
 libmcryptVersion='libmcrypt-2.5.8';
 mhashVersion='mhash-0.9.9.9';
 mcryptVersion='mcrypt-2.6.8';
-re2cVersion='re2c-0.13.5';
+re2cVersion='re2c-0.13.6';
 
 #===============================================================================================
 #Description:Install LAMP Script.
@@ -290,7 +290,7 @@ EOF
 	service mysqld start
 	/usr/local/mysql/bin/mysqladmin password $mysqlrootpwd
 mysql -uroot -p$mysqlrootpwd <<EOF
-drop database test;
+drop database if exists test;
 delete from mysql.user where user='';
 update mysql.user set password=password('$mysqlrootpwd') where user='root';
 delete from mysql.user where not (user='root') ;
