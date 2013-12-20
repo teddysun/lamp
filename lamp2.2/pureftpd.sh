@@ -16,13 +16,13 @@ cur_dir=`pwd`
 #download pure-ftpd 
 cd $cur_dir
 if [ -s pure-ftpd-1.0.36.tar.gz ]; then
-	echo "pure-ftpd-1.0.36.tar.gz [found]"
+    echo "pure-ftpd-1.0.36.tar.gz [found]"
 else
-	echo "pure-ftpd-1.0.36.tar.gz not found!!!download now......"
-	if ! wget -c http://teddysun.googlecode.com/files/pure-ftpd-1.0.36.tar.gz;then
-		echo "Failed to download pure-ftpd-1.0.36.tar.gz,please download it to /lamp directory manually and rerun the install script."
-		exit 1
-	fi
+    echo "pure-ftpd-1.0.36.tar.gz not found!!!download now......"
+    if ! wget -c http://teddysun.googlecode.com/files/pure-ftpd-1.0.36.tar.gz;then
+        echo "Failed to download pure-ftpd-1.0.36.tar.gz,please download it to /lamp directory manually and rerun the install script."
+        exit 1
+    fi
 fi
 
 #install pure-ftpd 
@@ -45,9 +45,8 @@ service pure-ftpd start
 #see if iptables is start
 /sbin/service iptables status 1>/dev/null 2>&1
 if [ $? -eq 0 ]; then
-/sbin/iptables -A INPUT -p tcp -m tcp --dport 21 -j ACCEPT  
+/sbin/iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 21 -j ACCEPT
 /etc/rc.d/init.d/iptables save
-echo 'IPTABLES_MODULES="ip_conntrack_ftp"' >>/etc/sysconfig/iptables-config
 /etc/init.d/iptables restart
 fi
 echo "============================pure-ftpd install completed============================================"
