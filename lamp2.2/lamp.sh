@@ -177,7 +177,7 @@ function pre_installation_settings(){
         cp /etc/yum.conf /etc/yum.conf.bak
     fi
     sed -i 's:exclude=.*:exclude=:g' /etc/yum.conf
-    for packages in autoconf automake bison bzip2 bzip2-devel curl curl-devel cmake cpp crontabs diffutils elinks e2fsprogs-devel expat-devel file flex freetype-devel gcc gcc-c++ gd glibc-devel glib2-devel gettext-devel icu kernel-devel libtool-libs libjpeg-devel libpng-devel libxml2-devel libidn-devel libcap-devel libtool-ltdl-devel libmcrypt-devel libc-client-devel libxml2 libxml2-devel libicu libicu-devel wget zlib-devel zip unzip patch mlocate make ncurses-devel readline-devel vim-minimal sendmail pam-devel pcre-devel openldap openldap-devel openssl-devel;
+    for packages in autoconf automake bison bzip2 bzip2-devel curl curl-devel cmake cpp crontabs diffutils elinks e2fsprogs-devel expat-devel file flex freetype-devel gcc gcc-c++ gd glibc-devel glib2-devel gettext-devel icu kernel-devel libtool-libs libjpeg-devel libpng-devel libxml2-devel libidn-devel libcap-devel libtool-ltdl-devel libmcrypt-devel libc-client-devel libxml2 libxml2-devel libicu libicu-devel wget zlib-devel zip unzip patch mlocate make ncurses-devel readline-devel vim-minimal sendmail pam-devel pcre-devel openldap openldap-devel openssl-devel perl-DBD-MySQL;
     do yum -y install $packages; done
     #Current folder
     cur_dir=`pwd`
