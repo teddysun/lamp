@@ -26,10 +26,10 @@ StartDateSecond='';
 # Get IP address
 IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ print $1}'`;
 # Version
-MySQLVersion='mysql-5.6.15';
+MySQLVersion='mysql-5.6.16';
 PHPVersion='php-5.4.24';
 ApacheVersion='httpd-2.4.7';
-phpMyAdminVersion='phpMyAdmin-4.1.4-all-languages';
+phpMyAdminVersion='phpMyAdmin-4.1.6-all-languages';
 aprVersion='apr-1.5.0';
 aprutilVersion='apr-util-1.5.3';
 libiconvVersion='libiconv-1.14';
@@ -193,7 +193,7 @@ if [ -s $1 ]; then
     echo "$1 [found]"
 else
     echo "$1 not found!!!download now......"
-    if ! wget -c http://teddysun.googlecode.com/files/$1;then
+    if ! wget -c http://lamp.qiniudn.com/$1;then
         echo "Failed to download $1,please download it to "$cur_dir" directory manually and rerun the install script."
         exit 1
     fi
