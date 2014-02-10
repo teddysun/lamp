@@ -13,6 +13,7 @@
 ## 关于本脚本
 * 支持`PHP`自带所有组件；
 * 第三方组件支持`Zend`和`XCache`(可选安装)；
+* 支持ZendGuardLoader(可选安装)；
 * 支持`MySQL`和`SQLite`数据库;
 * 支持OCI8组件（可让`PHP`连接`Oracle`数据库）；
 * 命令行新增虚拟主机，操作简便；
@@ -49,6 +50,7 @@
 * 1、（推荐安装）执行脚本`xcache_3.1.0.sh`安装`xcache 3.1.0`。(命令：`./xcache_3.1.0.sh`)
 * 2、执行脚本`php5.4_oci8_oracle11g.sh`安装OCI8扩展以及`oracle-instantclient11.2`（命令：`./php5.4_oci8_oracle11g.sh`）
 * 3、（可选安装）执行脚本`pureftpd.sh`安装`pure-ftpd-1.0.36`。(命令：`./pureftpd.sh`)
+* 4、（可选安装）执行脚本`ZendGuardLoader.sh`安装`ZendGuardLoader`。(命令：`./ZendGuardLoader.sh`)
 
 **备注**：脚本`php5.4_oci8_oracle11g.sh`是为了使`PHP`可以连接`Oracle`数据库。
 
