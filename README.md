@@ -29,6 +29,7 @@
 * 5、`xcache 3.1.0` (推荐安装)
 * 6、`OCI8 + oracle-instantclient`（可选安装，支持`PHP`连接`Oracle`数据库）
 * 7、`pure-ftpd-1.0.36`（可选安装）
+* 8、`ZendGuardLoader`（可选安装）
 
 ## 如何安装
 ### 第一步，终端中输入以下命令：
