@@ -35,7 +35,7 @@ if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
     mv $cur_dir/untar/ZendGuardLoader-70429-PHP-5.4-linux-glibc23-x86_64/php-5.4.x/ZendGuardLoader.so /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/
 else
     if ! wget -c http://lamp.qiniudn.com/ZendGuardLoader-70429-PHP-5.4-linux-glibc23-i386.tar.gz;then
-        echo "Failed to download ZendGuardLoader-70429-PHP-5.4-linux-glibc23-x86_64.tar.gz, please download it to "$cur_dir" directory manually and rerun the install script."
+        echo "Failed to download ZendGuardLoader-70429-PHP-5.4-linux-glibc23-i386.tar.gz, please download it to "$cur_dir" directory manually and rerun the install script."
         exit 1
     fi
     tar zxf ZendGuardLoader-70429-PHP-5.4-linux-glibc23-i386.tar.gz -C $cur_dir/untar/
