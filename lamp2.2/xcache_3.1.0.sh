@@ -5,8 +5,7 @@ export PATH
 #   SYSTEM REQUIRED:  CentOS-5 (32bit/64bit) or CentOS-6 (32bit/64bit)
 #   DESCRIPTION:  Xcache for LAMP
 #   AUTHOR: Teddysun <i@teddysun.com>
-#   VISIT:  https://code.google.com/p/teddysun/
-#           http://teddysun.com/lamp
+#   VISIT:  http://teddysun.com/lamp
 #===============================================================================================
 cur_dir=`pwd`
 cd $cur_dir
@@ -33,7 +32,6 @@ fi
 
 #install xcache
 echo "============================Xcache3.1.0 install start====================================="
-rm -rf $cur_dir/untar/
 mkdir -p $cur_dir/untar/
 tar xzf xcache-3.1.0.tar.gz -C $cur_dir/untar/
 cd $cur_dir/untar/xcache-3.1.0
@@ -91,7 +89,5 @@ xcache.coveragedump_directory = "/tmp/pcov"
 EOF
 fi
 service httpd restart
-#delete untar file
-rm -rf $cur_dir/untar/
 echo "============================Xcache3.1.0 install completed================================="
 exit
