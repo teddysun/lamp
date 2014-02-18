@@ -5,12 +5,10 @@ export PATH
 #   SYSTEM REQUIRED:  CentOS-5 (32bit/64bit) or CentOS-6 (32bit/64bit)
 #   DESCRIPTION:  ZendGuardLoader for LAMP
 #   AUTHOR: Teddysun <i@teddysun.com>
-#   VISIT:  https://code.google.com/p/teddysun/
-#           http://teddysun.com/lamp
+#   VISIT:  http://teddysun.com/lamp
 #===============================================================================================
 cur_dir=`pwd`
 cd $cur_dir
-rm -rf $cur_dir/untar/
 mkdir -p $cur_dir/untar/
 
 clear
@@ -58,7 +56,5 @@ zend_loader.license_path =
 EOF
 fi
 service httpd restart
-#delete untar file
-rm -rf $cur_dir/untar/
 echo "============================ZendGuardLoader install completed================================="
 exit
