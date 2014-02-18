@@ -5,8 +5,7 @@ export PATH
 #   SYSTEM REQUIRED:  CentOS-5 (32bit/64bit) or CentOS-6 (32bit/64bit)
 #   DESCRIPTION:  pure-ftpd for CentOS/RadHat 5 or 6 Linux Server
 #   AUTHOR: Teddysun <i@teddysun.com>
-#   VISIT:  https://code.google.com/p/teddysun/
-#           http://teddysun.com/lamp
+#   VISIT:  http://teddysun.com/lamp
 #===============================================================================================
 # Check if user is root
 if [ $(id -u) != "0" ]; then
@@ -27,7 +26,6 @@ fi
 
 #install pure-ftpd 
 echo "============================pure-ftpd  install============================================"
-rm -rf $cur_dir/untar/
 mkdir -p $cur_dir/untar/
 tar xzf pure-ftpd-1.0.36.tar.gz -C $cur_dir/untar/
 cd $cur_dir/untar/pure-ftpd-1.0.36
