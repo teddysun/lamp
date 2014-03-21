@@ -37,14 +37,14 @@
     cd /root
     wget --no-check-certificate https://github.com/teddysun/lamp/archive/master.zip -O lamp.zip
     unzip lamp.zip
-    cd /root/lamp-master/lamp2.2
+    cd /root/lamp-master/
     chmod +x *.sh
 
 ### 第二步，安装LAMP
 终端中输入以下命令：
 
-    cd /root/lamp-master/lamp2.2
-    ./lamp.sh | tee lamp.log
+    cd /root/lamp-master/
+    ./lamp.sh 2>&1 | tee lamp.log
 
 ### 安装其它：
 
