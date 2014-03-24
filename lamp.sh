@@ -29,7 +29,7 @@ IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ pr
 MySQLVersion='mysql-5.6.16';
 PHPVersion='php-5.4.26';
 ApacheVersion='httpd-2.4.9';
-phpMyAdminVersion='phpMyAdmin-4.1.9-all-languages';
+phpMyAdminVersion='phpMyAdmin-4.1.11-all-languages';
 aprVersion='apr-1.5.0';
 aprutilVersion='apr-util-1.5.3';
 libiconvVersion='libiconv-1.14';
@@ -79,7 +79,7 @@ function install_lamp(){
     cp -f $cur_dir/conf/httpd.logrotate /etc/logrotate.d/httpd
     sed -i '/Order/,/All/d' /usr/bin/lamp
     sed -i "/AllowOverride All/i\Require all granted" /usr/bin/lamp
-    rm -rf $cur_dir/untar
+    #rm -rf $cur_dir/untar
     clear
     echo ""
     echo 'Congratulations, LAMP install completed!'
