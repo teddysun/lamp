@@ -59,7 +59,7 @@ else
 	fi
 fi
 
-LATEST_PMA=$(elinks http://nchc.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/ | awk -F/ '{print $7F}' | grep -iv '-' | tail -1)
+LATEST_PMA=$(elinks http://iweb.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/ | awk -F/ '{print $7F}' | grep -iv '-' | grep -iv 'rst' | tail -1)
 echo -e "Latest version of phpmyadmin: \033[41;37m $LATEST_PMA \033[0m"
 echo -e "Installed version of phpmyadmin: \033[41;37m $INSTALLED_PMA \033[0m"
 echo ""
@@ -205,7 +205,7 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
 		echo "===================== phpMyAdmin folder not found! ===================="
 	fi
 	if [ ! -s phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz ]; then
-		LATEST_PMA_LINK="http://nchc.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/${LATEST_PMA}/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
+		LATEST_PMA_LINK="http://iweb.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/${LATEST_PMA}/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
 		BACKUP_PMA_LINK="http://teddysun.googlecode.com/files/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
 		untar ${LATEST_PMA_LINK} ${BACKUP_PMA_LINK}
 		mkdir -p /data/www/default/phpmyadmin
