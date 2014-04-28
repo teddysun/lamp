@@ -129,7 +129,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
 	cd $cur_dir
 	if [ ! -s php-${LATEST_PHP}.tar.gz ]; then
 		LATEST_PHP_LINK="http://us1.php.net/distributions/php-${LATEST_PHP}.tar.gz"
-		BACKUP_PHP_LINK="http://teddysun.googlecode.com/files/php-${LATEST_PHP}.tar.gz"
+		BACKUP_PHP_LINK="http://lamp.teddysun.com/files/php-${LATEST_PHP}.tar.gz"
 		untar ${LATEST_PHP_LINK} ${BACKUP_PHP_LINK}
 	else
 		tar -zxf php-${LATEST_PHP}.tar.gz
@@ -206,7 +206,7 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
 	fi
 	if [ ! -s phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz ]; then
 		LATEST_PMA_LINK="http://iweb.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/${LATEST_PMA}/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
-		BACKUP_PMA_LINK="http://teddysun.googlecode.com/files/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
+		BACKUP_PMA_LINK="http://lamp.teddysun.com/files/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
 		untar ${LATEST_PMA_LINK} ${BACKUP_PMA_LINK}
 		mkdir -p /data/www/default/phpmyadmin
 		mv * /data/www/default/phpmyadmin
