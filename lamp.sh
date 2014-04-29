@@ -24,7 +24,7 @@ echo ""
 StartDate='';
 StartDateSecond='';
 # Get IP address
-IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ print $1}'`;
+IP=`ifconfig | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ print $1}' | head -1`;
 # Version
 MySQLVersion='mysql-5.6.17';
 PHPVersion='php-5.4.27';
@@ -165,7 +165,7 @@ function pre_installation_settings(){
     yum -y remove mysql
     yum -y remove php
     #Set timezone
-    rm -rf /etc/localtime
+    rm -f /etc/localtime
     ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
     yum -y install ntp
     ntpdate -d cn.pool.ntp.org
@@ -252,44 +252,44 @@ function install_apache(){
 #===============================================================================================
 function install_mysql(){
     if [ ! -d /usr/local/mysql ];then
-    #install MySQL
-    echo "Start Installing ${MySQLVersion}"
-    cd $cur_dir/
-    /usr/sbin/groupadd mysql
-    /usr/sbin/useradd -g mysql mysql
-    cd $cur_dir/untar/$MySQLVersion
-    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=complex -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1
-    make -j $Cpunum
-    make install
-    chmod +w /usr/local/mysql
-    chown -R mysql:mysql /usr/local/mysql
-    cd support-files/
-    cp -f $cur_dir/conf/my5.6.cnf /etc/my.cnf
-    cp -f mysql.server /etc/init.d/mysqld
-    sed -i "s:^datadir=.*:datadir=$mysqldata:g" /etc/init.d/mysqld
-    /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=$mysqldata --user=mysql
-    chmod +x /etc/rc.d/init.d/mysqld
-    chkconfig --add mysqld
-    chkconfig  mysqld on
-cat > /etc/ld.so.conf.d/mysql.conf<<EOF
+        #install MySQL
+        echo "Start Installing ${MySQLVersion}"
+        cd $cur_dir/
+        /usr/sbin/groupadd mysql
+        /usr/sbin/useradd -g mysql mysql
+        cd $cur_dir/untar/$MySQLVersion
+        cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=complex -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1
+        make -j $Cpunum
+        make install
+        chmod +w /usr/local/mysql
+        chown -R mysql:mysql /usr/local/mysql
+        cd support-files/
+        cp -f $cur_dir/conf/my5.6.cnf /etc/my.cnf
+        cp -f mysql.server /etc/init.d/mysqld
+        sed -i "s:^datadir=.*:datadir=$mysqldata:g" /etc/init.d/mysqld
+        /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=$mysqldata --user=mysql
+        chmod +x /etc/rc.d/init.d/mysqld
+        chkconfig --add mysqld
+        chkconfig  mysqld on
+        cat > /etc/ld.so.conf.d/mysql.conf<<EOF
 /usr/local/mysql/lib/mysql
 /usr/local/lib
 EOF
-    ldconfig
-    if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
-        ln -s /usr/local/mysql/lib/mysql /usr/lib64/mysql
-    else
-        ln -s /usr/local/mysql/lib/mysql /usr/lib/mysql
-    fi    
-    ln -s /usr/local/mysql/bin/mysqlshow /usr/bin/mysqlshow
-    ln -s /usr/local/mysql/bin/mysqladmin /usr/bin/mysqladmin
-    ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql
-    ln -s /usr/local/mysql/bin/mysqldump /usr/bin/mysqldump
-    ln -s /usr/local/mysql/bin/mysqlimport /usr/bin/mysqlimport
-    #Start mysqld service
-    service mysqld start
-    /usr/local/mysql/bin/mysqladmin password $mysqlrootpwd
-mysql -uroot -p$mysqlrootpwd <<EOF
+        ldconfig
+        if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
+            ln -s /usr/local/mysql/lib/mysql /usr/lib64/mysql
+        else
+            ln -s /usr/local/mysql/lib/mysql /usr/lib/mysql
+        fi    
+        ln -s /usr/local/mysql/bin/mysqlshow /usr/bin/mysqlshow
+        ln -s /usr/local/mysql/bin/mysqladmin /usr/bin/mysqladmin
+        ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql
+        ln -s /usr/local/mysql/bin/mysqldump /usr/bin/mysqldump
+        ln -s /usr/local/mysql/bin/mysqlimport /usr/bin/mysqlimport
+        #Start mysqld service
+        service mysqld start
+        /usr/local/mysql/bin/mysqladmin password $mysqlrootpwd
+        mysql -uroot -p$mysqlrootpwd <<EOF
 drop database if exists test;
 delete from mysql.user where user='';
 update mysql.user set password=password('$mysqlrootpwd') where user='root';
@@ -297,7 +297,7 @@ delete from mysql.user where not (user='root') ;
 flush privileges;
 exit
 EOF
-    echo "${MySQLVersion} Install completed!"
+        echo "${MySQLVersion} Install completed!"
     else
         echo "MySQL had been installed!"
     fi
@@ -383,7 +383,7 @@ function install_php(){
         mkdir -p /usr/local/php/etc
         mkdir -p /usr/local/php/php.d
         cp -f $cur_dir/conf/php5.4.ini /usr/local/php/etc/php.ini
-        rm -rf /etc/php.ini
+        rm -f /etc/php.ini
         ln -s /usr/local/php/etc/php.ini  /etc/php.ini
         ln -s /usr/local/php/bin/php /usr/bin/php
         echo "${PHPVersion} install completed!"
@@ -507,17 +507,17 @@ function vhost_add(){
     *) echo Please input only y or n
     esac
     done
-#Create database
-if [ "$create" == "y" ];then
-mysql -uroot -p"$mysqlroot_passwd"  <<EOF
+    #Create database
+    if [ "$create" == "y" ];then
+    mysql -uroot -p"$mysqlroot_passwd"  <<EOF
 CREATE DATABASE IF NOT EXISTS \`$dbname\`;
 GRANT ALL PRIVILEGES ON \`$dbname\` . * TO '$dbname'@'localhost' IDENTIFIED BY '$mysqlpwd';
 GRANT ALL PRIVILEGES ON \`$dbname\` . * TO '$dbname'@'127.0.0.1' IDENTIFIED BY '$mysqlpwd';
 FLUSH PRIVILEGES;
 EOF
-fi
-#Create vhost configuration file
-cat >/usr/local/apache/conf/vhost/$domain.conf<<EOF
+    fi
+    #Create vhost configuration file
+    cat >/usr/local/apache/conf/vhost/$domain.conf<<EOF
 <virtualhost *:80>
 ServerName  $domain
 ServerAlias  $domains 
