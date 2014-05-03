@@ -27,7 +27,7 @@ StartDateSecond='';
 IP=`ifconfig | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ print $1}' | head -1`;
 # Version
 MySQLVersion='mysql-5.6.17';
-PHPVersion='php-5.4.27';
+PHPVersion='php-5.4.28';
 ApacheVersion='httpd-2.4.9';
 phpMyAdminVersion='phpMyAdmin-4.1.14-all-languages';
 aprVersion='apr-1.5.0';
