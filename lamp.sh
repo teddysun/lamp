@@ -280,12 +280,11 @@ EOF
             ln -s /usr/local/mysql/lib/mysql /usr/lib64/mysql
         else
             ln -s /usr/local/mysql/lib/mysql /usr/lib/mysql
-        fi    
-        ln -s /usr/local/mysql/bin/mysqlshow /usr/bin/mysqlshow
-        ln -s /usr/local/mysql/bin/mysqladmin /usr/bin/mysqladmin
-        ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql
-        ln -s /usr/local/mysql/bin/mysqldump /usr/bin/mysqldump
-        ln -s /usr/local/mysql/bin/mysqlimport /usr/bin/mysqlimport
+        fi
+        for i in `ls /usr/local/mysql/bin`
+        do
+            ln -s /usr/local/mysql/bin/$i /usr/bin/$i
+        done
         #Start mysqld service
         service mysqld start
         /usr/local/mysql/bin/mysqladmin password $mysqlrootpwd
