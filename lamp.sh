@@ -58,12 +58,15 @@ function install_lamp(){
     download_files "${mcryptVersion}.tar.gz"
     download_files "${re2cVersion}.tar.gz"
     #Untar all files
-    rm -rf $cur_dir/untar
-    mkdir -p $cur_dir/untar
+    if [ -s $cur_dir/untar ]
+        rm -rf $cur_dir/untar/*
+    else
+        mkdir -p $cur_dir/untar
+    fi
     echo "Untar all files,please wait a moment......"
     for file in `ls *.tar.gz` ;
     do
-    tar -zxf $file -C $cur_dir/untar
+        tar -zxf $file -C $cur_dir/untar
     done
     echo "Untar all files completed!!"
     install_apache
@@ -79,27 +82,33 @@ function install_lamp(){
     cp -f $cur_dir/conf/httpd.logrotate /etc/logrotate.d/httpd
     sed -i '/Order/,/All/d' /usr/bin/lamp
     sed -i "/AllowOverride All/i\Require all granted" /usr/bin/lamp
-    #rm -rf $cur_dir/untar
+
     clear
-    echo ""
-    echo 'Congratulations, LAMP install completed!'
-    echo "Your Default Website: http://${IP}"
-    echo 'Default WebSite Root Dir: /data/www/default'
-    echo 'Apache Dir: /usr/local/apache'
-    echo 'PHP Dir: /usr/local/php'
-    echo "MySQL root password:$mysqlrootpwd"
-    echo "MySQL data location:$mysqldata"
-    echo -e "Installed Apache version:\033[41;37m ${ApacheVersion} \033[0m"
-    echo -e "Installed MySQL version:\033[41;37m ${MySQLVersion} \033[0m"
-    echo -e "Installed PHP version:\033[41;37m ${PHPVersion} \033[0m"
-    echo -e "Installed phpMyAdmin version:\033[41;37m ${phpMyAdminVersion} \033[0m"
-    echo '';
-    echo "Start time: ${StartDate}";
-    echo -e "Completion time: $(date) (Use:\033[41;37m $[($(date +%s)-StartDateSecond)/60] \033[0m minutes)";
-    echo "Welcome to visit:http://teddysun.com/lamp"
-    echo "Enjoy it! ^_^"
-    echo ""
-    echo ""
+    #Install completed or not 
+    if [ -s /usr/local/apache ] && [ -s /usr/local/php ] && [ -s /usr/local/mysql ]; then
+        echo ""
+        echo 'Congratulations, LAMP install completed!'
+        echo "Your Default Website: http://${IP}"
+        echo 'Default WebSite Root Dir: /data/www/default'
+        echo 'Apache Dir: /usr/local/apache'
+        echo 'PHP Dir: /usr/local/php'
+        echo "MySQL root password:$mysqlrootpwd"
+        echo "MySQL data location:$mysqldata"
+        echo -e "Installed Apache version:\033[41;37m ${ApacheVersion} \033[0m"
+        echo -e "Installed MySQL version:\033[41;37m ${MySQLVersion} \033[0m"
+        echo -e "Installed PHP version:\033[41;37m ${PHPVersion} \033[0m"
+        echo -e "Installed phpMyAdmin version:\033[41;37m ${phpMyAdminVersion} \033[0m"
+        echo ""
+        echo "Start time: ${StartDate}"
+        echo -e "Completion time: $(date) (Use:\033[41;37m $[($(date +%s)-StartDateSecond)/60] \033[0m minutes)"
+        echo "Welcome to visit:http://teddysun.com/lamp"
+        echo "Enjoy it! ^_^"
+        echo ""
+    else
+        echo ""
+        echo 'Sorry, Failed to install LAMP!';
+        echo 'Please contact: http://teddysun.com/lamp';
+    fi
 }
 
 #===============================================================================================
