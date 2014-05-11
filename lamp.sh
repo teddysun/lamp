@@ -58,7 +58,7 @@ function install_lamp(){
     download_files "${mcryptVersion}.tar.gz"
     download_files "${re2cVersion}.tar.gz"
     #Untar all files
-    if [ -d $cur_dir/untar ]
+    if [ -d $cur_dir/untar ]; then
         rm -rf $cur_dir/untar/*
     else
         mkdir -p $cur_dir/untar
