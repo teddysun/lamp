@@ -463,9 +463,12 @@ function uninstall_lamp(){
         killall httpd
         killall mysqld
         rm -rf /usr/local/apache/ /etc/init.d/httpd /usr/local/apache /usr/sbin/httpd /usr/sbin/apachectl /var/log/httpd /var/lock/subsys/httpd /var/spool/mail/apache /etc/logrotate.d/httpd
-        rm -rf /usr/local/mysql/ /etc/my.cnf /etc/rc.d/init.d/mysqld /etc/ld.so.conf.d/mysql.conf /usr/bin/mysql /var/lock/subsys/mysql /var/spool/mail/mysql
-        rm -rf /usr/local/php/ /usr/lib/php 
-        #rm -rf /usr/local/zend/
+        for tmp in `ls /usr/local/mysql/bin`
+        do
+            rm -f /usr/bin/$tmp
+        done
+        rm -rf /usr/local/mysql/ /etc/my.cnf /etc/rc.d/init.d/mysqld /etc/ld.so.conf.d/mysql.conf /var/lock/subsys/mysql /var/spool/mail/mysql
+        rm -rf /usr/local/php/ /usr/lib/php /usr/bin/php /etc/php.ini
         rm -rf /data/www/default/phpmyadmin
         rm -rf /etc/pure-ftpd.conf
         rm -rf /usr/bin/lamp
