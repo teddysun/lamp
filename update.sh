@@ -179,7 +179,8 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     --with-icu-dir=/usr \
     --with-mhash=/usr \
     --with-pcre-dir \
-    --without-pear
+    --without-pear \
+    --disable-fileinfo
     
     make && make install
     mkdir -p /usr/local/php/etc
