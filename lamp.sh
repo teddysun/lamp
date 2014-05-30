@@ -265,7 +265,7 @@ function install_mysql(){
         echo "Start Installing ${MySQLVersion}"
         cd $cur_dir/
         /usr/sbin/groupadd mysql
-        /usr/sbin/useradd -g mysql mysql
+        /usr/sbin/useradd -s /sbin/nologin -M -g mysql mysql
         cd $cur_dir/untar/$MySQLVersion
         cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=complex -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1
         make -j $Cpunum
@@ -506,7 +506,7 @@ function vhost_add(){
     read -p "(Do you want to create database?[y/N]):" create
     case $create in
     y|Y|YES|yes|Yes)
-    read -p "(Please input the user root password of MySQL):" mysqlroot_passwd
+    read -p "(Please input your MySQL root password):" mysqlroot_passwd
     read -p "(Please input the database name):" dbname
     read -p "(Please set the password for mysql user $dbname):" mysqlpwd
     create=y
