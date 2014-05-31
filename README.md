@@ -55,21 +55,21 @@
 **备注**：脚本`php5.4_oci8_oracle11g.sh`是为了使`PHP`可以连接`Oracle`数据库。
 
 
-**关于update.sh**
+### 关于update.sh
 
 新增`update.sh`脚本，目的是为了自动检测和升级`PHP`和`phpMyAdmin`。这两种软件版本更新比较频繁，因此才会有此脚本，一劳永逸。
 
 安装完`lamp.sh`一段时间后，如果你发现`PHP`或`phpMyAdmin`官网已更新，那即可运行此脚本更新到最新版。
 
 因PHP5.5.x系列Release没多久，很多软件还不兼容该版本，因此本脚本升级的PHP版本为5.4.x系列的最新版。
-###使用方法：
+**使用方法：**
 
     ./update.sh | tee update.log
 
-**关于upgrade_mysql.sh**
+### 关于upgrade_mysql.sh
 
 新增`upgrade_mysql.sh`脚本，目的是为了自动检测和升级`MySQL`。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
-###使用方法：
+**使用方法：**
 
     ./upgrade_mysql.sh | tee upgrade_mysql.log
 
@@ -116,17 +116,19 @@
 * `apache`安装目录： `/usr/local/apache`
 
 ##命令一览：
-* mysql命令: /etc/init.d/mysqld(start|stop|restart|reload|status)
+* mysql命令: 
 
-         或：service mysqld(start|stop|restart|reload|status)
-* apache命令: /etc/init.d/httpd(start|stop|restart|reload|status)
+        /etc/init.d/mysqld(start|stop|restart|reload|status)
+        service mysqld(start|stop|restart|reload|status)
+* apache命令: 
 
-          或：service httpd(start|stop|restart|reload|status)      
+        /etc/init.d/httpd(start|stop|restart|reload|status)
+        service httpd(start|stop|restart|reload|status)      
 
 ##网站根目录：
 
 安装完后默认的web根目录： `/data/www/default`
 
-如果你在安装后使用遇到问题，请访问[http://teddysun.com/lamp](http://teddysun.com/lamp)或发邮件至[i@teddysun.com](i@teddysun.com)。
+如果你在安装后使用遇到问题，请访问[http://teddysun.com/lamp](http://teddysun.com/lamp)或发邮件至(i@teddysun.com)。
 
 最后，祝你使用愉快！
