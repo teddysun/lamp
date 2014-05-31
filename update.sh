@@ -12,7 +12,6 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 cur_dir=`pwd`
-cd $cur_dir
 
 clear
 echo "#############################################################"
@@ -71,20 +70,20 @@ echo "---------------------------"
 echo "You choose = $UPGRADE_PMA"
 echo "---------------------------"
 echo ""
-get_char()
-{
-SAVEDSTTY=`stty -g`
-stty -echo
-stty cbreak
-dd if=/dev/tty bs=1 count=1 2> /dev/null
-stty -raw
-stty echo
-stty $SAVEDSTTY
+get_char() {
+    SAVEDSTTY=`stty -g`
+    stty -echo
+    stty cbreak
+    dd if=/dev/tty bs=1 count=1 2> /dev/null
+    stty -raw
+    stty echo
+    stty $SAVEDSTTY
 }
 echo ""
 echo "Press any key to start...or Press Ctrl+C to cancel"
+char=`get_char`
 
-#Description:Download && Untar files
+# Download && Untar files
 function untar(){
     local TARBALL_TYPE
     if [ -n $1 ]; then
@@ -118,21 +117,21 @@ function untar(){
     esac
 }
 
-#Description:PHP5 Update
+# PHP5 Update
 if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
-    echo "===================== PHP5.4.x Upgrade ===================="
+    echo "===================== PHP upgrade start===================="
     if [[ -d "/usr/local/php.bak" && -d "/usr/local/php" ]];then
         rm -rf /usr/local/php.bak/
     fi
     mv /usr/local/php /usr/local/php.bak
     cd $cur_dir
-    if [ ! -s php-${LATEST_PHP}.tar.gz ]; then
+    if [ ! -s php-$LATEST_PHP.tar.gz ]; then
         LATEST_PHP_LINK="http://php.net/distributions/php-${LATEST_PHP}.tar.gz"
         BACKUP_PHP_LINK="http://lamp.teddysun.com/files/php-${LATEST_PHP}.tar.gz"
-        untar ${LATEST_PHP_LINK} ${BACKUP_PHP_LINK}
+        untar $LATEST_PHP_LINK $BACKUP_PHP_LINK
     else
-        tar -zxf php-${LATEST_PHP}.tar.gz
-        cd php-${LATEST_PHP}/
+        tar -zxf php-$LATEST_PHP.tar.gz
+        cd php-$LATEST_PHP/
     fi
     
     ./configure \
@@ -192,30 +191,35 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     if [ $php_d -ne 0 ]; then
         cp -f /usr/local/php.bak/php.d/* /usr/local/php/php.d/*
     fi
-    #Restart httpd service
+    # Clean up
+    cd $cur_dir
+    rm -rf php-$LATEST_PHP/
+    # Restart httpd service
     service httpd restart
-    echo "===================== PHP5.4.x Update completed! ===================="
+    echo "===================== PHP update completed! ===================="
     echo ""
+else
+    echo "PHP upgrade cancelled, nothing to do..."
 fi
 
-#Description:phpMyAdmin Update
+# phpMyAdmin Update
 if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
-    echo "===================== phpMyAdmin Upgrade ===================="
+    echo "===================== phpMyAdmin upgrade start===================="
     if [ -d /data/www/default/phpmyadmin ]; then
         mv /data/www/default/phpmyadmin/config.inc.php $cur_dir/config.inc.php
         rm -rf /data/www/default/phpmyadmin
     else
         echo "===================== phpMyAdmin folder not found! ===================="
     fi
-    if [ ! -s phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz ]; then
+    if [ ! -s phpMyAdmin-$LATEST_PMA-all-languages.tar.gz ]; then
         LATEST_PMA_LINK="http://iweb.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/${LATEST_PMA}/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
         BACKUP_PMA_LINK="http://lamp.teddysun.com/files/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
-        untar ${LATEST_PMA_LINK} ${BACKUP_PMA_LINK}
+        untar $LATEST_PMA_LINK $BACKUP_PMA_LINK
         mkdir -p /data/www/default/phpmyadmin
         mv * /data/www/default/phpmyadmin
     else
-        tar -zxf phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz -C $cur_dir
-        mv $cur_dir/phpMyAdmin-${LATEST_PMA}-all-languages /data/www/default/phpmyadmin
+        tar -zxf phpMyAdmin-$LATEST_PMA-all-languages.tar.gz -C $cur_dir
+        mv $cur_dir/phpMyAdmin-$LATEST_PMA-all-languages /data/www/default/phpmyadmin
     fi
     if [ -s $cur_dir/config.inc.php ]; then
         mv $cur_dir/config.inc.php /data/www/default/phpmyadmin/config.inc.php
@@ -230,8 +234,10 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
     cd $cur_dir
     rm -rf $cur_dir/pmaversion.txt
     echo -e "phpmyadmin\t${LATEST_PMA}" > $cur_dir/pmaversion.txt
-    rm -rf $cur_dir/phpMyAdmin-${LATEST_PMA}-all-languages
+    rm -rf $cur_dir/phpMyAdmin-$LATEST_PMA-all-languages
     #Reload httpd service
     service httpd reload
-    echo "===================== phpMyAdmin Update completed! ===================="
+    echo "===================== phpMyAdmin update completed! ===================="
+else
+    echo "phpMyAdmin upgrade cancelled, nothing to do..."
 fi
