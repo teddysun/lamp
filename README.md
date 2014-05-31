@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统`Root`权限
 * 建议使用干净系统全新安装
-* 日期：2014年05月22日
+* 日期：2014年05月31日
 
 ## 关于本脚本
 * 支持`PHP`自带所有组件；
@@ -24,7 +24,7 @@
 ## 将会安装
 * 1、`Apache 2.4.9`
 * 2、`MySQL 5.6.17`
-* 3、`PHP 5.4.28`
+* 3、`PHP 5.4.29`
 * 4、`phpMyAdmin 4.2.2`
 * 5、`xcache 3.1.0` (推荐安装)
 * 6、`OCI8 + oracle-instantclient`（可选安装，支持`PHP`连接`Oracle`数据库）
@@ -32,18 +32,17 @@
 * 8、`ZendGuardLoader`（可选安装）
 
 ## 如何安装
-### 第一步，终端中输入以下命令：
+### 第一步，下载脚本文件：
 
     cd /root
     wget --no-check-certificate https://github.com/teddysun/lamp/archive/master.zip -O lamp.zip
     unzip lamp.zip
-    cd /root/lamp-master/
+    cd lamp-master/
     chmod +x *.sh
 
 ### 第二步，安装LAMP
 终端中输入以下命令：
 
-    cd /root/lamp-master/
     ./lamp.sh 2>&1 | tee lamp.log
 
 ### 安装其它：
@@ -58,7 +57,7 @@
 
 **关于update.sh**
 
-新增`update.sh`脚本，目的是为了自动检测和升级`PHP、phpMyAdmin`。这两种软件版本更新比较频繁，因此才会有此脚本，一劳永逸。
+新增`update.sh`脚本，目的是为了自动检测和升级`PHP`和`phpMyAdmin`。这两种软件版本更新比较频繁，因此才会有此脚本，一劳永逸。
 
 安装完`lamp.sh`一段时间后，如果你发现`PHP`或`phpMyAdmin`官网已更新，那即可运行此脚本更新到最新版。
 
@@ -66,6 +65,13 @@
 ###使用方法：
 
     ./update.sh | tee update.log
+
+**关于upgrade_mysql.sh**
+
+新增`upgrade_mysql.sh`脚本，目的是为了自动检测和升级`MySQL`。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
+###使用方法：
+
+    ./upgrade_mysql.sh | tee upgrade_mysql.log
 
 **FAQ**
 
@@ -112,15 +118,15 @@
 ##命令一览：
 * mysql命令: /etc/init.d/mysqld(start|stop|restart|reload|status)
 
-      或：service mysqld(start|stop|restart|reload|status)
+         或：service mysqld(start|stop|restart|reload|status)
 * apache命令: /etc/init.d/httpd(start|stop|restart|reload|status)
 
-       或：service httpd(start|stop|restart|reload|status)      
+          或：service httpd(start|stop|restart|reload|status)      
 
 ##网站根目录：
 
 安装完后默认的web根目录： `/data/www/default`
 
-如果你在安装后使用遇到问题，请访问[http://teddysun.com/lamp](http://teddysun.com/lamp)，提交评论，我会及时回复。
+如果你在安装后使用遇到问题，请访问[http://teddysun.com/lamp](http://teddysun.com/lamp)或发邮件至[i@teddysun.com](i@teddysun.com)。
 
 最后，祝你使用愉快！
