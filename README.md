@@ -17,13 +17,13 @@
 * 支持`MySQL`和`SQLite`数据库;
 * 支持OCI8组件（可让`PHP`连接`Oracle`数据库）；
 * 命令行新增虚拟主机，操作简便；
-* 自助升级`PHP`和`phpMyAdmin`版本；
+* 自助升级`PHP`，`phpMyAdmin`，`MySQL`至最新版本；
 * 支持创建`FTP`用户；
-* 卸载简便。
+* 一键卸载。
 
 ## 将会安装
 * 1、`Apache 2.4.9`
-* 2、`MySQL 5.6.17`
+* 2、`MySQL 5.6.19`
 * 3、`PHP 5.4.29`
 * 4、`phpMyAdmin 4.2.2`
 * 5、`xcache 3.1.0` (推荐安装)

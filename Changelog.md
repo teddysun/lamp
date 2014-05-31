@@ -2,7 +2,8 @@
 更新记录：
 
 * 1、升级`PHP`到版本`5.4.29`；
-* 2、新增`MySQL`一键升级脚本`upgrade_mysql.sh`；
+* 2、升级`MySQL`到版本`5.6.19`；
+* 3、新增`MySQL`一键升级脚本`upgrade_mysql.sh`；
 
 ###版本`2.6.3`：`Release date:2014/05/22`
 更新记录：
