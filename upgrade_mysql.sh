@@ -151,8 +151,6 @@ EOF
 
 # MYSQL Update
 function upgrade_mysql() {
-    # Backup MySQL all of databases
-    backup_mysql  2>&1 | tee -a /root/mysql_upgrade_$update_date.log
     # Backup installed folder
     if [[ -d "/usr/local/mysql.bak" && -d "/usr/local/mysql" ]];then
         rm -rf /usr/local/mysql.bak/
@@ -198,6 +196,7 @@ function clear_up() {
 if [[ "$UPGRADE_MYSQL" = "y" || "$UPGRADE_MYSQL" = "Y" ]];then
     pre_setting
     stopall
+    backup_mysql
     upgrade_mysql
     startall
     clear_up
