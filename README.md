@@ -62,6 +62,7 @@
 安装完`lamp.sh`一段时间后，如果你发现`PHP`或`phpMyAdmin`官网已更新，那即可运行此脚本更新到最新版。
 
 因PHP5.5.x系列Release没多久，很多软件还不兼容该版本，因此本脚本升级的PHP版本为5.4.x系列的最新版。
+
 **使用方法：**
 
     ./update.sh | tee update.log
@@ -69,6 +70,7 @@
 ### 关于upgrade_mysql.sh
 
 新增`upgrade_mysql.sh`脚本，目的是为了自动检测和升级`MySQL`。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
+
 **使用方法：**
 
     ./upgrade_mysql.sh | tee upgrade_mysql.log
@@ -129,6 +131,6 @@
 
 安装完后默认的web根目录： `/data/www/default`
 
-如果你在安装后使用遇到问题，请访问[http://teddysun.com/lamp](http://teddysun.com/lamp)或发邮件至(i@teddysun.com)。
+如果你在安装后使用遇到问题，请访问 [http://teddysun.com/lamp](http://teddysun.com/lamp) 或发邮件至 i@teddysun.com。
 
 最后，祝你使用愉快！
