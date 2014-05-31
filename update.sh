@@ -199,7 +199,9 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     echo "===================== PHP update completed! ===================="
     echo ""
 else
+    echo ""
     echo "PHP upgrade cancelled, nothing to do..."
+    echo ""
 fi
 
 # phpMyAdmin Update
@@ -240,4 +242,5 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
     echo "===================== phpMyAdmin update completed! ===================="
 else
     echo "phpMyAdmin upgrade cancelled, nothing to do..."
+    echo ""
 fi
