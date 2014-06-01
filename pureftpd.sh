@@ -55,5 +55,6 @@ if [ $? -eq 0 ]; then
     /etc/init.d/iptables restart
 fi
 # Clean up
+cd $cur_dir
 rm -rf $cur_dir/untar/
 echo "============================pure-ftpd install completed============================"

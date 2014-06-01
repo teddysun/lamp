@@ -63,6 +63,7 @@ zend_loader.license_path =
 EOF
 fi
 # Clean up
+cd $cur_dir
 rm -rf $cur_dir/untar/
 service httpd restart
 echo "============================ZendGuardLoader install completed================================="

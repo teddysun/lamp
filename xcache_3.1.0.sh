@@ -96,6 +96,7 @@ xcache.coveragedump_directory = "/tmp/pcov"
 EOF
 fi
 # Clean up
+cd $cur_dir
 rm -rf $cur_dir/untar/
 service httpd restart
 echo "============================Xcache3.1.0 install completed================================="

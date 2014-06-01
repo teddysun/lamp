@@ -84,6 +84,7 @@ oci8.old_oci_close_semantics = Off
 EOF
     fi
     # Clean up
+    cd $cur_dir
     rm -rf $cur_dir/untar/
     service httpd restart
     echo "============================oci8 install completed============================================"
