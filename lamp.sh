@@ -37,6 +37,7 @@ libmcryptVersion='libmcrypt-2.5.8';
 mhashVersion='mhash-0.9.9.9';
 mcryptVersion='mcrypt-2.6.8';
 re2cVersion='re2c-0.13.6';
+pcreVersion='pcre-8.35';
 
 #===============================================================================================
 #Description:Install LAMP Script.
@@ -57,18 +58,19 @@ function install_lamp(){
     download_files "${mhashVersion}.tar.gz"
     download_files "${mcryptVersion}.tar.gz"
     download_files "${re2cVersion}.tar.gz"
+    download_files "${pcreVersion}.tar.gz"
     #Untar all files
     if [ -d $cur_dir/untar ]; then
-        rm -rf $cur_dir/untar/*
-    else
-        mkdir -p $cur_dir/untar
+        rm -rf $cur_dir/untar
     fi
+    mkdir -p $cur_dir/untar
     echo "Untar all files, please wait a moment......"
     for file in `ls *.tar.gz` ;
     do
         tar -zxf $file -C $cur_dir/untar
     done
     echo "Untar all files completed!"
+    install_pcre
     install_apache
     install_mysql
     install_libiconv
@@ -169,12 +171,9 @@ function pre_installation_settings(){
     #CPU Number
     Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
     #Remove Packages
-    rpm -e httpd
-    rpm -e mysql
-    rpm -e php
-    yum -y remove httpd
-    yum -y remove mysql
-    yum -y remove php
+    rpm -e --nodeps httpd
+    rpm -e --nodeps mysql
+    rpm -e --nodeps php
     #Set timezone
     rm -f /etc/localtime
     ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
@@ -222,9 +221,13 @@ function install_apache(){
         mv $cur_dir/untar/$aprVersion $cur_dir/untar/$ApacheVersion/srclib/apr
         mv $cur_dir/untar/$aprutilVersion $cur_dir/untar/$ApacheVersion/srclib/apr-util
         cd $cur_dir/untar/$ApacheVersion
-        ./configure --prefix=/usr/local/apache --enable-so --enable-dav --enable-deflate=shared --enable-ssl=shared --enable-expires=shared  --enable-headers=shared --enable-rewrite=shared --enable-static-support  --with-included-apr --enable-modules=all --enable-mods-shared=all --with-mpm=prefork
+        ./configure --prefix=/usr/local/apache --with-pcre=/usr/local/pcre --enable-so --enable-dav --enable-deflate=shared --enable-ssl=shared --enable-expires=shared  --enable-headers=shared --enable-rewrite=shared --enable-static-support  --with-included-apr --enable-modules=all --enable-mods-shared=all --with-mpm=prefork
         make -j $Cpunum
         make install
+        if [ $? -ne 0 ]; then
+            echo "Installing Apache failed, Please visit http://teddysun.com/lamp and contact."
+            exit 1
+        fi
         cp -f $cur_dir/conf/httpd.init /etc/init.d/httpd
         chmod +x /etc/init.d/httpd
         chkconfig --add httpd
@@ -272,6 +275,10 @@ function install_mysql(){
         cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=complex -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1
         make -j $Cpunum
         make install
+        if [ $? -ne 0 ]; then
+            echo "Installing MySQL failed, Please visit http://teddysun.com/lamp and contact."
+            exit 1
+        fi
         chmod +w /usr/local/mysql
         chown -R mysql:mysql /usr/local/mysql
         cd support-files/
@@ -294,7 +301,9 @@ EOF
         fi
         for i in `ls /usr/local/mysql/bin`
         do
-            ln -s /usr/local/mysql/bin/$i /usr/bin/$i
+            if [ ! -L /usr/bin/$i ]; then
+                ln -s /usr/local/mysql/bin/$i /usr/bin/$i
+            fi
         done
         #Start mysqld service
         service mysqld start
@@ -374,6 +383,22 @@ function install_re2c(){
 }
 
 #===============================================================================================
+#Description:install pcre.
+#Usage:install_pcre
+#===============================================================================================
+function install_pcre(){
+    cd $cur_dir/untar/$pcreVersion
+    ./configure --prefix=/usr/local/pcre
+    make && make install
+    if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
+        ln -s /usr/local/pcre/lib /usr/local/pcre/lib64
+    fi
+    [ -d "/usr/local/pcre/lib" ] && export LD_LIBRARY_PATH=/usr/local/pcre/lib:$LD_LIBRARY_PATH
+    [ -d "/usr/local/pcre/bin" ] && export PATH=/usr/local/pcre/bin:$PATH
+    echo "${pcreVersion} install completed!"
+}
+
+#===============================================================================================
 #Description:install php.
 #Usage:install_php
 #===============================================================================================
@@ -388,6 +413,10 @@ function install_php(){
         fi
         cd $cur_dir/untar/$PHPVersion
         ./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs  --with-config-file-path=/usr/local/php/etc --with-mysqli=/usr/local/mysql/bin/mysql_config --with-pdo-mysql --with-mysql-sock=/usr/local/mysql/mysql.sock --with-config-file-scan-dir=/usr/local/php/php.d --with-openssl --with-zlib --with-curl --enable-ftp --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-xmlrpc --enable-calendar --with-imap --with-kerberos --with-imap-ssl --with-ldap --enable-bcmath --enable-exif --enable-wddx --enable-tokenizer --enable-simplexml --enable-sockets --enable-ctype --enable-gd-native-ttf --enable-mbstring --enable-intl --enable-xml --enable-dom --enable-json --enable-session --enable-soap --with-mcrypt --enable-zip --with-iconv=/usr/local/libiconv --with-mysql=/usr/local/mysql --with-icu-dir=/usr --with-mhash=/usr --with-pcre-dir --without-pear --disable-fileinfo
+        if [ $? -ne 0 ]; then
+            echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
+            exit 1
+        fi
         make -j $Cpunum
         make install
         mkdir -p /usr/local/php/etc
