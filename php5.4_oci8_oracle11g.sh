@@ -64,10 +64,7 @@ function compile_oci8(){
     $PHP_PREFIX/bin/phpize
     ./configure --with-php-config=$PHP_PREFIX/bin/php-config
     make && make install
-    oci=`cat /usr/local/php/etc/php.ini | grep -q "OCI8" && echo "include" || echo "not"`
-    if [ "$oci" = "not" ]; then
-        echo "OCI8 configuration not found, create it!"
-        cat >>/usr/local/php/etc/php.ini<<-EOF
+    cat >>/usr/local/php/etc/php.ini<<-EOF
 
 [OCI8]
 extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/oci8.so
@@ -82,7 +79,6 @@ oci8.statement_cache_size = 20
 oci8.default_prefetch = 100
 oci8.old_oci_close_semantics = Off
 EOF
-    fi
     # Clean up
     cd $cur_dir
     rm -rf $cur_dir/untar/
