@@ -7,6 +7,11 @@ export PATH
 #   AUTHOR: Teddysun <i@teddysun.com>
 #   VISIT:  http://teddysun.com/lamp
 #===============================================================================================
+if [[ $EUID -ne 0 ]]; then
+   echo "Error:This script must be run as root!" 1>&2
+   exit 1
+fi
+
 cur_dir=`pwd`
 cd $cur_dir
 
@@ -32,7 +37,9 @@ fi
 
 #install xcache
 echo "============================Xcache3.1.0 install start====================================="
-mkdir -p $cur_dir/untar/
+if [ ! -d $cur_dir/untar/ ]; then
+    mkdir -p $cur_dir/untar/
+fi
 tar xzf xcache-3.1.0.tar.gz -C $cur_dir/untar/
 cd $cur_dir/untar/xcache-3.1.0
 export PHP_PREFIX="/usr/local/php"
@@ -48,8 +55,8 @@ chown -R apache:apache /tmp/{pcov,phpcore}
 chmod 700 /tmp/{pcov,phpcore}
 xc=`cat /usr/local/php/etc/php.ini |grep -q "xcache-common" && echo "include" || echo "not"`
 if [ "$xc" = "not" ]; then
-echo "Xcache configuration not found, create it!"
-cat >>/usr/local/php/etc/php.ini<<-EOF
+    echo "Xcache configuration not found, create it!"
+    cat >>/usr/local/php/etc/php.ini<<-EOF
 
 [xcache-common]
 extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/xcache.so
@@ -88,6 +95,8 @@ xcache.coverager_autostart =  On
 xcache.coveragedump_directory = "/tmp/pcov"
 EOF
 fi
+# Clean up
+rm -rf $cur_dir/untar/
 service httpd restart
 echo "============================Xcache3.1.0 install completed================================="
 exit

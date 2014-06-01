@@ -8,12 +8,14 @@ export PATH
 #   VISIT:  http://teddysun.com/lamp
 #===============================================================================================
 # Check if user is root
-if [ $(id -u) != "0" ]; then
-    quit "You must be root to run this script!"
+if [[ $EUID -ne 0 ]]; then
+   echo "Error:This script must be run as root!" 1>&2
+   exit 1
 fi
 cur_dir=`pwd`
-#download pure-ftpd 
 cd $cur_dir
+
+# Download pure-ftpd 
 if [ -s pure-ftpd-1.0.36.tar.gz ]; then
     echo "pure-ftpd-1.0.36.tar.gz [found]"
 else
@@ -24,9 +26,11 @@ else
     fi
 fi
 
-#install pure-ftpd 
+# Install pure-ftpd 
 echo "============================pure-ftpd  install start============================"
-mkdir -p $cur_dir/untar/
+if [ ! -d $cur_dir/untar/ ]; then
+    mkdir -p $cur_dir/untar/
+fi
 tar xzf pure-ftpd-1.0.36.tar.gz -C $cur_dir/untar/
 cd $cur_dir/untar/pure-ftpd-1.0.36
 ./configure
@@ -50,4 +54,6 @@ if [ $? -eq 0 ]; then
     /etc/rc.d/init.d/iptables save
     /etc/init.d/iptables restart
 fi
+# Clean up
+rm -rf $cur_dir/untar/
 echo "============================pure-ftpd install completed============================"

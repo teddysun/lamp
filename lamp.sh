@@ -63,12 +63,12 @@ function install_lamp(){
     else
         mkdir -p $cur_dir/untar
     fi
-    echo "Untar all files,please wait a moment......"
+    echo "Untar all files, please wait a moment......"
     for file in `ls *.tar.gz` ;
     do
         tar -zxf $file -C $cur_dir/untar
     done
-    echo "Untar all files completed!!"
+    echo "Untar all files completed!"
     install_apache
     install_mysql
     install_libiconv
@@ -82,6 +82,8 @@ function install_lamp(){
     cp -f $cur_dir/conf/httpd.logrotate /etc/logrotate.d/httpd
     sed -i '/Order/,/All/d' /usr/bin/lamp
     sed -i "/AllowOverride All/i\Require all granted" /usr/bin/lamp
+    #Clean up
+    rm -rf $cur_dir/untar
 
     clear
     #Install completed or not 
