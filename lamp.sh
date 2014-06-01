@@ -495,7 +495,7 @@ function uninstall_lamp(){
         killall mysqld
         chkconfig httpd off
         chkconfig mysqld off
-        rm -rf /usr/local/apache/ /etc/init.d/httpd /usr/local/apache /usr/sbin/httpd /usr/sbin/apachectl /var/log/httpd /var/lock/subsys/httpd /var/spool/mail/apache /etc/logrotate.d/httpd
+        rm -rf /etc/init.d/httpd /usr/local/apache /usr/sbin/httpd /usr/sbin/apachectl /var/log/httpd /var/lock/subsys/httpd /var/spool/mail/apache /etc/logrotate.d/httpd
         for tmp in `ls /usr/local/mysql/bin`
         do
             rm -f /usr/bin/$tmp
