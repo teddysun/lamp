@@ -47,7 +47,7 @@ function untar(){
         SOFTWARE_NAME=`echo $1 | awk -F/ '{print $NF}'`
         TARBALL_TYPE=`echo $1 | awk -F. '{print $NF}'`
         wget -c -t3 -T3 $1 -P $cur_dir/
-        if [ $? != "0" ];then
+        if [ $? -ne 0 ];then
             rm -rf $cur_dir/$SOFTWARE_NAME
             wget -c -t3 -T60 $2 -P $cur_dir/
             SOFTWARE_NAME=`echo $2 | awk -F/ '{print $NF}'`
@@ -65,6 +65,9 @@ function untar(){
         ;;
         bz2|tbz)
             tar jxf $cur_dir/$SOFTWARE_NAME -C $cur_dir/ && cd $cur_dir/$EXTRACTED_DIR || return 1
+        ;;
+        xz)
+            tar Jxf $cur_dir/$SOFTWARE_NAME -C $cur_dir/ && cd $cur_dir/$EXTRACTED_DIR || return 1
         ;;
         tar|Z)
             tar xf $cur_dir/$SOFTWARE_NAME -C $cur_dir/ && cd $cur_dir/$EXTRACTED_DIR || return 1
