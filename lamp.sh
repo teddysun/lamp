@@ -253,7 +253,7 @@ function install_apache(){
         cp -f $cur_dir/conf/index.html /data/www/default/index.html
         cp -f $cur_dir/conf/lamp.gif /data/www/default/lamp.gif
         cp -f $cur_dir/conf/p.php /data/www/default/p.php
-        cp -f $cur_dir/conf/jquery-1.9.0.min.js /data/www/default/jquery-1.9.0.min.js
+        cp -f $cur_dir/conf/jquery-1.11.1.min.js /data/www/default/jquery-1.11.1.min.js
         cp -f $cur_dir/conf/phpinfo.php /data/www/default/phpinfo.php
         echo "${ApacheVersion} Install completed!"
     else
