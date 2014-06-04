@@ -53,7 +53,7 @@ echo "Zend Guard configuration not found, create it!"
 cat >>/usr/local/php/etc/php.ini<<-EOF
 
 [Zend Guard]
-zend_extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/ZendGuardLoader.so
+extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/ZendGuardLoader.so
 ; Enables loading encoded scripts. The default value is On
 zend_loader.enable = 1
 ; Optional: following lines can be added your php.ini file for ZendGuardLoader configuration
