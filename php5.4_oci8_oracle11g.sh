@@ -12,6 +12,8 @@ export PATH
 cur_dir=`pwd`
 cd $cur_dir
 
+OCIVersion='oci8-2.0.8'
+
 #===============================================================================
 #DESCRIPTION:Make sure only root can run our script
 #USAGE:rootness
@@ -32,7 +34,7 @@ function download_files(){
         echo "$1 [found]"
     else
        echo "$1 not found!!!download now......"
-       if ! wget --tries=3 http://teddysun.googlecode.com/files/$1;then
+       if ! wget --tries=3 http://lamp.teddysun.com/files/$1; then
            echo "Failed to download $1,please download it to "$cur_dir" directory manually and rerun the install script."
            exit 1
        fi
@@ -58,8 +60,8 @@ function install_instant(){
 #USAGE:compile_oci8
 #===============================================================================
 function compile_oci8(){
-    echo "============================oci8 install======================================================="
-    cd $cur_dir/untar/oci8-2.0.6
+    echo "============================oci8 install start================================================="
+    cd $cur_dir/untar/$OCIVersion
     export PHP_PREFIX="/usr/local/php"
     $PHP_PREFIX/bin/phpize
     ./configure --with-php-config=$PHP_PREFIX/bin/php-config
@@ -92,7 +94,7 @@ exit
 #===============================================================================
 function install_oci8(){
     rootness
-    download_files "oci8-2.0.6.tgz"
+    download_files "${OCIVersion}.tgz"
     if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
         download_files "oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm"
         download_files "oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm"
@@ -103,7 +105,7 @@ function install_oci8(){
     if [ ! -d $cur_dir/untar/ ]; then
         mkdir -p $cur_dir/untar/
     fi
-    tar xzf oci8-2.0.6.tgz -C $cur_dir/untar/
+    tar xzf $OCIVersion.tgz -C $cur_dir/untar/
     install_instant
     compile_oci8
 }
