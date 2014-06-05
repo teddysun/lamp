@@ -51,7 +51,7 @@ if [ ! -f /usr/local/php/php.d/zend.ini ]; then
     echo "Zend Guard Loader configuration not found, create it!"
     cat > /usr/local/php/php.d/zend.ini<<-EOF
 [Zend Guard]
-extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/ZendGuardLoader.so
+zend_extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/ZendGuardLoader.so
 
 zend_loader.enable = 1
 zend_loader.disable_licensing = 0
