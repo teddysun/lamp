@@ -1,3 +1,17 @@
+###版本`2.7.2`：`Release date:2014/06/05`
+更新记录：
+
+* 1、更改`Xcache`、`Zend Guard Loader`，`OCI8`的配置文件到PHP扫描的目录/usr/local/php/php.d下；
+* 2、增加编译`PHP`的模块：bz2,gettext,gmp,pcntl,readline,shmop,xsl
+* 3、增加`ionCube`；
+
+###版本`2.7.1`：`Release date:2014/06/04`
+更新记录：
+
+* 1、升级`OCI8`到版本`2.0.8`；
+* 2、优化探针显示；
+* 3、优化`PHP`的配置文件php.ini;
+
 ###版本`2.7`：`Release date:2014/05/31`
 更新记录：
 
