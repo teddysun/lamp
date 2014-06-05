@@ -139,51 +139,61 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     
     ./configure \
     --prefix=/usr/local/php \
-    --with-apxs2=/usr/local/apache/bin/apxs  \
+    --with-apxs2=/usr/local/apache/bin/apxs \
     --with-config-file-path=/usr/local/php/etc \
+    --with-mysql=/usr/local/mysql \
     --with-mysqli=/usr/local/mysql/bin/mysql_config \
-    --with-pdo-mysql \
+    --with-iconv=/usr/local/libiconv \
+    --with-pcre-dir=/usr/local/pcre \
     --with-mysql-sock=/usr/local/mysql/mysql.sock \
     --with-config-file-scan-dir=/usr/local/php/php.d \
-    --with-openssl \
-    --with-zlib \
-    --with-curl \
-    --enable-ftp \
-    --with-gd \
-    --with-jpeg-dir \
-    --with-png-dir \
-    --with-freetype-dir \
-    --with-xmlrpc \
-    --enable-calendar \
-    --with-imap \
-    --with-kerberos \
-    --with-imap-ssl \
-    --with-ldap \
-    --enable-bcmath \
-    --enable-exif \
-    --enable-wddx \
-    --enable-tokenizer \
-    --enable-simplexml \
-    --enable-sockets \
-    --enable-ctype \
-    --enable-gd-native-ttf \
-    --enable-mbstring \
-    --enable-intl \
-    --enable-xml \
-    --enable-dom \
-    --enable-json \
-    --enable-session \
-    --enable-soap \
-    --with-mcrypt \
-    --enable-zip \
-    --with-iconv=/usr/local/libiconv \
-    --with-mysql=/usr/local/mysql \
-    --with-icu-dir=/usr \
     --with-mhash=/usr \
-    --with-pcre-dir \
+    --with-icu-dir=/usr \
+    --with-bz2 \
+    --with-curl \
+    --with-freetype-dir \
+    --with-gd \
+    --with-gettext \
+    --with-gmp \
+    --with-imap \
+    --with-imap-ssl \
+    --with-jpeg-dir \
+    --with-kerberos \
+    --with-ldap \
+    --with-mcrypt \
+    --with-openssl \
     --without-pear \
+    --with-pdo-mysql \
+    --with-png-dir \
+    --with-readline \
+    --with-xmlrpc \
+    --with-xsl \
+    --with-zlib \
+    --enable-bcmath \
+    --enable-calendar \
+    --enable-ctype \
+    --enable-dom \
+    --enable-exif \
+    --enable-ftp \
+    --enable-gd-native-ttf \
+    --enable-intl \
+    --enable-json \
+    --enable-mbstring \
+    --enable-pcntl \
+    --enable-session \
+    --enable-shmop \
+    --enable-simplexml \
+    --enable-soap \
+    --enable-sockets \
+    --enable-tokenizer \
+    --enable-wddx \
+    --enable-xml \
+    --enable-zip \
     --disable-fileinfo
-    
+    if [ $? -ne 0 ]; then
+        echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
+        exit 1
+    fi
     make && make install
     mkdir -p /usr/local/php/etc
     mkdir -p /usr/local/php/php.d
