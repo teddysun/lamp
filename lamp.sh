@@ -225,7 +225,21 @@ function install_apache(){
         mv $cur_dir/untar/$aprVersion $cur_dir/untar/$ApacheVersion/srclib/apr
         mv $cur_dir/untar/$aprutilVersion $cur_dir/untar/$ApacheVersion/srclib/apr-util
         cd $cur_dir/untar/$ApacheVersion
-        ./configure --prefix=/usr/local/apache --with-pcre=/usr/local/pcre --enable-so --enable-dav --enable-deflate=shared --enable-ssl=shared --enable-expires=shared  --enable-headers=shared --enable-rewrite=shared --enable-static-support  --with-included-apr --enable-modules=all --enable-mods-shared=all --with-mpm=prefork
+        ./configure \
+        --prefix=/usr/local/apache \
+        --with-pcre=/usr/local/pcre \
+        --with-mpm=prefork \
+        --with-included-apr \
+        --enable-so \
+        --enable-dav \
+        --enable-deflate=shared \
+        --enable-ssl=shared \
+        --enable-expires=shared  \
+        --enable-headers=shared \
+        --enable-rewrite=shared \
+        --enable-static-support \
+        --enable-modules=all \
+        --enable-mods-shared=all
         make -j $Cpunum
         make install
         if [ $? -ne 0 ]; then
@@ -276,7 +290,15 @@ function install_mysql(){
         /usr/sbin/groupadd mysql
         /usr/sbin/useradd -s /sbin/nologin -M -g mysql mysql
         cd $cur_dir/untar/$MySQLVersion
-        cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=complex -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1
+        cmake \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+        -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock \
+        -DDEFAULT_CHARSET=utf8 \
+        -DDEFAULT_COLLATION=utf8_general_ci \
+        -DWITH_EXTRA_CHARSETS=complex \
+        -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+        -DWITH_READLINE=1 \
+        -DENABLED_LOCAL_INFILE=1
         make -j $Cpunum
         make install
         if [ $? -ne 0 ]; then
