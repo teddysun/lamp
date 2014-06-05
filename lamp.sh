@@ -38,6 +38,7 @@ mhashVersion='mhash-0.9.9.9';
 mcryptVersion='mcrypt-2.6.8';
 re2cVersion='re2c-0.13.6';
 pcreVersion='pcre-8.35';
+libeditVersion='libedit-20140213-3.1';
 
 #===============================================================================================
 #Description:Install LAMP Script.
@@ -59,6 +60,7 @@ function install_lamp(){
     download_files "${mcryptVersion}.tar.gz"
     download_files "${re2cVersion}.tar.gz"
     download_files "${pcreVersion}.tar.gz"
+    download_files "${libeditVersion}.tar.gz"
     #Untar all files
     if [ -d $cur_dir/untar ]; then
         rm -rf $cur_dir/untar
@@ -78,6 +80,7 @@ function install_lamp(){
     install_mhash
     install_mcrypt
     install_re2c
+    install_libedit
     install_php
     install_phpmyadmin
     cp -f $cur_dir/lamp.sh /usr/bin/lamp
@@ -187,8 +190,9 @@ function pre_installation_settings(){
         cp /etc/yum.conf /etc/yum.conf.bak
     fi
     sed -i 's:exclude=.*:exclude=:g' /etc/yum.conf
-    for packages in autoconf automake bison bzip2 bzip2-devel curl curl-devel cmake cpp crontabs diffutils elinks e2fsprogs-devel expat-devel file flex freetype-devel gcc gcc-c++ gd glibc-devel glib2-devel gettext-devel icu kernel-devel libtool-libs libjpeg-devel libpng-devel libxml2-devel libidn-devel libcap-devel libtool-ltdl-devel libmcrypt-devel libc-client-devel libxml2 libxml2-devel libicu libicu-devel wget zlib-devel zip unzip patch mlocate make ncurses-devel readline-devel vim-minimal sendmail pam-devel pcre-devel openldap openldap-devel openssl-devel perl-DBD-MySQL libaio;
-    do yum -y install $packages; done
+    packages="wget autoconf automake bison bzip2 bzip2-devel curl curl-devel cmake cpp crontabs diffutils elinks e2fsprogs-devel expat-devel file flex freetype-devel gcc gcc-c++ gd glibc-devel glib2-devel gettext-devel gmp-devel icu kernel-devel libaio libtool-libs libjpeg-devel libpng-devel libxslt libxslt-devel libxml2 libxml2-devel libidn-devel libcap-devel libtool-ltdl-devel libmcrypt-devel libc-client-devel libicu libicu-devel zip zlib-devel unzip patch mlocate make ncurses-devel readline readline-devel vim-minimal sendmail pam-devel pcre pcre-devel openldap openldap-devel openssl openssl-devel perl-DBD-MySQL"
+    for package in $packages;
+    do yum -y install $package; done
     #Current folder
     cur_dir=`pwd`
     cd $cur_dir
@@ -204,7 +208,7 @@ if [ -s $1 ]; then
 else
     echo "$1 not found!!!download now......"
     if ! wget -c http://lamp.teddysun.com/files/$1;then
-        echo "Failed to download $1,please download it to "$cur_dir" directory manually and rerun the install script."
+        echo "Failed to download $1,please download it to "$cur_dir" directory manually and try again."
         exit 1
     fi
 fi
@@ -323,66 +327,6 @@ EOF
 }
 
 #===============================================================================================
-#Description:install libiconv.
-#Usage:install_libiconv
-#===============================================================================================
-function install_libiconv(){
-if [ ! -d /usr/local/libiconv ];then
-    cd $cur_dir/untar/$libiconvVersion
-    ./configure --prefix=/usr/local/libiconv
-    make install
-    echo "${libiconvVersion} install completed!"
-else
-    echo "libiconv had been installed!"
-fi
-}
-
-#===============================================================================================
-#Description:install libmcrypt.
-#Usage:install_libmcrypt
-#===============================================================================================
-function install_libmcrypt(){
-    cd $cur_dir/untar/$libmcryptVersion
-    ./configure --prefix=/usr
-    make install
-    echo "${libmcryptVersion} install completed!"
-}
-
-#===============================================================================================
-#Description:install mhash.
-#Usage:install_mhash
-#===============================================================================================
-function install_mhash(){
-    cd $cur_dir/untar/$mhashVersion
-    ./configure --prefix=/usr
-    make install
-    echo "${mhashVersion} install completed!"
-}
-
-#===============================================================================================
-#Description:install mcrypt.
-#Usage:install_mcrypt
-#===============================================================================================
-function install_mcrypt(){
-    /sbin/ldconfig
-    cd $cur_dir/untar/$mcryptVersion
-    ./configure
-    make install
-    echo "${mcryptVersion} install completed!"
-}
-
-#===============================================================================================
-#Description:install re2c.
-#Usage:install_re2c
-#===============================================================================================
-function install_re2c(){
-    cd $cur_dir/untar/$re2cVersion
-    ./configure
-    make install
-    echo "${re2cVersion} install completed!"
-}
-
-#===============================================================================================
 #Description:install pcre.
 #Usage:install_pcre
 #===============================================================================================
@@ -399,6 +343,77 @@ function install_pcre(){
 }
 
 #===============================================================================================
+#Description:install libiconv.
+#Usage:install_libiconv
+#===============================================================================================
+function install_libiconv(){
+if [ ! -d /usr/local/libiconv ];then
+    cd $cur_dir/untar/$libiconvVersion
+    ./configure --prefix=/usr/local/libiconv
+    make &&　make install
+    echo "${libiconvVersion} install completed!"
+else
+    echo "libiconv had been installed!"
+fi
+}
+
+#===============================================================================================
+#Description:install libmcrypt.
+#Usage:install_libmcrypt
+#===============================================================================================
+function install_libmcrypt(){
+    cd $cur_dir/untar/$libmcryptVersion
+    ./configure
+    make &&　make install
+    echo "${libmcryptVersion} install completed!"
+}
+
+#===============================================================================================
+#Description:install mhash.
+#Usage:install_mhash
+#===============================================================================================
+function install_mhash(){
+    cd $cur_dir/untar/$mhashVersion
+    ./configure
+    make &&　make install
+    echo "${mhashVersion} install completed!"
+}
+
+#===============================================================================================
+#Description:install mcrypt.
+#Usage:install_mcrypt
+#===============================================================================================
+function install_mcrypt(){
+    /sbin/ldconfig
+    cd $cur_dir/untar/$mcryptVersion
+    ./configure
+    make &&　make install
+    echo "${mcryptVersion} install completed!"
+}
+
+#===============================================================================================
+#Description:install re2c.
+#Usage:install_re2c
+#===============================================================================================
+function install_re2c(){
+    cd $cur_dir/untar/$re2cVersion
+    ./configure
+    make &&　make install
+    echo "${re2cVersion} install completed!"
+}
+
+#===============================================================================================
+#Description:install_libedit.
+#Usage:install_libedit
+#===============================================================================================
+function install_libedit(){
+    cd $cur_dir/untar/$libeditVersion
+    ./configure
+    make && make install
+    echo "${libeditVersion} install completed!"
+}
+
+#===============================================================================================
 #Description:install php.
 #Usage:install_php
 #===============================================================================================
@@ -412,7 +427,59 @@ function install_php(){
             ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
         fi
         cd $cur_dir/untar/$PHPVersion
-        ./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs  --with-config-file-path=/usr/local/php/etc --with-mysqli=/usr/local/mysql/bin/mysql_config --with-pdo-mysql --with-mysql-sock=/usr/local/mysql/mysql.sock --with-config-file-scan-dir=/usr/local/php/php.d --with-openssl --with-zlib --with-curl --enable-ftp --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-xmlrpc --enable-calendar --with-imap --with-kerberos --with-imap-ssl --with-ldap --enable-bcmath --enable-exif --enable-wddx --enable-tokenizer --enable-simplexml --enable-sockets --enable-ctype --enable-gd-native-ttf --enable-mbstring --enable-intl --enable-xml --enable-dom --enable-json --enable-session --enable-soap --with-mcrypt --enable-zip --with-iconv=/usr/local/libiconv --with-mysql=/usr/local/mysql --with-icu-dir=/usr --with-mhash=/usr --with-pcre-dir --without-pear --disable-fileinfo
+        ./configure \
+        --prefix=/usr/local/php \
+        --with-apxs2=/usr/local/apache/bin/apxs \
+        --with-config-file-path=/usr/local/php/etc \
+        --with-mysql=/usr/local/mysql \
+        --with-mysqli=/usr/local/mysql/bin/mysql_config \
+        --with-iconv=/usr/local/libiconv \
+        --with-pcre-dir=/usr/local/pcre \
+        --with-mysql-sock=/usr/local/mysql/mysql.sock \
+        --with-config-file-scan-dir=/usr/local/php/php.d \
+        --with-mhash=/usr \
+        --with-icu-dir=/usr \
+        --with-bz2 \
+        --with-curl \
+        --with-freetype-dir \
+        --with-gd \
+        --with-gettext \
+        --with-gmp \
+        --with-imap \
+        --with-imap-ssl \
+        --with-jpeg-dir \
+        --with-kerberos \
+        --with-ldap \
+        --with-mcrypt \
+        --with-openssl \
+        --without-pear \
+        --with-pdo-mysql \
+        --with-png-dir \
+        --with-readline \
+        --with-xmlrpc \
+        --with-xsl \
+        --with-zlib \
+        --enable-bcmath \
+        --enable-calendar \
+        --enable-ctype \
+        --enable-dom \
+        --enable-exif \
+        --enable-ftp \
+        --enable-gd-native-ttf \
+        --enable-intl \
+        --enable-json \
+        --enable-mbstring \
+        --enable-pcntl \
+        --enable-session \
+        --enable-shmop \
+        --enable-simplexml \
+        --enable-soap \
+        --enable-sockets \
+        --enable-tokenizer \
+        --enable-wddx \
+        --enable-xml \
+        --enable-zip \
+        --disable-fileinfo
         if [ $? -ne 0 ]; then
             echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
             exit 1
@@ -425,6 +492,8 @@ function install_php(){
         rm -f /etc/php.ini
         ln -s /usr/local/php/etc/php.ini  /etc/php.ini
         ln -s /usr/local/php/bin/php /usr/bin/php
+        ln -s /usr/local/php/bin/php-config /usr/bin/php-config
+        ln -s /usr/local/php/bin/phpize /usr/bin/phpize
         echo "${PHPVersion} install completed!"
     else
         echo "PHP had been installed!"
@@ -464,11 +533,11 @@ function uninstall_lamp(){
     if [ -z $uninstall ]; then
         uninstall="n"
     fi
-    if [ "$uninstall" != "y" ]; then
+    if [[ "$uninstall" != "y" || "$uninstall" != "Y" ]]; then
         clear
-        echo "==========================="
-        echo "You canceled the uninstall!"
-        echo "==========================="
+        echo "============================"
+        echo "You cancelled the uninstall!"
+        echo "============================"
         exit
     else
         echo "==========================="
@@ -478,19 +547,18 @@ function uninstall_lamp(){
     fi
 
     get_char(){
-    SAVEDSTTY=`stty -g`
-    stty -echo
-    stty cbreak
-    dd if=/dev/tty bs=1 count=1 2> /dev/null
-    stty -raw
-    stty echo
-    stty $SAVEDSTTY
+        SAVEDSTTY=`stty -g`
+        stty -echo
+        stty cbreak
+        dd if=/dev/tty bs=1 count=1 2> /dev/null
+        stty -raw
+        stty echo
+        stty $SAVEDSTTY
     }
-    echo "Press any key to start uninstall..."
-    echo "or Press Ctrl+c to cancel"
+    echo "Press any key to start uninstall LAMP...or Press Ctrl+c to cancel"
     char=`get_char`
     echo ""
-    if [ "$uninstall" == "y" ]  ;then
+    if [[ "$uninstall" = "y" || "$uninstall" = "Y" ]]; then
         killall httpd
         killall mysqld
         chkconfig httpd off
@@ -501,11 +569,13 @@ function uninstall_lamp(){
             rm -f /usr/bin/$tmp
         done
         rm -rf /usr/local/mysql/ /etc/my.cnf /etc/rc.d/init.d/mysqld /etc/ld.so.conf.d/mysql.conf /var/lock/subsys/mysql /var/spool/mail/mysql
-        rm -rf /usr/local/php/ /usr/lib/php /usr/bin/php /etc/php.ini
+        rm -rf /usr/local/php/ /usr/lib/php /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
         rm -rf /data/www/default/phpmyadmin
-        rm -rf /etc/pure-ftpd.conf
-        rm -rf /usr/bin/lamp
+        rm -f /etc/pure-ftpd.conf
+        rm -f /usr/bin/lamp
         echo "Successfully uninstall LAMP!!"
+    else
+        echo "Uninstall cancelled, nothing to do"
     fi
 }
 
