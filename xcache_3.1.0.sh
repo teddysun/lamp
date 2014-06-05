@@ -53,11 +53,9 @@ rm -rf /tmp/{pcov,phpcore}
 mkdir /tmp/{pcov,phpcore}
 chown -R apache:apache /tmp/{pcov,phpcore}
 chmod 700 /tmp/{pcov,phpcore}
-xc=`cat /usr/local/php/etc/php.ini |grep -q "xcache-common" && echo "include" || echo "not"`
-if [ "$xc" = "not" ]; then
+if [ ! -f $PHP_PREFIX/php.d/xcache.ini ]; then
     echo "Xcache configuration not found, create it!"
-    cat >>/usr/local/php/etc/php.ini<<-EOF
-
+    cat > $PHP_PREFIX/php.d/xcache.ini<<-EOF
 [xcache-common]
 extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/xcache.so
 
