@@ -502,7 +502,6 @@ function install_php(){
             echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
             exit 1
         fi
-        make -j $Cpunum
         make ZEND_EXTRA_LIBS='-liconv'
         make install
         mkdir -p /usr/local/php/etc

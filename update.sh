@@ -143,7 +143,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     --with-config-file-path=/usr/local/php/etc \
     --with-mysql=/usr/local/mysql \
     --with-mysqli=/usr/local/mysql/bin/mysql_config \
-    --with-iconv=/usr/local/libiconv \
+    --with-iconv-dir=/usr/local \
     --with-pcre-dir=/usr/local/pcre \
     --with-mysql-sock=/usr/local/mysql/mysql.sock \
     --with-config-file-scan-dir=/usr/local/php/php.d \
@@ -194,7 +194,8 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
         echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
         exit 1
     fi
-    make && make install
+    make ZEND_EXTRA_LIBS='-liconv'
+    make install
     mkdir -p /usr/local/php/etc
     mkdir -p /usr/local/php/php.d
     mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/
