@@ -372,6 +372,10 @@ function install_libiconv(){
     cd $cur_dir/untar/$libiconvVersion
     ./configure --prefix=/usr/local
     make &&　make install
+    if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
+        ln -s /usr/local/lib/libiconv.so.2 /usr/lib64/libiconv.so.2
+    fi
+    ln -s /usr/local/lib/libiconv.so.2 /usr/lib/libiconv.so.2
     echo "${libiconvVersion} install completed!"
 }
 
