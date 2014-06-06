@@ -503,6 +503,7 @@ function install_php(){
             exit 1
         fi
         make -j $Cpunum
+        make ZEND_EXTRA_LIBS='-liconv'
         make install
         mkdir -p /usr/local/php/etc
         mkdir -p /usr/local/php/php.d
