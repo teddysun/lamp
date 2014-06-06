@@ -203,7 +203,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     cp -f /usr/local/php.bak/lib/php/extensions/no-debug-non-zts-20100525/* /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/
     php_d=`ls /usr/local/php.bak/php.d/ | wc -l`
     if [ $php_d -ne 0 ]; then
-        cp -f /usr/local/php.bak/php.d/* /usr/local/php/php.d/*
+        cp -f /usr/local/php.bak/php.d/* /usr/local/php/php.d/
     fi
     # Clean up
     cd $cur_dir
