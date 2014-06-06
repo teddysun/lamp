@@ -371,7 +371,7 @@ function install_pcre(){
 function install_libiconv(){
     cd $cur_dir/untar/$libiconvVersion
     ./configure --prefix=/usr/local
-    make &&　make install
+    make && make install
     if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
         ln -s /usr/local/lib/libiconv.so.2 /usr/lib64/libiconv.so.2
     fi
@@ -386,7 +386,7 @@ function install_libiconv(){
 function install_libmcrypt(){
     cd $cur_dir/untar/$libmcryptVersion
     ./configure
-    make &&　make install
+    make && make install
     echo "${libmcryptVersion} install completed!"
 }
 
@@ -397,7 +397,7 @@ function install_libmcrypt(){
 function install_mhash(){
     cd $cur_dir/untar/$mhashVersion
     ./configure
-    make &&　make install
+    make && make install
     echo "${mhashVersion} install completed!"
 }
 
@@ -409,7 +409,7 @@ function install_mcrypt(){
     /sbin/ldconfig
     cd $cur_dir/untar/$mcryptVersion
     ./configure
-    make &&　make install
+    make && make install
     echo "${mcryptVersion} install completed!"
 }
 
@@ -420,7 +420,7 @@ function install_mcrypt(){
 function install_re2c(){
     cd $cur_dir/untar/$re2cVersion
     ./configure
-    make &&　make install
+    make && make install
     echo "${re2cVersion} install completed!"
 }
 
