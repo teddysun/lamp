@@ -555,17 +555,18 @@ function uninstall_lamp(){
     if [ -z $uninstall ]; then
         uninstall="n"
     fi
-    if [[ "$uninstall" != "y" || "$uninstall" != "Y" ]]; then
+    if [[ "$uninstall" = "y" || "$uninstall" = "Y" ]]; then
         clear
-        echo "============================"
-        echo "You cancelled the uninstall!"
-        echo "============================"
-        exit
-    else
         echo "==========================="
         echo "Yes, I agreed to uninstall!"
         echo "==========================="
         echo ""
+    else
+        echo ""
+        echo "============================"
+        echo "You cancelled the uninstall!"
+        echo "============================"
+        exit
     fi
 
     get_char(){
