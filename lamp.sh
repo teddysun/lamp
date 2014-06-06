@@ -369,14 +369,10 @@ function install_pcre(){
 #Usage:install_libiconv
 #===============================================================================================
 function install_libiconv(){
-if [ ! -d /usr/local/libiconv ];then
     cd $cur_dir/untar/$libiconvVersion
-    ./configure --prefix=/usr/local/libiconv
+    ./configure --prefix=/usr/local
     make &&　make install
     echo "${libiconvVersion} install completed!"
-else
-    echo "libiconv had been installed!"
-fi
 }
 
 #===============================================================================================
@@ -455,11 +451,11 @@ function install_php(){
         --with-config-file-path=/usr/local/php/etc \
         --with-mysql=/usr/local/mysql \
         --with-mysqli=/usr/local/mysql/bin/mysql_config \
-        --with-iconv=/usr/local/libiconv \
         --with-pcre-dir=/usr/local/pcre \
         --with-mysql-sock=/usr/local/mysql/mysql.sock \
         --with-config-file-scan-dir=/usr/local/php/php.d \
         --with-mhash=/usr \
+        --with-iconv \
         --with-icu-dir=/usr \
         --with-bz2 \
         --with-curl \
