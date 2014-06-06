@@ -452,10 +452,10 @@ function install_php(){
         --with-mysql=/usr/local/mysql \
         --with-mysqli=/usr/local/mysql/bin/mysql_config \
         --with-pcre-dir=/usr/local/pcre \
+        --with-iconv-dir=/usr/local \
         --with-mysql-sock=/usr/local/mysql/mysql.sock \
         --with-config-file-scan-dir=/usr/local/php/php.d \
         --with-mhash=/usr \
-        --with-iconv \
         --with-icu-dir=/usr \
         --with-bz2 \
         --with-curl \
