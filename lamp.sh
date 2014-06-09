@@ -177,6 +177,9 @@ function pre_installation_settings(){
     rpm -e --nodeps httpd
     rpm -e --nodeps mysql
     rpm -e --nodeps php
+    yum -y remove httpd
+    yum -y remove mysql
+    yum -y remove php
     #Set timezone
     rm -f /etc/localtime
     ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
