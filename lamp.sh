@@ -619,14 +619,8 @@ function vhost_add(){
     domain=`echo $domains | awk '{print $1}'`
     if [ -f "/usr/local/apache/conf/vhost/$domain.conf" ]; then
         echo "$domain is exist!"
-        exit
+        exit 1
     fi
-    #Define website dir
-    webdir="/data/www/$domain"
-    DocumentRoot="$webdir/web"
-    logsdir="$webdir/logs"
-    mkdir -p $DocumentRoot $logsdir
-    chown -R apache:apache $webdir
     #Create database or not    
     while true
     do
@@ -634,6 +628,15 @@ function vhost_add(){
     case $create in
     y|Y|YES|yes|Yes)
     read -p "(Please input your MySQL root password):" mysqlroot_passwd
+    mysql -uroot -p$mysqlroot_passwd <<EOF
+exit
+EOF
+    if [ $? -eq 0 ]; then
+        echo "MySQL root password is correct.";
+    else
+        echo "MySQL root password incorrect! Please check it and try again!"
+        exit 1
+    fi
     read -p "(Please input the database name):" dbname
     read -p "(Please set the password for mysql user $dbname):" mysqlpwd
     create=y
@@ -647,15 +650,22 @@ function vhost_add(){
     *) echo Please input only y or n
     esac
     done
+
     #Create database
     if [ "$create" == "y" ];then
-    mysql -uroot -p"$mysqlroot_passwd"  <<EOF
+    mysql -uroot -p$mysqlroot_passwd  <<EOF
 CREATE DATABASE IF NOT EXISTS \`$dbname\`;
 GRANT ALL PRIVILEGES ON \`$dbname\` . * TO '$dbname'@'localhost' IDENTIFIED BY '$mysqlpwd';
 GRANT ALL PRIVILEGES ON \`$dbname\` . * TO '$dbname'@'127.0.0.1' IDENTIFIED BY '$mysqlpwd';
 FLUSH PRIVILEGES;
 EOF
     fi
+    #Define website dir
+    webdir="/data/www/$domain"
+    DocumentRoot="$webdir/web"
+    logsdir="$webdir/logs"
+    mkdir -p $DocumentRoot $logsdir
+    chown -R apache:apache $webdir
     #Create vhost configuration file
     cat >/usr/local/apache/conf/vhost/$domain.conf<<EOF
 <virtualhost *:80>
