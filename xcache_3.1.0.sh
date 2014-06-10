@@ -29,7 +29,7 @@ if [ -s xcache-3.1.0.tar.gz ]; then
   echo "xcache-3.1.0.tar.gz [found]"
 else
   echo "xcache-3.1.0.tar.gz not found!!!download now......"
-  if ! wget http://teddysun.googlecode.com/files/xcache-3.1.0.tar.gz;then
+  if ! wget http://lamp.teddysun.com/files/xcache-3.1.0.tar.gz;then
     echo "Failed to download xcache-3.1.0.tar.gz,please download it to $cur_dir directory manually and rerun the install script."
  exit 1
  fi

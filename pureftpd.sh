@@ -20,7 +20,7 @@ if [ -s pure-ftpd-1.0.36.tar.gz ]; then
     echo "pure-ftpd-1.0.36.tar.gz [found]"
 else
     echo "pure-ftpd-1.0.36.tar.gz not found!!!download now......"
-    if ! wget -c http://teddysun.googlecode.com/files/pure-ftpd-1.0.36.tar.gz;then
+    if ! wget -c http://lamp.teddysun.com/files/pure-ftpd-1.0.36.tar.gz;then
         echo "Failed to download pure-ftpd-1.0.36.tar.gz, please download it to $cur_dir directory manually and try again."
         exit 1
     fi
