@@ -587,8 +587,8 @@ function uninstall_lamp(){
     if [[ "$uninstall" = "y" || "$uninstall" = "Y" ]]; then
         killall httpd
         killall mysqld
-        chkconfig httpd off
-        chkconfig mysqld off
+        chkconfig --del httpd
+        chkconfig --del mysqld
         rm -rf /etc/init.d/httpd /usr/local/apache /usr/sbin/httpd /usr/sbin/apachectl /var/log/httpd /var/lock/subsys/httpd /var/spool/mail/apache /etc/logrotate.d/httpd
         for tmp in `ls /usr/local/mysql/bin`
         do
