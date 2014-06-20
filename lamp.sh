@@ -2,34 +2,37 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===============================================================================================
-#   System Required:  CentOS5.x (32bit/64bit) or CentOS6.x (32bit/64bit)
-#   Description:  Install LAMP(Linux + Apache + MySQL + PHP ) for CentOS
+#   System Required:  CentOS / RedHat / Fedora 
+#   Description:  Install LAMP(Linux + Apache + MySQL + PHP ) for CentOS / RedHat / Fedora
 #   Author: Teddysun <i@teddysun.com>
-#   Intro:  https://code.google.com/p/teddysun/
-#           http://teddysun.com/lamp
+#   Intro:  http://teddysun.com/lamp
 #===============================================================================================
 
 clear
 echo "#############################################################"
-echo "# LAMP Auto Install Script for CentOS5.x (32bit/64bit) or CentOS6.x (32bit/64bit)"
+echo "# LAMP Auto Install Script for CentOS / RedHat / Fedora"
 echo "# Intro: http://teddysun.com/lamp"
-echo "#        https://github.com/teddysun/lamp"
-echo "#"
+echo ""
 echo "# Author: Teddysun <i@teddysun.com>"
-echo "#"
+echo ""
 echo "#############################################################"
 echo ""
 
 # Install time state
 StartDate='';
 StartDateSecond='';
+# Current folder
+cur_dir=`pwd`
 # Get IP address
 IP=`ifconfig | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ print $1}' | head -1`;
+#CPU Number
+Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
 # Version
 MySQLVersion='mysql-5.6.19';
+MariaDBVersion='mariadb-5.5.38'
 PHPVersion='php-5.4.29';
 ApacheVersion='httpd-2.4.9';
-phpMyAdminVersion='phpMyAdmin-4.2.2-all-languages';
+phpMyAdminVersion='phpMyAdmin-4.2.3-all-languages';
 aprVersion='apr-1.5.1';
 aprutilVersion='apr-util-1.5.3';
 libiconvVersion='libiconv-1.14';
@@ -48,33 +51,11 @@ function install_lamp(){
     rootness
     disable_selinux
     pre_installation_settings
-    download_files "${MySQLVersion}.tar.gz"
-    download_files "${PHPVersion}.tar.gz"
-    download_files "${ApacheVersion}.tar.gz"
-    download_files "${phpMyAdminVersion}.tar.gz"
-    download_files "${aprVersion}.tar.gz"
-    download_files "${aprutilVersion}.tar.gz"
-    download_files "${libiconvVersion}.tar.gz"
-    download_files "${libmcryptVersion}.tar.gz"
-    download_files "${mhashVersion}.tar.gz"
-    download_files "${mcryptVersion}.tar.gz"
-    download_files "${re2cVersion}.tar.gz"
-    download_files "${pcreVersion}.tar.gz"
-    download_files "${libeditVersion}.tar.gz"
-    #Untar all files
-    if [ -d $cur_dir/untar ]; then
-        rm -rf $cur_dir/untar
-    fi
-    mkdir -p $cur_dir/untar
-    echo "Untar all files, please wait a moment......"
-    for file in `ls *.tar.gz` ;
-    do
-        tar -zxf $file -C $cur_dir/untar
-    done
-    echo "Untar all files completed!"
+    download_all_files
+    untar_all_files
     install_pcre
     install_apache
-    install_mysql
+    install_database
     install_libiconv
     install_libmcrypt
     install_mhash
@@ -83,39 +64,7 @@ function install_lamp(){
     install_libedit
     install_php
     install_phpmyadmin
-    cp -f $cur_dir/lamp.sh /usr/bin/lamp
-    cp -f $cur_dir/conf/httpd.logrotate /etc/logrotate.d/httpd
-    sed -i '/Order/,/All/d' /usr/bin/lamp
-    sed -i "/AllowOverride All/i\Require all granted" /usr/bin/lamp
-    #Clean up
-    rm -rf $cur_dir/untar
-
-    clear
-    #Install completed or not 
-    if [ -s /usr/local/apache ] && [ -s /usr/local/php ] && [ -s /usr/local/mysql ]; then
-        echo ""
-        echo 'Congratulations, LAMP install completed!'
-        echo "Your Default Website: http://${IP}"
-        echo 'Default WebSite Root Dir: /data/www/default'
-        echo 'Apache Dir: /usr/local/apache'
-        echo 'PHP Dir: /usr/local/php'
-        echo "MySQL root password:$mysqlrootpwd"
-        echo "MySQL data location:$mysqldata"
-        echo -e "Installed Apache version:\033[41;37m ${ApacheVersion} \033[0m"
-        echo -e "Installed MySQL version:\033[41;37m ${MySQLVersion} \033[0m"
-        echo -e "Installed PHP version:\033[41;37m ${PHPVersion} \033[0m"
-        echo -e "Installed phpMyAdmin version:\033[41;37m ${phpMyAdminVersion} \033[0m"
-        echo ""
-        echo "Start time: ${StartDate}"
-        echo -e "Completion time: $(date) (Use:\033[41;37m $[($(date +%s)-StartDateSecond)/60] \033[0m minutes)"
-        echo "Welcome to visit:http://teddysun.com/lamp"
-        echo "Enjoy it! ^_^"
-        echo ""
-    else
-        echo ""
-        echo 'Sorry, Failed to install LAMP!';
-        echo 'Please contact: http://teddysun.com/lamp';
-    fi
+    install_cleanup
 }
 
 #===============================================================================================
@@ -146,19 +95,60 @@ fi
 #Usage:pre_installation_settings
 #===============================================================================================
 function pre_installation_settings(){
-    #Set MySQL root password
-    echo "Please input the root password of MySQL:"
-    read -p "(Default password: root):" mysqlrootpwd
-    if [ "$mysqlrootpwd" = "" ]; then
-        mysqlrootpwd="root"
+    # Choose databese
+    while true
+    do
+    echo "Please choose a version of the Database:"
+    echo -e "\t\033[32m1\033[0m. Install MariaDB-5.5(recommend)"
+    echo -e "\t\033[32m2\033[0m. Install MySQL-5.6"
+    read -p "Please input a number:(Default 1) " DB_version
+    [ -z "$DB_version" ] && DB_version=1
+    case $DB_version in
+        1|2)
+        echo ""
+        echo "---------------------------"
+        echo "You choose = $DB_version"
+        echo "---------------------------"
+        echo ""
+        break
+        ;;
+        *)
+        echo "Input error! Please only input number 1,2"
+    esac
+    done
+    # Set MySQL or MariaDB root password
+    echo "Please input the root password of MySQL or MariaDB:"
+    read -p "(Default password: root):" dbrootpwd
+    if [ "$dbrootpwd" = "" ]; then
+        dbrootpwd="root"
     fi
-    echo "MySQL password:$mysqlrootpwd"
-    echo "####################################"
-    #Define the MySQL data location.
-    echo "Please input the MySQL data location:"
-    read -p "(leave blank for /usr/local/mysql/data):" mysqldata
-    [ "$mysqldata" = "" ] && mysqldata="/usr/local/mysql/data"
-    echo "MySQL data location:$mysqldata"
+    echo ""
+    echo "---------------------------"
+    echo "Password = $dbrootpwd"
+    echo "---------------------------"
+    echo ""
+    if [ $DB_version -eq 1 ]; then
+        # Define the MariaDB data location.
+        echo "Please input the MariaDB data location:"
+        read -p "(leave blank for /usr/local/mariadb/data):" datalocation
+        [ -z "$datalocation" ] && datalocation="/usr/local/mariadb/data"
+        echo ""
+        echo "---------------------------"
+        echo "Data location = $datalocation"
+        echo "---------------------------"
+        echo ""
+    elif [ $DB_version -eq 2 ]; then
+        # Define the MySQL data location.
+        echo "Please input the MySQL data location:"
+        read -p "(leave blank for /usr/local/mysql/data):" datalocation
+        [ -z "$datalocation" ] && datalocation="/usr/local/mysql/data"
+        echo ""
+        echo "---------------------------"
+        echo "Data location = $datalocation"
+        echo "---------------------------"
+        echo ""
+    fi
+
     get_char(){
         SAVEDSTTY=`stty -g`
         stty -echo
@@ -171,8 +161,7 @@ function pre_installation_settings(){
     echo ""
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=`get_char`
-    #CPU Number
-    Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
+
     #Remove Packages
     rpm -e --nodeps httpd
     rpm -e --nodeps mysql
@@ -196,16 +185,38 @@ function pre_installation_settings(){
     packages="wget autoconf automake bison bzip2 bzip2-devel curl curl-devel cmake cpp crontabs diffutils elinks e2fsprogs-devel expat-devel file flex freetype-devel gcc gcc-c++ gd glibc-devel glib2-devel gettext-devel gmp-devel icu kernel-devel libaio libtool-libs libjpeg-devel libpng-devel libxslt libxslt-devel libxml2 libxml2-devel libidn-devel libcap-devel libtool-ltdl-devel libmcrypt-devel libc-client-devel libicu libicu-devel zip zlib-devel unzip patch mlocate make ncurses-devel readline readline-devel vim-minimal sendmail pam-devel pcre pcre-devel openldap openldap-devel openssl openssl-devel perl-DBD-MySQL"
     for package in $packages;
     do yum -y install $package; done
-    #Current folder
-    cur_dir=`pwd`
-    cd $cur_dir
 }
 
 #===============================================================================================
-#Description:download files.
-#Usage:download_files [filename]
+#Description:download all files.
+#Usage:download_all_files
 #===============================================================================================
-function download_files(){
+function download_all_files(){
+    cd $cur_dir
+    if [ $DB_version -eq 1 ]; then
+        download_file "${MariaDBVersion}.tar.gz"
+    elif [ $DB_version -eq 2 ]; then
+        download_file "${MySQLVersion}.tar.gz"
+    fi
+    download_file "${PHPVersion}.tar.gz"
+    download_file "${ApacheVersion}.tar.gz"
+    download_file "${phpMyAdminVersion}.tar.gz"
+    download_file "${aprVersion}.tar.gz"
+    download_file "${aprutilVersion}.tar.gz"
+    download_file "${libiconvVersion}.tar.gz"
+    download_file "${libmcryptVersion}.tar.gz"
+    download_file "${mhashVersion}.tar.gz"
+    download_file "${mcryptVersion}.tar.gz"
+    download_file "${re2cVersion}.tar.gz"
+    download_file "${pcreVersion}.tar.gz"
+    download_file "${libeditVersion}.tar.gz"
+}
+
+#===============================================================================================
+#Description:download file.
+#Usage:download_file [filename]
+#===============================================================================================
+function download_file(){
 if [ -s $1 ]; then
     echo "$1 [found]"
 else
@@ -215,6 +226,24 @@ else
         exit 1
     fi
 fi
+}
+
+#===============================================================================================
+#Description:Install Apache.
+#Usage:install_apache
+#===============================================================================================
+function untar_all_files(){
+    echo "Untar all files, please wait a moment..."
+    #Untar all files
+    if [ -d $cur_dir/untar ]; then
+        rm -rf $cur_dir/untar
+    fi
+    mkdir -p $cur_dir/untar
+    for file in `ls *.tar.gz`;
+    do
+        tar -zxf $file -C $cur_dir/untar
+    done
+    echo "Untar all files completed!"
 }
 
 #===============================================================================================
@@ -281,6 +310,96 @@ function install_apache(){
         echo "Apache had been installed!"
     fi
 }
+
+#===============================================================================================
+#Description:install database.
+#Usage:install_database
+#===============================================================================================
+function install_database(){
+    if [ $DB_version -eq 1 ]; then
+        install_mariadb
+    elif [ $DB_version -eq 2 ]; then
+        install_mysql
+    fi
+}
+
+#===============================================================================================
+#Description:install mariadb.
+#Usage:install_mariadb
+#===============================================================================================
+function install_mariadb(){
+    if [ ! -d /usr/local/mariadb ];then
+        #install MariaDB
+        echo "Start Installing ${MariaDBVersion}"
+        cd $cur_dir/
+        /usr/sbin/groupadd mysql
+        /usr/sbin/useradd -s /sbin/nologin -M -g mysql mysql
+        cd $cur_dir/untar/$MariaDBVersion
+        cmake \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/mariadb \
+        -DMYSQL_DATADIR=$datalocation \
+        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+        -DWITH_ARIA_STORAGE_ENGINE=1 \
+        -DWITH_XTRADB_STORAGE_ENGINE=1 \
+        -DWITH_ARCHIVE_STORAGE_ENGINE=1 \
+        -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+        -DWITH_PARTITION_STORAGE_ENGINE=1 \
+        -DWITH_FEDERATEDX_STORAGE_ENGINE=1 \
+        -DWITH_BLACKHOLE_STORAGE_ENGINE=1 \
+        -DWITH_MYISAM_STORAGE_ENGINE=1 \
+        -DWITH_READLINE=1 \
+        -DENABLED_LOCAL_INFILE=1 \
+        -DDEFAULT_CHARSET=utf8 \
+        -DDEFAULT_COLLATION=utf8_general_ci \
+        -DWITH_EMBEDDED_SERVER=1
+        make -j $Cpunum
+        make install
+        if [ $? -ne 0 ]; then
+            echo "Installing MariaDB failed, Please visit http://teddysun.com/lamp and contact."
+            exit 1
+        fi
+        chmod +w /usr/local/mariadb
+        chown -R mysql:mysql /usr/local/mariadb
+        cp -f $cur_dir/conf/my5.6.cnf /etc/my.cnf
+        cp support-files/mysql.server /etc/init.d/mysqld
+        sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
+        chmod +x /etc/rc.d/init.d/mysqld
+        chkconfig --add mysqld
+        chkconfig mysqld on
+        /usr/local/mariadb/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mariadb --datadir=$datalocation --user=mysql
+        cat > /etc/ld.so.conf.d/mariadb.conf<<EOF
+/usr/local/mariadb/lib/mysql
+/usr/local/lib
+EOF
+        ldconfig
+        if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
+            ln -s /usr/local/mariadb/lib/mysql /usr/lib64/mysql
+        else
+            ln -s /usr/local/mariadb/lib/mysql /usr/lib/mysql
+        fi
+        for i in `ls /usr/local/mariadb/bin`
+        do
+            if [ ! -L /usr/bin/$i ]; then
+                ln -s /usr/local/mariadb/bin/$i /usr/bin/$i
+            fi
+        done
+        #Start mysqld service
+        service mysqld start
+        /usr/local/mariadb/bin/mysqladmin password $dbrootpwd
+        /usr/local/mariadb/bin/mysql -uroot -p$dbrootpwd <<EOF
+drop database if exists test;
+delete from mysql.user where user='';
+update mysql.user set password=password('$dbrootpwd') where user='root';
+delete from mysql.user where not (user='root') ;
+flush privileges;
+exit
+EOF
+        echo "${MariaDBVersion} Install completed!"
+    else
+        echo "MariaDB had been installed!"
+    fi
+}
+
 #===============================================================================================
 #Description:install mysql.
 #Usage:install_mysql
@@ -295,13 +414,18 @@ function install_mysql(){
         cd $cur_dir/untar/$MySQLVersion
         cmake \
         -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
-        -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock \
+        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
         -DDEFAULT_CHARSET=utf8 \
         -DDEFAULT_COLLATION=utf8_general_ci \
         -DWITH_EXTRA_CHARSETS=complex \
         -DWITH_INNOBASE_STORAGE_ENGINE=1 \
         -DWITH_READLINE=1 \
-        -DENABLED_LOCAL_INFILE=1
+        -DENABLED_LOCAL_INFILE=1 \
+        -DWITH_PARTITION_STORAGE_ENGINE=1 \
+        -DWITH_FEDERATED_STORAGE_ENGINE=1 \
+        -DWITH_BLACKHOLE_STORAGE_ENGINE=1 \
+        -DWITH_MYISAM_STORAGE_ENGINE=1 \
+        -DWITH_EMBEDDED_SERVER=1
         make -j $Cpunum
         make install
         if [ $? -ne 0 ]; then
@@ -313,8 +437,8 @@ function install_mysql(){
         cd support-files/
         cp -f $cur_dir/conf/my5.6.cnf /etc/my.cnf
         cp -f mysql.server /etc/init.d/mysqld
-        sed -i "s:^datadir=.*:datadir=$mysqldata:g" /etc/init.d/mysqld
-        /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=$mysqldata --user=mysql
+        sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
+        /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=$datalocation --user=mysql
         chmod +x /etc/rc.d/init.d/mysqld
         chkconfig --add mysqld
         chkconfig  mysqld on
@@ -336,11 +460,11 @@ EOF
         done
         #Start mysqld service
         service mysqld start
-        /usr/local/mysql/bin/mysqladmin password $mysqlrootpwd
-        mysql -uroot -p$mysqlrootpwd <<EOF
+        /usr/local/mysql/bin/mysqladmin password $dbrootpwd
+        /usr/local/mysql/bin/mysql -uroot -p$dbrootpwd <<EOF
 drop database if exists test;
 delete from mysql.user where user='';
-update mysql.user set password=password('$mysqlrootpwd') where user='root';
+update mysql.user set password=password('$dbrootpwd') where user='root';
 delete from mysql.user where not (user='root') ;
 flush privileges;
 exit
@@ -451,16 +575,23 @@ function install_php(){
             cp -frp /usr/lib64/libldap* /usr/lib/
             ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
         fi
+        if [ $DB_version -eq 1 ]; then
+            WITH_MYSQL="/usr/local/mariadb"
+            WITH_MYSQLI="/usr/local/mariadb/bin/mysql_config"
+        elif [ $DB_version -eq 2 ]; then
+            WITH_MYSQL="/usr/local/mysql"
+            WITH_MYSQLI="/usr/local/mysql/bin/mysql_config"
+        fi
         cd $cur_dir/untar/$PHPVersion
         ./configure \
         --prefix=/usr/local/php \
         --with-apxs2=/usr/local/apache/bin/apxs \
         --with-config-file-path=/usr/local/php/etc \
-        --with-mysql=/usr/local/mysql \
-        --with-mysqli=/usr/local/mysql/bin/mysql_config \
+        --with-mysql=$WITH_MYSQL \
+        --with-mysqli=$WITH_MYSQLI \
         --with-pcre-dir=/usr/local/pcre \
         --with-iconv-dir=/usr/local \
-        --with-mysql-sock=/usr/local/mysql/mysql.sock \
+        --with-mysql-sock=/tmp/mysql.sock \
         --with-config-file-scan-dir=/usr/local/php/php.d \
         --with-mhash=/usr \
         --with-icu-dir=/usr \
@@ -513,9 +644,10 @@ function install_php(){
         make install
         mkdir -p /usr/local/php/etc
         mkdir -p /usr/local/php/php.d
+        mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525
         cp -f $cur_dir/conf/php5.4.ini /usr/local/php/etc/php.ini
         rm -f /etc/php.ini
-        ln -s /usr/local/php/etc/php.ini  /etc/php.ini
+        ln -s /usr/local/php/etc/php.ini /etc/php.ini
         ln -s /usr/local/php/bin/php /usr/bin/php
         ln -s /usr/local/php/bin/php-config /usr/bin/php-config
         ln -s /usr/local/php/bin/phpize /usr/bin/phpize
@@ -535,7 +667,7 @@ function install_phpmyadmin(){
         mv untar/$phpMyAdminVersion /data/www/default/phpmyadmin
         cp -f $cur_dir/conf/config.inc.php /data/www/default/phpmyadmin/config.inc.php
         #Create phpmyadmin database
-        mysql -uroot -p$mysqlrootpwd < /data/www/default/phpmyadmin/examples/create_tables.sql
+        mysql -uroot -p$dbrootpwd < /data/www/default/phpmyadmin/examples/create_tables.sql
         chmod -R 755 /data/www/default/phpmyadmin
         mkdir -p /data/www/default/phpmyadmin/upload/
         mkdir -p /data/www/default/phpmyadmin/save/
@@ -546,6 +678,55 @@ function install_phpmyadmin(){
     fi
     #Start httpd service
     service httpd start
+}
+
+#===============================================================================================
+#Description:install cleanup.
+#Usage:install_cleanup
+#===============================================================================================
+function install_cleanup(){
+    cp -f $cur_dir/lamp.sh /usr/bin/lamp
+    cp -f $cur_dir/conf/httpd.logrotate /etc/logrotate.d/httpd
+    sed -i '/Order/,/All/d' /usr/bin/lamp
+    sed -i "/AllowOverride All/i\Require all granted" /usr/bin/lamp
+    #Clean up
+    rm -rf $cur_dir/untar
+
+    clear
+    #Install completed or not 
+    if [ -s /usr/local/apache ] && [ -s /usr/local/php ] && [ -s /usr/local/mysql -o -s /usr/local/mariadb ]; then
+        echo ""
+        echo 'Congratulations, LAMP install completed!'
+        echo "Your Default Website: http://${IP}"
+        echo 'Default WebSite Root Dir: /data/www/default'
+        echo 'Apache Dir: /usr/local/apache'
+        echo 'PHP Dir: /usr/local/php'
+        if [ $DB_version -eq 1 ]; then
+            echo "MariaDB root password:$dbrootpwd"
+            echo "MariaDB data location:$datalocation"
+        elif [ $DB_version -eq 2 ]; then
+            echo "MySQL root password:$dbrootpwd"
+            echo "MySQL data location:$datalocation"
+        fi
+        echo -e "Installed Apache version:\033[41;37m ${ApacheVersion} \033[0m"
+        if [ $DB_version -eq 1 ]; then
+            echo -e "Installed MariaDB version:\033[41;37m ${MariaDBVersion} \033[0m"
+        elif [ $DB_version -eq 2 ]; then
+            echo -e "Installed MySQL version:\033[41;37m ${MySQLVersion} \033[0m"
+        fi
+        echo -e "Installed PHP version:\033[41;37m ${PHPVersion} \033[0m"
+        echo -e "Installed phpMyAdmin version:\033[41;37m ${phpMyAdminVersion} \033[0m"
+        echo ""
+        echo "Start time: ${StartDate}"
+        echo -e "Completion time: $(date) (Use:\033[41;37m $[($(date +%s)-StartDateSecond)/60] \033[0m minutes)"
+        echo "Welcome to visit:http://teddysun.com/lamp"
+        echo "Enjoy it!"
+        echo ""
+    else
+        echo ""
+        echo 'Sorry, Failed to install LAMP!';
+        echo 'Please contact: http://teddysun.com/lamp';
+    fi
 }
 
 #===============================================================================================
@@ -582,21 +763,31 @@ function uninstall_lamp(){
         stty $SAVEDSTTY
     }
     echo "Press any key to start uninstall LAMP...or Press Ctrl+c to cancel"
-    char=`get_char`
     echo ""
+    char=`get_char`
+
     if [[ "$uninstall" = "y" || "$uninstall" = "Y" ]]; then
         killall httpd
         killall mysqld
         chkconfig --del httpd
         chkconfig --del mysqld
         rm -rf /etc/init.d/httpd /usr/local/apache /usr/sbin/httpd /usr/sbin/apachectl /var/log/httpd /var/lock/subsys/httpd /var/spool/mail/apache /etc/logrotate.d/httpd
-        for tmp in `ls /usr/local/mysql/bin`
-        do
-            rm -f /usr/bin/$tmp
-        done
-        rm -rf /usr/local/mysql/ /etc/my.cnf /etc/rc.d/init.d/mysqld /etc/ld.so.conf.d/mysql.conf /var/lock/subsys/mysql /var/spool/mail/mysql
-        rm -rf /usr/local/php/ /usr/lib/php /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
+        if [ -d /usr/local/mysql ]; then
+            for tmp1 in `ls /usr/local/mysql/bin`
+            do
+                rm -f /usr/bin/$tmp1
+            done
+        fi
+        if [ -d /usr/local/mariadb ]; then
+            for tmp2 in `ls /usr/local/mariadb/bin`
+            do
+                rm -f /usr/bin/$tmp2
+            done
+        fi
+        rm -rf /usr/local/mysql /usr/local/mariadb /usr/lib64/mysql /usr/lib/mysql /etc/my.cnf /etc/rc.d/init.d/mysqld /etc/ld.so.conf.d/mysql.conf /etc/ld.so.conf.d/mariadb.conf /var/lock/subsys/mysql
+        rm -rf /usr/local/php /usr/lib/php /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
         rm -rf /data/www/default/phpmyadmin
+        rm -rf /data/www/default/xcache
         rm -f /etc/pure-ftpd.conf
         rm -f /usr/bin/lamp
         echo "Successfully uninstall LAMP!!"
@@ -627,18 +818,32 @@ function vhost_add(){
     read -p "(Do you want to create database?[y/N]):" create
     case $create in
     y|Y|YES|yes|Yes)
-    read -p "(Please input your MySQL root password):" mysqlroot_passwd
-    mysql -uroot -p$mysqlroot_passwd <<EOF
+    if [ -d /usr/local/mysql ]; then
+        read -p "(Please input your MySQL root password):" mysqlroot_passwd
+        mysql -uroot -p$mysqlroot_passwd <<EOF
 exit
 EOF
-    if [ $? -eq 0 ]; then
-        echo "MySQL root password is correct.";
-    else
-        echo "MySQL root password incorrect! Please check it and try again!"
-        exit 1
+        if [ $? -eq 0 ]; then
+            echo "MySQL root password is correct.";
+        else
+            echo "MySQL root password incorrect! Please check it and try again!"
+            exit 1
+        fi
+    elif [ -d /usr/local/mariadb ]; then
+        read -p "(Please input your MariaDB root password):" mysqlroot_passwd
+        mysql -uroot -p$mysqlroot_passwd <<EOF
+exit
+EOF
+        if [ $? -eq 0 ]; then
+            echo "MariaDB root password is correct.";
+        else
+            echo "MariaDB root password incorrect! Please check it and try again!"
+            exit 1
+        fi
     fi
+
     read -p "(Please input the database name):" dbname
-    read -p "(Please set the password for mysql user $dbname):" mysqlpwd
+    read -p "(Please set the password for user $dbname):" mysqlpwd
     create=y
     break
     ;;
@@ -688,7 +893,7 @@ EOF
     echo "######################### information about your website ############################"
     echo "The DocumentRoot:$DocumentRoot"
     echo "The Logsdir:$logsdir"
-    [ "$create" == "y" ] && echo "MySQL dbname and user:$dbname and password:$mysqlpwd"
+    [ "$create" == "y" ] && echo "database name and user:$dbname, password:$mysqlpwd"
 }
 
 #===============================================================================

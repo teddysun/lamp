@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===============================================================================================
-#   System Required:  CentOS5.x (32bit/64bit) or CentOS6.x (32bit/64bit)
+#   System Required:  CentOS / RedHat / Fedora
 #   Description:  Auto Update Script for PHP && phpMyAdmin
 #   Author: Teddysun <i@teddysun.com>
 #   Intro:  http://teddysun.com/lamp
@@ -16,16 +16,16 @@ cur_dir=`pwd`
 clear
 echo "#############################################################"
 echo "# Auto Update Script for PHP && phpMyAdmin"
-echo "# System Required:  CentOS5.x (32bit/64bit) or CentOS6.x (32bit/64bit)"
+echo "# System Required:  CentOS / RedHat / Fedora"
 echo "# Intro: http://teddysun.com/lamp"
-echo "#"
+echo ""
 echo "# Author: Teddysun <i@teddysun.com>"
-echo "#"
+echo ""
 echo "#############################################################"
 echo ""
 
 #Description:PHP5 Update
-if [ ! -s /usr/bin/php ]; then
+if [ ! -L /usr/bin/php ]; then
     ln -s /usr/local/php/bin/php /usr/bin/php
 fi
 
@@ -136,16 +136,26 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
         tar -zxf php-$LATEST_PHP.tar.gz
         cd php-$LATEST_PHP/
     fi
+    if [ -d /usr/local/mariadb ]; then
+        WITH_MYSQL="/usr/local/mariadb"
+        WITH_MYSQLI="/usr/local/mariadb/bin/mysql_config"
+    elif [ -d /usr/local/mysql ]; then
+        WITH_MYSQL="/usr/local/mysql"
+        WITH_MYSQLI="/usr/local/mysql/bin/mysql_config"
+    else
+        echo "MySQL or MariaDB not installed, Please check it and try again."
+        exit 1
+    fi
     
     ./configure \
     --prefix=/usr/local/php \
     --with-apxs2=/usr/local/apache/bin/apxs \
     --with-config-file-path=/usr/local/php/etc \
-    --with-mysql=/usr/local/mysql \
-    --with-mysqli=/usr/local/mysql/bin/mysql_config \
+    --with-mysql=$WITH_MYSQL \
+    --with-mysqli=$WITH_MYSQLI \
     --with-iconv-dir=/usr/local \
     --with-pcre-dir=/usr/local/pcre \
-    --with-mysql-sock=/usr/local/mysql/mysql.sock \
+    --with-mysql-sock=/tmp/mysql.sock \
     --with-config-file-scan-dir=/usr/local/php/php.d \
     --with-mhash=/usr \
     --with-icu-dir=/usr \
