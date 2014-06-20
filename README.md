@@ -8,11 +8,11 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2014年06月05日
+* 日期：2014年06月20日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
-* 支持 MySQL 和 SQLite 数据库;
+* 支持 MySQL ，MariaDB， SQLite 数据库;
 * 支持 XCache (可选安装)；
 * 支持 Zend Guard Loader (可选安装)；
 * 支持 OCI8 （可让 PHP 连接 Oracle 数据库，可选安装）；
@@ -25,9 +25,9 @@
 
 ## 将会安装
 * 1、Apache 2.4.9
-* 2、MySQL 5.6.19
+* 2、MySQL 5.6.19 或 MariaDB 5.5.38
 * 3、PHP 5.4.29
-* 4、phpMyAdmin 4.2.2
+* 4、phpMyAdmin 4.2.3
 * 5、xcache 3.1.0 (推荐安装)
 * 6、OCI8 2.0.8（支持PHP连接Oracle数据库，可选安装）
 * 7、pure-ftpd 1.0.36（可选安装）
@@ -49,13 +49,14 @@
 
 ### 安装其它：
 
-* 1、（推荐安装）执行脚本 xcache_3.1.0.sh 安装 xcache 3.1.0。(命令：./xcache_3.1.0.sh)
+* 1、（推荐安装）执行脚本 xcache.sh 安装 xcache 。(命令：./xcache.sh)
 * 2、（可选安装）执行脚本 php5.4_oci8_oracle11g.sh 安装 OCI8 扩展以及 oracle-instantclient11.2（命令：./php5.4_oci8_oracle11g.sh）
 * 3、（可选安装）执行脚本 pureftpd.sh 安装 pure-ftpd-1.0.36。(命令：./pureftpd.sh)
 * 4、（可选安装）执行脚本 ZendGuardLoader.sh 安装 Zend Guard Loader。(命令：./ZendGuardLoader.sh)
 * 5、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：./ioncube.sh)
 * 6、（升级脚本）执行脚本 update.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./update.sh | tee update.log)
 * 7、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
+* 8、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至 5.5.x 的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
 
 ### 关于update.sh
 
@@ -71,11 +72,20 @@
 
 ### 关于upgrade_mysql.sh
 
-新增upgrade_mysql.sh脚本，目的是为了自动检测和升级MySQL。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
+新增upgrade_mysql.sh脚本，目的是为了自动检测和升级 MySQL。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
 
 **使用方法：**
 
     ./upgrade_mysql.sh | tee upgrade_mysql.log
+
+
+### upgrade_mariadb.sh
+
+新增upgrade_mariadb.sh脚本，目的是为了自动检测和升级 MariaDB。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
+
+**使用方法：**
+
+    ./upgrade_mariadb.sh | tee upgrade_mariadb.log
 
 **FAQ**
 
@@ -115,25 +125,27 @@
 
 ##程序目录：
 
-* mysql安装目录: /usr/local/mysql
-* mysql data目录：/usr/local/mysql/data（默认路径，安装时可更改）
+* MySQL安装目录: /usr/local/mysql
+* MySQL数据库目录：/usr/local/mysql/data（默认路径，安装时可更改）
+* MariaDB安装目录: /usr/local/mariadb
+* MariaDB数据库目录：/usr/local/mariadb/data（默认路径，安装时可更改）
 * php安装目录: /usr/local/php
 * apache安装目录： /usr/local/apache
 
 ##命令一览：
-* mysql命令: 
+* MySQL 或 MariaDB 命令: 
 
         /etc/init.d/mysqld(start|stop|restart|reload|status)
         service mysqld(start|stop|restart|reload|status)
 
-* apache命令: 
+* Apache 命令: 
 
         /etc/init.d/httpd(start|stop|restart|reload|status)
         service httpd(start|stop|restart|reload|status)      
 
 ##网站根目录：
 
-安装完后默认的web根目录： /data/www/default
+安装完后默认的网站根目录： /data/www/default
 
 如果你在安装后使用遇到问题，请访问 [http://teddysun.com/lamp](http://teddysun.com/lamp) 或发邮件至 i@teddysun.com。
 
