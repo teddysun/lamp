@@ -58,7 +58,7 @@
 * 7、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至 5.6.x 的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
 * 8、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至 5.5.x 的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
 
-### 关于update.sh
+### 关于 update.sh
 
 新增update.sh脚本，目的是为了自动检测和升级PHP和phpMyAdmin。这两种软件版本更新比较频繁，因此才会有此脚本，一劳永逸。
 
@@ -70,7 +70,7 @@
 
     ./update.sh | tee update.log
 
-### 关于upgrade_mysql.sh
+### 关于 upgrade_mysql.sh
 
 新增upgrade_mysql.sh脚本，目的是为了自动检测和升级 MySQL。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
 
@@ -79,7 +79,7 @@
     ./upgrade_mysql.sh | tee upgrade_mysql.log
 
 
-### upgrade_mariadb.sh
+### 关于 upgrade_mariadb.sh
 
 新增upgrade_mariadb.sh脚本，目的是为了自动检测和升级 MariaDB。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
 
