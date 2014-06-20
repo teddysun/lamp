@@ -55,7 +55,7 @@
 * 4、（可选安装）执行脚本 ZendGuardLoader.sh 安装 Zend Guard Loader。(命令：./ZendGuardLoader.sh)
 * 5、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：./ioncube.sh)
 * 6、（升级脚本）执行脚本 update.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./update.sh | tee update.log)
-* 7、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
+* 7、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至 5.6.x 的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
 * 8、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至 5.5.x 的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
 
 ### 关于update.sh
