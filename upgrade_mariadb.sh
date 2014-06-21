@@ -13,7 +13,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [ ! -d /usr/local/mariadb ]; then
-    echo "MariaDB looks like not installed, please check it and try again."
+    echo "Error:MariaDB looks like not installed, please check it and try again."
     exit 1
 fi
 

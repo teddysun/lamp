@@ -13,7 +13,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [ ! -d /usr/local/mysql ]; then
-    echo "MySQL looks like not installed, please check it and try again."
+    echo "Error:MySQL looks like not installed, please check it and try again."
     exit 1
 fi
 
