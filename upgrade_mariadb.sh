@@ -12,6 +12,11 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+if [ ! -d /usr/local/mariadb ]; then
+    echo "MariaDB looks like not installed, please check it and try again."
+    exit 1
+fi
+
 clear
 echo "#############################################################"
 echo "# Auto Update Script for MariaDB"
