@@ -33,10 +33,16 @@ bkup_dir="$cur_dir/mysql_bkup"
 update_date=`date +"%Y%m%d"`
 mysql_dump="/$bkup_dir/mysql_all_backup_$update_date.dump"
 
-LATEST_MARIADB=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/5.5/{print $3}' )
 INSTALLED_MARIADB=$(/usr/local/mariadb/bin/mysql -V | awk '{print $5}' | tr -d "," | cut -d- -f1)
+INSTALLED_MARIADB_SHORT=$(/usr/local/mariadb/bin/mysql -V | awk '{print $5}' | tr -d "," | cut -d- -f1 | awk -F. '{print $1$2}')
 
-echo -e "Latest version of MariaDB: \033[41;37m $LATEST_MARIADB \033[0m"
+if [ $INSTALLED_MARIADB_SHORT -eq 55 ]; then
+    LATEST_MARIADB=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/5.5/{print $3}')
+    echo -e "Latest version of MariaDB: \033[41;37m $LATEST_MARIADB \033[0m"
+elif [ $INSTALLED_MARIADB_SHORT -eq 100 ];then
+    LATEST_MARIADB2=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}')
+    echo -e "Latest version of MariaDB: \033[41;37m $LATEST_MARIADB2 \033[0m"
+fi
 echo -e "Installed version of MariaDB: \033[41;37m $INSTALLED_MARIADB \033[0m"
 echo ""
 echo "Do you want to upgrade MariaDB ? (y/n)"
@@ -164,16 +170,28 @@ function upgrade_mariadb() {
         rm -rf /usr/local/mariadb.bak/
     fi
     mv /usr/local/mariadb /usr/local/mariadb.bak
-    cd $cur_dir
-    if [ ! -s mariadb-$LATEST_MARIADB.tar.gz ]; then
-        LATEST_MARIADB_LINK="http://mirror.jmu.edu/pub/mariadb/mariadb-$LATEST_MARIADB/source/mariadb-$LATEST_MARIADB.tar.gz"
-        BACKUP_MARIADB_LINK="http://lamp.teddysun.com/files/mariadb-$LATEST_MARIADB.tar.gz"
-        untar $LATEST_MARIADB_LINK $BACKUP_MARIADB_LINK
-    else
-        tar -zxf mariadb-$LATEST_MARIADB.tar.gz
-        cd mariadb-$LATEST_MARIADB/
-    fi
     datalocation=$(cat /$bkup_dir/mysqld_$update_date.bak | grep -w 'datadir=' | awk -F= '{print $2}' | head -1)
+    cd $cur_dir
+    if [ $INSTALLED_MARIADB_SHORT -eq 55 ]; then
+        if [ ! -s mariadb-$LATEST_MARIADB.tar.gz ]; then
+            LATEST_MARIADB_LINK="http://mirror.jmu.edu/pub/mariadb/mariadb-$LATEST_MARIADB/source/mariadb-$LATEST_MARIADB.tar.gz"
+            BACKUP_MARIADB_LINK="http://lamp.teddysun.com/files/mariadb-$LATEST_MARIADB.tar.gz"
+            untar $LATEST_MARIADB_LINK $BACKUP_MARIADB_LINK
+        else
+            tar -zxf mariadb-$LATEST_MARIADB.tar.gz
+            cd mariadb-$LATEST_MARIADB/
+        fi
+    elif [ $INSTALLED_MARIADB_SHORT -eq 100 ];then
+        if [ ! -s mariadb-$LATEST_MARIADB2.tar.gz ]; then
+            LATEST_MARIADB_LINK="http://mirror.jmu.edu/pub/mariadb/mariadb-$LATEST_MARIADB2/source/mariadb-$LATEST_MARIADB2.tar.gz"
+            BACKUP_MARIADB_LINK="http://lamp.teddysun.com/files/mariadb-$LATEST_MARIADB2.tar.gz"
+            untar $LATEST_MARIADB_LINK $BACKUP_MARIADB_LINK
+        else
+            tar -zxf mariadb-$LATEST_MARIADB2.tar.gz
+            cd mariadb-$LATEST_MARIADB2/
+        fi
+    fi
+
     # Compile MariaDB
     cmake \
     -DCMAKE_INSTALL_PREFIX=/usr/local/mariadb \
@@ -201,7 +219,11 @@ function upgrade_mariadb() {
 /usr/local/lib
 EOF
     ldconfig
-    cp -f $cur_dir/mariadb-$LATEST_MARIADB/support-files/mysql.server /etc/init.d/mysqld
+    if [ $INSTALLED_MARIADB_SHORT -eq 55 ]; then
+        cp -f $cur_dir/mariadb-$LATEST_MARIADB/support-files/mysql.server /etc/init.d/mysqld
+    elif [ $INSTALLED_MARIADB_SHORT -eq 100 ]; then
+        cp -f $cur_dir/mariadb-$LATEST_MARIADB2/support-files/mysql.server /etc/init.d/mysqld
+    fi
     sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
     chmod 755 /etc/init.d/mysqld
 }
@@ -209,7 +231,11 @@ EOF
 # Clean up
 function clear_up() {
     cd $cur_dir
-    rm -rf mariadb-$LATEST_MARIADB/
+    if [ $INSTALLED_MARIADB_SHORT -eq 55 ]; then
+        rm -rf mariadb-$LATEST_MARIADB/
+    elif [ $INSTALLED_MARIADB_SHORT -eq 100 ]; then
+        rm -rf mariadb-$LATEST_MARIADB2/
+    fi
     echo ""
     echo "MariaDB Upgrade completed!"
     echo "Welcome to visit:http://teddysun.com/lamp"
@@ -225,5 +251,7 @@ if [[ "$UPGRADE_MARIADB" = "y" || "$UPGRADE_MARIADB" = "Y" ]];then
     startall
     clear_up
 else
-    echo "Upgrade cancelled, nothing to do"
+    echo ""
+    echo "Upgrade MariaDB cancelled, nothing to do"
+    echo ""
 fi

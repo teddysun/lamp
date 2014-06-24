@@ -25,11 +25,12 @@ StartDateSecond='';
 cur_dir=`pwd`
 # Get IP address
 IP=`ifconfig | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ print $1}' | head -1`;
-#CPU Number
+# CPU Number
 Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
 # Version
 MySQLVersion='mysql-5.6.19';
 MariaDBVersion='mariadb-5.5.38'
+MariaDBVersion2='mariadb-10.0.12'
 PHPVersion='php-5.4.29';
 ApacheVersion='httpd-2.4.9';
 phpMyAdminVersion='phpMyAdmin-4.2.4-all-languages';
@@ -100,11 +101,12 @@ function pre_installation_settings(){
     do
     echo "Please choose a version of the Database:"
     echo -e "\t\033[32m1\033[0m. Install MariaDB-5.5(recommend)"
-    echo -e "\t\033[32m2\033[0m. Install MySQL-5.6"
+    echo -e "\t\033[32m2\033[0m. Install MariaDB-10.0"
+    echo -e "\t\033[32m3\033[0m. Install MySQL-5.6"
     read -p "Please input a number:(Default 1) " DB_version
     [ -z "$DB_version" ] && DB_version=1
     case $DB_version in
-        1|2)
+        1|2|3)
         echo ""
         echo "---------------------------"
         echo "You choose = $DB_version"
@@ -113,7 +115,7 @@ function pre_installation_settings(){
         break
         ;;
         *)
-        echo "Input error! Please only input number 1,2"
+        echo "Input error! Please only input number 1,2,3"
     esac
     done
     # Set MySQL or MariaDB root password
@@ -127,7 +129,7 @@ function pre_installation_settings(){
     echo "Password = $dbrootpwd"
     echo "---------------------------"
     echo ""
-    if [ $DB_version -eq 1 ]; then
+    if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
         # Define the MariaDB data location.
         echo "Please input the MariaDB data location:"
         read -p "(leave blank for /usr/local/mariadb/data):" datalocation
@@ -137,7 +139,7 @@ function pre_installation_settings(){
         echo "Data location = $datalocation"
         echo "---------------------------"
         echo ""
-    elif [ $DB_version -eq 2 ]; then
+    elif [ $DB_version -eq 3 ]; then
         # Define the MySQL data location.
         echo "Please input the MySQL data location:"
         read -p "(leave blank for /usr/local/mysql/data):" datalocation
@@ -196,6 +198,8 @@ function download_all_files(){
     if [ $DB_version -eq 1 ]; then
         download_file "${MariaDBVersion}.tar.gz"
     elif [ $DB_version -eq 2 ]; then
+        download_file "${MariaDBVersion2}.tar.gz"
+    elif [ $DB_version -eq 3 ]; then
         download_file "${MySQLVersion}.tar.gz"
     fi
     download_file "${PHPVersion}.tar.gz"
@@ -316,9 +320,9 @@ function install_apache(){
 #Usage:install_database
 #===============================================================================================
 function install_database(){
-    if [ $DB_version -eq 1 ]; then
+    if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
         install_mariadb
-    elif [ $DB_version -eq 2 ]; then
+    elif [ $DB_version -eq 3 ]; then
         install_mysql
     fi
 }
@@ -329,12 +333,18 @@ function install_database(){
 #===============================================================================================
 function install_mariadb(){
     if [ ! -d /usr/local/mariadb ];then
-        #install MariaDB
-        echo "Start Installing ${MariaDBVersion}"
+        # Install MariaDB
         cd $cur_dir/
+        if [ $DB_version -eq 1 ]; then
+            echo "Start Installing ${MariaDBVersion}"
+            cd $cur_dir/untar/$MariaDBVersion
+        elif [ $DB_version -eq 2 ]; then
+            echo "Start Installing ${MariaDBVersion2}"
+            cd $cur_dir/untar/$MariaDBVersion2
+        fi
         /usr/sbin/groupadd mysql
         /usr/sbin/useradd -s /sbin/nologin -M -g mysql mysql
-        cd $cur_dir/untar/$MariaDBVersion
+        # Compile MariaDB
         cmake \
         -DCMAKE_INSTALL_PREFIX=/usr/local/mariadb \
         -DMYSQL_DATADIR=$datalocation \
@@ -406,12 +416,13 @@ EOF
 #===============================================================================================
 function install_mysql(){
     if [ ! -d /usr/local/mysql ];then
-        #install MySQL
+        # Install MySQL
         echo "Start Installing ${MySQLVersion}"
         cd $cur_dir/
         /usr/sbin/groupadd mysql
         /usr/sbin/useradd -s /sbin/nologin -M -g mysql mysql
         cd $cur_dir/untar/$MySQLVersion
+        # Compile MySQL
         cmake \
         -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
         -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
@@ -575,10 +586,10 @@ function install_php(){
             cp -frp /usr/lib64/libldap* /usr/lib/
             ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
         fi
-        if [ $DB_version -eq 1 ]; then
+        if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
             WITH_MYSQL="/usr/local/mariadb"
             WITH_MYSQLI="/usr/local/mariadb/bin/mysql_config"
-        elif [ $DB_version -eq 2 ]; then
+        elif [ $DB_version -eq 3 ]; then
             WITH_MYSQL="/usr/local/mysql"
             WITH_MYSQLI="/usr/local/mysql/bin/mysql_config"
         fi
@@ -701,10 +712,10 @@ function install_cleanup(){
         echo 'Default WebSite Root Dir: /data/www/default'
         echo 'Apache Dir: /usr/local/apache'
         echo 'PHP Dir: /usr/local/php'
-        if [ $DB_version -eq 1 ]; then
+        if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
             echo "MariaDB root password:$dbrootpwd"
             echo "MariaDB data location:$datalocation"
-        elif [ $DB_version -eq 2 ]; then
+        elif [ $DB_version -eq 3 ]; then
             echo "MySQL root password:$dbrootpwd"
             echo "MySQL data location:$datalocation"
         fi
@@ -712,6 +723,8 @@ function install_cleanup(){
         if [ $DB_version -eq 1 ]; then
             echo -e "Installed MariaDB version:\033[41;37m ${MariaDBVersion} \033[0m"
         elif [ $DB_version -eq 2 ]; then
+            echo -e "Installed MariaDB version:\033[41;37m ${MariaDBVersion2} \033[0m"
+        elif [ $DB_version -eq 3 ]; then
             echo -e "Installed MySQL version:\033[41;37m ${MySQLVersion} \033[0m"
         fi
         echo -e "Installed PHP version:\033[41;37m ${PHPVersion} \033[0m"
