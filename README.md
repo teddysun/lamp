@@ -118,6 +118,7 @@
     service network restart
 
 3、增加 FTP 用户相关
+
 在运行 lamp ftp add 命令之前，先要安装 pure-ftpd ，如果开启了防火墙的话，还需要对端口 21 放行。
 执行以下命令安装 pure-ftpd：
 
