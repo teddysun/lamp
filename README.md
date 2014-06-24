@@ -87,7 +87,7 @@
 
     ./upgrade_mariadb.sh | tee upgrade_mariadb.log
 
-**FAQ**
+**注意事项**
 
 1、执行脚本时出现下面的错误提示时该怎么办？
 
@@ -117,6 +117,12 @@
 
     service network restart
 
+3、增加 FTP 用户相关
+在运行 lamp ftp add 命令之前，先要安装 pure-ftpd ，如果开启了防火墙的话，还需要对端口 21 放行。
+执行以下命令安装 pure-ftpd：
+
+    ./pureftpd.sh 2>&1 | tee pureftpd.log
+    
 ##使用提示：
 
 * lamp add(del,list)：创建（删除，列出）虚拟主机。
