@@ -87,7 +87,7 @@
 
     ./upgrade_mariadb.sh | tee upgrade_mariadb.log
 
-**注意事项**
+### 注意事项
 
 1、执行脚本时出现下面的错误提示时该怎么办？
 
@@ -102,7 +102,7 @@
 
     :set ff=unix 
 
-回车后，输入ZZ（两个大写字母Z），即可保存退出。
+回车后，输入ZZ（两个大写字母z），即可保存退出。
 
 2、连接外部Oracle服务器出现ORA-24408:could not generate unique server group name这样的错误怎么办？
 解决办法是在hosts中将主机名添加即可：
