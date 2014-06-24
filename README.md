@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2014年06月21日
+* 日期：2014年06月24日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -25,14 +25,14 @@
 
 ## 将会安装
 * 1、Apache 2.4.9
-* 2、MySQL 5.6.19 或 MariaDB 5.5.38
+* 2、MySQL 5.6.19, MariaDB 5.5.38, MariaDB 10.0.12 （三选一安装）
 * 3、PHP 5.4.29
 * 4、phpMyAdmin 4.2.4
 * 5、xcache 3.1.0 (推荐安装)
-* 6、OCI8 2.0.8（支持PHP连接Oracle数据库，可选安装）
-* 7、pure-ftpd 1.0.36（可选安装）
-* 8、Zend Guard Loader（可选安装）
-* 9、ionCube PHP Loader（可选安装）
+* 6、OCI8 2.0.8 （可选安装）
+* 7、pure-ftpd 1.0.36 （可选安装）
+* 8、Zend Guard Loader （可选安装）
+* 9、ionCube PHP Loader （可选安装）
 
 ## 如何安装
 ### 第一步，下载、解压、赋予权限：
@@ -56,7 +56,7 @@
 * 5、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：./ioncube.sh)
 * 6、（升级脚本）执行脚本 update.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./update.sh | tee update.log)
 * 7、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至 5.6.x 的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
-* 8、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至 5.5.x 的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
+* 8、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本相对应的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
 
 ### 关于 update.sh
 
