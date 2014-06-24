@@ -209,5 +209,7 @@ if [[ "$UPGRADE_MYSQL" = "y" || "$UPGRADE_MYSQL" = "Y" ]];then
     startall
     clear_up
 else
-    echo "Upgrade cancelled, nothing to do"
+    echo ""
+    echo "Upgrade MySQL cancelled, nothing to do"
+    echo ""
 fi
