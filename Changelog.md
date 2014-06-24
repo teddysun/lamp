@@ -1,12 +1,18 @@
+###版本`2.8.2`：`Release date:2014/06/24`
+更新记录：
+
+* 1、新增安装 MariaDB 10.0 选项；
+* 2、优化了 MariaDB 升级脚本 upgrade_mariadb.sh ；
+
 ###版本`2.8.1`：`Release date:2014/06/21`
 更新记录：
 
-* 1、升级`phpMyAdmin`到版本`4.2.4`；
+* 1、升级 phpMyAdmin 到版本 4.2.4；
 
 ###版本`2.8`：`Release date:2014/06/20`
 更新记录：
 
-* 1、新增安装 MariaDB 选项；
+* 1、新增安装 MariaDB 5.5 选项；
 * 2、升级 phpMyAdmin 到版本 4.2.3；
 * 3、优化了一些配置文件;
 
