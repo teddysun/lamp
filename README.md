@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2014年06月24日
+* 日期：2014年06月27日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -19,15 +19,15 @@
 * 支持 ionCube PHP Loader (可选安装)；
 * 支持 pure-ftpd (可选安装)；
 * 命令行新增虚拟主机，操作简便；
-* 自助升级PHP，phpMyAdmin，MySQL至最新版本；
-* 支持创建FTP用户；
+* 自助升级 PHP，phpMyAdmin，MySQL 至最新版本；
+* 支持创建 FTP 用户；
 * 一键卸载。
 
 ## 将会安装
 * 1、Apache 2.4.9
 * 2、MySQL 5.6.19, MariaDB 5.5.38, MariaDB 10.0.12 （三选一安装）
 * 3、PHP 5.4.29
-* 4、phpMyAdmin 4.2.4
+* 4、phpMyAdmin 4.2.5
 * 5、xcache 3.1.0 (推荐安装)
 * 6、OCI8 2.0.8 （可选安装）
 * 7、pure-ftpd 1.0.36 （可选安装）
@@ -132,12 +132,12 @@
 
 ##程序目录：
 
-* MySQL安装目录: /usr/local/mysql
-* MySQL数据库目录：/usr/local/mysql/data（默认路径，安装时可更改）
-* MariaDB安装目录: /usr/local/mariadb
-* MariaDB数据库目录：/usr/local/mariadb/data（默认路径，安装时可更改）
-* php安装目录: /usr/local/php
-* apache安装目录： /usr/local/apache
+* MySQL 安装目录: /usr/local/mysql
+* MySQL 数据库目录：/usr/local/mysql/data（默认路径，安装时可更改）
+* MariaDB 安装目录: /usr/local/mariadb
+* MariaDB 数据库目录：/usr/local/mariadb/data（默认路径，安装时可更改）
+* PHP 安装目录: /usr/local/php
+* Apache 安装目录： /usr/local/apache
 
 ##命令一览：
 * MySQL 或 MariaDB 命令: 
