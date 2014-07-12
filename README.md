@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2014年06月27日
+* 日期：2014年07月12日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -18,6 +18,7 @@
 * 支持 OCI8 （可让 PHP 连接 Oracle 数据库，可选安装）；
 * 支持 ionCube PHP Loader (可选安装)；
 * 支持 pure-ftpd (可选安装)；
+* 支持 ImageMagick （可选安装）；
 * 命令行新增虚拟主机，操作简便；
 * 自助升级 PHP，phpMyAdmin，MySQL 至最新版本；
 * 支持创建 FTP 用户；
@@ -33,6 +34,7 @@
 * 7、pure-ftpd 1.0.36 （可选安装）
 * 8、Zend Guard Loader （可选安装）
 * 9、ionCube PHP Loader （可选安装）
+* 10、ImageMagick 6.8.9-5 （可选安装）
 
 ## 如何安装
 ### 第一步，下载、解压、赋予权限：
@@ -54,9 +56,10 @@
 * 3、（可选安装）执行脚本 pureftpd.sh 安装 pure-ftpd-1.0.36。(命令：./pureftpd.sh)
 * 4、（可选安装）执行脚本 ZendGuardLoader.sh 安装 Zend Guard Loader。(命令：./ZendGuardLoader.sh)
 * 5、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：./ioncube.sh)
-* 6、（升级脚本）执行脚本 update.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./update.sh | tee update.log)
-* 7、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至 5.6.x 的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
-* 8、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本相对应的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
+* 6、（可选安装）执行脚本 ImageMagick.sh 安装 ImageMagick 的 PHP 扩展。（命令：./ImageMagick.sh）
+* 7、（升级脚本）执行脚本 update.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./update.sh | tee update.log)
+* 8、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至 5.6.x 的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
+* 9、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本相对应的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
 
 ### 关于 update.sh
 
