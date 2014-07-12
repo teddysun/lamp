@@ -1,3 +1,9 @@
+###版本`2.8.4`：`Release date:2014/07/12`
+更新记录：
+
+* 1、新增 ImageMagick 扩展支持脚本 ImageMagick.sh；
+* 2、修正了获取 PHP 5.4 最新版的版本号一个问题（update.sh）；
+
 ###版本`2.8.3`：`Release date:2014/06/27`
 更新记录：
 
