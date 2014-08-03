@@ -25,7 +25,7 @@
 * 一键卸载。
 
 ## 将会安装
-* 1、Apache 2.4.9
+* 1、Apache 2.4.10
 * 2、MySQL 5.6.20, MariaDB 5.5.38, MariaDB 10.0.12 （三选一安装）
 * 3、PHP 5.4.31
 * 4、phpMyAdmin 4.2.7
