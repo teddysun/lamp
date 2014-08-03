@@ -32,12 +32,12 @@ fi
 # CPU Number
 Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
 # Version
-MySQLVersion='mysql-5.6.19';
+MySQLVersion='mysql-5.6.20';
 MariaDBVersion='mariadb-5.5.38'
 MariaDBVersion2='mariadb-10.0.12'
 PHPVersion='php-5.4.31';
 ApacheVersion='httpd-2.4.9';
-phpMyAdminVersion='phpMyAdmin-4.2.6-all-languages';
+phpMyAdminVersion='phpMyAdmin-4.2.7-all-languages';
 aprVersion='apr-1.5.1';
 aprutilVersion='apr-util-1.5.3';
 libiconvVersion='libiconv-1.14';
