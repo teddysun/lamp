@@ -19,34 +19,52 @@ echo "#############################################################"
 echo ""
 
 # Install time state
-StartDate='';
-StartDateSecond='';
+StartDate=''
+StartDateSecond=''
 # Current folder
 cur_dir=`pwd`
-# Get IP address
-IP=`curl -s checkip.dyndns.com | cut -d' ' -f 6  | cut -d'<' -f 1`
-if [ $? -ne 0 -o -z $IP ]; then
-    yum install -y curl curl-devel
-    IP=`curl -s ifconfig.me/ip`
-fi
 # CPU Number
 Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
 # Version
-MySQLVersion='mysql-5.6.20';
+MySQLVersion='mysql-5.6.20'
 MariaDBVersion='mariadb-5.5.38'
 MariaDBVersion2='mariadb-10.0.12'
-PHPVersion='php-5.4.31';
-ApacheVersion='httpd-2.4.10';
-phpMyAdminVersion='phpMyAdmin-4.2.7-all-languages';
-aprVersion='apr-1.5.1';
-aprutilVersion='apr-util-1.5.3';
-libiconvVersion='libiconv-1.14';
-libmcryptVersion='libmcrypt-2.5.8';
-mhashVersion='mhash-0.9.9.9';
-mcryptVersion='mcrypt-2.6.8';
-re2cVersion='re2c-0.13.6';
-pcreVersion='pcre-8.35';
-libeditVersion='libedit-20140213-3.1';
+PHPVersion='php-5.4.31'
+ApacheVersion='httpd-2.4.10'
+phpMyAdminVersion='phpMyAdmin-4.2.7-all-languages'
+aprVersion='apr-1.5.1'
+aprutilVersion='apr-util-1.5.3'
+libiconvVersion='libiconv-1.14'
+libmcryptVersion='libmcrypt-2.5.8'
+mhashVersion='mhash-0.9.9.9'
+mcryptVersion='mcrypt-2.6.8'
+re2cVersion='re2c-0.13.6'
+pcreVersion='pcre-8.35'
+libeditVersion='libedit-20140213-3.1'
+
+#===============================================================================================
+#Description:redefine IP address
+#Usage:gennip $1
+#===============================================================================================
+function gennip(){
+    re=`echo $1 | awk -F. '{printf "%d",$1*256^3+$2*256^2+$3*256+$4}'`
+    echo $re
+}
+
+# Get IP address
+IP=`ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}' | head -1`
+# Exclude private IP
+ipn=`gennip $IP`
+if [ $ipn -ge 167772160 -a $ipn -le 184549376 -o \
+     $ipn -ge 2130706432 -a $ipn -le 2147483648 -o \
+     $ipn -ge 2886729728 -a $ipn -le 2887778304 -o \
+     $ipn -ge 3232235520 -a $ipn -le 3232301056 ]; then
+    IP=`curl -s checkip.dyndns.com | cut -d' ' -f 6  | cut -d'<' -f 1`
+    if [ $? -ne 0 -o -z $IP ]; then
+        yum install -y curl curl-devel
+        IP=`curl -s ifconfig.me/ip`
+    fi
+fi
 
 #===============================================================================================
 #Description:Install LAMP Script.
@@ -100,6 +118,9 @@ fi
 #Usage:pre_installation_settings
 #===============================================================================================
 function pre_installation_settings(){
+    # Display Public IP
+    echo -e "Your main public IP is\t\033[32m$IP\033[0m"
+    echo ""
     # Choose databese
     while true
     do
