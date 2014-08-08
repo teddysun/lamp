@@ -11,7 +11,7 @@ export PATH
 cur_dir=`pwd`
 cd $cur_dir
 
-ImageMagick_Ver='ImageMagick-6.8.9-5'
+ImageMagick_Ver='ImageMagick-6.8.9-6'
 ImageMagick_ext_Ver='imagick-3.2.0RC1'
 
 #===============================================================================
@@ -72,7 +72,7 @@ EOF
     # Clean up
     cd $cur_dir
     rm -rf $cur_dir/untar/
-    service httpd restart
+    /etc/init.d/httpd restart
     echo "imagemagick extension install completed..."
 exit
 }
