@@ -162,6 +162,6 @@
 
 安装完后默认的网站根目录： /data/www/default
 
-如果你在安装后使用遇到问题，请访问 [http://teddysun.com/lamp](http://teddysun.com/lamp) 或发邮件至 [i@teddysun.com](i#teddysun.com)
+如果你在安装后使用遇到问题，请访问 [http://teddysun.com/lamp](http://teddysun.com/lamp) 或发邮件至 [i@teddysun.com]
 
 最后，祝你使用愉快！
