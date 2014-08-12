@@ -40,7 +40,7 @@ mhashVersion='mhash-0.9.9.9'
 mcryptVersion='mcrypt-2.6.8'
 re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.35'
-libeditVersion='libedit-20140213-3.1'
+libeditVersion='libedit-20140620-3.1'
 imapVersion='imap-2007f'
 
 # Install LAMP Script
@@ -558,7 +558,7 @@ function install_re2c(){
 # Install libedit dependency
 function install_libedit(){
     cd $cur_dir/untar/$libeditVersion
-    ./configure
+    ./configure --enable-widec
     make && make install
     echo "${libeditVersion} install completed!"
 }
