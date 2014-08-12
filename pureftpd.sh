@@ -46,14 +46,7 @@ fi
 cp configuration-file/pure-config.pl /usr/local/sbin/pure-config.pl
 chmod 744 /etc/pure-ftpd.conf
 chmod 755 /usr/local/sbin/pure-config.pl
-service pure-ftpd start
-#see if iptables is start
-/sbin/service iptables status 1>/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    /sbin/iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 21 -j ACCEPT
-    /etc/rc.d/init.d/iptables save
-    /etc/init.d/iptables restart
-fi
+/etc/init.d/pure-ftpd start
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/

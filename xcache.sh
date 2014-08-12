@@ -36,7 +36,7 @@ else
 fi
 
 #install xcache
-echo "============================Xcache3.1.0 install start====================================="
+echo "============================Xcache install start====================================="
 if [ ! -d $cur_dir/untar/ ]; then
     mkdir -p $cur_dir/untar/
 fi
@@ -96,6 +96,6 @@ fi
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/
-service httpd restart
-echo "============================Xcache3.1.0 install completed================================="
+/etc/init.d/httpd restart
+echo "============================Xcache install completed================================="
 exit

@@ -25,7 +25,7 @@ StartDateSecond=''
 cur_dir=`pwd`
 # CPU Number
 Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
-# Version
+# Software Version
 MySQLVersion='mysql-5.6.20'
 MariaDBVersion='mariadb-5.5.38'
 MariaDBVersion2='mariadb-10.0.12'
@@ -41,35 +41,9 @@ mcryptVersion='mcrypt-2.6.8'
 re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.35'
 libeditVersion='libedit-20140213-3.1'
+imapVersion='imap-2007f'
 
-#===============================================================================================
-#Description:redefine IP address
-#Usage:gennip $1
-#===============================================================================================
-function gennip(){
-    re=`echo $1 | awk -F. '{printf "%d",$1*256^3+$2*256^2+$3*256+$4}'`
-    echo $re
-}
-
-# Get IP address
-IP=`ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}' | head -1`
-# Exclude private IP
-ipn=`gennip $IP`
-if [ $ipn -ge 167772160 -a $ipn -le 184549376 -o \
-     $ipn -ge 2130706432 -a $ipn -le 2147483648 -o \
-     $ipn -ge 2886729728 -a $ipn -le 2887778304 -o \
-     $ipn -ge 3232235520 -a $ipn -le 3232301056 ]; then
-    IP=`curl -s checkip.dyndns.com | cut -d' ' -f 6  | cut -d'<' -f 1`
-    if [ $? -ne 0 -o -z $IP ]; then
-        yum install -y curl curl-devel
-        IP=`curl -s ifconfig.me/ip`
-    fi
-fi
-
-#===============================================================================================
-#Description:Install LAMP Script.
-#Usage:install_lamp
-#===============================================================================================
+# Install LAMP Script
 function install_lamp(){
     rootness
     disable_selinux
@@ -85,27 +59,60 @@ function install_lamp(){
     install_mcrypt
     install_re2c
     install_libedit
+    install_imap
     install_php
     install_phpmyadmin
     install_cleanup
 }
 
-#===============================================================================================
-#Description:Make sure only root can run our script
-#Usage:rootness
-#===============================================================================================
-function rootness(){
+# Get public IP
+function getIP(){
+    IP=`curl -s checkip.dyndns.com | cut -d' ' -f 6  | cut -d'<' -f 1`
+    if [ $? -ne 0 -o -z "$IP" ]; then
+        yum install -y curl curl-devel
+        IP=`curl -s ifconfig.me/ip`
+    fi
+}
+
+# is 64bit or not
+function is_64bit(){
+    if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
+        return 0
+    else
+        return 1
+    fi        
+}
+
+# Get version
+function getversion(){
+    if [[ -s /etc/redhat-release ]];then
+        grep -oE  "[0-9.]+" /etc/redhat-release
+    else    
+        grep -oE  "[0-9.]+" /etc/issue
+    fi    
+}
+
+# CentOS version
+function centosversion(){
+    local code=$1
+    local version="`getversion`"
+    local main_ver=${version%%.*}
+    if [ $main_ver == $code ];then
+        return 0
+    else
+        return 1
+    fi        
+}
+
 # Make sure only root can run our script
+function rootness(){
 if [[ $EUID -ne 0 ]]; then
    echo "Error:This script must be run as root!" 1>&2
    exit 1
 fi
 }
 
-#===============================================================================================
-#Description:Disable selinux
-#Usage:disable_selinux
-#===============================================================================================
+# Disable selinux
 function disable_selinux(){
 if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
@@ -113,12 +120,11 @@ if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; t
 fi
 }
 
-#===============================================================================================
-#Description:Pre-installation settings.
-#Usage:pre_installation_settings
-#===============================================================================================
+# Pre-installation settings
 function pre_installation_settings(){
     # Display Public IP
+    echo "Getting Public IP address..."
+    getIP
     echo -e "Your main public IP is\t\033[32m$IP\033[0m"
     echo ""
     # Choose databese
@@ -209,15 +215,12 @@ function pre_installation_settings(){
         cp /etc/yum.conf /etc/yum.conf.bak
     fi
     sed -i 's:exclude=.*:exclude=:g' /etc/yum.conf
-    packages="wget autoconf automake bison bzip2 bzip2-devel curl curl-devel cmake cpp crontabs diffutils elinks e2fsprogs-devel expat-devel file flex freetype-devel gcc gcc-c++ gd glibc-devel glib2-devel gettext-devel gmp-devel icu kernel-devel libaio libtool-libs libjpeg-devel libpng-devel libxslt libxslt-devel libxml2 libxml2-devel libidn-devel libcap-devel libtool-ltdl-devel libmcrypt-devel libc-client-devel libicu libicu-devel zip zlib-devel unzip patch mlocate make ncurses-devel readline readline-devel vim-minimal sendmail pam-devel pcre pcre-devel openldap openldap-devel openssl openssl-devel perl-DBD-MySQL"
+    packages="wget autoconf automake bison bzip2 bzip2-devel curl curl-devel cmake cpp crontabs diffutils elinks e2fsprogs-devel expat-devel file flex freetype-devel gcc gcc-c++ gd glibc-devel glib2-devel gettext-devel gmp-devel icu kernel-devel libaio libtool-libs libjpeg-devel libpng-devel libxslt libxslt-devel libxml2 libxml2-devel libidn-devel libcap-devel libtool-ltdl-devel libc-client-devel libicu libicu-devel lynx zip zlib-devel unzip patch mlocate make ncurses-devel readline readline-devel vim-minimal sendmail pam-devel pcre pcre-devel openldap openldap-devel openssl openssl-devel perl-DBD-MySQL"
     for package in $packages;
     do yum -y install $package; done
 }
 
-#===============================================================================================
-#Description:download all files.
-#Usage:download_all_files
-#===============================================================================================
+# Download all files
 function download_all_files(){
     cd $cur_dir
     if [ $DB_version -eq 1 ]; then
@@ -239,12 +242,12 @@ function download_all_files(){
     download_file "${re2cVersion}.tar.gz"
     download_file "${pcreVersion}.tar.gz"
     download_file "${libeditVersion}.tar.gz"
+    if centosversion 7; then
+        download_file "${imapVersion}.tar.gz"
+    fi
 }
 
-#===============================================================================================
-#Description:download file.
-#Usage:download_file [filename]
-#===============================================================================================
+# Download file
 function download_file(){
 if [ -s $1 ]; then
     echo "$1 [found]"
@@ -257,13 +260,9 @@ else
 fi
 }
 
-#===============================================================================================
-#Description:Install Apache.
-#Usage:install_apache
-#===============================================================================================
+# Untar all files
 function untar_all_files(){
     echo "Untar all files, please wait a moment..."
-    #Untar all files
     if [ -d $cur_dir/untar ]; then
         rm -rf $cur_dir/untar
     fi
@@ -275,10 +274,7 @@ function untar_all_files(){
     echo "Untar all files completed!"
 }
 
-#===============================================================================================
-#Description:Install Apache.
-#Usage:install_apache
-#===============================================================================================
+# Install Apache
 function install_apache(){
     if [ ! -d /usr/local/apache/bin ];then
         #Install Apache
@@ -307,7 +303,9 @@ function install_apache(){
             echo "Installing Apache failed, Please visit http://teddysun.com/lamp and contact."
             exit 1
         fi
-        cp -f $cur_dir/conf/httpd.init /etc/init.d/httpd
+        cp -f /usr/local/apache/bin/apachectl /etc/init.d/httpd
+        sed -i '2a # chkconfig: - 85 15' /etc/init.d/httpd
+        sed -i '3a # description: Apache is a World Wide Web server. It is used to server' /etc/init.d/httpd
         chmod +x /etc/init.d/httpd
         chkconfig --add httpd
         chkconfig httpd on
@@ -326,6 +324,7 @@ function install_apache(){
         #Copy to config files
         cp -f $cur_dir/conf/httpd2.4.conf /usr/local/apache/conf/httpd.conf
         cp -f $cur_dir/conf/httpd-vhosts.conf /usr/local/apache/conf/extra/httpd-vhosts.conf
+        cp -f $cur_dir/conf/httpd-info.conf /usr/local/apache/conf/extra/httpd-info.conf
         cp -f $cur_dir/conf/httpd-default.conf /usr/local/apache/conf/extra/httpd-default.conf
         mkdir -p /usr/local/apache/conf/vhost/
         touch /usr/local/apache/conf/vhost/none.conf
@@ -340,10 +339,7 @@ function install_apache(){
     fi
 }
 
-#===============================================================================================
-#Description:install database.
-#Usage:install_database
-#===============================================================================================
+# Install database
 function install_database(){
     if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
         install_mariadb
@@ -352,10 +348,7 @@ function install_database(){
     fi
 }
 
-#===============================================================================================
-#Description:install mariadb.
-#Usage:install_mariadb
-#===============================================================================================
+# Install mariadb database
 function install_mariadb(){
     if [ ! -d /usr/local/mariadb ];then
         # Install MariaDB
@@ -398,7 +391,7 @@ function install_mariadb(){
         cp -f $cur_dir/conf/my5.6.cnf /etc/my.cnf
         cp support-files/mysql.server /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
-        chmod +x /etc/rc.d/init.d/mysqld
+        chmod +x /etc/init.d/mysqld
         chkconfig --add mysqld
         chkconfig mysqld on
         /usr/local/mariadb/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mariadb --datadir=$datalocation --user=mysql
@@ -407,7 +400,7 @@ function install_mariadb(){
 /usr/local/lib
 EOF
         ldconfig
-        if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
+        if is_64bit; then
             ln -s /usr/local/mariadb/lib/mysql /usr/lib64/mysql
         else
             ln -s /usr/local/mariadb/lib/mysql /usr/lib/mysql
@@ -419,7 +412,7 @@ EOF
             fi
         done
         #Start mysqld service
-        service mysqld start
+        /etc/init.d/mysqld start
         /usr/local/mariadb/bin/mysqladmin password $dbrootpwd
         /usr/local/mariadb/bin/mysql -uroot -p$dbrootpwd <<EOF
 drop database if exists test;
@@ -435,10 +428,7 @@ EOF
     fi
 }
 
-#===============================================================================================
-#Description:install mysql.
-#Usage:install_mysql
-#===============================================================================================
+# Install mysql database
 function install_mysql(){
     if [ ! -d /usr/local/mysql ];then
         # Install MySQL
@@ -475,7 +465,7 @@ function install_mysql(){
         cp -f mysql.server /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
         /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=$datalocation --user=mysql
-        chmod +x /etc/rc.d/init.d/mysqld
+        chmod +x /etc/init.d/mysqld
         chkconfig --add mysqld
         chkconfig  mysqld on
         cat > /etc/ld.so.conf.d/mysql.conf<<EOF
@@ -483,7 +473,7 @@ function install_mysql(){
 /usr/local/lib
 EOF
         ldconfig
-        if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
+        if is_64bit; then
             ln -s /usr/local/mysql/lib/mysql /usr/lib64/mysql
         else
             ln -s /usr/local/mysql/lib/mysql /usr/lib/mysql
@@ -495,7 +485,7 @@ EOF
             fi
         done
         #Start mysqld service
-        service mysqld start
+        /etc/init.d/mysqld start
         /usr/local/mysql/bin/mysqladmin password $dbrootpwd
         /usr/local/mysql/bin/mysql -uroot -p$dbrootpwd <<EOF
 drop database if exists test;
@@ -511,15 +501,12 @@ EOF
     fi
 }
 
-#===============================================================================================
-#Description:install pcre.
-#Usage:install_pcre
-#===============================================================================================
+#Install pcre dependency
 function install_pcre(){
     cd $cur_dir/untar/$pcreVersion
     ./configure --prefix=/usr/local/pcre
     make && make install
-    if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
+    if is_64bit; then
         ln -s /usr/local/pcre/lib /usr/local/pcre/lib64
     fi
     [ -d "/usr/local/pcre/lib" ] && export LD_LIBRARY_PATH=/usr/local/pcre/lib:$LD_LIBRARY_PATH
@@ -527,25 +514,15 @@ function install_pcre(){
     echo "${pcreVersion} install completed!"
 }
 
-#===============================================================================================
-#Description:install libiconv.
-#Usage:install_libiconv
-#===============================================================================================
+# Install libiconv dependency
 function install_libiconv(){
     cd $cur_dir/untar/$libiconvVersion
-    ./configure --prefix=/usr/local
+    ./configure --prefix=/usr/local/libiconv
     make && make install
-    if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
-        ln -s /usr/local/lib/libiconv.so.2 /usr/lib64/libiconv.so.2
-    fi
-    ln -s /usr/local/lib/libiconv.so.2 /usr/lib/libiconv.so.2
     echo "${libiconvVersion} install completed!"
 }
 
-#===============================================================================================
-#Description:install libmcrypt.
-#Usage:install_libmcrypt
-#===============================================================================================
+# Install libmcrypt dependency
 function install_libmcrypt(){
     cd $cur_dir/untar/$libmcryptVersion
     ./configure
@@ -553,10 +530,7 @@ function install_libmcrypt(){
     echo "${libmcryptVersion} install completed!"
 }
 
-#===============================================================================================
-#Description:install mhash.
-#Usage:install_mhash
-#===============================================================================================
+# Install mhash dependency
 function install_mhash(){
     cd $cur_dir/untar/$mhashVersion
     ./configure
@@ -564,10 +538,7 @@ function install_mhash(){
     echo "${mhashVersion} install completed!"
 }
 
-#===============================================================================================
-#Description:install mcrypt.
-#Usage:install_mcrypt
-#===============================================================================================
+# Install libmcrypt dependency
 function install_mcrypt(){
     /sbin/ldconfig
     cd $cur_dir/untar/$mcryptVersion
@@ -576,10 +547,7 @@ function install_mcrypt(){
     echo "${mcryptVersion} install completed!"
 }
 
-#===============================================================================================
-#Description:install re2c.
-#Usage:install_re2c
-#===============================================================================================
+# Install re2c dependency
 function install_re2c(){
     cd $cur_dir/untar/$re2cVersion
     ./configure
@@ -587,10 +555,7 @@ function install_re2c(){
     echo "${re2cVersion} install completed!"
 }
 
-#===============================================================================================
-#Description:install_libedit.
-#Usage:install_libedit
-#===============================================================================================
+# Install libedit dependency
 function install_libedit(){
     cd $cur_dir/untar/$libeditVersion
     ./configure
@@ -598,35 +563,62 @@ function install_libedit(){
     echo "${libeditVersion} install completed!"
 }
 
-#===============================================================================================
-#Description:install php.
-#Usage:install_php
-#===============================================================================================
+# Install imap dependency
+function install_imap(){
+    if centosversion 7; then
+        cd $cur_dir/untar/$imapVersion
+        if is_64bit; then
+            make lr5 PASSWDTYPE=std SSLTYPE=unix.nopwd EXTRACFLAGS=-fPIC IP=4
+        else
+            make lr5 PASSWDTYPE=std SSLTYPE=unix.nopwd IP=4
+        fi
+        rm -rf /usr/local/imap-2007f/
+        mkdir /usr/local/imap-2007f/
+        mkdir /usr/local/imap-2007f/include/
+        mkdir /usr/local/imap-2007f/lib/
+        cp c-client/*.h /usr/local/imap-2007f/include/
+        cp c-client/*.c /usr/local/imap-2007f/lib/
+        cp c-client/c-client.a /usr/local/imap-2007f/lib/libc-client.a
+        echo "${imapVersion} install completed!"
+    fi
+}
+
+# Install PHP5
 function install_php(){
     if [ ! -d /usr/local/php ];then
-        #install PHP
+        # database compile dependency
+        if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
+            WITH_MYSQL="--with-mysql=/usr/local/mariadb"
+            WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
+        elif [ $DB_version -eq 3 ]; then
+            WITH_MYSQL="--with-mysql=/usr/local/mysql"
+            WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
+        fi
         echo "Start Installing ${PHPVersion}"
-        #ldap module 
-        if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
-            cp -frp /usr/lib64/libldap* /usr/lib/
+        # ldap module dependency 
+        if is_64bit; then
+            cp -rpf /usr/lib64/libldap* /usr/lib/
+            cp -rpf /usr/lib64/liblber* /usr/lib/
+        fi
+        # imap module dependency
+        if [ -f /usr/lib64/libc-client.so ];then
             ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
         fi
-        if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
-            WITH_MYSQL="/usr/local/mariadb"
-            WITH_MYSQLI="/usr/local/mariadb/bin/mysql_config"
-        elif [ $DB_version -eq 3 ]; then
-            WITH_MYSQL="/usr/local/mysql"
-            WITH_MYSQLI="/usr/local/mysql/bin/mysql_config"
+        if centosversion 7; then
+            WITH_IMAP="--with-imap=/usr/local/imap-2007f --with-imap-ssl"
+        else
+            WITH_IMAP="--with-imap --with-imap-ssl --with-kerberos"
         fi
         cd $cur_dir/untar/$PHPVersion
+        make clean
         ./configure \
         --prefix=/usr/local/php \
         --with-apxs2=/usr/local/apache/bin/apxs \
         --with-config-file-path=/usr/local/php/etc \
-        --with-mysql=$WITH_MYSQL \
-        --with-mysqli=$WITH_MYSQLI \
+        $WITH_MYSQL \
+        $WITH_MYSQLI \
         --with-pcre-dir=/usr/local/pcre \
-        --with-iconv-dir=/usr/local \
+        --with-iconv-dir=/usr/local/libiconv \
         --with-mysql-sock=/tmp/mysql.sock \
         --with-config-file-scan-dir=/usr/local/php/php.d \
         --with-mhash=/usr \
@@ -637,11 +629,10 @@ function install_php(){
         --with-gd \
         --with-gettext \
         --with-gmp \
-        --with-imap \
-        --with-imap-ssl \
         --with-jpeg-dir \
-        --with-kerberos \
+        $WITH_IMAP \
         --with-ldap \
+        --with-ldap-sasl \
         --with-mcrypt \
         --with-openssl \
         --without-pear \
@@ -670,14 +661,16 @@ function install_php(){
         --enable-tokenizer \
         --enable-wddx \
         --enable-xml \
-        --enable-zip \
-        --disable-fileinfo
+        --enable-zip 
+        if [ $? -ne 0 ]; then
+            echo "PHP configure failed, Please visit http://teddysun.com/lamp and contact."
+            exit 1
+        fi
+        make && make install
         if [ $? -ne 0 ]; then
             echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
             exit 1
         fi
-        make ZEND_EXTRA_LIBS='-liconv'
-        make install
         mkdir -p /usr/local/php/etc
         mkdir -p /usr/local/php/php.d
         mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525
@@ -692,10 +685,8 @@ function install_php(){
         echo "PHP had been installed!"
     fi
 }
-#===============================================================================================
-#Description:install phpmyadmin.
-#Usage:install_phpmyadmin
-#===============================================================================================
+
+# Install phpmyadmin
 function install_phpmyadmin(){
     if [ ! -d /data/www/default/phpmyadmin ];then
         echo "Start Installing ${phpMyAdminVersion}"
@@ -712,15 +703,17 @@ function install_phpmyadmin(){
     else
         echo "PHPMyAdmin had been installed!"
     fi
-    #Start httpd service
-    service httpd start
 }
 
-#===============================================================================================
-#Description:install cleanup.
-#Usage:install_cleanup
-#===============================================================================================
+# Install end cleanup
 function install_cleanup(){
+    #Start httpd service
+    /etc/init.d/httpd start
+    if [ $? -ne 0 ]; then
+        echo "Apache Starting failed, Please visit http://teddysun.com/lamp and contact."
+        exit 1
+    fi
+
     cp -f $cur_dir/lamp.sh /usr/bin/lamp
     cp -f $cur_dir/conf/httpd.logrotate /etc/logrotate.d/httpd
     sed -i '/Order/,/All/d' /usr/bin/lamp
@@ -767,10 +760,7 @@ function install_cleanup(){
     fi
 }
 
-#===============================================================================================
-#Description:uninstall lamp.
-#Usage:uninstall_lamp
-#===============================================================================================
+# Uninstall lamp
 function uninstall_lamp(){
     echo "Are you sure uninstall LAMP? (y/n)"
     read -p "(Default: n):" uninstall
@@ -805,8 +795,8 @@ function uninstall_lamp(){
     char=`get_char`
 
     if [[ "$uninstall" = "y" || "$uninstall" = "Y" ]]; then
-        killall httpd
-        killall mysqld
+        /etc/init.d/httpd stop
+        /etc/init.d/mysqld stop
         chkconfig --del httpd
         chkconfig --del mysqld
         rm -rf /etc/init.d/httpd /usr/local/apache /usr/sbin/httpd /usr/sbin/apachectl /var/log/httpd /var/lock/subsys/httpd /var/spool/mail/apache /etc/logrotate.d/httpd
@@ -834,10 +824,7 @@ function uninstall_lamp(){
     fi
 }
 
-#===============================================================================
-#Description:Add apache virtualhost.
-#Usage:vhost_add
-#===============================================================================
+# Add apache virtualhost
 function vhost_add(){
     #Define domain name
     read -p "(Please input domains such as:www.example.com):" domains
@@ -926,7 +913,7 @@ php_admin_value open_basedir $DocumentRoot:/tmp
 </Directory>
 </virtualhost>
 EOF
-    service httpd reload > /dev/null 2>&1
+    /etc/init.d/httpd restart > /dev/null 2>&1
     echo "Successfully create $domain vhost"
     echo "######################### information about your website ############################"
     echo "The DocumentRoot:$DocumentRoot"
@@ -934,10 +921,7 @@ EOF
     [ "$create" == "y" ] && echo "database name and user:$dbname, password:$mysqlpwd"
 }
 
-#===============================================================================
-#Description:Remove apache virtualhost.
-#Usage:vhost_del
-#===============================================================================
+# Remove apache virtualhost
 function vhost_del(){
     read -p "(Please input a domain you want to delete):" vhost_domain
     if [ "$vhost_domain" = "" ]; then
@@ -970,24 +954,22 @@ function vhost_del(){
         exit 1
     fi
 
-    service httpd reload > /dev/null 2>&1
+    /etc/init.d/httpd restart > /dev/null 2>&1
     echo "Successfully delete $vhost_domain vhost"
     echo "You need to remove site directory manually!"
 }
 
-#===============================================================================
-#Description:List apache virtualhost.
-#Usage:vhost_list
-#===============================================================================
+# List apache virtualhost
 function vhost_list(){
     ls /usr/local/apache/conf/vhost/ | cut -f 1,2,3 -d "."
 }
 
-#===============================================================================
-#Description:add,del,list ftp user.
-#Usage:ftp (add|del|list)
-#===============================================================================
+# add,del,list ftp user
 function ftp(){
+    if [ ! -f /etc/init.d/pure-ftpd ];then
+        echo "Error: pure-ftpd not installed, please install it at first."
+        exit 1
+    fi
     case "$faction" in
     add)
     read -p "(Please input ftpuser name):" ftpuser
@@ -1021,10 +1003,7 @@ function ftp(){
     esac
 }
 
-#===============================================================================================
-#Description:Initialization step
-#Usage:none
-#===============================================================================================
+# Initialization setup
 action=$1
 [  -z $1 ] && action=install
 case "$action" in

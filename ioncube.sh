@@ -57,6 +57,6 @@ fi
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/
-service httpd restart
+/etc/init.d/httpd restart
 echo "============================ionCube install completed================================="
 exit

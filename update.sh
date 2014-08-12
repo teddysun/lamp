@@ -219,7 +219,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     cd $cur_dir
     rm -rf php-$LATEST_PHP/
     # Restart httpd service
-    service httpd restart
+    /etc/init.d/httpd restart
     echo "===================== PHP update completed! ===================="
     echo ""
 else
@@ -261,8 +261,8 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
     rm -rf $cur_dir/pmaversion.txt
     echo -e "phpmyadmin\t${LATEST_PMA}" > $cur_dir/pmaversion.txt
     rm -rf $cur_dir/phpMyAdmin-$LATEST_PMA-all-languages
-    #Reload httpd service
-    service httpd reload
+    #Restart httpd service
+    /etc/init.d/httpd restart
     echo "===================== phpMyAdmin update completed! ===================="
 else
     echo "phpMyAdmin upgrade cancelled, nothing to do..."
