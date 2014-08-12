@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2014年08月03日
+* 日期：2014年08月12日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -34,9 +34,14 @@
 * 7、pure-ftpd 1.0.36 （可选安装）
 * 8、Zend Guard Loader （可选安装）
 * 9、ionCube PHP Loader （可选安装）
-* 10、ImageMagick 6.8.9-5 （可选安装）
+* 10、ImageMagick 6.8.9-6 （可选安装）
 
 ## 如何安装
+### 事前准备（安装screen、unzip，创建 screen 会话）：
+
+    yum -y install screen unzip
+    screen -S lamp
+
 ### 第一步，下载、解压、赋予权限：
 
     wget --no-check-certificate https://github.com/teddysun/lamp/archive/master.zip -O lamp.zip
@@ -157,6 +162,6 @@
 
 安装完后默认的网站根目录： /data/www/default
 
-如果你在安装后使用遇到问题，请访问 [http://teddysun.com/lamp](http://teddysun.com/lamp) 或发邮件至 i@teddysun.com。
+如果你在安装后使用遇到问题，请访问 [http://teddysun.com/lamp](http://teddysun.com/lamp) 或发邮件至 [i@teddysun.com](i#teddysun.com)
 
 最后，祝你使用愉快！
