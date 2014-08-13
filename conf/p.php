@@ -1187,7 +1187,7 @@ $PHP_VERSION = PHP_VERSION;
 $PHP_VERSION = substr($PHP_VERSION,2,1);
 if($PHP_VERSION > 2)
 {
-    echo "ZendGuardLoader";
+    echo "Zend Guard Loader";
 }
 else
 {
@@ -1201,7 +1201,7 @@ else
   <tr>
     <td>eAccelerator</td>
     <td><?php if((phpversion('eAccelerator'))!=''){echo phpversion('eAccelerator');}else{ echo "<font color=red>×</font>";} ?></td>
-    <td>ioncube</td>
+    <td>ionCube Loader</td>
     <td><?php if(extension_loaded('ionCube Loader')){   $ys = ioncube_loader_iversion();   $gm = ".".(int)substr($ys,3,2);   echo ionCube_Loader_version().$gm;}else{echo "<font color=red>×</font>";}?></td>
   </tr>
 
