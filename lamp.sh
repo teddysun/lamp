@@ -27,8 +27,8 @@ cur_dir=`pwd`
 Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
 # Software Version
 MySQLVersion='mysql-5.6.20'
-MariaDBVersion='mariadb-5.5.38'
-MariaDBVersion2='mariadb-10.0.12'
+MariaDBVersion='mariadb-5.5.39'
+MariaDBVersion2='mariadb-10.0.13'
 PHPVersion='php-5.4.31'
 ApacheVersion='httpd-2.4.10'
 phpMyAdminVersion='phpMyAdmin-4.2.7-all-languages'
