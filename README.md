@@ -26,7 +26,7 @@
 
 ## 将会安装
 * 1、Apache 2.4.10
-* 2、MySQL 5.6.20, MariaDB 5.5.38, MariaDB 10.0.12 （三选一安装）
+* 2、MySQL 5.6.20, MariaDB 5.5.39, MariaDB 10.0.13 （三选一安装）
 * 3、PHP 5.4.31
 * 4、phpMyAdmin 4.2.7
 * 5、xcache 3.1.0 (推荐安装)
@@ -150,13 +150,11 @@
 ##命令一览：
 * MySQL 或 MariaDB 命令: 
 
-        /etc/init.d/mysqld(start|stop|restart|reload|status)
-        service mysqld(start|stop|restart|reload|status)
+        /etc/init.d/mysqld(start|stop|restart|status)
 
 * Apache 命令: 
 
-        /etc/init.d/httpd(start|stop|restart|reload|status)
-        service httpd(start|stop|restart|reload|status)      
+        /etc/init.d/httpd(start|stop|restart|status)
 
 ##网站根目录：
 
