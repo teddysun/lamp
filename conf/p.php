@@ -606,8 +606,8 @@ if ($_GET['act'] == "rt")
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 <!--
-* {font-family: "Microsoft Yahei",Tahoma, Arial; }
-body{text-align: center; margin: 0 auto; padding: 0; background-color:#fafafa;font-size:13px;font-family:Microsoft Yahei, Tahoma, Arial}
+* {font-family: Microsoft Yahei, Tahoma, Arial; }
+body{text-align: center; margin: 0 auto; padding: 0; background-color:#fafafa;font-size:12.5px;font-family:Microsoft Yahei, Tahoma, Arial}
 h1 {font-size: 26px; padding: 0; margin: 0; color: #333333; font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;}
 h1 small {font-size: 11px; font-family: Tahoma; font-weight: bold; }
 a{color: #666; text-decoration:none;}
@@ -636,13 +636,14 @@ input.btn{font-weight: bold; height: 20px; line-height: 20px; padding: 0 6px; co
 .barli{background:#36b52a; height:5px; margin:0px; padding:0;}
 #page {width: 960px; padding: 0 auto; margin: 0 auto; text-align: left;}
 #header{position:relative; padding:5px;}
-.w_small{font-family: Courier New;}
+.w_small{font-size: 14px; font-family: Courier New;}
 .w_number{color: #f800fe;}
 .sudu {padding: 0; background:#5dafd1; }
 .suduk { margin:0px; padding:0;}
 .resYes{}
 .resNo{color: #FF0000;}
-.word{word-break:break-all;}
+.word{font-size: 14px; font-family: Courier New; word-break:break-all;}
+.static{color: #009900;}
 -->
 </style>
 <script language="JavaScript" type="text/javascript" src="./jquery-1.11.1.min.js"></script>
@@ -752,7 +753,7 @@ function displayData(dataJSON)
 <div id="page">
     <table>
         <tr>
-            <th class="w_logo">PHP探针</th>
+            <th class="w_logo">PHP 探针</th>
         </tr>
     </table>
 <!--服务器相关参数-->
@@ -760,7 +761,7 @@ function displayData(dataJSON)
   <tr><th colspan="4">服务器参数</th></tr>
   <tr>
     <td>服务器域名/IP地址</td>
-    <td colspan="3"><?php echo @get_current_user();?> - <?php echo $_SERVER['SERVER_NAME'];?>(<?php if('/'==DIRECTORY_SEPARATOR){echo $_SERVER['SERVER_ADDR'];}else{echo @gethostbyname($_SERVER['SERVER_NAME']);} ?>)&nbsp;&nbsp;你的IP地址是：<?php echo @$_SERVER['REMOTE_ADDR'];?></td>
+    <td colspan="3"><?php echo @get_current_user();?> - <?php echo $_SERVER['SERVER_NAME'];?>(<?php if('/'==DIRECTORY_SEPARATOR){echo $_SERVER['SERVER_ADDR'];}else{echo @gethostbyname($_SERVER['SERVER_NAME']);} ?>)&nbsp;&nbsp;你的 IP 地址是：<?php echo @$_SERVER['REMOTE_ADDR'];?></td>
   </tr>
 
   <tr>
@@ -808,11 +809,11 @@ function displayData(dataJSON)
     <td width="37%" colspan="3"><span id="uptime"><?php echo $uptime;?></span></td>
   </tr>
   <tr>
-    <td width="13%">CPU型号 [<?php echo $sysInfo['cpu']['num'];?>核]</td>
+    <td width="13%">CPU 型号 [<?php echo $sysInfo['cpu']['num'];?>核]</td>
     <td width="87%" colspan="5"><?php echo $sysInfo['cpu']['model'];?></td>
   </tr>
   <tr>
-    <td>CPU使用状况</td>
+    <td>CPU 使用状况</td>
     <td colspan="5"><?php if('/'==DIRECTORY_SEPARATOR){echo $cpu_show." | <a href='".$phpSelf."?act=cpu_percentage' target='_blank' class='static'>查看图表</a>";}else{echo "暂时只支持Linux系统";}?>
     </td>
   </tr>
@@ -915,7 +916,7 @@ if($sysInfo['swapTotal']>0)
 
 <table width="100%" cellpadding="3" cellspacing="0" align="center">
   <tr>
-    <th colspan="4">PHP已编译模块检测</th>
+    <th colspan="4">PHP 已编译模块检测</th>
   </tr>
   <tr>
     <td colspan="4"><span class="w_small">
@@ -934,146 +935,146 @@ foreach ($able as $key=>$value) {
 
 <a name="w_php"></a>
 <table>
-  <tr><th colspan="4">PHP相关参数</th></tr>
+  <tr><th colspan="4">PHP 相关参数</th></tr>
   <tr>
-    <td width="32%">PHP信息（phpinfo）：</td>
-    <td width="18%">
+    <td width="30%">PHP 信息(phpinfo)</td>
+    <td width="20%">
         <?php
         $phpSelf = $_SERVER[PHP_SELF] ? $_SERVER[PHP_SELF] : $_SERVER[SCRIPT_NAME];
         $disFuns=get_cfg_var("disable_functions");
         ?>
-    <?php echo (false!==eregi("phpinfo",$disFuns))? '<font color="red">×</font>' :"<a href='$phpSelf?act=phpinfo' target='_blank'>PHPINFO</a>";?>
+    <?php echo (false!==eregi("phpinfo",$disFuns))? '<font color="red">×</font>' :"<a href='$phpSelf?act=phpinfo' target='_blank' class='static'>PHPINFO</a>";?>
     </td>
-    <td width="32%">PHP版本（php_version）：</td>
-    <td width="18%"><?php echo PHP_VERSION;?></td>
+    <td width="30%">PHP 版本(php_version)</td>
+    <td width="20%"><?php echo PHP_VERSION;?></td>
   </tr>
 
   <tr>
-    <td>PHP运行方式：</td>
+    <td>PHP 运行方式</td>
     <td><?php echo strtoupper(php_sapi_name());?></td>
-    <td>脚本占用最大内存（memory_limit）：</td>
+    <td>脚本占用最大内存(memory_limit)</td>
     <td><?php echo show("memory_limit");?></td>
   </tr>
 
   <tr>
-    <td>PHP安全模式（safe_mode）：</td>
+    <td>PHP 安全模式(safe_mode)</td>
     <td><?php echo show("safe_mode");?></td>
-    <td>POST方法提交最大限制（post_max_size）：</td>
+    <td>POST 方法提交最大限制(post_max_size)</td>
     <td><?php echo show("post_max_size");?></td>
   </tr>
 
   <tr>
-    <td>上传文件最大限制（upload_max_filesize）：</td>
+    <td>上传文件最大限制(upload_max_filesize)</td>
     <td><?php echo show("upload_max_filesize");?></td>
-    <td>浮点型数据显示的有效位数（precision）：</td>
+    <td>浮点型数据显示的有效位数(precision)</td>
     <td><?php echo show("precision");?></td>
   </tr>
 
   <tr>
-    <td>脚本超时时间（max_execution_time）：</td>
+    <td>脚本超时时间(max_execution_time)</td>
     <td><?php echo show("max_execution_time");?>秒</td>
-    <td>socket超时时间（default_socket_timeout）：</td>
+    <td>socket 超时时间(default_socket_timeout)</td>
     <td><?php echo show("default_socket_timeout");?>秒</td>
   </tr>
 
   <tr>
-    <td>PHP页面根目录（doc_root）：</td>
+    <td>PHP 页面根目录(doc_root)</td>
     <td><?php echo show("doc_root");?></td>
-    <td>用户根目录（user_dir）：</td>
+    <td>用户根目录(user_dir)</td>
     <td><?php echo show("user_dir");?></td>
   </tr>
 
   <tr>
-    <td>dl()函数（enable_dl）：</td>
+    <td>dl() 函数(enable_dl)</td>
     <td><?php echo show("enable_dl");?></td>
-    <td>指定包含文件目录（include_path）：</td>
+    <td>指定包含文件目录(include_path)</td>
     <td><?php echo show("include_path");?></td>
   </tr>
 
   <tr>
-    <td>显示错误信息（display_errors）：</td>
+    <td>显示错误信息(display_errors)</td>
     <td><?php echo show("display_errors");?></td>
-    <td>自定义全局变量（register_globals）：</td>
+    <td>自定义全局变量(register_globals)</td>
     <td><?php echo show("register_globals");?></td>
   </tr>
 
   <tr>
-    <td>数据反斜杠转义（magic_quotes_gpc）：</td>
+    <td>数据反斜杠转义(magic_quotes_gpc)</td>
     <td><?php echo show("magic_quotes_gpc");?></td>
-    <td>"&lt;?...?&gt;"短标签（short_open_tag）：</td>
+    <td>"&lt;?...?&gt;"短标签(short_open_tag)</td>
     <td><?php echo show("short_open_tag");?></td>
   </tr>
 
   <tr>
-    <td>"&lt;% %&gt;"ASP风格标记（asp_tags）：</td>
+    <td>"&lt;% %&gt;"ASP 风格标记(asp_tags)</td>
     <td><?php echo show("asp_tags");?></td>
-    <td>忽略重复错误信息（ignore_repeated_errors）：</td>
+    <td>忽略重复错误信息(ignore_repeated_errors)</td>
     <td><?php echo show("ignore_repeated_errors");?></td>
   </tr>
 
   <tr>
-    <td>忽略重复的错误源（ignore_repeated_source）：</td>
+    <td>忽略重复的错误源(ignore_repeated_source)</td>
     <td><?php echo show("ignore_repeated_source");?></td>
-    <td>报告内存泄漏（report_memleaks）：</td>
+    <td>报告内存泄漏(report_memleaks)</td>
     <td><?php echo show("report_memleaks");?></td>
   </tr>
 
   <tr>
-    <td>自动字符串转义（magic_quotes_gpc）：</td>
+    <td>自动字符串转义(magic_quotes_gpc)</td>
     <td><?php echo show("magic_quotes_gpc");?></td>
-    <td>外部字符串自动转义（magic_quotes_runtime）：</td>
+    <td>外部字符串自动转义(magic_quotes_runtime)</td>
     <td><?php echo show("magic_quotes_runtime");?></td>
   </tr>
 
   <tr>
-    <td>打开远程文件（allow_url_fopen）：</td>
+    <td>打开远程文件(allow_url_fopen)</td>
     <td><?php echo show("allow_url_fopen");?></td>
-    <td>声明argv和argc变量（register_argc_argv）：</td>
+    <td>声明 argv 和 argc 变量(register_argc_argv)</td>
     <td><?php echo show("register_argc_argv");?></td>
   </tr>
 
   <tr>
-    <td>Cookie 支持：</td>
+    <td>Cookie 支持</td>
     <td><?php echo isset($_COOKIE)?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
-    <td>拼写检查（ASpell Library）：</td>
+    <td>拼写检查(ASpell Library)</td>
     <td><?php echo isfun("aspell_check_raw");?></td>
   </tr>
 
   <tr>
-    <td>高精度数学运算（BCMath）：</td>
+    <td>高精度数学运算(BCMath)</td>
     <td><?php echo isfun("bcadd");?></td>
-    <td>PREL相容语法（PCRE）：</td>
+    <td>PREL 相容语法(PCRE)</td>
     <td><?php echo isfun("preg_match");?></td>
   </tr>
 
   <tr>
-   <td>PDF文档支持：</td>
+   <td>PDF 文档支持</td>
     <td><?php echo isfun("pdf_close");?></td>
-    <td>SNMP网络管理协议：</td>
+    <td>SNMP 网络管理协议</td>
     <td><?php echo isfun("snmpget");?></td>
   </tr> 
 
   <tr>
-    <td>VMailMgr邮件处理：</td>
+    <td>VMailMgr 邮件处理</td>
     <td><?php echo isfun("vm_adduser");?></td>
-    <td>Curl支持：</td>
+    <td>Curl 支持：</td>
     <td><?php echo isfun("curl_init");?></td>
   </tr> 
 
   <tr>
-    <td>SMTP支持：</td>
+    <td>SMTP 支持</td>
     <td><?php echo get_cfg_var("SMTP")?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
-    <td>SMTP地址：</td>
+    <td>SMTP 地址</td>
     <td><?php echo get_cfg_var("SMTP")?get_cfg_var("SMTP"):'<font color="red">×</font>';?></td>
   </tr> 
 
   <tr>
-    <td>默认支持函数（enable_functions）：</td>
-    <td colspan="3"><a href='<?php echo $phpSelf;?>?act=Function' target='_blank' class='static'>请点这里查看详细！</a></td>        
+    <td>默认支持函数(enable_functions)</td>
+    <td colspan="3"><a href='<?php echo $phpSelf;?>?act=Function' target='_blank' class='static'>请点这里查看详细</a></td>        
   </tr>
 
   <tr>
-    <td>被禁用的函数（disable_functions）：</td>
+    <td>被禁用的函数(disable_functions)</td>
     <td colspan="3" class="word">
 <?php 
 $disFuns=get_cfg_var("disable_functions");
@@ -1087,7 +1088,7 @@ else
     $disFuns_array =  explode(',',$disFuns);
     foreach ($disFuns_array as $key=>$value) 
     {
-        if ($key!=0 && $key%5==0) {
+        if ($key!=0 && $key%6==0) {
             echo '<br />';
     }
     echo "$value&nbsp;&nbsp;";
@@ -1104,28 +1105,28 @@ else
   <tr><th colspan="4" >组件支持</th></tr>
 
   <tr>
-    <td width="32%">FTP支持：</td>
-    <td width="18%"><?php echo isfun("ftp_login");?></td>
-    <td width="32%">XML解析支持：</td>
-    <td width="18%"><?php echo isfun("xml_set_object");?></td>
+    <td width="30%">FTP 支持</td>
+    <td width="20%"><?php echo isfun("ftp_login");?></td>
+    <td width="30%">XML 解析支持</td>
+    <td width="20%"><?php echo isfun("xml_set_object");?></td>
   </tr>
 
   <tr>
-    <td>Session支持：</td>
+    <td>Session 支持</td>
     <td><?php echo isfun("session_start");?></td>
-    <td>Socket支持：</td>
+    <td>Socket 支持</td>
     <td><?php echo isfun("socket_accept");?></td>
   </tr>
 
   <tr>
-    <td>Calendar支持</td>
+    <td>Calendar 支持</td>
     <td><?php echo isfun('cal_days_in_month');?></td>
-    <td>允许URL打开文件：</td>
+    <td>允许 URL 打开文件</td>
     <td><?php echo show("allow_url_fopen");?></td>
   </tr>
 
   <tr>
-    <td>GD库支持：</td>
+    <td>GD 库支持</td>
     <td>
     <?php
         if(function_exists(gd_info)) {
@@ -1133,42 +1134,42 @@ else
             echo $gd_info["GD Version"];
         }else{echo '<font color="red">×</font>';}
     ?></td>
-    <td>压缩文件支持(Zlib)：</td>
+    <td>压缩文件支持(Zlib)</td>
     <td><?php echo isfun("gzclose");?></td>
   </tr>
 
   <tr>
-    <td>IMAP电子邮件系统函数库：</td>
+    <td>IMAP 电子邮件系统函数库</td>
     <td><?php echo isfun("imap_close");?></td>
-    <td>历法运算函数库：</td>
+    <td>历法运算函数库</td>
     <td><?php echo isfun("JDToGregorian");?></td>
   </tr>
 
   <tr>
-    <td>正则表达式函数库：</td>
+    <td>正则表达式函数库</td>
     <td><?php echo isfun("preg_match");?></td>
-    <td>WDDX支持：</td>
+    <td>WDDX 支持</td>
     <td><?php echo isfun("wddx_add_vars");?></td>
   </tr>
 
   <tr>
-    <td>Iconv编码转换：</td>
+    <td>iconv 编码转换</td>
     <td><?php echo isfun("iconv");?></td>
-    <td>mbstring：</td>
+    <td>mbstring</td>
     <td><?php echo isfun("mb_eregi");?></td>
   </tr>
 
   <tr>
-    <td>高精度数学运算：</td>
+    <td>BCMath 高精度数学运算</td>
     <td><?php echo isfun("bcadd");?></td>
-    <td>LDAP目录协议：</td>
+    <td>LDAP 目录协议</td>
     <td><?php echo isfun("ldap_close");?></td>
   </tr>
 
   <tr>
-    <td>MCrypt加密处理：</td>
+    <td>MCrypt 加密处理</td>
     <td><?php echo isfun("mcrypt_cbc");?></td>
-    <td>哈稀计算：</td>
+    <td>Mhash 哈稀计算</td>
     <td><?php echo isfun("mhash_count");?></td>
   </tr>
 </table>
@@ -1178,15 +1179,15 @@ else
 <table>
   <tr><th colspan="4" >第三方组件</th></tr>
   <tr>
-    <td width="32%">Zend版本</td>
-    <td width="18%"><?php $zend_version = zend_version();if(empty($zend_version)){echo '<font color=red>×</font>';}else{echo $zend_version;}?></td>
-    <td width="32%">
+    <td width="30%">Zend 版本</td>
+    <td width="20%"><?php $zend_version = zend_version();if(empty($zend_version)){echo '<font color=red>×</font>';}else{echo $zend_version;}?></td>
+    <td width="30%">
 <?php
 $PHP_VERSION = PHP_VERSION;
 $PHP_VERSION = substr($PHP_VERSION,2,1);
 if($PHP_VERSION > 2)
 {
-    echo "ZendGuardLoader[启用]";
+    echo "ZendGuardLoader";
 }
 else
 {
@@ -1194,7 +1195,7 @@ else
 }
 ?>
     </td>
-    <td width="18%"><?php if($PHP_VERSION > 2){echo (get_cfg_var("zend_loader.enable"))?'<font color=green>√</font>':'<font color=red>×</font>';} else{if(function_exists('zend_optimizer_version')){    echo zend_optimizer_version();}else{    echo (get_cfg_var("zend_optimizer.optimization_level")||get_cfg_var("zend_extension_manager.optimizer_ts")||get_cfg_var("zend.ze1_compatibility_mode")||get_cfg_var("zend_extension_ts"))?'<font color=green>√</font>':'<font color=red>×</font>';}}?></td>
+    <td width="20%"><?php if($PHP_VERSION > 2){echo (get_cfg_var("zend_loader.enable"))?'<font color=green>√</font>':'<font color=red>×</font>';} else{if(function_exists('zend_optimizer_version')){    echo zend_optimizer_version();}else{    echo (get_cfg_var("zend_optimizer.optimization_level")||get_cfg_var("zend_extension_manager.optimizer_ts")||get_cfg_var("zend.ze1_compatibility_mode")||get_cfg_var("zend_extension_ts"))?'<font color=green>√</font>':'<font color=red>×</font>';}}?></td>
   </tr>
 
   <tr>
@@ -1218,8 +1219,8 @@ else
   <tr><th colspan="4">数据库支持</th></tr>
 
   <tr>
-    <td width="32%">MySQL 数据库：</td>
-    <td width="18%"><?php echo isfun("mysql_close");?>
+    <td width="30%">MySQL 数据库</td>
+    <td width="20%"><?php echo isfun("mysql_close");?>
     <?php
     if(function_exists("mysql_get_server_info")) {
         $s = @mysql_get_server_info();
@@ -1229,49 +1230,49 @@ else
     }
     ?>
     </td>
-    <td width="32%">ODBC 数据库：</td>
-    <td width="18%"><?php echo isfun("odbc_close");?></td>
+    <td width="30%">ODBC 数据库</td>
+    <td width="20%"><?php echo isfun("odbc_close");?></td>
   </tr>
 
   <tr>
-    <td>Oracle 数据库：</td>
+    <td>Oracle 数据库</td>
     <td><?php echo isfun("ora_close");?></td>
-    <td>SQL Server 数据库：</td>
+    <td>SQL Server 数据库</td>
     <td><?php echo isfun("mssql_close");?></td>
   </tr>
 
   <tr>
-    <td>dBASE 数据库：</td>
+    <td>dBASE 数据库</td>
     <td><?php echo isfun("dbase_close");?></td>
-    <td>mSQL 数据库：</td>
+    <td>mSQL 数据库</td>
     <td><?php echo isfun("msql_close");?></td>
   </tr>
 
   <tr>
-    <td>SQLite 数据库：</td>
+    <td>SQLite 数据库</td>
     <td><?php if(extension_loaded('sqlite3')) {$sqliteVer = SQLite3::version();echo '<font color=green>√</font>　';echo "SQLite3　Ver ";echo $sqliteVer[versionString];}else {echo isfun("sqlite_close");if(isfun("sqlite_close") == '<font color="green">√</font>') {echo "&nbsp; 版本： ".@sqlite_libversion();}}?></td>
-    <td>Hyperwave 数据库：</td>
+    <td>Hyperwave 数据库</td>
     <td><?php echo isfun("hw_close");?></td>
   </tr>
 
   <tr>
-    <td>Postgre SQL 数据库：</td>
+    <td>Postgre SQL 数据库</td>
     <td><?php echo isfun("pg_close"); ?></td>
-    <td>Informix 数据库：</td>
+    <td>Informix 数据库</td>
     <td><?php echo isfun("ifx_close");?></td>
   </tr>
 
   <tr>
-    <td>DBA 数据库：</td>
+    <td>DBA 数据库</td>
     <td><?php echo isfun("dba_close");?></td>
-    <td>DBM 数据库：</td>
+    <td>DBM 数据库</td>
     <td><?php echo isfun("dbmclose");?></td>
   </tr>
 
   <tr>
-    <td>FilePro 数据库：</td>
+    <td>FilePro 数据库</td>
     <td><?php echo isfun("filepro_fieldcount");?></td>
-    <td>SyBase 数据库：</td>
+    <td>SyBase 数据库</td>
     <td><?php echo isfun("sybase_close");?></td>
   </tr> 
 </table>
@@ -1411,7 +1412,7 @@ else
 <a name="w_MySQL"></a>
 <!--MySQL数据库连接检测-->
 <table>
-  <tr><th colspan="3">MySQL数据库连接检测</th></tr>
+  <tr><th colspan="3">MySQL 数据库连接检测</th></tr>
 
   <tr>
     <td width="15%"></td>
@@ -1488,7 +1489,7 @@ else
 </form>
     <table>
         <tr>
-            <td class="w_foot"><a href="http://teddysun.com/lamp" target="_blank">基于YaHei.net探针</a></td>
+            <td class="w_foot"><a href="http://teddysun.com/lamp" target="_blank">基于 YaHei.net 探针</a></td>
             <td class="w_foot"><?php $run_time = sprintf('%0.4f', microtime_float() - $time_start);?>Processed in <?php echo $run_time?> seconds. <?php echo memory_usage();?> memory usage.</td>
             <td class="w_foot"><a href="#w_top">返回顶部</a></td>
         </tr>
