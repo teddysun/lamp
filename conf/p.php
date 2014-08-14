@@ -1180,7 +1180,7 @@ else
   <tr><th colspan="4" >第三方组件</th></tr>
   <tr>
     <td width="30%">Zend 版本</td>
-    <td width="20%"><?php $zend_version = zend_version();if(empty($zend_version)){echo '<font color=red>×</font>';}else{echo $zend_version;}?></td>
+    <td width="20%"><?php $zend_version = zend_version();if(empty($zend_version)){echo '<font color=red>×</font>';}else{echo '<font color=green>√</font>　Ver ';echo $zend_version;}?></td>
     <td width="30%">
 <?php
 $PHP_VERSION = PHP_VERSION;
@@ -1195,21 +1195,21 @@ else
 }
 ?>
     </td>
-    <td width="20%"><?php if($PHP_VERSION > 2){echo (get_cfg_var("zend_loader.enable"))?'<font color=green>√</font>':'<font color=red>×</font>';} else{if(function_exists('zend_optimizer_version')){    echo zend_optimizer_version();}else{    echo (get_cfg_var("zend_optimizer.optimization_level")||get_cfg_var("zend_extension_manager.optimizer_ts")||get_cfg_var("zend.ze1_compatibility_mode")||get_cfg_var("zend_extension_ts"))?'<font color=green>√</font>':'<font color=red>×</font>';}}?></td>
+    <td width="20%"><?php if($PHP_VERSION > 2){if(function_exists("zend_loader_version")){ echo '<font color=green>√</font>　Ver ';echo zend_loader_version();}} else{if(function_exists('zend_optimizer_version')){ echo '<font color=green>√</font>　Ver ';echo zend_optimizer_version();}else{    echo (get_cfg_var("zend_optimizer.optimization_level")||get_cfg_var("zend_extension_manager.optimizer_ts")||get_cfg_var("zend.ze1_compatibility_mode")||get_cfg_var("zend_extension_ts"))?'<font color=green>√</font>':'<font color=red>×</font>';}}?></td>
   </tr>
 
   <tr>
     <td>eAccelerator</td>
-    <td><?php if((phpversion('eAccelerator'))!=''){echo phpversion('eAccelerator');}else{ echo "<font color=red>×</font>";} ?></td>
+    <td><?php if((phpversion('eAccelerator'))!=''){echo '<font color=green>√</font>　Ver ';echo phpversion('eAccelerator');}else{ echo "<font color=red>×</font>";} ?></td>
     <td>ionCube Loader</td>
-    <td><?php if(extension_loaded('ionCube Loader')){   $ys = ioncube_loader_iversion();   $gm = ".".(int)substr($ys,3,2);   echo ionCube_Loader_version().$gm;}else{echo "<font color=red>×</font>";}?></td>
+    <td><?php if(extension_loaded('ionCube Loader')){   $ys = ioncube_loader_iversion();   $gm = ".".(int)substr($ys,3,2);   echo '<font color=green>√</font>　Ver ';echo ionCube_Loader_version().$gm;}else{echo "<font color=red>×</font>";}?></td>
   </tr>
 
   <tr>
     <td>XCache</td>
-    <td><?php if((phpversion('XCache'))!=''){echo phpversion('XCache');}else{ echo "<font color=red>×</font>";} ?></td>
+    <td><?php if((phpversion('XCache'))!=''){echo '<font color=green>√</font>　Ver ';echo phpversion('XCache');}else{ echo "<font color=red>×</font>";} ?></td>
     <td>APC</td>
-    <td><?php if((phpversion('APC'))!=''){echo phpversion('APC');}else{ echo "<font color=red>×</font>";} ?></td>
+    <td><?php if((phpversion('APC'))!=''){echo '<font color=green>√</font>　Ver ';echo phpversion('APC');}else{ echo "<font color=red>×</font>";} ?></td>
   </tr>
 </table>
 
@@ -1220,16 +1220,7 @@ else
 
   <tr>
     <td width="30%">MySQL 数据库</td>
-    <td width="20%"><?php echo isfun("mysql_close");?>
-    <?php
-    if(function_exists("mysql_get_server_info")) {
-        $s = @mysql_get_server_info();
-        $s = $s ? '&nbsp; mysql_server 版本：'.$s : '';
-        $c = '&nbsp; mysql_client 版本：'.@mysql_get_client_info();
-        echo $s;
-    }
-    ?>
-    </td>
+    <td width="20%"><?php echo isfun("mysql_close");?></td>
     <td width="30%">ODBC 数据库</td>
     <td width="20%"><?php echo isfun("odbc_close");?></td>
   </tr>
@@ -1250,7 +1241,7 @@ else
 
   <tr>
     <td>SQLite 数据库</td>
-    <td><?php if(extension_loaded('sqlite3')) {$sqliteVer = SQLite3::version();echo '<font color=green>√</font>　';echo "SQLite3　Ver ";echo $sqliteVer[versionString];}else {echo isfun("sqlite_close");if(isfun("sqlite_close") == '<font color="green">√</font>') {echo "&nbsp; 版本： ".@sqlite_libversion();}}?></td>
+    <td><?php if(extension_loaded('sqlite3')) {$sqliteVer = SQLite3::version();echo '<font color=green>√</font>　Ver ';echo $sqliteVer[versionString];}else {echo isfun("sqlite_close");if(isfun("sqlite_close") == '<font color="green">√</font>　') {echo "Ver ".@sqlite_libversion();}}?></td>
     <td>Hyperwave 数据库</td>
     <td><?php echo isfun("hw_close");?></td>
   </tr>
