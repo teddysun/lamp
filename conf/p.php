@@ -172,6 +172,16 @@ elseif ($_POST['act'] == '邮件检测')
     $mailRe .= (false !== @mail($_POST["mailAdd"], $mailContent, "This is a test mail!")) ? "完成":"失败";
 }
 
+//获取 MySQL 版本
+function getMySQLVersion() {
+    $output = shell_exec('mysql -V');
+    if (empty($output)){
+        return null;
+    }
+    preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version);
+    return $version[0];
+}
+
 //网络速度测试
 if(isset($_POST['speed']))
 {
@@ -484,7 +494,7 @@ function sys_windows()
     // LoadPercentage
     $loadinfo = GetWMI($wmi,"Win32_Processor", array("LoadPercentage"));
     $res['loadAvg'] = $loadinfo[0]['LoadPercentage'];
-	
+    
     return $res;
 }
 
@@ -1220,7 +1230,9 @@ else
 
   <tr>
     <td width="30%">MySQL 数据库</td>
-    <td width="20%"><?php echo isfun("mysql_close");?></td>
+    <td width="20%"><?php echo isfun("mysql_close"); ?>
+    <?php $mysql_ver = getMySQLVersion(); if(!empty($mysql_ver)){ echo "&nbsp;&nbsp;Ver&nbsp;" . $mysql_ver;} ?>
+    </td>
     <td width="30%">ODBC 数据库</td>
     <td width="20%"><?php echo isfun("odbc_close");?></td>
   </tr>
