@@ -120,6 +120,27 @@ function untar(){
     esac
 }
 
+# Get version
+function getversion(){
+    if [[ -s /etc/redhat-release ]];then
+        grep -oE  "[0-9.]+" /etc/redhat-release
+    else    
+        grep -oE  "[0-9.]+" /etc/issue
+    fi    
+}
+
+# CentOS version
+function centosversion(){
+    local code=$1
+    local version="`getversion`"
+    local main_ver=${version%%.*}
+    if [ $main_ver == $code ];then
+        return 0
+    else
+        return 1
+    fi        
+}
+
 # PHP5 Update
 if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     echo "===================== PHP upgrade start===================="
@@ -137,22 +158,27 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
         cd php-$LATEST_PHP/
     fi
     if [ -d /usr/local/mariadb ]; then
-        WITH_MYSQL="/usr/local/mariadb"
-        WITH_MYSQLI="/usr/local/mariadb/bin/mysql_config"
+        WITH_MYSQL="--with-mysql=/usr/local/mariadb"
+        WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
     elif [ -d /usr/local/mysql ]; then
-        WITH_MYSQL="/usr/local/mysql"
-        WITH_MYSQLI="/usr/local/mysql/bin/mysql_config"
+        WITH_MYSQL="--with-mysql=/usr/local/mysql"
+        WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
     else
         echo "MySQL or MariaDB not installed, Please check it and try again."
         exit 1
     fi
-    
+    if centosversion 7; then
+        WITH_IMAP="--with-imap=/usr/local/imap-2007f --with-imap-ssl"
+    else
+        WITH_IMAP="--with-imap --with-imap-ssl --with-kerberos"
+    fi
+
     ./configure \
     --prefix=/usr/local/php \
     --with-apxs2=/usr/local/apache/bin/apxs \
     --with-config-file-path=/usr/local/php/etc \
-    --with-mysql=$WITH_MYSQL \
-    --with-mysqli=$WITH_MYSQLI \
+    $WITH_MYSQL \
+    $WITH_MYSQLI \
     --with-iconv-dir=/usr/local \
     --with-pcre-dir=/usr/local/pcre \
     --with-mysql-sock=/tmp/mysql.sock \
@@ -165,11 +191,10 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     --with-gd \
     --with-gettext \
     --with-gmp \
-    --with-imap \
-    --with-imap-ssl \
     --with-jpeg-dir \
-    --with-kerberos \
+    $WITH_IMAP \
     --with-ldap \
+    --with-ldap-sasl \
     --with-mcrypt \
     --with-openssl \
     --without-pear \
@@ -198,14 +223,16 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     --enable-tokenizer \
     --enable-wddx \
     --enable-xml \
-    --enable-zip \
-    --disable-fileinfo
+    --enable-zip
+    if [ $? -ne 0 ]; then
+        echo "PHP configure failed, Please visit http://teddysun.com/lamp and contact."
+        exit 1
+    fi
+    make && make install
     if [ $? -ne 0 ]; then
         echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
         exit 1
     fi
-    make ZEND_EXTRA_LIBS='-liconv'
-    make install
     mkdir -p /usr/local/php/etc
     mkdir -p /usr/local/php/php.d
     mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/
