@@ -179,7 +179,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     --with-config-file-path=/usr/local/php/etc \
     $WITH_MYSQL \
     $WITH_MYSQLI \
-    --with-iconv-dir=/usr/local \
+    --with-iconv-dir=/usr/local/libiconv \
     --with-pcre-dir=/usr/local/pcre \
     --with-mysql-sock=/tmp/mysql.sock \
     --with-config-file-scan-dir=/usr/local/php/php.d \
