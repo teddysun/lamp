@@ -1205,7 +1205,7 @@ else
 }
 ?>
     </td>
-    <td width="20%"><?php if($PHP_VERSION > 2){if(function_exists("zend_loader_version")){ echo '<font color=green>√</font>　Ver ';echo zend_loader_version();}} else{if(function_exists('zend_optimizer_version')){ echo '<font color=green>√</font>　Ver ';echo zend_optimizer_version();}else{    echo (get_cfg_var("zend_optimizer.optimization_level")||get_cfg_var("zend_extension_manager.optimizer_ts")||get_cfg_var("zend.ze1_compatibility_mode")||get_cfg_var("zend_extension_ts"))?'<font color=green>√</font>':'<font color=red>×</font>';}}?></td>
+    <td width="20%"><?php if($PHP_VERSION > 2){if(function_exists("zend_loader_version")){ echo '<font color=green>√</font>　Ver ';echo zend_loader_version();} else { echo '<font color=red>×</font>';}} else{if(function_exists('zend_optimizer_version')){ echo '<font color=green>√</font>　Ver ';echo zend_optimizer_version();}else{    echo (get_cfg_var("zend_optimizer.optimization_level")||get_cfg_var("zend_extension_manager.optimizer_ts")||get_cfg_var("zend.ze1_compatibility_mode")||get_cfg_var("zend_extension_ts"))?'<font color=green>√</font>':'<font color=red>×</font>';}}?></td>
   </tr>
 
   <tr>
