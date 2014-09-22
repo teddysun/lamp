@@ -32,9 +32,9 @@
 * 5、xcache 3.1.0 (推荐安装)
 * 6、OCI8 2.0.8 （可选安装）
 * 7、pure-ftpd 1.0.36 （可选安装）
-* 8、Zend Guard Loader 3.3（可选安装）
-* 9、ionCube PHP Loader 4.6.1（可选安装）
-* 10、ImageMagick 6.8.9-6 （可选安装）
+* 8、Zend Guard Loader 3.3（ 可选安装）
+* 9、ionCube PHP Loader 4.6.1 （可选安装）
+* 10、ImageMagick-6.8.9-8 （可选安装）
 
 ## 如何安装
 ### 事前准备（安装screen、unzip，创建 screen 会话）：
