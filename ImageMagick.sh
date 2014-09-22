@@ -11,7 +11,7 @@ export PATH
 cur_dir=`pwd`
 cd $cur_dir
 
-ImageMagick_Ver='ImageMagick-6.8.9-6'
+ImageMagick_Ver='ImageMagick-6.8.9-8'
 ImageMagick_ext_Ver='imagick-3.2.0RC1'
 
 #===============================================================================
