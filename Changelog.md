@@ -1,3 +1,11 @@
+###版本`2.9.2`：`Release date:2014/09/23`
+更新记录：
+
+* 1、新增 PHP 版本 5.3.29， 5.5.17 支持；
+* 2、新增 MySQL 版本 5.5.39 支持；
+* 3、优化 MySQL 和 MariaDB 的升级脚本；
+* 4、优化 ZendGuardLoader，Xcache，OCI8，ionCube PHP Loader，ImageMagick 脚本，对应 PHP 各版本；
+
 ###版本`2.9.1`：`Release date:2014/09/22`
 更新记录：
 
