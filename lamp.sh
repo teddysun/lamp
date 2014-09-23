@@ -388,7 +388,7 @@ function install_mariadb(){
         fi
         chmod +w /usr/local/mariadb
         chown -R mysql:mysql /usr/local/mariadb
-        cp -f $cur_dir/conf/my5.6.cnf /etc/my.cnf
+        cp -f $cur_dir/conf/my.cnf /etc/my.cnf
         cp support-files/mysql.server /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
         chmod +x /etc/init.d/mysqld
@@ -461,7 +461,7 @@ function install_mysql(){
         chmod +w /usr/local/mysql
         chown -R mysql:mysql /usr/local/mysql
         cd support-files/
-        cp -f $cur_dir/conf/my5.6.cnf /etc/my.cnf
+        cp -f $cur_dir/conf/my.cnf /etc/my.cnf
         cp -f mysql.server /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
         /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=$datalocation --user=mysql
@@ -674,7 +674,7 @@ function install_php(){
         mkdir -p /usr/local/php/etc
         mkdir -p /usr/local/php/php.d
         mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525
-        cp -f $cur_dir/conf/php5.4.ini /usr/local/php/etc/php.ini
+        cp -f $cur_dir/conf/php.ini /usr/local/php/etc/php.ini
         rm -f /etc/php.ini
         ln -s /usr/local/php/etc/php.ini /etc/php.ini
         ln -s /usr/local/php/bin/php /usr/bin/php
