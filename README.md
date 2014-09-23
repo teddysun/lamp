@@ -20,7 +20,7 @@
 * 支持 pure-ftpd (可选安装)；
 * 支持 ImageMagick （可选安装）；
 * 命令行新增虚拟主机，操作简便；
-* 自助升级 PHP，phpMyAdmin，MySQL 至最新版本；
+* 自助升级 PHP，phpMyAdmin，MySQL 或 MariaDB 至最新版本；
 * 支持创建 FTP 用户；
 * 一键卸载。
 
@@ -57,30 +57,26 @@
 ### 安装其它：
 
 * 1、（推荐安装）执行脚本 xcache.sh 安装 xcache 。(命令：./xcache.sh)
-* 2、（可选安装）执行脚本 php5.4_oci8_oracle11g.sh 安装 OCI8 扩展以及 oracle-instantclient11.2（命令：./php5.4_oci8_oracle11g.sh）
+* 2、（可选安装）执行脚本 oci8_oracle11g.sh 安装 OCI8 扩展以及 oracle-instantclient11.2（命令：./oci8_oracle11g.sh）
 * 3、（可选安装）执行脚本 pureftpd.sh 安装 pure-ftpd-1.0.36。(命令：./pureftpd.sh)
 * 4、（可选安装）执行脚本 ZendGuardLoader.sh 安装 Zend Guard Loader。(命令：./ZendGuardLoader.sh)
 * 5、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：./ioncube.sh)
 * 6、（可选安装）执行脚本 ImageMagick.sh 安装 ImageMagick 的 PHP 扩展。（命令：./ImageMagick.sh）
-* 7、（升级脚本）执行脚本 update.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./update.sh | tee update.log)
+* 7、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./upgrade_php.sh | tee upgrade_php.log)
 * 8、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至 5.6.x 的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
 * 9、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本相对应的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
 
-### 关于 update.sh
+### 关于 upgrade_php.sh
 
-新增update.sh脚本，目的是为了自动检测和升级PHP和phpMyAdmin。这两种软件版本更新比较频繁，因此才会有此脚本，一劳永逸。
-
-安装完lamp.sh一段时间后，如果你发现PHP或phpMyAdmin官网已更新，那即可运行此脚本更新到最新版。
-
-因PHP5.5.x系列Release没多久，很多软件还不兼容该版本，因此本脚本升级的PHP版本为5.4.x系列的最新版。
+新增 upgrade_php.sh 脚本，目的是为了自动检测和升级 PHP 和 phpMyAdmin。这两种软件版本更新比较频繁，因此才会有此脚本，方便升级。
 
 **使用方法：**
 
-    ./update.sh | tee update.log
+    ./upgrade_php.sh | tee upgrade_php.log
 
 ### 关于 upgrade_mysql.sh
 
-新增upgrade_mysql.sh脚本，目的是为了自动检测和升级 MySQL。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
+新增 upgrade_mysql.sh 脚本，目的是为了自动检测和升级 MySQL 。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
 
 **使用方法：**
 
@@ -89,7 +85,7 @@
 
 ### 关于 upgrade_mariadb.sh
 
-新增upgrade_mariadb.sh脚本，目的是为了自动检测和升级 MariaDB。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
+新增 upgrade_mariadb.sh 脚本，目的是为了自动检测和升级 MariaDB。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
 
 **使用方法：**
 
