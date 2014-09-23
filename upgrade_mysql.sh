@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===============================================================================================
-#   System Required:  CentOS5.x (32bit/64bit) or CentOS6.x (32bit/64bit)
+#   System Required:  CentOS / RedHat / Fedora
 #   Description:  Auto Update Script for MySQL
 #   Author: Teddysun <i@teddysun.com>
 #   Intro:  http://teddysun.com/lamp
@@ -20,7 +20,7 @@ fi
 clear
 echo "#############################################################"
 echo "# Auto Update Script for MySQL"
-echo "# System Required:  CentOS5.x (32bit/64bit) or CentOS6.x (32bit/64bit)"
+echo "# System Required:  CentOS / RedHat / Fedora"
 echo "# Intro: http://teddysun.com/lamp"
 echo "#"
 echo "# Author: Teddysun <i@teddysun.com>"
@@ -31,10 +31,18 @@ echo ""
 cur_dir=`pwd`
 bkup_dir="$cur_dir/mysql_bkup"
 update_date=`date +"%Y%m%d"`
+bkup_file="mysqld_${update_date}.bak"
 mysql_dump="/$bkup_dir/mysql_all_backup_$update_date.dump"
 
-LATEST_MYSQL=$(curl -s http://dev.mysql.com/downloads/mysql/ | awk '/MySQL Community Server/{print $4}' | grep '5.6')
 INSTALLED_MYSQL=$(/usr/local/mysql/bin/mysql -V | awk '{print $5}' | tr -d ",")
+MYSQL_VER=$(echo $INSTALLED_MYSQL | awk -F. '{print $1$2}')
+if [ $MYSQL_VER -eq 55 ]; then
+    mysqlVer='5.5'
+    LATEST_MYSQL=$(curl -s http://dev.mysql.com/downloads/mysql/5.5.html | awk '/MySQL Community Server/{print $4}' | grep '5.5')
+elif [ $MYSQL_VER -eq 56 ]; then
+    mysqlVer='5.6'
+    LATEST_MYSQL=$(curl -s http://dev.mysql.com/downloads/mysql/5.6.html | awk '/MySQL Community Server/{print $4}' | grep '5.6')
+fi
 
 echo -e "Latest version of MYSQL: \033[41;37m $LATEST_MYSQL \033[0m"
 echo -e "Installed version of MYSQL: \033[41;37m $INSTALLED_MYSQL \033[0m"
@@ -120,7 +128,49 @@ function backup_mysql() {
     fi
     echo "Stoping MySQL..."
     /etc/init.d/mysqld stop
-    cp /etc/init.d/mysqld /$bkup_dir/mysqld_$update_date.bak
+    cp /etc/init.d/mysqld /$bkup_dir/$bkup_file
+}
+
+# MYSQL Update
+function upgrade_mysql() {
+    # Backup installed folder
+    if [[ -d "/usr/local/mysql.bak" && -d "/usr/local/mysql" ]];then
+        rm -rf /usr/local/mysql.bak/
+    fi
+    mv /usr/local/mysql /usr/local/mysql.bak
+    cd $cur_dir
+    if [ ! -s mysql-$LATEST_MYSQL.tar.gz ]; then
+        LATEST_MYSQL_LINK="http://cdn.mysql.com/Downloads/MySQL-${mysqlVer}/mysql-${LATEST_MYSQL}.tar.gz"
+        BACKUP_MYSQL_LINK="http://lamp.teddysun.com/files/mysql-${LATEST_MYSQL}.tar.gz"
+        untar $LATEST_MYSQL_LINK $BACKUP_MYSQL_LINK
+    else
+        tar -zxf mysql-$LATEST_MYSQL.tar.gz
+        cd mysql-$LATEST_MYSQL/
+    fi
+    # Compile MySQL
+    cmake \
+    -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+    -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+    -DDEFAULT_CHARSET=utf8 \
+    -DDEFAULT_COLLATION=utf8_general_ci \
+    -DWITH_EXTRA_CHARSETS=complex \
+    -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+    -DWITH_READLINE=1 \
+    -DENABLED_LOCAL_INFILE=1
+    make && make install
+    chmod +w /usr/local/mysql
+    chown -R mysql:mysql /usr/local/mysql
+    mysqldata=$(cat /$bkup_dir/$bkup_file | grep -w 'datadir=' | awk -F= '{print $2}' | head -1)
+    /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf \
+    --basedir=/usr/local/mysql --datadir=$mysqldata --user=mysql
+    cat > /etc/ld.so.conf.d/mysql.conf<<EOF
+/usr/local/mysql/lib
+/usr/local/lib
+EOF
+    cp -f support-files/mysql.server /etc/init.d/mysqld
+    sed -i "s:^datadir=.*:datadir=$mysqldata:g" /etc/init.d/mysqld
+    chmod 755 /etc/init.d/mysqld
+    ldconfig
 }
 
 # Start all of services 
@@ -157,39 +207,6 @@ EOF
     /etc/init.d/mysqld restart
 }
 
-# MYSQL Update
-function upgrade_mysql() {
-    # Backup installed folder
-    if [[ -d "/usr/local/mysql.bak" && -d "/usr/local/mysql" ]];then
-        rm -rf /usr/local/mysql.bak/
-    fi
-    mv /usr/local/mysql /usr/local/mysql.bak
-    cd $cur_dir
-    if [ ! -s mysql-$LATEST_MYSQL.tar.gz ]; then
-        LATEST_MYSQL_LINK="http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-$LATEST_MYSQL.tar.gz"
-        BACKUP_MYSQL_LINK="http://lamp.teddysun.com/files/mysql-$LATEST_MYSQL.tar.gz"
-        untar $LATEST_MYSQL_LINK $BACKUP_MYSQL_LINK
-    else
-        tar -zxf mysql-$LATEST_MYSQL.tar.gz
-        cd mysql-$LATEST_MYSQL/
-    fi
-    # Compile MySQL
-    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=complex -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1
-    make && make install
-    chmod +w /usr/local/mysql
-    chown -R mysql:mysql /usr/local/mysql
-    mysqldata=$(cat /$bkup_dir/mysqld_$update_date.bak | grep -w 'datadir=' | awk -F= '{print $2}' | head -1)
-    /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=$mysqldata --user=mysql
-    cat > /etc/ld.so.conf.d/mysql.conf<<EOF
-/usr/local/mysql/lib
-/usr/local/lib
-EOF
-    cp -f $cur_dir/mysql-$LATEST_MYSQL/support-files/mysql.server /etc/init.d/mysqld
-    sed -i "s:^datadir=.*:datadir=$mysqldata:g" /etc/init.d/mysqld
-    chmod 755 /etc/init.d/mysqld
-    ldconfig
-}
-
 # Clean up
 function clear_up() {
     cd $cur_dir
@@ -197,7 +214,7 @@ function clear_up() {
     echo ""
     echo "MySQL Upgrade completed!"
     echo "Welcome to visit:http://teddysun.com/lamp"
-    echo "Enjoy it! ^_^"
+    echo "Enjoy it!"
     echo ""
 }
 
