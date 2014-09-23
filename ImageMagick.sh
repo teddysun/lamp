@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===============================================================================
-#   SYSTEM REQUIRED:  CentOS-5 (32bit/64bit) or CentOS-6 (32bit/64bit)
+#   SYSTEM REQUIRED:  CentOS / RedHat / Fedora
 #   DESCRIPTION:  ImageMagick for LAMP
 #   AUTHOR: Teddysun <i@teddysun.com>
 #   VISIT:  http://teddysun.com/lamp
@@ -13,6 +13,21 @@ cd $cur_dir
 
 ImageMagick_Ver='ImageMagick-6.8.9-8'
 ImageMagick_ext_Ver='imagick-3.2.0RC1'
+
+# get PHP version
+PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
+if [ $? -ne 0 -o -z $PHP_VER ]; then
+    echo "Error:PHP looks like not installed, please check it and try again."
+    exit 1
+fi
+# get PHP extensions date
+if [ $PHP_VER -eq 53 ]; then
+    extDate='20090626'
+elif [ $PHP_VER -eq 54 ]; then
+    extDate='20100525'
+elif [ $PHP_VER -eq 55 ]; then
+    extDate='20121212'
+fi
 
 #===============================================================================
 #DESCRIPTION:Make sure only root can run our script
@@ -66,7 +81,7 @@ function install_imagemagick_ext(){
         echo "imagemagick configuration not found, create it!"
         cat > $PHP_PREFIX/php.d/imagick.ini<<-EOF
 [imagick]
-extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/imagick.so
+extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/imagick.so
 EOF
     fi
     # Clean up
