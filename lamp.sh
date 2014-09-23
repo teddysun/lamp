@@ -730,7 +730,7 @@ function install_php(){
         ln -s /usr/local/php/bin/php /usr/bin/php
         ln -s /usr/local/php/bin/php-config /usr/bin/php-config
         ln -s /usr/local/php/bin/phpize /usr/bin/phpize
-        echo "${PHPVersion} install completed!"
+        echo "PHP install completed!"
     else
         echo "PHP had been installed!"
     fi
