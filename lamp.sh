@@ -109,18 +109,18 @@ function centosversion(){
 
 # Make sure only root can run our script
 function rootness(){
-if [[ $EUID -ne 0 ]]; then
-   echo "Error:This script must be run as root!" 1>&2
-   exit 1
-fi
+    if [[ $EUID -ne 0 ]]; then
+       echo "Error:This script must be run as root!" 1>&2
+       exit 1
+    fi
 }
 
 # Disable selinux
 function disable_selinux(){
-if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
-    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-    setenforce 0
-fi
+    if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
+        sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+        setenforce 0
+    fi
 }
 
 # Pre-installation settings
@@ -283,15 +283,15 @@ function download_all_files(){
 
 # Download file
 function download_file(){
-if [ -s $1 ]; then
-    echo "$1 [found]"
-else
-    echo "$1 not found!!!download now......"
-    if ! wget -c http://lamp.teddysun.com/files/$1;then
-        echo "Failed to download $1,please download it to "$cur_dir" directory manually and try again."
-        exit 1
+    if [ -s $1 ]; then
+        echo "$1 [found]"
+    else
+        echo "$1 not found!!!download now......"
+        if ! wget -c http://lamp.teddysun.com/files/$1;then
+            echo "Failed to download $1,please download it to "$cur_dir" directory manually and try again."
+            exit 1
+        fi
     fi
-fi
 }
 
 # Untar all files
