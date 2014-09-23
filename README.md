@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2014年09月22日
+* 日期：2014年09月23日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -26,8 +26,8 @@
 
 ## 将会安装
 * 1、Apache 2.4.10
-* 2、MySQL 5.6.20, MariaDB 5.5.39, MariaDB 10.0.13 （三选一安装）
-* 3、PHP 5.4.33
+* 2、MySQL 5.6.20, MySQL 5.5.39, MariaDB 5.5.39, MariaDB 10.0.13 （四选一安装）
+* 3、PHP 5.4.33, PHP 5.3.29, PHP 5.5.17 （三选一安装）
 * 4、phpMyAdmin 4.2.9
 * 5、xcache 3.1.0 (推荐安装)
 * 6、OCI8 2.0.8 （可选安装）
@@ -39,7 +39,7 @@
 ## 如何安装
 ### 事前准备（安装screen、unzip，创建 screen 会话）：
 
-    yum -y install screen unzip
+    yum -y install wget screen unzip
     screen -S lamp
 
 ### 第一步，下载、解压、赋予权限：
@@ -81,7 +81,6 @@
 **使用方法：**
 
     ./upgrade_mysql.sh | tee upgrade_mysql.log
-
 
 ### 关于 upgrade_mariadb.sh
 
