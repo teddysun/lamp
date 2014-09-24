@@ -15,7 +15,7 @@ fi
 cur_dir=`pwd`
 cd $cur_dir
 
-xcacheVer='xcache-3.1.0'
+xcacheVer='xcache-3.2.0'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
