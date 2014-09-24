@@ -22,27 +22,27 @@ echo "#############################################################"
 echo "# Auto Update Script for MariaDB"
 echo "# System Required:  CentOS / RedHat / Fedora"
 echo "# Intro: http://teddysun.com/lamp"
-echo ""
+echo "#"
 echo "# Author: Teddysun <i@teddysun.com>"
-echo ""
+echo "#"
 echo "#############################################################"
 echo ""
 
 cur_dir=`pwd`
-bkup_dir="$cur_dir/mysql_bkup"
+bkup_dir="$cur_dir/mariadb_bkup"
 update_date=`date +"%Y%m%d"`
-mysql_dump="/$bkup_dir/mysql_all_backup_$update_date.dump"
+bkup_file="mysqld_${update_date}.bak"
+mariadb_dump="/$bkup_dir/mariadb_all_backup_${update_date}.dump"
 
 INSTALLED_MARIADB=$(/usr/local/mariadb/bin/mysql -V | awk '{print $5}' | tr -d "," | cut -d- -f1)
-INSTALLED_MARIADB_SHORT=$(/usr/local/mariadb/bin/mysql -V | awk '{print $5}' | tr -d "," | cut -d- -f1 | awk -F. '{print $1$2}')
+MARIADB_VER=$(echo $INSTALLED_MARIADB | awk -F. '{print $1$2}')
 
-if [ $INSTALLED_MARIADB_SHORT -eq 55 ]; then
+if [ $MARIADB_VER -eq 55 ]; then
     LATEST_MARIADB=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/5.5/{print $3}')
-    echo -e "Latest version of MariaDB: \033[41;37m $LATEST_MARIADB \033[0m"
-elif [ $INSTALLED_MARIADB_SHORT -eq 100 ];then
-    LATEST_MARIADB2=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}')
-    echo -e "Latest version of MariaDB: \033[41;37m $LATEST_MARIADB2 \033[0m"
+elif [ $MARIADB_VER -eq 100 ];then
+    LATEST_MARIADB=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}')
 fi
+echo -e "Latest version of MariaDB: \033[41;37m $LATEST_MARIADB \033[0m"
 echo -e "Installed version of MariaDB: \033[41;37m $INSTALLED_MARIADB \033[0m"
 echo ""
 echo "Do you want to upgrade MariaDB ? (y/n)"
@@ -93,8 +93,8 @@ function pre_setting() {
     if [ ! -d $bkup_dir ]; then
         mkdir -p $bkup_dir
     fi
-    read -p "Please input your MariaDB root password:" mysql_root_password
-    /usr/local/mariadb/bin/mysql -uroot -p$mysql_root_password <<EOF
+    read -p "Please input your MariaDB root password:" mariadb_root_password
+    /usr/local/mariadb/bin/mysql -uroot -p$mariadb_root_password <<EOF
 exit
 EOF
     if [ $? -eq 0 ]; then
@@ -117,7 +117,7 @@ function stopall() {
 # Backup MariaDB
 function backup_mariadb() {
     echo "Starting backup all of databases, Please wait a moment..."
-    /usr/local/mariadb/bin/mysqldump -uroot -p$mysql_root_password --all-databases > $mysql_dump
+    /usr/local/mariadb/bin/mysqldump -uroot -p$mariadb_root_password --all-databases > $mariadb_dump
     if [ $? -eq 0 ]; then
         echo "MariaDB all of databases backup success.";
     else
@@ -126,41 +126,7 @@ function backup_mariadb() {
     fi
     echo "Stoping MariaDB..."
     /etc/init.d/mysqld stop
-    cp /etc/init.d/mysqld /$bkup_dir/mysqld_$update_date.bak
-}
-
-# Start all of services 
-function startall() {
-    # Apache
-    /etc/init.d/httpd start
-    # MariaDB
-    if [ -d "/proc/vz" ]; then
-        ulimit -s unlimited
-    fi
-    /etc/init.d/mysqld start
-    if [ $? -ne 0 ]; then
-        echo "Starting MariaDB failed, Please check it!"
-        exit 1
-    fi
-    /usr/local/mariadb/bin/mysqladmin password $mysql_root_password
-    /usr/local/mariadb/bin/mysql -uroot -p$mysql_root_password <<EOF
-drop database if exists test;
-delete from mysql.user where user='';
-update mysql.user set password=password('$mysql_root_password') where user='root';
-delete from mysql.user where not (user='root') ;
-flush privileges;
-exit
-EOF
-    echo "Starting restore all of databases, Please wait a moment..."
-    /usr/local/mariadb/bin/mysql -u root -p$mysql_root_password < $mysql_dump
-    if [ $? -eq 0 ]; then
-        echo "MariaDB all of databases restore success.";
-    else
-        echo "MariaDB all of databases restore failed, Please restore manually!"
-        exit 1
-    fi
-    echo "Restart MariaDB..."
-    /etc/init.d/mysqld restart
+    cp /etc/init.d/mysqld /$bkup_dir/$bkup_file
 }
 
 # MariaDB Update
@@ -170,26 +136,16 @@ function upgrade_mariadb() {
         rm -rf /usr/local/mariadb.bak/
     fi
     mv /usr/local/mariadb /usr/local/mariadb.bak
-    datalocation=$(cat /$bkup_dir/mysqld_$update_date.bak | grep -w 'datadir=' | awk -F= '{print $2}' | head -1)
+    datalocation=$(cat /$bkup_dir/$bkup_file | grep -w 'datadir=' | awk -F= '{print $2}' | head -1)
     cd $cur_dir
-    if [ $INSTALLED_MARIADB_SHORT -eq 55 ]; then
-        if [ ! -s mariadb-$LATEST_MARIADB.tar.gz ]; then
-            LATEST_MARIADB_LINK="http://mirror.jmu.edu/pub/mariadb/mariadb-$LATEST_MARIADB/source/mariadb-$LATEST_MARIADB.tar.gz"
-            BACKUP_MARIADB_LINK="http://lamp.teddysun.com/files/mariadb-$LATEST_MARIADB.tar.gz"
-            untar $LATEST_MARIADB_LINK $BACKUP_MARIADB_LINK
-        else
-            tar -zxf mariadb-$LATEST_MARIADB.tar.gz
-            cd mariadb-$LATEST_MARIADB/
-        fi
-    elif [ $INSTALLED_MARIADB_SHORT -eq 100 ];then
-        if [ ! -s mariadb-$LATEST_MARIADB2.tar.gz ]; then
-            LATEST_MARIADB_LINK="http://mirror.jmu.edu/pub/mariadb/mariadb-$LATEST_MARIADB2/source/mariadb-$LATEST_MARIADB2.tar.gz"
-            BACKUP_MARIADB_LINK="http://lamp.teddysun.com/files/mariadb-$LATEST_MARIADB2.tar.gz"
-            untar $LATEST_MARIADB_LINK $BACKUP_MARIADB_LINK
-        else
-            tar -zxf mariadb-$LATEST_MARIADB2.tar.gz
-            cd mariadb-$LATEST_MARIADB2/
-        fi
+
+    if [ ! -s mariadb-$LATEST_MARIADB.tar.gz ]; then
+        LATEST_MARIADB_LINK="http://mirror.jmu.edu/pub/mariadb/mariadb-${LATEST_MARIADB}/source/mariadb-${LATEST_MARIADB}.tar.gz"
+        BACKUP_MARIADB_LINK="http://lamp.teddysun.com/files/mariadb-${LATEST_MARIADB}.tar.gz"
+        untar $LATEST_MARIADB_LINK $BACKUP_MARIADB_LINK
+    else
+        tar -zxf mariadb-$LATEST_MARIADB.tar.gz
+        cd mariadb-$LATEST_MARIADB/
     fi
 
     # Compile MariaDB
@@ -213,19 +169,50 @@ function upgrade_mariadb() {
     make && make install
     chmod +w /usr/local/mariadb
     chown -R mysql:mysql /usr/local/mariadb
-    /usr/local/mariadb/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mariadb --datadir=$datalocation --user=mysql
+    /usr/local/mariadb/scripts/mysql_install_db --defaults-file=/etc/my.cnf \
+    --basedir=/usr/local/mariadb --datadir=$datalocation --user=mysql
     cat > /etc/ld.so.conf.d/mariadb.conf<<EOF
 /usr/local/mariadb/lib
 /usr/local/lib
 EOF
     ldconfig
-    if [ $INSTALLED_MARIADB_SHORT -eq 55 ]; then
-        cp -f $cur_dir/mariadb-$LATEST_MARIADB/support-files/mysql.server /etc/init.d/mysqld
-    elif [ $INSTALLED_MARIADB_SHORT -eq 100 ]; then
-        cp -f $cur_dir/mariadb-$LATEST_MARIADB2/support-files/mysql.server /etc/init.d/mysqld
-    fi
+    cp -f support-files/mysql.server /etc/init.d/mysqld
     sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
     chmod 755 /etc/init.d/mysqld
+}
+
+# Start all of services 
+function startall() {
+    # Apache
+    /etc/init.d/httpd start
+    # MariaDB
+    if [ -d "/proc/vz" ]; then
+        ulimit -s unlimited
+    fi
+    /etc/init.d/mysqld start
+    if [ $? -ne 0 ]; then
+        echo "Starting MariaDB failed, Please check it!"
+        exit 1
+    fi
+    /usr/local/mariadb/bin/mysqladmin password $mariadb_root_password
+    /usr/local/mariadb/bin/mysql -uroot -p$mariadb_root_password <<EOF
+drop database if exists test;
+delete from mysql.user where user='';
+update mysql.user set password=password('$mariadb_root_password') where user='root';
+delete from mysql.user where not (user='root') ;
+flush privileges;
+exit
+EOF
+    echo "Starting restore all of databases, Please wait a moment..."
+    /usr/local/mariadb/bin/mysql -u root -p$mariadb_root_password < $mariadb_dump
+    if [ $? -eq 0 ]; then
+        echo "MariaDB all of databases restore success.";
+    else
+        echo "MariaDB all of databases restore failed, Please restore manually!"
+        exit 1
+    fi
+    echo "Restart MariaDB..."
+    /etc/init.d/mysqld restart
 }
 
 # Clean up

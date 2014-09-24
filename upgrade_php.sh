@@ -11,6 +11,12 @@ if [[ $EUID -ne 0 ]]; then
    echo "Error:This script must be run as root!" 1>&2
    exit 1
 fi
+
+if [ ! -d /usr/local/php ]; then
+    echo "Error:PHP looks like not installed, please check it and try again."
+    exit 1
+fi
+
 cur_dir=`pwd`
 
 clear
@@ -24,13 +30,20 @@ echo ""
 echo "#############################################################"
 echo ""
 
-#Description:PHP5 Update
-if [ ! -L /usr/bin/php ]; then
-    ln -s /usr/local/php/bin/php /usr/bin/php
-fi
+# Description:PHP Update
 
-LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.4')
-INSTALLED_PHP=$(php -r 'echo PHP_VERSION;' 2>/dev/null);
+INSTALLED_PHP=$(php -r 'echo PHP_VERSION;' 2>/dev/null)
+PHP_VER=$(echo $INSTALLED_PHP | awk -F. '{print $1$2}')
+if [ $PHP_VER -eq 53 ]; then
+    extDate='20090626'
+    LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.3')
+elif [ $PHP_VER -eq 54 ]; then
+    extDate='20100525'
+    LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.4')
+elif [ $PHP_VER -eq 55 ]; then
+    extDate='20121212'
+    LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.5')
+fi
 
 echo -e "Latest version of PHP: \033[41;37m $LATEST_PHP \033[0m"
 echo -e "Installed version of PHP: \033[41;37m $INSTALLED_PHP \033[0m"
@@ -45,7 +58,7 @@ echo "You choose = $UPGRADE_PHP"
 echo "---------------------------"
 echo ""
 
-#Description:phpMyAdmin Update
+# Description:phpMyAdmin Update
 if [ -d /data/www/default/phpmyadmin ]; then
     INSTALLED_PMA=$(awk '/Version/{print $2}' /data/www/default/phpmyadmin/README)
 else
@@ -141,7 +154,7 @@ function centosversion(){
     fi        
 }
 
-# PHP5 Update
+# PHP Update
 if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     echo "===================== PHP upgrade start===================="
     if [[ -d "/usr/local/php.bak" && -d "/usr/local/php" ]];then
@@ -235,9 +248,10 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     fi
     mkdir -p /usr/local/php/etc
     mkdir -p /usr/local/php/php.d
-    mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/
+    mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/
     cp -f /usr/local/php.bak/etc/php.ini /usr/local/php/etc/php.ini
-    cp -f /usr/local/php.bak/lib/php/extensions/no-debug-non-zts-20100525/* /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/
+    cp -f /usr/local/php.bak/lib/php/extensions/no-debug-non-zts-${extDate}/* \
+          /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/
     php_d=`ls /usr/local/php.bak/php.d/ | wc -l`
     if [ $php_d -ne 0 ]; then
         cp -f /usr/local/php.bak/php.d/* /usr/local/php/php.d/

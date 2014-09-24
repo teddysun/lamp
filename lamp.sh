@@ -21,17 +21,15 @@ echo ""
 # Install time state
 StartDate=''
 StartDateSecond=''
-# Current folder
-cur_dir=`pwd`
-# CPU Number
-Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
 # Software Version
 MySQLVersion='mysql-5.6.20'
+MySQLVersion2='mysql-5.5.39'
 MariaDBVersion='mariadb-5.5.39'
 MariaDBVersion2='mariadb-10.0.13'
 PHPVersion='php-5.4.33'
+PHPVersion2='php-5.3.29'
+PHPVersion3='php-5.5.17'
 ApacheVersion='httpd-2.4.10'
-phpMyAdminVersion='phpMyAdmin-4.2.9-all-languages'
 aprVersion='apr-1.5.1'
 aprutilVersion='apr-util-1.5.3'
 libiconvVersion='libiconv-1.14'
@@ -42,6 +40,11 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.35'
 libeditVersion='libedit-20140620-3.1'
 imapVersion='imap-2007f'
+phpMyAdminVersion='phpMyAdmin-4.2.9-all-languages'
+# Current folder
+cur_dir=`pwd`
+# CPU Number
+Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
 
 # Install LAMP Script
 function install_lamp(){
@@ -106,18 +109,18 @@ function centosversion(){
 
 # Make sure only root can run our script
 function rootness(){
-if [[ $EUID -ne 0 ]]; then
-   echo "Error:This script must be run as root!" 1>&2
-   exit 1
-fi
+    if [[ $EUID -ne 0 ]]; then
+       echo "Error:This script must be run as root!" 1>&2
+       exit 1
+    fi
 }
 
 # Disable selinux
 function disable_selinux(){
-if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
-    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-    setenforce 0
-fi
+    if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
+        sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+        setenforce 0
+    fi
 }
 
 # Pre-installation settings
@@ -134,10 +137,11 @@ function pre_installation_settings(){
     echo -e "\t\033[32m1\033[0m. Install MariaDB-5.5(recommend)"
     echo -e "\t\033[32m2\033[0m. Install MariaDB-10.0"
     echo -e "\t\033[32m3\033[0m. Install MySQL-5.6"
+    echo -e "\t\033[32m4\033[0m. Install MySQL-5.5"
     read -p "Please input a number:(Default 1) " DB_version
     [ -z "$DB_version" ] && DB_version=1
     case $DB_version in
-        1|2|3)
+        1|2|3|4)
         echo ""
         echo "---------------------------"
         echo "You choose = $DB_version"
@@ -146,7 +150,7 @@ function pre_installation_settings(){
         break
         ;;
         *)
-        echo "Input error! Please only input number 1,2,3"
+        echo "Input error! Please only input number 1,2,3,4"
     esac
     done
     # Set MySQL or MariaDB root password
@@ -170,7 +174,7 @@ function pre_installation_settings(){
         echo "Data location = $datalocation"
         echo "---------------------------"
         echo ""
-    elif [ $DB_version -eq 3 ]; then
+    elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
         # Define the MySQL data location.
         echo "Please input the MySQL data location:"
         read -p "(leave blank for /usr/local/mysql/data):" datalocation
@@ -181,6 +185,28 @@ function pre_installation_settings(){
         echo "---------------------------"
         echo ""
     fi
+    # Choose PHP version
+    while true
+    do
+    echo "Please choose a version of the PHP:"
+    echo -e "\t\033[32m1\033[0m. Install PHP-5.4(recommend)"
+    echo -e "\t\033[32m2\033[0m. Install PHP-5.3"
+    echo -e "\t\033[32m3\033[0m. Install PHP-5.5"
+    read -p "Please input a number:(Default 1) " PHP_version
+    [ -z "$PHP_version" ] && PHP_version=1
+    case $PHP_version in
+        1|2|3)
+        echo ""
+        echo "---------------------------"
+        echo "You choose = $PHP_version"
+        echo "---------------------------"
+        echo ""
+        break
+        ;;
+        *)
+        echo "Input error! Please only input number 1,2,3"
+    esac
+    done
 
     get_char(){
         SAVEDSTTY=`stty -g`
@@ -229,8 +255,16 @@ function download_all_files(){
         download_file "${MariaDBVersion2}.tar.gz"
     elif [ $DB_version -eq 3 ]; then
         download_file "${MySQLVersion}.tar.gz"
+    elif [ $DB_version -eq 4 ]; then
+        download_file "${MySQLVersion2}.tar.gz"
     fi
-    download_file "${PHPVersion}.tar.gz"
+    if [ $PHP_version -eq 1 ]; then
+        download_file "${PHPVersion}.tar.gz"
+    elif [ $PHP_version -eq 2 ]; then
+        download_file "${PHPVersion2}.tar.gz"
+    elif [ $PHP_version -eq 3 ]; then
+        download_file "${PHPVersion3}.tar.gz"
+    fi
     download_file "${ApacheVersion}.tar.gz"
     download_file "${phpMyAdminVersion}.tar.gz"
     download_file "${aprVersion}.tar.gz"
@@ -249,15 +283,15 @@ function download_all_files(){
 
 # Download file
 function download_file(){
-if [ -s $1 ]; then
-    echo "$1 [found]"
-else
-    echo "$1 not found!!!download now......"
-    if ! wget -c http://lamp.teddysun.com/files/$1;then
-        echo "Failed to download $1,please download it to "$cur_dir" directory manually and try again."
-        exit 1
+    if [ -s $1 ]; then
+        echo "$1 [found]"
+    else
+        echo "$1 not found!!!download now......"
+        if ! wget -c http://lamp.teddysun.com/files/$1;then
+            echo "Failed to download $1,please download it to "$cur_dir" directory manually and try again."
+            exit 1
+        fi
     fi
-fi
 }
 
 # Untar all files
@@ -343,7 +377,7 @@ function install_apache(){
 function install_database(){
     if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
         install_mariadb
-    elif [ $DB_version -eq 3 ]; then
+    elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
         install_mysql
     fi
 }
@@ -422,7 +456,7 @@ delete from mysql.user where not (user='root') ;
 flush privileges;
 exit
 EOF
-        echo "${MariaDBVersion} Install completed!"
+        echo "MariaDB Install completed!"
     else
         echo "MariaDB had been installed!"
     fi
@@ -432,11 +466,16 @@ EOF
 function install_mysql(){
     if [ ! -d /usr/local/mysql ];then
         # Install MySQL
-        echo "Start Installing ${MySQLVersion}"
         cd $cur_dir/
+        if [ $DB_version -eq 3 ]; then
+            echo "Start Installing ${MySQLVersion}"
+            cd $cur_dir/untar/$MySQLVersion
+        elif [ $DB_version -eq 4 ]; then
+            echo "Start Installing ${MySQLVersion2}"
+            cd $cur_dir/untar/$MySQLVersion2
+        fi
         /usr/sbin/groupadd mysql
         /usr/sbin/useradd -s /sbin/nologin -M -g mysql mysql
-        cd $cur_dir/untar/$MySQLVersion
         # Compile MySQL
         cmake \
         -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
@@ -495,7 +534,7 @@ delete from mysql.user where not (user='root') ;
 flush privileges;
 exit
 EOF
-        echo "${MySQLVersion} Install completed!"
+        echo "MySQL Install completed!"
     else
         echo "MySQL had been installed!"
     fi
@@ -590,11 +629,11 @@ function install_php(){
         if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
             WITH_MYSQL="--with-mysql=/usr/local/mariadb"
             WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
-        elif [ $DB_version -eq 3 ]; then
+        elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
             WITH_MYSQL="--with-mysql=/usr/local/mysql"
             WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
         fi
-        echo "Start Installing ${PHPVersion}"
+        echo "Start Installing PHP"
         # ldap module dependency 
         if is_64bit; then
             cp -rpf /usr/lib64/libldap* /usr/lib/
@@ -609,8 +648,13 @@ function install_php(){
         else
             WITH_IMAP="--with-imap --with-imap-ssl --with-kerberos"
         fi
-        cd $cur_dir/untar/$PHPVersion
-        make clean
+        if [ $PHP_version -eq 1 ]; then
+            cd $cur_dir/untar/$PHPVersion
+        elif [ $PHP_version -eq 2 ]; then
+            cd $cur_dir/untar/$PHPVersion2
+        elif [ $PHP_version -eq 3 ]; then
+            cd $cur_dir/untar/$PHPVersion3
+        fi
         ./configure \
         --prefix=/usr/local/php \
         --with-apxs2=/usr/local/apache/bin/apxs \
@@ -673,14 +717,20 @@ function install_php(){
         fi
         mkdir -p /usr/local/php/etc
         mkdir -p /usr/local/php/php.d
-        mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525
+        if [ $PHP_version -eq 1 ]; then
+            mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20100525
+        elif [ $PHP_version -eq 2 ]; then
+            mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20090626
+        elif [ $PHP_version -eq 3 ]; then
+            mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20121212
+        fi
         cp -f $cur_dir/conf/php.ini /usr/local/php/etc/php.ini
         rm -f /etc/php.ini
         ln -s /usr/local/php/etc/php.ini /etc/php.ini
         ln -s /usr/local/php/bin/php /usr/bin/php
         ln -s /usr/local/php/bin/php-config /usr/bin/php-config
         ln -s /usr/local/php/bin/phpize /usr/bin/phpize
-        echo "${PHPVersion} install completed!"
+        echo "PHP install completed!"
     else
         echo "PHP had been installed!"
     fi
@@ -707,7 +757,7 @@ function install_phpmyadmin(){
 
 # Install end cleanup
 function install_cleanup(){
-    #Start httpd service
+    # Start httpd service
     /etc/init.d/httpd start
     if [ $? -ne 0 ]; then
         echo "Apache Starting failed, Please visit http://teddysun.com/lamp and contact."
@@ -718,11 +768,11 @@ function install_cleanup(){
     cp -f $cur_dir/conf/httpd.logrotate /etc/logrotate.d/httpd
     sed -i '/Order/,/All/d' /usr/bin/lamp
     sed -i "/AllowOverride All/i\Require all granted" /usr/bin/lamp
-    #Clean up
+    # Clean up
     rm -rf $cur_dir/untar
 
     clear
-    #Install completed or not 
+    # Install completed or not 
     if [ -s /usr/local/apache ] && [ -s /usr/local/php ] && [ -s /usr/local/mysql -o -s /usr/local/mariadb ]; then
         echo ""
         echo 'Congratulations, LAMP install completed!'
@@ -733,7 +783,7 @@ function install_cleanup(){
         if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
             echo "MariaDB root password:$dbrootpwd"
             echo "MariaDB data location:$datalocation"
-        elif [ $DB_version -eq 3 ]; then
+        elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
             echo "MySQL root password:$dbrootpwd"
             echo "MySQL data location:$datalocation"
         fi
@@ -744,19 +794,27 @@ function install_cleanup(){
             echo -e "Installed MariaDB version:\033[41;37m ${MariaDBVersion2} \033[0m"
         elif [ $DB_version -eq 3 ]; then
             echo -e "Installed MySQL version:\033[41;37m ${MySQLVersion} \033[0m"
+        elif [ $DB_version -eq 4 ]; then
+            echo -e "Installed MySQL version:\033[41;37m ${MySQLVersion2} \033[0m"
         fi
-        echo -e "Installed PHP version:\033[41;37m ${PHPVersion} \033[0m"
+        if [ $PHP_version -eq 1 ]; then
+            echo -e "Installed PHP version:\033[41;37m ${PHPVersion} \033[0m"
+        elif [ $PHP_version -eq 2 ]; then
+            echo -e "Installed PHP version:\033[41;37m ${PHPVersion2} \033[0m"
+        elif [ $PHP_version -eq 3 ]; then
+            echo -e "Installed PHP version:\033[41;37m ${PHPVersion3} \033[0m"
+        fi
         echo -e "Installed phpMyAdmin version:\033[41;37m ${phpMyAdminVersion} \033[0m"
         echo ""
         echo "Start time: ${StartDate}"
         echo -e "Completion time: $(date) (Use:\033[41;37m $[($(date +%s)-StartDateSecond)/60] \033[0m minutes)"
-        echo "Welcome to visit:http://teddysun.com/lamp"
+        echo "Welcome to visit http://teddysun.com/lamp"
         echo "Enjoy it!"
         echo ""
     else
         echo ""
         echo 'Sorry, Failed to install LAMP!';
-        echo 'Please contact: http://teddysun.com/lamp';
+        echo 'Please visit http://teddysun.com/lamp and contact.';
     fi
 }
 
@@ -812,7 +870,7 @@ function uninstall_lamp(){
                 rm -f /usr/bin/$tmp2
             done
         fi
-        rm -rf /usr/local/mysql /usr/local/mariadb /usr/lib64/mysql /usr/lib/mysql /etc/my.cnf /etc/rc.d/init.d/mysqld /etc/ld.so.conf.d/mysql.conf /etc/ld.so.conf.d/mariadb.conf /var/lock/subsys/mysql
+        rm -rf /usr/local/mysql /usr/local/mariadb /usr/lib64/mysql /usr/lib/mysql /etc/my.cnf /etc/init.d/mysqld /etc/ld.so.conf.d/mysql.conf /etc/ld.so.conf.d/mariadb.conf /var/lock/subsys/mysql
         rm -rf /usr/local/php /usr/lib/php /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
         rm -rf /data/www/default/phpmyadmin
         rm -rf /data/www/default/xcache
@@ -826,7 +884,7 @@ function uninstall_lamp(){
 
 # Add apache virtualhost
 function vhost_add(){
-    #Define domain name
+    # Define domain name
     read -p "(Please input domains such as:www.example.com):" domains
     if [ "$domains" = "" ]; then
         echo "You need input a domain."
@@ -837,7 +895,7 @@ function vhost_add(){
         echo "$domain is exist!"
         exit 1
     fi
-    #Create database or not    
+    # Create database or not    
     while true
     do
     read -p "(Do you want to create database?[y/N]):" create
@@ -881,7 +939,7 @@ EOF
     esac
     done
 
-    #Create database
+    # Create database
     if [ "$create" == "y" ];then
     mysql -uroot -p$mysqlroot_passwd  <<EOF
 CREATE DATABASE IF NOT EXISTS \`$dbname\`;
@@ -890,13 +948,13 @@ GRANT ALL PRIVILEGES ON \`$dbname\` . * TO '$dbname'@'127.0.0.1' IDENTIFIED BY '
 FLUSH PRIVILEGES;
 EOF
     fi
-    #Define website dir
+    # Define website dir
     webdir="/data/www/$domain"
     DocumentRoot="$webdir/web"
     logsdir="$webdir/logs"
     mkdir -p $DocumentRoot $logsdir
     chown -R apache:apache $webdir
-    #Create vhost configuration file
+    # Create vhost configuration file
     cat >/usr/local/apache/conf/vhost/$domain.conf<<EOF
 <virtualhost *:80>
 ServerName  $domain
@@ -968,6 +1026,7 @@ function vhost_list(){
 function ftp(){
     if [ ! -f /etc/init.d/pure-ftpd ];then
         echo "Error: pure-ftpd not installed, please install it at first."
+        echo "Execute command: ./pureftpd.sh and install pure-ftpd."
         exit 1
     fi
     case "$faction" in
