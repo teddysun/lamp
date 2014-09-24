@@ -3,7 +3,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===============================================================================================
 #   SYSTEM REQUIRED:  CentOS / RedHat / Fedora
-#   DESCRIPTION:  OpCache for LAMP
+#   DESCRIPTION:  OPcache for LAMP
 #   AUTHOR: Teddysun <i@teddysun.com>
 #   VISIT:  http://teddysun.com/lamp
 #===============================================================================================
@@ -24,7 +24,7 @@ function create_ini(){
 if [ ! -f $PHP_PREFIX/php.d/opcache.ini ]; then
     echo "OpCache configuration not found, create it!"
     cat > $PHP_PREFIX/php.d/opcache.ini<<-EOF
-[OpCache]
+[OPcache]
 zend_extension=/usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/opcache.so
 opcache.enable_cli=1
 opcache.memory_consumption=128
@@ -38,7 +38,7 @@ fi
 }
 
 # install opcache
-echo "OpCache install start..."
+echo "OPcache install start..."
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
 if [ $? -ne 0 -o -z $PHP_VER ]; then
@@ -55,7 +55,7 @@ elif [ $PHP_VER -eq 55 ]; then
         echo "opcache.so already exists."
         create_ini
         /etc/init.d/httpd restart
-        echo "OpCache install completed..."
+        echo "OPcache install completed..."
         exit 0
     fi
 fi
@@ -86,5 +86,5 @@ create_ini
 cd $cur_dir
 rm -rf $cur_dir/untar/
 /etc/init.d/httpd restart
-echo "OpCache install completed..."
+echo "OPcache install completed..."
 exit 0
