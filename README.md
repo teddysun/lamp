@@ -13,7 +13,7 @@
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
 * 支持 MySQL ，MariaDB， SQLite 数据库;
-* 支持 XCache (可选安装)；
+* 支持 XCache ，OpCache(可选安装)；
 * 支持 Zend Guard Loader (可选安装)；
 * 支持 OCI8 （可让 PHP 连接 Oracle 数据库，可选安装）；
 * 支持 ionCube PHP Loader (可选安装)；
@@ -25,16 +25,17 @@
 * 一键卸载。
 
 ## 将会安装
-* 1、Apache 2.4.10
-* 2、MySQL 5.6.20, MySQL 5.5.39, MariaDB 5.5.39, MariaDB 10.0.13 （四选一安装）
-* 3、PHP 5.4.33, PHP 5.3.29, PHP 5.5.17 （三选一安装）
-* 4、phpMyAdmin 4.2.9
-* 5、xcache 3.2.0 (推荐安装)
-* 6、OCI8 2.0.8 （可选安装）
-* 7、pure-ftpd 1.0.36 （可选安装）
-* 8、Zend Guard Loader 3.3（ 可选安装）
-* 9、ionCube PHP Loader 4.6.1 （可选安装）
+* 01、Apache 2.4.10
+* 02、MySQL 5.6.20, MySQL 5.5.39, MariaDB 5.5.39, MariaDB 10.0.13 （四选一安装）
+* 03、PHP 5.4.33, PHP 5.3.29, PHP 5.5.17 （三选一安装）
+* 04、phpMyAdmin 4.2.9
+* 05、xcache 3.2.0 (推荐安装)
+* 06、OCI8 2.0.8 （可选安装）
+* 07、pure-ftpd 1.0.36 （可选安装）
+* 08、Zend Guard Loader 3.3（ 可选安装）
+* 09、ionCube PHP Loader 4.6.1 （可选安装）
 * 10、ImageMagick-6.8.9-8 （可选安装）
+* 11、OpCache 7.0.3 （可选安装）
 
 ## 如何安装
 ### 事前准备（安装screen、unzip，创建 screen 会话）：
@@ -56,15 +57,16 @@
 
 ### 安装其它：
 
-* 1、（推荐安装）执行脚本 xcache.sh 安装 xcache 。(命令：./xcache.sh)
-* 2、（可选安装）执行脚本 oci8_oracle11g.sh 安装 OCI8 扩展以及 oracle-instantclient11.2（命令：./oci8_oracle11g.sh）
-* 3、（可选安装）执行脚本 pureftpd.sh 安装 pure-ftpd-1.0.36。(命令：./pureftpd.sh)
-* 4、（可选安装）执行脚本 ZendGuardLoader.sh 安装 Zend Guard Loader。(命令：./ZendGuardLoader.sh)
-* 5、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：./ioncube.sh)
-* 6、（可选安装）执行脚本 ImageMagick.sh 安装 ImageMagick 的 PHP 扩展。（命令：./ImageMagick.sh）
-* 7、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./upgrade_php.sh | tee upgrade_php.log)
-* 8、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至 5.6.x 的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
-* 9、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本相对应的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
+* 01、（推荐安装）执行脚本 xcache.sh 安装 xcache 。(命令：./xcache.sh)
+* 02、（可选安装）执行脚本 oci8_oracle11g.sh 安装 OCI8 扩展以及 oracle-instantclient11.2（命令：./oci8_oracle11g.sh）
+* 03、（可选安装）执行脚本 pureftpd.sh 安装 pure-ftpd-1.0.36。(命令：./pureftpd.sh)
+* 04、（可选安装）执行脚本 ZendGuardLoader.sh 安装 Zend Guard Loader。(命令：./ZendGuardLoader.sh)
+* 05、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：./ioncube.sh)
+* 06、（可选安装）执行脚本 ImageMagick.sh 安装 imagick 的 PHP 扩展。（命令：./ImageMagick.sh）
+* 07、（可选安装）执行脚本 opcache.sh 安装 OpCache 的 PHP 扩展。（命令：./opcache.sh）
+* 08、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./upgrade_php.sh | tee upgrade_php.log)
+* 09、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至 5.6.x 的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
+* 10、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本相对应的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
 
 ### 关于 upgrade_php.sh
 
