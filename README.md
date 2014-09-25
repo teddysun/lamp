@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2014年09月24日
+* 日期：2014年09月25日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -19,6 +19,7 @@
 * 支持 ionCube PHP Loader (可选安装)；
 * 支持 pure-ftpd (可选安装)；
 * 支持 ImageMagick （可选安装）；
+* 支持 GraphicsMagick （可选安装）；
 * 命令行新增虚拟主机，操作简便；
 * 自助升级 PHP，phpMyAdmin，MySQL 或 MariaDB 至最新版本；
 * 支持创建 FTP 用户；
@@ -31,11 +32,12 @@
 *  4、phpMyAdmin 4.2.9
 *  5、xcache 3.2.0 (推荐安装)
 *  6、OCI8 2.0.8 （可选安装）
-*  7、pure-ftpd 1.0.36 （可选安装）
+*  7、pure-ftpd-1.0.36 （可选安装）
 *  8、Zend Guard Loader 3.3（ 可选安装）
 *  9、ionCube PHP Loader 4.6.1 （可选安装）
 * 10、ImageMagick-6.8.9-8 （可选安装）
-* 11、Zend OPcache 7.0.3 （可选安装）
+* 11、GraphicsMagick-1.3.20 （可选安装）
+* 12、Zend OPcache 7.0.3 （可选安装）
 
 ## 如何安装
 ### 事前准备（安装screen、unzip，创建 screen 会话）：
@@ -63,10 +65,11 @@
 *  4、（可选安装）执行脚本 ZendGuardLoader.sh 安装 Zend Guard Loader。(命令：./ZendGuardLoader.sh)
 *  5、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：./ioncube.sh)
 *  6、（可选安装）执行脚本 ImageMagick.sh 安装 imagick 的 PHP 扩展。（命令：./ImageMagick.sh）
-*  7、（可选安装）执行脚本 opcache.sh 安装 Zend OPcache 的 PHP 扩展。（命令：./opcache.sh）
-*  8、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./upgrade_php.sh | tee upgrade_php.log)
-*  9、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至 5.6.x 的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
-* 10、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本相对应的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
+*  7、（可选安装）执行脚本 GraphicsMagick.sh 安装 gmagick 的 PHP 扩展。（命令：./GraphicsMagick.sh）
+*  8、（可选安装）执行脚本 opcache.sh 安装 Zend OPcache 的 PHP 扩展。（命令：./opcache.sh）
+*  9、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./upgrade_php.sh | tee upgrade_php.log)
+* 10、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至已安装版本的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
+* 11、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
 
 ### 关于 upgrade_php.sh
 
