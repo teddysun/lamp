@@ -1,4 +1,4 @@
-###版本`2.9.2`：`Release date:2014/09/24`
+###版本`2.9.2`：`Release date:2014/09/25`
 更新记录：
 
 * 1、新增 PHP 版本 5.3.29， 5.5.17 支持；
@@ -7,6 +7,7 @@
 * 4、优化 ZendGuardLoader，Xcache，OCI8，ionCube PHP Loader，ImageMagick 脚本，对应 PHP 各版本；
 * 5、升级 Xcache 至版本 3.2.0；
 * 6、新增 opcache.sh 脚本，一键安装 Zend OPcache；
+* 7、新增 GraphicsMagick.sh 脚本，一键安装 gmagick 扩展；
 
 ###版本`2.9.1`：`Release date:2014/09/22`
 更新记录：
