@@ -1,3 +1,8 @@
+###版本`2.9.3`：`Release date:2014/09/26`
+更新记录：
+* 1、升级 MySQL 到版本 5.5.40, 5.6.21；
+* 2、新增 memcached.sh 脚本，一键安装 memcached 及 memcached 的 PHP 扩展；
+
 ###版本`2.9.2`：`Release date:2014/09/25`
 更新记录：
 
