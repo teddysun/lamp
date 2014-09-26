@@ -37,6 +37,14 @@ EOF
 fi
 }
 
+# Copy Opcache Control Panel PHP file to default web folder
+function ocp() {
+    if [ -s $cur_dir/conf/ocp.php ]; then
+        cp -f $cur_dir/conf/ocp.php /data/www/default/ocp.php
+    else 
+        echo "Opcache Control Panel PHP file not found!"
+    fi
+}
 # install opcache
 echo "OPcache install start..."
 # get PHP version
@@ -54,6 +62,7 @@ elif [ $PHP_VER -eq 55 ]; then
     if [ -s /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/opcache.so ]; then
         echo "opcache.so already exists."
         create_ini
+        ocp
         /etc/init.d/httpd restart
         echo "OPcache install completed..."
         exit 0
@@ -81,6 +90,7 @@ $PHP_PREFIX/bin/phpize
 ./configure --with-php-config=$PHP_PREFIX/bin/php-config
 make && make install
 create_ini
+ocp
 
 # Clean up
 cd $cur_dir
