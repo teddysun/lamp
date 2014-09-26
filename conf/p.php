@@ -656,7 +656,7 @@ input.btn{font-weight: bold; height: 20px; line-height: 20px; padding: 0 6px; co
 .static{color: #009900;}
 -->
 </style>
-<script language="JavaScript" type="text/javascript" src="./jquery-1.11.1.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="./jquery.js"></script>
 <script type="text/javascript"> 
 <!--
 $(document).ready(function(){getJSONData();});
