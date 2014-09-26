@@ -14,8 +14,8 @@
 * 支持 PHP 自带所有组件；
 * 支持 MySQL ，MariaDB， SQLite 数据库;
 * 支持 OCI8 （可选安装）；
-* 支持 memcached （可选安装）；
 * 支持 pure-ftpd （可选安装）；
+* 支持 memcached （可选安装）；
 * 支持 ImageMagick （可选安装）；
 * 支持 GraphicsMagick （可选安装）；
 * 支持 Zend Guard Loader （可选安装）；
@@ -33,8 +33,8 @@
 *  4、phpMyAdmin 4.2.9
 *  5、OCI8 2.0.8 （可选安装）
 *  6、xcache 3.2.0 （可选安装）
-*  7  memcached-1.4.20 （可选安装）
-*  8、pure-ftpd-1.0.36 （可选安装）
+*  7、pure-ftpd-1.0.36 （可选安装）
+*  8、memcached-1.4.20 （可选安装）
 *  9、Zend OPcache 7.0.3 （可选安装）
 * 10、ImageMagick-6.8.9-8 （可选安装）
 * 11、GraphicsMagick-1.3.20 （可选安装）
