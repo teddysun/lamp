@@ -945,6 +945,8 @@ EOF
 CREATE DATABASE IF NOT EXISTS \`$dbname\`;
 GRANT ALL PRIVILEGES ON \`$dbname\` . * TO '$dbname'@'localhost' IDENTIFIED BY '$mysqlpwd';
 GRANT ALL PRIVILEGES ON \`$dbname\` . * TO '$dbname'@'127.0.0.1' IDENTIFIED BY '$mysqlpwd';
+GRANT ALL PRIVILEGES ON \`phpmyadmin\` . * TO '$dbname'@'localhost' IDENTIFIED BY '$mysqlpwd';
+GRANT ALL PRIVILEGES ON \`phpmyadmin\` . * TO '$dbname'@'127.0.0.1' IDENTIFIED BY '$mysqlpwd';
 FLUSH PRIVILEGES;
 EOF
     fi
