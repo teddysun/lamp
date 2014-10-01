@@ -41,6 +41,7 @@ fi
 function ocp() {
     if [ -s $cur_dir/conf/ocp.php ]; then
         cp -f $cur_dir/conf/ocp.php /data/www/default/ocp.php
+        chown apache:apache /data/www/default/ocp.php
     else 
         echo "Opcache Control Panel PHP file not found!"
     fi
