@@ -218,11 +218,7 @@ EOF
 # Clean up
 function clear_up() {
     cd $cur_dir
-    if [ $INSTALLED_MARIADB_SHORT -eq 55 ]; then
-        rm -rf mariadb-$LATEST_MARIADB/
-    elif [ $INSTALLED_MARIADB_SHORT -eq 100 ]; then
-        rm -rf mariadb-$LATEST_MARIADB2/
-    fi
+    rm -rf mariadb-$LATEST_MARIADB/
     echo ""
     echo "MariaDB Upgrade completed!"
     echo "Welcome to visit:http://teddysun.com/lamp"
