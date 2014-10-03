@@ -1218,8 +1218,8 @@ else
   <tr>
     <td>XCache</td>
     <td><?php if((phpversion('XCache'))!=''){echo '<font color=green>√</font>　Ver ';echo phpversion('XCache');}else{ echo "<font color=red>×</font>";} ?></td>
-    <td>APC</td>
-    <td><?php if((phpversion('APC'))!=''){echo '<font color=green>√</font>　Ver ';echo phpversion('APC');}else{ echo "<font color=red>×</font>";} ?></td>
+    <td>Zend OPcache</td>
+    <td><?php if(function_exists('opcache_get_configuration')){echo '<font color=green>√</font>　Ver ';$configuration=call_user_func('opcache_get_configuration'); echo $configuration['version']['version'];}else{ echo "<font color=red>×</font>";} ?></td>
   </tr>
 </table>
 
