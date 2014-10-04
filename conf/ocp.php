@@ -67,12 +67,12 @@ if ( !empty($_GET['RECHECK']) ) {
 	pre {margin: 0px; font-family: monospace;}
 	a:link,a:visited {color: #000099; text-decoration: none;}
 	a:hover {text-decoration: underline;}
-	table {border-collapse: collapse;}
+	table {border-collapse: collapse; width: 600px; }
 	.center {text-align: center;}
 	.center table { margin-left: auto; margin-right: auto; text-align: left;}
 	.center th { text-align: center !important; }
 	.middle {vertical-align:middle;}
-	td, th { border: 1px solid #000; font-size: 75%; vertical-align: baseline;}
+	td, th { border: 1px solid #000; font-size: 75%; vertical-align: baseline; padding: 3px; } 
 	h1 {font-size: 150%;}
 	h2 {font-size: 125%;}
 	.p {text-align: left;}
