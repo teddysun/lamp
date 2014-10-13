@@ -30,7 +30,7 @@
 *  1、Apache 2.4.10
 *  2、MySQL 5.6.21, MySQL 5.5.40, MariaDB 5.5.40, MariaDB 10.0.14 （四选一安装）
 *  3、PHP 5.4.33, PHP 5.3.29, PHP 5.5.17 （三选一安装）
-*  4、phpMyAdmin 4.2.9.1
+*  4、phpMyAdmin 4.2.10
 *  5、OCI8 2.0.8 （可选安装）
 *  6、xcache 3.2.0 （可选安装）
 *  7、pure-ftpd-1.0.36 （可选安装）
