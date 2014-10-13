@@ -134,10 +134,10 @@ function pre_installation_settings(){
     while true
     do
     echo "Please choose a version of the Database:"
-    echo -e "\t\033[32m1\033[0m. Install MariaDB-5.5(recommend)"
-    echo -e "\t\033[32m2\033[0m. Install MariaDB-10.0"
-    echo -e "\t\033[32m3\033[0m. Install MySQL-5.6"
-    echo -e "\t\033[32m4\033[0m. Install MySQL-5.5"
+    echo -e "\t\033[32m1\033[0m. Install MySQL-5.6(recommend)"
+    echo -e "\t\033[32m2\033[0m. Install MySQL-5.5"
+    echo -e "\t\033[32m3\033[0m. Install MariaDB-5.5"
+    echo -e "\t\033[32m4\033[0m. Install MariaDB-10.0"
     read -p "Please input a number:(Default 1) " DB_version
     [ -z "$DB_version" ] && DB_version=1
     case $DB_version in
@@ -165,20 +165,20 @@ function pre_installation_settings(){
     echo "---------------------------"
     echo ""
     if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
-        # Define the MariaDB data location.
-        echo "Please input the MariaDB data location:"
-        read -p "(leave blank for /usr/local/mariadb/data):" datalocation
-        [ -z "$datalocation" ] && datalocation="/usr/local/mariadb/data"
+        # Define the MySQL data location.
+        echo "Please input the MySQL data location:"
+        read -p "(leave blank for /usr/local/mysql/data):" datalocation
+        [ -z "$datalocation" ] && datalocation="/usr/local/mysql/data"
         echo ""
         echo "---------------------------"
         echo "Data location = $datalocation"
         echo "---------------------------"
         echo ""
     elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
-        # Define the MySQL data location.
-        echo "Please input the MySQL data location:"
-        read -p "(leave blank for /usr/local/mysql/data):" datalocation
-        [ -z "$datalocation" ] && datalocation="/usr/local/mysql/data"
+        # Define the MariaDB data location.
+        echo "Please input the MariaDB data location:"
+        read -p "(leave blank for /usr/local/mariadb/data):" datalocation
+        [ -z "$datalocation" ] && datalocation="/usr/local/mariadb/data"
         echo ""
         echo "---------------------------"
         echo "Data location = $datalocation"
@@ -250,13 +250,13 @@ function pre_installation_settings(){
 function download_all_files(){
     cd $cur_dir
     if [ $DB_version -eq 1 ]; then
-        download_file "${MariaDBVersion}.tar.gz"
-    elif [ $DB_version -eq 2 ]; then
-        download_file "${MariaDBVersion2}.tar.gz"
-    elif [ $DB_version -eq 3 ]; then
         download_file "${MySQLVersion}.tar.gz"
-    elif [ $DB_version -eq 4 ]; then
+    elif [ $DB_version -eq 2 ]; then
         download_file "${MySQLVersion2}.tar.gz"
+    elif [ $DB_version -eq 3 ]; then
+        download_file "${MariaDBVersion}.tar.gz"
+    elif [ $DB_version -eq 4 ]; then
+        download_file "${MariaDBVersion2}.tar.gz"
     fi
     if [ $PHP_version -eq 1 ]; then
         download_file "${PHPVersion}.tar.gz"
@@ -376,9 +376,9 @@ function install_apache(){
 # Install database
 function install_database(){
     if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
-        install_mariadb
-    elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
         install_mysql
+    elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
+        install_mariadb
     fi
 }
 
@@ -387,10 +387,10 @@ function install_mariadb(){
     if [ ! -d /usr/local/mariadb ];then
         # Install MariaDB
         cd $cur_dir/
-        if [ $DB_version -eq 1 ]; then
+        if [ $DB_version -eq 3 ]; then
             echo "Start Installing ${MariaDBVersion}"
             cd $cur_dir/untar/$MariaDBVersion
-        elif [ $DB_version -eq 2 ]; then
+        elif [ $DB_version -eq 4 ]; then
             echo "Start Installing ${MariaDBVersion2}"
             cd $cur_dir/untar/$MariaDBVersion2
         fi
@@ -467,10 +467,10 @@ function install_mysql(){
     if [ ! -d /usr/local/mysql ];then
         # Install MySQL
         cd $cur_dir/
-        if [ $DB_version -eq 3 ]; then
+        if [ $DB_version -eq 1 ]; then
             echo "Start Installing ${MySQLVersion}"
             cd $cur_dir/untar/$MySQLVersion
-        elif [ $DB_version -eq 4 ]; then
+        elif [ $DB_version -eq 2 ]; then
             echo "Start Installing ${MySQLVersion2}"
             cd $cur_dir/untar/$MySQLVersion2
         fi
@@ -627,11 +627,11 @@ function install_php(){
     if [ ! -d /usr/local/php ];then
         # database compile dependency
         if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
-            WITH_MYSQL="--with-mysql=/usr/local/mariadb"
-            WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
-        elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
             WITH_MYSQL="--with-mysql=/usr/local/mysql"
             WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
+        elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
+            WITH_MYSQL="--with-mysql=/usr/local/mariadb"
+            WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
         fi
         echo "Start Installing PHP"
         # ldap module dependency 
@@ -781,21 +781,21 @@ function install_cleanup(){
         echo 'Apache Dir: /usr/local/apache'
         echo 'PHP Dir: /usr/local/php'
         if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
-            echo "MariaDB root password:$dbrootpwd"
-            echo "MariaDB data location:$datalocation"
-        elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
             echo "MySQL root password:$dbrootpwd"
             echo "MySQL data location:$datalocation"
+        elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
+            echo "MariaDB root password:$dbrootpwd"
+            echo "MariaDB data location:$datalocation"
         fi
         echo -e "Installed Apache version:\033[41;37m ${ApacheVersion} \033[0m"
         if [ $DB_version -eq 1 ]; then
-            echo -e "Installed MariaDB version:\033[41;37m ${MariaDBVersion} \033[0m"
-        elif [ $DB_version -eq 2 ]; then
-            echo -e "Installed MariaDB version:\033[41;37m ${MariaDBVersion2} \033[0m"
-        elif [ $DB_version -eq 3 ]; then
             echo -e "Installed MySQL version:\033[41;37m ${MySQLVersion} \033[0m"
-        elif [ $DB_version -eq 4 ]; then
+        elif [ $DB_version -eq 2 ]; then
             echo -e "Installed MySQL version:\033[41;37m ${MySQLVersion2} \033[0m"
+        elif [ $DB_version -eq 3 ]; then
+            echo -e "Installed MariaDB version:\033[41;37m ${MariaDBVersion} \033[0m"
+        elif [ $DB_version -eq 4 ]; then
+            echo -e "Installed MariaDB version:\033[41;37m ${MariaDBVersion2} \033[0m"
         fi
         if [ $PHP_version -eq 1 ]; then
             echo -e "Installed PHP version:\033[41;37m ${PHPVersion} \033[0m"
