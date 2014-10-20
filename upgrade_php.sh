@@ -48,7 +48,7 @@ fi
 echo -e "Latest version of PHP: \033[41;37m $LATEST_PHP \033[0m"
 echo -e "Installed version of PHP: \033[41;37m $INSTALLED_PHP \033[0m"
 echo ""
-echo "Do you want to upgrade PHP5 ? (y/n)"
+echo "Do you want to upgrade PHP ? (y/n)"
 read -p "(Default: n):" UPGRADE_PHP
 if [ -z $UPGRADE_PHP ]; then
     UPGRADE_PHP="n"
