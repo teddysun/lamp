@@ -70,7 +70,7 @@ else
     fi
 fi
 
-LATEST_PMA=$(elinks http://iweb.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/ | awk -F/ '{print $7F}' | grep -iv '-' | grep -iv 'rst' | grep -iv ';' | tail -1)
+LATEST_PMA=$(elinks http://iweb.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/ | awk -F/ '{print $7F}' | grep -iv '-' | grep -iv 'rst' | grep -iv ';' | sort -V | tail -1)
 echo -e "Latest version of phpmyadmin: \033[41;37m $LATEST_PMA \033[0m"
 echo -e "Installed version of phpmyadmin: \033[41;37m $INSTALLED_PMA \033[0m"
 echo ""
