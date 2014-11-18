@@ -106,7 +106,7 @@ function install_memcache_ext(){
     if [ ! -f $PHP_PREFIX/php.d/memcache.ini ]; then
         echo "memcache configuration not found, create it!"
         cat > $PHP_PREFIX/php.d/memcache.ini<<-EOF
-[gmagick]
+[memcache]
 extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/memcache.so
 EOF
     fi
@@ -133,7 +133,7 @@ function install_memcached_ext(){
     if [ ! -f $PHP_PREFIX/php.d/memcached.ini ]; then
         echo "memcached configuration not found, create it!"
         cat > $PHP_PREFIX/php.d/memcached.ini<<-EOF
-[gmagick]
+[memcached]
 extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/memcached.so
 EOF
     fi
