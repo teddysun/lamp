@@ -26,7 +26,7 @@ MySQLVersion='mysql-5.6.21'
 MySQLVersion2='mysql-5.5.40'
 MariaDBVersion='mariadb-5.5.40'
 MariaDBVersion2='mariadb-10.0.14'
-PHPVersion='php-5.4.34'
+PHPVersion='php-5.4.35'
 PHPVersion2='php-5.3.29'
 PHPVersion3='php-5.5.19'
 ApacheVersion='httpd-2.4.10'
@@ -40,7 +40,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.35'
 libeditVersion='libedit-20140620-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.2.11-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.2.12-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
