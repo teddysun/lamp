@@ -201,6 +201,10 @@ EOF
         echo "MySQL all of databases restore failed, Please restore manually!"
         exit 1
     fi
+    echo "Restart MySQL..."
+    /etc/init.d/mysqld restart
+    echo "Restart Apache..."
+    /etc/init.d/httpd restart
 }
 
 # Clean up
