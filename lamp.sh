@@ -1018,7 +1018,7 @@ function vhost_del(){
 
 # List apache virtualhost
 function vhost_list(){
-    ls /usr/local/apache/conf/vhost/ | cut -f 1,2,3 -d "."
+    ls /usr/local/apache/conf/vhost/ | grep -v "none.conf" | awk -F".conf" '{print $1}'
 }
 
 # add,del,list ftp user
