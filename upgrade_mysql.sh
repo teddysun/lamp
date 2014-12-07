@@ -92,6 +92,15 @@ function untar(){
 
 # Prepare setting
 function pre_setting() {
+    ps -ef | grep -v grep | grep -v ps | grep -i "mysqld" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "MySQL looks like not running, Try to starting MySQL..."
+        /etc/init.d/mysqld start
+        if [ $? -ne 0 ]; then
+            echo "Mysql starting failed!"
+            exit 1
+        fi
+    fi
     if [ ! -d $bkup_dir ]; then
         mkdir -p $bkup_dir
     fi
@@ -104,15 +113,6 @@ EOF
     else
         echo "MySQL root password incorrect! Please check it and try again!"
         exit 1
-    fi
-}
-
-# Stop all of services 
-function stopall() {
-    ps -ef | grep -v grep | grep -v ps | grep -i "/usr/local/apache/bin/httpd" > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "Stoping Apache..."
-        /etc/init.d/httpd stop
     fi
 }
 
@@ -175,8 +175,6 @@ EOF
 
 # Start all of services 
 function startall() {
-    # Apache
-    /etc/init.d/httpd start
     # MySQL
     if [ -d "/proc/vz" ]; then
         ulimit -s unlimited
@@ -203,14 +201,14 @@ EOF
         echo "MySQL all of databases restore failed, Please restore manually!"
         exit 1
     fi
-    echo "Restart MySQL..."
-    /etc/init.d/mysqld restart
 }
 
 # Clean up
 function clear_up() {
+    echo "Clear up MySQL..."
     cd $cur_dir
     rm -rf mysql-$LATEST_MYSQL/
+    rm -f mysql-$LATEST_MYSQL.tar.gz
     echo ""
     echo "MySQL Upgrade completed!"
     echo "Welcome to visit:http://teddysun.com/lamp"
@@ -220,7 +218,6 @@ function clear_up() {
 
 if [[ "$UPGRADE_MYSQL" = "y" || "$UPGRADE_MYSQL" = "Y" ]];then
     pre_setting
-    stopall
     backup_mysql
     upgrade_mysql
     startall
