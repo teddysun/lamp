@@ -22,8 +22,8 @@ echo ""
 StartDate=''
 StartDateSecond=''
 # Software Version
-MySQLVersion='mysql-5.6.21'
-MySQLVersion2='mysql-5.5.40'
+MySQLVersion='mysql-5.6.22'
+MySQLVersion2='mysql-5.5.41'
 MariaDBVersion='mariadb-5.5.40'
 MariaDBVersion2='mariadb-10.0.15'
 PHPVersion='php-5.4.35'
@@ -222,12 +222,9 @@ function pre_installation_settings(){
     char=`get_char`
 
     #Remove Packages
-    rpm -e --nodeps httpd
-    rpm -e --nodeps mysql
-    rpm -e --nodeps php
-    yum -y remove httpd
+    yum -y remove httpd*
     yum -y remove mysql
-    yum -y remove php
+    yum -y remove php*
     #Set timezone
     rm -f /etc/localtime
     ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
