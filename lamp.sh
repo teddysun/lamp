@@ -26,9 +26,9 @@ MySQLVersion='mysql-5.6.22'
 MySQLVersion2='mysql-5.5.41'
 MariaDBVersion='mariadb-5.5.40'
 MariaDBVersion2='mariadb-10.0.15'
-PHPVersion='php-5.4.35'
+PHPVersion='php-5.4.36'
 PHPVersion2='php-5.3.29'
-PHPVersion3='php-5.5.19'
+PHPVersion3='php-5.5.20'
 ApacheVersion='httpd-2.4.10'
 aprVersion='apr-1.5.1'
 aprutilVersion='apr-util-1.5.3'
@@ -40,7 +40,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.35'
 libeditVersion='libedit-20140620-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.3.0-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.3.2-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
@@ -427,14 +427,14 @@ function install_mariadb(){
         chkconfig mysqld on
         /usr/local/mariadb/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mariadb --datadir=$datalocation --user=mysql
         cat > /etc/ld.so.conf.d/mariadb.conf<<EOF
-/usr/local/mariadb/lib/mysql
+/usr/local/mariadb/lib
 /usr/local/lib
 EOF
         ldconfig
         if is_64bit; then
-            ln -s /usr/local/mariadb/lib/mysql /usr/lib64/mysql
+            ln -s /usr/local/mariadb/lib/*.* /usr/lib64/mysql
         else
-            ln -s /usr/local/mariadb/lib/mysql /usr/lib/mysql
+            ln -s /usr/local/mariadb/lib/*.* /usr/lib/mysql
         fi
         for i in `ls /usr/local/mariadb/bin`
         do
@@ -505,14 +505,14 @@ function install_mysql(){
         chkconfig --add mysqld
         chkconfig  mysqld on
         cat > /etc/ld.so.conf.d/mysql.conf<<EOF
-/usr/local/mysql/lib/mysql
+/usr/local/mysql/lib
 /usr/local/lib
 EOF
         ldconfig
         if is_64bit; then
-            ln -s /usr/local/mysql/lib/mysql /usr/lib64/mysql
+            ln -s /usr/local/mysql/lib/*.* /usr/lib64/mysql
         else
-            ln -s /usr/local/mysql/lib/mysql /usr/lib/mysql
+            ln -s /usr/local/mysql/lib/*.* /usr/lib/mysql
         fi
         for i in `ls /usr/local/mysql/bin`
         do
