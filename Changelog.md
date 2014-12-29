@@ -1,3 +1,9 @@
+###版本`3.0.1`：`Release date:2014/12/29`
+更新记录：
+
+* 1、升级 MariaDB 到版本 5.5.41（my_config.h 的编译错误已经被 Fixed）；
+* 2、升级 phpMyAdmin 到版本 4.3.3；
+
 ###版本`3.0.0`：`Release date:2014/12/19`
 更新记录：
 
