@@ -24,7 +24,7 @@ StartDateSecond=''
 # Software Version
 MySQLVersion='mysql-5.6.22'
 MySQLVersion2='mysql-5.5.41'
-MariaDBVersion='mariadb-5.5.40'
+MariaDBVersion='mariadb-5.5.41'
 MariaDBVersion2='mariadb-10.0.15'
 PHPVersion='php-5.4.36'
 PHPVersion2='php-5.3.29'
@@ -40,7 +40,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.35'
 libeditVersion='libedit-20140620-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.3.2-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.3.3-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
