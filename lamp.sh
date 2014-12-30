@@ -40,7 +40,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.35'
 libeditVersion='libedit-20140620-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.3.3-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.3.4-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
