@@ -34,9 +34,9 @@
 *  5、OCI8 2.0.8 （可选安装）
 *  6、xcache 3.2.0 （可选安装）
 *  7、pure-ftpd-1.0.36 （可选安装）
-*  8、memcached-1.4.20 （可选安装）
+*  8、memcached-1.4.22 （可选安装）
 *  9、Zend OPcache 7.0.3 （可选安装）
-* 10、ImageMagick-6.8.9-8 （可选安装）
+* 10、ImageMagick-6.9.0-3 （可选安装）
 * 11、GraphicsMagick-1.3.20 （可选安装）
 * 12、Zend Guard Loader 3.3 （可选安装）
 * 13、ionCube PHP Loader 4.6.1 （可选安装）
