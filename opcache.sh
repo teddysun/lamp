@@ -16,7 +16,7 @@ cur_dir=`pwd`
 cd $cur_dir
 
 PHP_PREFIX='/usr/local/php'
-opcacheVer='zendopcache-7.0.3'
+opcacheVer='zendopcache-7.0.4'
 extDate='20121212'
 
 # Create opcache configuration file
