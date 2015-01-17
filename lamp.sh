@@ -73,7 +73,7 @@ function getIP(){
     IP=`curl -s checkip.dyndns.com | cut -d' ' -f 6  | cut -d'<' -f 1`
     if [ $? -ne 0 -o -z "$IP" ]; then
         yum install -y curl curl-devel
-        IP=`curl -s ifconfig.me/ip`
+        IP=`curl -s -4 ipinfo.io | grep "ip" | awk -F\" '{print $4}'`
     fi
 }
 
