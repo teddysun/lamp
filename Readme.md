@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2015年01月08日
+* 日期：2015年01月29日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -29,8 +29,8 @@
 ## 将会安装
 *  1、Apache 2.4.10
 *  2、MySQL 5.6.22, MySQL 5.5.41, MariaDB 5.5.41, MariaDB 10.0.15 （四选一安装）
-*  3、PHP 5.4.36, PHP 5.3.29, PHP 5.5.20 （三选一安装）
-*  4、phpMyAdmin 4.3.7
+*  3、PHP 5.4.37, PHP 5.3.29, PHP 5.5.21 （三选一安装）
+*  4、phpMyAdmin 4.3.8
 *  5、OCI8 2.0.8 （可选安装）
 *  6、xcache 3.2.0 （可选安装）
 *  7、pure-ftpd-1.0.36 （可选安装）
@@ -39,7 +39,7 @@
 * 10、ImageMagick-6.9.0-3 （可选安装）
 * 11、GraphicsMagick-1.3.20 （可选安装）
 * 12、Zend Guard Loader 3.3 （可选安装）
-* 13、ionCube PHP Loader 4.6.1 （可选安装）
+* 13、ionCube PHP Loader 4.7.3 （可选安装）
 
 ## 如何安装
 ### 事前准备（安装screen、unzip，创建 screen 会话）：
