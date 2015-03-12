@@ -12,7 +12,7 @@ cur_dir=`pwd`
 cd $cur_dir
 
 PHP_PREFIX='/usr/local/php'
-GraphicsMagick_Ver='GraphicsMagick-1.3.20'
+GraphicsMagick_Ver='GraphicsMagick-1.3.21'
 GraphicsMagick_ext_Ver='gmagick-1.1.7RC2'
 
 # get PHP version
