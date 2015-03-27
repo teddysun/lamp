@@ -9,12 +9,11 @@ export PATH
 #===============================================================================================
 
 clear
+echo ""
 echo "#############################################################"
-echo "# LAMP Auto Install Script for CentOS / RedHat / Fedora"
-echo "# Intro: http://teddysun.com/lamp"
-echo "#"
-echo "# Author: Teddysun <i@teddysun.com>"
-echo "#"
+echo "# LAMP Auto Install Script for CentOS / RedHat / Fedora     #"
+echo "# Intro: http://teddysun.com/lamp                           #"
+echo "# Author: Teddysun <i@teddysun.com>                         #"
 echo "#############################################################"
 echo ""
 
@@ -25,10 +24,10 @@ StartDateSecond=''
 MySQLVersion='mysql-5.6.23'
 MySQLVersion2='mysql-5.5.42'
 MariaDBVersion='mariadb-5.5.42'
-MariaDBVersion2='mariadb-10.0.16'
-PHPVersion='php-5.4.38'
+MariaDBVersion2='mariadb-10.0.17'
+PHPVersion='php-5.4.39'
 PHPVersion2='php-5.3.29'
-PHPVersion3='php-5.5.22'
+PHPVersion3='php-5.5.23'
 ApacheVersion='httpd-2.4.12'
 aprVersion='apr-1.5.1'
 aprutilVersion='apr-util-1.5.4'
@@ -40,7 +39,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.36'
 libeditVersion='libedit-20141030-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.3.10-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.3.12-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
