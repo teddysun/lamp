@@ -69,9 +69,8 @@ function install_lamp(){
 
 # Get public IP
 function getIP(){
-    IP=`curl -s checkip.dyndns.com | cut -d' ' -f 6  | cut -d'<' -f 1`
-    if [ $? -ne 0 -o -z "$IP" ]; then
-        yum install -y curl curl-devel
+    IP=$(curl -s -4 icanhazip.com)
+    if [[ "$IP" = "" ]]; then
         IP=`curl -s -4 ipinfo.io | grep "ip" | awk -F\" '{print $4}'`
     fi
 }
