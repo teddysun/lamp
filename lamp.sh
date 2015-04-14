@@ -21,8 +21,8 @@ echo ""
 StartDate=''
 StartDateSecond=''
 # Software Version
-MySQLVersion='mysql-5.6.23'
-MySQLVersion2='mysql-5.5.42'
+MySQLVersion='mysql-5.6.24'
+MySQLVersion2='mysql-5.5.43'
 MariaDBVersion='mariadb-5.5.42'
 MariaDBVersion2='mariadb-10.0.17'
 PHPVersion='php-5.4.39'
@@ -39,7 +39,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.36'
 libeditVersion='libedit-20141030-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.3.12-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.4.2-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
@@ -739,7 +739,7 @@ function install_phpmyadmin(){
         mv untar/$phpMyAdminVersion /data/www/default/phpmyadmin
         cp -f $cur_dir/conf/config.inc.php /data/www/default/phpmyadmin/config.inc.php
         #Create phpmyadmin database
-        mysql -uroot -p$dbrootpwd < /data/www/default/phpmyadmin/examples/create_tables.sql
+        mysql -uroot -p$dbrootpwd < /data/www/default/phpmyadmin/sql/create_tables.sql
         chmod -R 755 /data/www/default/phpmyadmin
         mkdir -p /data/www/default/phpmyadmin/upload/
         mkdir -p /data/www/default/phpmyadmin/save/
