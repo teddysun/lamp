@@ -90,7 +90,7 @@ function untar(){
 
 # Prepare setting
 function pre_setting() {
-    ps -ef | grep -v grep | grep -v ps | grep -i "mysqld" > /dev/null 2>&1
+    /etc/init.d/mysqld status > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         echo "MariaDB looks like not running, Try to starting MariaDB..."
         /etc/init.d/mysqld start
