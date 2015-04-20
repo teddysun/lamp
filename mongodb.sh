@@ -73,6 +73,7 @@ fi
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/
+rm -f $cur_dir/$mongoVer
 /etc/init.d/httpd restart
 echo "=====Mongodb extension install completed====="
 exit
