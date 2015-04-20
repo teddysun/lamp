@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2015年04月14日
+* 日期：2015年04月20日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -29,7 +29,7 @@
 ## 将会安装
 *  1、Apache 2.4.12
 *  2、MySQL 5.6.24, MySQL 5.5.43, MariaDB 5.5.42, MariaDB 10.0.17 （四选一安装）
-*  3、PHP 5.4.39, PHP 5.3.29, PHP 5.5.23 （三选一安装）
+*  3、PHP 5.4.40, PHP 5.3.29, PHP 5.5.24 （三选一安装）
 *  4、phpMyAdmin 4.4.2
 *  5、OCI8 2.0.8 （可选安装）
 *  6、Xcache 3.2.0 （可选安装）
@@ -40,6 +40,7 @@
 * 11、GraphicsMagick-1.3.21 （可选安装）
 * 12、Zend Guard Loader 3.3 （可选安装）
 * 13、ionCube PHP Loader 4.7.3 （可选安装）
+* 14、MongoDB extension 1.6.6 （可选安装）
 
 ## 如何安装
 ### 事前准备（安装screen、unzip，创建 screen 会话）：
@@ -70,9 +71,10 @@
 *  7、（可选安装）执行脚本 GraphicsMagick.sh 安装 gmagick 的 PHP 扩展。（命令：./GraphicsMagick.sh）
 *  8、（可选安装）执行脚本 opcache.sh 安装 Zend OPcache 的 PHP 扩展。（命令：./opcache.sh）
 *  9、（可选安装）执行脚本 memcached.sh 安装 memcached 及 memcached 的 PHP 扩展。（命令：./memcached.sh）
-* 10、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./upgrade_php.sh | tee upgrade_php.log)
-* 11、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至已安装版本的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
-* 12、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
+* 10、（可选安装）执行脚本 mongodb.sh 安装 MongoDB 的 PHP 扩展。（命令：./mongodb.sh）
+* 11、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./upgrade_php.sh | tee upgrade_php.log)
+* 12、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至已安装版本的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
+* 13、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
 
 ### 关于 upgrade_php.sh
 
