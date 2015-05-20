@@ -4,11 +4,11 @@
 
 ## 本脚本的系统需求
 * 需要 2GB 及以上磁盘剩余空间
-* 需要 256M 及以上内存空间
+* 需要 512MB 及以上内存空间
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2015年04月28日
+* 日期：2015年05月20日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -28,16 +28,16 @@
 
 ## 将会安装
 *  1、Apache 2.4.12
-*  2、MySQL 5.6.24, MySQL 5.5.43, MariaDB 5.5.42, MariaDB 10.0.17 （四选一安装）
-*  3、PHP 5.4.40, PHP 5.3.29, PHP 5.5.24 （三选一安装）
-*  4、phpMyAdmin 4.4.4
+*  2、MySQL 5.6.24, MySQL 5.5.43, MariaDB 5.5.43, MariaDB 10.0.19 （四选一安装）
+*  3、PHP 5.4.41, PHP 5.3.29, PHP 5.5.25, PHP 5.6.9 （三选一安装）
+*  4、phpMyAdmin 4.4.7
 *  5、OCI8 2.0.8 （可选安装）
 *  6、Xcache 3.2.0 （可选安装）
-*  7、pure-ftpd-1.0.36 （可选安装）
-*  8、memcached-1.4.22 （可选安装）
+*  7、pure-ftpd 1.0.36 （可选安装）
+*  8、memcached 1.4.22 （可选安装）
 *  9、Zend OPcache 7.0.4 （可选安装）
-* 10、ImageMagick-6.9.0-10 （可选安装）
-* 11、GraphicsMagick-1.3.21 （可选安装）
+* 10、ImageMagick 6.9.0-10 （可选安装）
+* 11、GraphicsMagick 1.3.21 （可选安装）
 * 12、Zend Guard Loader 3.3 （可选安装）
 * 13、ionCube PHP Loader 4.7.3 （可选安装）
 * 14、MongoDB extension 1.6.6 （可选安装）
