@@ -23,11 +23,12 @@ StartDateSecond=''
 # Software Version
 MySQLVersion='mysql-5.6.24'
 MySQLVersion2='mysql-5.5.43'
-MariaDBVersion='mariadb-5.5.42'
-MariaDBVersion2='mariadb-10.0.17'
-PHPVersion='php-5.4.40'
+MariaDBVersion='mariadb-5.5.43'
+MariaDBVersion2='mariadb-10.0.19'
+PHPVersion='php-5.4.41'
 PHPVersion2='php-5.3.29'
-PHPVersion3='php-5.5.24'
+PHPVersion3='php-5.5.25'
+PHPVersion4='php-5.6.9'
 ApacheVersion='httpd-2.4.12'
 aprVersion='apr-1.5.1'
 aprutilVersion='apr-util-1.5.4'
@@ -39,7 +40,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.36'
 libeditVersion='libedit-20141030-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.4.4-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.4.7-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
@@ -190,10 +191,11 @@ function pre_installation_settings(){
     echo -e "\t\033[32m1\033[0m. Install PHP-5.4(recommend)"
     echo -e "\t\033[32m2\033[0m. Install PHP-5.3"
     echo -e "\t\033[32m3\033[0m. Install PHP-5.5"
+    echo -e "\t\033[32m4\033[0m. Install PHP-5.6"
     read -p "Please input a number:(Default 1) " PHP_version
     [ -z "$PHP_version" ] && PHP_version=1
     case $PHP_version in
-        1|2|3)
+        1|2|3|4)
         echo ""
         echo "---------------------------"
         echo "You choose = $PHP_version"
@@ -202,7 +204,7 @@ function pre_installation_settings(){
         break
         ;;
         *)
-        echo "Input error! Please only input number 1,2,3"
+        echo "Input error! Please only input number 1,2,3,4"
     esac
     done
 
@@ -259,6 +261,8 @@ function download_all_files(){
         download_file "${PHPVersion2}.tar.gz"
     elif [ $PHP_version -eq 3 ]; then
         download_file "${PHPVersion3}.tar.gz"
+    elif [ $PHP_version -eq 4 ]; then
+        download_file "${PHPVersion4}.tar.gz"
     fi
     download_file "${ApacheVersion}.tar.gz"
     download_file "${phpMyAdminVersion}.tar.gz"
@@ -283,7 +287,7 @@ function download_file(){
     else
         echo "$1 not found!!!download now......"
         if ! wget -c http://lamp.teddysun.com/files/$1;then
-            echo "Failed to download $1,please download it to "$cur_dir" directory manually and try again."
+            echo "Failed to download $1, please download it to "$cur_dir" directory manually and try again."
             exit 1
         fi
     fi
@@ -649,6 +653,8 @@ function install_php(){
             cd $cur_dir/untar/$PHPVersion2
         elif [ $PHP_version -eq 3 ]; then
             cd $cur_dir/untar/$PHPVersion3
+        elif [ $PHP_version -eq 4 ]; then
+            cd $cur_dir/untar/$PHPVersion4
         fi
         ./configure \
         --prefix=/usr/local/php \
@@ -718,6 +724,8 @@ function install_php(){
             mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20090626
         elif [ $PHP_version -eq 3 ]; then
             mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20121212
+        elif [ $PHP_version -eq 4 ]; then
+            mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20131226
         fi
         cp -f $cur_dir/conf/php.ini /usr/local/php/etc/php.ini
         rm -f /etc/php.ini
@@ -798,6 +806,8 @@ function install_cleanup(){
             echo -e "Installed PHP version:\033[41;37m ${PHPVersion2} \033[0m"
         elif [ $PHP_version -eq 3 ]; then
             echo -e "Installed PHP version:\033[41;37m ${PHPVersion3} \033[0m"
+        elif [ $PHP_version -eq 4 ]; then
+            echo -e "Installed PHP version:\033[41;37m ${PHPVersion4} \033[0m"
         fi
         echo -e "Installed phpMyAdmin version:\033[41;37m ${phpMyAdminVersion} \033[0m"
         echo ""
