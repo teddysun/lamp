@@ -27,12 +27,14 @@ if [ $? -ne 0 -o -z $PHP_VER ]; then
 fi
 
 # get PHP extensions date
-if [ $PHP_VER -eq 53 ]; then
+if   [ $PHP_VER -eq 53 ]; then
     extDate='20090626'
 elif [ $PHP_VER -eq 54 ]; then
     extDate='20100525'
 elif [ $PHP_VER -eq 55 ]; then
     extDate='20121212'
+elif [ $PHP_VER -eq 56 ]; then
+    extDate='20131226'
 fi
 
 # Make sure only root can run our script
@@ -140,6 +142,12 @@ EOF
     # Clean up
     cd $cur_dir
     rm -rf $cur_dir/untar/
+    rm -f $cur_dir/${libevent_ver}.tar.gz
+    rm -f $cur_dir/${memcached_ver}.tar.gz
+    rm -f $cur_dir/${libmemcached_ver}.tar.gz
+    rm -f $cur_dir/${memcached_ext_ver}.tgz
+    rm -f $cur_dir/${memcache_ext_ver}.tgz
+    # Restart httpd service
     /etc/init.d/httpd restart
     echo "memcached extension install completed..."
 }

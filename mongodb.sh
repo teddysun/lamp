@@ -27,12 +27,14 @@ if [ $? -ne 0 -o -z $PHP_VER ]; then
     exit 1
 fi
 # Get PHP extensions date
-if [ $PHP_VER -eq 53 ]; then
+if   [ $PHP_VER -eq 53 ]; then
     extDate='20090626'
 elif [ $PHP_VER -eq 54 ]; then
     extDate='20100525'
 elif [ $PHP_VER -eq 55 ]; then
     extDate='20121212'
+elif [ $PHP_VER -eq 56 ]; then
+    extDate='20131226'
 fi
 
 # Download mongodb extension
@@ -74,6 +76,7 @@ fi
 cd $cur_dir
 rm -rf $cur_dir/untar/
 rm -f $cur_dir/$mongoVer
+# Restart httpd service
 /etc/init.d/httpd restart
 echo "=====Mongodb extension install completed====="
-exit
+exit 0

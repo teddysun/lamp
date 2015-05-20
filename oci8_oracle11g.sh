@@ -20,12 +20,14 @@ if [ $? -ne 0 -o -z $PHP_VER ]; then
     exit 1
 fi
 # get PHP extensions date
-if [ $PHP_VER -eq 53 ]; then
+if   [ $PHP_VER -eq 53 ]; then
     extDate='20090626'
 elif [ $PHP_VER -eq 54 ]; then
     extDate='20100525'
 elif [ $PHP_VER -eq 55 ]; then
     extDate='20121212'
+elif [ $PHP_VER -eq 56 ]; then
+    extDate='20131226'
 fi
 
 #===============================================================================
@@ -48,8 +50,8 @@ function download_files(){
         echo "$1 [found]"
     else
        echo "$1 not found!!!download now......"
-       if ! wget --tries=3 http://lamp.teddysun.com/files/$1; then
-           echo "Failed to download $1,please download it to "$cur_dir" directory manually and rerun the install script."
+       if ! wget -c -t3 http://lamp.teddysun.com/files/$1; then
+           echo "Failed to download $1, please download it to ${cur_dir} directory manually and retry."
            exit 1
        fi
     fi
@@ -100,6 +102,9 @@ EOF
     # Clean up
     cd $cur_dir
     rm -rf $cur_dir/untar/
+    rm -f $cur_dir/oracle-*.rpm
+    rm -f $cur_dir/${OCIVersion}.tgz
+    # Restart httpd service
     /etc/init.d/httpd restart
     echo "============================oci8 install completed============================================"
 exit

@@ -17,7 +17,6 @@ cd $cur_dir
 
 PHP_PREFIX='/usr/local/php'
 opcacheVer='zendopcache-7.0.4'
-extDate='20121212'
 
 # Create opcache configuration file
 function create_ini(){
@@ -46,6 +45,19 @@ function ocp() {
         echo "Opcache Control Panel PHP file not found!"
     fi
 }
+
+# Fast install
+function fast_install(){
+    if [ -s /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/opcache.so ]; then
+        echo "opcache.so already exists."
+        create_ini
+        ocp
+        /etc/init.d/httpd restart
+        echo "OPcache install completed..."
+        exit 0
+    fi
+}
+
 # install opcache
 echo "OPcache install start..."
 # get PHP version
@@ -55,19 +67,16 @@ if [ $? -ne 0 -o -z $PHP_VER ]; then
     exit 1
 fi
 # get PHP extensions date
-if [ $PHP_VER -eq 53 ]; then
+if   [ $PHP_VER -eq 53 ]; then
     extDate='20090626'
 elif [ $PHP_VER -eq 54 ]; then
     extDate='20100525'
 elif [ $PHP_VER -eq 55 ]; then
-    if [ -s /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/opcache.so ]; then
-        echo "opcache.so already exists."
-        create_ini
-        ocp
-        /etc/init.d/httpd restart
-        echo "OPcache install completed..."
-        exit 0
-    fi
+    extDate='20121212'
+    fast_install
+elif [ $PHP_VER -eq 56 ]; then
+    extDate='20131226'
+    fast_install
 fi
 
 # download opcache
@@ -76,7 +85,7 @@ if [ -s $opcacheVer.tgz ]; then
 else
     echo "${opcacheVer}.tgz not found!!!download now......"
     if ! wget http://lamp.teddysun.com/files/${opcacheVer}.tgz; then
-        echo "Failed to download ${opcacheVer}.tgz,please download it to ${cur_dir} directory manually and try again."
+        echo "Failed to download ${opcacheVer}.tgz, please download it to ${cur_dir} directory manually and retry."
         exit 1
     fi
 fi
@@ -96,6 +105,8 @@ ocp
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/
+rm -f $cur_dir/${opcacheVer}.tgz
+# Restart httpd service
 /etc/init.d/httpd restart
 echo "OPcache install completed..."
 exit 0

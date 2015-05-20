@@ -42,7 +42,7 @@ if [ $? -ne 0 -o -z $INSTALLED_PHP ]; then
 fi
 
 # get PHP extensions date
-if [ $INSTALLED_PHP -eq 53 ]; then
+if   [ $INSTALLED_PHP -eq 53 ]; then
     phpVer='5.3'
     extDate='20090626'
 elif [ $INSTALLED_PHP -eq 54 ]; then
@@ -51,6 +51,9 @@ elif [ $INSTALLED_PHP -eq 54 ]; then
 elif [ $INSTALLED_PHP -eq 55 ]; then
     phpVer='5.5'
     extDate='20121212'
+elif [ $INSTALLED_PHP -eq 56 ]; then
+    phpVer='5.6'
+    extDate='20131226'
 fi
 if is_64bit; then
     ionCubeVer='ioncube_loaders_lin_x86-64.tar.gz'
@@ -68,8 +71,8 @@ if [ -s ${ionCubeVer} ]; then
     echo "${ionCubeVer} [found]"
 else
     echo "${ionCubeVer} not found!!!download now......"
-    if ! wget -c http://lamp.teddysun.com/files/${ionCubeVer}; then
-        echo "Failed to download ${ionCubeVer}, please download it to "$cur_dir" directory manually and try again."
+    if ! wget -c -t3 http://lamp.teddysun.com/files/${ionCubeVer}; then
+        echo "Failed to download ${ionCubeVer}, please download it to ${cur_dir} directory manually and retry."
         exit 1
     fi
 fi
@@ -90,6 +93,8 @@ fi
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/
+rm -f $cur_dir/${ionCubeVer}
+# Restart httpd service
 /etc/init.d/httpd restart
 echo "============================ionCube install completed================================="
 exit
