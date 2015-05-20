@@ -24,12 +24,14 @@ if [ $? -ne 0 -o -z $PHP_VER ]; then
     exit 1
 fi
 # get PHP extensions date
-if [ $PHP_VER -eq 53 ]; then
+if   [ $PHP_VER -eq 53 ]; then
     extDate='20090626'
 elif [ $PHP_VER -eq 54 ]; then
     extDate='20100525'
 elif [ $PHP_VER -eq 55 ]; then
     extDate='20121212'
+elif [ $PHP_VER -eq 56 ]; then
+    extDate='20131226'
 fi
 
 # download xcache
@@ -37,8 +39,8 @@ if [ -s $xcacheVer.tar.gz ]; then
     echo "${xcacheVer}.tar.gz [found]"
 else
     echo "${xcacheVer}.tar.gz not found!!!download now......"
-    if ! wget http://lamp.teddysun.com/files/${xcacheVer}.tar.gz; then
-        echo "Failed to download ${xcacheVer}.tar.gz,please download it to ${cur_dir} directory manually and try again."
+    if ! wget -c -t3 http://lamp.teddysun.com/files/${xcacheVer}.tar.gz; then
+        echo "Failed to download ${xcacheVer}.tar.gz, please download it to ${cur_dir} directory manually and retry."
         exit 1
     fi
 fi
@@ -104,6 +106,8 @@ fi
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/
+rm -f $cur_dir/${xcacheVer}.tar.gz
+# Restart httpd service
 /etc/init.d/httpd restart
 echo "============================Xcache install completed================================="
 exit
