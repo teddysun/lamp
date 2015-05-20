@@ -20,8 +20,8 @@ if [ -s pure-ftpd-1.0.36.tar.gz ]; then
     echo "pure-ftpd-1.0.36.tar.gz [found]"
 else
     echo "pure-ftpd-1.0.36.tar.gz not found!!!download now......"
-    if ! wget -c http://lamp.teddysun.com/files/pure-ftpd-1.0.36.tar.gz;then
-        echo "Failed to download pure-ftpd-1.0.36.tar.gz, please download it to $cur_dir directory manually and try again."
+    if ! wget -c -t3 http://lamp.teddysun.com/files/pure-ftpd-1.0.36.tar.gz; then
+        echo "Failed to download pure-ftpd-1.0.36.tar.gz, please download it to $cur_dir directory manually and retry."
         exit 1
     fi
 fi
@@ -50,4 +50,5 @@ chmod 755 /usr/local/sbin/pure-config.pl
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/
+rm -f $cur_dir/pure-ftpd-1.0.36.tar.gz
 echo "============================pure-ftpd install completed============================"
