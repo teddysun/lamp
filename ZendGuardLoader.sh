@@ -42,7 +42,7 @@ if [ $? -ne 0 -o -z $INSTALLED_PHP ]; then
 fi
 
 # get PHP extensions date & ZendGuardLoader version
-if [ $INSTALLED_PHP -eq 53 ]; then
+if   [ $INSTALLED_PHP -eq 53 ]; then
     if is_64bit; then
         zendVer="ZendGuardLoader-php-5.3-linux-glibc23-x86_64"
     else
@@ -60,7 +60,11 @@ elif [ $INSTALLED_PHP -eq 54 ]; then
     extDate='20100525'
 elif [ $INSTALLED_PHP -eq 55 ]; then
     echo "Error:PHP 5.5 is not support!"
-    echo ""
+    echo "Nothing to do..."
+    exit 1
+elif [ $INSTALLED_PHP -eq 56 ]; then
+    echo "Error:PHP 5.6 is not support!"
+    echo "Nothing to do..."
     exit 1
 fi
 
@@ -74,8 +78,8 @@ if [ -s ${zendVer}.tar.gz ]; then
     echo "${zendVer}.tar.gz [found]"
 else
     echo "${zendVer}.tar.gz not found!!!download now......"
-    if ! wget -c http://lamp.teddysun.com/files/${zendVer}.tar.gz; then
-        echo "Failed to download ${zendVer}.tar.gz, please download it to "$cur_dir" directory manually and try again."
+    if ! wget -c -t3 http://lamp.teddysun.com/files/${zendVer}.tar.gz; then
+        echo "Failed to download ${zendVer}.tar.gz, please download it to ${cur_dir} directory manually and retry."
         exit 1
     fi
 fi
@@ -97,6 +101,8 @@ fi
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/
+rm -f $cur_dir/${zendVer}.tar.gz
+# Restart httpd service
 /etc/init.d/httpd restart
 echo "============================ZendGuardLoader install completed================================="
 exit
