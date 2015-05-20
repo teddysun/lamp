@@ -43,6 +43,9 @@ elif [ $PHP_VER -eq 54 ]; then
 elif [ $PHP_VER -eq 55 ]; then
     extDate='20121212'
     LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.5')
+elif [ $PHP_VER -eq 56 ]; then
+    extDate='20131226'
+    LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.6')
 fi
 
 echo -e "Latest version of PHP: \033[41;37m $LATEST_PHP \033[0m"
@@ -312,7 +315,7 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
     echo -e "phpmyadmin\t${LATEST_PMA}" > $cur_dir/pmaversion.txt
     rm -rf $cur_dir/phpMyAdmin-$LATEST_PMA-all-languages
     rm -f phpMyAdmin-$LATEST_PMA-all-languages.tar.gz
-    #Restart httpd service
+    # Restart httpd service
     /etc/init.d/httpd restart
     echo "===================== phpMyAdmin update completed! ===================="
 else
