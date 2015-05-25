@@ -259,6 +259,7 @@ function download_all_files(){
         download_file "${PHPVersion}.tar.gz"
     elif [ $PHP_version -eq 2 ]; then
         download_file "${PHPVersion2}.tar.gz"
+        download_file "php5.3.patch"
     elif [ $PHP_version -eq 3 ]; then
         download_file "${PHPVersion3}.tar.gz"
     elif [ $PHP_version -eq 4 ]; then
@@ -652,12 +653,7 @@ function install_php(){
         elif [ $PHP_version -eq 2 ]; then
             cd $cur_dir/untar/$PHPVersion2
             # Add PHP5.3 patch
-            if [ -s php5.3.patch ]; then
-                echo "php5.3.patch [found]"
-            else
-                download_file "php5.3.patch"
-            fi
-            patch -p1 < ./php5.3.patch
+            patch -p1 < $cur_dir/php5.3.patch
         elif [ $PHP_version -eq 3 ]; then
             cd $cur_dir/untar/$PHPVersion3
         elif [ $PHP_version -eq 4 ]; then
