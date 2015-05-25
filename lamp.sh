@@ -651,10 +651,13 @@ function install_php(){
             cd $cur_dir/untar/$PHPVersion
         elif [ $PHP_version -eq 2 ]; then
             cd $cur_dir/untar/$PHPVersion2
-            wget -c http://lamp.teddysun.com/files/php5.3.patch
+            # Add PHP5.3 patch
             if [ -s php5.3.patch ]; then
-                patch -p1 < ./php5.3.patch
+                echo "php5.3.patch [found]"
+            else
+                download_file "php5.3.patch"
             fi
+            patch -p1 < ./php5.3.patch
         elif [ $PHP_version -eq 3 ]; then
             cd $cur_dir/untar/$PHPVersion3
         elif [ $PHP_version -eq 4 ]; then
