@@ -70,9 +70,9 @@ function install_lamp(){
 
 # Get public IP
 function getIP(){
-    IP=$(curl -s -4 icanhazip.com)
+    IP=`ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1`
     if [[ "$IP" = "" ]]; then
-        IP=`curl -s -4 ipinfo.io | grep "ip" | awk -F\" '{print $4}'`
+        IP=`curl -s -4 icanhazip.com`
     fi
 }
 
