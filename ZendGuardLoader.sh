@@ -59,13 +59,19 @@ elif [ $INSTALLED_PHP -eq 54 ]; then
     phpVer='5.4'
     extDate='20100525'
 elif [ $INSTALLED_PHP -eq 55 ]; then
-    echo "Error:PHP 5.5 is not support!"
-    echo "Nothing to do..."
-    exit 1
+    if is_64bit; then
+        zendVer="zend-loader-php5.5-linux-x86_64"
+    else
+        zendVer="zend-loader-php5.5-linux-i386"
+    fi
+    extDate='20121212'
 elif [ $INSTALLED_PHP -eq 56 ]; then
-    echo "Error:PHP 5.6 is not support!"
-    echo "Nothing to do..."
-    exit 1
+    if is_64bit; then
+        zendVer="zend-loader-php5.6-linux-x86_64"
+    else
+        zendVer="zend-loader-php5.6-linux-i386"
+    fi
+    extDate='20131226'
 fi
 
 # Install ZendGuardLoader
@@ -84,7 +90,11 @@ else
     fi
 fi
 tar zxf ${zendVer}.tar.gz -C $cur_dir/untar/
-mv $cur_dir/untar/${zendVer}/php-${phpVer}.x/ZendGuardLoader.so /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/
+if [ $INSTALLED_PHP -eq 53 ] || [ $INSTALLED_PHP -eq 54 ]; then
+    mv $cur_dir/untar/${zendVer}/php-${phpVer}.x/ZendGuardLoader.so /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/
+else
+    mv $cur_dir/untar/${zendVer}/ZendGuardLoader.so /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/
+fi
 
 if [ ! -f /usr/local/php/php.d/zend.ini ]; then
     echo "Zend Guard Loader configuration not found, create it!"
