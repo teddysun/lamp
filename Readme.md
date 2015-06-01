@@ -39,7 +39,7 @@
 * 10、ImageMagick 6.9.0-10 （可选安装）
 * 11、GraphicsMagick 1.3.21 （可选安装）
 * 12、Zend Guard Loader 3.3 （可选安装）
-* 13、ionCube PHP Loader 4.7.3 （可选安装）
+* 13、ionCube PHP Loader 5.0.7 （可选安装）
 * 14、MongoDB extension 1.6.6 （可选安装）
 
 ## 如何安装
