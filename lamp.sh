@@ -1016,9 +1016,8 @@ function vhost_del(){
 
     if [ -f "/usr/local/apache/conf/vhost/$vhost_domain.conf" ]; then
         rm -rf /usr/local/apache/conf/vhost/$vhost_domain.conf
-        rm -rf /data/www/$vhost_domain
     else
-        echo "Error!!No such domain file.Please check your input domain again..."
+        echo "Error!!No such domain file.Please check your input domain again."
         exit 1
     fi
 
