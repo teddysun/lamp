@@ -1,3 +1,11 @@
+###版本`3.2.4`：`Release date:2015/07/12`
+更新记录：
+
+* 1、升级 PHP 到版本 5.4.43, 5.5.27, 5.6.11；
+* 2、升级 MariaDB 到版本 5.5.44, 10.0.20；
+* 3、升级 phpMyAdmin 到版本 4.4.11；
+* 4、升级获取 phpMyAdmin 最新版本的URL（phpMyAdmin源码不再托管在 sourceforge 导致的）；
+
 ###版本`3.2.3`：`Release date:2015/06/12`
 更新记录：
 
