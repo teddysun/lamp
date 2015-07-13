@@ -73,7 +73,7 @@ else
     fi
 fi
 
-LATEST_PMA=$(elinks http://iweb.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/ | awk -F/ '{print $7F}' | grep -iv '-' | grep -iv 'rst' | grep -iv ';' | sort -V | tail -1)
+LATEST_PMA=$(curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | cut -d'<' -f1 | sort -V | tail -1)
 if [ -z $LATEST_PMA ]; then
     LATEST_PMA=$(curl -s http://lamp.teddysun.com/pmalist.txt | tail -1 | awk -F- '{print $2}')
 fi
@@ -286,7 +286,7 @@ if [[ "$UPGRADE_PMA" = "y" || "$UPGRADE_PMA" = "Y" ]];then
         echo "===================== phpMyAdmin folder not found! ===================="
     fi
     if [ ! -s phpMyAdmin-$LATEST_PMA-all-languages.tar.gz ]; then
-        LATEST_PMA_LINK="http://iweb.dl.sourceforge.net/project/phpmyadmin/phpMyAdmin/${LATEST_PMA}/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
+        LATEST_PMA_LINK="http://files.phpmyadmin.net/phpMyAdmin/${LATEST_PMA}/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
         BACKUP_PMA_LINK="http://lamp.teddysun.com/files/phpMyAdmin-${LATEST_PMA}-all-languages.tar.gz"
         untar $LATEST_PMA_LINK $BACKUP_PMA_LINK
         mkdir -p /data/www/default/phpmyadmin
