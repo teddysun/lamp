@@ -1,3 +1,8 @@
+###版本`3.2.6`：`Release date:2015/07/18`
+更新记录：
+
+* 1、新增自动升级 Apache 到最新版本的脚本 upgrade_apache.sh；
+
 ###版本`3.2.5`：`Release date:2015/07/17`
 更新记录：
 
