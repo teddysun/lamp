@@ -13,7 +13,7 @@
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
 * 支持 MySQL ，MariaDB， SQLite 数据库;
-* 支持 OCI8 （可选安装）；
+* 支持 oci8 （可选安装）；
 * 支持 pure-ftpd （可选安装）；
 * 支持 memcached （可选安装）；
 * 支持 ImageMagick （可选安装）；
@@ -79,7 +79,7 @@
 
 ### 关于 upgrade_apache.sh
 
-新增 upgrade_apache.sh 脚本，目的是为了自动检测和升级 Apache。
+新增 upgrade_apache.sh 脚本，目的是为了自动检测和升级 Apache 至最新版本。
 
 **使用方法：**
 
