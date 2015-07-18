@@ -337,9 +337,13 @@ function install_apache(){
             echo "Installing Apache failed, Please visit http://teddysun.com/lamp and contact."
             exit 1
         fi
-        cp -f /usr/local/apache/bin/apachectl /etc/init.d/httpd
-        sed -i '2a # chkconfig: - 85 15' /etc/init.d/httpd
-        sed -i '3a # description: Apache is a World Wide Web server. It is used to server' /etc/init.d/httpd
+        if centosversion 7; then
+            cp -f /usr/local/apache/bin/apachectl /etc/init.d/httpd
+            sed -i '2a # chkconfig: - 85 15' /etc/init.d/httpd
+            sed -i '3a # description: Apache is a World Wide Web server. It is used to server' /etc/init.d/httpd
+        else
+            cp -f $cur_dir/conf/httpd.init /etc/init.d/httpd
+        fi
         chmod +x /etc/init.d/httpd
         chkconfig --add httpd
         chkconfig httpd on
