@@ -134,12 +134,13 @@ if [[ "$UPGRADE_APACHE" = "y" || "$UPGRADE_APACHE" = "Y" ]];then
         BACKUP_APACHE_LINK="http://lamp.teddysun.com/files/httpd-${LATEST_APACHE}.tar.gz"
         untar $LATEST_APACHE_LINK $BACKUP_APACHE_LINK
     else
+        echo "httpd-${LATEST_APACHE}.tar.gz [found]"
         tar -zxf httpd-$LATEST_APACHE.tar.gz
         cd httpd-$LATEST_APACHE/
     fi
     mv $cur_dir/$aprVersion $cur_dir/httpd-$LATEST_APACHE/srclib/apr
     mv $cur_dir/$aprutilVersion $cur_dir/httpd-$LATEST_APACHE/srclib/apr-util
-    # Compile Apache
+    # Compiles Apache
     ./configure \
     --prefix=/usr/local/apache \
     --with-pcre=/usr/local/pcre \
