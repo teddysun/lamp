@@ -62,20 +62,20 @@
 
 ### 安装其它：
 
-*  1、（可选安装）执行脚本 xcache.sh 安装 xcache 。(命令：./xcache.sh)
-*  2、（可选安装）执行脚本 oci8_oracle11g.sh 安装 OCI8 扩展以及 oracle-instantclient11.2（命令：./oci8_oracle11g.sh）
-*  3、（可选安装）执行脚本 pureftpd.sh 安装 pure-ftpd-1.0.36。(命令：./pureftpd.sh)
-*  4、（可选安装）执行脚本 ZendGuardLoader.sh 安装 Zend Guard Loader。(命令：./ZendGuardLoader.sh)
-*  5、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：./ioncube.sh)
-*  6、（可选安装）执行脚本 ImageMagick.sh 安装 imagick 的 PHP 扩展。（命令：./ImageMagick.sh）
-*  7、（可选安装）执行脚本 GraphicsMagick.sh 安装 gmagick 的 PHP 扩展。（命令：./GraphicsMagick.sh）
-*  8、（可选安装）执行脚本 opcache.sh 安装 Zend OPcache 的 PHP 扩展。（命令：./opcache.sh）
-*  9、（可选安装）执行脚本 memcached.sh 安装 memcached 及 memcached 的 PHP 扩展。（命令：./memcached.sh）
-* 10、（可选安装）执行脚本 mongodb.sh 安装 MongoDB 的 PHP 扩展。（命令：./mongodb.sh）
-* 11、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./upgrade_php.sh | tee upgrade_php.log)
-* 12、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至已安装版本的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
-* 13、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
-* 14、（升级脚本）执行脚本 upgrade_apache.sh 将会升级 Apache 至已安装版本的最新版本。(命令：./upgrade_apache.sh | tee upgrade_apache.log)
+*  1、（可选安装）执行脚本 xcache.sh 安装 xcache 。(命令：`./xcache.sh`)
+*  2、（可选安装）执行脚本 oci8_oracle11g.sh 安装 OCI8 扩展以及 oracle-instantclient11.2（命令：`./oci8_oracle11g.sh`）
+*  3、（可选安装）执行脚本 pureftpd.sh 安装 pure-ftpd-1.0.36。(命令：`./pureftpd.sh`)
+*  4、（可选安装）执行脚本 ZendGuardLoader.sh 安装 Zend Guard Loader。(命令：`./ZendGuardLoader.sh`)
+*  5、（可选安装）执行脚本 ioncube.sh 安装 ionCube PHP Loader。(命令：`./ioncube.sh`)
+*  6、（可选安装）执行脚本 ImageMagick.sh 安装 imagick 的 PHP 扩展。（命令：`./ImageMagick.sh`）
+*  7、（可选安装）执行脚本 GraphicsMagick.sh 安装 gmagick 的 PHP 扩展。（命令：`./GraphicsMagick.sh`）
+*  8、（可选安装）执行脚本 opcache.sh 安装 Zend OPcache 的 PHP 扩展。（命令：`./opcache.sh`）
+*  9、（可选安装）执行脚本 memcached.sh 安装 memcached 及 memcached 的 PHP 扩展。（命令：`./memcached.sh`）
+* 10、（可选安装）执行脚本 mongodb.sh 安装 MongoDB 的 PHP 扩展。（命令：`./mongodb.sh`）
+* 11、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：`./upgrade_php.sh | tee upgrade_php.log`)
+* 12、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至已安装版本的最新版本。(命令：`./upgrade_mysql.sh | tee upgrade_mysql.log`)
+* 13、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本的最新版本。(命令：`./upgrade_mariadb.sh | tee upgrade_mariadb.log`)
+* 14、（升级脚本）执行脚本 upgrade_apache.sh 将会升级 Apache 至已安装版本的最新版本。(命令：`./upgrade_apache.sh | tee upgrade_apache.log`)
 
 ### 关于 upgrade_apache.sh
 
