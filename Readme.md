@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2015年07月17日
+* 日期：2015年07月18日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -75,6 +75,15 @@
 * 11、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：./upgrade_php.sh | tee upgrade_php.log)
 * 12、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至已安装版本的最新版本。(命令：./upgrade_mysql.sh | tee upgrade_mysql.log)
 * 13、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本的最新版本。(命令：./upgrade_mariadb.sh | tee upgrade_mariadb.log)
+* 14、（升级脚本）执行脚本 upgrade_apache.sh 将会升级 Apache 至已安装版本的最新版本。(命令：./upgrade_apache.sh | tee upgrade_apache.log)
+
+### 关于 upgrade_apache.sh
+
+新增 upgrade_apache.sh 脚本，目的是为了自动检测和升级 Apache。
+
+**使用方法：**
+
+    ./upgrade_apache.sh 2>&1 | tee upgrade_apache.log
 
 ### 关于 upgrade_php.sh
 
@@ -82,7 +91,7 @@
 
 **使用方法：**
 
-    ./upgrade_php.sh | tee upgrade_php.log
+    ./upgrade_php.sh 2>&1 | tee upgrade_php.log
 
 ### 关于 upgrade_mysql.sh
 
@@ -90,7 +99,7 @@
 
 **使用方法：**
 
-    ./upgrade_mysql.sh | tee upgrade_mysql.log
+    ./upgrade_mysql.sh 2>&1 | tee upgrade_mysql.log
 
 ### 关于 upgrade_mariadb.sh
 
@@ -98,7 +107,7 @@
 
 **使用方法：**
 
-    ./upgrade_mariadb.sh | tee upgrade_mariadb.log
+    ./upgrade_mariadb.sh 2>&1 | tee upgrade_mariadb.log
 
 ### 注意事项
 
