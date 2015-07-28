@@ -21,8 +21,8 @@ echo ""
 StartDate=''
 StartDateSecond=''
 # Software Version
-MySQLVersion='mysql-5.6.25'
-MySQLVersion2='mysql-5.5.44'
+MySQLVersion='mysql-5.6.26'
+MySQLVersion2='mysql-5.5.45'
 MariaDBVersion='mariadb-5.5.44'
 MariaDBVersion2='mariadb-10.0.20'
 PHPVersion='php-5.4.43'
@@ -40,7 +40,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.37'
 libeditVersion='libedit-20141030-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.4.11-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.4.12-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
