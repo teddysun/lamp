@@ -779,7 +779,15 @@ function install_cleanup(){
     sed -i '/Order/,/All/d' /usr/bin/lamp
     sed -i "/AllowOverride All/i\Require all granted" /usr/bin/lamp
     # Clean up
+    cd $cur_dir
+    echo "Clean up start..."
+    for dfile in `ls *.tar.gz`;
+    do
+        rm -f $dfile
+        echo "Delete $dfile success."
+    done
     rm -rf $cur_dir/untar
+    echo "Clean up complete..."
 
     clear
     # Install completed or not 
