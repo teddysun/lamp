@@ -155,9 +155,7 @@ function pre_installation_settings(){
     # Set MySQL or MariaDB root password
     echo "Please input the root password of MySQL or MariaDB:"
     read -p "(Default password: root):" dbrootpwd
-    if [ "$dbrootpwd" = "" ]; then
-        dbrootpwd="root"
-    fi
+    [ -z "$dbrootpwd" ] && dbrootpwd="root"
     echo ""
     echo "---------------------------"
     echo "Password = $dbrootpwd"
@@ -222,8 +220,9 @@ function pre_installation_settings(){
     char=`get_char`
 
     #Remove Packages
+    cd ~
     yum -y remove httpd*
-    yum -y remove mysql
+    yum -y remove mysql*
     yum -y remove php*
     #Set timezone
     rm -f /etc/localtime
