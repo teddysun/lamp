@@ -7,16 +7,19 @@ export PATH
 #   AUTHOR: Teddysun <i@teddysun.com>
 #   VISIT:  http://teddysun.com/lamp
 #===============================================================================
+if [[ $EUID -ne 0 ]]; then
+   echo "Error:This script must be run as root!" 1>&2
+   exit 1
+fi
 
 cur_dir=`pwd`
-cd $cur_dir
 
 ImageMagick_Ver='ImageMagick-6.9.0-10'
 ImageMagick_ext_Ver='imagick-3.2.0RC1'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
-if [ $? -ne 0 -o -z $PHP_VER ]; then
+if [ $? -ne 0 ] || [[ -z $INSTALLED_PHP ]]; then
     echo "Error:PHP looks like not installed, please check it and try again."
     exit 1
 fi
@@ -31,21 +34,7 @@ elif [ $PHP_VER -eq 56 ]; then
     extDate='20131226'
 fi
 
-#===============================================================================
-#DESCRIPTION:Make sure only root can run our script
-#USAGE:rootness
-#===============================================================================
-function rootness(){
-    if [[ $EUID -ne 0 ]]; then
-        echo "This script must be run as root" 1>&2
-        exit 1
-    fi
-}
-
-#===============================================================================
-#DESCRIPTION:Download files.
-#USAGE:download_files [filename] [secondary url] 
-#===============================================================================
+# Download files
 function download_files(){
     if [ -s $1 ]; then
         echo "$1 [found]"
@@ -58,20 +47,14 @@ function download_files(){
     fi
 }
 
-#===============================================================================
-#DESCRIPTION:Install imagemagick.
-#USAGE:install_imagemagick_soft
-#===============================================================================
+# Install imagemagick
 function install_imagemagick_soft(){
     cd $cur_dir/untar/$ImageMagick_Ver
     ./configure
     make && make install
 }
 
-#===============================================================================
-#DESCRIPTION:compile PHP extension imagemagick.
-#USAGE:install_imagemagick_ext
-#===============================================================================
+# compile PHP extension imagemagick
 function install_imagemagick_ext(){
     echo "imagemagick extension install start..."
     cd $cur_dir/untar/$ImageMagick_ext_Ver
@@ -96,12 +79,9 @@ EOF
     echo "imagemagick extension install completed..."
 exit
 }
-#===============================================================================
-#DESCRIPTION:Install imagemagick.
-#USAGE:install_imagemagick
-#===============================================================================
+
+# Install imagemagick
 function install_imagemagick(){
-    rootness
     download_files "${ImageMagick_Ver}.tar.gz"
     download_files "${ImageMagick_ext_Ver}.tgz"
     if [ ! -d $cur_dir/untar/ ]; then

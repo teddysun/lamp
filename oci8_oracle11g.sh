@@ -7,16 +7,19 @@ export PATH
 #   AUTHOR: Teddysun <i@teddysun.com>
 #   VISIT:  http://teddysun.com/lamp
 #===============================================================================
+if [[ $EUID -ne 0 ]]; then
+   echo "Error:This script must be run as root!" 1>&2
+   exit 1
+fi
 
 cur_dir=`pwd`
-cd $cur_dir
 
 OCIVersion='oci8-2.0.8'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
-if [ $? -ne 0 -o -z $PHP_VER ]; then
-    echo "Error:PHP looks like not installed, please check it and try again."
+if [ $? -ne 0 ] || [[ -z $INSTALLED_PHP ]]; then
+    echo "Error: PHP looks like not installed, please check it and try again."
     exit 1
 fi
 # get PHP extensions date
@@ -30,21 +33,7 @@ elif [ $PHP_VER -eq 56 ]; then
     extDate='20131226'
 fi
 
-#===============================================================================
-#DESCRIPTION:Make sure only root can run our script
-#USAGE:rootness
-#===============================================================================
-function rootness(){
-    if [[ $EUID -ne 0 ]]; then
-        echo "This script must be run as root" 1>&2
-        exit 1
-    fi
-}
-
-#===============================================================================
-#DESCRIPTION:Download files.
-#USAGE:download_files [filename] [secondary url] 
-#===============================================================================
+# Download files.
 function download_files(){
     if [ -s $1 ]; then
         echo "$1 [found]"
@@ -57,10 +46,7 @@ function download_files(){
     fi
 }
 
-#===============================================================================
-#DESCRIPTION:Install oracle instantclient11.2.
-#USAGE:install_instant
-#===============================================================================
+# Install oracle instantclient11.2
 function install_instant(){
     if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
         rpm -ivh oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm
@@ -71,12 +57,9 @@ function install_instant(){
     fi
 }
 
-#===============================================================================
-#DESCRIPTION:Recompile PHP extension oci8.
-#USAGE:compile_oci8
-#===============================================================================
+# Recompile PHP extension oci8
 function compile_oci8(){
-    echo "============================oci8 install start================================================="
+    echo "oci8 install start..."
     cd $cur_dir/untar/$OCIVersion
     export PHP_PREFIX="/usr/local/php"
     $PHP_PREFIX/bin/phpize
@@ -106,15 +89,12 @@ EOF
     rm -f $cur_dir/${OCIVersion}.tgz
     # Restart httpd service
     /etc/init.d/httpd restart
-    echo "============================oci8 install completed============================================"
+    echo "oci8 install completed..."
 exit
 }
-#===============================================================================
-#DESCRIPTION:Install oci8.
-#USAGE:install_oci8
-#===============================================================================
+
+# Install oci8
 function install_oci8(){
-    rootness
     download_files "${OCIVersion}.tgz"
     if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
         download_files "oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm"

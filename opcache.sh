@@ -58,12 +58,10 @@ function fast_install(){
     fi
 }
 
-# install opcache
-echo "OPcache install start..."
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
-if [ $? -ne 0 -o -z $PHP_VER ]; then
-    echo "Error:PHP looks like not installed, please check it and try again."
+if [ $? -ne 0 ] || [[ -z $INSTALLED_PHP ]]; then
+    echo "Error: PHP looks like not installed, please check it and try again."
     exit 1
 fi
 # get PHP extensions date
@@ -79,6 +77,8 @@ elif [ $PHP_VER -eq 56 ]; then
     fast_install
 fi
 
+# install opcache
+echo "OPcache install start..."
 # download opcache
 if [ -s $opcacheVer.tgz ]; then
     echo "${opcacheVer}.tgz [found]"

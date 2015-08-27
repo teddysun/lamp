@@ -7,9 +7,12 @@ export PATH
 #   AUTHOR: Teddysun <i@teddysun.com>
 #   VISIT:  http://teddysun.com/lamp
 #===============================================================================
+if [[ $EUID -ne 0 ]]; then
+   echo "Error:This script must be run as root!" 1>&2
+   exit 1
+fi
 
 cur_dir=`pwd`
-cd $cur_dir
 
 PHP_PREFIX='/usr/local/php'
 memcached_install_dir='/usr/local/memcached'
@@ -21,8 +24,8 @@ libmemcached_ver='libmemcached-1.0.18'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
-if [ $? -ne 0 -o -z $PHP_VER ]; then
-    echo "Error:PHP looks like not installed, please check it and try again."
+if [ $? -ne 0 ] || [[ -z $INSTALLED_PHP ]]; then
+    echo "Error: PHP looks like not installed, please check it and try again."
     exit 1
 fi
 
@@ -36,14 +39,6 @@ elif [ $PHP_VER -eq 55 ]; then
 elif [ $PHP_VER -eq 56 ]; then
     extDate='20131226'
 fi
-
-# Make sure only root can run our script
-function rootness(){
-    if [[ $EUID -ne 0 ]]; then
-        echo "This script must be run as root" 1>&2
-        exit 1
-    fi
-}
 
 # Download files
 function download_files(){
@@ -154,7 +149,6 @@ EOF
 
 # Install memcached
 function install_memcached(){
-    rootness
     download_files "${libevent_ver}.tar.gz"
     download_files "${memcached_ver}.tar.gz"
     download_files "${libmemcached_ver}.tar.gz"

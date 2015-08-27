@@ -7,9 +7,12 @@ export PATH
 #   AUTHOR: Teddysun <i@teddysun.com>
 #   VISIT:  http://teddysun.com/lamp
 #===============================================================================
+if [[ $EUID -ne 0 ]]; then
+   echo "Error:This script must be run as root!" 1>&2
+   exit 1
+fi
 
 cur_dir=`pwd`
-cd $cur_dir
 
 PHP_PREFIX='/usr/local/php'
 GraphicsMagick_Ver='GraphicsMagick-1.3.21'
@@ -17,7 +20,7 @@ GraphicsMagick_ext_Ver='gmagick-1.1.7RC2'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
-if [ $? -ne 0 -o -z $PHP_VER ]; then
+if [ $? -ne 0 ] || [[ -z $INSTALLED_PHP ]]; then
     echo "Error:PHP looks like not installed, please check it and try again."
     exit 1
 fi
@@ -32,14 +35,6 @@ elif [ $PHP_VER -eq 55 ]; then
 elif [ $PHP_VER -eq 56 ]; then
     extDate='20131226'
 fi
-
-# Make sure only root can run our script
-function rootness(){
-    if [[ $EUID -ne 0 ]]; then
-        echo "This script must be run as root" 1>&2
-        exit 1
-    fi
-}
 
 # Download files
 function download_files(){
@@ -88,7 +83,6 @@ exit
 
 # Install graphicsmagick
 function install_graphicsmagick(){
-    rootness
     download_files "${GraphicsMagick_Ver}.tar.gz"
     download_files "${GraphicsMagick_ext_Ver}.tgz"
     if [ ! -d $cur_dir/untar/ ]; then

@@ -13,14 +13,13 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 cur_dir=`pwd`
-cd $cur_dir
 
 xcacheVer='xcache-3.2.0'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
-if [ $? -ne 0 -o -z $PHP_VER ]; then
-    echo "Error:PHP looks like not installed, please check it and try again."
+if [ $? -ne 0 ] || [[ -z $INSTALLED_PHP ]]; then
+    echo "Error: PHP looks like not installed, please check it and try again."
     exit 1
 fi
 # get PHP extensions date
@@ -46,7 +45,7 @@ else
 fi
 
 # install xcache
-echo "============================Xcache install start====================================="
+echo "Xcache install start..."
 if [ ! -d $cur_dir/untar/ ]; then
     mkdir -p $cur_dir/untar/
 fi
@@ -109,5 +108,5 @@ rm -rf $cur_dir/untar/
 rm -f $cur_dir/${xcacheVer}.tar.gz
 # Restart httpd service
 /etc/init.d/httpd restart
-echo "============================Xcache install completed================================="
+echo "Xcache install completed..."
 exit

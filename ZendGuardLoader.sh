@@ -13,7 +13,6 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 cur_dir=`pwd`
-cd $cur_dir
 
 # is 64bit or not
 function is_64bit(){
@@ -24,20 +23,10 @@ function is_64bit(){
     fi        
 }
 
-clear
-echo "#############################################################"
-echo "# ZendGuardLoader for LAMP"
-echo "# Intro: http://teddysun.com/lamp"
-echo "#"
-echo "# Author: Teddysun <i@teddysun.com>"
-echo "#"
-echo "#############################################################"
-echo ""
-
 # get PHP version
 INSTALLED_PHP=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
-if [ $? -ne 0 -o -z $INSTALLED_PHP ]; then
-    echo "Error:PHP looks like not installed, please check it and try again."
+if [ $? -ne 0 ] || [[ -z $INSTALLED_PHP ]]; then
+    echo "Error: PHP looks like not installed, please check it and try again."
     exit 1
 fi
 
@@ -75,7 +64,7 @@ elif [ $INSTALLED_PHP -eq 56 ]; then
 fi
 
 # Install ZendGuardLoader
-echo "============================ZendGuardLoader install start====================================="
+echo "ZendGuardLoader install start..."
 if [ ! -d $cur_dir/untar/ ]; then
     mkdir -p $cur_dir/untar/
 fi
@@ -114,5 +103,5 @@ rm -rf $cur_dir/untar/
 rm -f $cur_dir/${zendVer}.tar.gz
 # Restart httpd service
 /etc/init.d/httpd restart
-echo "============================ZendGuardLoader install completed================================="
+echo "ZendGuardLoader install completed..."
 exit
