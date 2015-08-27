@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2015年08月15日
+* 日期：2015年08月27日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -30,10 +30,10 @@
 *  1、Apache 2.4.16
 *  2、MySQL 5.6.26, MySQL 5.5.45, MariaDB 5.5.44, MariaDB 10.0.20 （四选一安装）
 *  3、PHP 5.3.29, PHP 5.4.44, PHP 5.5.28, PHP 5.6.12 （四选一安装）
-*  4、phpMyAdmin 4.4.13.1
+*  4、phpMyAdmin 4.4.14
 *  5、oci8 2.0.8 （可选安装）
 *  6、Xcache 3.2.0 （可选安装）
-*  7、pure-ftpd 1.0.36 （可选安装）
+*  7、pure-ftpd 1.0.42 （可选安装）
 *  8、memcached 1.4.22 （可选安装）
 *  9、Zend OPcache 7.0.4 （可选安装）
 * 10、ImageMagick 6.9.0-10 （可选安装）
@@ -87,7 +87,7 @@
 
 ### 关于 upgrade_php.sh
 
-新增 upgrade_php.sh 脚本，目的是为了自动检测和升级 PHP 和 phpMyAdmin。这两种软件版本更新比较频繁，因此才会有此脚本，方便升级。
+新增 upgrade_php.sh 脚本，目的是为了自动检测和升级 PHP 和 phpMyAdmin 至最新版本。
 
 **使用方法：**
 
@@ -95,7 +95,7 @@
 
 ### 关于 upgrade_mysql.sh
 
-新增 upgrade_mysql.sh 脚本，目的是为了自动检测和升级 MySQL 。升级之前自动备份全部数据库，在升级完成之后再将备份恢复。
+新增 upgrade_mysql.sh 脚本，目的是为了自动检测和升级 MySQL 。升级之前会自动备份全部数据库，在升级完成之后再将备份恢复。
 
 **使用方法：**
 
@@ -176,4 +176,4 @@
 
 如果你在安装后使用遇到问题，请访问 [http://teddysun.com/lamp](http://teddysun.com/lamp) 或发邮件至 i@teddysun.com
 
-最后，祝你使用愉快！
+祝你使用愉快！
