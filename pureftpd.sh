@@ -12,27 +12,29 @@ if [[ $EUID -ne 0 ]]; then
    echo "Error:This script must be run as root!" 1>&2
    exit 1
 fi
+
 cur_dir=`pwd`
-cd $cur_dir
+
+pureftpdVer='pure-ftpd-1.0.42'
 
 # Download pure-ftpd 
-if [ -s pure-ftpd-1.0.36.tar.gz ]; then
-    echo "pure-ftpd-1.0.36.tar.gz [found]"
+if [ -s $pureftpdVer.tar.gz ]; then
+    echo "$pureftpdVer.tar.gz [found]"
 else
-    echo "pure-ftpd-1.0.36.tar.gz not found!!!download now......"
-    if ! wget -c -t3 http://lamp.teddysun.com/files/pure-ftpd-1.0.36.tar.gz; then
-        echo "Failed to download pure-ftpd-1.0.36.tar.gz, please download it to $cur_dir directory manually and retry."
+    echo "$pureftpdVer.tar.gz not found!!!download now......"
+    if ! wget -c -t3 http://lamp.teddysun.com/files/$pureftpdVer.tar.gz; then
+        echo "Failed to download $pureftpdVer.tar.gz, please download it to $cur_dir directory manually and retry."
         exit 1
     fi
 fi
 
 # Install pure-ftpd 
-echo "============================pure-ftpd  install start============================"
+echo "pure-ftpd  install start..."
 if [ ! -d $cur_dir/untar/ ]; then
     mkdir -p $cur_dir/untar/
 fi
-tar xzf pure-ftpd-1.0.36.tar.gz -C $cur_dir/untar/
-cd $cur_dir/untar/pure-ftpd-1.0.36
+tar xzf $pureftpdVer.tar.gz -C $cur_dir/untar/
+cd $cur_dir/untar/$pureftpdVer
 ./configure
 make && make install
 cp contrib/redhat.init /etc/init.d/pure-ftpd
@@ -50,5 +52,5 @@ chmod 755 /usr/local/sbin/pure-config.pl
 # Clean up
 cd $cur_dir
 rm -rf $cur_dir/untar/
-rm -f $cur_dir/pure-ftpd-1.0.36.tar.gz
-echo "============================pure-ftpd install completed============================"
+rm -f $cur_dir/$pureftpdVer.tar.gz
+echo "pure-ftpd install completed..."
