@@ -138,6 +138,7 @@ function upgrade_mysql() {
         rm -rf /usr/local/mysql.bak/
     fi
     mv /usr/local/mysql /usr/local/mysql.bak
+    datalocation=$(cat /$bkup_dir/$bkup_file | grep -w 'datadir=' | awk -F= '{print $2}' | head -1)
     cd $cur_dir
     if [ ! -s mysql-$LATEST_MYSQL.tar.gz ]; then
         LATEST_MYSQL_LINK="http://cdn.mysql.com/Downloads/MySQL-${mysqlVer}/mysql-${LATEST_MYSQL}.tar.gz"
@@ -150,6 +151,7 @@ function upgrade_mysql() {
     # Compile MySQL
     cmake \
     -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+    -DMYSQL_DATADIR=$datalocation \
     -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
     -DDEFAULT_CHARSET=utf8 \
     -DDEFAULT_COLLATION=utf8_general_ci \
@@ -160,15 +162,14 @@ function upgrade_mysql() {
     make && make install
     chmod +w /usr/local/mysql
     chown -R mysql:mysql /usr/local/mysql
-    mysqldata=$(cat /$bkup_dir/$bkup_file | grep -w 'datadir=' | awk -F= '{print $2}' | head -1)
     /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf \
-    --basedir=/usr/local/mysql --datadir=$mysqldata --user=mysql
+    --basedir=/usr/local/mysql --datadir=$datalocation --user=mysql
     cat > /etc/ld.so.conf.d/mysql.conf<<EOF
 /usr/local/mysql/lib
 /usr/local/lib
 EOF
     cp -f support-files/mysql.server /etc/init.d/mysqld
-    sed -i "s:^datadir=.*:datadir=$mysqldata:g" /etc/init.d/mysqld
+    sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
     chmod 755 /etc/init.d/mysqld
     ldconfig
 }
