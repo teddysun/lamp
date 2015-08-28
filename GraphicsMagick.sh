@@ -20,7 +20,7 @@ GraphicsMagick_ext_Ver='gmagick-1.1.7RC2'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
-if [ $? -ne 0 ] || [[ -z $INSTALLED_PHP ]]; then
+if [ $? -ne 0 ] || [[ -z $PHP_VER ]]; then
     echo "Error:PHP looks like not installed, please check it and try again."
     exit 1
 fi

@@ -15,14 +15,14 @@ fi
 cur_dir=`pwd`
 
 mongoVer=$(curl -s http://pecl.php.net/package/mongo | awk -F'>' '/mongo-.+.tgz/{print $3}' | cut -d'<' -f1 | sort -V | tail -1)
-if [ -z $mongoVer ]; then
+if [[ -z $mongoVer ]]; then
     mongoVer="mongo-1.6.6.tgz"
 fi
 mongoFolder=$(echo $mongoVer | cut -d. -f1-3)
 
 # Get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
-if [ $? -ne 0 ] || [[ -z $INSTALLED_PHP ]]; then
+if [ $? -ne 0 ] || [[ -z $PHP_VER ]]; then
     echo "Error: PHP looks like not installed, please check it and try again."
     exit 1
 fi
