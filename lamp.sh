@@ -506,6 +506,7 @@ function install_mysql(){
         # Compile MySQL
         cmake \
         -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+        -DMYSQL_DATADIR=$datalocation \
         -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
         -DDEFAULT_CHARSET=utf8 \
         -DDEFAULT_COLLATION=utf8_general_ci \
