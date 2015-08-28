@@ -374,6 +374,10 @@ function install_apache(){
 
 # Install database
 function install_database(){
+    if [ -d "/proc/vz" ]; then
+        [ -z "`grep 'ulimit' /etc/profile`" ] && echo "ulimit -s unlimited" >> /etc/profile
+        . /etc/profile
+    fi
     if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
         install_mysql
     elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
@@ -383,7 +387,7 @@ function install_database(){
 
 # Set configuration file
 function set_database_conf(){
-    if [ $RamTotal -gt 1000 -a $RamTotal -le 2500 ]; then
+    if [ $RamTotal -gt 1500 -a $RamTotal -le 2500 ]; then
         sed -i 's@^key_buffer_size.*@key_buffer_size = 32M@' /etc/my.cnf
         sed -i 's@^table_open_cache.*@table_open_cache = 128@' /etc/my.cnf
         sed -i 's@^sort_buffer_size.*@sort_buffer_size = 1M@' /etc/my.cnf
