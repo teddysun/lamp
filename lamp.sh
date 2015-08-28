@@ -424,6 +424,10 @@ function install_mariadb(){
         fi
         /usr/sbin/groupadd mysql
         /usr/sbin/useradd -s /sbin/nologin -M -g mysql mysql
+        if [ ! -d $datalocation ]; then
+            mkdir -p $datalocation
+            chown -R mysql:mysql $datalocation
+        fi
         # Compile MariaDB
         cmake \
         -DCMAKE_INSTALL_PREFIX=/usr/local/mariadb \
@@ -503,6 +507,10 @@ function install_mysql(){
         fi
         /usr/sbin/groupadd mysql
         /usr/sbin/useradd -s /sbin/nologin -M -g mysql mysql
+        if [ ! -d $datalocation ]; then
+            mkdir -p $datalocation
+            chown -R mysql:mysql $datalocation
+        fi
         # Compile MySQL
         cmake \
         -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
