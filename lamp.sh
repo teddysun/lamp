@@ -464,11 +464,6 @@ function install_mariadb(){
 /usr/local/lib
 EOF
         ldconfig
-        if is_64bit; then
-            ln -s /usr/local/mariadb/lib/*.* /usr/lib64/mysql
-        else
-            ln -s /usr/local/mariadb/lib/*.* /usr/lib/mysql
-        fi
         for i in `ls /usr/local/mariadb/bin`
         do
             if [ ! -L /usr/bin/$i ]; then
@@ -546,11 +541,6 @@ function install_mysql(){
 /usr/local/lib
 EOF
         ldconfig
-        if is_64bit; then
-            ln -s /usr/local/mysql/lib/*.* /usr/lib64/mysql
-        else
-            ln -s /usr/local/mysql/lib/*.* /usr/lib/mysql
-        fi
         for i in `ls /usr/local/mysql/bin`
         do
             if [ ! -L /usr/bin/$i ]; then
