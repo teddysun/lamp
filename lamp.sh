@@ -2,24 +2,17 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===============================================================================================
-#   System Required:  CentOS / RedHat / Fedora 
-#   Description:  Install LAMP(Linux + Apache + MySQL + PHP ) for CentOS / RedHat / Fedora
-#   Author: Teddysun <i@teddysun.com>
-#   Intro:  http://teddysun.com/lamp
+#   System Required:  CentOS / RedHat / Fedora                                                 #
+#   Description:  Install LAMP(Linux + Apache + MySQL + PHP ) for CentOS / RedHat / Fedora     #
+#   Author: Teddysun <i@teddysun.com>                                                          #
+#   Intro:  https://teddysun.com/lamp                                                          #
 #===============================================================================================
-
-clear
-echo ""
-echo "#############################################################"
-echo "# LAMP Auto Install Script for CentOS / RedHat / Fedora     #"
-echo "# Intro: http://teddysun.com/lamp                           #"
-echo "# Author: Teddysun <i@teddysun.com>                         #"
-echo "#############################################################"
-echo ""
 
 # Install time state
 StartDate=''
 StartDateSecond=''
+# PHP disable fileinfo
+PHPDisable=''
 # Software Version
 MySQLVersion='mysql-5.6.26'
 MySQLVersion2='mysql-5.5.45'
@@ -45,28 +38,6 @@ phpMyAdminVersion='phpMyAdmin-4.4.14-all-languages'
 cur_dir=`pwd`
 # CPU Number
 Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
-
-# Install LAMP Script
-function install_lamp(){
-    rootness
-    disable_selinux
-    pre_installation_settings
-    download_all_files
-    untar_all_files
-    install_pcre
-    install_apache
-    install_database
-    install_libiconv
-    install_libmcrypt
-    install_mhash
-    install_mcrypt
-    install_re2c
-    install_libedit
-    install_imap
-    install_php
-    install_phpmyadmin
-    install_cleanup
-}
 
 # Get public IP
 function getIP(){
@@ -114,6 +85,23 @@ function rootness(){
     fi
 }
 
+# Check memory size
+function check_memory(){
+    RamTotal=`free -m | grep 'Mem' | awk '{print $2}'`
+    RamSwap=`free -m | grep 'Swap' | awk '{print $2}'`
+    RamSum=`expr $RamTotal + $RamSwap`
+    if [ $RamSum -lt 480 ]; then
+        echo "Error: Not enough memory to install LAMP. The system needs memory: ${RamTotal}MB*RAM + ${RamSwap}MB*Swap > 480MB"
+        exit 1
+    fi
+    if is_64bit; then
+        SysBit='64'
+    else
+        SysBit='32'
+    fi
+    [ $RamSum -lt 600 ] && PHPDisable='--disable-fileinfo';
+}
+
 # Disable selinux
 function disable_selinux(){
     if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
@@ -124,10 +112,18 @@ function disable_selinux(){
 
 # Pre-installation settings
 function pre_installation_settings(){
+    clear
+    echo ""
+    echo "#############################################################"
+    echo "# LAMP Auto Install Script for CentOS / RedHat / Fedora     #"
+    echo "# Intro: http://teddysun.com/lamp                           #"
+    echo "# Author: Teddysun <i@teddysun.com>                         #"
+    echo "#############################################################"
+    echo ""
     # Display Public IP
-    echo "Getting Public IP address..."
     getIP
     echo -e "Your main public IP is\t\033[32m$IP\033[0m"
+    echo "Your system is ${SysBit}Bit, ${Cpunum}*CPU, ${RamTotal}MB*RAM, ${RamSwap}MB*Swap"
     echo ""
     # Choose databese
     while true
@@ -237,7 +233,7 @@ function pre_installation_settings(){
         cp /etc/yum.conf /etc/yum.conf.bak
     fi
     sed -i 's:exclude=.*:exclude=:g' /etc/yum.conf
-    packages="wget autoconf automake bison bzip2 bzip2-devel curl curl-devel cmake cpp crontabs diffutils elinks e2fsprogs-devel expat-devel file flex freetype-devel gcc gcc-c++ gd glibc-devel glib2-devel gettext-devel gmp-devel icu kernel-devel libaio libtool-libs libjpeg-devel libpng-devel libxslt libxslt-devel libxml2 libxml2-devel libidn-devel libcap-devel libtool-ltdl-devel libc-client-devel libicu libicu-devel lynx zip zlib-devel unzip patch mlocate make ncurses-devel readline readline-devel vim-minimal sendmail pam-devel pcre pcre-devel openldap openldap-devel openssl openssl-devel perl-DBD-MySQL"
+    packages="wget autoconf automake bison bzip2 bzip2-devel curl curl-devel cmake cpp crontabs diffutils elinks e2fsprogs-devel expat-devel file flex freetype-devel gcc gcc-c++ gd glibc-devel glib2-devel gettext-devel gmp-devel icu kernel-devel libaio libtool-libs libjpeg-devel libpng-devel libxslt libxslt-devel libxml2 libxml2-devel libidn-devel libcap-devel libtool-ltdl-devel libc-client-devel libicu libicu-devel lynx zip zlib-devel unzip patch mlocate make ncurses-devel readline readline-devel vim-minimal sendmail pam-devel pcre pcre-devel openldap openldap-devel openssl openssl-devel"
     for package in $packages;
     do yum -y install $package; done
 }
@@ -385,6 +381,35 @@ function install_database(){
     fi
 }
 
+# Set configuration file
+function set_database_conf(){
+    if [ $RamTotal -gt 1000 -a $RamTotal -le 2500 ]; then
+        sed -i 's@^key_buffer_size.*@key_buffer_size = 32M@' /etc/my.cnf
+        sed -i 's@^table_open_cache.*@table_open_cache = 128@' /etc/my.cnf
+        sed -i 's@^sort_buffer_size.*@sort_buffer_size = 1M@' /etc/my.cnf
+        sed -i 's@^read_buffer_size.*@read_buffer_size = 512K@' /etc/my.cnf
+        sed -i 's@^read_rnd_buffer_size.*@read_rnd_buffer_size = 1M@' /etc/my.cnf
+        sed -i 's@^myisam_sort_buffer_size.*@myisam_sort_buffer_size = 16M@' /etc/my.cnf
+        sed -i 's@^max_connections.*@max_connections = 512@' /etc/my.cnf
+    elif [ $RamTotal -gt 2500 -a $RamTotal -le 3500 ]; then
+        sed -i 's@^key_buffer_size.*@key_buffer_size = 64M@' /etc/my.cnf
+        sed -i 's@^table_open_cache.*@table_open_cache = 256@' /etc/my.cnf
+        sed -i 's@^sort_buffer_size.*@sort_buffer_size = 2M@' /etc/my.cnf
+        sed -i 's@^read_buffer_size.*@read_buffer_size = 1M@' /etc/my.cnf
+        sed -i 's@^read_rnd_buffer_size.*@read_rnd_buffer_size = 2M@' /etc/my.cnf
+        sed -i 's@^myisam_sort_buffer_size.*@myisam_sort_buffer_size = 32M@' /etc/my.cnf
+        sed -i 's@^max_connections.*@max_connections = 1024@' /etc/my.cnf
+    elif [ $RamTotal -gt 3500 ]; then
+        sed -i 's@^key_buffer_size.*@key_buffer_size = 128M@' /etc/my.cnf
+        sed -i 's@^table_open_cache.*@table_open_cache = 512@' /etc/my.cnf
+        sed -i 's@^sort_buffer_size.*@sort_buffer_size = 4M@' /etc/my.cnf
+        sed -i 's@^read_buffer_size.*@read_buffer_size = 2M@' /etc/my.cnf
+        sed -i 's@^read_rnd_buffer_size.*@read_rnd_buffer_size = 4M@' /etc/my.cnf
+        sed -i 's@^myisam_sort_buffer_size.*@myisam_sort_buffer_size = 64M@' /etc/my.cnf
+        sed -i 's@^max_connections.*@max_connections = 2048@' /etc/my.cnf
+    fi
+}
+
 # Install mariadb database
 function install_mariadb(){
     if [ ! -d /usr/local/mariadb ];then
@@ -426,6 +451,8 @@ function install_mariadb(){
         chmod +w /usr/local/mariadb
         chown -R mysql:mysql /usr/local/mariadb
         cp -f $cur_dir/conf/my.cnf /etc/my.cnf
+        # Set MariaDB configuration file
+        set_database_conf
         cp support-files/mysql.server /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
         chmod +x /etc/init.d/mysqld
@@ -448,7 +475,7 @@ EOF
                 ln -s /usr/local/mariadb/bin/$i /usr/bin/$i
             fi
         done
-        #Start mysqld service
+        # Start mysqld service
         /etc/init.d/mysqld start
         /usr/local/mariadb/bin/mysqladmin password $dbrootpwd
         /usr/local/mariadb/bin/mysql -uroot -p$dbrootpwd <<EOF
@@ -459,6 +486,8 @@ delete from mysql.user where not (user='root') ;
 flush privileges;
 exit
 EOF
+        # Stop mysqld service
+        /etc/init.d/mysqld stop
         echo "MariaDB Install completed!"
     else
         echo "MariaDB had been installed!"
@@ -504,6 +533,8 @@ function install_mysql(){
         chown -R mysql:mysql /usr/local/mysql
         cd support-files/
         cp -f $cur_dir/conf/my.cnf /etc/my.cnf
+        # Set MySQL configuration file
+        set_database_conf
         cp -f mysql.server /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=$datalocation:g" /etc/init.d/mysqld
         /usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=$datalocation --user=mysql
@@ -526,7 +557,7 @@ EOF
                 ln -s /usr/local/mysql/bin/$i /usr/bin/$i
             fi
         done
-        #Start mysqld service
+        # Start mysqld service
         /etc/init.d/mysqld start
         /usr/local/mysql/bin/mysqladmin password $dbrootpwd
         /usr/local/mysql/bin/mysql -uroot -p$dbrootpwd <<EOF
@@ -537,6 +568,8 @@ delete from mysql.user where not (user='root') ;
 flush privileges;
 exit
 EOF
+        # Stop mysqld service
+        /etc/init.d/mysqld stop
         echo "MySQL Install completed!"
     else
         echo "MySQL had been installed!"
@@ -712,12 +745,13 @@ function install_php(){
         --enable-tokenizer \
         --enable-wddx \
         --enable-xml \
-        --enable-zip 
+        --enable-zip $PHPDisable
         if [ $? -ne 0 ]; then
             echo "PHP configure failed, Please visit http://teddysun.com/lamp and contact."
             exit 1
         fi
-        make && make install
+        make -j $Cpunum
+        make install
         if [ $? -ne 0 ]; then
             echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
             exit 1
@@ -747,36 +781,30 @@ function install_php(){
 
 # Install phpmyadmin
 function install_phpmyadmin(){
-    if [ ! -d /data/www/default/phpmyadmin ];then
-        echo "Start Installing ${phpMyAdminVersion}"
-        cd $cur_dir
-        mv untar/$phpMyAdminVersion /data/www/default/phpmyadmin
-        cp -f $cur_dir/conf/config.inc.php /data/www/default/phpmyadmin/config.inc.php
-        #Create phpmyadmin database
-        mysql -uroot -p$dbrootpwd < /data/www/default/phpmyadmin/sql/create_tables.sql
-        chmod -R 755 /data/www/default/phpmyadmin
-        mkdir -p /data/www/default/phpmyadmin/upload/
-        mkdir -p /data/www/default/phpmyadmin/save/
-        chown -R apache:apache /data/www/default
-        echo "${phpMyAdminVersion} Install completed!"
-    else
-        echo "PHPMyAdmin had been installed!"
+    if [ -d /data/www/default/phpmyadmin ];then
+        rm -rf /data/www/default/phpmyadmin
     fi
+    echo "Start Installing ${phpMyAdminVersion}"
+    cd $cur_dir
+    mv untar/$phpMyAdminVersion /data/www/default/phpmyadmin
+    cp -f $cur_dir/conf/config.inc.php /data/www/default/phpmyadmin/config.inc.php
+    # Start mysqld service
+    /etc/init.d/mysqld start
+    # Create phpmyadmin database
+    mysql -uroot -p$dbrootpwd < /data/www/default/phpmyadmin/sql/create_tables.sql
+    chmod -R 755 /data/www/default/phpmyadmin
+    mkdir -p /data/www/default/phpmyadmin/upload/
+    mkdir -p /data/www/default/phpmyadmin/save/
+    chown -R apache:apache /data/www/default
+    echo "${phpMyAdminVersion} Install completed!"
 }
 
 # Install end cleanup
 function install_cleanup(){
     # Start httpd service
     /etc/init.d/httpd start
-    if [ $? -ne 0 ]; then
-        echo "Apache Starting failed, Please visit http://teddysun.com/lamp and contact."
-        exit 1
-    fi
-
     cp -f $cur_dir/lamp.sh /usr/bin/lamp
     cp -f $cur_dir/conf/httpd.logrotate /etc/logrotate.d/httpd
-    sed -i '/Order/,/All/d' /usr/bin/lamp
-    sed -i "/AllowOverride All/i\Require all granted" /usr/bin/lamp
     # Clean up
     cd $cur_dir
     echo "Clean up start..."
@@ -832,8 +860,8 @@ function install_cleanup(){
         echo ""
     else
         echo ""
-        echo 'Sorry, Failed to install LAMP!';
-        echo 'Please visit http://teddysun.com/lamp and contact.';
+        echo "Sorry, Failed to install LAMP!"
+        echo "Please visit http://teddysun.com/lamp and contact."
     fi
 }
 
@@ -904,8 +932,8 @@ function uninstall_lamp(){
 # Add apache virtualhost
 function vhost_add(){
     # Define domain name
-    read -p "(Please input domains such as:www.example.com):" domains
-    if [ "$domains" = "" ]; then
+    read -p "Please input domains such as:www.example.com:" domains
+    if [ -z "$domains" ]; then
         echo "You need input a domain."
         exit 1
     fi
@@ -917,11 +945,11 @@ function vhost_add(){
     # Create database or not    
     while true
     do
-    read -p "(Do you want to create database?[y/N]):" create
+    read -p "Do you want to create database?[y/n]:" create
     case $create in
     y|Y|YES|yes|Yes)
     if [ -d /usr/local/mysql ]; then
-        read -p "(Please input your MySQL root password):" mysqlroot_passwd
+        read -p "Please input your MySQL root password:" mysqlroot_passwd
         mysql -uroot -p$mysqlroot_passwd <<EOF
 exit
 EOF
@@ -932,7 +960,7 @@ EOF
             exit 1
         fi
     elif [ -d /usr/local/mariadb ]; then
-        read -p "(Please input your MariaDB root password):" mysqlroot_passwd
+        read -p "Please input your MariaDB root password:" mysqlroot_passwd
         mysql -uroot -p$mysqlroot_passwd <<EOF
 exit
 EOF
@@ -944,17 +972,17 @@ EOF
         fi
     fi
 
-    read -p "(Please input the database name):" dbname
-    read -p "(Please set the password for user $dbname):" mysqlpwd
-    create=y
+    read -p "Please input the database name:" dbname
+    read -p "Please set the password for user $dbname:" mysqlpwd
+    create="y"
     break
     ;;
     n|N|no|NO|No)
     echo "Not create database, you entered $create"
-    create=n
+    create="n"
     break
     ;;
-    *) echo Please input only y or n
+    *) echo "Please input only y or n"
     esac
     done
 
@@ -1002,8 +1030,8 @@ EOF
 
 # Remove apache virtualhost
 function vhost_del(){
-    read -p "(Please input a domain you want to delete):" vhost_domain
-    if [ "$vhost_domain" = "" ]; then
+    read -p "Please input a domain you want to delete:" vhost_domain
+    if [ -z "$vhost_domain" ]; then
         echo "You need input a domain."
         exit 1
     fi
@@ -1028,7 +1056,7 @@ function vhost_del(){
     if [ -f "/usr/local/apache/conf/vhost/$vhost_domain.conf" ]; then
         rm -rf /usr/local/apache/conf/vhost/$vhost_domain.conf
     else
-        echo "Error!!No such domain file.Please check your input domain again."
+        echo "Error! No such domain file. Please check your input domain again."
         exit 1
     fi
 
@@ -1051,9 +1079,9 @@ function ftp(){
     fi
     case "$faction" in
     add)
-    read -p "(Please input ftpuser name):" ftpuser
-    read -p "(Please input ftpuser password):" ftppwd
-    read -p "(Please input ftpuser root directory):" ftproot
+    read -p "Please input ftpuser name:" ftpuser
+    read -p "Please input ftpuser password:" ftppwd
+    read -p "Please input ftpuser root directory:" ftproot
     useradd -d $ftproot -g ftp -c pure-ftpd -s /sbin/nologin  $ftpuser
     echo $ftpuser:$ftppwd |chpasswd
     if [ -d "$ftproot" ]; then
@@ -1068,7 +1096,7 @@ function ftp(){
     echo "ftp root directory is $ftproot"
     ;;
     del)
-    read -p "(Please input the ftpuser you want to delete):" ftpuser
+    read -p "Please input the ftpuser you want to delete:" ftpuser
     userdel $ftpuser
     echo "Successfully delete ftpuser $ftpuser"
     ;;
@@ -1080,6 +1108,29 @@ function ftp(){
     echo "Usage:add|del|list"
     exit 1
     esac
+}
+
+# Install LAMP Script
+function install_lamp(){
+    rootness
+    check_memory
+    disable_selinux
+    pre_installation_settings
+    download_all_files
+    untar_all_files
+    install_pcre
+    install_apache
+    install_database
+    install_libiconv
+    install_libmcrypt
+    install_mhash
+    install_mcrypt
+    install_re2c
+    install_libedit
+    install_imap
+    install_php
+    install_phpmyadmin
+    install_cleanup
 }
 
 # Initialization setup
@@ -1106,6 +1157,6 @@ ftp)
     ftp
         ;;
 *)
-    echo "Usage: `basename $0` {install|uninstall|add|del|list|ftp(add,del,list))"
+    echo "Usage: `basename $0` {install|uninstall|add|del|list|ftp(add,del,list)}"
     ;;
 esac
