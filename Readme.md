@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2015 年 08 月 28 日
+* 日期：2015 年 09 月 06 日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -20,16 +20,16 @@
 * 支持 GraphicsMagick （可选安装）；
 * 支持 Zend Guard Loader （可选安装）；
 * 支持 ionCube PHP Loader （可选安装）；
-* 支持 XCache ，Zend OPcache （可选安装）；
+* 支持 XCache 和 Zend OPcache （可选安装）；
 * 命令行新增虚拟主机，操作简便；
-* 自助升级 PHP，phpMyAdmin，MySQL 或 MariaDB 至最新版本；
+* 自助升级 Apache，PHP，phpMyAdmin，MySQL 或 MariaDB 至最新版本；
 * 支持创建 FTP 用户；
 * 一键卸载。
 
 ## 将会安装
 *  1、Apache 2.4.16
 *  2、MySQL 5.6.26, MySQL 5.5.45, MariaDB 5.5.45, MariaDB 10.0.21 （四选一安装）
-*  3、PHP 5.3.29, PHP 5.4.44, PHP 5.5.28, PHP 5.6.12 （四选一安装）
+*  3、PHP 5.3.29, PHP 5.4.45, PHP 5.5.29, PHP 5.6.13 （四选一安装）
 *  4、phpMyAdmin 4.4.14
 *  5、oci8 2.0.8 （可选安装）
 *  6、Xcache 3.2.0 （可选安装）
@@ -40,7 +40,7 @@
 * 11、GraphicsMagick 1.3.21 （可选安装）
 * 12、Zend Guard Loader 3.3 （可选安装）
 * 13、ionCube PHP Loader 5.0.7 （可选安装）
-* 14、MongoDB extension 1.6.6 （可选安装）
+* 14、MongoDB extension 1.6.11 （可选安装）
 
 ## 如何安装
 ### 事前准备（安装screen、unzip，创建 screen 会话）：
