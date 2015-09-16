@@ -1,12 +1,10 @@
 #!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
-#===============================================================================================
-#   SYSTEM REQUIRED:  CentOS / RedHat / Fedora
-#   DESCRIPTION:  MongoDB extension for LAMP
-#   AUTHOR: Teddysun <i@teddysun.com>
-#   VISIT:  http://teddysun.com/lamp
-#===============================================================================================
+#=========================================================#
+#   System Required:  CentOS / RedHat / Fedora            #
+#   Description:  MongoDB extension for LAMP              #
+#   Author: Teddysun <i@teddysun.com>                     #
+#   Visit:  https://lamp.sh                               #
+#=========================================================#
 if [[ $EUID -ne 0 ]]; then
    echo "Error:This script must be run as root!" 1>&2
    exit 1
@@ -16,7 +14,7 @@ cur_dir=`pwd`
 
 mongoVer=$(curl -s http://pecl.php.net/package/mongo | awk -F'>' '/mongo-.+.tgz/{print $3}' | cut -d'<' -f1 | sort -V | tail -1)
 if [[ -z $mongoVer ]]; then
-    mongoVer="mongo-1.6.6.tgz"
+    mongoVer="mongo-1.6.11.tgz"
 fi
 mongoFolder=$(echo $mongoVer | cut -d. -f1-3)
 

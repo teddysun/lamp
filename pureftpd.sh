@@ -1,12 +1,10 @@
 #!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
-#===============================================================================================
-#   SYSTEM REQUIRED:  CentOS-5 (32bit/64bit) or CentOS-6 (32bit/64bit)
-#   DESCRIPTION:  pure-ftpd for CentOS/RadHat 5 or 6 Linux Server
-#   AUTHOR: Teddysun <i@teddysun.com>
-#   VISIT:  http://teddysun.com/lamp
-#===============================================================================================
+#=========================================================#
+#   System Required:  CentOS / RedHat / Fedora            #
+#   Description:  pure-ftpd for LAMP                      #
+#   Author: Teddysun <i@teddysun.com>                     #
+#   Visit:  https://lamp.sh                               #
+#=========================================================#
 # Check if user is root
 if [[ $EUID -ne 0 ]]; then
    echo "Error:This script must be run as root!" 1>&2

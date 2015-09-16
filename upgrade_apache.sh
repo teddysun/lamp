@@ -1,12 +1,10 @@
 #!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
-#===============================================================================================
-#   System Required:  CentOS / RedHat / Fedora
-#   Description:  Auto Update Script for Apache
-#   Author: Teddysun <i@teddysun.com>
-#   Intro:  http://teddysun.com/lamp
-#===============================================================================================
+#=========================================================#
+#   System Required:  CentOS / RedHat / Fedora            #
+#   Description:  Auto Update Script for Apache           #
+#   Author: Teddysun <i@teddysun.com>                     #
+#   Visit:  https://lamp.sh                               #
+#=========================================================#
 if [[ $EUID -ne 0 ]]; then
    echo "Error:This script must be run as root!" 1>&2
    exit 1
@@ -21,12 +19,10 @@ cur_dir=`pwd`
 
 clear
 echo "#############################################################"
-echo "# Auto Update Script for Apache"
-echo "# System Required:  CentOS / RedHat / Fedora"
-echo "# Intro: http://teddysun.com/lamp"
-echo ""
-echo "# Author: Teddysun <i@teddysun.com>"
-echo ""
+echo "# Auto Update Script for Apache                             #"
+echo "# System Required:  CentOS / RedHat / Fedora                #"
+echo "# Intro: https://lamp.sh                                    #"
+echo "# Author: Teddysun <i@teddysun.com>                         #"
 echo "#############################################################"
 echo ""
 
