@@ -1,12 +1,12 @@
 #! /bin/bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-#===============================================================================================
+#==============================================================================================#
 #   System Required:  CentOS / RedHat / Fedora                                                 #
 #   Description:  Install LAMP(Linux + Apache + MySQL + PHP ) for CentOS / RedHat / Fedora     #
 #   Author: Teddysun <i@teddysun.com>                                                          #
-#   Intro:  https://teddysun.com/lamp                                                          #
-#===============================================================================================
+#   Intro:  https://lamp.sh                                                                    #
+#==============================================================================================#
 
 # Install time state
 StartDate=''
@@ -33,7 +33,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.37'
 libeditVersion='libedit-20150325-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.4.14-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.4.14.1-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
@@ -116,7 +116,7 @@ function pre_installation_settings(){
     echo ""
     echo "#############################################################"
     echo "# LAMP Auto Install Script for CentOS / RedHat / Fedora     #"
-    echo "# Intro: http://teddysun.com/lamp                           #"
+    echo "# Intro: https://lamp.sh                                    #"
     echo "# Author: Teddysun <i@teddysun.com>                         #"
     echo "#############################################################"
     echo ""
@@ -329,7 +329,7 @@ function install_apache(){
         make -j $Cpunum
         make install
         if [ $? -ne 0 ]; then
-            echo "Installing Apache failed, Please visit http://teddysun.com/lamp and contact."
+            echo "Installing Apache failed, Please visit https://lamp.sh/support.html and contact."
             exit 1
         fi
         if centosversion 7; then
@@ -453,7 +453,7 @@ function install_mariadb(){
         make -j $Cpunum
         make install
         if [ $? -ne 0 ]; then
-            echo "Installing MariaDB failed, Please visit http://teddysun.com/lamp and contact."
+            echo "Installing MariaDB failed, Please visit https://lamp.sh/support.html and contact."
             exit 1
         fi
         chmod +w /usr/local/mariadb
@@ -534,7 +534,7 @@ function install_mysql(){
         make -j $Cpunum
         make install
         if [ $? -ne 0 ]; then
-            echo "Installing MySQL failed, Please visit http://teddysun.com/lamp and contact."
+            echo "Installing MySQL failed, Please visit https://lamp.sh/support.html and contact."
             exit 1
         fi
         chmod +w /usr/local/mysql
@@ -750,13 +750,13 @@ function install_php(){
         --enable-xml \
         --enable-zip $PHPDisable
         if [ $? -ne 0 ]; then
-            echo "PHP configure failed, Please visit http://teddysun.com/lamp and contact."
+            echo "PHP configure failed, Please visit https://lamp.sh/support.html and contact."
             exit 1
         fi
         make -j $Cpunum
         make install
         if [ $? -ne 0 ]; then
-            echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
+            echo "Installing PHP failed, Please visit https://lamp.sh/support.html and contact."
             exit 1
         fi
         mkdir -p /usr/local/php/etc
@@ -858,13 +858,13 @@ function install_cleanup(){
         echo ""
         echo "Start time: ${StartDate}"
         echo -e "Completion time: $(date) (Use:\033[41;37m $[($(date +%s)-StartDateSecond)/60] \033[0m minutes)"
-        echo "Welcome to visit http://teddysun.com/lamp"
+        echo "Welcome to visit https://lamp.sh"
         echo "Enjoy it!"
         echo ""
     else
         echo ""
         echo "Sorry, Failed to install LAMP!"
-        echo "Please visit http://teddysun.com/lamp and contact."
+        echo "Please visit https://lamp.sh/support.html and contact."
     fi
 }
 
