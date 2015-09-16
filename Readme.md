@@ -1,6 +1,6 @@
 ## 简介
 * 1. LAMP 指的是 Linux + Apache + MySQL + PHP 运行环境
-* 2. LAMP 一键安装是用 Linux Shell 语言编写的，用于在 Linux 系统(Redhat/CentOS/Fedora)上一键安装 LAMP 环境的工具脚本。
+* 2. LAMP 一键安装包是用 Linux Shell 语言编写的，用于在 Linux 系统(Redhat/CentOS/Fedora)上一键安装 LAMP 环境的工具脚本。
 
 ## 本脚本的系统需求
 * 需要 2GB 及以上磁盘剩余空间
@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2015 年 09 月 06 日
+* 日期：2015 年 09 月 16 日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -30,7 +30,7 @@
 *  1、Apache 2.4.16
 *  2、MySQL 5.6.26, MySQL 5.5.45, MariaDB 5.5.45, MariaDB 10.0.21 （四选一安装）
 *  3、PHP 5.3.29, PHP 5.4.45, PHP 5.5.29, PHP 5.6.13 （四选一安装）
-*  4、phpMyAdmin 4.4.14
+*  4、phpMyAdmin 4.4.14.1
 *  5、oci8 2.0.8 （可选安装）
 *  6、Xcache 3.2.0 （可选安装）
 *  7、pure-ftpd 1.0.42 （可选安装）
@@ -174,6 +174,6 @@
 
 安装完后默认的网站根目录： /data/www/default
 
-如果你在安装后使用遇到问题，请访问 [https://teddysun.com/lamp](https://teddysun.com/lamp) 提交评论。
+如果你在安装后使用遇到问题，请访问项目主页 [https://lamp.sh](https://lamp.sh/support.html) 寻求帮助。
 
-Copyright (C) 2015 Teddysun <i@teddysun.com>
+Copyright (C) 2013 - 2015 Teddysun <i@teddysun.com>
