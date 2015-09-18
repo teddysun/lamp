@@ -240,12 +240,12 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     --enable-xml \
     --enable-zip
     if [ $? -ne 0 ]; then
-        echo "PHP configure failed, Please visit http://teddysun.com/lamp and contact."
+        echo "PHP configure failed, Please visit https://lamp.sh/support.html and contact."
         exit 1
     fi
     make && make install
     if [ $? -ne 0 ]; then
-        echo "Installing PHP failed, Please visit http://teddysun.com/lamp and contact."
+        echo "Installing PHP failed, Please visit https://lamp.sh/support.html and contact."
         exit 1
     fi
     mkdir -p /usr/local/php/etc

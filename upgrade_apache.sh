@@ -26,7 +26,6 @@ echo "# Author: Teddysun <i@teddysun.com>                         #"
 echo "#############################################################"
 echo ""
 
-# Description:Apache Update
 aprVersion='apr-1.5.2'
 aprutilVersion='apr-util-1.5.4'
 
@@ -111,19 +110,19 @@ if [[ "$UPGRADE_APACHE" = "y" || "$UPGRADE_APACHE" = "Y" ]];then
     mv /usr/local/apache /usr/local/apache.bak
     cd $cur_dir
     echo "Download apr and apr-util..."
-    if [ -s ${aprVersion}.tar.gz ]; then
+    if [ -s $aprVersion.tar.gz ]; then
         echo "${aprVersion}.tar.gz [found]"
     else
-        wget -c http://lamp.teddysun.com/files/${aprVersion}.tar.gz
+        wget -c http://lamp.teddysun.com/files/$aprVersion.tar.gz
     fi
-    if [ -s ${aprutilVersion}.tar.gz ]; then
+    if [ -s $aprutilVersion.tar.gz ]; then
         echo "${aprutilVersion}.tar.gz [found]"
     else
-        wget -c http://lamp.teddysun.com/files/${aprutilVersion}.tar.gz
+        wget -c http://lamp.teddysun.com/files/$aprutilVersion.tar.gz
     fi
 
-    tar zxf ${aprVersion}.tar.gz -C $cur_dir/
-    tar zxf ${aprutilVersion}.tar.gz -C $cur_dir/
+    tar zxf $aprVersion.tar.gz -C $cur_dir/
+    tar zxf $aprutilVersion.tar.gz -C $cur_dir/
     
     if [ ! -s httpd-$LATEST_APACHE.tar.gz ]; then
         LATEST_APACHE_LINK="http://www.us.apache.org/dist//httpd/httpd-${LATEST_APACHE}.tar.gz"
@@ -154,7 +153,7 @@ if [[ "$UPGRADE_APACHE" = "y" || "$UPGRADE_APACHE" = "Y" ]];then
     --enable-mods-shared=all
     make && make install
     if [ $? -ne 0 ]; then
-        echo "Installing Apache failed, Please visit http://teddysun.com/lamp and contact."
+        echo "Installing Apache failed, Please visit https://lamp.sh/support.html and contact."
         exit 1
     fi
     # Restore files
@@ -164,7 +163,7 @@ if [[ "$UPGRADE_APACHE" = "y" || "$UPGRADE_APACHE" = "Y" ]];then
     # Clean up
     cd $cur_dir
     rm -rf httpd-$LATEST_APACHE/
-    rm -f httpd-$LATEST_APACHE.tar.gz ${aprVersion}.tar.gz ${aprutilVersion}.tar.gz
+    rm -f httpd-$LATEST_APACHE.tar.gz $aprVersion.tar.gz $aprutilVersion.tar.gz
     # Start httpd service
     /etc/init.d/httpd start
     if [ $? -eq 0 ]; then
