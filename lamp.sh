@@ -33,7 +33,7 @@ re2cVersion='re2c-0.13.6'
 pcreVersion='pcre-8.37'
 libeditVersion='libedit-20150325-3.1'
 imapVersion='imap-2007f'
-phpMyAdminVersion='phpMyAdmin-4.4.14.1-all-languages'
+phpMyAdminVersion='phpMyAdmin-4.4.15-all-languages'
 # Current folder
 cur_dir=`pwd`
 # CPU Number
@@ -129,10 +129,10 @@ function pre_installation_settings(){
     while true
     do
     echo "Please choose a version of the Database:"
-    echo -e "\t\033[32m1\033[0m. Install MySQL-5.6(recommend)"
-    echo -e "\t\033[32m2\033[0m. Install MySQL-5.5"
-    echo -e "\t\033[32m3\033[0m. Install MariaDB-5.5"
-    echo -e "\t\033[32m4\033[0m. Install MariaDB-10.0"
+    echo -e "\t\033[32m1\033[0m. Install $MySQLVersion(recommend)"
+    echo -e "\t\033[32m2\033[0m. Install $MySQLVersion2"
+    echo -e "\t\033[32m3\033[0m. Install $MariaDBVersion"
+    echo -e "\t\033[32m4\033[0m. Install $MariaDBVersion2"
     read -p "Please input a number:(Default 1) " DB_version
     [ -z "$DB_version" ] && DB_version=1
     case $DB_version in
@@ -182,12 +182,12 @@ function pre_installation_settings(){
     while true
     do
     echo "Please choose a version of the PHP:"
-    echo -e "\t\033[32m1\033[0m. Install PHP-5.4(recommend)"
-    echo -e "\t\033[32m2\033[0m. Install PHP-5.3"
-    echo -e "\t\033[32m3\033[0m. Install PHP-5.5"
-    echo -e "\t\033[32m4\033[0m. Install PHP-5.6"
-    read -p "Please input a number:(Default 1) " PHP_version
-    [ -z "$PHP_version" ] && PHP_version=1
+    echo -e "\t\033[32m1\033[0m. Install $PHPVersion"
+    echo -e "\t\033[32m2\033[0m. Install $PHPVersion2"
+    echo -e "\t\033[32m3\033[0m. Install $PHPVersion3(recommend)"
+    echo -e "\t\033[32m4\033[0m. Install $PHPVersion4"
+    read -p "Please input a number:(Default 3) " PHP_version
+    [ -z "$PHP_version" ] && PHP_version=3
     case $PHP_version in
         1|2|3|4)
         echo ""
