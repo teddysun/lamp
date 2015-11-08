@@ -14,8 +14,8 @@ cur_dir=`pwd`
 
 PHP_PREFIX='/usr/local/php'
 memcached_install_dir='/usr/local/memcached'
-libevent_ver='libevent-2.0.21-stable'
-memcached_ver='memcached-1.4.22'
+libevent_ver='libevent-2.0.22-stable'
+memcached_ver='memcached-1.4.24'
 memcached_ext_ver='memcached-2.2.0'
 memcache_ext_ver='memcache-3.0.8'
 libmemcached_ver='libmemcached-1.0.18'
