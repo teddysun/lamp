@@ -1,3 +1,11 @@
+###版本`3.3.6`：`Release date:2015/11/08`
+更新记录：
+
+* 1、升级 Apache 到版本 2.4.17；
+* 2、升级 memcached 到版本 1.4.24；
+* 3、升级 ZendOPcache 到版本 7.0.5;
+* 4、升级 ionCube PHP Loader 到版本 5.0.19。
+
 ###版本`3.3.5`：`Release date:2015/10/31`
 更新记录：
 
