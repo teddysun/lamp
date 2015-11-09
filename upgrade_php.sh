@@ -33,10 +33,10 @@ INSTALLED_PHP=$(php -r 'echo PHP_VERSION;' 2>/dev/null)
 PHP_VER=$(echo $INSTALLED_PHP | awk -F. '{print $1$2}')
 if [ $PHP_VER -eq 53 ]; then
     extDate='20090626'
-    LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.3')
+    LATEST_PHP='5.3.29'
 elif [ $PHP_VER -eq 54 ]; then
     extDate='20100525'
-    LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.4')
+    LATEST_PHP='5.4.45'
 elif [ $PHP_VER -eq 55 ]; then
     extDate='20121212'
     LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.5')
