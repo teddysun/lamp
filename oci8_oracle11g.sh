@@ -12,7 +12,7 @@ fi
 
 cur_dir=`pwd`
 
-OCIVersion='oci8-2.0.8'
+OCIVersion='oci8-2.0.10'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
