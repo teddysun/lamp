@@ -48,6 +48,10 @@ read -p "(Default: n):" UPGRADE_MYSQL
 if [ -z $UPGRADE_MYSQL ]; then
     UPGRADE_MYSQL="n"
 fi
+echo "---------------------------"
+echo "You choose = $UPGRADE_MYSQL"
+echo "---------------------------"
+echo ""
 
 # Download && Untar files
 function untar(){
@@ -212,7 +216,7 @@ function clear_up() {
     rm -f mysql-$LATEST_MYSQL.tar.gz
     echo ""
     echo "MySQL Upgrade completed!"
-    echo "Welcome to visit:http://teddysun.com/lamp"
+    echo "Welcome to visit:https://lamp.sh"
     echo "Enjoy it!"
     echo ""
 }

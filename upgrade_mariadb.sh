@@ -46,6 +46,10 @@ read -p "(Default: n):" UPGRADE_MARIADB
 if [ -z $UPGRADE_MARIADB ]; then
     UPGRADE_MARIADB="n"
 fi
+echo "---------------------------"
+echo "You choose = $UPGRADE_MARIADB"
+echo "---------------------------"
+echo ""
 
 # Download && Untar files
 function untar(){
@@ -219,7 +223,7 @@ function clear_up() {
     rm -f mariadb-$LATEST_MARIADB.tar.gz
     echo ""
     echo "MariaDB Upgrade completed!"
-    echo "Welcome to visit:http://teddysun.com/lamp"
+    echo "Welcome to visit:https://lamp.sh"
     echo "Enjoy it!"
     echo ""
 }
