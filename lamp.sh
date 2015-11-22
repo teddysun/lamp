@@ -661,9 +661,26 @@ function install_imap(){
     fi
 }
 
+# Update ICU version
+function update_icu(){
+    echo "Update ICU version start..."
+    cd $cur_dir
+    if ! wget -c http://lamp.teddysun.com/files/icu4c-4_4_2-src.tgz; then
+        echo "Failed to download icu4c-4_4_2-src.tgz, please download it to "$cur_dir" directory manually and try again."
+        exit 1
+    fi
+    tar zxf icu4c-4_4_2-src.tgz -C $cur_dir/untar
+    cd $cur_dir/untar/icu/source/
+    ./configure
+    make && make install
+    rm -f $cur_dir/icu4c-4_4_2-src.tgz
+    echo "ICU version update completed!"
+}
+
 # Install PHP5
 function install_php(){
     if [ ! -d /usr/local/php ];then
+        echo "Start Installing PHP"
         # database compile dependency
         if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
             WITH_MYSQL="--with-mysql=/usr/local/mysql"
@@ -672,7 +689,6 @@ function install_php(){
             WITH_MYSQL="--with-mysql=/usr/local/mariadb"
             WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
         fi
-        echo "Start Installing PHP"
         # ldap module dependency 
         if is_64bit; then
             cp -rpf /usr/lib64/libldap* /usr/lib/
@@ -686,6 +702,17 @@ function install_php(){
             WITH_IMAP="--with-imap=/usr/local/imap-2007f --with-imap-ssl"
         else
             WITH_IMAP="--with-imap --with-imap-ssl --with-kerberos"
+        fi
+        # update ICU version
+        if centosversion 5; then
+            if [[ "$PHP_version" = "3" || "$PHP_version" = "4" ]];then
+                update_icu
+                WITH_ICU_DIR="--with-icu-dir=/usr/local"
+            else
+                WITH_ICU_DIR="--with-icu-dir=/usr"
+            fi
+        else
+            WITH_ICU_DIR="--with-icu-dir=/usr"
         fi
         if [ $PHP_version -eq 1 ]; then
             cd $cur_dir/untar/$PHPVersion
@@ -709,7 +736,7 @@ function install_php(){
         --with-mysql-sock=/tmp/mysql.sock \
         --with-config-file-scan-dir=/usr/local/php/php.d \
         --with-mhash=/usr \
-        --with-icu-dir=/usr \
+        $WITH_ICU_DIR \
         --with-bz2 \
         --with-curl \
         --with-freetype-dir \
