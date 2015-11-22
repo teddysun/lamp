@@ -12,7 +12,7 @@ fi
 
 cur_dir=`pwd`
 
-ImageMagick_Ver='ImageMagick-6.9.0-10'
+ImageMagick_Ver='ImageMagick-6.9.2-6'
 ImageMagick_ext_Ver='imagick-3.2.0RC1'
 
 # get PHP version
