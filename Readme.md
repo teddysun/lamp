@@ -36,8 +36,8 @@
 *  7、pure-ftpd 1.0.42 （可选安装）
 *  8、memcached 1.4.24 （可选安装）
 *  9、Zend OPcache 7.0.5 （可选安装）
-* 10、ImageMagick 6.9.0-10 （可选安装）
-* 11、GraphicsMagick 1.3.21 （可选安装）
+* 10、ImageMagick 6.9.2-6 （可选安装）
+* 11、GraphicsMagick 1.3.23 （可选安装）
 * 12、Zend Guard Loader 3.3 （可选安装）
 * 13、ionCube PHP Loader 5.0.19 （可选安装）
 * 14、MongoDB extension 1.6.11 （可选安装）
