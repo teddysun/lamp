@@ -43,7 +43,7 @@ Cpunum=`cat /proc/cpuinfo | grep 'processor' | wc -l`;
 function getIP(){
     IP=`ip addr | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | egrep -v "^192\.168|^172\.1[6-9]\.|^172\.2[0-9]\.|^172\.3[0-2]\.|^10\.|^127\.|^255\." | head -n 1`
     if [[ "$IP" = "" ]]; then
-        IP=`curl -s -4 icanhazip.com`
+        IP=`wget -qO- -t1 -T2 ipv4.icanhazip.com`
     fi
 }
 
@@ -85,19 +85,23 @@ function rootness(){
     fi
 }
 
-# Check memory size
-function check_memory(){
-    RamTotal=`free -m | grep 'Mem' | awk '{print $2}'`
-    RamSwap=`free -m | grep 'Swap' | awk '{print $2}'`
-    RamSum=`expr $RamTotal + $RamSwap`
+# Check system infomation
+function check_sys(){
+    cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
+    cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
+    freq=$( awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
+    tram=$( free -m | awk 'NR==2 {print $2}' )
+    swap=$( free -m | awk 'NR==4 {print $2}' )
+    up=$( awk '{a=$1/86400;b=($1%86400)/3600;c=($1%3600)/60;d=$1%60} {printf("%ddays, %d:%d:%d\n",a,b,c,d)}' /proc/uptime )
+    opsy=$( cat /etc/issue.net | awk 'NR==1 {print}' )
+    arch=$( uname -m )
+    lbit=$( getconf LONG_BIT )
+    host=$( hostname )
+    kern=$( uname -r )
+    RamSum=`expr $tram + $swap`
     if [ $RamSum -lt 480 ]; then
-        echo "Error: Not enough memory to install LAMP. The system needs memory: ${RamTotal}MB*RAM + ${RamSwap}MB*Swap > 480MB"
+        echo "Error: Not enough memory to install LAMP. The system needs memory: ${tram}MB*RAM + ${swap}MB*Swap > 480MB"
         exit 1
-    fi
-    if is_64bit; then
-        SysBit='64'
-    else
-        SysBit='32'
     fi
     [ $RamSum -lt 600 ] && PHPDisable='--disable-fileinfo';
 }
@@ -120,10 +124,20 @@ function pre_installation_settings(){
     echo "# Author: Teddysun <i@teddysun.com>                         #"
     echo "#############################################################"
     echo ""
-    # Display Public IP
+    # Display System information
     getIP
-    echo -e "Your main public IP is\t\033[32m$IP\033[0m"
-    echo "Your system is ${SysBit}Bit, ${Cpunum}*CPU, ${RamTotal}MB*RAM, ${RamSwap}MB*Swap"
+    echo "System information is below"
+    echo ""
+    echo "CPU model            : $cname"
+    echo "Number of cores      : $cores"
+    echo "CPU frequency        : $freq MHz"
+    echo "Total amount of ram  : $tram MB"
+    echo "Total amount of swap : $swap MB"
+    echo "System uptime        : $up"
+    echo "OS                   : $opsy"
+    echo "Arch                 : $arch ($lbit Bit)"
+    echo "Kernel               : $kern"
+    echo "IPv4 address         : $IP"
     echo ""
     # Choose databese
     while true
@@ -1143,7 +1157,7 @@ function ftp(){
 # Install LAMP Script
 function install_lamp(){
     rootness
-    check_memory
+    check_sys
     disable_selinux
     pre_installation_settings
     download_all_files
