@@ -13,7 +13,7 @@ fi
 cur_dir=`pwd`
 
 ImageMagick_Ver='ImageMagick-6.9.2-6'
-ImageMagick_ext_Ver='imagick-3.2.0RC1'
+ImageMagick_ext_Ver='imagick-3.4.0RC1'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
