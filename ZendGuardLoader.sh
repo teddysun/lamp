@@ -59,6 +59,9 @@ elif [ $INSTALLED_PHP -eq 56 ]; then
         zendVer="zend-loader-php5.6-linux-i386"
     fi
     extDate='20131226'
+elif [ $INSTALLED_PHP -eq 70 ]; then
+    echo "Zend Guard Loader not support PHP 7.0 now."
+    exit 1
 fi
 
 # Install ZendGuardLoader

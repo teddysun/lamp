@@ -41,6 +41,9 @@ elif [ $INSTALLED_PHP -eq 55 ]; then
 elif [ $INSTALLED_PHP -eq 56 ]; then
     phpVer='5.6'
     extDate='20131226'
+elif [ $INSTALLED_PHP -eq 70 ]; then
+    echo "ionCube Loader not support PHP 7.0 now."
+    exit 1
 fi
 if is_64bit; then
     ionCubeVer='ioncube_loaders_lin_x86-64.tar.gz'
