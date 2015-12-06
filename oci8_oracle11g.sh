@@ -31,6 +31,7 @@ elif [ $PHP_VER -eq 56 ]; then
     extDate='20131226'
 elif [ $PHP_VER -eq 70 ]; then
     extDate='20151012'
+    OCIVersion='oci8-2.1.0'
 fi
 
 # Download files.
