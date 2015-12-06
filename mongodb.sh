@@ -14,7 +14,7 @@ cur_dir=`pwd`
 
 mongoVer=$(curl -s http://pecl.php.net/package/mongo | awk -F'>' '/mongo-.+.tgz/{print $3}' | cut -d'<' -f1 | sort -V | tail -1)
 if [[ -z $mongoVer ]]; then
-    mongoVer="mongo-1.6.11.tgz"
+    mongoVer="mongo-1.6.12.tgz"
 fi
 mongoFolder=$(echo $mongoVer | cut -d. -f1-3)
 
