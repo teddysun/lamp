@@ -63,6 +63,10 @@ function install_graphicsmagick_ext(){
     $PHP_PREFIX/bin/phpize
     ./configure --with-php-config=$PHP_PREFIX/bin/php-config
     make && make install
+    if [ $? -ne 0 ]; then
+        echo "Installing PHP extension gmagick failed, Please visit https://lamp.sh/support.html and contact."
+        exit 1
+    fi
     if [ ! -f $PHP_PREFIX/php.d/gmagick.ini ]; then
         echo "graphicsmagick configuration not found, create it!"
         cat > $PHP_PREFIX/php.d/gmagick.ini<<-EOF

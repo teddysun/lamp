@@ -59,6 +59,10 @@ export PHP_PREFIX="/usr/local/php"
 $PHP_PREFIX/bin/phpize
 ./configure -with-php-config=$PHP_PREFIX/bin/php-config
 make && make install
+if [ $? -ne 0 ]; then
+    echo "Installing PHP extension mongodb failed, Please visit https://lamp.sh/support.html and contact."
+    exit 1
+fi
 # Create ini file
 if [ -s /usr/local/php/lib/php/extensions/no-debug-non-zts-${extDate}/mongo.so ]; then
     if [ ! -f $PHP_PREFIX/php.d/mongo.ini ]; then

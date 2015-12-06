@@ -55,6 +55,10 @@ export PHP_PREFIX="/usr/local/php"
 $PHP_PREFIX/bin/phpize
 ./configure --enable-xcache -with-php-config=$PHP_PREFIX/bin/php-config
 make install
+if [ $? -ne 0 ]; then
+    echo "Installing PHP extension xcache failed, Please visit https://lamp.sh/support.html and contact."
+    exit 1
+fi
 rm -rf /data/www/default/xcache
 cp -r htdocs/ /data/www/default/xcache
 chown -R apache:apache /data/www/default/xcache

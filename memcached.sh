@@ -100,6 +100,10 @@ function install_memcache_ext(){
     $PHP_PREFIX/bin/phpize
     ./configure --with-php-config=$PHP_PREFIX/bin/php-config
     make && make install
+    if [ $? -ne 0 ]; then
+        echo "Installing PHP extension memcache failed, Please visit https://lamp.sh/support.html and contact."
+        exit 1
+    fi
     if [ ! -f $PHP_PREFIX/php.d/memcache.ini ]; then
         echo "memcache configuration not found, create it!"
         cat > $PHP_PREFIX/php.d/memcache.ini<<-EOF
@@ -127,6 +131,10 @@ function install_memcached_ext(){
     $PHP_PREFIX/bin/phpize
     ./configure --with-php-config=$PHP_PREFIX/bin/php-config
     make && make install
+    if [ $? -ne 0 ]; then
+        echo "Installing PHP extension memcached failed, Please visit https://lamp.sh/support.html and contact."
+        exit 1
+    fi
     if [ ! -f $PHP_PREFIX/php.d/memcached.ini ]; then
         echo "memcached configuration not found, create it!"
         cat > $PHP_PREFIX/php.d/memcached.ini<<-EOF

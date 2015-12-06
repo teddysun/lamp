@@ -62,6 +62,10 @@ function install_imagemagick_ext(){
     $PHP_PREFIX/bin/phpize
     ./configure --with-php-config=$PHP_PREFIX/bin/php-config --with-imagick=/usr/local
     make && make install
+    if [ $? -ne 0 ]; then
+        echo "Installing PHP extension imagemagick failed, Please visit https://lamp.sh/support.html and contact."
+        exit 1
+    fi
     if [ ! -f $PHP_PREFIX/php.d/imagick.ini ]; then
         echo "imagemagick configuration not found, create it!"
         cat > $PHP_PREFIX/php.d/imagick.ini<<-EOF
