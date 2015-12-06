@@ -22,6 +22,7 @@ PHPVersion='php-5.4.45'
 PHPVersion2='php-5.3.29'
 PHPVersion3='php-5.5.30'
 PHPVersion4='php-5.6.16'
+PHPVersion5='php-7.0.0'
 ApacheVersion='httpd-2.4.17'
 aprVersion='apr-1.5.2'
 aprutilVersion='apr-util-1.5.4'
@@ -90,8 +91,8 @@ function check_sys(){
     cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
     cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
     freq=$( awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
-    tram=$( free -m | awk 'NR==2 {print $2}' )
-    swap=$( free -m | awk 'NR==4 {print $2}' )
+    tram=$( free -m | awk '/Mem/ {print $2}' )
+    swap=$( free -m | awk '/Swap/ {print $2}' )
     up=$( awk '{a=$1/86400;b=($1%86400)/3600;c=($1%3600)/60;d=$1%60} {printf("%ddays, %d:%d:%d\n",a,b,c,d)}' /proc/uptime )
     opsy=$( cat /etc/issue.net | awk 'NR==1 {print}' )
     arch=$( uname -m )
@@ -200,10 +201,11 @@ function pre_installation_settings(){
     echo -e "\t\033[32m2\033[0m. Install $PHPVersion2"
     echo -e "\t\033[32m3\033[0m. Install $PHPVersion3(recommend)"
     echo -e "\t\033[32m4\033[0m. Install $PHPVersion4"
+    echo -e "\t\033[32m5\033[0m. Install $PHPVersion5"
     read -p "Please input a number:(Default 3) " PHP_version
     [ -z "$PHP_version" ] && PHP_version=3
     case $PHP_version in
-        1|2|3|4)
+        1|2|3|4|5)
         echo ""
         echo "---------------------------"
         echo "You choose = $PHP_version"
@@ -212,7 +214,7 @@ function pre_installation_settings(){
         break
         ;;
         *)
-        echo "Input error! Please only input number 1,2,3,4"
+        echo "Input error! Please only input number 1,2,3,4,5"
     esac
     done
 
@@ -273,6 +275,8 @@ function download_all_files(){
         download_file "${PHPVersion3}.tar.gz"
     elif [ $PHP_version -eq 4 ]; then
         download_file "${PHPVersion4}.tar.gz"
+    elif [ $PHP_version -eq 5 ]; then
+        download_file "${PHPVersion5}.tar.gz"
     fi
     download_file "${ApacheVersion}.tar.gz"
     download_file "${phpMyAdminVersion}.tar.gz"
@@ -691,17 +695,43 @@ function update_icu(){
     echo "ICU version update completed!"
 }
 
+# Update gmp version
+function update_gmp(){
+    echo "Update gmp version start..."
+    cd $cur_dir
+    if ! wget -c http://lamp.teddysun.com/files/gmp-6.1.0.tar.bz2; then
+        echo "Failed to download gmp-6.1.0.tar.bz2, please download it to "$cur_dir" directory manually and try again."
+        exit 1
+    fi
+    tar jxf gmp-6.1.0.tar.bz2 -C $cur_dir/untar
+    cd $cur_dir/untar/gmp-6.1.0/
+    ./configure
+    make && make install
+    rm -f $cur_dir/gmp-6.1.0.tar.bz2
+    echo "gmp version update completed!"
+}
+
 # Install PHP5
 function install_php(){
     if [ ! -d /usr/local/php ];then
         echo "Start Installing PHP"
         # database compile dependency
         if [ $DB_version -eq 1 -o $DB_version -eq 2 ]; then
-            WITH_MYSQL="--with-mysql=/usr/local/mysql"
-            WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
+            if [ $PHP_version -eq 5 ]; then
+                WITH_MYSQL=""
+                WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
+            else
+                WITH_MYSQL="--with-mysql=/usr/local/mysql"
+                WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
+            fi
         elif [ $DB_version -eq 3 -o $DB_version -eq 4 ]; then
-            WITH_MYSQL="--with-mysql=/usr/local/mariadb"
-            WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
+            if [ $PHP_version -eq 5 ]; then
+                WITH_MYSQL=""
+                WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
+            else
+                WITH_MYSQL="--with-mysql=/usr/local/mariadb"
+                WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
+            fi
         fi
         # ldap module dependency 
         if is_64bit; then
@@ -717,16 +747,16 @@ function install_php(){
         else
             WITH_IMAP="--with-imap --with-imap-ssl --with-kerberos"
         fi
-        # update ICU version
+        # update ICU & gmp version
+        WITH_GMP="--with-gmp"
+        WITH_ICU_DIR="--with-icu-dir=/usr"
         if centosversion 5; then
-            if [[ "$PHP_version" = "3" || "$PHP_version" = "4" ]];then
+            if [[ "$PHP_version" = "3" || "$PHP_version" = "4" || "$PHP_version" = "5" ]];then
                 update_icu
+                update_gmp
+                WITH_GMP="--with-gmp=/usr/local"
                 WITH_ICU_DIR="--with-icu-dir=/usr/local"
-            else
-                WITH_ICU_DIR="--with-icu-dir=/usr"
             fi
-        else
-            WITH_ICU_DIR="--with-icu-dir=/usr"
         fi
         if [ $PHP_version -eq 1 ]; then
             cd $cur_dir/untar/$PHPVersion
@@ -738,6 +768,8 @@ function install_php(){
             cd $cur_dir/untar/$PHPVersion3
         elif [ $PHP_version -eq 4 ]; then
             cd $cur_dir/untar/$PHPVersion4
+        elif [ $PHP_version -eq 5 ]; then
+            cd $cur_dir/untar/$PHPVersion5
         fi
         ./configure \
         --prefix=/usr/local/php \
@@ -756,7 +788,7 @@ function install_php(){
         --with-freetype-dir \
         --with-gd \
         --with-gettext \
-        --with-gmp \
+        $WITH_GMP \
         --with-jpeg-dir \
         $WITH_IMAP \
         --with-ldap \
@@ -810,6 +842,8 @@ function install_php(){
             mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20121212
         elif [ $PHP_version -eq 4 ]; then
             mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20131226
+        elif [ $PHP_version -eq 5 ]; then
+            mkdir -p /usr/local/php/lib/php/extensions/no-debug-non-zts-20151012
         fi
         cp -f $cur_dir/conf/php.ini /usr/local/php/etc/php.ini
         rm -f /etc/php.ini
