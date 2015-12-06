@@ -73,6 +73,9 @@ elif [ $PHP_VER -eq 55 ]; then
 elif [ $PHP_VER -eq 56 ]; then
     extDate='20131226'
     fast_install
+elif [ $PHP_VER -eq 70 ]; then
+    extDate='20151012'
+    fast_install
 fi
 
 # install opcache

@@ -17,6 +17,11 @@ fi
 
 cur_dir=`pwd`
 apache_restart_flg='0'
+PHPDisable=''
+tram=$( free -m | awk '/Mem/ {print $2}' )
+swap=$( free -m | awk '/Swap/ {print $2}' )
+RamSum=`expr $tram + $swap`
+[ $RamSum -lt 600 ] && PHPDisable='--disable-fileinfo'
 
 clear
 echo "#############################################################"
@@ -43,6 +48,9 @@ elif [ $PHP_VER -eq 55 ]; then
 elif [ $PHP_VER -eq 56 ]; then
     extDate='20131226'
     LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.6')
+elif [ $PHP_VER -eq 70 ]; then
+    extDate='20151012'
+    LATEST_PHP=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.0')
 fi
 
 echo -e "Latest version of PHP: \033[41;37m $LATEST_PHP \033[0m"
@@ -174,11 +182,21 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
         cd php-$LATEST_PHP/
     fi
     if [ -d /usr/local/mariadb ]; then
-        WITH_MYSQL="--with-mysql=/usr/local/mariadb"
-        WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
+        if [ $PHP_VER -eq 70 ]; then
+            WITH_MYSQL=""
+            WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
+        else
+            WITH_MYSQL="--with-mysql=/usr/local/mariadb"
+            WITH_MYSQLI="--with-mysqli=/usr/local/mariadb/bin/mysql_config"
+        fi
     elif [ -d /usr/local/mysql ]; then
-        WITH_MYSQL="--with-mysql=/usr/local/mysql"
-        WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
+        if [ $PHP_VER -eq 70 ]; then
+            WITH_MYSQL=""
+            WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
+        else
+            WITH_MYSQL="--with-mysql=/usr/local/mysql"
+            WITH_MYSQLI="--with-mysqli=/usr/local/mysql/bin/mysql_config"
+        fi
     else
         echo "MySQL or MariaDB not installed, Please check it and try again."
         exit 1
@@ -188,7 +206,14 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     else
         WITH_IMAP="--with-imap --with-imap-ssl --with-kerberos"
     fi
-
+    WITH_GMP="--with-gmp"
+    WITH_ICU_DIR="--with-icu-dir=/usr"
+    if centosversion 5; then
+        if [[ "$PHP_VER" = "55" || "$PHP_VER" = "56" || "$PHP_VER" = "70" ]];then
+            WITH_GMP="--with-gmp=/usr/local"
+            WITH_ICU_DIR="--with-icu-dir=/usr/local"
+        fi
+    fi
     ./configure \
     --prefix=/usr/local/php \
     --with-apxs2=/usr/local/apache/bin/apxs \
@@ -200,13 +225,13 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     --with-mysql-sock=/tmp/mysql.sock \
     --with-config-file-scan-dir=/usr/local/php/php.d \
     --with-mhash=/usr \
-    --with-icu-dir=/usr \
+    $WITH_ICU_DIR \
     --with-bz2 \
     --with-curl \
     --with-freetype-dir \
     --with-gd \
     --with-gettext \
-    --with-gmp \
+    $WITH_GMP \
     --with-jpeg-dir \
     $WITH_IMAP \
     --with-ldap \
@@ -239,7 +264,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     --enable-tokenizer \
     --enable-wddx \
     --enable-xml \
-    --enable-zip
+    --enable-zip $PHPDisable
     if [ $? -ne 0 ]; then
         echo "PHP configure failed, Please visit https://lamp.sh/support.html and contact."
         exit 1

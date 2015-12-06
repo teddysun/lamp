@@ -29,6 +29,8 @@ elif [ $PHP_VER -eq 55 ]; then
     extDate='20121212'
 elif [ $PHP_VER -eq 56 ]; then
     extDate='20131226'
+elif [ $PHP_VER -eq 70 ]; then
+    extDate='20151012'
 fi
 
 # download xcache
