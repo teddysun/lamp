@@ -1233,7 +1233,7 @@ else
 
   <tr>
     <td width="30%">MySQL 数据库</td>
-    <td width="20%"><?php echo isfun("mysql_close"); ?>
+    <td width="20%"><?php echo isfun("mysqli_connect"); ?>
     <?php $mysql_ver = getMySQLVersion(); if(!empty($mysql_ver)){ echo "&nbsp;&nbsp;Ver&nbsp;" . $mysql_ver;} ?>
     </td>
     <td width="30%">ODBC 数据库</td>
