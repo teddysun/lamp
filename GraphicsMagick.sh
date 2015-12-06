@@ -14,7 +14,7 @@ cur_dir=`pwd`
 
 PHP_PREFIX='/usr/local/php'
 GraphicsMagick_Ver='GraphicsMagick-1.3.23'
-GraphicsMagick_ext_Ver='gmagick-1.1.7RC2'
+GraphicsMagick_ext_Ver='gmagick-1.1.7RC3'
 
 # get PHP version
 PHP_VER=$(php -r 'echo PHP_VERSION;' 2>/dev/null | awk -F. '{print $1$2}')
