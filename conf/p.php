@@ -1,6 +1,7 @@
 <?php
 /* ----------------本探针基于YaHei.net探针------------------- */
 error_reporting(0); //抑制所有错误信息
+ini_set('display_errors','Off');
 @header("content-Type: text/html; charset=utf-8"); //语言强制
 ob_start();
 date_default_timezone_set('Asia/Shanghai');//时区设置
@@ -75,25 +76,25 @@ $valInt = isset($_POST['pInt']) ? $_POST['pInt'] : "未测试";
 $valFloat = isset($_POST['pFloat']) ? $_POST['pFloat'] : "未测试";
 $valIo = isset($_POST['pIo']) ? $_POST['pIo'] : "未测试";
 
-if ($_GET['act'] == "phpinfo") 
+if (isset($_GET['act']) && $_GET['act'] == "phpinfo") 
 {
     phpinfo();
     exit();
 } 
-elseif($_POST['act'] == "整型测试")
+elseif(isset($_POST['act']) && $_POST['act'] == "整型测试")
 {
     $valInt = test_int();
 } 
-elseif($_POST['act'] == "浮点测试")
+elseif(isset($_POST['act']) && $_POST['act'] == "浮点测试")
 {
     $valFloat = test_float();
 } 
-elseif($_POST['act'] == "IO测试")
+elseif(isset($_POST['act']) && $_POST['act'] == "IO测试")
 {
     $valIo = test_io();
 } 
 //网速测试-开始
-elseif($_POST['act']=="开始测试")
+elseif(isset($_POST['act']) && $_POST['act']=="开始测试")
 {
 ?>
     <script language="javascript" type="text/javascript">
@@ -115,7 +116,7 @@ elseif($_POST['act']=="开始测试")
     </script>
 <?php
 }
-elseif($_GET['act'] == "Function")
+elseif(isset($_GET['act']) && $_GET['act'] == "Function")
 {
     $arr = get_defined_functions();
     Function php()
@@ -127,7 +128,7 @@ elseif($_GET['act'] == "Function")
     echo "</pre>";
     exit();
 }
-elseif($_GET['act'] == "disable_functions")
+elseif(isset($_GET['act']) && $_GET['act'] == "disable_functions")
 {
     $disFuns=get_cfg_var("disable_functions");
     if(empty($disFuns))
@@ -149,7 +150,7 @@ elseif($_GET['act'] == "disable_functions")
 }
 
 //MySQL检测
-if ($_POST['act'] == 'MySQL检测')
+if (isset($_POST['act']) && $_POST['act'] == 'MySQL检测')
 {
     $host = isset($_POST['host']) ? trim($_POST['host']) : '';
     $port = isset($_POST['port']) ? (int) $_POST['port'] : '';
@@ -160,11 +161,11 @@ if ($_POST['act'] == 'MySQL检测')
     $login = preg_match('~[^a-z0-9\_\-]+~i', $login) ? '' : htmlspecialchars($login);
     $password = is_string($password) ? htmlspecialchars($password) : '';
 }
-elseif ($_POST['act'] == '函数检测')
+elseif (isset($_POST['act']) && $_POST['act'] == '函数检测')
 {
     $funRe = "函数".$_POST['funName']."支持状况检测结果：".isfun1($_POST['funName']);
 } 
-elseif ($_POST['act'] == '邮件检测')
+elseif (isset($_POST['act']) && $_POST['act'] == '邮件检测')
 {
     $mailRe = "邮件发送检测结果：发送";
     if($_SERVER['SERVER_PORT']==80){$mailContent = "http://".$_SERVER['SERVER_NAME'].($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']);}
@@ -183,11 +184,11 @@ function getMySQLVersion() {
 }
 
 //网络速度测试
-if(isset($_POST['speed']))
+if(isset($_POST['act']) && $_POST['speed'])
 {
     $speed=round(100/($_POST['speed']/1000),2);
 }
-elseif($_GET['speed']=="0")
+elseif(isset($_GET['speed']) && $_GET['speed']=="0")
 {
     $speed=6666.67;
 }
@@ -776,7 +777,9 @@ function displayData(dataJSON)
 
   <tr>
     <td>服务器标识</td>
-    <td colspan="3"><?php if($sysInfo['win_n'] != ''){echo $sysInfo['win_n'];}else{echo @php_uname();};?></td>
+
+    <td colspan="3"><?php echo php_uname();?></td>
+
   </tr>
 
   <tr>
@@ -802,7 +805,7 @@ function displayData(dataJSON)
 
   <tr>
       <td>管理员邮箱</td>
-      <td><?php echo $_SERVER['SERVER_ADMIN'];?></td>
+      <td><?php if(isset($_SERVER['SERVER_ADMIN'])) echo $_SERVER['SERVER_ADMIN'];?></td>
         <td>探针路径</td>
         <td><?php echo str_replace('\\','/',__FILE__)?str_replace('\\','/',__FILE__):$_SERVER['SCRIPT_FILENAME'];?></td>
     </tr>    
@@ -823,9 +826,9 @@ function displayData(dataJSON)
     <td width="87%" colspan="5"><?php echo $sysInfo['cpu']['model'];?></td>
   </tr>
   <tr>
-    <td>CPU 使用状况</td>
-    <td colspan="5"><?php if('/'==DIRECTORY_SEPARATOR){echo $cpu_show." | <a href='".$phpSelf."?act=cpu_percentage' target='_blank' class='static'>查看图表</a>";}else{echo "暂时只支持Linux系统";}?>
-    </td>
+    <td>CPU使用状况</td>
+    <td colspan="5"><?php if('/'==DIRECTORY_SEPARATOR){echo $cpu_show." | <a href='?act=cpu_percentage' target='_blank' class='static'>查看图表</a>";}else{echo "暂时只支持Linux系统";}?>
+	</td>
   </tr>
   <tr>
     <td>硬盘使用状况</td>
@@ -950,10 +953,10 @@ foreach ($able as $key=>$value) {
     <td width="30%">PHP 信息(phpinfo)</td>
     <td width="20%">
         <?php
-        $phpSelf = $_SERVER[PHP_SELF] ? $_SERVER[PHP_SELF] : $_SERVER[SCRIPT_NAME];
+        $phpSelf = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
         $disFuns=get_cfg_var("disable_functions");
         ?>
-    <?php echo (false!==eregi("phpinfo",$disFuns))? '<font color="red">×</font>' :"<a href='$phpSelf?act=phpinfo' target='_blank' class='static'>PHPINFO</a>";?>
+        <?php echo "<a href='?act=phpinfo' target='_blank' class='static'>PHPINFO</a>";?>
     </td>
     <td width="30%">PHP 版本(php_version)</td>
     <td width="20%"><?php echo PHP_VERSION;?></td>
@@ -1178,7 +1181,7 @@ else
 
   <tr>
     <td>MCrypt 加密处理</td>
-    <td><?php echo isfun("mcrypt_cbc");?></td>
+    <td><?php echo isfun("mcrypt_module_open");?></td>
     <td>Mhash 哈稀计算</td>
     <td><?php echo isfun("mhash_count");?></td>
   </tr>
@@ -1194,7 +1197,7 @@ else
     <td width="30%">
 <?php
 $PHP_VERSION = PHP_VERSION;
-$PHP_VERSION = substr($PHP_VERSION,2,1);
+$PHP_VERSION = substr($PHP_VERSION,0,1);
 if($PHP_VERSION > 2)
 {
     echo "Zend Guard Loader";
@@ -1431,9 +1434,10 @@ else
   </tr>
 </table>
 <?php
-  if ($_POST['act'] == 'MySQL检测') {
-      if(function_exists("mysql_close")==1) {
-          $link = @mysql_connect($host.":".$port,$login,$password);
+  if (isset($_POST['act']) && $_POST['act'] == 'MySQL检测') {
+      if(class_exists("mysqli")) {
+	  
+	  $link = new mysqli($host,$login,$password,'information_schema',$port);
           if ($link){
               echo "<script>alert('连接到MySql数据库正常')</script>";
           } else {
@@ -1463,7 +1467,7 @@ else
   </tr>
 
 <?php
-  if ($_POST['act'] == '函数检测') {
+  if (isset($_POST['act']) && $_POST['act'] == '函数检测') {
       echo "<script>alert('$funRe')</script>";
   }
 ?>
@@ -1484,7 +1488,7 @@ else
     </td>
   </tr>
 <?php
-  if ($_POST['act'] == '邮件检测') {
+  if (isset($_POST['act']) && $_POST['act'] == '邮件检测') {
       echo "<script>alert('$mailRe')</script>";
   }
 ?>
@@ -1492,7 +1496,7 @@ else
 </form>
     <table>
         <tr>
-            <td class="w_foot"><a href="http://teddysun.com/lamp" target="_blank">基于 YaHei.net 探针</a></td>
+            <td class="w_foot"><a href="https://teddysun.com/lamp" target="_blank">基于 YaHei.net 探针</a></td>
             <td class="w_foot"><?php $run_time = sprintf('%0.4f', microtime_float() - $time_start);?>Processed in <?php echo $run_time?> seconds. <?php echo memory_usage();?> memory usage.</td>
             <td class="w_foot"><a href="#w_top">返回顶部</a></td>
         </tr>
