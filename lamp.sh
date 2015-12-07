@@ -928,6 +928,8 @@ function install_cleanup(){
             echo -e "Installed PHP version:\033[41;37m ${PHPVersion3} \033[0m"
         elif [ $PHP_version -eq 4 ]; then
             echo -e "Installed PHP version:\033[41;37m ${PHPVersion4} \033[0m"
+        elif [ $PHP_version -eq 5 ]; then
+            echo -e "Installed PHP version:\033[41;37m ${PHPVersion5} \033[0m"
         fi
         echo -e "Installed phpMyAdmin version:\033[41;37m ${phpMyAdminVersion} \033[0m"
         echo ""
