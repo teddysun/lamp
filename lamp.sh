@@ -15,7 +15,7 @@ StartDateSecond=''
 PHPDisable=''
 # Software Version
 MySQLVersion='mysql-5.6.27'
-MySQLVersion2='mysql-5.5.46'
+MySQLVersion2='mysql-5.5.47'
 MariaDBVersion='mariadb-5.5.46'
 MariaDBVersion2='mariadb-10.0.22'
 PHPVersion='php-5.4.45'
