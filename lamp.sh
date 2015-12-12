@@ -14,7 +14,7 @@ StartDateSecond=''
 # PHP disable fileinfo
 PHPDisable=''
 # Software Version
-MySQLVersion='mysql-5.6.27'
+MySQLVersion='mysql-5.6.28'
 MySQLVersion2='mysql-5.5.47'
 MariaDBVersion='mariadb-5.5.46'
 MariaDBVersion2='mariadb-10.0.22'
