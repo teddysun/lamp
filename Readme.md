@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2015 年 12 月 12 日
+* 日期：2015 年 12 月 15 日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -69,12 +69,13 @@
 *  6、（可选安装）执行脚本 ImageMagick.sh 安装 imagick 的 PHP 扩展。（命令：`./ImageMagick.sh`）
 *  7、（可选安装）执行脚本 GraphicsMagick.sh 安装 gmagick 的 PHP 扩展。（命令：`./GraphicsMagick.sh`）
 *  8、（可选安装）执行脚本 opcache.sh 安装 Zend OPcache 的 PHP 扩展。（命令：`./opcache.sh`）
-*  9、（可选安装）执行脚本 memcached.sh 安装 memcached 及 memcached 的 PHP 扩展。（命令：`./memcached.sh`）
+*  9、（可选安装）执行脚本 memcached.sh 安装 memcached 及其 PHP 扩展。（命令：`./memcached.sh`）
 * 10、（可选安装）执行脚本 mongodb.sh 安装 MongoDB 的 PHP 扩展。（命令：`./mongodb.sh`）
-* 11、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：`./upgrade_php.sh | tee upgrade_php.log`)
-* 12、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至已安装版本的最新版本。(命令：`./upgrade_mysql.sh | tee upgrade_mysql.log`)
-* 13、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本的最新版本。(命令：`./upgrade_mariadb.sh | tee upgrade_mariadb.log`)
-* 14、（升级脚本）执行脚本 upgrade_apache.sh 将会升级 Apache 至已安装版本的最新版本。(命令：`./upgrade_apache.sh | tee upgrade_apache.log`)
+* 11、（可选安装）执行脚本 redis.sh 安装 Redis Server 及其 PHP 扩展。（命令：`./redis.sh`）
+* 12、（升级脚本）执行脚本 upgrade_php.sh 将会升级 PHP 和 phpMyAdmin 至最新版本。(命令：`./upgrade_php.sh | tee upgrade_php.log`)
+* 13、（升级脚本）执行脚本 upgrade_mysql.sh 将会升级 MySQL 至已安装版本的最新版本。(命令：`./upgrade_mysql.sh | tee upgrade_mysql.log`)
+* 14、（升级脚本）执行脚本 upgrade_mariadb.sh 将会升级 MariaDB 至已安装版本的最新版本。(命令：`./upgrade_mariadb.sh | tee upgrade_mariadb.log`)
+* 15、（升级脚本）执行脚本 upgrade_apache.sh 将会升级 Apache 至已安装版本的最新版本。(命令：`./upgrade_apache.sh | tee upgrade_apache.log`)
 
 ### 关于 upgrade_apache.sh
 
@@ -161,13 +162,21 @@
 * Apache 安装目录： /usr/local/apache
 
 ##命令一览：
-* MySQL 或 MariaDB 命令: 
+* MySQL 或 MariaDB 命令:
 
         /etc/init.d/mysqld(start|stop|restart|status)
 
-* Apache 命令: 
+* Apache 命令:
 
         /etc/init.d/httpd(start|stop|restart|status)
+
+* Memcached 命令（可选安装）:
+
+        /etc/init.d/memcached(start|stop|restart|status)
+
+* Redis 命令（可选安装）:
+
+        /etc/init.d/redis-server(start|stop|restart|status)
 
 ##网站根目录：
 
