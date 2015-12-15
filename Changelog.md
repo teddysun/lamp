@@ -1,3 +1,8 @@
+###版本`3.4.2`：`Release date:2015/12/15`
+更新记录：
+
+* 1、新增脚本 redis.sh，用于安装 Redis Server 及其 PHP 扩展。
+
 ###版本`3.4.1`：`Release date:2015/12/12`
 更新记录：
 
