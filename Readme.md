@@ -13,7 +13,8 @@
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
 * 支持 MySQL ，MariaDB， SQLite 数据库;
-* 支持 OCI8 （可选安装）；
+* 支持 oci8 （可选安装）；
+* 支持 redis（可选安装）；
 * 支持 pure-ftpd （可选安装）；
 * 支持 memcached （可选安装）；
 * 支持 ImageMagick （可选安装）；
