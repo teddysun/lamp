@@ -165,6 +165,15 @@ function centosversion(){
     fi        
 }
 
+# Update reset
+function resetupdate(){
+    # Reset to old version when update failed or aborted
+    mv /usr/local/php.bak /usr/local/php
+    cd $cur_dir
+    rm -rf php-$LATEST_PHP/
+    rm -f php-$LATEST_PHP.tar.gz
+}
+
 # PHP Update
 if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     echo "===================== PHP upgrade start===================="
@@ -199,6 +208,7 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
         fi
     else
         echo "MySQL or MariaDB not installed, Please check it and try again."
+        resetupdate
         exit 1
     fi
     if centosversion 7; then
@@ -267,11 +277,13 @@ if [[ "$UPGRADE_PHP" = "y" || "$UPGRADE_PHP" = "Y" ]];then
     --enable-zip $PHPDisable
     if [ $? -ne 0 ]; then
         echo "PHP configure failed, Please visit https://lamp.sh/support.html and contact."
+        resetupdate
         exit 1
     fi
     make && make install
     if [ $? -ne 0 ]; then
         echo "Installing PHP failed, Please visit https://lamp.sh/support.html and contact."
+        resetupdate
         exit 1
     fi
     mkdir -p /usr/local/php/etc
