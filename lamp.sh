@@ -20,9 +20,9 @@ MariaDBVersion='mariadb-5.5.47'
 MariaDBVersion2='mariadb-10.0.23'
 PHPVersion='php-5.4.45'
 PHPVersion2='php-5.3.29'
-PHPVersion3='php-5.5.30'
-PHPVersion4='php-5.6.16'
-PHPVersion5='php-7.0.1'
+PHPVersion3='php-5.5.31'
+PHPVersion4='php-5.6.17'
+PHPVersion5='php-7.0.2'
 ApacheVersion='httpd-2.4.18'
 aprVersion='apr-1.5.2'
 aprutilVersion='apr-util-1.5.4'
@@ -88,13 +88,14 @@ function rootness(){
 
 # Check system infomation
 function check_sys(){
+    [[ ! -f /etc/redhat-release ]] && echo 'Error: This script not support your OS, please change to CentOS/RedHat/Fedora and retry!' && exit 1
     cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
     cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
     freq=$( awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
     tram=$( free -m | awk '/Mem/ {print $2}' )
     swap=$( free -m | awk '/Swap/ {print $2}' )
     up=$( awk '{a=$1/86400;b=($1%86400)/3600;c=($1%3600)/60;d=$1%60} {printf("%ddays, %d:%d:%d\n",a,b,c,d)}' /proc/uptime )
-    opsy=$( cat /etc/issue.net | awk 'NR==1 {print}' )
+    opsy=$( awk '{print ($1,$3~/^[0-9]/?$3:$4)}' /etc/redhat-release )
     arch=$( uname -m )
     lbit=$( getconf LONG_BIT )
     host=$( hostname )
