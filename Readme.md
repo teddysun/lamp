@@ -8,7 +8,7 @@
 * 服务器必须配置好软件源和可连接外网
 * 必须具有系统 Root 权限
 * 建议使用干净系统全新安装
-* 日期：2016 年 01 月 08 日
+* 日期：2016 年 01 月 31 日
 
 ## 关于本脚本
 * 支持 PHP 自带所有组件；
@@ -31,7 +31,7 @@
 *  1、Apache 2.4.18
 *  2、MySQL 5.6.28, MySQL 5.5.47, MariaDB 5.5.47, MariaDB 10.0.23 （四选一安装）
 *  3、PHP 5.3.29, PHP 5.4.45, PHP 5.5.31, PHP 5.6.17, PHP 7.0.2 （五选一安装）
-*  4、phpMyAdmin 4.4.15.2
+*  4、phpMyAdmin 4.4.15.4
 *  5、OCI8 2.0.10 （可选安装）
 *  6、Xcache 3.2.0 （可选安装）
 *  7、pure-ftpd 1.0.42 （可选安装）
@@ -185,4 +185,4 @@
 
 如果你在安装后使用遇到问题，请访问项目主页 [https://lamp.sh](https://lamp.sh/support.html) 寻求帮助。
 
-Copyright (C) 2013 - 2016 Teddysun <i@teddysun.com>
+Copyright (C) 2013 - 2016 Teddysun
