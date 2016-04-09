@@ -95,11 +95,11 @@ Process Management
 
 lamp command description
 =======================
-| Command          | Description                     |
-|------------------|---------------------------------|
-| lamp vhost add   | create a virtual host           |
-| lamp vhost list  | list all virtual host           |
-| lamp vhost del   | remove a virtual host           |
+| Command    | Description                     |
+|------------|---------------------------------|
+| lamp add   | create a virtual host           |
+| lamp list  | list all virtual host           |
+| lamp del   | remove a virtual host           |
 
 Bugs & Issues
 =============
