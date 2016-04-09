@@ -76,16 +76,12 @@ Default Location
 | Install Prefix             | /usr/local/mysql                        |
 | Data Location              | /usr/local/mysql/data                   |
 | my.cnf Configuration File  | /etc/my.cnf                             |
-| Error Log Location         | /usr/local/mysql/data/mysql-error.log   |
-| Slow Log Location          | /usr/local/mysql/data/mysql-slow.log    |
 
 | MariaDB Location           |                                         |
 |----------------------------|-----------------------------------------|
 | Install Prefix             | /usr/local/mariadb                      |
 | Data Location              | /usr/local/mariadb/data                 |
 | my.cnf Configuration File  | /etc/my.cnf                             |
-| Error Log Location         | /usr/local/mariadb/data/mysql-error.log |
-| Slow Log Location          | /usr/local/mariadb/data/mysql-slow.log  |
 
 Process Management
 ==================
