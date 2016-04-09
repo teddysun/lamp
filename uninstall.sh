@@ -66,7 +66,7 @@ check_sys(){
 boot_stop(){
     if check_sys packageManager apt;then
         update-rc.d -f $1 remove
-    elif elif check_sys packageManager yum;then
+    elif check_sys packageManager yum;then
         chkconfig --del $1
     fi
 }
