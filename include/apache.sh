@@ -110,6 +110,7 @@ config_apache(){
 
     mv ${apache_location}/conf/extra/httpd-vhosts.conf ${apache_location}/conf/extra/httpd-vhosts.conf.bak
     mkdir -p ${apache_location}/conf/vhost/
+    touch ${apache_location}/conf/vhost/none.conf
 
     cat > /etc/logrotate.d/httpd <<EOF
     ${apache_location}/logs/access_log ${apache_location}/logs/error_log {
