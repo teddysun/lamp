@@ -1,7 +1,7 @@
 #upgrade database
 upgrade_db(){
 
-    if [ ! -d ${mysql_location} ] || [ ! -d ${mariadb_location} ]; then
+    if [ ! -d ${mysql_location} ] && [ ! -d ${mariadb_location} ]; then
         echo "Error:MySQL or MariaDB looks like not installed, please check it and try again."
         exit 1
     fi
