@@ -1,0 +1,145 @@
+#!/bin/bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+#=======================================================================#
+#   System Required:  CentOS/RadHat 5+ / Debian 7+ / Ubuntu 12+         #
+#   Description:  Install LAMP(Linux + Apache + MySQL + PHP )           #
+#   Author: Teddysun <i@teddysun.com>                                   #
+#   Intro:  https://lamp.sh                                             #
+#=======================================================================#
+
+apache_location=/usr/local/apache
+
+rootness(){
+    if [[ $EUID -ne 0 ]]; then
+        echo "This script must be run as root" 1>&2
+        exit 1
+    fi
+}
+
+vhost(){
+    local action=$1
+    case $action in
+        add ) vhost_add;;
+        list ) vhost_list;;
+        del ) vhost_del;;
+        *) echo "action $action not found";exit 1;;
+    esac
+}
+
+set_apache_allow_syntax(){
+    if [[ -s /usr/sbin/httpd ]]; then
+        if /usr/sbin/httpd -v | grep -q "Apache/2.4"; then
+            allow_from_all="Require all granted"
+        elif /usr/sbin/httpd -v | grep -q "Apache/2.2"; then
+            allow_from_all="Allow from All"
+        else
+            echo "Can not get Apache version..."
+            exit 1
+        fi
+    else
+        echo "Can not find Apache, may be not installed. Please check it and try again."
+        exit 1
+    fi
+}
+
+vhost_add(){
+    set_apache_allow_syntax
+
+    while :
+    do
+        read -p "Please input server names(like this:www.lamp.sh lamp.sh): " server_names
+        for i in ${server_names};do
+            if apache_vhost_is_exist $i;then
+                echo "vhost $i is exist, please reinput server names."
+                break
+            fi
+            break 2
+        done
+    done
+
+    default_root="/data/www/${server_names%% *}"
+    read -p "input website root(default:$default_root): " website_root
+    website_root=${website_root:=$default_root}
+    cat > ${apache_location}/conf/vhost/${server_names%% *}.conf << EOF
+    <VirtualHost *:80>
+    ServerName ${server_names%% *}
+    ServerAlias ${server_names}
+    DocumentRoot ${website_root}
+    DirectoryIndex index.php index.html index.htm
+    <Directory ${website_root}>
+    Options +Includes -Indexes
+    AllowOverride All
+    Order Deny,Allow
+    ${allow_from_all}
+    php_admin_value open_basedir ${website_root}:/tmp:/proc
+    </Directory>
+    ErrorLog  /data/wwwlog/${server_names%% *}/error.log
+    TransferLog  /data/wwwlog/${server_names%% *}/access.log
+    </VirtualHost>
+EOF
+    echo "congratulations.vhost ${server_names%% *} had created."
+    echo "website root is ${website_root}/."
+
+    mkdir -p /data/wwwlog/${server_names%% *} ${website_root}
+    chown -R apache:apache /data/wwwlog/${server_names%% *} ${website_root}
+
+    echo "reloading the apache config file..."
+    if ${apache_location}/bin/apachectl -t;then
+        /etc/init.d/httpd restart
+        echo "reload success."
+    else
+        echo "reload failed! config file had an error,please fix it and try again."
+        exit 1
+    fi
+}
+
+vhost_list(){
+    sed -n -r -e 's/ServerAlias\s+(.*)/\1/p' -e 's/DocumentRoot\s+(.*)/\1/p'  ${apache_location}/conf/vhost/*.conf | awk 'BEGIN{printf ("%-50s %-50s\n%-50s %-50s\n","server name","root","-----------","----")}{printf("%-50s",$0);getline;printf $0"\n" }'
+}
+
+vhost_del(){
+    read -p "input server_name of vhost you want to delete it(like this:www.lamp.sh): " domain
+    if ! apache_vhost_is_exist "$domain";then
+        echo "vhost $domain not found"
+        exit 1
+    else
+        rm -f ${apache_location}/conf/vhost/${domain}.conf
+        echo "complete deleted the server_name ${domain} of vhost."
+
+        echo "reloading the apache config file..."
+        if ${apache_location}/bin/apachectl -t;then
+            /etc/init.d/httpd restart
+            echo "reload success."
+        else
+             echo "reload failed! config file had an error,please fix it and try again."
+             exit 1
+        fi
+    fi
+}
+
+apache_vhost_is_exist(){
+    local domain=$1
+    local conf_file="${apache_location}/conf/vhost/$1.conf"
+    if [ -f "$conf_file" ];then
+        return 0
+    else
+        return 1
+    fi
+}
+
+#Run it
+rootness
+if [ $# != 1 ];then
+    echo "Usage: lamp [add|list|del]"
+    exit 1
+fi
+
+action=$1
+
+case ${action} in
+    add) vhost $action;;
+    list) vhost $action;;
+    del) vhost $action;;
+    *)  echo "Usage: `basename $0` [add|list|del]"
+esac

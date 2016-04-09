@@ -1,0 +1,112 @@
+Description
+===========
+LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB and so on.You can install Apache + PHP + MySQL/MariaDB in an very easy way,Just need to input numbers to choose what you want to install before installation. And all things will be done in a few minutes.
+
+Supported System
+===============
+* CentOS-5.x
+* CentOS-6.x
+* CentOS-7.x
+* Ubuntu-12.x
+* Ubuntu-13.x
+* Ubuntu-14.x
+* Ubuntu-15.x
+* Debian-7.x
+* Debian-8.x
+
+Supported Software
+==================
+* Apache-2.2 Apache-2.4
+* MySQL-5.5 MySQL-5.6 MySQL-5.7 MariaDB-5.5 MariaDB-10.0 MariaDB-10.1
+* PHP-5.3 PHP-5.4 PHP-5.5 PHP-5.6 PHP-7.0
+* PHP Module: OPcache ZendGuardLoader ionCube_Loader XCache Imagemagick GraphicsMagick Memcache Memcached Redis Mongo Swoole
+* Other Software: Memcached phpMyAdmin Redis
+
+Installation
+============
+If your server system: CentOS/Redhat
+```bash
+yum -y install wget screen unzip
+wget --no-check-certificate -O lamp.zip https://github.com/teddysun/lamp/archive/master.zip
+unzip lamp.zip
+cd lamp-master
+chmod +x *.sh
+screen -S lamp
+./lamp.sh
+```
+If your server system: Debian/Ubuntu
+```bash
+apt-get -y install wget screen unzip
+wget --no-check-certificate -O lamp.zip https://github.com/teddysun/lamp/archive/master.zip
+unzip lamp.zip
+cd lamp-master
+chmod +x *.sh
+screen -S lamp
+./lamp.sh
+```
+
+Upgrade
+============
+```bash
+./upgrade.sh
+```
+
+Uninstall
+============
+```bash
+./uninstall.sh
+```
+
+Default Location
+=============================
+| Apache Location            |                                         |
+|----------------------------|-----------------------------------------|
+| Install Prefix             | /usr/local/apache                       |
+| Web root location          | /data/www/default                       |
+| Main Configuration File    | /usr/local/apache/conf/httpd.conf       |
+| Virtual Host Configuration | /usr/local/apache/conf/vhost/           |
+
+| PHP Location               |                                         |
+|----------------------------|-----------------------------------------|
+| Install Prefix             | /usr/local/php                          |
+| Ini Configuration File     | /usr/local/php/etc/php.ini              |
+
+| MySQL Location             |                                         |
+|----------------------------|-----------------------------------------|
+| Install Prefix             | /usr/local/mysql                        |
+| Data Location              | /usr/local/mysql/data                   |
+| my.cnf Configuration File  | /etc/my.cnf                             |
+| Error Log Location         | /usr/local/mysql/data/mysql-error.log   |
+| Slow Log Location          | /usr/local/mysql/data/mysql-slow.log    |
+
+| MariaDB Location           |                                         |
+|----------------------------|-----------------------------------------|
+| Install Prefix             | /usr/local/mariadb                      |
+| Data Location              | /usr/local/mariadb/data                 |
+| my.cnf Configuration File  | /etc/my.cnf                             |
+| Error Log Location         | /usr/local/mariadb/data/mysql-error.log |
+| Slow Log Location          | /usr/local/mariadb/data/mysql-slow.log  |
+
+Process Management
+==================
+| Process    | Command                                                 |
+|------------|---------------------------------------------------------|
+| Apache     | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
+| MySQL      | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
+| MariaDB    | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
+| Memcached  | /etc/init.d/memcached (start\|stop\|status\|restart)    |
+| Redis      | /etc/init.d/redis-server (start\|stop\|status\|restart) |
+
+lamp command description
+=======================
+| Command          | Description                     |
+|------------------|---------------------------------|
+| lamp vhost add   | create a virtual host           |
+| lamp vhost list  | list all virtual host           |
+| lamp vhost del   | remove a virtual host           |
+
+Bugs & Issues
+=============
+Please feel free to report any bugs and issues to us, email: i@teddysun.com
+Copyright (C) 2013 - 2016 Teddysun
+中文支持:https://lamp.sh/support.html

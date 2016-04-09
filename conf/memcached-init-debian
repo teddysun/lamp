@@ -1,0 +1,78 @@
+#! /bin/bash
+### BEGIN INIT INFO
+# Provides:          memcached
+# Required-Start:    $syslog
+# Required-Stop:     $syslog
+# Should-Start:      $local_fs
+# Should-Stop:       $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: memcached - Memory caching daemon
+# Description:       memcached - Memory caching daemon
+### END INIT INFO
+
+# Author: Teddysun <i@teddysun.com>
+ 
+PORT=11211
+USER=memcached
+GROUP=memcached
+MAXCONN=1024
+CACHESIZE=64
+OPTIONS=""
+LOCATION=/usr/local/memcached
+DAEMON=$LOCATION/bin/memcached
+
+RETVAL=0
+prog="memcached"
+
+start_instance() {
+    echo -n $"Starting $prog ($1): "
+    start-stop-daemon --start --quiet --pidfile /var/run/memcached/memcached.$1.pid --exec $DAEMON -- -d -p $PORT -u $USER -m $2 -c $MAXCONN -P /var/run/memcached/memcached.$1.pid $OPTIONS
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch /var/lock/memcached.$1
+}
+ 
+stop_instance() {
+    echo -n $"Stopping $prog ($1): "
+    start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/memcached/memcached.$1.pid --exec $DAEMON
+    RETVAL=$?
+    echo
+    if [ $RETVAL -eq 0 ] ; then
+        rm -f /var/lock/memcached.$1
+        rm -f /var/run/memcached/memcached.$1.pid
+    fi
+}
+start () {
+    [ ! -d /var/run/memcached ] && mkdir -p /var/run/memcached
+    if [ "`stat -c %U /var/run/memcached`" != "$USER" ]; then
+        chown $USER.$GROUP /var/run/memcached
+    fi
+    start_instance default $CACHESIZE
+}
+stop () {
+    stop_instance default
+}
+ 
+restart () {
+    stop
+    start
+}
+ 
+# See how we were called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart|reload|force-reload)
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart|reload|force-reload}"
+        exit 1
+esac
+ 
+exit $RETVAL
