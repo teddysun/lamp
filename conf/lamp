@@ -99,7 +99,7 @@ vhost_list(){
 }
 
 vhost_del(){
-    read -p "input server_name of vhost you want to delete it(like this:www.lamp.sh): " domain
+    read -p "input server name of vhost you want to delete it(like this:www.lamp.sh): " domain
     if ! apache_vhost_is_exist "$domain";then
         echo "vhost $domain not found"
         exit 1
