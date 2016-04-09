@@ -20,7 +20,7 @@ Supported Software
 * MySQL-5.5 MySQL-5.6 MySQL-5.7 MariaDB-5.5 MariaDB-10.0 MariaDB-10.1
 * PHP-5.3 PHP-5.4 PHP-5.5 PHP-5.6 PHP-7.0
 * PHP Module: OPcache ZendGuardLoader ionCube_Loader XCache Imagemagick GraphicsMagick Memcache Memcached Redis Mongo Swoole
-* Other Software: Memcached phpMyAdmin Redis
+* Other Software: Memcached phpMyAdmin Redis-Server
 
 Installation
 ============
@@ -85,13 +85,13 @@ Default Location
 
 Process Management
 ==================
-| Process    | Command                                                 |
-|------------|---------------------------------------------------------|
-| Apache     | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
-| MySQL      | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
-| MariaDB    | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
-| Memcached  | /etc/init.d/memcached (start\|stop\|status\|restart)    |
-| Redis      | /etc/init.d/redis-server (start\|stop\|status\|restart) |
+| Process     | Command                                                 |
+|-------------|---------------------------------------------------------|
+| Apache      | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
+| MySQL       | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
+| MariaDB     | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
+| Memcached   | /etc/init.d/memcached (start\|stop\|status\|restart)    |
+| Redis-Server| /etc/init.d/redis-server (start\|stop\|status\|restart) |
 
 lamp command description
 =======================
@@ -103,7 +103,7 @@ lamp command description
 
 Bugs & Issues
 =============
-Please feel free to report any bugs and issues to us, email: i@teddysun.com
+Please feel free to report any bugs or issues to us, email: i@teddysun.com
 
 Copyright (C) 2013 - 2016 Teddysun
 
