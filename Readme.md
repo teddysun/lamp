@@ -90,8 +90,8 @@ Process Management
 | Apache      | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
 | MySQL       | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
 | MariaDB     | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
-| Memcached   | /etc/init.d/memcached (start\|stop\|status\|restart)    |
-| Redis-Server| /etc/init.d/redis-server (start\|stop\|status\|restart) |
+| Memcached   | /etc/init.d/memcached (start\|stop\|restart)            |
+| Redis-Server| /etc/init.d/redis-server (start\|stop\|restart)         |
 
 lamp command description
 =======================
