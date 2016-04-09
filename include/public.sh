@@ -725,8 +725,6 @@ finally(){
     rm -rf ${cur_dir}/software
     echo "Clean up completed..."
     echo
-    sleep 3
-    netstat -nxtlp
 
     # Allow port 80 when OS is CentOS 7
     if centosversion 7; then
@@ -785,6 +783,8 @@ finally(){
     if [ -d "${web_root_dir}/phpmyadmin" ];then
         /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql
     fi
+    sleep 3
+    netstat -nxtlp
 
     echo
     echo "Start time: ${StartDate}"
