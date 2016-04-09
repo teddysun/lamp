@@ -108,5 +108,7 @@ lamp command description
 Bugs & Issues
 =============
 Please feel free to report any bugs and issues to us, email: i@teddysun.com
+
 Copyright (C) 2013 - 2016 Teddysun
+
 中文支持:https://lamp.sh/support.html
