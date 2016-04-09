@@ -42,6 +42,5 @@ lamp(){
     pre_setting
 }
 
-#Run
-rm -f /root/lamp.log
+#Run it
 lamp 2>&1 | tee -a /root/lamp.log
