@@ -47,11 +47,11 @@ display_menu(){
     echo -e "\t\033[32m2\033[0m. Upgrade MySQL/MariaDB"
     echo -e "\t\033[32m3\033[0m. Upgrade PHP"
     echo -e "\t\033[32m4\033[0m. Upgrade phpMyAdmin"
-    echo -e "\t\033[32mq\033[0m. Exit"
+    echo -e "\t\033[32m5\033[0m. Exit"
     echo
     read -p "Please input a number: " Number
-    if [[ ! $Number =~ ^[1-4,q]$ ]];then
-        echo "Input error! Please only input 1,2,3,4 or q"
+    if [[ ! $Number =~ ^[1-5]$ ]];then
+        echo "Input error! Please only input 1,2,3,4,5"
     else
         case "$Number" in
         1)
@@ -66,7 +66,7 @@ display_menu(){
         4)
             upgrade_phpmyadmin 2>&1 | tee -a /root/upgrade_phpmyadmin.log
             ;;
-        q)
+        5)
             echo "Upgrade cancelled, nothing to do..." && exit
             ;;
         esac
