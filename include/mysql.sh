@@ -154,6 +154,7 @@ config_mysql(){
     ${mysql_location}/bin/mysql -uroot -p${mysql_root_pass} <<EOF
 drop database if exists test;
 delete from mysql.user where not (user='root');
+delete from mysql.user where password='';
 delete from mysql.db where user='';
 flush privileges;
 exit
@@ -242,6 +243,7 @@ config_mariadb(){
     ${mariadb_location}/bin/mysql -uroot -p${mariadb_root_pass} <<EOF
 drop database if exists test;
 delete from mysql.user where not (user='root');
+delete from mysql.user where password='';
 delete from mysql.db where user='';
 flush privileges;
 exit
