@@ -12,8 +12,8 @@ cur_dir=`pwd`
 
 
 upcase_to_lowcase(){
-words=$1
-echo $words | tr '[A-Z]' '[a-z]'
+    words=$1
+    echo $words | tr '[A-Z]' '[a-z]'
 }
 
 #Check system
