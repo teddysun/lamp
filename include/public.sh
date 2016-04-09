@@ -403,11 +403,11 @@ sync_time(){
     echo "Start to sync time..."
     if check_sys sysRelease ubuntu || check_sys sysRelease debian;then
         apt-get -y update
-        apt-get -y install ntpdate
+        apt-get -y install which ntpdate
         check_command_exist ntpdate
         ntpdate -d cn.pool.ntp.org
     elif check_sys sysRelease centos; then
-        yum -y install ntp
+        yum -y install which ntp
         check_command_exist ntpdate
         ntpdate -d cn.pool.ntp.org
     fi
@@ -530,11 +530,11 @@ install_tool(){
         apt-get -y install gcc g++ make wget perl curl bzip2
     elif check_sys packageManager yum; then
         if centosversion 5; then
-            yum -y install gcc gcc-c++ gcc44 gcc44-c++ make wget perl curl bzip2 which
+            yum -y install gcc gcc-c++ gcc44 gcc44-c++ make wget perl curl bzip2
             export CC=/usr/bin/gcc44
             export CXX=/usr/bin/g++44
         else
-            yum -y install gcc gcc-c++ make wget perl curl bzip2 which
+            yum -y install gcc gcc-c++ make wget perl curl bzip2
         fi
     fi
 
