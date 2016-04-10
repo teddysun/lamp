@@ -407,7 +407,7 @@ sync_time(){
         check_command_exist ntpdate
         ntpdate -d cn.pool.ntp.org
     elif check_sys sysRelease centos; then
-        yum -y install ntp
+        yum -y install ntp which
         check_command_exist ntpdate
         ntpdate -d cn.pool.ntp.org
     fi
