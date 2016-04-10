@@ -403,11 +403,11 @@ sync_time(){
     echo "Start to sync time..."
     if check_sys sysRelease ubuntu || check_sys sysRelease debian;then
         apt-get -y update
-        apt-get -y install which ntpdate
+        apt-get -y install ntpdate
         check_command_exist ntpdate
         ntpdate -d cn.pool.ntp.org
     elif check_sys sysRelease centos; then
-        yum -y install which ntp
+        yum -y install ntp
         check_command_exist ntpdate
         ntpdate -d cn.pool.ntp.org
     fi
