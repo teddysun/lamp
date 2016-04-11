@@ -198,10 +198,15 @@ install_mariadb(){
 
     if [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
         download_from_url "${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" "${down_addr}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz"
-        echo "Extracting MariaDB files..."
-        tar zxf ${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz
-        echo "Moving MariaDB files..."
-        mv ${mysql}-*-${sys_bit_b}/* ${mariadb_location}
+        if [ -f "${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" ];then
+            echo "Extracting MariaDB files..."
+            tar zxf ${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz
+            echo "Moving MariaDB files..."
+            mv ${mysql}-*-${sys_bit_b}/* ${mariadb_location}
+        else
+            echo "Downloading ${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz failed..."
+            exit 1
+        fi
     fi
 
     add_to_env "${mariadb_location}"
