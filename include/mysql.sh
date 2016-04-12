@@ -68,7 +68,6 @@ install_mysqld(){
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
     mkdir -p ${mysql_data_location}
-    chown -R mysql:mysql ${mysql_location} ${mysql_data_location}
 
     if check_sys packageManager apt;then
         apt-get -y install libncurses5-dev cmake m4 bison libaio1 libaio-dev
@@ -129,6 +128,8 @@ config_mysql(){
     fi
     [ -d '/etc/mysql' ] && mv /etc/mysql{,_bk}
 
+    chown -R mysql:mysql ${mysql_location} ${mysql_data_location}
+
     #create my.cnf
     create_mysql_my_cnf "${mysql_data_location}" "false" "false" "/etc/my.cnf"
 
@@ -174,7 +175,6 @@ install_mariadb(){
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
     mkdir -p ${mariadb_data_location}
-    chown -R mysql:mysql ${mariadb_location} ${mariadb_data_location}
 
     if check_sys packageManager apt;then
         apt-get -y install libncurses5-dev cmake m4 bison libaio1 libaio-dev
@@ -226,6 +226,8 @@ config_mariadb(){
         mv /etc/my.cnf /etc/my.cnf.bak
     fi
     [ -d '/etc/mysql' ] && mv /etc/mysql{,_bk}
+
+    chown -R mysql:mysql ${mariadb_location} ${mariadb_data_location}
 
     #create my.cnf
     create_mysql_my_cnf "${mariadb_data_location}" "false" "false" "/etc/my.cnf"
