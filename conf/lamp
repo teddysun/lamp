@@ -61,6 +61,11 @@ vhost_add(){
     default_root="/data/www/${server_names%% *}"
     read -p "input website root(default:$default_root): " website_root
     website_root=${website_root:=$default_root}
+    php_admin_value=""
+    if [ -s /usr/bin/php ];then
+        php_admin_value="php_admin_value open_basedir ${website_root}:/tmp:/proc"
+    fi
+
     cat > ${apache_location}/conf/vhost/${server_names%% *}.conf << EOF
     <VirtualHost *:80>
     ServerName ${server_names%% *}
@@ -72,7 +77,7 @@ vhost_add(){
     AllowOverride All
     Order Deny,Allow
     ${allow_from_all}
-    php_admin_value open_basedir ${website_root}:/tmp:/proc
+    ${php_admin_value}
     </Directory>
     ErrorLog  /data/wwwlog/${server_names%% *}/error.log
     TransferLog  /data/wwwlog/${server_names%% *}/access.log
