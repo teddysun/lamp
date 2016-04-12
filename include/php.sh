@@ -8,15 +8,15 @@ php_preinstall_settings(){
         with_mysql=""
         if [ "$mysql" == "${mysql5_5_filename}" ] || [ "$mysql" == "${mysql5_6_filename}" ] || [ "$mysql" == "${mysql5_7_filename}" ];then
             if [ "$php" == "${php7_0_filename}" ];then
-                with_mysql="--with-mysqli=$mysql_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
+                with_mysql="--with-mysqli=$mysql_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock  --with-pdo-mysql=$mysql_location"
             else
-                with_mysql="--with-mysql=$mysql_location --with-mysqli=$mysql_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
+                with_mysql="--with-mysql=$mysql_location --with-mysqli=$mysql_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$mysql_location"
             fi
         elif [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
             if [ "$php" == "${php7_0_filename}" ];then
-                with_mysql="--with-mysqli=$mariadb_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
+                with_mysql="--with-mysqli=$mariadb_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock  --with-pdo-mysql=$mariadb_location"
             else
-                with_mysql="--with-mysql=$mariadb_location --with-mysqli=$mariadb_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
+                with_mysql="--with-mysql=$mariadb_location --with-mysqli=$mariadb_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$mariadb_location"
             fi
         fi
 
@@ -56,11 +56,10 @@ php_preinstall_settings(){
         --with-ldap \
         --with-ldap-sasl \
         --with-mcrypt \
-        --with-pdo_sqlite \
+        --with-pdo-sqlite \
         --with-sqlite3 \
         --with-openssl \
         --without-pear \
-        --with-pdo-mysql \
         --with-png-dir \
         --with-readline \
         --with-xmlrpc \
