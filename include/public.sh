@@ -733,6 +733,17 @@ finally(){
             firewall-cmd --permanent --zone=public --add-service=http
             firewall-cmd --permanent --zone=public --add-service=https
             firewall-cmd --reload
+        else
+            echo "Firewalld looks like not running, try to start..."
+            systemctl start firewalld
+            if [ $? -eq 0 ];then
+                echo "Firewalld start success..."
+                firewall-cmd --permanent --zone=public --add-service=http
+                firewall-cmd --permanent --zone=public --add-service=https
+                firewall-cmd --reload
+            else
+                echo "Try to start firewalld failed."
+            fi
         fi
     fi
 
