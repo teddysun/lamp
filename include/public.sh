@@ -726,10 +726,14 @@ finally(){
     echo "Clean up completed..."
     echo
 
-    # Allow port 80 when OS is CentOS 7
+    # Enable port 80 443 when OS is CentOS 7
     if centosversion 7; then
-        firewall-cmd --permanent --zone=public --add-service=http
-        firewall-cmd --reload
+        systemctl status firewalld > /dev/null 2>&1
+        if [ $? -eq 0 ];then
+            firewall-cmd --permanent --zone=public --add-service=http
+            firewall-cmd --permanent --zone=public --add-service=https
+            firewall-cmd --reload
+        fi
     fi
 
     echo
