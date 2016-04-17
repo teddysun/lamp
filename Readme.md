@@ -1,4 +1,5 @@
 ![LAMP](https://github.com/teddysun/lamp/raw/master/conf/lamp.gif)
+Description
 ===========
 LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB and so on.You can install Apache + PHP + MySQL/MariaDB in an very easy way,Just need to input numbers to choose what you want to install before installation. And all things will be done in a few minutes.
 
