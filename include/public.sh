@@ -485,15 +485,18 @@ download_file(){
 
 download_from_url(){
     local filename=$1
-    local url=$2
-    if [ -z ${filename} ] || [ -z ${url} ]; then
-        echo "Error:invalid parameter."
-        exit 1
+    local cur_dir=`pwd`
+    if [ -s ${filename} ]; then
+        echo "${filename} [found]"
     else
         echo "Start download ${filename} now..."
-        if ! wget -c -t3 -T60 ${url};then
-            echo "Failed to download ${filename}, just try again."
-            exit 1
+        wget -c -t3 -T3 $2
+        if [ $? -ne 0 ];then
+            rm -f ${filename}
+            if ! wget -c -t3 -T60 $3; then
+                echo "Failed to download ${filename}, please download it to ${cur_dir} directory manually and try again."
+                exit 1
+            fi
         fi
     fi
 }
