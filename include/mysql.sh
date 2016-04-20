@@ -67,7 +67,7 @@ install_mysqld(){
 
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
-    mkdir -p ${mysql_data_location}
+    mkdir -p ${mysql_location} ${mysql_data_location}
 
     if check_sys packageManager apt;then
         apt-get -y install libncurses5-dev cmake m4 bison libaio1 libaio-dev
@@ -174,7 +174,7 @@ install_mariadb(){
 
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
-    mkdir -p ${mariadb_data_location}
+    mkdir -p ${mariadb_location} ${mariadb_data_location}
 
     if check_sys packageManager apt;then
         apt-get -y install libncurses5-dev cmake m4 bison libaio1 libaio-dev
@@ -182,7 +182,8 @@ install_mariadb(){
         yum -y install ncurses-devel cmake m4 bison libaio perl-Data-Dumper
     fi
 
-    local down_addr=https://downloads.mariadb.org/f
+    local down_addr1=http://sfo1.mirrors.digitalocean.com/mariadb/
+    local down_addr2=http://ftp.osuosl.org/pub/mariadb/
     local libc_version=`getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}'`
 
     if version_lt ${libc_version} 2.14; then
@@ -197,16 +198,14 @@ install_mariadb(){
     cd ${cur_dir}/software/
 
     if [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
-        download_from_url "${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" "${down_addr}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz"
-        if [ -f "${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" ];then
-            echo "Extracting MariaDB files..."
-            tar zxf ${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz
-            echo "Moving MariaDB files..."
-            mv ${mysql}-*-${sys_bit_b}/* ${mariadb_location}
-        else
-            echo "Downloading ${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz failed..."
-            exit 1
-        fi
+        download_from_url "${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" \
+        "${down_addr1}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" \
+        "${down_addr2}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz"
+
+        echo "Extracting MariaDB files..."
+        tar zxf ${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz
+        echo "Moving MariaDB files..."
+        mv ${mysql}-*-${sys_bit_b}/* ${mariadb_location}
     fi
 
     add_to_env "${mariadb_location}"
