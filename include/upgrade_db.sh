@@ -208,13 +208,13 @@ EOF
             is_64bit && sys_bit_b=x86_64 || sys_bit_b=i686
 
             download_from_url "mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz" \
-            "${down_addr1}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" \
-            "${down_addr2}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz"
+            "${down_addr1}/mariadb-${latest_mariadb}/bintar-${glibc_flag}-${sys_bit_a}/mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz" \
+            "${down_addr2}/mariadb-${latest_mariadb}/bintar-${glibc_flag}-${sys_bit_a}/mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz"
 
             echo "Extracting MariaDB files..."
-            tar zxf ${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz
+            tar zxf mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz
             echo "Moving MariaDB files..."
-            mv ${latest_mariadb}-*-${sys_bit_b}/* ${mariadb_location}
+            mv mariadb-${latest_mariadb}-*-${sys_bit_b}/* ${mariadb_location}
             if [ -d "${mariadb_location}/lib" ] && [ ! -d "${mariadb_location}/lib64" ];then
                 cd ${mariadb_location}
                 ln -s lib lib64
