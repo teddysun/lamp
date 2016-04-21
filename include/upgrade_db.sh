@@ -194,8 +194,8 @@ EOF
             mkdir -p ${mariadb_location}
             [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
-            down_addr1=down_addr1=http://sfo1.mirrors.digitalocean.com/mariadb/
-            down_addr2=down_addr1=http://ftp.osuosl.org/pub/mariadb/
+            down_addr1=http://sfo1.mirrors.digitalocean.com/mariadb/
+            down_addr2=http://ftp.osuosl.org/pub/mariadb/
             libc_version=`getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}'`
 
             if version_lt ${libc_version} 2.14; then
