@@ -192,10 +192,12 @@ EOF
             fi
             mv ${mariadb_location} ${mariadb_location}.bak
             mkdir -p ${mariadb_location}
+            [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
-            down_addr=https://downloads.mariadb.org/f
+            down_addr1=down_addr1=http://sfo1.mirrors.digitalocean.com/mariadb/
+            down_addr2=down_addr1=http://ftp.osuosl.org/pub/mariadb/
             libc_version=`getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}'`
-            
+
             if version_lt ${libc_version} 2.14; then
                 glibc_flag=linux
             else
@@ -205,7 +207,10 @@ EOF
             is_64bit && sys_bit_a=x86_64 || sys_bit_a=x86
             is_64bit && sys_bit_b=x86_64 || sys_bit_b=i686
 
-            download_from_url "mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz" "${down_addr}/mariadb-${latest_mariadb}/bintar-${glibc_flag}-${sys_bit_a}/mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz"
+            download_from_url "mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz" \
+            "${down_addr1}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" \
+            "${down_addr2}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz"
+
             echo "Extracting MariaDB files..."
             tar zxf ${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz
             echo "Moving MariaDB files..."
@@ -214,7 +219,7 @@ EOF
                 cd ${mariadb_location}
                 ln -s lib lib64
             fi
-            chown -R mysql:mysql ${mariadb_location}
+            chown -R mysql:mysql ${mariadb_location} ${datalocation}
             cp -f ${mariadb_location}/support-files/mysql.server /etc/init.d/mysqld
             sed -i "s@^basedir=.*@basedir=${mariadb_location}@" /etc/init.d/mysqld
             sed -i "s@^datadir=.*@datadir=${datalocation}@" /etc/init.d/mysqld
