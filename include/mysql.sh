@@ -70,8 +70,10 @@ install_mysqld(){
     mkdir -p ${mysql_location} ${mysql_data_location}
 
     if check_sys packageManager apt;then
+        apt-get -y remove mysql-client mysql-server mysql-common
         apt-get -y install libncurses5-dev cmake m4 bison libaio1 libaio-dev
     elif check_sys packageManager yum;then
+        yum -y remove mysql-server mysql
         yum -y install ncurses-devel cmake m4 bison libaio perl-Data-Dumper
     fi
 
@@ -177,8 +179,10 @@ install_mariadb(){
     mkdir -p ${mariadb_location} ${mariadb_data_location}
 
     if check_sys packageManager apt;then
+        apt-get -y remove mysql-client mysql-server mysql-common
         apt-get -y install libncurses5-dev cmake m4 bison libaio1 libaio-dev
     elif check_sys packageManager yum;then
+        yum -y remove mysql-server mysql
         yum -y install ncurses-devel cmake m4 bison libaio perl-Data-Dumper
     fi
 

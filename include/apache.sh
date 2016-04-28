@@ -44,8 +44,10 @@ apache_preinstall_settings(){
 install_apache(){
 
     if check_sys packageManager apt;then
+        apt-get -y remove apache2 apache2-doc apache2-utils apache2.2-common apache2.2-bin apache2-mpm-prefork apache2-doc apache2-mpm-worker
         apt-get -y install libssl-dev lynx
     elif check_sys packageManager yum;then
+        yum -y remove httpd*
         yum -y install zlib-devel openssl openssl-devel lynx
     fi
 
