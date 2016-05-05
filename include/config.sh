@@ -43,11 +43,11 @@ php5_3_filename="php-5.3.29"
 #php5.4
 php5_4_filename="php-5.4.45"
 #php5.5
-php5_5_filename="php-5.5.34"
+php5_5_filename="php-5.5.35"
 #php5.6
-php5_6_filename="php-5.6.20"
+php5_6_filename="php-5.6.21"
 #php7.0
-php7_0_filename="php-7.0.5"
+php7_0_filename="php-7.0.6"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.4.15.5-all-languages"
 #opcache
