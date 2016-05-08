@@ -167,7 +167,7 @@ upgrade_php(){
         ${disable_fileinfo}"
         
         error_detect "./configure ${php_configure_args}"
-        error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
+        error_detect "parallel_make"
         error_detect "make install"
 
         mkdir -p ${php_location}/etc
