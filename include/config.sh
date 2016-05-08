@@ -71,8 +71,6 @@ re2c_filename='re2c-0.13.6'
 libedit_filename='libedit-20150325-3.1'
 #imap
 imap_filename='imap-2007f'
-#bison
-bison_filename="bison-2.7"
 #libiconv
 libiconv_filename="libiconv-1.14"
 #swoole
@@ -81,8 +79,8 @@ set_hint ${swoole_filename} "php-swoole-1.7.22"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-6.9.3-7"
-php_imagemagick_filename="imagick-3.4.0RC2"
+ImageMagick_filename="ImageMagick-6.9.3-10"
+php_imagemagick_filename="imagick-3.4.2"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
 GraphicsMagick_filename="GraphicsMagick-1.3.23"
