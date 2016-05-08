@@ -129,10 +129,6 @@ upgrade_apache(){
 
             mv ${cur_dir}/software/${apr_filename} srclib/apr
             mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
-            
-            if centosversion 5; then
-                sed -i "220s/$/;/" modules/ssl/ssl_engine_io.c
-            fi
 
             error_detect "./configure $apache_configure_args"
             error_detect "parallel_make"
