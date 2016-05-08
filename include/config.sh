@@ -33,9 +33,9 @@ set_hint ${mysql5_7_filename} "${mysql5_7_filename} (need at least 2GB RAM when 
 #boost
 boost_filename="boost_1_59_0"
 #mariadb5.5
-mariadb5_5_filename="mariadb-5.5.48"
+mariadb5_5_filename="mariadb-5.5.49"
 #mariadb10.0
-mariadb10_0_filename="mariadb-10.0.24"
+mariadb10_0_filename="mariadb-10.0.25"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.13"
 #php5.3
