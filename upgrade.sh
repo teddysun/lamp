@@ -67,7 +67,7 @@ display_menu(){
             upgrade_phpmyadmin 2>&1 | tee -a /root/upgrade_phpmyadmin.log
             ;;
         5)
-            echo "Upgrade cancelled, nothing to do..." && exit
+            exit 0
             ;;
         esac
     fi
@@ -92,6 +92,9 @@ phpmyadmin                --->Upgrade phpMyAdmin
 if   [ $# == 0 ];then
     display_menu
 elif [ $# == 1 ];then
+    rootness
+    load_config
+
     case $1 in
     apache)
         upgrade_apache 2>&1 | tee -a /root/upgrade_apache.log
