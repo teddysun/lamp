@@ -262,8 +262,7 @@ EOF
         
         echo "Clear up start..."
         cd ${cur_dir}/software
-        rm -rf mysql-${latest_mysql}/ mariadb-${latest_mariadb}/
-        rm -f mysql-${latest_mysql}.tar.gz mariadb-${latest_mariadb}.tar.gz ${boost_filename}.tar.gz
+        rm -rf mysql-* mariadb-*
         echo "Clear up completed..."
         echo
         echo "MySQL/MariaDB upgrade completed..."
