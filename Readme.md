@@ -12,6 +12,7 @@ Supported System
 * Ubuntu-13.x
 * Ubuntu-14.x
 * Ubuntu-15.x
+* Ubuntu-16.x
 * Debian-7.x
 * Debian-8.x
 
