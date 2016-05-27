@@ -103,7 +103,7 @@ ZendGuardLoader56_64_filename="zend-loader-php5.6-linux-x86_64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
-memcached_filename="memcached-1.4.24"
+memcached_filename="memcached-1.4.25"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 #php-memcache
@@ -112,7 +112,7 @@ php_memcache_filename="memcache-3.0.8"
 php_memcached_filename="memcached-2.2.0"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 #redis
-redis_filename="redis-3.0.5"
+redis_filename="redis-3.2.0"
 #php-redis
 php_redis_filename="redis-2.2.7"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
