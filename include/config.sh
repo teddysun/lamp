@@ -43,13 +43,13 @@ php5_3_filename="php-5.3.29"
 #php5.4
 php5_4_filename="php-5.4.45"
 #php5.5
-php5_5_filename="php-5.5.35"
+php5_5_filename="php-5.5.36"
 #php5.6
-php5_6_filename="php-5.6.21"
+php5_6_filename="php-5.6.22"
 #php7.0
-php7_0_filename="php-7.0.6"
+php7_0_filename="php-7.0.7"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.4.15.5-all-languages"
+phpmyadmin_filename="phpMyAdmin-4.4.15.6-all-languages"
 #opcache
 opcache_filename="zendopcache-7.0.5"
 
@@ -74,8 +74,8 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.14"
 #swoole
-swoole_filename="swoole-src-swoole-1.7.22-stable"
-set_hint ${swoole_filename} "php-swoole-1.7.22"
+swoole_filename="swoole-src-swoole-1.8.5-stable"
+set_hint ${swoole_filename} "php-swoole-1.8.5"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
