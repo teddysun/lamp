@@ -117,7 +117,7 @@ redis_filename="redis-3.0.5"
 php_redis_filename="redis-2.2.7"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 #php-mandodb
-php_mongo_filename="mongo-1.6.13"
+php_mongo_filename="mongo-1.6.14"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #ICU
 icu_filename="icu4c-4_4_2-src"
