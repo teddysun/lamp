@@ -49,7 +49,7 @@ php5_6_filename="php-5.6.23"
 #php7.0
 php7_0_filename="php-7.0.8"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.4.15.6-all-languages"
+phpmyadmin_filename="phpMyAdmin-4.4.15.7-all-languages"
 #opcache
 opcache_filename="zendopcache-7.0.5"
 
