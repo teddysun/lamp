@@ -3,7 +3,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=======================================================================#
 #   System Required:  CentOS/RadHat 5+ / Debian 7+ / Ubuntu 12+         #
-#   Description:  Update LAMP(Linux + Apache + MySQL + PHP )            #
+#   Description:  Update LAMP(Linux + Apache + MySQL/MariaDB + PHP )    #
 #   Author: Teddysun <i@teddysun.com>                                   #
 #   Intro:  https://lamp.sh                                             #
 #=======================================================================#
@@ -33,7 +33,7 @@ display_menu(){
 
     echo
     echo "#############################################################"
-    echo "# Auto Update LAMP(Linux + Apache + MySQL + PHP )           #"
+    echo "# Auto Update LAMP(Linux + Apache + MySQL/MariaDB + PHP )   #"
     echo "# Intro: https://lamp.sh                                    #"
     echo "# Author: Teddysun <i@teddysun.com>                         #"
     echo "#############################################################"
