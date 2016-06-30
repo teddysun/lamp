@@ -3,7 +3,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=======================================================================#
 #   System Required:  CentOS/RadHat 5+ / Debian 7+ / Ubuntu 12+         #
-#   Description:  Install LAMP(Linux + Apache + MySQL + PHP )           #
+#   Description:  Install LAMP(Linux + Apache + MySQL/MariaDB + PHP )   #
 #   Author: Teddysun <i@teddysun.com>                                   #
 #   Intro:  https://lamp.sh                                             #
 #=======================================================================#
@@ -32,7 +32,7 @@ lamp(){
     clear
     echo
     echo "#############################################################"
-    echo "# Auto Install LAMP(Linux + Apache + MySQL + PHP )          #"
+    echo "# Auto Install LAMP(Linux + Apache + MySQL/MariaDB + PHP )  #"
     echo "# Intro: https://lamp.sh                                    #"
     echo "# Author: Teddysun <i@teddysun.com>                         #"
     echo "#############################################################"
