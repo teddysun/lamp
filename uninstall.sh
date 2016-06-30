@@ -3,7 +3,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=======================================================================#
 #   System Required:  CentOS/RadHat 5+ / Debian 7+ / Ubuntu 12+         #
-#   Description:  Uninstall LAMP(Linux + Apache + MySQL + PHP )         #
+#   Description:  Uninstall LAMP(Linux + Apache + MySQL/MariaDB + PHP ) #
 #   Author: Teddysun <i@teddysun.com>                                   #
 #   Intro:  https://lamp.sh                                             #
 #=======================================================================#
@@ -95,7 +95,7 @@ uninstall(){
     rm -fr /usr/local/memcached /usr/bin/memcached
     [ -f /etc/init.d/redis-server ] && /etc/init.d/redis-server stop && boot_stop redis-server
     rm -f /etc/init.d/redis-server
-    rm -fr /etc/init.d/redis-server /usr/local/redis
+    rm -rf /etc/init.d/redis-server /usr/local/redis
     rm -rf /usr/local/libiconv /usr/lib64/libiconv.so.0 /usr/lib/libiconv.so.0
     rm -rf /usr/local/imap-2007f
     rm -rf /usr/local/pcre
