@@ -845,9 +845,9 @@ install_lamp(){
 
 #Get OS name
 get_opsy(){
+    [ -f /etc/redhat-release ] && awk '{print ($1,$3~/^[0-9]/?$3:$4)}' /etc/redhat-release && return
     [ -f /etc/os-release ] && awk -F'[= "]' '/PRETTY_NAME/{print $3,$4,$5}' /etc/os-release && return
     [ -f /etc/lsb-release ] && awk -F'[="]+' '/DESCRIPTION/{print $2}' /etc/lsb-release && return
-    [ -f /etc/redhat-release ] && awk '{print ($1,$3~/^[0-9]/?$3:$4)}' /etc/redhat-release && return
 }
 
 #Get OS information
@@ -862,6 +862,7 @@ get_os_info(){
     local tram=$( free -m | awk '/Mem/ {print $2}' )
     local swap=$( free -m | awk '/Swap/ {print $2}' )
     local up=$( awk '{a=$1/86400;b=($1%86400)/3600;c=($1%3600)/60;d=$1%60} {printf("%ddays, %d:%d:%d\n",a,b,c,d)}' /proc/uptime )
+    local load=$( uptime | awk -F: '{print $5}' | sed 's/^[ \t]*//;s/[ \t]*$//' )
     local opsy=$( get_opsy )
     local arch=$( uname -m )
     local lbit=$( getconf LONG_BIT )
@@ -875,19 +876,20 @@ get_os_info(){
     [ ${ramsum} -lt 600 ] && disable_fileinfo="--disable-fileinfo" || disable_fileinfo=""
     
     echo "########## System Information ##########"
-    echo ""
+    echo
     echo "CPU model            : ${cname}"
     echo "Number of cores      : ${cores}"
     echo "CPU frequency        : ${freq} MHz"
     echo "Total amount of ram  : ${tram} MB"
     echo "Total amount of swap : ${swap} MB"
     echo "System uptime        : ${up}"
+    echo "Load average         : $load"
     echo "OS                   : ${opsy}"
     echo "Arch                 : ${arch} (${lbit} Bit)"
     echo "Kernel               : ${kern}"
     echo "Hostname             : ${host}"
     echo "IPv4 address         : ${IP}"
-    echo ""
+    echo
     echo "########################################"
 }
 
@@ -899,7 +901,7 @@ pre_setting(){
         install_lamp
     else
         echo
-        echo "Error: Your system is not supported to run it! Please change system to CentOS/Debian/Ubuntu and try again."
+        echo "Error: Your OS is not supported to run it! Please change OS to CentOS/Debian/Ubuntu and try again."
         echo
         exit 1
     fi
