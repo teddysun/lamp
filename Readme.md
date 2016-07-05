@@ -50,7 +50,11 @@ screen -S lamp
 Upgrade
 ============
 ```bash
-./upgrade.sh
+./upgrade.sh             // Select one to upgrade
+./upgrade.sh apache      // Upgrade Apache
+./upgrade.sh db          // Upgrade MySQL/MariaDB
+./upgrade.sh php         // Upgrade PHP
+./upgrade.sh phpmyadmin  // Upgrade phpMyAdmin
 ```
 
 Uninstall
