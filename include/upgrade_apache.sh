@@ -76,7 +76,7 @@ upgrade_apache(){
 
             if [ ! -s httpd-${latest_apache22}.tar.gz ]; then
                 latest_apache_link="http://www.us.apache.org/dist//httpd/httpd-${latest_apache22}.tar.gz"
-                backup_apache_link="http://lamp.teddysun.com/files/httpd-${latest_apache22}.tar.gz"
+                backup_apache_link="http://dl.teddysun.com/files/httpd-${latest_apache22}.tar.gz"
                 untar ${latest_apache_link} ${backup_apache_link}
             else
                 echo "httpd-${latest_apache22}.tar.gz [found]"
@@ -119,7 +119,7 @@ upgrade_apache(){
 
             if [ ! -s httpd-${latest_apache24}.tar.gz ]; then
                 latest_apache_link="http://www.us.apache.org/dist//httpd/httpd-${latest_apache24}.tar.gz"
-                backup_apache_link="http://lamp.teddysun.com/files/httpd-${latest_apache24}.tar.gz"
+                backup_apache_link="http://dl.teddysun.com/files/httpd-${latest_apache24}.tar.gz"
                 untar ${latest_apache_link} ${backup_apache_link}
             else
                 echo "httpd-${latest_apache24}.tar.gz [found]"
