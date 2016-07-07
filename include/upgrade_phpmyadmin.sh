@@ -14,7 +14,7 @@ upgrade_phpmyadmin(){
 
     latest_pma=`curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | grep '4.4' | cut -d'<' -f1 | sort -V | tail -1`
     if [ -z ${latest_pma} ]; then
-        latest_pma=`curl -s http://lamp.teddysun.com/pmalist.txt | grep '4.4' | tail -1 | awk -F- '{print $2}'`
+        latest_pma=`curl -s http://dl.teddysun.com/pmalist.txt | grep '4.4' | tail -1 | awk -F- '{print $2}'`
     fi
     echo -e "Latest version of phpmyadmin: \033[41;37m ${latest_pma} \033[0m"
     echo -e "Installed version of phpmyadmin: \033[41;37m $installed_pma \033[0m"
@@ -58,7 +58,7 @@ upgrade_phpmyadmin(){
 
         if [ ! -s phpMyAdmin-${latest_pma}-all-languages.tar.gz ]; then
             latest_pma_link="http://files.phpmyadmin.net/phpMyAdmin/${latest_pma}/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
-            backup_pma_link="http://lamp.teddysun.com/files/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
+            backup_pma_link="http://dl.teddysun.com/files/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
             untar ${latest_pma_link} ${backup_pma_link}
             mkdir -p ${web_root_dir}/phpmyadmin
             mv * ${web_root_dir}/phpmyadmin
