@@ -73,7 +73,7 @@ upgrade_php(){
 
         if [ ! -s php-${latest_php}.tar.gz ]; then
             latest_php_link="http://php.net/distributions/php-${latest_php}.tar.gz"
-            backup_php_link="http://lamp.teddysun.com/files/php-${latest_php}.tar.gz"
+            backup_php_link="http://dl.teddysun.com/files/php-${latest_php}.tar.gz"
             untar ${latest_php_link} ${backup_php_link}
         else
             tar -zxf php-${latest_php}.tar.gz
