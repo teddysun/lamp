@@ -413,6 +413,7 @@ sync_time(){
     fi
     rm -f /etc/localtime
     ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    ntpdate -v time.nist.gov
     /sbin/hwclock -w
     echo "Sync time completed..."
 }
