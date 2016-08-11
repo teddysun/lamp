@@ -33,7 +33,7 @@ set_hint ${mysql5_7_filename} "${mysql5_7_filename} (need at least 2GB RAM when 
 #boost
 boost_filename="boost_1_59_0"
 #mariadb5.5
-mariadb5_5_filename="mariadb-5.5.50"
+mariadb5_5_filename="mariadb-5.5.51"
 #mariadb10.0
 mariadb10_0_filename="mariadb-10.0.26"
 #mariadb10.1
@@ -74,8 +74,8 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.14"
 #swoole
-swoole_filename="swoole-src-swoole-1.8.5-stable"
-set_hint ${swoole_filename} "php-swoole-1.8.5"
+swoole_filename="swoole-src-1.8.8-stable"
+set_hint ${swoole_filename} "php-swoole-1.8.8"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
