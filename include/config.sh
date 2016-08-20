@@ -45,11 +45,11 @@ php5_4_filename="php-5.4.45"
 #php5.5
 php5_5_filename="php-5.5.38"
 #php5.6
-php5_6_filename="php-5.6.24"
+php5_6_filename="php-5.6.25"
 #php7.0
-php7_0_filename="php-7.0.9"
+php7_0_filename="php-7.0.10"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.4.15.7-all-languages"
+phpmyadmin_filename="phpMyAdmin-4.4.15.8-all-languages"
 #opcache
 opcache_filename="zendopcache-7.0.5"
 
