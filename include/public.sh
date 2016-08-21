@@ -321,9 +321,6 @@ datadir                        = ${mysqlDataLocation}
 
 # LOGGING #
 log-error                      = ${mysqlDataLocation}/mysql-error.log
-log-queries-not-using-indexes  = 1
-slow-query-log                 = 1
-slow-query-log-file            = ${mysqlDataLocation}/mysql-slow.log
 
 ${binlog}
 
