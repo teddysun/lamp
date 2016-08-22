@@ -174,7 +174,11 @@ EOF
     fi
 
     rm -f /etc/init.d/httpd
-    cp -f ${cur_dir}/conf/httpd-init /etc/init.d/httpd
+    if centosversion 6; then
+        wget -O /etc/init.d/httpd https://github.com/teddysun/lamp/raw/archive/conf/httpd.init
+    else
+        cp -f ${cur_dir}/conf/httpd-init /etc/init.d/httpd
+    fi
     sed -i "s#^apache_location=.*#apache_location=$apache_location#" /etc/init.d/httpd
     chmod +x /etc/init.d/httpd
 
