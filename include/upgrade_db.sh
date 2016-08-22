@@ -92,9 +92,7 @@ upgrade_db(){
         /usr/bin/mysql -uroot -p${mysql_root_password} <<EOF
 exit
 EOF
-        if [ $? -eq 0 ]; then
-            echo "MySQL/MariaDB root password is correct"
-        else
+        if [ $? -ne 0 ]; then
             echo "MySQL/MariaDB root password incorrect! Please check it and try again!"
             exit 2
         fi
@@ -228,7 +226,6 @@ EOF
             ${mariadb_location}/scripts/mysql_install_db --basedir=${mariadb_location} --datadir=${datalocation} --user=mysql
 
         fi
-
 
         if [ -d "/proc/vz" ]; then
             ulimit -s unlimited

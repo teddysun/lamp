@@ -165,7 +165,6 @@ EOF
     /etc/init.d/mysqld stop
 
     rm -f /etc/ld.so.conf.d/mysql.conf
-    touch /etc/ld.so.conf.d/mysql.conf
     echo "${mysql_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
     echo "${mysql_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
     ldconfig
@@ -261,7 +260,6 @@ EOF
     /etc/init.d/mysqld stop
 
     rm -f /etc/ld.so.conf.d/mysql.conf
-    touch /etc/ld.so.conf.d/mysql.conf
     echo "${mariadb_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
     echo "${mariadb_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
     ldconfig
