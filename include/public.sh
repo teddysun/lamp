@@ -423,6 +423,18 @@ version_lt(){
     test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" != "$1"
 }
 
+version_gt(){
+    test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"
+}
+
+version_le(){
+    test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1"
+}
+
+version_ge(){
+    test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1"
+}
+
 parallel_make(){
     local para=$1
     cpunum=`cat /proc/cpuinfo |grep 'processor'|wc -l`
@@ -522,7 +534,6 @@ check_command_exist(){
         exit 1
     fi
 }
-
 
 #Install tools
 install_tool(){ 
@@ -655,7 +666,6 @@ get_php_version(){
     local phpConfig=$1
     $phpConfig --version | cut -d'.' -f1-2
 }
-
 
 #Last confirm
 last_confirm(){
