@@ -175,7 +175,7 @@ EOF
 
     rm -f /etc/init.d/httpd
     if centosversion 6; then
-        wget -O /etc/init.d/httpd https://github.com/teddysun/lamp/raw/archive/conf/httpd.init
+        cp -f ${cur_dir}/conf/httpd-init-centos6 /etc/init.d/httpd
     else
         cp -f ${cur_dir}/conf/httpd-init /etc/init.d/httpd
     fi
