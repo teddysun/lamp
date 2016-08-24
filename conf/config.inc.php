@@ -14,7 +14,7 @@
  * This is needed for cookie based authentication to encrypt password in
  * cookie
  */
-$cfg['blowfish_secret'] = 'cookiebyteddysun'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
+$cfg['blowfish_secret'] = 'c8e0ca9c430c714ffc1104394c02a053'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
 
 /*
  * Servers configuration
