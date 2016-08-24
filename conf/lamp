@@ -48,7 +48,7 @@ vhost_add(){
 
     while :
     do
-        read -p "Please input server names(like this:www.lamp.sh lamp.sh): " server_names
+        read -p "Please enter server names(like this:www.lamp.sh lamp.sh): " server_names
         for i in ${server_names};do
             if apache_vhost_is_exist $i;then
                 echo "vhost $i is exist, please reinput server names."
@@ -59,7 +59,7 @@ vhost_add(){
     done
 
     default_root="/data/www/${server_names%% *}"
-    read -p "input website root(default:$default_root): " website_root
+    read -p "Please enter website root directory(default:$default_root): " website_root
     website_root=${website_root:=$default_root}
     php_admin_value=""
     if [ -s /usr/bin/php ];then
@@ -83,18 +83,18 @@ vhost_add(){
     TransferLog  /data/wwwlog/${server_names%% *}/access.log
     </VirtualHost>
 EOF
-    echo "congratulations.vhost ${server_names%% *} had created."
-    echo "website root is ${website_root}/."
+    echo "Congratulations. vhost [${server_names%% *}] had created."
+    echo "Website root directory is: ${website_root}/"
 
     mkdir -p /data/wwwlog/${server_names%% *} ${website_root}
     chown -R apache:apache /data/wwwlog/${server_names%% *} ${website_root}
 
-    echo "reloading the apache config file..."
+    echo "Reloading the apache config file..."
     if ${apache_location}/bin/apachectl -t;then
         /etc/init.d/httpd restart
-        echo "reload success."
+        echo "Reload success."
     else
-        echo "reload failed! config file had an error,please fix it and try again."
+        echo "Reload failed! config file had an error, please fix it and try again."
         exit 1
     fi
 }
@@ -104,20 +104,20 @@ vhost_list(){
 }
 
 vhost_del(){
-    read -p "input server name of vhost you want to delete it(like this:www.lamp.sh): " domain
+    read -p "Please enter server name of vhost you want to delete it(like this:www.lamp.sh): " domain
     if ! apache_vhost_is_exist "$domain";then
-        echo "vhost $domain not found"
+        echo "Error: vhost [$domain] not found!"
         exit 1
     else
         rm -f ${apache_location}/conf/vhost/${domain}.conf
-        echo "complete deleted the server_name ${domain} of vhost."
+        echo "Complete deleted the server_name [${domain}] of vhost."
 
-        echo "reloading the apache config file..."
+        echo "Reloading the apache config file..."
         if ${apache_location}/bin/apachectl -t;then
             /etc/init.d/httpd restart
-            echo "reload success."
+            echo "Reload success."
         else
-             echo "reload failed! config file had an error,please fix it and try again."
+             echo "Reload failed! config file had an error, please fix it and try again."
              exit 1
         fi
     fi
