@@ -35,7 +35,7 @@ boost_filename="boost_1_59_0"
 #mariadb5.5
 mariadb5_5_filename="mariadb-5.5.51"
 #mariadb10.0
-mariadb10_0_filename="mariadb-10.0.26"
+mariadb10_0_filename="mariadb-10.0.27"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.16"
 #php5.3
