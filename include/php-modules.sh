@@ -22,7 +22,6 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_graphicsmagick_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${php_redis_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_mongo_filename}})
         fi
         display_menu_multi php_modules last
