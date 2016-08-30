@@ -64,27 +64,27 @@ libmcrypt_filename="libmcrypt-2.5.8"
 #mcrypt
 mcrypt_filename="mcrypt-2.6.8"
 #pcre
-pcre_filename="pcre-8.37"
+pcre_filename="pcre-8.39"
 #re2c
-re2c_filename='re2c-0.13.6'
+re2c_filename='re2c-0.16'
 #libedit
-libedit_filename='libedit-20150325-3.1'
+libedit_filename='libedit-20160618-3.1'
 #imap
 imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.14"
 #swoole
-swoole_filename="swoole-src-1.8.8-stable"
-set_hint ${swoole_filename} "php-swoole-1.8.8"
+swoole_filename="swoole-src-1.8.10-stable"
+set_hint ${swoole_filename} "php-swoole-1.8.10"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-6.9.3-10"
-php_imagemagick_filename="imagick-3.4.2"
+ImageMagick_filename="ImageMagick-7.0.2-10"
+php_imagemagick_filename="imagick-3.4.3RC1"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.23"
-php_graphicsmagick_filename="gmagick-1.1.7RC3"
+GraphicsMagick_filename="GraphicsMagick-1.3.24"
+php_graphicsmagick_filename="gmagick-2.0.4RC1"
 set_hint ${php_graphicsmagick_filename} "php-${php_graphicsmagick_filename}"
 #ionCube
 ionCube_filename="ioncube_loaders"
@@ -103,7 +103,7 @@ ZendGuardLoader56_64_filename="zend-loader-php5.6-linux-x86_64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
-memcached_filename="memcached-1.4.25"
+memcached_filename="memcached-1.4.31"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 #php-memcache
@@ -112,9 +112,9 @@ php_memcache_filename="memcache-3.0.8"
 php_memcached_filename="memcached-2.2.0"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 #redis
-redis_filename="redis-3.2.0"
+redis_filename="redis-3.2.3"
 #php-redis
-php_redis_filename="redis-2.2.7"
+php_redis_filename="redis-3.0.0"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 #php-mandodb
 php_mongo_filename="mongo-1.6.14"
