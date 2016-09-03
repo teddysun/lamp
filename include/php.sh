@@ -18,6 +18,12 @@ php_preinstall_settings(){
             else
                 with_mysql="--with-mysql=$mariadb_location --with-mysqli=$mariadb_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$mariadb_location"
             fi
+        elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
+            if [ "$php" == "${php7_0_filename}" ];then
+                with_mysql="--with-mysqli=$percona_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock  --with-pdo-mysql=$percona_location"
+            else
+                with_mysql="--with-mysql=$percona_location --with-mysqli=$percona_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$percona_location"
+            fi
         fi
 
         enable_opcache=""
@@ -59,6 +65,7 @@ php_preinstall_settings(){
         --with-pdo-sqlite \
         --with-sqlite3 \
         --with-openssl \
+        --with-snmp \
         --without-pear \
         --with-png-dir \
         --with-readline \
