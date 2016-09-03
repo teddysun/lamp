@@ -69,12 +69,12 @@ display_menu(){
         fi
 
         if ! is_digit "$pick";then
-            prompt="input errors,please input a number: "
+            prompt="Input errors, please input a number"
             continue
         fi
 
         if [[ "$pick" -lt 1 || "$pick" -gt ${#arr[@]} ]]; then
-            prompt="input errors,please input a number between 1 and ${#arr[@]}: "
+            prompt="Input errors, please input a number between 1 and ${#arr[@]}: "
             continue
         fi
 
@@ -107,7 +107,7 @@ display_menu_multi(){
         default_prompt="(default ${arr[$default-1]})"
         
     fi
-    prompt="please input one or more number between 1 and ${arr_len}${default_prompt}(ie.1 2 3): "
+    prompt="Please input one or more number between 1 and ${arr_len}${default_prompt}(for example:1 2 3): "
 
     echo  "#################### $soft install ####################"
     echo
@@ -125,7 +125,7 @@ display_menu_multi(){
         eval unset ${soft}_install
         if [[ "$pick" == "" ]]; then
             if [[ "$default" == "" ]]; then
-                echo "input can not be empty,please reinput."
+                echo "Input can not be empty, please reinput."
                 continue
             else
                 eval ${soft}_install="${arr[$default-1]}"
@@ -136,13 +136,13 @@ display_menu_multi(){
         for j in ${pick[@]}
         do
             if ! is_digit "$j";then
-                echo "input error,please input a number"
+                echo "Input error, please input a number"
                 correct=false
                 break 1
             fi    
 
             if [[ "$j" -lt 1 || "$j" -gt $arr_len ]]; then
-                echo "input error,please input the number between 1 and ${arr_len}${default_prompt}."
+                echo "Input error, please input the number between 1 and ${arr_len}${default_prompt}."
                 correct=false
                 break 1
             fi
@@ -364,6 +364,36 @@ create_lib64_dir(){
     fi
 }
 
+error_detect_depends(){
+    local command=$1
+    local work_dir=`pwd`
+    local depend=`echo "$1" | awk '{print $4}'`
+    ${command}
+    if [ $? != 0 ]; then
+        distro=`get_opsy`
+        version=`cat /proc/version`
+        architecture=`uname -m`
+        mem=`free -m`
+        disk=`df -ah`
+        cat >> /root/lamp.log<<EOF
+        errors detail:
+        Distributions:$distro
+        Architecture:$architecture
+        Version:$version
+        Memery:
+        ${mem}
+        Disk:
+        ${disk}
+        Issue:failed to install $depend
+EOF
+        echo "###########################################################"
+        echo "Failed to install $depend."
+        echo "Please visit our website:https://lamp.sh/faq.html for help"
+        echo "###########################################################"
+        exit 1
+    fi
+}
+
 error_detect(){
     local command=$1
     local work_dir=`pwd`
@@ -473,7 +503,7 @@ filter_location(){
     if ! echo $location | grep -q "^/";then
         while true
         do
-            read -p "input error,please input location again: " location
+            read -p "Input error, please input location again: " location
             echo $location | grep -q "^/" && echo $location && break
         done
     else
@@ -529,8 +559,8 @@ is_digit(){
 }
 
 check_command_exist(){
-    if ! which ${1} > /dev/null;then
-        echo "${1} not found, please install it and try again."
+    if [ ! "$(command -v "${1}")" ]; then
+        echo "${1} is not installed, please install it and try again."
         exit 1
     fi
 }
@@ -539,14 +569,13 @@ check_command_exist(){
 install_tool(){ 
     if check_sys packageManager apt;then
         apt-get -y update
-        apt-get -y install gcc g++ make wget perl curl bzip2
+        apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev
     elif check_sys packageManager yum; then
+        yum -y install gcc gcc-c++ make wget perl curl bzip2 readline readline-devel
         if centosversion 5; then
-            yum -y install gcc gcc-c++ gcc44 gcc44-c++ make wget perl curl bzip2
+            yum -y install gcc44 gcc44-c++
             export CC=/usr/bin/gcc44
             export CXX=/usr/bin/g++44
-        else
-            yum -y install gcc gcc-c++ make wget perl curl bzip2
         fi
     fi
 
@@ -689,6 +718,12 @@ last_confirm(){
         echo "MariaDB Location: $mariadb_location"
         echo "MariaDB Data Location: $mariadb_data_location"
         echo "MariaDB Root Password: $mariadb_root_pass"
+    elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
+        echo "*****Percona Setting*****"
+        echo "Percona Server: $mysql"
+        echo "Percona Location: $percona_location"
+        echo "Percona Data Location: $percona_data_location"
+        echo "Percona Root Password: $percona_root_pass"
     fi
     echo
     echo "*****PHP Setting*****"
@@ -729,16 +764,30 @@ last_confirm(){
 
 }
 
-#Finally to do
-finally(){
-    echo "Clean up start..."
-    cd ${cur_dir}
-    rm -rf ${cur_dir}/software
-    echo "Clean up completed..."
-    echo
-
-    # Enable port 80 443 when OS is CentOS 7
-    if centosversion 7; then
+firewall_set(){
+    echo "firewall set start..."
+    # Enable port 80 443
+    if centosversion 6; then
+        if [ -e /etc/init.d/iptables ]; then
+            /etc/init.d/iptables status > /dev/null 2>&1
+            if [ $? -eq 0 ]; then
+                iptables -L -n | grep '80' > /dev/null 2>&1
+                if [ $? -ne 0 ]; then
+                    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+                fi
+                iptables -L -n | grep '443' > /dev/null 2>&1
+                if [ $? -ne 0 ]; then
+                    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+                fi
+                /etc/init.d/iptables save
+                /etc/init.d/iptables restart
+            else
+                echo "WARNING: iptables looks like shutdown, please manually set if necessary."
+            fi
+        else
+            echo "iptables looks like not installed"
+        fi
+    elif centosversion 7; then
         systemctl status firewalld > /dev/null 2>&1
         if [ $? -eq 0 ];then
             firewall-cmd --permanent --zone=public --add-service=http
@@ -757,6 +806,17 @@ finally(){
             fi
         fi
     fi
+    echo "firewall set completed..."
+}
+
+#Finally to do
+finally(){
+    echo "Clean up start..."
+    cd ${cur_dir}
+    rm -rf ${cur_dir}/software
+    echo "Clean up completed..."
+
+    firewall_set
 
     echo
     echo "Congratulations, LAMP install completed!"
@@ -781,6 +841,12 @@ finally(){
         echo "MariaDB Data Location: $mariadb_data_location"
         echo "MariaDB Root Password: $mariadb_root_pass"
         dbrootpwd=${mariadb_root_pass}
+    elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
+        echo "Percona Server: $mysql"
+        echo "Percona Location: $percona_location"
+        echo "Percona Data Location: $percona_data_location"
+        echo "Percona Root Password: $percona_root_pass"
+        dbrootpwd=${percona_root_pass}
     fi
     echo
     echo "PHP: $php"
@@ -799,6 +865,9 @@ finally(){
     cp -f ${cur_dir}/conf/lamp /usr/bin/lamp
     chmod +x /usr/bin/lamp
     sed -i "s@^apache_location=.*@apache_location=${apache_location}@" /usr/bin/lamp
+    sed -i "s@^mysql_location=.*@mysql_location=${mysql_location}@" /usr/bin/lamp
+    sed -i "s@^mariadb_location=.*@mariadb_location=${mariadb_location}@" /usr/bin/lamp
+    sed -i "s@^percona_location=.*@percona_location=${percona_location}@" /usr/bin/lamp
 
     [ "$apache" != "do_not_install" ] && echo "Start Apache..." && /etc/init.d/httpd start
     [ "$mysql" != "do_not_install" ] && echo "Start MySQL or MariaDB..." && /etc/init.d/mysqld start
@@ -841,6 +910,8 @@ install_lamp(){
         check_installed "install_mysqld" "${mysql_location}"
     elif [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
         check_installed "install_mariadb" "${mariadb_location}"
+    elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
+        check_installed "install_percona" "${percona_location}"
     fi
     if [ "$php" != "do_not_install" ] && [ "$apache" != "do_not_install" ]; then
         check_installed "install_php" "${php_location}"
@@ -891,7 +962,7 @@ get_os_info(){
     echo "Total amount of ram  : ${tram} MB"
     echo "Total amount of swap : ${swap} MB"
     echo "System uptime        : ${up}"
-    echo "Load average         : $load"
+    echo "Load average         : ${load}"
     echo "OS                   : ${opsy}"
     echo "Arch                 : ${arch} (${lbit} Bit)"
     echo "Kernel               : ${kern}"
