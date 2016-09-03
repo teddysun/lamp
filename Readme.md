@@ -52,7 +52,7 @@ Upgrade
 ```bash
 ./upgrade.sh             // Select one to upgrade
 ./upgrade.sh apache      // Upgrade Apache
-./upgrade.sh db          // Upgrade MySQL/MariaDB
+./upgrade.sh db          // Upgrade MySQL/MariaDB/Percona
 ./upgrade.sh php         // Upgrade PHP
 ./upgrade.sh phpmyadmin  // Upgrade phpMyAdmin
 ```
