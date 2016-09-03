@@ -4,6 +4,7 @@ load_config(){
 apache_location=/usr/local/apache
 mysql_location=/usr/local/mysql
 mariadb_location=/usr/local/mariadb
+percona_location=/usr/local/percona
 php_location=/usr/local/php
 
 #Install depends location
@@ -38,6 +39,15 @@ mariadb5_5_filename="mariadb-5.5.51"
 mariadb10_0_filename="mariadb-10.0.27"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.16"
+#percona5.5
+percona5_5_filename="percona-server-5.5.51-38.1"
+set_hint ${percona5_5_filename} "percona-server-5.5.51"
+#percona5.6
+percona5_6_filename="percona-server-5.6.32-78.0"
+set_hint ${percona5_6_filename} "percona-server-5.6.32"
+#percona5.7
+percona5_7_filename="percona-server-5.7.14-7"
+set_hint ${percona5_7_filename} "percona-server-5.7.14 (need at least 2GB RAM when building)"
 #php5.3
 php5_3_filename="php-5.3.29"
 #php5.4
@@ -136,7 +146,10 @@ mysql_arr[2]=${mysql5_7_filename}
 mysql_arr[3]=${mariadb5_5_filename}
 mysql_arr[4]=${mariadb10_0_filename}
 mysql_arr[5]=${mariadb10_1_filename}
-mysql_arr[6]="do_not_install"
+mysql_arr[6]=${percona5_5_filename}
+mysql_arr[7]=${percona5_6_filename}
+mysql_arr[8]=${percona5_7_filename}
+mysql_arr[9]="do_not_install"
 
 php_arr[0]=${php5_3_filename}
 php_arr[1]=${php5_4_filename}
