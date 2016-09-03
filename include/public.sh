@@ -823,7 +823,7 @@ finally(){
     echo
     echo "#################### Installed Overview ####################"
     echo
-    echo "Default Website: http://${IP}"
+    echo "Default Website: http://$(get_ip)"
     echo "Apache: ${apache}"
     if [ "$apache" != "do_not_install" ];then
         echo "Apache Location: $apache_location"
@@ -929,12 +929,20 @@ get_opsy(){
     [ -f /etc/lsb-release ] && awk -F'[="]+' '/DESCRIPTION/{print $2}' /etc/lsb-release && return
 }
 
+get_ip(){
+    local IP=$( ip addr | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | egrep -v "^192\.168|^172\.1[6-9]\.|^172\.2[0-9]\.|^172\.3[0-2]\.|^10\.|^127\.|^255\.|^0\." | head -n 1 )
+    [ -z ${IP} ] && IP=$( wget -qO- -t1 -T2 ipv4.icanhazip.com )
+    [ -z ${IP} ] && IP=$( wget -qO- -t1 -T2 ipinfo.io/ip )
+    [ ! -z ${IP} ] && echo ${IP} || echo
+}
+
+get_ip_country(){
+    local country=$( wget -qO- -t1 -T2 ipinfo.io/$(get_ip)/country )
+    [ ! -z ${country} ] && echo ${country} || echo
+}
+
 #Get OS information
 get_os_info(){
-    IP=$( ip addr | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | egrep -v "^192\.168|^172\.1[6-9]\.|^172\.2[0-9]\.|^172\.3[0-2]\.|^10\.|^127\.|^255\.|^0\." | head -n 1 )
-    if [ -z ${IP} ]; then
-        IP=$( wget -qO- -t1 -T2 ipv4.icanhazip.com )
-    fi
     local cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
     local cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
     local freq=$( awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
@@ -967,7 +975,7 @@ get_os_info(){
     echo "Arch                 : ${arch} (${lbit} Bit)"
     echo "Kernel               : ${kern}"
     echo "Hostname             : ${host}"
-    echo "IPv4 address         : ${IP}"
+    echo "IPv4 address         : $(get_ip)"
     echo
     echo "########################################"
 }
