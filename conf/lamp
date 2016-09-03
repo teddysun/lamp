@@ -9,6 +9,9 @@ export PATH
 #=======================================================================#
 
 apache_location=/usr/local/apache
+mysql_location=/usr/local/mysql
+mariadb_location=/usr/local/mariadb
+percona_location=/usr/local/percona
 
 rootness(){
     if [[ $EUID -ne 0 ]]; then
@@ -25,6 +28,16 @@ vhost(){
         del ) vhost_del;;
         *) echo "action $action not found";exit 1;;
     esac
+}
+
+db_name(){
+    if [ -d ${mysql_location} ]; then
+        echo "MySQL"
+    elif [ -d ${mariadb_location} ]; then
+        echo "MariaDB"
+    elif [ -d ${percona_location} ]; then
+        echo "Percona"
+    fi
 }
 
 set_apache_allow_syntax(){
@@ -72,15 +85,15 @@ vhost_add(){
         case ${create} in
         y|Y)
             if [ ! "$(command -v "mysql")" ]; then
-                echo "Error: MySQL or MariaDB is not installed, please check it and try again."
+                echo "Error: $(db_name) is not installed, please check it and try again."
                 exit 1
             fi
-            read -p "Please enter your MySQL or MariaDB root password:" mysqlroot_passwd
+            read -p "Please enter your $(db_name) root password:" mysqlroot_passwd
             mysql -uroot -p${mysqlroot_passwd} <<EOF
 exit
 EOF
             if [ $? -ne 0 ]; then
-                echo "Error: MySQL or MariaDB root password incorrect! Please check it and try again!"
+                echo "Error: $(db_name) root password incorrect! Please check it and try again!"
                 exit 1
             fi
             read -p "Please enter the database name:" dbname
