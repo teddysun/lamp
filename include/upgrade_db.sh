@@ -217,8 +217,14 @@ EOF
             mkdir -p ${mariadb_location}
             [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
-            down_addr1=http://sfo1.mirrors.digitalocean.com/mariadb/
-            down_addr2=http://mirrors.aliyun.com/mariadb/
+            if [ "$(get_ip_country)" == "CN" ]; then
+                down_addr1=http://mirrors.aliyun.com/mariadb/
+                down_addr2=http://sfo1.mirrors.digitalocean.com/mariadb/
+            else
+                down_addr1=http://sfo1.mirrors.digitalocean.com/mariadb/
+                down_addr2=http://mirrors.aliyun.com/mariadb/
+            fi
+
             libc_version=`getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}'`
 
             if version_lt ${libc_version} 2.14; then
