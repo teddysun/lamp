@@ -771,11 +771,11 @@ firewall_set(){
         if [ -e /etc/init.d/iptables ]; then
             /etc/init.d/iptables status > /dev/null 2>&1
             if [ $? -eq 0 ]; then
-                iptables -L -n | grep '80' > /dev/null 2>&1
+                iptables -L -n | grep -i 80 > /dev/null 2>&1
                 if [ $? -ne 0 ]; then
                     iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
                 fi
-                iptables -L -n | grep '443' > /dev/null 2>&1
+                iptables -L -n | grep -i 443 > /dev/null 2>&1
                 if [ $? -ne 0 ]; then
                     iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
                 fi
