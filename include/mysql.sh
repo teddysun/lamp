@@ -1,4 +1,4 @@
-#Pre-installation mysql or mariadb
+#Pre-installation mysql or mariadb or percona
 mysql_preinstall_settings(){
 
     display_menu mysql 6
@@ -58,16 +58,69 @@ mysql_preinstall_settings(){
             read -p "mariadb server root password (default:root,leave blank for default): " mariadb_root_pass
             mariadb_root_pass=${mariadb_root_pass:=root}
             echo "$mysql root password: $mariadb_root_pass"
+        elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
+            #percona data
+            read -p "percona data location(default:${percona_location}/data,leave blank for default): " percona_data_location
+            percona_data_location=${percona_data_location:=$percona_location/data}
+            percona_data_location=`filter_location "$percona_data_location"`
+            echo "percona data location: $percona_data_location"
+
+            #set percona root password
+            read -p "percona server root password (default:root,leave blank for default): " percona_root_pass
+            percona_root_pass=${percona_root_pass:=root}
+            echo "$mysql root password: ${percona_root_pass}"
+
+            if [ "$mysql" == "${percona5_5_filename}" ];then
+                percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
+                -DMYSQL_DATADIR=${percona_data_location} \
+                -DSYSCONFDIR=/etc \
+                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+                -DDEFAULT_CHARSET=utf8mb4 \
+                -DDEFAULT_COLLATION=utf8mb4_general_ci \
+                -DWITH_EXTRA_CHARSETS=complex \
+                -DWITH_READLINE=1 \
+                -DENABLE_DTRACE=0 \
+                -DENABLED_LOCAL_INFILE=1"
+            elif [ "$mysql" == "${percona5_6_filename}" ];then
+                percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
+                -DMYSQL_DATADIR=${percona_data_location} \
+                -DSYSCONFDIR=/etc \
+                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+                -DDEFAULT_CHARSET=utf8mb4 \
+                -DDEFAULT_COLLATION=utf8mb4_general_ci \
+                -DWITH_EXTRA_CHARSETS=complex \
+                -DENABLE_DTRACE=0 \
+                -DENABLED_LOCAL_INFILE=1"
+            elif [ "$mysql" == "${percona5_7_filename}" ];then
+                percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
+                -DWITH_BOOST=${cur_dir}/software/${boost_filename} \
+                -DMYSQL_DATADIR=${percona_data_location} \
+                -DSYSCONFDIR=/etc \
+                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+                -DDEFAULT_CHARSET=utf8mb4 \
+                -DDEFAULT_COLLATION=utf8mb4_general_ci \
+                -DWITH_EXTRA_CHARSETS=complex \
+                -DWITH_EMBEDDED_SERVER=1 \
+                -DENABLE_DTRACE=0 \
+                -DENABLED_LOCAL_INFILE=1"
+            fi
         fi
     fi
 }
 
-#Install mysql server
-install_mysqld(){
+#Install Database common
+common_install(){
 
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
-    mkdir -p ${mysql_location} ${mysql_data_location}
+
+    if [ "$mysql" == "${mysql5_5_filename}" ] || [ "$mysql" == "${mysql5_6_filename}" ] || [ "$mysql" == "${mysql5_7_filename}" ];then
+        mkdir -p ${mysql_location} ${mysql_data_location}
+    elif [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
+        mkdir -p ${mariadb_location} ${mariadb_data_location}
+    elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
+        mkdir -p ${percona_location} ${percona_data_location}
+    fi
 
     if check_sys packageManager apt;then
         apt-get -y remove mysql-client mysql-server mysql-common
@@ -76,6 +129,13 @@ install_mysqld(){
         yum -y remove mysql-server mysql
         yum -y install ncurses-devel cmake m4 bison libaio perl-Data-Dumper
     fi
+
+}
+
+#Install mysql server
+install_mysqld(){
+
+    common_install
 
     cd ${cur_dir}/software/
 
@@ -173,17 +233,7 @@ EOF
 #Install mariadb server
 install_mariadb(){
 
-    id -u mysql >/dev/null 2>&1
-    [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
-    mkdir -p ${mariadb_location} ${mariadb_data_location}
-
-    if check_sys packageManager apt;then
-        apt-get -y remove mysql-client mysql-server mysql-common
-        apt-get -y install libncurses5-dev cmake m4 bison libaio1 libaio-dev
-    elif check_sys packageManager yum;then
-        yum -y remove mysql-server mysql
-        yum -y install ncurses-devel cmake m4 bison libaio perl-Data-Dumper
-    fi
+    common_install
 
     local down_addr1=http://sfo1.mirrors.digitalocean.com/mariadb/
     local down_addr2=http://mirrors.aliyun.com/mariadb/
@@ -264,3 +314,107 @@ EOF
     echo "${mariadb_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
     ldconfig
 }
+
+#Install percona server
+install_percona(){
+
+    common_install
+
+    cd ${cur_dir}/software/
+
+    if [ "$mysql" == "${percona5_5_filename}" ];then
+
+        download_file  "${percona5_5_filename}.tar.gz"
+        tar zxf ${percona5_5_filename}.tar.gz
+        cd ${percona5_5_filename}
+        error_detect "cmake ${percona_configure_args}"
+
+        error_detect "parallel_make"
+        error_detect "make install"
+        config_percona 5.5
+        
+    elif [ "$mysql" == "${percona5_6_filename}" ];then
+
+        download_file "${percona5_6_filename}.tar.gz"
+        tar zxf ${percona5_6_filename}.tar.gz
+        cd ${percona5_6_filename}
+        error_detect "cmake ${percona_configure_args}"
+        error_detect "parallel_make"
+        error_detect "make install"
+        config_percona 5.6
+
+    elif [ "$mysql" == "${percona5_7_filename}" ];then
+
+        download_file "${boost_filename}.tar.gz"
+        tar zxf ${boost_filename}.tar.gz
+
+        download_file "${percona5_7_filename}.tar.gz"
+        tar zxf ${percona5_7_filename}.tar.gz
+        cd ${percona5_7_filename}
+        error_detect "cmake ${percona_configure_args}"
+        error_detect "parallel_make"
+        error_detect "make install"
+        config_percona 5.7
+    fi
+
+    add_to_env "${percona_location}"
+    #Fix libmysqlclient issue
+    ln -sv ${percona_location}/lib/libperconaserverclient.a ${percona_location}/lib/libmysqlclient.a
+    if [ "$mysql" != "${percona5_7_filename}" ]; then
+        ln -sv ${percona_location}/lib/libperconaserverclient_r.a ${percona_location}/lib/libmysqlclient_r.a
+    fi
+    if [ -d "${percona_location}/lib" ] && [ ! -d "${percona_location}/lib64" ];then
+        cd ${percona_location}
+        ln -s lib lib64
+    fi
+}
+
+#Configuration percona
+config_percona(){
+    local version=$1
+
+    if [ -f /etc/my.cnf ];then
+        mv /etc/my.cnf /etc/my.cnf.bak
+    fi
+    [ -d '/etc/mysql' ] && mv /etc/mysql{,_bk}
+
+    chown -R mysql:mysql ${percona_location} ${percona_data_location}
+
+    #create my.cnf
+    create_mysql_my_cnf "${percona_data_location}" "false" "false" "/etc/my.cnf"
+
+    cp -f ${percona_location}/support-files/mysql.server /etc/init.d/mysqld
+    sed -i "s:^basedir=.*:basedir=${percona_location}:g" /etc/init.d/mysqld
+    sed -i "s:^datadir=.*:datadir=${percona_data_location}:g" /etc/init.d/mysqld
+    chmod +x /etc/init.d/mysqld
+
+    if [ ${version} == "5.5" ] || [ ${version} == "5.6" ];then
+        ${percona_location}/scripts/mysql_install_db --basedir=${percona_location} --datadir=${percona_data_location} --user=mysql
+    elif [ ${version} == "5.7" ];then
+        ${percona_location}/bin/mysqld --initialize-insecure --basedir=${percona_location} --datadir=${percona_data_location} --user=mysql
+    fi
+
+    rm -f /usr/bin/mysql /usr/bin/mysqldump
+    ln -sv ${percona_location}/bin/mysql /usr/bin/mysql
+    ln -sv ${percona_location}/bin/mysqldump /usr/bin/mysqldump
+    boot_start mysqld
+
+    /etc/init.d/mysqld start
+    ${percona_location}/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${percona_root_pass}\" with grant option;"
+    ${percona_location}/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${percona_root_pass}\" with grant option;"
+    ${percona_location}/bin/mysql -uroot -p${percona_root_pass} <<EOF
+drop database if exists test;
+delete from mysql.user where not (user='root');
+delete from mysql.user where password='';
+delete from mysql.db where user='';
+flush privileges;
+exit
+EOF
+    /etc/init.d/mysqld stop
+
+    rm -f /etc/ld.so.conf.d/mysql.conf
+    echo "${percona_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
+    echo "${percona_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
+    ldconfig
+}
+
