@@ -21,7 +21,7 @@ upgrade_php(){
     elif [ "${php_version}" == "5.4" ];then
         latest_php='5.4.45'
     elif [ "${php_version}" == "5.5" ];then
-        latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.5')
+        latest_php='5.5.38'
     elif [ "${php_version}" == "5.6" ];then
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.6')
     elif [ "${php_version}" == "7.0" ];then
@@ -55,9 +55,11 @@ upgrade_php(){
 
     if [[ "${upgrade_php}" = "y" || "${upgrade_php}" = "Y" ]];then
 
-        if [ "${php_version}" == "5.3" ] || [ "${php_version}" == "5.4" ];then
-            echo "${installed_php} is already the latest version and not need to upgrade, nothing to do..."
-            exit
+        if [ "${php_version}" == "5.3" ] || [ "${php_version}" == "5.4" ] || [ "${php_version}" == "5.5" ];then
+            if [ "${installed_php}" == "${latest_php}" ]; then
+                echo "${installed_php} is already the latest version and not need to upgrade, nothing to do..."
+                exit
+            fi
         fi
 
         echo "PHP upgrade start..."
@@ -92,6 +94,12 @@ upgrade_php(){
                 with_mysql="--with-mysqli=${mysql_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
             else
                 with_mysql="--with-mysql=${mysql_location} --with-mysqli=${mysql_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
+            fi
+        elif [ -d ${percona_location} ]; then
+            if [ "${php_version}" == "7.0" ];then
+                with_mysql="--with-mysqli=${percona_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
+            else
+                with_mysql="--with-mysql=${percona_location} --with-mysqli=${percona_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
             fi
         fi
 
@@ -134,6 +142,7 @@ upgrade_php(){
         --with-pdo_sqlite \
         --with-sqlite3 \
         --with-openssl \
+        --with-snmp \
         --without-pear \
         --with-pdo-mysql \
         --with-png-dir \
