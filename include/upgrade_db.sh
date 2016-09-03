@@ -1,12 +1,8 @@
 #upgrade database
 upgrade_db(){
 
-    if [ ! -d ${mysql_location} ] && [ ! -d ${mariadb_location} ]; then
-        echo "Error:MySQL or MariaDB looks like not installed, please check it and try again."
-        exit 1
-    fi
-    if [ -d ${mysql_location} ] && [ -d ${mariadb_location} ]; then
-        echo "Error:MySQL and MariaDB all existed, please check it and try again."
+    if [ ! -d ${mysql_location} ] && [ ! -d ${mariadb_location} ] && [ ! -d ${percona_location} ]; then
+        echo "Error:MySQL or MariaDB or Percona looks like not installed, please check it and try again."
         exit 1
     fi
 
@@ -14,6 +10,7 @@ upgrade_db(){
     bkup_file="mysqld_${update_date}.bak"
 
     if [ -d ${mysql_location} ];then
+        db_flg="mysql"
         bkup_dir="${cur_dir}/mysql_bkup"
         mysql_dump="${bkup_dir}/mysql_all_backup_${update_date}.dump"
         installed_mysql=`${mysql_location}/bin/mysql -V | awk '{print $5}' | tr -d ","`
@@ -30,6 +27,7 @@ upgrade_db(){
         echo -e "Installed version of MySQL: \033[41;37m ${installed_mysql} \033[0m"
 
     elif [ -d ${mariadb_location} ];then
+        db_flg="mariadb"
         bkup_dir="${cur_dir}/mariadb_bkup"
         mysql_dump="${bkup_dir}/mariadb_all_backup_${update_date}.dump"
         installed_mariadb=`${mariadb_location}/bin/mysql -V | awk '{print $5}' | tr -d "," | cut -d- -f1`
@@ -44,11 +42,38 @@ upgrade_db(){
 
         echo -e "Latest version of MariaDB: \033[41;37m ${latest_mariadb} \033[0m"
         echo -e "Installed version of MariaDB: \033[41;37m ${installed_mariadb} \033[0m"
+    elif [ -d ${percona_location} ];then
+        db_flg="percona"
+        bkup_dir="${cur_dir}/percona_bkup"
+        mysql_dump="${bkup_dir}/percona_all_backup_${update_date}.dump"
+        installed_percona=`${percona_location}/bin/mysql -V | awk '{print $5}' | tr -d ","`
+        percona_ver=`echo ${installed_percona} | cut -d. -f1-2`
+        if   [ "${percona_ver}" == "5.5" ]; then
+            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.5/LATEST/ | grep "title" | awk -F 'Percona-Server-' '/Percona-Server-5.5/{print $2}' | cut -d'<' -f1`
+        elif [ "${percona_ver}" == "5.6" ]; then
+            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.6/LATEST/ | grep "title" | awk -F 'Percona-Server-' '/Percona-Server-5.6/{print $2}' | cut -d'<' -f1`
+        elif [ "${percona_ver}" == "5.7" ]; then
+            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.7/LATEST/ | grep "title" | awk -F 'Percona-Server-' '/Percona-Server-5.7/{print $2}' | cut -d'<' -f1`
+        fi
+
+        echo -e "Latest version of Percona: \033[41;37m ${latest_percona} \033[0m"
+        echo -e "Installed version of Percona: \033[41;37m ${installed_percona} \033[0m"
 
     fi
 
+    db_name(){
+        if [ "${db_flg}" == "mysql" ]; then
+            echo "MySQL"
+        elif [ "${db_flg}" == "mariadb" ]; then
+            echo "MariaDB"
+        elif [ "${db_flg}" == "percona" ]; then
+            echo "Percona"
+        fi
+    }
+
     echo
-    echo "Do you want to upgrade MySQL/MariaDB ? (y/n)"
+    echo "Do you want to upgrade $(db_name) ? (y/n)"
+
     read -p "(Default: n):" upgrade_db
     if [ -z ${upgrade_db} ]; then
         upgrade_db="n"
@@ -72,14 +97,14 @@ upgrade_db(){
 
 
     if [[ "${upgrade_db}" = "y" || "${upgrade_db}" = "Y" ]];then
-        echo "MySQL/MariaDB upgrade start..."
+        echo "$(db_name) upgrade start..."
 
         mysql_count=`ps -ef | grep -v grep | grep -c "mysqld"`
         if [ ${mysql_count} -eq 0 ]; then
-            echo "MySQL/MariaDB looks like not running, Try to starting MySQL/MariaDB..."
+            echo "$(db_name) looks like not running, Try to starting $(db_name)..."
             /etc/init.d/mysqld start
             if [ $? -ne 0 ]; then
-                echo "MySQL/MariaDB starting failed!"
+                echo "$(db_name) starting failed!"
                 exit 1
             fi
         fi
@@ -88,29 +113,29 @@ upgrade_db(){
             mkdir -p ${bkup_dir}
         fi
 
-        read -p "Please input your MySQL/MariaDB root password:" mysql_root_password
+        read -p "Please input your $(db_name) root password:" mysql_root_password
         /usr/bin/mysql -uroot -p${mysql_root_password} <<EOF
 exit
 EOF
         if [ $? -ne 0 ]; then
-            echo "MySQL/MariaDB root password incorrect! Please check it and try again!"
+            echo "$(db_name) root password incorrect! Please check it and try again!"
             exit 2
         fi
 
         echo "Starting backup all of databases, Please wait a moment..."
         /usr/bin/mysqldump -uroot -p${mysql_root_password} --all-databases > ${mysql_dump}
         if [ $? -eq 0 ]; then
-            echo "MySQL/MariaDB all of databases backup success"
+            echo "$(db_name) all of databases backup success"
         else
-            echo "MySQL/MariaDB all of databases backup failed, Please check it and try again!"
+            echo "$(db_name) all of databases backup failed, Please check it and try again!"
             exit 3
         fi
-        echo "Stoping MySQL/MariaDB..."
+        echo "Stoping $(db_name)..."
         /etc/init.d/mysqld stop
         if [ $? -eq 0 ]; then
-            echo "MySQL/MariaDB stop success"
+            echo "$(db_name) stop success"
         else
-            echo "MySQL/MariaDB stop failed! Please check it and try again!"
+            echo "$(db_name) stop failed! Please check it and try again!"
             exit 4
         fi
         cp -pf /etc/init.d/mysqld ${bkup_dir}/${bkup_file}
@@ -225,6 +250,67 @@ EOF
 
             ${mariadb_location}/scripts/mysql_install_db --basedir=${mariadb_location} --datadir=${datalocation} --user=mysql
 
+        elif [ -d ${percona_location} ];then
+            if [ -d ${percona_location}.bak ];then
+                rm -rf ${percona_location}.bak
+            fi
+            mv ${percona_location} ${percona_location}.bak
+
+            if [ "${percona_ver}" == "5.7" ]; then
+                download_file "${boost_filename}.tar.gz"
+                tar zxf ${boost_filename}.tar.gz
+                percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
+                -DWITH_BOOST=${cur_dir}/software/${boost_filename} \
+                -DMYSQL_DATADIR=${datalocation} \
+                -DSYSCONFDIR=/etc \
+                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+                -DDEFAULT_CHARSET=utf8mb4 \
+                -DDEFAULT_COLLATION=utf8mb4_general_ci \
+                -DWITH_EXTRA_CHARSETS=complex \
+                -DWITH_EMBEDDED_SERVER=1 \
+                -DENABLE_DTRACE=0 \
+                -DENABLED_LOCAL_INFILE=1"
+            else
+                percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
+                -DMYSQL_DATADIR=${datalocation} \
+                -DSYSCONFDIR=/etc \
+                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+                -DDEFAULT_CHARSET=utf8mb4 \
+                -DDEFAULT_COLLATION=utf8mb4_general_ci \
+                -DWITH_EXTRA_CHARSETS=complex \
+                -DWITH_READLINE=1 \
+                -DENABLE_DTRACE=0 \
+                -DENABLED_LOCAL_INFILE=1"
+            fi
+
+            if [ ! -s percona-server-${latest_percona}.tar.gz ]; then
+                latest_percona_link="https://www.percona.com/downloads/Percona-Server-${percona_ver}/Percona-Server-${latest_percona}/source/tarball/percona-server-${latest_percona}.tar.gz"
+                backup_percona_link="http://dl.teddysun.com/files/percona-server-${latest_percona}.tar.gz"
+                untar ${latest_percona_link} ${backup_percona_link}
+            else
+                tar -zxf percona-server-${latest_percona}.tar.gz
+                cd percona-server-${latest_percona}
+            fi
+
+            error_detect "cmake ${percona_configure_args}"
+            error_detect "parallel_make"
+            error_detect "make install"
+            if [ -d "${percona_location}/lib" ] && [ ! -d "${percona_location}/lib64" ];then
+                cd ${percona_location}
+                ln -s lib lib64
+            fi
+            chown -R mysql:mysql ${percona_location} ${datalocation}
+            cp -f ${percona_location}/support-files/mysql.server /etc/init.d/mysqld
+            sed -i "s:^basedir=.*:basedir=${percona_location}:g" /etc/init.d/mysqld
+            sed -i "s:^datadir=.*:datadir=${datalocation}:g" /etc/init.d/mysqld
+            chmod +x /etc/init.d/mysqld
+
+            if [ ${percona_ver} == "5.5" ] || [ ${percona_ver} == "5.6" ];then
+                ${percona_location}/scripts/mysql_install_db --basedir=${percona_location} --datadir=${datalocation} --user=mysql
+            elif [ ${percona_ver} == "5.7" ];then
+                ${percona_location}/bin/mysqld --initialize-insecure --basedir=${percona_location} --datadir=${datalocation} --user=mysql
+            fi
+
         fi
 
         if [ -d "/proc/vz" ]; then
@@ -232,7 +318,7 @@ EOF
         fi
         /etc/init.d/mysqld start
         if [ $? -ne 0 ]; then
-            echo "Starting MySQL/MariaDB failed, Please check it and try again!"
+            echo "Starting $(db_name) failed, Please check it and try again!"
             exit 5
         fi
         /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${mysql_root_password}\" with grant option;"
@@ -247,12 +333,12 @@ EOF
         echo "Starting restore all of databases, Please wait a moment..."
         /usr/bin/mysql -uroot -p${mysql_root_password} < ${mysql_dump}
         if [ $? -eq 0 ]; then
-            echo "MySQL/MariaDB all of databases restore success"
+            echo "$(db_name) all of databases restore success"
         else
-            echo "MySQL/MariaDB all of databases restore failed, Please restore it manually!"
+            echo "$(db_name) all of databases restore failed, Please restore it manually!"
             exit 6
         fi
-        echo "Restart MySQL/MariaDB..."
+        echo "Restart $(db_name)..."
         /etc/init.d/mysqld restart
         echo "Restart Apache..."
         /etc/init.d/httpd restart
@@ -262,13 +348,13 @@ EOF
         rm -rf mysql-* mariadb-*
         echo "Clear up completed..."
         echo
-        echo "MySQL/MariaDB upgrade completed..."
+        echo "$(db_name) upgrade completed..."
         echo "Welcome to visit:https://lamp.sh"
         echo "Enjoy it!"
         echo
     else
         echo
-        echo "MySQL/MariaDB upgrade cancelled, nothing to do..."
+        echo "$(db_name) upgrade cancelled, nothing to do..."
         echo
     fi
 
