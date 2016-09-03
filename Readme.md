@@ -1,7 +1,7 @@
 ![LAMP](https://github.com/teddysun/lamp/raw/master/conf/lamp.gif)
 Description
 ===========
-LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB and so on.You can install Apache + PHP + MySQL/MariaDB in an very easy way,Just need to input numbers to choose what you want to install before installation. And all things will be done in a few minutes.
+LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB/Percona and so on.You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way,Just need to input numbers to choose what you want to install before installation. And all things will be done in a few minutes.
 
 Supported System
 ===============
@@ -19,7 +19,7 @@ Supported System
 Supported Software
 ==================
 * Apache-2.2 Apache-2.4
-* MySQL-5.5 MySQL-5.6 MySQL-5.7 MariaDB-5.5 MariaDB-10.0 MariaDB-10.1
+* MySQL-5.5 MySQL-5.6 MySQL-5.7 MariaDB-5.5 MariaDB-10.0 MariaDB-10.1 Percona-Server-5.5 Percona-Server-5.6 Percona-Server-5.7
 * PHP-5.3 PHP-5.4 PHP-5.5 PHP-5.6 PHP-7.0
 * PHP Module: OPcache ZendGuardLoader ionCube_Loader XCache Imagemagick GraphicsMagick Memcache Memcached Redis Mongo Swoole
 * Other Software: Memcached phpMyAdmin Redis-Server
@@ -90,6 +90,12 @@ Default Location
 | Data Location              | /usr/local/mariadb/data                 |
 | my.cnf Configuration File  | /etc/my.cnf                             |
 
+| Percona Location           |                                         |
+|----------------------------|-----------------------------------------|
+| Install Prefix             | /usr/local/percona                      |
+| Data Location              | /usr/local/percona/data                 |
+| my.cnf Configuration File  | /etc/my.cnf                             |
+
 Process Management
 ==================
 | Process     | Command                                                 |
@@ -97,6 +103,7 @@ Process Management
 | Apache      | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
 | MySQL       | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
 | MariaDB     | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
+| Percona     | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
 | Memcached   | /etc/init.d/memcached (start\|stop\|restart)            |
 | Redis-Server| /etc/init.d/redis-server (start\|stop\|restart)         |
 
