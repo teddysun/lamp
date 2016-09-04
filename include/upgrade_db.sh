@@ -316,6 +316,11 @@ EOF
             elif [ ${percona_ver} == "5.7" ];then
                 ${percona_location}/bin/mysqld --initialize-insecure --basedir=${percona_location} --datadir=${datalocation} --user=mysql
             fi
+            #Fix libmysqlclient issue
+            ln -sv ${percona_location}/lib/libperconaserverclient.a ${percona_location}/lib/libmysqlclient.a
+            if [ ${percona_ver} != "5.7" ]; then
+                ln -sv ${percona_location}/lib/libperconaserverclient_r.a ${percona_location}/lib/libmysqlclient_r.a
+            fi
 
         fi
 
