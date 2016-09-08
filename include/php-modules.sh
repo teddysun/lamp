@@ -15,14 +15,15 @@ php_modules_preinstall_settings(){
         elif [ "$php" == "${php5_6_filename}" ];then
             php_modules_arr=(${php_modules_arr[@]#${opcache_filename}})
         elif [ "$php" == "${php7_0_filename}" ];then
-            #delete some modules
+            # delete some modules & change some module version
             php_modules_arr=(${php_modules_arr[@]#${opcache_filename}})
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]#${ZendGuardLoader_filename}})
             php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${php_graphicsmagick_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_mongo_filename}})
+            php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
+            php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         fi
         display_menu_multi php_modules last
     fi
@@ -48,11 +49,16 @@ install_php_modules(){
     if_in_array "${ionCube_filename}" "$php_modules_install" && install_ionCube "${phpConfig}"
     if_in_array "${xcache_filename}" "$php_modules_install" && install_xcache "${phpConfig}"
     if_in_array "${php_imagemagick_filename}" "$php_modules_install" && install_php_imagesmagick "${phpConfig}"
-    if_in_array "${php_graphicsmagick_filename}" "$php_modules_install" && install_php_graphicsmagick "${phpConfig}"
     if_in_array "${php_memcached_filename}" "$php_modules_install" && install_php_memcached "${phpConfig}"
-    if_in_array "${php_redis_filename}" "$php_modules_install" && install_php_redis "${phpConfig}"
     if_in_array "${php_mongo_filename}" "$php_modules_install" && install_php_mongo "${phpConfig}"
     if_in_array "${swoole_filename}" "$php_modules_install" && install_swoole "${phpConfig}"
+    if [ "$php" == "${php7_0_filename}" ]; then
+        if_in_array "${php_graphicsmagick_filename2}" "$php_modules_install" && install_php_graphicsmagick "${phpConfig}"
+        if_in_array "${php_redis_filename2}" "$php_modules_install" && install_php_redis "${phpConfig}"
+    else
+        if_in_array "${php_graphicsmagick_filename}" "$php_modules_install" && install_php_graphicsmagick "${phpConfig}"
+        if_in_array "${php_redis_filename}" "$php_modules_install" && install_php_redis "${phpConfig}"
+    fi
 }
 
 
@@ -518,9 +524,16 @@ install_php_graphicsmagick(){
 
     cd ${cur_dir}/software/
 
-    download_file "${php_graphicsmagick_filename}.tgz"
-    tar zxf ${php_graphicsmagick_filename}.tgz
-    cd ${php_graphicsmagick_filename}
+    if [ "$php" == "${php7_0_filename}" ]; then
+        download_file "${php_graphicsmagick_filename2}.tgz"
+        tar zxf ${php_graphicsmagick_filename2}.tgz
+        cd ${php_graphicsmagick_filename2}
+    else
+        download_file "${php_graphicsmagick_filename}.tgz"
+        tar zxf ${php_graphicsmagick_filename}.tgz
+        cd ${php_graphicsmagick_filename}
+    fi
+
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
     error_detect "make"
@@ -691,9 +704,16 @@ install_php_redis(){
     if [ ${RT} -eq 0 ];then
         cd ${cur_dir}/software/
         echo "php-redis install start..."
-        download_file  "${php_redis_filename}.tgz"
-        tar zxf ${php_redis_filename}.tgz
-        cd ${php_redis_filename}
+        if [ "$php" == "${php7_0_filename}" ]; then
+            download_file  "${php_redis_filename2}.tgz"
+            tar zxf ${php_redis_filename2}.tgz
+            cd ${php_redis_filename2}
+        else
+            download_file  "${php_redis_filename}.tgz"
+            tar zxf ${php_redis_filename}.tgz
+            cd ${php_redis_filename}
+        fi
+
         error_detect "${php_location}/bin/phpize"
         error_detect "./configure --enable-redis --with-php-config=${phpConfig}"
         error_detect "make"

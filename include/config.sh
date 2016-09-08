@@ -95,7 +95,9 @@ set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
 GraphicsMagick_filename="GraphicsMagick-1.3.24"
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
+php_graphicsmagick_filename2="gmagick-2.0.4RC1"
 set_hint ${php_graphicsmagick_filename} "php-${php_graphicsmagick_filename}"
+set_hint ${php_graphicsmagick_filename2} "php-${php_graphicsmagick_filename2}"
 #ionCube
 ionCube_filename="ioncube_loaders"
 ionCube32_filename="ioncube_loaders_lin_x86"
@@ -124,8 +126,10 @@ set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 #redis
 redis_filename="redis-3.2.3"
 #php-redis
-php_redis_filename="redis-3.0.0"
+php_redis_filename="redis-2.2.8"
+php_redis_filename2="redis-3.0.0"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
+set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mandodb
 php_mongo_filename="mongo-1.6.14"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
