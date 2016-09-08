@@ -99,7 +99,7 @@ install_php_depends(){
         yum_depends=(
             m4 autoconf bison bzip2-devel pam-devel gmp-devel libicu-devel openldap openldap-devel patch
             libxml2-devel openssl openssl-devel zlib-devel curl-devel pcre-devel libtool-libs libtool-ltdl-devel
-            libjpeg-devel libpng-devel freetype-devel mhash-devel libmcrypt-devel libxslt libxslt-devel
+            libjpeg-devel libpng-devel freetype-devel libmcrypt-devel libxslt libxslt-devel
             net-snmp net-snmp-devel net-snmp-utils net-snmp-perl
         )
         for depend in ${yum_depends[@]}
