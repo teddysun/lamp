@@ -1,15 +1,15 @@
-#! /bin/bash
+#!/usr/bin/env bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-#=======================================================================#
-#   System Required:  CentOS/RadHat 5+ / Debian 7+ / Ubuntu 12+         #
-#   Description:  Update LAMP(Linux + Apache + MySQL/MariaDB + PHP )    #
-#   Author: Teddysun <i@teddysun.com>                                   #
-#   Intro:  https://lamp.sh                                             #
-#=======================================================================#
+#===============================================================================#
+#   System Required:  CentOS/RadHat 5+ / Debian 7+ / Ubuntu 12+                 #
+#   Description:  Update LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )    #
+#   Author: Teddysun <i@teddysun.com>                                           #
+#   Intro:  https://lamp.sh                                                     #
+#===============================================================================#
 cur_dir=`pwd`
 
-[[ $EUID -ne 0 ]] && echo "Error:This script must be run as root!" && exit 1
+[[ $EUID -ne 0 ]] && echo "Error: This script must be run as root!" && exit 1
 
 include(){
     local include=$1
@@ -32,11 +32,11 @@ include upgrade_phpmyadmin
 display_menu(){
 
     echo
-    echo "#############################################################"
-    echo "# Auto Update LAMP(Linux + Apache + MySQL/MariaDB + PHP )   #"
-    echo "# Intro: https://lamp.sh                                    #"
-    echo "# Author: Teddysun <i@teddysun.com>                         #"
-    echo "#############################################################"
+    echo "#####################################################################"
+    echo "# Auto Update LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )   #"
+    echo "# Intro: https://lamp.sh                                            #"
+    echo "# Author: Teddysun <i@teddysun.com>                                 #"
+    echo "#####################################################################"
     echo
     rootness
     load_config
@@ -44,7 +44,7 @@ display_menu(){
     while :
     do
     echo -e "\t\033[32m1\033[0m. Upgrade Apache"
-    echo -e "\t\033[32m2\033[0m. Upgrade MySQL/MariaDB"
+    echo -e "\t\033[32m2\033[0m. Upgrade MySQL/MariaDB/Percona"
     echo -e "\t\033[32m3\033[0m. Upgrade PHP"
     echo -e "\t\033[32m4\033[0m. Upgrade phpMyAdmin"
     echo -e "\t\033[32m5\033[0m. Exit"
@@ -89,7 +89,7 @@ printf "
 
 Usage: $0 [ apache | db | php | phpmyadmin ]
 apache                    --->Upgrade Apache
-db                        --->Upgrade MySQL/MariaDB
+db                        --->Upgrade MySQL/MariaDB/Percona
 php                       --->Upgrade PHP
 phpmyadmin                --->Upgrade phpMyAdmin
 
@@ -105,20 +105,16 @@ elif [ $# == 1 ];then
 
     case $1 in
     apache)
-        rm -f /root/upgrade_apache.log
-        upgrade_apache 2>&1 | tee -a /root/upgrade_apache.log
+        upgrade_apache 2>&1 | tee /root/upgrade_apache.log
         ;;
     db)
-        rm -f /root/upgrade_db.log
-        upgrade_db 2>&1 | tee -a /root/upgrade_db.log
+        upgrade_db 2>&1 | tee /root/upgrade_db.log
         ;;
     php)
-        rm -f /root/upgrade_php.log
-        upgrade_php 2>&1 | tee -a /root/upgrade_php.log
+        upgrade_php 2>&1 | tee /root/upgrade_php.log
         ;;
     phpmyadmin)
-        rm -f /root/upgrade_phpmyadmin.log
-        upgrade_phpmyadmin 2>&1 | tee -a /root/upgrade_phpmyadmin.log
+        upgrade_phpmyadmin 2>&1 | tee /root/upgrade_phpmyadmin.log
         ;;
     *)
         display_usage
