@@ -399,7 +399,7 @@ opcache.save_comments=0
 EOF
     fi
     cp -f ${cur_dir}/conf/ocp.php ${web_root_dir}/ocp.php
-    chown apache:apache /${web_root_dir}/ocp.php
+    chown apache:apache ${web_root_dir}/ocp.php
     echo "opcache install completed..."
 }
 
