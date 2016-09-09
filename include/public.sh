@@ -872,7 +872,11 @@ finally(){
     [ "$apache" != "do_not_install" ] && echo "Start Apache..." && /etc/init.d/httpd start
     [ "$mysql" != "do_not_install" ] && echo "Start MySQL or MariaDB..." && /etc/init.d/mysqld start
     if_in_array "${php_memcached_filename}" "$php_modules_install" && echo "Start Memcached..." && /etc/init.d/memcached start
-    if_in_array "${php_redis_filename}" "$php_modules_install" && echo "Start Redis-server..." && /etc/init.d/redis-server start
+    if [ "$php" == "${php7_0_filename}" ]; then
+        if_in_array "${php_redis_filename2}" "$php_modules_install" && echo "Start Redis-server..." && /etc/init.d/redis-server start
+    else
+        if_in_array "${php_redis_filename}" "$php_modules_install" && echo "Start Redis-server..." && /etc/init.d/redis-server start
+    fi
 
     # Install phpmyadmin database
     if [ -d "${web_root_dir}/phpmyadmin" ];then
