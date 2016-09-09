@@ -113,61 +113,34 @@ install_php(){
         cp ${cur_dir}/conf/php-5.3.patch ./
         patch -p1 < php-5.3.patch
 
-        error_detect "./configure ${php_configure_args}"
-        error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
-        error_detect "make install"
-
-        mkdir -p ${php_location}/etc
-        mkdir -p ${php_location}/php.d
-
     elif [ "$php" == "${php5_4_filename}" ];then
         download_file  "${php5_4_filename}.tar.gz"
         tar zxf ${php5_4_filename}.tar.gz
         cd ${php5_4_filename}
-
-        error_detect "./configure ${php_configure_args}"
-        error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
-        error_detect "make install"
-
-        mkdir -p ${php_location}/etc
-        mkdir -p ${php_location}/php.d
 
     elif [ "$php" == "${php5_5_filename}" ];then
         download_file  "${php5_5_filename}.tar.gz"
         tar zxf ${php5_5_filename}.tar.gz
         cd ${php5_5_filename}
 
-        error_detect "./configure ${php_configure_args}"
-        error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
-        error_detect "make install"
-
-        mkdir -p ${php_location}/etc
-        mkdir -p ${php_location}/php.d
-
     elif [ "$php" == "${php5_6_filename}" ];then
         download_file  "${php5_6_filename}.tar.gz"
         tar zxf ${php5_6_filename}.tar.gz
         cd ${php5_6_filename}
-
-        error_detect "./configure ${php_configure_args}"
-        error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
-        error_detect "make install"
-
-        mkdir -p ${php_location}/etc
-        mkdir -p ${php_location}/php.d
 
     elif [ "$php" == "${php7_0_filename}" ];then
         download_file  "${php7_0_filename}.tar.gz"
         tar zxf ${php7_0_filename}.tar.gz
         cd ${php7_0_filename}
 
-        error_detect "./configure ${php_configure_args}"
-        error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
-        error_detect "make install"
-
-        mkdir -p ${php_location}/etc
-        mkdir -p ${php_location}/php.d
     fi
+
+    error_detect "./configure ${php_configure_args}"
+    error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
+    error_detect "make install"
+
+    mkdir -p ${php_location}/etc
+    mkdir -p ${php_location}/php.d
 
     cp -f ${cur_dir}/conf/php.ini ${php_location}/etc/php.ini
     config_php
