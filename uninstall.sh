@@ -1,12 +1,12 @@
-#! /bin/bash
+#!/usr/bin/env bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-#=======================================================================#
-#   System Required:  CentOS/RadHat 5+ / Debian 7+ / Ubuntu 12+         #
-#   Description:  Uninstall LAMP(Linux + Apache + MySQL/MariaDB + PHP ) #
-#   Author: Teddysun <i@teddysun.com>                                   #
-#   Intro:  https://lamp.sh                                             #
-#=======================================================================#
+#===============================================================================#
+#   System Required:  CentOS/RadHat 5+ / Debian 7+ / Ubuntu 12+                 #
+#   Description:  Uninstall LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )   #
+#   Author: Teddysun <i@teddysun.com>                                           #
+#   Intro:  https://lamp.sh                                                     #
+#===============================================================================#
 
 cur_dir=`pwd`
 
@@ -79,27 +79,27 @@ uninstall(){
     rm -rf /usr/local/apache /usr/sbin/httpd /var/log/httpd /etc/logrotate.d/httpd /var/spool/mail/apache
     echo "Sucess"
 
-    echo "uninstalling MySQL/MariaDB"
+    echo "uninstalling MySQL/MariaDB/Percona"
     [ -f /etc/init.d/mysqld ] && /etc/init.d/mysqld stop && boot_stop mysqld
     rm -f /etc/init.d/mysqld
-    rm -rf /usr/local/mysql /usr/local/mariadb /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
+    rm -rf /usr/local/mysql /usr/local/mariadb /usr/local/percona /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
     echo "Sucess"
 
     echo "uninstalling PHP"
     rm -rf /usr/local/php /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
     echo "Sucess"
     echo
-    echo "uninstalling Others"
+    echo "uninstalling Others software"
     [ -f /etc/init.d/memcached ] && /etc/init.d/memcached stop && boot_stop memcached
     rm -f /etc/init.d/memcached
     rm -fr /usr/local/memcached /usr/bin/memcached
     [ -f /etc/init.d/redis-server ] && /etc/init.d/redis-server stop && boot_stop redis-server
     rm -f /etc/init.d/redis-server
-    rm -rf /etc/init.d/redis-server /usr/local/redis
+    rm -rf /usr/local/redis
     rm -rf /usr/local/libiconv /usr/lib64/libiconv.so.0 /usr/lib/libiconv.so.0
     rm -rf /usr/local/imap-2007f
     rm -rf /usr/local/pcre
-    rm -rf /etc/ld.so.conf.d/local.conf
+    rm -rf /etc/ld.so.conf.d/locallib.conf
     rm -rf /data/www/default/phpmyadmin
     rm -rf /data/www/default/xcache /tmp/{pcov,phpcore}
     echo "Sucess"
@@ -115,6 +115,6 @@ do
     case ${uninstall} in
         y) uninstall ; break;;
         n) echo "Uninstall cancelled, nothing to do" ; break;;
-        *) echo "input error";;
+        *) echo "Input error!";;
     esac
 done
