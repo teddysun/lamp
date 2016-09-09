@@ -37,6 +37,8 @@ db_name(){
         echo "MariaDB"
     elif [ -d ${percona_location} ]; then
         echo "Percona"
+    else
+        echo "MySQL"
     fi
 }
 
