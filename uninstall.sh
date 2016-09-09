@@ -3,7 +3,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #===============================================================================#
 #   System Required:  CentOS/RadHat 5+ / Debian 7+ / Ubuntu 12+                 #
-#   Description:  Uninstall LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )   #
+#   Description:  Uninstall LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP ) #
 #   Author: Teddysun <i@teddysun.com>                                           #
 #   Intro:  https://lamp.sh                                                     #
 #===============================================================================#
