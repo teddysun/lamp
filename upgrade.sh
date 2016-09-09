@@ -55,27 +55,23 @@ display_menu(){
     else
         case "$Number" in
         1)
-            rm -f /root/upgrade_apache.log
-            upgrade_apache 2>&1 | tee -a /root/upgrade_apache.log
+            upgrade_apache 2>&1 | tee /root/upgrade_apache.log
             break
             ;;
         2)
-            rm -f /root/upgrade_db.log
-            upgrade_db 2>&1 | tee -a /root/upgrade_db.log
+            upgrade_db 2>&1 | tee /root/upgrade_db.log
             break
             ;;
         3)
-            rm -f /root/upgrade_php.log
-            upgrade_php 2>&1 | tee -a /root/upgrade_php.log
+            upgrade_php 2>&1 | tee /root/upgrade_php.log
             break
             ;;
         4)
-            rm -f /root/upgrade_phpmyadmin.log
-            upgrade_phpmyadmin 2>&1 | tee -a /root/upgrade_phpmyadmin.log
+            upgrade_phpmyadmin 2>&1 | tee /root/upgrade_phpmyadmin.log
             break
             ;;
         5)
-            exit 0
+            exit
             ;;
         esac
     fi
