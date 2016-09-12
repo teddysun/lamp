@@ -32,11 +32,7 @@ php_modules_preinstall_settings(){
 
 #Pre-installation phpmyadmin
 phpmyadmin_preinstall_settings(){
-    if [[ "$php" == "do_not_install" ]];then
-        phpmyadmin_install="do_not_install"
-    fi
-
-    if [[ "$phpmyadmin_install" != "do_not_install" ]];then
+    if [[ "$php" != "do_not_install" ]];then
         display_menu phpmyadmin 1
     fi
 }
