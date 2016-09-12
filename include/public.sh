@@ -920,7 +920,7 @@ install_lamp(){
     if [ "$php" != "do_not_install" ] && [ "$apache" != "do_not_install" ]; then
         check_installed "install_php" "${php_location}"
     fi
-    [ "$phpmyadmin_install" != "do_not_install" ] && install_phpmyadmin
+    [ "$phpmyadmin" != "do_not_install" ] && install_phpmyadmin
     [ "$php_modules_install" != "do_not_install" ] && install_php_modules "$phpConfig"
 
     finally
