@@ -674,9 +674,9 @@ versionget(){
 centosversion(){
     if check_sys sysRelease centos;then
         local code=$1
-        local version="`versionget`"
+        local version="$(versionget)"
         local main_ver=${version%%.*}
-        if [ $main_ver == $code ];then
+        if [ "$main_ver" == "$code" ];then
             return 0
         else
             return 1
