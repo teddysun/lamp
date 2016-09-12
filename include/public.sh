@@ -731,10 +731,10 @@ last_confirm(){
     [ "$php" != "do_not_install" ] && echo "PHP Location: $php_location"
     [ "$php_modules_install" != "do_not_install" ] && echo "PHP Modules: ${php_modules_install}"
     echo
-    [ "$phpmyadmin_install" != "do_not_install" ] && echo "*****phpMyAdmin Setting*****"
-    [ "$phpmyadmin_install" != "do_not_install" ] && echo "phpMyAdmin: $phpmyadmin"
+    echo "*****phpMyAdmin Setting*****"
+    echo "phpMyAdmin: $phpmyadmin"
     [ "$phpmyadmin" != "do_not_install" ] && echo "phpMyAdmin Location: ${web_root_dir}/phpmyadmin"
-    [ "$phpmyadmin_install" != "do_not_install" ] && echo
+    echo
     echo "##########################################################"
     echo
     get_char(){
