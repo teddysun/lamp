@@ -5,9 +5,7 @@ php_modules_preinstall_settings(){
         php_modules_install="do_not_install"
     else
         phpConfig=${php_location}/bin/php-config
-    fi
 
-    if [[ "$php_modules_install" != "do_not_install" ]];then
         echo "$php version available modules:"
         echo
         if [ "$php" == "${php5_5_filename}" ];then
@@ -32,7 +30,9 @@ php_modules_preinstall_settings(){
 
 #Pre-installation phpmyadmin
 phpmyadmin_preinstall_settings(){
-    if [[ "$php" != "do_not_install" ]];then
+    if [[ "$php" == "do_not_install" ]];then
+        phpmyadmin="do_not_install"
+    else
         display_menu phpmyadmin 1
     fi
 }
