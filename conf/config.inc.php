@@ -5,14 +5,14 @@
  * manual configuration. For easier setup you can use setup/
  *
  * All directives are explained in documentation in the doc/ folder
- * or at <http://docs.phpmyadmin.net/>.
+ * or at <https://docs.phpmyadmin.net/>.
  *
  * @package PhpMyAdmin
  */
  
 /*
  * This is needed for cookie based authentication to encrypt password in
- * cookie
+ * cookie. Needs to be 32 chars long.
  */
 $cfg['blowfish_secret'] = 'c8e0ca9c430c714ffc1104394c02a053'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
 
@@ -56,7 +56,6 @@ $cfg['Servers'][$i]['column_info'] = 'pma__column_info';
 $cfg['Servers'][$i]['history'] = 'pma__history';
 $cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
 $cfg['Servers'][$i]['tracking'] = 'pma__tracking';
-$cfg['Servers'][$i]['designer_coords'] = 'pma__designer_coords';
 $cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
 $cfg['Servers'][$i]['recent'] = 'pma__recent';
 $cfg['Servers'][$i]['favorite'] = 'pma__favorite';
@@ -65,8 +64,6 @@ $cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
 $cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
 $cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
 $cfg['Servers'][$i]['central_columns'] = 'pma__central_columns';
-/* Contrib / Swekey authentication */
-// $cfg['Servers'][$i]['auth_swekey_config'] = '/etc/swekey-pma.conf';
 
 /*
  * End of servers configuration
@@ -101,10 +98,10 @@ $cfg['SaveDir'] = 'save';
 /**
  * disallow editing of binary fields
  * valid values are:
- *   false  allow editing
- *   'blob' allow editing except for BLOB fields
+ *   false    allow editing
+ *   'blob'   allow editing except for BLOB fields
  *   'noblob' disallow editing except for BLOB fields
- *   'all'  disallow editing
+ *   'all'    disallow editing
  * default = blob
  */
 //$cfg['ProtectBinary'] = 'false';
@@ -117,12 +114,6 @@ $cfg['SaveDir'] = 'save';
  */
 //$cfg['DefaultLang'] = 'en';
 $cfg['DefaultLang'] = 'zh_CN';
-
-/**
- * default display direction (horizontal|vertical|horizontalflipped)
- */
-//$cfg['DefaultDisplay'] = 'vertical';
-
 
 /**
  * How many columns should be used for table display of a database?
@@ -156,6 +147,6 @@ $cfg['DefaultLang'] = 'zh_CN';
 
 /*
  * You can find more configuration options in the documentation
- * in the doc/ folder or at <http://docs.phpmyadmin.net/>.
+ * in the doc/ folder or at <https://docs.phpmyadmin.net/>.
  */
 ?>
