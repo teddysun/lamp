@@ -1,7 +1,7 @@
 ![LAMP](https://github.com/teddysun/lamp/raw/master/conf/lamp.gif)
 Description
 ===========
-LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB/Percona and so on.You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way,Just need to input numbers to choose what you want to install before installation. And all things will be done in a few minutes.
+LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB/Percona and so on.You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way, Just need to input numbers to choose what you want to install before installation. And all things will be done in a few minutes.
 
 Supported System
 ===============
@@ -26,7 +26,7 @@ Supported Software
 
 Installation
 ============
-If your server system: CentOS/Redhat
+If your server system: CentOS
 ```bash
 yum -y install wget screen unzip
 wget --no-check-certificate -O lamp.zip https://github.com/teddysun/lamp/archive/master.zip
@@ -121,4 +121,4 @@ Please feel free to report any bugs or issues to us, email: i@teddysun.com
 
 Copyright (C) 2013 - 2016 Teddysun
 
-中文支持:https://lamp.sh/support.html
+Support(中文):https://lamp.sh/support.html
