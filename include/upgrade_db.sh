@@ -182,7 +182,7 @@ EOF
 
             if [ ! -s mysql-${latest_mysql}.tar.gz ]; then
                 latest_mysql_link="http://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}.tar.gz"
-                backup_mysql_link="http://dl.teddysun.com/files/mysql-${latest_mysql}.tar.gz"
+                backup_mysql_link="${download_root_url}/mysql-${latest_mysql}.tar.gz"
                 untar ${latest_mysql_link} ${backup_mysql_link}
             else
                 tar -zxf mysql-${latest_mysql}.tar.gz
@@ -291,7 +291,7 @@ EOF
 
             if [ ! -s percona-server-${latest_percona}.tar.gz ]; then
                 latest_percona_link="https://www.percona.com/downloads/Percona-Server-${percona_ver}/Percona-Server-${latest_percona}/source/tarball/percona-server-${latest_percona}.tar.gz"
-                backup_percona_link="http://dl.teddysun.com/files/percona-server-${latest_percona}.tar.gz"
+                backup_percona_link="${download_root_url}/percona-server-${latest_percona}.tar.gz"
                 untar ${latest_percona_link} ${backup_percona_link}
             else
                 tar -zxf percona-server-${latest_percona}.tar.gz
