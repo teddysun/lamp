@@ -60,7 +60,7 @@ Upgrade
 Backup
 ============
 * You need to modify the config at first
-* Backup MySQL/MariaDB/Pecona datebases, files and directories
+* Backup MySQL/MariaDB/Percona datebases, files and directories
 * Backup file is encrypted with AES256-cbc with SHA1 message-digest
 * Auto transfer backup file to Google Drive (need install `gdrive` command)
 * Auto delete Google Drive's remote file (option)
