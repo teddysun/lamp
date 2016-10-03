@@ -89,7 +89,7 @@ set_hint ${swoole_filename} "php-swoole-1.8.12"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.2-10"
+ImageMagick_filename="ImageMagick-7.0.3-2"
 php_imagemagick_filename="imagick-3.4.3RC1"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
