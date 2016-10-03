@@ -89,36 +89,37 @@ Uninstall
 
 Default Location
 ================
-| Apache Location            |                                         |
-|----------------------------|-----------------------------------------|
-| Install Prefix             | /usr/local/apache                       |
-| Web root location          | /data/www/default                       |
-| Main Configuration File    | /usr/local/apache/conf/httpd.conf       |
-| Virtual Host Configuration | /usr/local/apache/conf/vhost/           |
+| Apache Location            |                                                |
+|----------------------------|------------------------------------------------|
+| Install Prefix             | /usr/local/apache                              |
+| Web root location          | /data/www/default                              |
+| Main Configuration File    | /usr/local/apache/conf/httpd.conf              |
+| Default Virtual Host conf  | /usr/local/apache/conf/extra/httpd-vhosts.conf |
+| Virtual Host location      | /usr/local/apache/conf/vhost/                  |
 
-| PHP Location               |                                         |
-|----------------------------|-----------------------------------------|
-| Install Prefix             | /usr/local/php                          |
-| Configuration File         | /usr/local/php/etc/php.ini              |
-| ini additional location    | /usr/local/php/php.d                    |
+| PHP Location               |                                                |
+|----------------------------|------------------------------------------------|
+| Install Prefix             | /usr/local/php                                 |
+| Configuration File         | /usr/local/php/etc/php.ini                     |
+| ini additional location    | /usr/local/php/php.d                           |
 
-| MySQL Location             |                                         |
-|----------------------------|-----------------------------------------|
-| Install Prefix             | /usr/local/mysql                        |
-| Data Location              | /usr/local/mysql/data                   |
-| my.cnf Configuration File  | /etc/my.cnf                             |
+| MySQL Location             |                                                |
+|----------------------------|------------------------------------------------|
+| Install Prefix             | /usr/local/mysql                               |
+| Data Location              | /usr/local/mysql/data                          |
+| my.cnf Configuration File  | /etc/my.cnf                                    |
 
-| MariaDB Location           |                                         |
-|----------------------------|-----------------------------------------|
-| Install Prefix             | /usr/local/mariadb                      |
-| Data Location              | /usr/local/mariadb/data                 |
-| my.cnf Configuration File  | /etc/my.cnf                             |
+| MariaDB Location           |                                                |
+|----------------------------|------------------------------------------------|
+| Install Prefix             | /usr/local/mariadb                             |
+| Data Location              | /usr/local/mariadb/data                        |
+| my.cnf Configuration File  | /etc/my.cnf                                    |
 
-| Percona Location           |                                         |
-|----------------------------|-----------------------------------------|
-| Install Prefix             | /usr/local/percona                      |
-| Data Location              | /usr/local/percona/data                 |
-| my.cnf Configuration File  | /etc/my.cnf                             |
+| Percona Location           |                                                |
+|----------------------------|------------------------------------------------|
+| Install Prefix             | /usr/local/percona                             |
+| Data Location              | /usr/local/percona/data                        |
+| my.cnf Configuration File  | /etc/my.cnf                                    |
 
 Process Management
 ==================
