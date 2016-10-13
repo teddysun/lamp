@@ -17,7 +17,6 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]#${opcache_filename}})
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]#${ZendGuardLoader_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_mongo_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
