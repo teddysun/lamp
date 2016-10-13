@@ -25,11 +25,11 @@ apache2_2_filename="httpd-2.2.31"
 #apache2.4
 apache2_4_filename="httpd-2.4.23"
 #mysql5.5
-mysql5_5_filename="mysql-5.5.52"
+mysql5_5_filename="mysql-5.5.53"
 #mysql5.6
-mysql5_6_filename="mysql-5.6.33"
+mysql5_6_filename="mysql-5.6.34"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.15"
+mysql5_7_filename="mysql-5.7.16"
 set_hint ${mysql5_7_filename} "${mysql5_7_filename} (need at least 2GB RAM when building)"
 #boost
 boost_filename="boost_1_59_0"
