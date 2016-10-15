@@ -173,8 +173,8 @@ fi
 # If you want to install gdrive command, please visit website:
 # https://github.com/prasmussen/gdrive
 # of cause, you can use below command to install it
-# For x86_64: wget -O /usr/bin/gdrive http://dl.teddysun.com/files/gdrive-linux-x64; chmod +x /usr/bin/gdrive
-# For i386: wget -O /usr/bin/gdrive http://dl.teddysun.com/files/gdrive-linux-386; chmod +x /usr/bin/gdrive
+# For x86_64: wget -O /usr/bin/gdrive http://dl.lamp.sh/files/gdrive-linux-x64; chmod +x /usr/bin/gdrive
+# For i386: wget -O /usr/bin/gdrive http://dl.lamp.sh/files/gdrive-linux-386; chmod +x /usr/bin/gdrive
 
 if [ ! "$(command -v "gdrive")" ]; then
     GDRIVE_COMMAND=false

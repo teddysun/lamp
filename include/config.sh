@@ -14,7 +14,7 @@ depends_prefix=/usr/local
 web_root_dir=/data/www/default
 
 #Download root URL
-download_root_url="http://dl.teddysun.com/files"
+download_root_url="http://dl.lamp.sh/files"
 
 #parallel compile option,1:enable,0:disable
 parallel_compile=1
@@ -55,7 +55,7 @@ php5_4_filename="php-5.4.45"
 #php5.5
 php5_5_filename="php-5.5.38"
 #php5.6
-php5_6_filename="php-5.6.26"
+php5_6_filename="php-5.6.27"
 #php7.0
 php7_0_filename="php-7.0.12"
 #phpMyAdmin
