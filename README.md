@@ -73,8 +73,8 @@ Backup
 ======
 - You need to modify the config at first
 - Backup MySQL/MariaDB/Percona datebases, files and directories
-- Backup file is encrypted with AES256-cbc with SHA1 message-digest
-- Auto transfer backup file to Google Drive (need install `gdrive` command)
+- Backup file is encrypted with AES256-cbc with SHA1 message-digest (option)
+- Auto transfer backup file to Google Drive (need install `gdrive` command) (option)
 - Auto delete Google Drive's remote file (option)
 
 ```bash
@@ -89,7 +89,7 @@ Uninstall
 
 Default Location
 ================
-| Apache Location            |                                                |
+| Apache Location            | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/apache                              |
 | Web root location          | /data/www/default                              |
@@ -97,25 +97,25 @@ Default Location
 | Default Virtual Host conf  | /usr/local/apache/conf/extra/httpd-vhosts.conf |
 | Virtual Host location      | /usr/local/apache/conf/vhost/                  |
 
-| PHP Location               |                                                |
+| PHP Location               | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/php                                 |
 | Configuration File         | /usr/local/php/etc/php.ini                     |
 | ini additional location    | /usr/local/php/php.d                           |
 
-| MySQL Location             |                                                |
+| MySQL Location             | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/mysql                               |
 | Data Location              | /usr/local/mysql/data                          |
 | my.cnf Configuration File  | /etc/my.cnf                                    |
 
-| MariaDB Location           |                                                |
+| MariaDB Location           | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/mariadb                             |
 | Data Location              | /usr/local/mariadb/data                        |
 | my.cnf Configuration File  | /etc/my.cnf                                    |
 
-| Percona Location           |                                                |
+| Percona Location           | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/percona                             |
 | Data Location              | /usr/local/percona/data                        |
@@ -144,7 +144,7 @@ Bugs & Issues
 =============
 Please feel free to report any bugs or issues to us, email: i@teddysun.com
 
-Support(中文):https://lamp.sh/support.html
+Support(Chinese): https://lamp.sh/support.html
 
 License
 =======
