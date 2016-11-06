@@ -157,7 +157,7 @@ EOF
 }
 
 vhost_list(){
-    sed -n -r -e 's/ServerAlias\s+(.*)/\1/p' -e 's/DocumentRoot\s+(.*)/\1/p'  ${apache_location}/conf/vhost/*.conf | awk 'BEGIN{printf ("%-50s %-50s\n%-50s %-50s\n","server name","root","-----------","----")}{printf("%-50s",$0);getline;printf $0"\n" }'
+    sed -n -r -e 's/ServerAlias\s+(.*)/\1/p' -e 's/DocumentRoot\s+(.*)/\1/p'  ${apache_location}/conf/vhost/*.conf | awk 'BEGIN{printf ("%-50s %-50s\n%-50s %-50s\n","server name","website root","-----------","------------")}{printf("%-50s",$0);getline;printf $0"\n" }'
 }
 
 vhost_del(){
