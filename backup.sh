@@ -151,13 +151,16 @@ if ${ENCRYPTFLG}; then
     log "Encrypt backup file completed"
 
     # Delete unencrypted tar
-    log "Delete unencrypted tar file"
+    log "Delete unencrypted tar file: ${TARFILE}"
     rm -f ${TARFILE}
 fi
 
 # Delete MySQL temporary dump file
-log "Delete MySQL temporary dump file"
-rm -f ${TEMPDIR}*.sql
+for sql in `ls ${TEMPDIR}*.sql`
+do
+    log "Delete MySQL temporary dump file: ${sql}"
+    rm -f ${sql}
+done
 
 log "Backup progress complete"
 
