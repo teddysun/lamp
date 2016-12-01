@@ -193,10 +193,10 @@ apache_vhost_is_exist(){
 display_usage(){
 printf "
 
-Usage: $0 [ add | del | list ]
-add     --->Create new Apache Virtual Host
-del     --->Delete Apache Virtual Host
-list    --->List all of Apache Virtual Host
+Usage: `basename $0` [ add | del | list ]
+add     Create new Apache Virtual Host
+del     Delete Apache Virtual Host
+list    List all of Apache Virtual Host
 
 "
 }
