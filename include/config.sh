@@ -55,7 +55,7 @@ php5_4_filename="php-5.4.45"
 #php5.5
 php5_5_filename="php-5.5.38"
 #php5.6
-php5_6_filename="php-5.6.28"
+php5_6_filename="php-5.6.29"
 #php7.0
 php7_0_filename="php-7.0.14"
 #phpMyAdmin
