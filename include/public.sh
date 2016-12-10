@@ -696,6 +696,16 @@ get_php_version(){
     $phpConfig --version | cut -d'.' -f1-2
 }
 
+get_char(){
+    SAVEDSTTY=`stty -g`
+    stty -echo
+    stty cbreak
+    dd if=/dev/tty bs=1 count=1 2> /dev/null
+    stty -raw
+    stty echo
+    stty $SAVEDSTTY
+}
+
 #Last confirm
 last_confirm(){
     clear
@@ -737,16 +747,8 @@ last_confirm(){
     echo
     echo "##########################################################"
     echo
-    get_char(){
-        SAVEDSTTY=`stty -g`
-        stty -echo
-        stty cbreak
-        dd if=/dev/tty bs=1 count=1 2> /dev/null
-        stty -raw
-        stty echo
-        stty $SAVEDSTTY
-    }
-    echo ""
+
+    echo
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=`get_char`
 
