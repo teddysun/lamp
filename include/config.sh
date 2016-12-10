@@ -58,6 +58,8 @@ php5_5_filename="php-5.5.38"
 php5_6_filename="php-5.6.29"
 #php7.0
 php7_0_filename="php-7.0.14"
+#php7.1
+php7_1_filename="php-7.1.0"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.4.15.9-all-languages"
 #opcache
@@ -84,8 +86,8 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.14"
 #swoole
-swoole_filename="swoole-src-1.9.0-stable"
-set_hint ${swoole_filename} "php-swoole-1.9.0"
+swoole_filename="swoole-src-1.9.1-stable"
+set_hint ${swoole_filename} "php-swoole-1.9.1"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
@@ -160,7 +162,8 @@ php_arr[1]=${php5_4_filename}
 php_arr[2]=${php5_5_filename}
 php_arr[3]=${php5_6_filename}
 php_arr[4]=${php7_0_filename}
-php_arr[5]="do_not_install"
+php_arr[5]=${php7_1_filename}
+php_arr[6]="do_not_install"
 
 phpmyadmin_arr[0]=${phpmyadmin_filename}
 phpmyadmin_arr[1]="do_not_install"
