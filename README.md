@@ -32,7 +32,7 @@ Supported Software
 ==================
 - Apache-2.2 Apache-2.4
 - MySQL-5.5 MySQL-5.6 MySQL-5.7 MariaDB-5.5 MariaDB-10.0 MariaDB-10.1 Percona-Server-5.5 Percona-Server-5.6 Percona-Server-5.7
-- PHP-5.3 PHP-5.4 PHP-5.5 PHP-5.6 PHP-7.0
+- PHP-5.3 PHP-5.4 PHP-5.5 PHP-5.6 PHP-7.0 PHP-7.1
 - PHP Module: OPcache ZendGuardLoader ionCube_Loader XCache Imagemagick GraphicsMagick Memcache Memcached Redis Mongo Swoole
 - Other Software: Memcached phpMyAdmin Redis-Server
 
@@ -143,7 +143,8 @@ lamp Command
 
 Bugs & Issues
 =============
-Please feel free to report any bugs or issues to us, email: i@teddysun.com
+Please feel free to report any bugs or issues to us, email to: i@teddysun.com
+or [open issues](https://github.com/teddysun/lamp/issues) on Github.
 
 Support(Chinese): https://lamp.sh/support.html
 
