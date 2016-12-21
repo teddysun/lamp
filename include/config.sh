@@ -23,7 +23,7 @@ parallel_compile=1
 #apache2.2
 apache2_2_filename="httpd-2.2.31"
 #apache2.4
-apache2_4_filename="httpd-2.4.23"
+apache2_4_filename="httpd-2.4.25"
 #mysql5.5
 mysql5_5_filename="mysql-5.5.54"
 #mysql5.6
