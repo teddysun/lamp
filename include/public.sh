@@ -68,7 +68,7 @@ display_menu(){
             break
         fi
 
-        if ! is_digit "$pick";then
+        if ! is_digit "$pick"; then
             prompt="Input errors, please input a number"
             continue
         fi
@@ -101,7 +101,7 @@ display_menu_multi(){
     local hint
     local default_prompt
     if [[ "$default" != "" ]]; then
-        if [[ "$default" == "last" ]];then
+        if [[ "$default" == "last" ]]; then
             default=$arr_len
         fi
         default_prompt="(default ${arr[$default-1]})"
@@ -135,7 +135,7 @@ display_menu_multi(){
 
         for j in ${pick[@]}
         do
-            if ! is_digit "$j";then
+            if ! is_digit "$j"; then
                 echo "Input error, please input a number"
                 correct=false
                 break 1
@@ -147,7 +147,7 @@ display_menu_multi(){
                 break 1
             fi
 
-            if [ "${arr[$j-1]}" == "do_not_install" ];then
+            if [ "${arr[$j-1]}" == "do_not_install" ]; then
                 eval ${soft}_install="do_not_install"
                 break 2
             fi
@@ -170,7 +170,7 @@ untar(){
         software_name=`echo $1 | awk -F/ '{print $NF}'`
         tarball_type=`echo $1 | awk -F. '{print $NF}'`
         wget -c -t3 -T3 $1 -P ${cur_dir}/
-        if [ $? -ne 0 ];then
+        if [ $? -ne 0 ]; then
             rm -rf ${cur_dir}/${software_name}
             wget -c -t3 -T60 $2 -P ${cur_dir}/
             software_name=`echo $2 | awk -F/ '{print $NF}'`
@@ -211,21 +211,21 @@ create_mysql_my_cnf(){
     local memory=512M
     local storage=InnoDB
     local totalMemory=$(awk 'NR==1{print $2}' /proc/meminfo)
-    if [[ ${totalMemory} -lt 393216 ]];then
+    if [[ ${totalMemory} -lt 393216 ]]; then
         memory=256M
         storage=MyISAM
-    elif [[ ${totalMemory} -lt 786432 ]];then
+    elif [[ ${totalMemory} -lt 786432 ]]; then
         memory=512M
         storage=MyISAM
-    elif [[ ${totalMemory} -lt 1572864 ]];then
+    elif [[ ${totalMemory} -lt 1572864 ]]; then
         memory=1G
-    elif [[ ${totalMemory} -lt 3145728 ]];then
+    elif [[ ${totalMemory} -lt 3145728 ]]; then
         memory=2G
-    elif [[ ${totalMemory} -lt 6291456 ]];then
+    elif [[ ${totalMemory} -lt 6291456 ]]; then
         memory=4G
-    elif [[ ${totalMemory} -lt 12582912 ]];then
+    elif [[ ${totalMemory} -lt 12582912 ]]; then
         memory=8G
-    elif [[ ${totalMemory} -lt 25165824 ]];then
+    elif [[ ${totalMemory} -lt 25165824 ]]; then
         memory=16G
     else
         memory=32G
@@ -243,30 +243,30 @@ create_mysql_my_cnf(){
         *) echo "input error, please input a number";;
     esac
 
-    if ${binlog};then
+    if ${binlog}; then
         binlog="# BINARY LOGGING #\nlog-bin = ${mysqlDataLocation}/mysql-bin\nserver-id = 1\nexpire-logs-days = 14\nsync-binlog = 1"
         binlog=$(echo -e $binlog)
     else
         binlog=""
     fi
 
-    if ${replica};then
+    if ${replica}; then
         replica="# REPLICATION #\nrelay-log = ${mysqlDataLocation}/relay-bin\nslave-net-timeout = 60"
         replica=$(echo -e $replica)
     else
         replica=""
     fi
 
-    if [ "$storage" == "InnoDB" ];then
+    if [ "$storage" == "InnoDB" ]; then
         key_buffer_size=32M
-        if ! is_64bit && [[ `echo $innodb_buffer_pool_size | tr -d G` -ge 4 ]];then
+        if ! is_64bit && [[ `echo $innodb_buffer_pool_size | tr -d G` -ge 4 ]]; then
             innodb_buffer_pool_size=2G
         fi
 
     elif [ "$storage" == "MyISAM" ]; then
         innodb_log_file_size=32M
         innodb_buffer_pool_size=8M
-        if ! is_64bit && [[ `echo $key_buffer_size | tr -d G` -ge 4 ]];then
+        if ! is_64bit && [[ `echo $key_buffer_size | tr -d G` -ge 4 ]]; then
             key_buffer_size=2G
         fi
     fi
@@ -335,10 +335,10 @@ EOF
 
 create_lib_link(){
     local lib=$1
-    if [ ! -s "/usr/lib64/$lib" ] && [ ! -s "/usr/lib/$lib" ];then
+    if [ ! -s "/usr/lib64/$lib" ] && [ ! -s "/usr/lib/$lib" ]; then
         libdir=$(find /usr/lib /usr/lib64 -name "$lib" | awk 'NR==1{print}')
-        if [ "$libdir" != "" ];then
-            if is_64bit;then
+        if [ "$libdir" != "" ]; then
+            if is_64bit; then
                 mkdir /usr/lib64
                 ln -s $libdir /usr/lib64/$lib
                 ln -s $libdir /usr/lib/$lib
@@ -347,7 +347,7 @@ create_lib_link(){
             fi
         fi
     fi
-    if is_64bit;then
+    if is_64bit; then
         [ ! -d /usr/lib64 ] && mkdir /usr/lib64
         [ ! -s "/usr/lib64/$lib" ] && [ -s "/usr/lib/$lib" ] && ln -s /usr/lib/${lib}  /usr/lib64/${lib}
         [ ! -s "/usr/lib/$lib" ] && [ -s "/usr/lib64/$lib" ] && ln -s /usr/lib64/${lib} /usr/lib/${lib}
@@ -356,8 +356,8 @@ create_lib_link(){
 
 create_lib64_dir(){
     local dir=$1
-    if is_64bit;then
-        if [ -s "$dir/lib/" ] && [ ! -s  "$dir/lib64/" ];then
+    if is_64bit; then
+        if [ -s "$dir/lib/" ] && [ ! -s  "$dir/lib64/" ]; then
             cd $dir
             ln -s lib lib64
         fi
@@ -399,7 +399,7 @@ error_detect(){
     local work_dir=`pwd`
     local cur_soft=`echo ${work_dir#$cur_dir} | awk -F'/' '{print $3}'`
     ${command}
-    if [ $? != 0 ];then
+    if [ $? != 0 ]; then
         distro=`get_opsy`
         version=`cat /proc/version`
         architecture=`uname -m`
@@ -428,7 +428,7 @@ EOF
 
 sync_time(){
     echo "Start to sync time..."
-    if check_sys sysRelease ubuntu || check_sys sysRelease debian;then
+    if check_sys sysRelease ubuntu || check_sys sysRelease debian; then
         apt-get -y update
         apt-get -y install ntpdate
         check_command_exist ntpdate
@@ -469,11 +469,11 @@ parallel_make(){
     local para=$1
     cpunum=`cat /proc/cpuinfo |grep 'processor'|wc -l`
 
-    if [ $parallel_compile == 0 ];then
+    if [ $parallel_compile == 0 ]; then
         cpunum=1
     fi
 
-    if [ $cpunum == 1 ];then
+    if [ $cpunum == 1 ]; then
         [ "$para" == "" ] && make || make "$para"
     else
         [ "$para" == "" ] && make -j$cpunum || make -j$cpunum "$para"
@@ -481,18 +481,18 @@ parallel_make(){
 }
 
 boot_start(){
-    if check_sys packageManager apt;then
+    if check_sys packageManager apt; then
         update-rc.d -f $1 defaults
-    elif check_sys packageManager yum;then
+    elif check_sys packageManager yum; then
         chkconfig --add $1
         chkconfig $1 on
     fi
 }
 
 boot_stop(){
-    if check_sys packageManager apt;then
+    if check_sys packageManager apt; then
         update-rc.d -f $1 remove
-    elif check_sys packageManager yum;then
+    elif check_sys packageManager yum; then
         chkconfig $1 off
         chkconfig --remove $1
     fi
@@ -500,7 +500,7 @@ boot_stop(){
 
 filter_location(){
     local location=$1
-    if ! echo $location | grep -q "^/";then
+    if ! echo $location | grep -q "^/"; then
         while true
         do
             read -p "Input error, please input location again: " location
@@ -516,7 +516,7 @@ download_file(){
         echo "$1 [found]"
     else
         echo "$1 not found!!!download now..."
-        if ! wget -c -t3 -T60 ${download_root_url}/$1;then
+        if ! wget -c -t3 -T60 ${download_root_url}/$1; then
             echo "Failed to download $1, please download it to ${cur_dir} directory manually and try again."
             exit 1
         fi
@@ -531,7 +531,7 @@ download_from_url(){
     else
         echo "Start download ${filename} now..."
         wget -c -t3 -T3 $2
-        if [ $? -ne 0 ];then
+        if [ $? -ne 0 ]; then
             rm -f ${filename}
             if ! wget -c -t3 -T60 $3; then
                 echo "Failed to download ${filename}, please download it to ${cur_dir} directory manually and try again."
@@ -542,7 +542,7 @@ download_from_url(){
 }
 
 is_64bit(){
-    if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ] ; then
+    if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ]; then
         return 0
     else
         return 1
@@ -567,7 +567,7 @@ check_command_exist(){
 
 #Install tools
 install_tool(){ 
-    if check_sys packageManager apt;then
+    if check_sys packageManager apt; then
         apt-get -y update
         apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev
     elif check_sys packageManager yum; then
@@ -594,37 +594,37 @@ check_sys(){
     local release=''
     local systemPackage=''
 
-    if [[ -f /etc/redhat-release ]];then
+    if [[ -f /etc/redhat-release ]]; then
         release="centos"
         systemPackage="yum"
-    elif cat /etc/issue | grep -q -E -i "debian";then
+    elif cat /etc/issue | grep -Eqi "debian"; then
         release="debian"
         systemPackage="apt"
-    elif cat /etc/issue | grep -q -E -i "ubuntu";then
+    elif cat /etc/issue | grep -Eqi "ubuntu"; then
         release="ubuntu"
         systemPackage="apt"
-    elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat";then
+    elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
         release="centos"
         systemPackage="yum"
-    elif cat /proc/version | grep -q -E -i "debian";then
+    elif cat /proc/version | grep -Eqi "debian"; then
         release="debian"
         systemPackage="apt"
-    elif cat /proc/version | grep -q -E -i "ubuntu";then
+    elif cat /proc/version | grep -Eqi "ubuntu"; then
         release="ubuntu"
         systemPackage="apt"
-    elif cat /proc/version | grep -q -E -i "centos|red hat|redhat";then
+    elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
         release="centos"
         systemPackage="yum"
     fi
 
     if [[ ${checkType} == "sysRelease" ]]; then
-        if [ "$value" == "$release" ];then
+        if [ "$value" == "$release" ]; then
             return 0
         else
             return 1
         fi
     elif [[ ${checkType} == "packageManager" ]]; then
-        if [ "$value" == "$systemPackage" ];then
+        if [ "$value" == "$systemPackage" ]; then
             return 0
         else
             return 1
@@ -645,7 +645,7 @@ if_in_array(){
     local array=$2
     for i in $array
     do
-        if [ "$i" == "$element" ];then
+        if [ "$i" == "$element" ]; then
             return 0
         fi
     done
@@ -655,7 +655,7 @@ if_in_array(){
 check_installed(){
     local cmd=$1
     local location=$2
-    if [ -d "$location" ];then
+    if [ -d "$location" ]; then
         echo "$location found, skip the installation."
         add_to_env "$location"
     else
@@ -664,7 +664,7 @@ check_installed(){
 }
 
 versionget(){
-    if [[ -s /etc/redhat-release ]];then
+    if [[ -s /etc/redhat-release ]]; then
         grep -oE  "[0-9.]+" /etc/redhat-release
     else
         grep -oE  "[0-9.]+" /etc/issue
@@ -672,11 +672,11 @@ versionget(){
 }
 
 centosversion(){
-    if check_sys sysRelease centos;then
+    if check_sys sysRelease centos; then
         local code=$1
         local version="$(versionget)"
         local main_ver=${version%%.*}
-        if [ "$main_ver" == "$code" ];then
+        if [ "$main_ver" == "$code" ]; then
             return 0
         else
             return 1
@@ -758,7 +758,7 @@ last_confirm(){
     StartDateSecond=$(date +%s)
     echo "Start time: ${StartDate}"
 
-    if [ -d ${cur_dir}/software ];then
+    if [ -d ${cur_dir}/software ]; then
         rm -rf ${cur_dir}/software/*
     else
         mkdir -p ${cur_dir}/software
@@ -791,14 +791,14 @@ firewall_set(){
         fi
     elif centosversion 7; then
         systemctl status firewalld > /dev/null 2>&1
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
             firewall-cmd --permanent --zone=public --add-service=http
             firewall-cmd --permanent --zone=public --add-service=https
             firewall-cmd --reload
         else
             echo "Firewalld looks like not running, try to start..."
             systemctl start firewalld
-            if [ $? -eq 0 ];then
+            if [ $? -eq 0 ]; then
                 echo "Firewalld start success..."
                 firewall-cmd --permanent --zone=public --add-service=http
                 firewall-cmd --permanent --zone=public --add-service=https
@@ -827,7 +827,7 @@ finally(){
     echo
     echo "Default Website: http://$(get_ip)"
     echo "Apache: ${apache}"
-    if [ "$apache" != "do_not_install" ];then
+    if [ "$apache" != "do_not_install" ]; then
         echo "Apache Location: $apache_location"
     fi
     echo
@@ -852,7 +852,7 @@ finally(){
     fi
     echo
     echo "PHP: $php"
-    if [ "$php" != "do_not_install" ];then
+    if [ "$php" != "do_not_install" ]; then
         echo "PHP Location: $php_location"
     fi
     echo
@@ -881,7 +881,7 @@ finally(){
     fi
 
     # Install phpmyadmin database
-    if [ -d "${web_root_dir}/phpmyadmin" ];then
+    if [ -d "${web_root_dir}/phpmyadmin" ]; then
         /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql
     fi
     sleep 3
@@ -988,7 +988,7 @@ get_os_info(){
 
 #Pre-installation settings
 pre_setting(){
-    if check_sys sysRelease ubuntu || check_sys sysRelease debian || check_sys sysRelease centos;then
+    if check_sys sysRelease ubuntu || check_sys sysRelease debian || check_sys sysRelease centos; then
         get_os_info
         preinstall_lamp
         install_lamp
