@@ -21,7 +21,7 @@ parallel_compile=1
 
 ##Software version
 #apache2.2
-apache2_2_filename="httpd-2.2.31"
+apache2_2_filename="httpd-2.2.32"
 #apache2.4
 apache2_4_filename="httpd-2.4.25"
 #mysql5.5
@@ -36,7 +36,7 @@ boost_filename="boost_1_59_0"
 #mariadb5.5
 mariadb5_5_filename="mariadb-5.5.54"
 #mariadb10.0
-mariadb10_0_filename="mariadb-10.0.28"
+mariadb10_0_filename="mariadb-10.0.29"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.20"
 #percona5.5
