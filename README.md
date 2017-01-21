@@ -150,6 +150,6 @@ Support(Chinese): https://lamp.sh/support.html
 
 License
 =======
-Copyright (C) 2013 - 2016 Teddysun
+Copyright (C) 2013 - 2017 Teddysun
 
 Licensed under the [GPLv3](LICENSE) License.
