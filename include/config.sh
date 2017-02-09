@@ -43,8 +43,8 @@ mariadb10_1_filename="mariadb-10.1.21"
 percona5_5_filename="percona-server-5.5.54-38.6"
 set_hint ${percona5_5_filename} "percona-server-5.5.54"
 #percona5.6
-percona5_6_filename="percona-server-5.6.34-79.1"
-set_hint ${percona5_6_filename} "percona-server-5.6.34"
+percona5_6_filename="percona-server-5.6.35-80.0"
+set_hint ${percona5_6_filename} "percona-server-5.6.35"
 #percona5.7
 percona5_7_filename="percona-server-5.7.17-11"
 set_hint ${percona5_7_filename} "percona-server-5.7.17 (need at least 2GB RAM when building)"
