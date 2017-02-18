@@ -126,7 +126,7 @@ php_memcache_filename="memcache-3.0.8"
 php_memcached_filename="memcached-2.2.0"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 #redis
-redis_filename="redis-3.2.3"
+redis_filename="redis-3.2.8"
 #php-redis
 php_redis_filename="redis-2.2.8"
 php_redis_filename2="redis-3.0.0"
