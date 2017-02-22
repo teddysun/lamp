@@ -260,7 +260,7 @@ install_libedit(){
     tar zxf ${libedit_filename}.tar.gz
     cd ${libedit_filename}
 
-    error_detect "./configure --enable-widec"
+    error_detect "./configure"
     error_detect "parallel_make"
     error_detect "make install"
 }
