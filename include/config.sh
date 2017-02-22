@@ -80,7 +80,7 @@ pcre_filename="pcre-8.39"
 #re2c
 re2c_filename='re2c-0.16'
 #libedit
-libedit_filename='libedit-20160618-3.1'
+libedit_filename='libedit-20160903-3.1'
 #imap
 imap_filename='imap-2007f'
 #libiconv
