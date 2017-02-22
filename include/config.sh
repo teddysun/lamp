@@ -91,7 +91,7 @@ set_hint ${swoole_filename} "php-swoole-2.0.6"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.3-8"
+ImageMagick_filename="ImageMagick-7.0.5-0"
 php_imagemagick_filename="imagick-3.4.3RC1"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
