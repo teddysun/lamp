@@ -57,9 +57,9 @@ php5_5_filename="php-5.5.38"
 #php5.6
 php5_6_filename="php-5.6.30"
 #php7.0
-php7_0_filename="php-7.0.16"
+php7_0_filename="php-7.0.17"
 #php7.1
-php7_1_filename="php-7.1.2"
+php7_1_filename="php-7.1.3"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.4.15.10-all-languages"
 #opcache
