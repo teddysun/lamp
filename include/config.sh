@@ -86,8 +86,8 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.14"
 #swoole
-swoole_filename="swoole-src-2.0.6"
-set_hint ${swoole_filename} "php-swoole-2.0.6"
+swoole_filename="swoole-src-2.0.7"
+set_hint ${swoole_filename} "php-swoole-2.0.7"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
