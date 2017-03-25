@@ -58,7 +58,7 @@ install_php_modules(){
     if_in_array "${php_memcached_filename}" "$php_modules_install" && install_php_memcached "${phpConfig}"
     if_in_array "${php_mongo_filename}" "$php_modules_install" && install_php_mongo "${phpConfig}"
     if_in_array "${swoole_filename}" "$php_modules_install" && install_swoole "${phpConfig}"
-    if [ "$php" == "${php7_0_filename}" ]; then
+    if [ "$php" == "${php7_0_filename}" ] || [ "$php" == "${php7_1_filename}" ]; then
         if_in_array "${php_graphicsmagick_filename2}" "$php_modules_install" && install_php_graphicsmagick "${phpConfig}"
         if_in_array "${php_redis_filename2}" "$php_modules_install" && install_php_redis "${phpConfig}"
     else
@@ -710,7 +710,7 @@ install_php_redis(){
     if [ ${RT} -eq 0 ];then
         cd ${cur_dir}/software/
         echo "php-redis install start..."
-        if [ "$php" == "${php7_0_filename}" ]; then
+        if [ "$php" == "${php7_0_filename}" ] || [ "$php" == "${php7_1_filename}" ]; then
             download_file  "${php_redis_filename2}.tgz"
             tar zxf ${php_redis_filename2}.tgz
             cd ${php_redis_filename2}
