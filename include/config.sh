@@ -129,7 +129,7 @@ set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 redis_filename="redis-3.2.8"
 #php-redis
 php_redis_filename="redis-2.2.8"
-php_redis_filename2="redis-3.0.0"
+php_redis_filename2="redis-3.1.2"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mandodb
