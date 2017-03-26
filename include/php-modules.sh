@@ -530,7 +530,7 @@ install_php_graphicsmagick(){
 
     cd ${cur_dir}/software/
 
-    if [ "$php" == "${php7_0_filename}" ]; then
+    if [ "$php" == "${php7_0_filename}" ] || [ "$php" == "${php7_1_filename}" ]; then
         download_file "${php_graphicsmagick_filename2}.tgz"
         tar zxf ${php_graphicsmagick_filename2}.tgz
         cd ${php_graphicsmagick_filename2}
