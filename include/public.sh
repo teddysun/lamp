@@ -577,6 +577,9 @@ install_tool(){
             export CC=/usr/bin/gcc44
             export CXX=/usr/bin/g++44
         fi
+        if centosversion 7; then
+            yum -y install net-tools
+        fi
     fi
 
     check_command_exist "gcc"
@@ -584,6 +587,7 @@ install_tool(){
     check_command_exist "make"
     check_command_exist "wget"
     check_command_exist "perl"
+    check_command_exist "netstat"
 }
 
 #Check system
