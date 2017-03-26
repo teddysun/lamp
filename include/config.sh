@@ -92,7 +92,7 @@ set_hint ${swoole_filename} "php-swoole-2.0.7"
 xcache_filename="xcache-3.2.0"
 #ImageMagick
 ImageMagick_filename="ImageMagick-7.0.5-0"
-php_imagemagick_filename="imagick-3.4.3RC1"
+php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
 GraphicsMagick_filename="GraphicsMagick-1.3.24"
@@ -117,13 +117,13 @@ ZendGuardLoader56_64_filename="zend-loader-php5.6-linux-x86_64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
-memcached_filename="memcached-1.4.31"
+memcached_filename="memcached-1.4.36"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 #php-memcache
 php_memcache_filename="memcache-3.0.8"
 #php-memcached
-php_memcached_filename="memcached-2.2.0"
+php_memcached_filename="memcached-3.0.3"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 #redis
 redis_filename="redis-3.2.8"
