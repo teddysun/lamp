@@ -59,7 +59,7 @@ set_hint ${percona5_5_filename} "percona-server-5.5.54"
 percona5_6_filename="percona-server-5.6.35-81.0"
 set_hint ${percona5_6_filename} "percona-server-5.6.35"
 #percona5.7
-percona5_7_filename="percona-server-5.7.17-12"
+percona5_7_filename="percona-server-5.7.17-13"
 set_hint ${percona5_7_filename} "percona-server-5.7.17 (need at least 2GB RAM when building)"
 #php5.3
 php5_3_filename="php-5.3.29"
