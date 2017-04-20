@@ -29,11 +29,11 @@ upgrade_db(){
         installed_mysql=`${mysql_location}/bin/mysql -V | awk '{print $5}' | tr -d ","`
         mysql_ver=`echo ${installed_mysql} | cut -d. -f1-2`
         if   [ "${mysql_ver}" == "5.5" ]; then
-            latest_mysql=`curl -s http://dev.mysql.com/downloads/mysql/5.5.html | awk '/MySQL Community Server/{print $4}' | grep '5.5'`
+            latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/5.5.html | awk '/MySQL Community Server/{print $4}' | grep '5.5'`
         elif [ "${mysql_ver}" == "5.6" ]; then
-            latest_mysql=`curl -s http://dev.mysql.com/downloads/mysql/5.6.html | awk '/MySQL Community Server/{print $4}' | grep '5.6'`
+            latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/5.6.html | awk '/MySQL Community Server/{print $4}' | grep '5.6'`
         elif [ "${mysql_ver}" == "5.7" ]; then
-            latest_mysql=`curl -s http://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7'`
+            latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7'`
         fi
 
         echo -e "Latest version of MySQL: \033[41;37m ${latest_mysql} \033[0m"
@@ -62,11 +62,11 @@ upgrade_db(){
         installed_percona=`${percona_location}/bin/mysql -V | awk '{print $5}' | tr -d ","`
         percona_ver=`echo ${installed_percona} | cut -d. -f1-2`
         if   [ "${percona_ver}" == "5.5" ]; then
-            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.5/LATEST/ | grep "title" | awk -F 'Percona-Server-' '/Percona-Server-5.5/{print $2}' | cut -d'<' -f1`
+            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.5/LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.5/{print $2}' | cut -d'"' -f1`
         elif [ "${percona_ver}" == "5.6" ]; then
-            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.6/LATEST/ | grep "title" | awk -F 'Percona-Server-' '/Percona-Server-5.6/{print $2}' | cut -d'<' -f1`
+            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.6/LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.6/{print $2}' | cut -d'"' -f1`
         elif [ "${percona_ver}" == "5.7" ]; then
-            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.7/LATEST/ | grep "title" | awk -F 'Percona-Server-' '/Percona-Server-5.7/{print $2}' | cut -d'<' -f1`
+            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.7/LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.7/{print $2}' | cut -d'"' -f1`
         fi
 
         echo -e "Latest version of Percona: \033[41;37m ${latest_percona} \033[0m"
