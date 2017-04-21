@@ -40,16 +40,16 @@ php_preinstall_settings(){
         fi
 
         enable_opcache=""
-        if [[ "$php" == "${php5_5_filename}" || "$php" == "${php5_6_filename}" || "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]]; then
+        if [[ "$php" != "${php5_3_filename}" && "$php" != "${php5_4_filename}" ]]; then
             enable_opcache="--enable-opcache"
         fi
 
         with_gmp="--with-gmp"
         with_icu_dir="--with-icu-dir=/usr"
         if centosversion 5; then
-            if [[ "$php" == "${php5_5_filename}" || "$php" == "${php5_6_filename}" || "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]];then
-                with_gmp="--with-gmp=/usr/local"
-                with_icu_dir="--with-icu-dir=/usr/local"
+            if [[ "$php" != "${php5_3_filename}" && "$php" != "${php5_4_filename}" ]]; then
+                with_gmp="--with-gmp=${depends_prefix}"
+                with_icu_dir="--with-icu-dir=${depends_prefix}"
             fi
         fi
 
