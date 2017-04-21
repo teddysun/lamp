@@ -20,19 +20,19 @@ php_preinstall_settings(){
 
         with_mysql=""
         if [ "$mysql" == "${mysql5_5_filename}" ] || [ "$mysql" == "${mysql5_6_filename}" ] || [ "$mysql" == "${mysql5_7_filename}" ];then
-            if [ "$php" == "${php7_0_filename}" ];then
+            if [[ "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]];then
                 with_mysql="--with-mysqli=$mysql_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock  --with-pdo-mysql=$mysql_location"
             else
                 with_mysql="--with-mysql=$mysql_location --with-mysqli=$mysql_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$mysql_location"
             fi
         elif [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
-            if [ "$php" == "${php7_0_filename}" ];then
+            if [[ "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]];then
                 with_mysql="--with-mysqli=$mariadb_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock  --with-pdo-mysql=$mariadb_location"
             else
                 with_mysql="--with-mysql=$mariadb_location --with-mysqli=$mariadb_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$mariadb_location"
             fi
         elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
-            if [ "$php" == "${php7_0_filename}" ];then
+            if [[ "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]];then
                 with_mysql="--with-mysqli=$percona_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock  --with-pdo-mysql=$percona_location"
             else
                 with_mysql="--with-mysql=$percona_location --with-mysqli=$percona_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$percona_location"
@@ -40,14 +40,14 @@ php_preinstall_settings(){
         fi
 
         enable_opcache=""
-        if [[ "$php" == "${php5_5_filename}" || "$php" == "${php5_6_filename}" || "$php" == "${php7_0_filename}" ]]; then
+        if [[ "$php" == "${php5_5_filename}" || "$php" == "${php5_6_filename}" || "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]]; then
             enable_opcache="--enable-opcache"
         fi
 
         with_gmp="--with-gmp"
         with_icu_dir="--with-icu-dir=/usr"
         if centosversion 5; then
-            if [[ "$php" == "${php5_5_filename}" || "$php" == "${php5_6_filename}" || "$php" == "${php7_0_filename}" ]];then
+            if [[ "$php" == "${php5_5_filename}" || "$php" == "${php5_6_filename}" || "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]];then
                 with_gmp="--with-gmp=/usr/local"
                 with_icu_dir="--with-icu-dir=/usr/local"
             fi
