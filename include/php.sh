@@ -173,7 +173,7 @@ config_php(){
     ln -s /usr/local/php/bin/php-config /usr/bin/php-config
     ln -s /usr/local/php/bin/phpize /usr/bin/phpize
 
-    if [[ "$php" == "${php5_5_filename}" || "$php" == "${php5_6_filename}" || "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]]; then
+    if [[ "$php" != "${php5_3_filename}" && "$php" != "${php5_4_filename}" ]]; then
         extension_dir=`php-config --extension-dir`
         cat > ${php_location}/php.d/opcache.ini<<-EOF
 [opcache]
@@ -191,14 +191,14 @@ EOF
         chown apache:apache ${web_root_dir}/ocp.php
     fi
 
-    if [ -d ${mysql_data_location} ];then
+    if [[ -d ${mysql_data_location} || -d ${mariadb_data_location} || -d ${percona_data_location} ]]; then
         sock_location=/tmp/mysql.sock
         sed -i "s#mysql.default_socket.*#mysql.default_socket = ${sock_location}#" ${php_location}/etc/php.ini
         sed -i "s#mysqli.default_socket.*#mysqli.default_socket = ${sock_location}#" ${php_location}/etc/php.ini
         sed -i "s#pdo_mysql.default_socket.*#pdo_mysql.default_socket = ${sock_location}#" ${php_location}/etc/php.ini
     fi
 
-    if [ -d ${apache_location} ];then
+    if [[ -d ${apache_location} ]]; then
         sed -i "s@AddType\(.*\)Z@AddType\1Z\n    AddType application/x-httpd-php .php .phtml\n    AddType appication/x-httpd-php-source .phps@" ${apache_location}/conf/httpd.conf
     fi
 
