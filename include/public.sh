@@ -582,9 +582,9 @@ check_command_exist(){
 install_tool(){ 
     if check_sys packageManager apt; then
         apt-get -y update
-        apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev
+        apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev python python-dev
     elif check_sys packageManager yum; then
-        yum -y install gcc gcc-c++ make wget perl curl bzip2 readline readline-devel
+        yum -y install gcc gcc-c++ make wget perl curl bzip2 readline readline-devel python python-devel
         if centosversion 5; then
             yum -y install gcc44 gcc44-c++
             export CC=/usr/bin/gcc44
