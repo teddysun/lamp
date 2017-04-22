@@ -647,13 +647,13 @@ input.btn{font-weight: bold; height: 20px; line-height: 20px; padding: 0 6px; co
 .barli{background:#36b52a; height:5px; margin:0px; padding:0;}
 #page {width: 960px; padding: 0 auto; margin: 0 auto; text-align: left;}
 #header{position:relative; padding:5px;}
-.w_small{font-size: 14px; font-family: Courier New;}
+.w_small{font-size: 14px; font-family: Consolas;}
 .w_number{color: #f800fe;}
 .sudu {padding: 0; background:#5dafd1; }
 .suduk { margin:0px; padding:0;}
 .resYes{}
 .resNo{color: #FF0000;}
-.word{font-size: 14px; font-family: Courier New; word-break:break-all;}
+.word{font-size: 14px; font-family: Consolas; word-break: break-all;}
 .static{color: #009900;}
 -->
 </style>
