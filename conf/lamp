@@ -1,0 +1,227 @@
+#!/usr/bin/env bash
+# Copyright (C) 2014 - 2017, Teddysun <i@teddysun.com>
+# 
+# This file is part of the LAMP script.
+#
+# LAMP is a powerful bash script for the installation of 
+# Apache + PHP + MySQL/MariaDB/Percona and so on.
+# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Just need to input numbers to choose what you want to install before installation.
+# And all things will be done in a few minutes.
+#
+# System Required:  CentOS 5+ / Debian 7+ / Ubuntu 12+
+# Description:  Create, Delete, List Apache Virtual Host
+# Website:  https://lamp.sh
+# Github:   https://github.com/teddysun/lamp
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+
+apache_location=/usr/local/apache
+mysql_location=/usr/local/mysql
+mariadb_location=/usr/local/mariadb
+percona_location=/usr/local/percona
+
+rootness(){
+    if [[ $EUID -ne 0 ]]; then
+        echo "Error: This script must be run as root" 1>&2
+        exit 1
+    fi
+}
+
+vhost(){
+    local action=$1
+    case $action in
+        add ) vhost_add;;
+        list ) vhost_list;;
+        del ) vhost_del;;
+        *) echo "action $action not found";exit 1;;
+    esac
+}
+
+db_name(){
+    if [ -d ${mysql_location} ]; then
+        echo "MySQL"
+    elif [ -d ${mariadb_location} ]; then
+        echo "MariaDB"
+    elif [ -d ${percona_location} ]; then
+        echo "Percona"
+    else
+        echo "MySQL"
+    fi
+}
+
+set_apache_allow_syntax(){
+    if [[ -s /usr/sbin/httpd ]]; then
+        if /usr/sbin/httpd -v | grep -q "Apache/2.4"; then
+            allow_from_all="Require all granted"
+        elif /usr/sbin/httpd -v | grep -q "Apache/2.2"; then
+            allow_from_all="Allow from All"
+        else
+            echo "Error: Can not get Apache version..."
+            exit 1
+        fi
+    else
+        echo "Error: Can not find Apache, may be not installed. Please check it and try again."
+        exit 1
+    fi
+}
+
+vhost_add(){
+    set_apache_allow_syntax
+
+    while :
+    do
+        read -p "Please enter server names(like this:www.lamp.sh lamp.sh): " server_names
+        for i in ${server_names};do
+            if apache_vhost_is_exist $i;then
+                echo "Error: vhost [$i] is exist, please check it and try again."
+                break
+            fi
+            break 2
+        done
+    done
+
+    default_root="/data/www/${server_names%% *}"
+    read -p "Please enter website root directory(default:$default_root): " website_root
+    website_root=${website_root:=$default_root}
+    php_admin_value=""
+    if [ -s /usr/bin/php ];then
+        php_admin_value="php_admin_value open_basedir ${website_root}:/tmp:/proc"
+    fi
+
+    while :
+    do
+        read -p "Do you want to create database?[y/n]:" create
+        case ${create} in
+        y|Y)
+            if [ ! "$(command -v "mysql")" ]; then
+                echo "Error: $(db_name) is not installed, please check it and try again."
+                exit 1
+            fi
+            read -p "Please enter your $(db_name) root password:" mysqlroot_passwd
+            mysql -uroot -p${mysqlroot_passwd} <<EOF
+exit
+EOF
+            if [ $? -ne 0 ]; then
+                echo "Error: $(db_name) root password incorrect! Please check it and try again!"
+                exit 1
+            fi
+            read -p "Please enter the database name:" dbname
+            [ -z ${dbname} ] && echo "Error: database name can not be empty." && exit 1
+            read -p "Please set the password for user ${dbname}:" mysqlpwd
+            [ -z ${mysqlpwd} ] && echo "Error: user password can not be empty." && exit 1
+            create="y"
+            break
+            ;;
+        n|N)
+            echo "Don't create database."
+            create="n"
+            break
+            ;;
+        *) echo "Please enter only y or n"
+        esac
+    done
+
+    if [ "$create" == "y" ]; then
+        mysql -uroot -p${mysqlroot_passwd} <<EOF
+CREATE DATABASE IF NOT EXISTS \`${dbname}\` CHARACTER SET utf8 COLLATE utf8_general_ci;
+GRANT ALL PRIVILEGES ON \`${dbname}\` . * TO '${dbname}'@'localhost' IDENTIFIED BY '${mysqlpwd}';
+GRANT ALL PRIVILEGES ON \`${dbname}\` . * TO '${dbname}'@'127.0.0.1' IDENTIFIED BY '${mysqlpwd}';
+FLUSH PRIVILEGES;
+EOF
+    fi
+
+    cat > ${apache_location}/conf/vhost/${server_names%% *}.conf << EOF
+    <VirtualHost *:80>
+    ServerName ${server_names%% *}
+    ServerAlias ${server_names}
+    DocumentRoot ${website_root}
+    DirectoryIndex index.php index.html index.htm
+    <Directory ${website_root}>
+    Options +Includes -Indexes
+    AllowOverride All
+    Order Deny,Allow
+    ${allow_from_all}
+    ${php_admin_value}
+    </Directory>
+    ErrorLog  /data/wwwlog/${server_names%% *}/error.log
+    TransferLog  /data/wwwlog/${server_names%% *}/access.log
+    </VirtualHost>
+EOF
+    echo "Congratulations. vhost [${server_names%% *}] had created."
+    echo "Website root directory is: ${website_root}/"
+
+    mkdir -p /data/wwwlog/${server_names%% *} ${website_root}
+    chown -R apache:apache /data/wwwlog/${server_names%% *} ${website_root}
+
+    echo "Reloading the apache config file..."
+    if ${apache_location}/bin/apachectl -t;then
+        /etc/init.d/httpd restart
+        echo "Reload success."
+    else
+        echo "Error: Reload failed! config file had an error, please fix it and try again."
+        exit 1
+    fi
+}
+
+vhost_list(){
+    sed -n -r -e 's/ServerAlias\s+(.*)/\1/p' -e 's/DocumentRoot\s+(.*)/\1/p'  ${apache_location}/conf/vhost/*.conf | awk 'BEGIN{printf ("%-50s %-50s\n%-50s %-50s\n","server name","website root","-----------","------------")}{printf("%-50s",$0);getline;printf $0"\n" }'
+}
+
+vhost_del(){
+    read -p "Please enter server name of vhost you want to delete it(like this:www.lamp.sh): " domain
+    if ! apache_vhost_is_exist "$domain";then
+        echo "Error: vhost [$domain] not found!"
+        exit 1
+    else
+        rm -f ${apache_location}/conf/vhost/${domain}.conf
+        echo "Delete the server name [${domain}] of vhost completed."
+
+        echo "Reloading the apache config file..."
+        if ${apache_location}/bin/apachectl -t;then
+            /etc/init.d/httpd restart
+            echo "Reload success."
+        else
+            echo "Error: Reload failed! config file had an error, please fix it and try again."
+            exit 1
+        fi
+    fi
+}
+
+apache_vhost_is_exist(){
+    local domain=$1
+    local conf_file="${apache_location}/conf/vhost/$1.conf"
+    if [ -f "$conf_file" ];then
+        return 0
+    else
+        return 1
+    fi
+}
+
+display_usage(){
+printf "
+
+Usage: `basename $0` [ add | del | list ]
+add     Create new Apache Virtual Host
+del     Delete Apache Virtual Host
+list    List all of Apache Virtual Host
+
+"
+}
+
+#Run it
+rootness
+if [ $# != 1 ];then
+    display_usage
+    exit 1
+fi
+
+action=$1
+
+case ${action} in
+    add)  vhost ${action} ;;
+    list) vhost ${action} ;;
+    del)  vhost ${action} ;;
+    *)    display_usage   ;;
+esac

@@ -1,15 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 #
-# chkconfig: - 55 45
+#====================================================================
+# Run level information:
+# chkconfig: 2345 99 99
 # description:  The memcached daemon is a network memory cache service.
-# processname: memcached
+# processname:  memcached
 # config: /etc/sysconfig/memcached
+#====================================================================
 
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+# Check that networking is up.
+[ ${NETWORKING} ="yes" ] || exit 0
+
 PORT=11211
 USER=memcached
+GROUP=memcached
 MAXCONN=1024
 CACHESIZE=64
 OPTIONS=""
@@ -18,21 +25,15 @@ if [ -f /etc/sysconfig/memcached ];then
     . /etc/sysconfig/memcached
 fi
 
-# Check that networking is up.
-if [ "$NETWORKING" = "no" ]
-then
-    exit 0
-fi
-
 RETVAL=0
 prog="memcached"
 
 start () {
     echo -n $"Starting $prog: "
     # insure that /var/run/memcached has proper permissions
-    mkdir -p /var/run/memcached
+    [ ! -d /var/run/memcached ] && mkdir -p /var/run/memcached
     if [ "`stat -c %U /var/run/memcached`" != "$USER" ]; then
-        chown $USER /var/run/memcached
+        chown $USER.$GROUP /var/run/memcached
     fi
     daemon memcached -d -p $PORT -u $USER  -m $CACHESIZE -c $MAXCONN -P /var/run/memcached/memcached.pid $OPTIONS
     RETVAL=$?
@@ -55,27 +56,23 @@ restart () {
     start
 }
 
-
 # See how we were called.
 case "$1" in
     start)
         start
         ;;
     stop)
-    stop
-    ;;
-    status)
-    status memcached
-    ;;
+        stop
+        ;;
     restart|reload)
-    restart
-    ;;
+        restart
+        ;;
     condrestart)
-    [ -f /var/lock/subsys/memcached ] && restart || :
-    ;;
+        [ -f /var/lock/subsys/memcached ] && restart || :
+        ;;
     *)
-    echo $"Usage: $0 {start|stop|status|restart|reload|condrestart}"
-    exit 1
+        echo $"Usage: $0 {start|stop|restart|reload|condrestart}"
+        exit 1
 esac
 
-exit $?
+exit $RETVAL

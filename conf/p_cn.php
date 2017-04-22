@@ -1,12 +1,12 @@
 <?php
-/* ----------------This probe is based on the YaHei.net probe------------------- */
-error_reporting(0); //Suppress all error messages
+/* ----------------本探针基于YaHei.net探针------------------- */
+error_reporting(0); //抑制所有错误信息
 ini_set('display_errors','Off');
-@header("content-Type: text/html; charset=utf-8"); //Language coercion
+@header("content-Type: text/html; charset=utf-8"); //语言强制
 ob_start();
-date_default_timezone_set('Asia/Shanghai');//Time zone setting
-$title = 'PHP Probe';
-$version = "v0.4.7"; //version
+date_default_timezone_set('Asia/Shanghai');//时区设置
+$title = 'PHP探针';
+$version = "v0.4.7"; //版本
 define('HTTP_HOST', preg_replace('~^www\.~i', '', $_SERVER['HTTP_HOST']));
 $time_start = microtime_float();
 function memory_usage() 
@@ -15,7 +15,7 @@ function memory_usage()
     return $memory;
 }
 
-// Timing
+// 计时
 function microtime_float() 
 {
     $mtime = microtime();
@@ -23,7 +23,7 @@ function microtime_float()
     return $mtime[1] + $mtime[0];
 }
 
-//Unit conversion
+//单位转换
 function formatsize($size) 
 {
     $danwei=array(' B ',' K ',' M ',' G ',' T ');
@@ -54,7 +54,7 @@ function valid_email($str)
     return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
 }
 
-//Detect PHP set parameters
+//检测PHP设置参数
 function show($varName)
 {
     switch($result = get_cfg_var($varName))
@@ -71,30 +71,30 @@ function show($varName)
     }
 }
 
-//Keep server performance test results
-$valInt = isset($_POST['pInt']) ? $_POST['pInt'] : "Not Tested";
-$valFloat = isset($_POST['pFloat']) ? $_POST['pFloat'] : "Not Tested";
-$valIo = isset($_POST['pIo']) ? $_POST['pIo'] : "Not Tested";
+//保留服务器性能测试结果
+$valInt = isset($_POST['pInt']) ? $_POST['pInt'] : "未测试";
+$valFloat = isset($_POST['pFloat']) ? $_POST['pFloat'] : "未测试";
+$valIo = isset($_POST['pIo']) ? $_POST['pIo'] : "未测试";
 
 if (isset($_GET['act']) && $_GET['act'] == "phpinfo") 
 {
     phpinfo();
     exit();
 } 
-elseif(isset($_POST['act']) && $_POST['act'] == "Integer Test")
+elseif(isset($_POST['act']) && $_POST['act'] == "整型测试")
 {
     $valInt = test_int();
 } 
-elseif(isset($_POST['act']) && $_POST['act'] == "Floating Test")
+elseif(isset($_POST['act']) && $_POST['act'] == "浮点测试")
 {
     $valFloat = test_float();
 } 
-elseif(isset($_POST['act']) && $_POST['act'] == "IO Test")
+elseif(isset($_POST['act']) && $_POST['act'] == "IO测试")
 {
     $valIo = test_io();
 } 
-//Speed ​​test - start
-elseif(isset($_POST['act']) && $_POST['act']=="Start Testing")
+//网速测试-开始
+elseif(isset($_POST['act']) && $_POST['act']=="开始测试")
 {
 ?>
     <script language="javascript" type="text/javascript">
@@ -123,7 +123,7 @@ elseif(isset($_GET['act']) && $_GET['act'] == "Function")
     {
     }
     echo "<pre>";
-    Echo "This shows all the functions supported by the system, and custom functions\n";
+    Echo "这里显示系统所支持的所有函数,和自定义函数\n";
     print_r($arr);
     echo "</pre>";
     exit();
@@ -143,14 +143,14 @@ elseif(isset($_GET['act']) && $_GET['act'] == "disable_functions")
     {
     }
     echo "<pre>";
-    Echo "This shows all the functions disable by the system\n";
+    Echo "这里显示系统被禁用的函数\n";
     print_r($arr);
     echo "</pre>";
     exit();
 }
 
-//MySQL Test
-if (isset($_POST['act']) && $_POST['act'] == 'MySQL Test')
+//MySQL检测
+if (isset($_POST['act']) && $_POST['act'] == 'MySQL检测')
 {
     $host = isset($_POST['host']) ? trim($_POST['host']) : '';
     $port = isset($_POST['port']) ? (int) $_POST['port'] : '';
@@ -161,19 +161,19 @@ if (isset($_POST['act']) && $_POST['act'] == 'MySQL Test')
     $login = preg_match('~[^a-z0-9\_\-]+~i', $login) ? '' : htmlspecialchars($login);
     $password = is_string($password) ? htmlspecialchars($password) : '';
 }
-elseif (isset($_POST['act']) && $_POST['act'] == 'Function Test')
+elseif (isset($_POST['act']) && $_POST['act'] == '函数检测')
 {
-    $funRe = "Function ".$_POST['funName']." Support status Test results：".isfun1($_POST['funName']);
+    $funRe = "函数".$_POST['funName']."支持状况检测结果：".isfun1($_POST['funName']);
 } 
-elseif (isset($_POST['act']) && $_POST['act'] == 'Mail Test')
+elseif (isset($_POST['act']) && $_POST['act'] == '邮件检测')
 {
-    $mailRe = "Mail sending test result: send";
+    $mailRe = "邮件发送检测结果：发送";
     if($_SERVER['SERVER_PORT']==80){$mailContent = "http://".$_SERVER['SERVER_NAME'].($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']);}
     else{$mailContent = "http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'].($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']);}
-    $mailRe .= (false !== @mail($_POST["mailAdd"], $mailContent, "This is a test mail!")) ? "Complete ":" failed";
+    $mailRe .= (false !== @mail($_POST["mailAdd"], $mailContent, "This is a test mail!")) ? "完成":"失败";
 }
 
-//Get MySQL version
+//获取 MySQL 版本
 function getMySQLVersion() {
     $output = shell_exec('mysql -V');
     if (empty($output)){
@@ -183,7 +183,7 @@ function getMySQLVersion() {
     return $version[0];
 }
 
-// Network speed test
+//网络速度测试
 if(isset($_POST['act']) && $_POST['speed'])
 {
     $speed=round(100/($_POST['speed']/1000),2);
@@ -194,26 +194,26 @@ elseif(isset($_GET['speed']) && $_GET['speed']=="0")
 }
 elseif(isset($_GET['speed']) and $_GET['speed']>0)
 {
-    $speed=round(100/($_GET['speed']/1000),2); //download speed：$speed kb/s
+    $speed=round(100/($_GET['speed']/1000),2); //下载速度：$speed kb/s
 }
 else
 {
-    $speed="<font color=\"red\">&nbsp;Not Test&nbsp;</font>";
+    $speed="<font color=\"red\">&nbsp;未探测&nbsp;</font>";
 }    
 
-// Detection function support
+// 检测函数支持
 function isfun($funName = '')
 {
-    if (!$funName || trim($funName) == '' || preg_match('~[^a-z0-9\_]+~i', $funName, $tmp)) return 'error';
+    if (!$funName || trim($funName) == '' || preg_match('~[^a-z0-9\_]+~i', $funName, $tmp)) return '错误';
     return (false !== function_exists($funName)) ? '<font color="green">√</font>' : '<font color="red">×</font>';
 }
 function isfun1($funName = '')
 {
-    if (!$funName || trim($funName) == '' || preg_match('~[^a-z0-9\_]+~i', $funName, $tmp)) return 'error';
+    if (!$funName || trim($funName) == '' || preg_match('~[^a-z0-9\_]+~i', $funName, $tmp)) return '错误';
     return (false !== function_exists($funName)) ? '√' : '×';
 }
 
-//Integer arithmetic capability test
+//整数运算能力测试
 function test_int()
 {
     $timeStart = gettimeofday();
@@ -223,29 +223,29 @@ function test_int()
     }
     $timeEnd = gettimeofday();
     $time = ($timeEnd["usec"]-$timeStart["usec"])/1000000+$timeEnd["sec"]-$timeStart["sec"];
-    $time = round($time, 3)."Second";
+    $time = round($time, 3)."秒";
     return $time;
 }
 
-//Floating point computing capability test
+//浮点运算能力测试
 function test_float()
 {
-    //Get the pi value
+    //得到圆周率值
     $t = pi();
     $timeStart = gettimeofday();
     for($i = 0; $i < 3000000; $i++)
     {
-        //square
+        //开平方
         sqrt($t);
     }
 
     $timeEnd = gettimeofday();
     $time = ($timeEnd["usec"]-$timeStart["usec"])/1000000+$timeEnd["sec"]-$timeStart["sec"];
-    $time = round($time, 3)."Second";
+    $time = round($time, 3)."秒";
     return $time;
 }
 
-//IO capability test
+//IO能力测试
 function test_io()
 {
     $fp = @fopen(PHPSELF, "r");
@@ -258,7 +258,7 @@ function test_io()
     $timeEnd = gettimeofday();
     @fclose($fp);
     $time = ($timeEnd["usec"]-$timeStart["usec"])/1000000+$timeEnd["sec"]-$timeStart["sec"];
-    $time = round($time, 3)."Second";
+    $time = round($time, 3)."秒";
     return($time);
 }
 
@@ -267,9 +267,9 @@ function GetCpuPercentages($stat1, $stat2) {if(count($stat1)!==count($stat2)){re
 $stat1 = GetCoreInformation();sleep(1);$stat2 = GetCoreInformation();$data = GetCpuPercentages($stat1, $stat2);
 $cpu_show = $data['cpu0']['user']."%us,  ".$data['cpu0']['sys']."%sy,  ".$data['cpu0']['nice']."%ni, ".$data['cpu0']['idle']."%id,  ".$data['cpu0']['iowait']."%wa,  ".$data['cpu0']['irq']."%irq,  ".$data['cpu0']['softirq']."%softirq";
 function makeImageUrl($title, $data) {$api='http://api.yahei.net/tz/cpu_show.php?id=';$url.=$data['user'].',';$url.=$data['nice'].',';$url.=$data['sys'].',';$url.=$data['idle'].',';$url.=$data['iowait'];$url.='&chdl=User|Nice|Sys|Idle|Iowait&chdlp=b&chl=';$url.=$data['user'].'%25|';$url.=$data['nice'].'%25|';$url.=$data['sys'].'%25|';$url.=$data['idle'].'%25|';$url.=$data['iowait'].'%25';$url.='&chtt=Core+'.$title;return $api.base64_encode($url);}
-if($_GET['act'] == "cpu_percentage"){echo "<center><b><font face='Microsoft YaHei' color='#666666' size='3'>Image loading slow, please be patient！</font></b><br /><br />";foreach( $data as $k => $v ) {echo '<img src="' . makeImageUrl( $k, $v ) . '" style="width:360px;height:240px;border: #CCCCCC 1px solid;background: #FFFFFF;margin:5px;padding:5px;" />';}echo "</center>";exit();}
+if($_GET['act'] == "cpu_percentage"){echo "<center><b><font face='Microsoft YaHei' color='#666666' size='3'>图片加载慢，请耐心等待！</font></b><br /><br />";foreach( $data as $k => $v ) {echo '<img src="' . makeImageUrl( $k, $v ) . '" style="width:360px;height:240px;border: #CCCCCC 1px solid;background: #FFFFFF;margin:5px;padding:5px;" />';}echo "</center>";exit();}
 
-// According to different systems to obtain CPU-related information
+// 根据不同系统取得CPU相关信息
 switch(PHP_OS)
 {
     case "Linux":
@@ -287,7 +287,7 @@ switch(PHP_OS)
     break;
 }
 
-//linux System detection
+//linux系统探测
 function sys_linux()
 {
     // CPU
@@ -312,8 +312,8 @@ function sys_linux()
             $x1 = '';
         else
             $x1 = ' ×'.$res['cpu']['num'];
-        $mhz[1][0] = ' | frequency:'.$mhz[1][0];
-        $cache[1][0] = ' | Secondary cache:'.$cache[1][0];
+        $mhz[1][0] = ' | 频率:'.$mhz[1][0];
+        $cache[1][0] = ' | 二级缓存:'.$cache[1][0];
         $bogomips[1][0] = ' | Bogomips:'.$bogomips[1][0];
         $res['cpu']['model'][] = $model[1][0].$mhz[1][0].$cache[1][0].$bogomips[1][0].$x1;
         if (false !== is_array($res['cpu']['model'])) $res['cpu']['model'] = implode("<br />", $res['cpu']['model']);
@@ -331,9 +331,9 @@ function sys_linux()
     $days = floor($hours / 24);
     $hours = floor($hours - ($days * 24));
     $min = floor($min - ($days * 60 * 24) - ($hours * 60));
-    if ($days !== 0) $res['uptime'] = $days." Days ";
-    if ($hours !== 0) $res['uptime'] .= $hours." Hours ";
-    $res['uptime'] .= $min." Minutes";
+    if ($days !== 0) $res['uptime'] = $days."天";
+    if ($hours !== 0) $res['uptime'] .= $hours."小时";
+    $res['uptime'] .= $min."分钟";
 
     // MEMORY
     if (false === ($str = @file("/proc/meminfo"))) return false;
@@ -346,10 +346,10 @@ function sys_linux()
     $res['memCached'] = round($buf[3][0]/1024, 2);
     $res['memUsed'] = $res['memTotal']-$res['memFree'];
     $res['memPercent'] = (floatval($res['memTotal'])!=0)?round($res['memUsed']/$res['memTotal']*100,2):0;
-    $res['memRealUsed'] = $res['memTotal'] - $res['memFree'] - $res['memCached'] - $res['memBuffers']; //Real memory is used
-    $res['memRealFree'] = $res['memTotal'] - $res['memRealUsed']; //Really free
-    $res['memRealPercent'] = (floatval($res['memTotal'])!=0)?round($res['memRealUsed']/$res['memTotal']*100,2):0; //Real memory usage
-    $res['memCachedPercent'] = (floatval($res['memCached'])!=0)?round($res['memCached']/$res['memTotal']*100,2):0; //Cached Memory usage
+    $res['memRealUsed'] = $res['memTotal'] - $res['memFree'] - $res['memCached'] - $res['memBuffers']; //真实内存使用
+    $res['memRealFree'] = $res['memTotal'] - $res['memRealUsed']; //真实空闲
+    $res['memRealPercent'] = (floatval($res['memTotal'])!=0)?round($res['memRealUsed']/$res['memTotal']*100,2):0; //真实内存使用率
+    $res['memCachedPercent'] = (floatval($res['memCached'])!=0)?round($res['memCached']/$res['memTotal']*100,2):0; //Cached内存使用率
     $res['swapTotal'] = round($buf[4][0]/1024, 2);
     $res['swapFree'] = round($buf[5][0]/1024, 2);
     $res['swapUsed'] = round($res['swapTotal']-$res['swapFree'], 2);
@@ -364,7 +364,7 @@ function sys_linux()
     return $res;
 }
 
-//FreeBSD System detection
+//FreeBSD系统探测
 function sys_freebsd()
 {
     //CPU
@@ -381,9 +381,9 @@ function sys_freebsd()
     $days = floor($hours / 24);
     $hours = floor($hours - ($days * 24));
     $min = floor($min - ($days * 60 * 24) - ($hours * 60));
-    if ($days !== 0) $res['uptime'] = $days."Days ";
-    if ($hours !== 0) $res['uptime'] .= $hours."Hours ";
-    $res['uptime'] .= $min."Minutes";
+    if ($days !== 0) $res['uptime'] = $days."天";
+    if ($hours !== 0) $res['uptime'] .= $hours."小时";
+    $res['uptime'] .= $min."分钟";
 
     //MEMORY
     if (false === ($buf = get_key("hw.physmem"))) return false;
@@ -400,13 +400,13 @@ function sys_freebsd()
     return $res;
 }
 
-//Get the parameter value FreeBSD
+//取得参数值 FreeBSD
 function get_key($keyName)
 {
     return do_command('sysctl', "-n $keyName");
 }
 
-//Determine the execution file location FreeBSD
+//确定执行文件位置 FreeBSD
 function find_command($commandName)
 {
     $path = array('/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin');
@@ -417,7 +417,7 @@ function find_command($commandName)
     return false;
 }
 
-//Execute system commands FreeBSD
+//执行系统命令 FreeBSD
 function do_command($commandName, $args)
 {
     $buffer = "";
@@ -433,7 +433,7 @@ function do_command($commandName, $args)
     return false;
 }
 
-//windows System detection
+//windows系统探测
 function sys_windows()
 {
     if (PHP_VERSION >= 5)
@@ -471,7 +471,7 @@ function sys_windows()
     $sysinfo = GetWMI($wmi,"Win32_OperatingSystem", array('LastBootUpTime','TotalVisibleMemorySize','FreePhysicalMemory','Caption','CSDVersion','SerialNumber','InstallDate'));
     $sysinfo[0]['Caption']=iconv('GBK', 'UTF-8',$sysinfo[0]['Caption']);
     $sysinfo[0]['CSDVersion']=iconv('GBK', 'UTF-8',$sysinfo[0]['CSDVersion']);
-    $res['win_n'] = $sysinfo[0]['Caption']." ".$sysinfo[0]['CSDVersion']." serial number:{$sysinfo[0]['SerialNumber']} in".date('Y-m-d-H:i:s',strtotime(substr($sysinfo[0]['InstallDate'],0,14)))."installation";
+    $res['win_n'] = $sysinfo[0]['Caption']." ".$sysinfo[0]['CSDVersion']." 序列号:{$sysinfo[0]['SerialNumber']} 于".date('Y年m月d日H:i:s',strtotime(substr($sysinfo[0]['InstallDate'],0,14)))."安装";
 
     //UPTIME
     $res['uptime'] = $sysinfo[0]['LastBootUpTime'];
@@ -481,14 +481,14 @@ function sys_windows()
     $days = floor($hours / 24);
     $hours = floor($hours - ($days * 24));
     $min = floor($min - ($days * 60 * 24) - ($hours * 60));
-    if ($days !== 0) $res['uptime'] = $days."Day";
-    if ($hours !== 0) $res['uptime'] .= $hours."Hour";
-    $res['uptime'] .= $min."Minute";
+    if ($days !== 0) $res['uptime'] = $days."天";
+    if ($hours !== 0) $res['uptime'] .= $hours."小时";
+    $res['uptime'] .= $min."分钟";
 
     //MEMORY
     $res['memTotal'] = round($sysinfo[0]['TotalVisibleMemorySize']/1024,2);
     $res['memFree'] = round($sysinfo[0]['FreePhysicalMemory']/1024,2);
-    $res['memUsed'] = $res['memTotal']-$res['memFree'];    //The above two lines have been divided by 1024, this line no longer except
+    $res['memUsed'] = $res['memTotal']-$res['memFree'];    //上面两行已经除以1024,这行不用再除了
     $res['memPercent'] = round($res['memUsed'] / $res['memTotal']*100,2);
     $swapinfo = GetWMI($wmi,"Win32_PageFileUsage", array('AllocatedBaseSize','CurrentUsage'));
 
@@ -530,7 +530,7 @@ function GetWMI($wmi,$strClass, $strValue = array())
     return $arrData;
 }
 
-// Proportional bar
+//比例条
 function bar($percent)
 {
 ?>
@@ -538,34 +538,34 @@ function bar($percent)
 <?php
 }
 
-$uptime = $sysInfo['uptime']; //online time
-$stime = date('Y-m-d H:i:s'); //The current time of the system
+$uptime = $sysInfo['uptime']; //在线时间
+$stime = date('Y-m-d H:i:s'); //系统当前时间
 
-//hard disk
-$dt = round(@disk_total_space(".")/(1024*1024*1024),3); //total
-$df = round(@disk_free_space(".")/(1024*1024*1024),3); //Available
-$du = $dt-$df; //used
+//硬盘
+$dt = round(@disk_total_space(".")/(1024*1024*1024),3); //总
+$df = round(@disk_free_space(".")/(1024*1024*1024),3); //可用
+$du = $dt-$df; //已用
 $hdPercent = (floatval($dt)!=0)?round($du/$dt*100,2):0;
-$load = $sysInfo['loadAvg'];    //System load
+$load = $sysInfo['loadAvg'];    //系统负载
 
-//If the memory is less than 1G, it will display M, otherwise it will display G units
+//判断内存如果小于1G，就显示M，否则显示G单位
 if($sysInfo['memTotal']<1024)
 {
     $memTotal = $sysInfo['memTotal']." M";
     $mt = $sysInfo['memTotal']." M";
     $mu = $sysInfo['memUsed']." M";
     $mf = $sysInfo['memFree']." M";
-    $mc = $sysInfo['memCached']." M";    //cacheMemory
-    $mb = $sysInfo['memBuffers']." M";    //buffer
+    $mc = $sysInfo['memCached']." M";    //cache化内存
+    $mb = $sysInfo['memBuffers']." M";    //缓冲
     $st = $sysInfo['swapTotal']." M";
     $su = $sysInfo['swapUsed']." M";
     $sf = $sysInfo['swapFree']." M";
     $swapPercent = $sysInfo['swapPercent'];
-    $memRealUsed = $sysInfo['memRealUsed']." M"; //Real memory is used
-    $memRealFree = $sysInfo['memRealFree']." M"; //Real memory is free
-    $memRealPercent = $sysInfo['memRealPercent']; //Real memory usage ratio
-    $memPercent = $sysInfo['memPercent']; //Total memory usage
-    $memCachedPercent = $sysInfo['memCachedPercent']; //Cache memory usage
+    $memRealUsed = $sysInfo['memRealUsed']." M"; //真实内存使用
+    $memRealFree = $sysInfo['memRealFree']." M"; //真实内存空闲
+    $memRealPercent = $sysInfo['memRealPercent']; //真实内存使用比率
+    $memPercent = $sysInfo['memPercent']; //内存总使用率
+    $memCachedPercent = $sysInfo['memCachedPercent']; //cache内存使用率
 }
 else
 {
@@ -579,14 +579,14 @@ else
     $su = round($sysInfo['swapUsed']/1024,3)." G";
     $sf = round($sysInfo['swapFree']/1024,3)." G";
     $swapPercent = $sysInfo['swapPercent'];
-    $memRealUsed = round($sysInfo['memRealUsed']/1024,3)." G"; //Real memory is used
-    $memRealFree = round($sysInfo['memRealFree']/1024,3)." G"; //Real memory is free
-    $memRealPercent = $sysInfo['memRealPercent']; //Real memory usage ratio
-    $memPercent = $sysInfo['memPercent']; //Total memory usage
-    $memCachedPercent = $sysInfo['memCachedPercent']; //cacheMemory usage
+    $memRealUsed = round($sysInfo['memRealUsed']/1024,3)." G"; //真实内存使用
+    $memRealFree = round($sysInfo['memRealFree']/1024,3)." G"; //真实内存空闲
+    $memRealPercent = $sysInfo['memRealPercent']; //真实内存使用比率
+    $memPercent = $sysInfo['memPercent']; //内存总使用率
+    $memCachedPercent = $sysInfo['memCachedPercent']; //cache内存使用率
 }
 
-//Cache memory usage
+//网卡流量
 $strs = @file("/proc/net/dev"); 
 
 for ($i = 2; $i < count($strs); $i++ )
@@ -598,7 +598,7 @@ for ($i = 2; $i < count($strs); $i++ )
     $NetOut[$i]  = formatsize($info[10][0]);
 }
 
-//ajax call real-time refresh
+//ajax调用实时刷新
 if ($_GET['act'] == "rt")
 {
     $arr=array('useSpace'=>"$du",'freeSpace'=>"$df",'hdPercent'=>"$hdPercent",'barhdPercent'=>"$hdPercent%",'TotalMemory'=>"$mt",'UsedMemory'=>"$mu",'FreeMemory'=>"$mf",'CachedMemory'=>"$mc",'Buffers'=>"$mb",'TotalSwap'=>"$st",'swapUsed'=>"$su",'swapFree'=>"$sf",'loadAvg'=>"$load",'uptime'=>"$uptime",'freetime'=>"$freetime",'bjtime'=>"$bjtime",'stime'=>"$stime",'memRealPercent'=>"$memRealPercent",'memRealUsed'=>"$memRealUsed",'memRealFree'=>"$memRealFree",'memPercent'=>"$memPercent%",'memCachedPercent'=>"$memCachedPercent",'barmemCachedPercent'=>"$memCachedPercent%",'swapPercent'=>"$swapPercent",'barmemRealPercent'=>"$memRealPercent%",'barswapPercent'=>"$swapPercent%",'NetOut2'=>"$NetOut[2]",'NetOut3'=>"$NetOut[3]",'NetOut4'=>"$NetOut[4]",'NetOut5'=>"$NetOut[5]",'NetOut6'=>"$NetOut[6]",'NetOut7'=>"$NetOut[7]",'NetOut8'=>"$NetOut[8]",'NetOut9'=>"$NetOut[9]",'NetOut10'=>"$NetOut[10]",'NetInput2'=>"$NetInput[2]",'NetInput3'=>"$NetInput[3]",'NetInput4'=>"$NetInput[4]",'NetInput5'=>"$NetInput[5]",'NetInput6'=>"$NetInput[6]",'NetInput7'=>"$NetInput[7]",'NetInput8'=>"$NetInput[8]",'NetInput9'=>"$NetInput[9]",'NetInput10'=>"$NetInput[10]",'NetOutSpeed2'=>"$NetOutSpeed[2]",'NetOutSpeed3'=>"$NetOutSpeed[3]",'NetOutSpeed4'=>"$NetOutSpeed[4]",'NetOutSpeed5'=>"$NetOutSpeed[5]",'NetInputSpeed2'=>"$NetInputSpeed[2]",'NetInputSpeed3'=>"$NetInputSpeed[3]",'NetInputSpeed4'=>"$NetInputSpeed[4]",'NetInputSpeed5'=>"$NetInputSpeed[5]");
@@ -764,84 +764,84 @@ function displayData(dataJSON)
 <div id="page">
     <table>
         <tr>
-            <th class="w_logo">PHP Probe</th>
+            <th class="w_logo">PHP 探针</th>
         </tr>
     </table>
-<!--Server related parameters -->
+<!--服务器相关参数-->
 <table>
-  <tr><th colspan="4">Server Parameters</th></tr>
+  <tr><th colspan="4">服务器参数</th></tr>
   <tr>
-    <td>Server Domain/IP</td>
-    <td colspan="3"><?php echo @get_current_user();?> - <?php echo $_SERVER['SERVER_NAME'];?>(<?php if('/'==DIRECTORY_SEPARATOR){echo $_SERVER['SERVER_ADDR'];}else{echo @gethostbyname($_SERVER['SERVER_NAME']);} ?>)&nbsp;&nbsp;Your IP address is：<?php echo @$_SERVER['REMOTE_ADDR'];?></td>
+    <td>服务器域名/IP地址</td>
+    <td colspan="3"><?php echo @get_current_user();?> - <?php echo $_SERVER['SERVER_NAME'];?>(<?php if('/'==DIRECTORY_SEPARATOR){echo $_SERVER['SERVER_ADDR'];}else{echo @gethostbyname($_SERVER['SERVER_NAME']);} ?>)&nbsp;&nbsp;你的 IP 地址是：<?php echo @$_SERVER['REMOTE_ADDR'];?></td>
   </tr>
 
   <tr>
-    <td>Server ID</td>
+    <td>服务器标识</td>
 
     <td colspan="3"><?php echo php_uname();?></td>
 
   </tr>
 
   <tr>
-    <td width="13%">Server OS</td>
-    <td width="40%"><?php $os = explode(" ", php_uname()); echo $os[0];?> &nbsp;Kernel version：<?php if('/'==DIRECTORY_SEPARATOR){echo $os[2];}else{echo $os[1];} ?></td>
-    <td width="13%">Web Server</td>
-    <td width="34%"><?php echo $_SERVER['SERVER_SOFTWARE'];?></td>
+    <td width="13%">服务器操作系统</td>
+    <td width="37%"><?php $os = explode(" ", php_uname()); echo $os[0];?> &nbsp;内核版本：<?php if('/'==DIRECTORY_SEPARATOR){echo $os[2];}else{echo $os[1];} ?></td>
+    <td width="13%">服务器解译引擎</td>
+    <td width="37%"><?php echo $_SERVER['SERVER_SOFTWARE'];?></td>
   </tr>
 
   <tr>
-    <td>Server Language</td>
+    <td>服务器语言</td>
     <td><?php echo getenv("HTTP_ACCEPT_LANGUAGE");?></td>
-    <td>Server Port</td>
+    <td>服务器端口</td>
     <td><?php echo $_SERVER['SERVER_PORT'];?></td>
   </tr>
 
   <tr>
-      <td>Server Hostname</td>
+      <td>服务器主机名</td>
       <td><?php if('/'==DIRECTORY_SEPARATOR ){echo $os[1];}else{echo $os[2];} ?></td>
-      <td>Absolute Path</td>
+      <td>绝对路径</td>
       <td><?php echo $_SERVER['DOCUMENT_ROOT']?str_replace('\\','/',$_SERVER['DOCUMENT_ROOT']):str_replace('\\','/',dirname(__FILE__));?></td>
     </tr>
 
   <tr>
-      <td>Administrator Mail</td>
+      <td>管理员邮箱</td>
       <td><?php if(isset($_SERVER['SERVER_ADMIN'])) echo $_SERVER['SERVER_ADMIN'];?></td>
-        <td>Prober path</td>
+        <td>探针路径</td>
         <td><?php echo str_replace('\\','/',__FILE__)?str_replace('\\','/',__FILE__):$_SERVER['SCRIPT_FILENAME'];?></td>
     </tr>    
 </table>
 
 <?if("show"==$sysReShow){?>
 <table>
-  <tr><th colspan="6">Server Real time Data</th></tr>
+  <tr><th colspan="6">服务器实时数据</th></tr>
 
   <tr>
-    <td width="13%" >Current Time</td>
+    <td width="13%" >服务器当前时间</td>
     <td width="37%" ><span id="stime"><?php echo $stime;?></span></td>
-    <td width="13%" >Server Uptime</td>
+    <td width="13%" >服务器已运行时间</td>
     <td width="37%" colspan="3"><span id="uptime"><?php echo $uptime;?></span></td>
   </tr>
   <tr>
-    <td width="13%">CPU Model [<?php echo $sysInfo['cpu']['num'];?>Core]</td>
+    <td width="13%">CPU 型号 [<?php echo $sysInfo['cpu']['num'];?>核]</td>
     <td width="87%" colspan="5"><?php echo $sysInfo['cpu']['model'];?></td>
   </tr>
   <tr>
-    <td>CPU usage</td>
-    <td colspan="5"><?php if('/'==DIRECTORY_SEPARATOR){echo $cpu_show." | <a href='?act=cpu_percentage' target='_blank' class='static'>View the chart</a>";}else{echo "Temporarily only support Linux system";}?>
+    <td>CPU使用状况</td>
+    <td colspan="5"><?php if('/'==DIRECTORY_SEPARATOR){echo $cpu_show." | <a href='?act=cpu_percentage' target='_blank' class='static'>查看图表</a>";}else{echo "暂时只支持Linux系统";}?>
 	</td>
   </tr>
   <tr>
-    <td>Space usage</td>
+    <td>硬盘使用状况</td>
     <td colspan="5">
-        Total Space <?php echo $dt;?>&nbsp;G，
-        Used <font color='#333333'><span id="useSpace"><?php echo $du;?></span></font>&nbsp;G，
-        Free <font color='#333333'><span id="freeSpace"><?php echo $df;?></span></font>&nbsp;G，
-        Rate <span id="hdPercent"><?php echo $hdPercent;?></span>%
+        总空间 <?php echo $dt;?>&nbsp;G，
+        已用 <font color='#333333'><span id="useSpace"><?php echo $du;?></span></font>&nbsp;G，
+        空闲 <font color='#333333'><span id="freeSpace"><?php echo $df;?></span></font>&nbsp;G，
+        使用率 <span id="hdPercent"><?php echo $hdPercent;?></span>%
         <div class="bar"><div id="barhdPercent" class="barli_black" style="width:<?php echo $hdPercent;?>%" >&nbsp;</div> </div>
     </td>
   </tr>
   <tr>
-        <td>Memory usage</td>
+        <td>内存使用状况</td>
         <td colspan="5">
 <?php
 $tmp = array(
@@ -853,46 +853,46 @@ foreach ($tmp AS $v) {
     $sysInfo[$v] = $sysInfo[$v] ? $sysInfo[$v] : 0;
 }
 ?>
-          Total Memory:
+          物理内存：共
           <font color='#CC0000'><?php echo $memTotal;?> </font>
-           , Used
+           , 已用
           <font color='#CC0000'><span id="UsedMemory"><?php echo $mu;?></span></font>
-          , Free
+          , 空闲
           <font color='#CC0000'><span id="FreeMemory"><?php echo $mf;?></span></font>
-          , Rate
+          , 使用率
           <span id="memPercent"><?php echo $memPercent;?></span>
           <div class="bar"><div id="barmemPercent" class="barli_green" style="width:<?php echo $memPercent?>%" >&nbsp;</div> </div>
 <?php
-//If the cache is 0, it is not displayed
+//判断如果cache为0，不显示
 if($sysInfo['memCached']>0)
 {
 ?>        
-          Cache Memory <span id="CachedMemory"><?php echo $mc;?></span>
-          , Rate
+          Cache化内存为 <span id="CachedMemory"><?php echo $mc;?></span>
+          , 使用率 
           <span id="memCachedPercent"><?php echo $memCachedPercent;?></span>
-          %    | Buffers <span id="Buffers"><?php echo $mb;?></span>
+          %    | Buffers缓冲为  <span id="Buffers"><?php echo $mb;?></span>
           <div class="bar"><div id="barmemCachedPercent" class="barli_blue" style="width:<?php echo $memCachedPercent?>%" >&nbsp;</div></div>
-          Real Memory Used
+          真实内存使用
           <span id="memRealUsed"><?php echo $memRealUsed;?></span>
-          , Real Memory Free
+          , 真实内存空闲
           <span id="memRealFree"><?php echo $memRealFree;?></span>
-          , Rate
+          , 使用率
           <span id="memRealPercent"><?php echo $memRealPercent;?></span>
           %
           <div class="bar_1"><div id="barmemRealPercent" class="barli_1" style="width:<?php echo $memRealPercent?>%" >&nbsp;</div></div> 
 <?php
 }
-//If the SWAP area is 0, it is not displayed
+//判断如果SWAP区为0，不显示
 if($sysInfo['swapTotal']>0)
 {
 ?>    
-          SWAP:
+          SWAP区：共
           <?php echo $st;?>
-          , Used
+          , 已使用
           <span id="swapUsed"><?php echo $su;?></span>
-          , Free
+          , 空闲
           <span id="swapFree"><?php echo $sf;?></span>
-          , Rate
+          , 使用率
           <span id="swapPercent"><?php echo $swapPercent;?></span>
           %
           <div class="bar"><div id="barswapPercent" class="barli_red" style="width:<?php echo $swapPercent?>%" >&nbsp;</div> </div>
@@ -904,7 +904,7 @@ if($sysInfo['swapTotal']>0)
     </tr>
 
     <tr>
-        <td>System Load</td>
+        <td>系统平均负载</td>
         <td colspan="5" class="w_number"><span id="loadAvg"><?php echo $load;?></span></td>
     </tr>
 </table>
@@ -912,15 +912,15 @@ if($sysInfo['swapTotal']>0)
 
 <?php if (false !== ($strs = @file("/proc/net/dev"))) : ?>
 <table>
-    <tr><th colspan="5">Network</th></tr>
+    <tr><th colspan="5">网络使用状况</th></tr>
 <?php for ($i = 2; $i < count($strs); $i++ ) : ?>
 <?php preg_match_all( "/([^\s]+):[\s]{0,}(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/", $strs[$i], $info );?>
      <tr>
         <td width="13%"><?php echo $info[1][0]?> : </td>
-        <td width="29%">In: <font color='#CC0000'><span id="NetInput<?php echo $i?>"><?php echo $NetInput[$i]?></span></font></td>
-        <td width="14%">Real time: <font color='#CC0000'><span id="NetInputSpeed<?php echo $i?>">0B/s</span></font></td>
-        <td width="29%">Out : <font color='#CC0000'><span id="NetOut<?php echo $i?>"><?php echo $NetOut[$i]?></span></font></td>
-        <td width="14%">Real time: <font color='#CC0000'><span id="NetOutSpeed<?php echo $i?>">0B/s</span></font></td>
+        <td width="29%">入网: <font color='#CC0000'><span id="NetInput<?php echo $i?>"><?php echo $NetInput[$i]?></span></font></td>
+        <td width="14%">实时: <font color='#CC0000'><span id="NetInputSpeed<?php echo $i?>">0B/s</span></font></td>
+        <td width="29%">出网: <font color='#CC0000'><span id="NetOut<?php echo $i?>"><?php echo $NetOut[$i]?></span></font></td>
+        <td width="14%">实时: <font color='#CC0000'><span id="NetOutSpeed<?php echo $i?>">0B/s</span></font></td>
     </tr>
 
 <?php endfor; ?>
@@ -929,7 +929,7 @@ if($sysInfo['swapTotal']>0)
 
 <table width="100%" cellpadding="3" cellspacing="0" align="center">
   <tr>
-    <th colspan="4">PHP Modules</th>
+    <th colspan="4">PHP 已编译模块检测</th>
   </tr>
   <tr>
     <td colspan="4"><span class="w_small">
@@ -948,9 +948,9 @@ foreach ($able as $key=>$value) {
 
 <a name="w_php"></a>
 <table>
-  <tr><th colspan="4">PHP Parameters</th></tr>
+  <tr><th colspan="4">PHP 相关参数</th></tr>
   <tr>
-    <td width="30%">PHP information </td>
+    <td width="30%">PHP 信息(phpinfo)</td>
     <td width="20%">
         <?php
         $phpSelf = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
@@ -958,133 +958,136 @@ foreach ($able as $key=>$value) {
         ?>
         <?php echo "<a href='?act=phpinfo' target='_blank' class='static'>PHPINFO</a>";?>
     </td>
-    <td width="30%">PHP Version </td>
+    <td width="30%">PHP 版本(php_version)</td>
     <td width="20%"><?php echo PHP_VERSION;?></td>
   </tr>
 
   <tr>
-    <td>Run PHP </td>
+    <td>PHP 运行方式</td>
     <td><?php echo strtoupper(php_sapi_name());?></td>
-    <td>Memory Limit </td>
+    <td>脚本占用最大内存(memory_limit)</td>
     <td><?php echo show("memory_limit");?></td>
   </tr>
 
   <tr>
-    <td>PHP Safe Mode </td>
+    <td>PHP 安全模式(safe_mode)</td>
     <td><?php echo show("safe_mode");?></td>
-    <td>POST Max Size </td>
+    <td>POST 方法提交最大限制(post_max_size)</td>
     <td><?php echo show("post_max_size");?></td>
   </tr>
 
   <tr>
-    <td>Upload Max Filesize</td>
+    <td>上传文件最大限制(upload_max_filesize)</td>
     <td><?php echo show("upload_max_filesize");?></td>
-    <td>Floating point data of significant digits </td>
+    <td>浮点型数据显示的有效位数(precision)</td>
     <td><?php echo show("precision");?></td>
   </tr>
 
   <tr>
-    <td>Max Execution Time </td>
-    <td><?php echo show("max_execution_time");?> Second</td>
-    <td>Socket TimeOut </td>
-    <td><?php echo show("default_socket_timeout");?> Second</td>
+    <td>脚本超时时间(max_execution_time)</td>
+    <td><?php echo show("max_execution_time");?>秒</td>
+    <td>socket 超时时间(default_socket_timeout)</td>
+    <td><?php echo show("default_socket_timeout");?>秒</td>
   </tr>
 
   <tr>
-    <td>PHP Doc Root </td>
+    <td>PHP 页面根目录(doc_root)</td>
     <td><?php echo show("doc_root");?></td>
-    <td>User Dir </td>
+    <td>用户根目录(user_dir)</td>
     <td><?php echo show("user_dir");?></td>
   </tr>
 
   <tr>
-    <td>Enable Dl </td>
+    <td>dl() 函数(enable_dl)</td>
     <td><?php echo show("enable_dl");?></td>
-    <td>Include Path </td>
+    <td>指定包含文件目录(include_path)</td>
     <td><?php echo show("include_path");?></td>
   </tr>
 
   <tr>
-    <td>Display Errors </td>
+    <td>显示错误信息(display_errors)</td>
     <td><?php echo show("display_errors");?></td>
-    <td>Register Globals </td>
+    <td>自定义全局变量(register_globals)</td>
     <td><?php echo show("register_globals");?></td>
   </tr>
 
   <tr>
-    <td>Magic Quotes Gpc </td>
+    <td>数据反斜杠转义(magic_quotes_gpc)</td>
     <td><?php echo show("magic_quotes_gpc");?></td>
-    <td>"&lt;?...?&gt;"Short Open Tag </td>
+    <td>"&lt;?...?&gt;"短标签(short_open_tag)</td>
     <td><?php echo show("short_open_tag");?></td>
   </tr>
 
   <tr>
-    <td>"&lt;% %&gt;"ASP Tags </td>
+    <td>"&lt;% %&gt;"ASP 风格标记(asp_tags)</td>
     <td><?php echo show("asp_tags");?></td>
-    <td>Ignore Repeated Errors </td>
+    <td>忽略重复错误信息(ignore_repeated_errors)</td>
     <td><?php echo show("ignore_repeated_errors");?></td>
   </tr>
 
   <tr>
-    <td>Ignore Repeated Source </td>
+    <td>忽略重复的错误源(ignore_repeated_source)</td>
     <td><?php echo show("ignore_repeated_source");?></td>
-    <td>Report Memory leaks </td>
+    <td>报告内存泄漏(report_memleaks)</td>
     <td><?php echo show("report_memleaks");?></td>
   </tr>
 
   <tr>
-    <td>Magic quotes gpc </td>
+    <td>自动字符串转义(magic_quotes_gpc)</td>
     <td><?php echo show("magic_quotes_gpc");?></td>
-    <td>Magic quotes runtime </td>
+    <td>外部字符串自动转义(magic_quotes_runtime)</td>
     <td><?php echo show("magic_quotes_runtime");?></td>
   </tr>
 
   <tr>
-    <td>Allow URL fopen </td>
+    <td>打开远程文件(allow_url_fopen)</td>
     <td><?php echo show("allow_url_fopen");?></td>
-    <td>Register Argc Argv </td>
+    <td>声明 argv 和 argc 变量(register_argc_argv)</td>
     <td><?php echo show("register_argc_argv");?></td>
   </tr>
 
   <tr>
-    <td>Cookie </td>
+    <td>Cookie 支持</td>
     <td><?php echo isset($_COOKIE)?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
-    <td>Spell check </td>
+    <td>拼写检查(ASpell Library)</td>
     <td><?php echo isfun("aspell_check_raw");?></td>
   </tr>
-   <tr>
-    <td>BCMath </td>
+
+  <tr>
+    <td>高精度数学运算(BCMath)</td>
     <td><?php echo isfun("bcadd");?></td>
-    <td>PCRE </td>
+    <td>PREL 相容语法(PCRE)</td>
     <td><?php echo isfun("preg_match");?></td>
   </tr>
 
   <tr>
-    <td>PDF </td>
+   <td>PDF 文档支持</td>
     <td><?php echo isfun("pdf_close");?></td>
-    <td>SNMP </td>
+    <td>SNMP 网络管理协议</td>
     <td><?php echo isfun("snmpget");?></td>
   </tr> 
-   <tr>
-    <td>VMailMgr </td>
+
+  <tr>
+    <td>VMailMgr 邮件处理</td>
     <td><?php echo isfun("vm_adduser");?></td>
-    <td>Curl </td>
+    <td>Curl 支持：</td>
     <td><?php echo isfun("curl_init");?></td>
   </tr> 
-   <tr>
-    <td>SMTP </td>
+
+  <tr>
+    <td>SMTP 支持</td>
     <td><?php echo get_cfg_var("SMTP")?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
-    <td>SMTP </td>
+    <td>SMTP 地址</td>
     <td><?php echo get_cfg_var("SMTP")?get_cfg_var("SMTP"):'<font color="red">×</font>';?></td>
   </tr> 
 
   <tr>
-    <td>Enable Functions </td>
-    <td colspan="3"><a href='<?php echo $phpSelf;?>?act=Function' target='_blank' class='static'>Please click here for details</a></td>        
+    <td>默认支持函数(enable_functions)</td>
+    <td colspan="3"><a href='<?php echo $phpSelf;?>?act=Function' target='_blank' class='static'>请点这里查看详细</a></td>        
   </tr>
 
   <tr>
-    <td>Disable Functions </td>
+    <td>被禁用的函数(disable_functions)</td>
     <td colspan="3" class="word">
 <?php 
 $disFuns=get_cfg_var("disable_functions");
@@ -1110,33 +1113,33 @@ else
 </table>
 
 <a name="w_module"></a>
-<!--Component information -->
+<!--组件信息-->
 <table>
-  <tr><th colspan="4" >Components</th></tr>
+  <tr><th colspan="4" >组件支持</th></tr>
 
   <tr>
-    <td width="30%">FTP </td>
+    <td width="30%">FTP 支持</td>
     <td width="20%"><?php echo isfun("ftp_login");?></td>
-    <td width="30%">XML </td>
+    <td width="30%">XML 解析支持</td>
     <td width="20%"><?php echo isfun("xml_set_object");?></td>
   </tr>
 
   <tr>
-    <td>Session </td>
+    <td>Session 支持</td>
     <td><?php echo isfun("session_start");?></td>
-    <td>Socket </td>
+    <td>Socket 支持</td>
     <td><?php echo isfun("socket_accept");?></td>
   </tr>
 
   <tr>
-    <td>Calendar </td>
+    <td>Calendar 支持</td>
     <td><?php echo isfun('cal_days_in_month');?></td>
-    <td>Allow URL Fopen </td>
+    <td>允许 URL 打开文件</td>
     <td><?php echo show("allow_url_fopen");?></td>
   </tr>
 
   <tr>
-    <td>GD Library </td>
+    <td>GD 库支持</td>
     <td>
     <?php
         if(function_exists(gd_info)) {
@@ -1144,52 +1147,52 @@ else
             echo $gd_info["GD Version"];
         }else{echo '<font color="red">×</font>';}
     ?></td>
-    <td>Zlib </td>
+    <td>压缩文件支持(Zlib)</td>
     <td><?php echo isfun("gzclose");?></td>
   </tr>
 
   <tr>
-    <td>IMAP </td>
+    <td>IMAP 电子邮件系统函数库</td>
     <td><?php echo isfun("imap_close");?></td>
-    <td>JDToGregorian </td>
+    <td>历法运算函数库</td>
     <td><?php echo isfun("JDToGregorian");?></td>
   </tr>
 
   <tr>
-    <td>Regular Expression </td>
+    <td>正则表达式函数库</td>
     <td><?php echo isfun("preg_match");?></td>
-    <td>WDDX </td>
+    <td>WDDX 支持</td>
     <td><?php echo isfun("wddx_add_vars");?></td>
   </tr>
 
   <tr>
-    <td>iconv Encoding </td>
+    <td>iconv 编码转换</td>
     <td><?php echo isfun("iconv");?></td>
-    <td>mbstring </td>
+    <td>mbstring</td>
     <td><?php echo isfun("mb_eregi");?></td>
   </tr>
 
   <tr>
-    <td>BCMath </td>
+    <td>BCMath 高精度数学运算</td>
     <td><?php echo isfun("bcadd");?></td>
-    <td>LDAP </td>
+    <td>LDAP 目录协议</td>
     <td><?php echo isfun("ldap_close");?></td>
   </tr>
 
   <tr>
-    <td>MCrypt </td>
+    <td>MCrypt 加密处理</td>
     <td><?php echo isfun("mcrypt_module_open");?></td>
-    <td>Mhash </td>
+    <td>Mhash 哈稀计算</td>
     <td><?php echo isfun("mhash_count");?></td>
   </tr>
 </table>
 
 <a name="w_module_other"></a>
-<!--Third party component information -->
+<!--第三方组件信息-->
 <table>
-  <tr><th colspan="4" >Other Components</th></tr>
+  <tr><th colspan="4" >第三方组件</th></tr>
   <tr>
-    <td width="30%">Zend Version</td>
+    <td width="30%">Zend 版本</td>
     <td width="20%"><?php $zend_version = zend_version();if(empty($zend_version)){echo '<font color=red>×</font>';}else{echo '<font color=green>√</font>　Ver ';echo $zend_version;}?></td>
     <td width="30%">
 <?php
@@ -1224,129 +1227,129 @@ else
 </table>
 
 <a name="w_db"></a>
-<!--Database support -->
+<!--数据库支持-->
 <table>
-  <tr><th colspan="4">Database</th></tr>
+  <tr><th colspan="4">数据库支持</th></tr>
 
   <tr>
-    <td width="30%">MySQL </td>
+    <td width="30%">MySQL 数据库</td>
     <td width="20%"><?php echo isfun("mysqli_connect"); ?>
     <?php $mysql_ver = getMySQLVersion(); if(!empty($mysql_ver)){ echo "&nbsp;&nbsp;Ver&nbsp;" . $mysql_ver;} ?>
     </td>
-    <td width="30%">ODBC </td>
+    <td width="30%">ODBC 数据库</td>
     <td width="20%"><?php echo isfun("odbc_close");?></td>
   </tr>
 
   <tr>
-    <td>Oracle </td>
+    <td>Oracle 数据库</td>
     <td><?php echo isfun("ora_close");?></td>
-    <td>SQL Server </td>
+    <td>SQL Server 数据库</td>
     <td><?php echo isfun("mssql_close");?></td>
   </tr>
 
   <tr>
-    <td>dBASE </td>
+    <td>dBASE 数据库</td>
     <td><?php echo isfun("dbase_close");?></td>
-    <td>mSQL </td>
+    <td>mSQL 数据库</td>
     <td><?php echo isfun("msql_close");?></td>
   </tr>
 
   <tr>
-    <td>SQLite </td>
+    <td>SQLite 数据库</td>
     <td><?php if(extension_loaded('sqlite3')) {$sqliteVer = SQLite3::version();echo '<font color=green>√</font>　Ver ';echo $sqliteVer[versionString];}else {echo isfun("sqlite_close");if(isfun("sqlite_close") == '<font color="green">√</font>　') {echo "Ver ".@sqlite_libversion();}}?></td>
-    <td>Hyperwave </td>
+    <td>Hyperwave 数据库</td>
     <td><?php echo isfun("hw_close");?></td>
   </tr>
 
   <tr>
-    <td>Postgre SQL </td>
+    <td>Postgre SQL 数据库</td>
     <td><?php echo isfun("pg_close"); ?></td>
-    <td>Informix </td>
+    <td>Informix 数据库</td>
     <td><?php echo isfun("ifx_close");?></td>
   </tr>
 
   <tr>
-    <td>DBA database </td>
+    <td>DBA 数据库</td>
     <td><?php echo isfun("dba_close");?></td>
-    <td>DBM database </td>
+    <td>DBM 数据库</td>
     <td><?php echo isfun("dbmclose");?></td>
   </tr>
 
   <tr>
-    <td>FilePro database </td>
+    <td>FilePro 数据库</td>
     <td><?php echo isfun("filepro_fieldcount");?></td>
-    <td>SyBase database </td>
+    <td>SyBase 数据库</td>
     <td><?php echo isfun("sybase_close");?></td>
   </tr> 
 </table>
 
 <a name="w_performance"></a><a name="bottom"></a>
 <form action="<?php echo $_SERVER[PHP_SELF]."#bottom";?>" method="post">
-<!-- Server performance test -->
+<!--服务器性能检测-->
 <table>
-  <tr><th colspan="5">Server performance Test</th></tr>
+  <tr><th colspan="5">服务器性能检测</th></tr>
 
   <tr align="center">
-    <td width="19%">Reference Object</td>
-    <td width="17%">Int Test<br />(1+1 Count 3 Million)</td>
-    <td width="17%">Float Test<br />(Pi times the square root of 3 million)</td>
-    <td width="17%">I/O Test<br />(10K file read 10,000 times)</td>
-    <td width="30%">CPU Information</td>
+    <td width="19%">参照对象</td>
+    <td width="17%">整数运算能力检测<br />(1+1运算300万次)</td>
+    <td width="17%">浮点运算能力检测<br />(圆周率开平方300万次)</td>
+    <td width="17%">数据I/O能力检测<br />(读取10K文件1万次)</td>
+    <td width="30%">CPU信息</td>
   </tr>
 
   <tr align="center">
-    <td>Linode</td>
-    <td>0.357 Second</td>
-    <td>0.802 Second</td>
-    <td>0.023 Second</td>
+    <td align="left">美国 LinodeVPS</td>
+    <td>0.357秒</td>
+    <td>0.802秒</td>
+    <td>0.023秒</td>
     <td align="left">4 x Xeon L5520 @ 2.27GHz</td>
   </tr> 
 
   <tr align="center">
-    <td>PhotonVPS.com</td>
-    <td>0.431 Second</td>
-    <td>1.024 Second</td>
-    <td>0.034 Second</td>
+    <td align="left">美国 PhotonVPS.com</td>
+    <td>0.431秒</td>
+    <td>1.024秒</td>
+    <td>0.034秒</td>
     <td align="left">8 x Xeon E5520 @ 2.27GHz</td>
   </tr>
 
   <tr align="center">
-    <td>SpaceRich.com</td>
-    <td>0.421 Second</td>
-    <td>1.003 Second</td>
-    <td>0.038 Second</td>
+    <td align="left">德国 SpaceRich.com</td>
+    <td>0.421秒</td>
+    <td>1.003秒</td>
+    <td>0.038秒</td>
     <td align="left">4 x Core i7 920 @ 2.67GHz</td>
   </tr>
 
   <tr align="center">
-    <td>RiZie.com</td>
-    <td>0.521 Second</td>
-    <td>1.559 Second</td>
-    <td>0.054 Second</td>
+    <td align="left">美国 RiZie.com</td>
+    <td>0.521秒</td>
+    <td>1.559秒</td>
+    <td>0.054秒</td>
     <td align="left">2 x Pentium4 3.00GHz</td>
   </tr>
 
   <tr align="center">
-    <td>CitynetHost.com</a></td>
-    <td>0.343 Second</td>
-    <td>0.761 Second</td>
-    <td>0.023 Second</td>
+    <td align="left">埃及 CitynetHost.com</a></td>
+    <td>0.343秒</td>
+    <td>0.761秒</td>
+    <td>0.023秒</td>
     <td align="left">2 x Core2Duo E4600 @ 2.40GHz</td>
   </tr>
 
   <tr align="center">
-    <td>IXwebhosting.com</td>
-    <td>0.535 Second</td>
-    <td>1.607 Second</td>
-    <td>0.058 Second</td>
+    <td align="left">美国 IXwebhosting.com</td>
+    <td>0.535秒</td>
+    <td>1.607秒</td>
+    <td>0.058秒</td>
     <td align="left">4 x Xeon E5530 @ 2.40GHz</td>
   </tr>
 
   <tr align="center">
-    <td>This Server</td>
-    <td><?php echo $valInt;?><br /><input class="btn" name="act" type="submit" value="Integer Test" /></td>
-    <td><?php echo $valFloat;?><br /><input class="btn" name="act" type="submit" value="Floating Test" /></td>
-    <td><?php echo $valIo;?><br /><input class="btn" name="act" type="submit" value="IO Test" /></td>
+    <td>本台服务器</td>
+    <td><?php echo $valInt;?><br /><input class="btn" name="act" type="submit" value="整型测试" /></td>
+    <td><?php echo $valFloat;?><br /><input class="btn" name="act" type="submit" value="浮点测试" /></td>
+    <td><?php echo $valIo;?><br /><input class="btn" name="act" type="submit" value="IO测试" /></td>
     <td></td>
   </tr>
 </table>
@@ -1356,19 +1359,20 @@ else
 <input type="hidden" name="pIo" value="<?php echo $valIo;?>" />
 
 <a name="w_networkspeed"></a>
-<!-- Network speed test-->
+<!--网络速度测试-->
 <table>
-    <tr><th colspan="3">Network Speed Test</th></tr>
+    <tr><th colspan="3">网络速度测试</th></tr>
   <tr>
-    <td width="19%" align="center"><input name="act" type="submit" class="btn" value="Start Testing" />
+    <td width="19%" align="center"><input name="act" type="submit" class="btn" value="开始测试" />
     <br />
-    1000k bytes sent to the client data
+    向客户端传送1000k字节数据<br />
+    带宽比例按理想值计算
     </td>
     <td width="81%" align="center" >
 
   <table align="center" width="550" border="0" cellspacing="0" cellpadding="0" >
     <tr >
-    <td height="15" width="50">Bandwidth</td>
+    <td height="15" width="50">带宽</td>
     <td height="15" width="50">1M</td>
     <td height="15" width="50">2M</td>
     <td height="15" width="50">3M</td>
@@ -1406,85 +1410,85 @@ else
    </td>
   </tr>
   </table>
-  <?php echo (isset($_GET['speed']))?"Download 1000KB Used <font color='#cc0000'>".$_GET['speed']."</font> Millisecond, Download Speed："."<font color='#cc0000'>".$speed."</font>"." kb/s":"<font color='#cc0000'>&nbsp;Not Test&nbsp;</font>" ?>
+  <?php echo (isset($_GET['speed']))?"下载1000KB数据用时 <font color='#cc0000'>".$_GET['speed']."</font> 毫秒，下载速度："."<font color='#cc0000'>".$speed."</font>"." kb/s，需测试多次取平均值，超过10M直接看下载速度":"<font color='#cc0000'>&nbsp;未探测&nbsp;</font>" ?>
     </td>
   </tr>
 </table>
 
 <a name="w_MySQL"></a>
-<!--MySQL database Connection detection -->
+<!--MySQL数据库连接检测-->
 <table>
-  <tr><th colspan="3">MySQL Database connection detection</th></tr>
+  <tr><th colspan="3">MySQL 数据库连接检测</th></tr>
 
   <tr>
     <td width="15%"></td>
     <td width="60%">
-      Host：<input type="text" name="host" value="localhost" size="10" />
-      Port：<input type="text" name="port" value="3306" size="10" />
-      Username：<input type="text" name="login" size="10" />
-      Password：<input type="password" name="password" size="10" />
+      地址：<input type="text" name="host" value="localhost" size="10" />
+      端口：<input type="text" name="port" value="3306" size="10" />
+      用户名：<input type="text" name="login" size="10" />
+      密码：<input type="password" name="password" size="10" />
     </td>
     <td width="25%">
-      <input class="btn" type="submit" name="act" value="MySQL Test" />
+      <input class="btn" type="submit" name="act" value="MySQL检测" />
     </td>
   </tr>
 </table>
 <?php
-  if (isset($_POST['act']) && $_POST['act'] == 'MySQL Test') {
+  if (isset($_POST['act']) && $_POST['act'] == 'MySQL检测') {
       if(class_exists("mysqli")) {
 	  
 	  $link = new mysqli($host,$login,$password,'information_schema',$port);
           if ($link){
-              echo "<script>alert('Connect to the MySql database to normal')</script>";
+              echo "<script>alert('连接到MySql数据库正常')</script>";
           } else {
-              echo "<script>alert('Unable to connect to MySql database!')</script>";
+              echo "<script>alert('无法连接到MySql数据库！')</script>";
           }
       } else {
-          echo "<script>alert('Server does not support MySQL database!')</script>";
+          echo "<script>alert('服务器不支持MySQL数据库！')</script>";
       }
   }
 ?>
     
 <a name="w_function"></a>
-<!-- function Test-->
+<!--函数检测-->
 <table>
 
-  <tr><th colspan="3">Function Test</th></tr>
+  <tr><th colspan="3">函数检测</th></tr>
 
   <tr>
     <td width="15%"></td>
     <td width="60%">
-      Enter the function you want to test: 
+      请输入您要检测的函数：
       <input type="text" name="funName" size="50" />
     </td>
     <td width="25%">
-      <input class="btn" type="submit" name="act" align="right" value="Function Test" />
+      <input class="btn" type="submit" name="act" align="right" value="函数检测" />
     </td>
   </tr>
 
 <?php
-  if (isset($_POST['act']) && $_POST['act'] == 'Function Test') {
+  if (isset($_POST['act']) && $_POST['act'] == '函数检测') {
       echo "<script>alert('$funRe')</script>";
   }
 ?>
 </table>
 
 <a name="w_mail"></a>
-<!--Mail Send Test-->
+<!--邮件发送检测-->
 <table>
-  <tr><th colspan="3">Mail Send Test</th></tr>
+  <tr><th colspan="3">邮件发送检测</th></tr>
   <tr>
     <td width="15%"></td>
     <td width="60%">
-      Please enter your email address to test: 
+      请输入您要检测的邮件地址：
       <input type="text" name="mailAdd" size="50" />
     </td>
     <td width="25%">
-    <input class="btn" type="submit" name="act" value="Mail Test" />
+    <input class="btn" type="submit" name="act" value="邮件检测" />
     </td>
   </tr>
 <?php
-  if (isset($_POST['act']) && $_POST['act'] == 'Mail Test') {
+  if (isset($_POST['act']) && $_POST['act'] == '邮件检测') {
       echo "<script>alert('$mailRe')</script>";
   }
 ?>
@@ -1492,9 +1496,9 @@ else
 </form>
     <table>
         <tr>
-            <td class="w_foot"><a href="https://lamp.sh" target="_blank">Based on YaHei.net probe</a></td>
+            <td class="w_foot"><a href="https://lamp.sh" target="_blank">基于 YaHei.net 探针</a></td>
             <td class="w_foot"><?php $run_time = sprintf('%0.4f', microtime_float() - $time_start);?>Processed in <?php echo $run_time?> seconds. <?php echo memory_usage();?> memory usage.</td>
-            <td class="w_foot"><a href="#w_top">Back to top</a></td>
+            <td class="w_foot"><a href="#w_top">返回顶部</a></td>
         </tr>
     </table>
 </div>
