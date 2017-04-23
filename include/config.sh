@@ -19,6 +19,7 @@ mysql_location=/usr/local/mysql
 mariadb_location=/usr/local/mariadb
 percona_location=/usr/local/percona
 php_location=/usr/local/php
+openssl_location=/usr/local/openssl
 
 #Install depends location
 depends_prefix=/usr/local
@@ -33,6 +34,10 @@ download_root_url="http://dl.lamp.sh/files"
 parallel_compile=1
 
 ##Software version
+#nghttp2
+nghttp2_filename="nghttp2-1.21.1"
+#openssl
+openssl_filename="openssl-1.0.2k"
 #apache2.2
 apache2_2_filename="httpd-2.2.32"
 #apache2.4
