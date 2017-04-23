@@ -817,9 +817,9 @@ function displayData(dataJSON)
 
   <tr>
     <td width="13%" >Current Time</td>
-    <td width="37%" ><span id="stime"><?php echo $stime;?></span></td>
+    <td width="40%" ><span id="stime"><?php echo $stime;?></span></td>
     <td width="13%" >Server Uptime</td>
-    <td width="37%" colspan="3"><span id="uptime"><?php echo $uptime;?></span></td>
+    <td width="34%" colspan="3"><span id="uptime"><?php echo $uptime;?></span></td>
   </tr>
   <tr>
     <td width="13%">CPU Model [<?php echo $sysInfo['cpu']['num'];?>Core]</td>

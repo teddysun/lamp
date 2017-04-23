@@ -784,9 +784,9 @@ function displayData(dataJSON)
 
   <tr>
     <td width="13%">服务器操作系统</td>
-    <td width="37%"><?php $os = explode(" ", php_uname()); echo $os[0];?> &nbsp;内核版本：<?php if('/'==DIRECTORY_SEPARATOR){echo $os[2];}else{echo $os[1];} ?></td>
+    <td width="40%"><?php $os = explode(" ", php_uname()); echo $os[0];?> &nbsp;内核版本：<?php if('/'==DIRECTORY_SEPARATOR){echo $os[2];}else{echo $os[1];} ?></td>
     <td width="13%">服务器解译引擎</td>
-    <td width="37%"><?php echo $_SERVER['SERVER_SOFTWARE'];?></td>
+    <td width="34%"><?php echo $_SERVER['SERVER_SOFTWARE'];?></td>
   </tr>
 
   <tr>
@@ -817,9 +817,9 @@ function displayData(dataJSON)
 
   <tr>
     <td width="13%" >服务器当前时间</td>
-    <td width="37%" ><span id="stime"><?php echo $stime;?></span></td>
+    <td width="40%" ><span id="stime"><?php echo $stime;?></span></td>
     <td width="13%" >服务器已运行时间</td>
-    <td width="37%" colspan="3"><span id="uptime"><?php echo $uptime;?></span></td>
+    <td width="34%" colspan="3"><span id="uptime"><?php echo $uptime;?></span></td>
   </tr>
   <tr>
     <td width="13%">CPU 型号 [<?php echo $sysInfo['cpu']['num'];?>核]</td>
