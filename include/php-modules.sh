@@ -140,7 +140,7 @@ install_php_depends(){
         install_re2c
         install_libedit
         if centosversion 5; then
-            if [[ "$php" == "${php5_5_filename}" || "$php" == "${php5_6_filename}" || "$php" == "${php7_0_filename}" ]];then
+            if [[ "$php" != "${php5_3_filename}" && "$php" != "${php5_4_filename}" ]]; then
                 update_icu
                 update_gmp
             fi
@@ -179,14 +179,16 @@ install_libiconv(){
 
 
 install_re2c(){
-    cd ${cur_dir}/software/
-    download_file "${re2c_filename}.tar.gz"
-    tar zxf ${re2c_filename}.tar.gz
-    cd ${re2c_filename}
-
-    error_detect "./configure"
-    error_detect "make"
-    error_detect "make install"
+    if [ ! -e "/usr/local/bin/re2c" ]; then
+        cd ${cur_dir}/software/
+        download_file "${re2c_filename}.tar.gz"
+        tar zxf ${re2c_filename}.tar.gz
+        cd ${re2c_filename}
+        
+        error_detect "./configure"
+        error_detect "make"
+        error_detect "make install"
+    fi
 }
 
 
@@ -228,52 +230,87 @@ install_pcre(){
 
 
 install_mhash(){
-    cd ${cur_dir}/software/
-    download_file "${mhash_filename}.tar.gz"
-    tar zxf ${mhash_filename}.tar.gz
-    cd ${mhash_filename}
+    if [ ! -e "/usr/local/lib/libmhash.a" ]; then
+        cd ${cur_dir}/software/
+        download_file "${mhash_filename}.tar.gz"
+        tar zxf ${mhash_filename}.tar.gz
+        cd ${mhash_filename}
 
-    error_detect "./configure"
-    error_detect "parallel_make"
-    error_detect "make install"
+        error_detect "./configure"
+        error_detect "parallel_make"
+        error_detect "make install"
+    fi
 }
 
 
 install_mcrypt(){
-    rm -f /etc/ld.so.conf.d/locallib.conf
-    touch /etc/ld.so.conf.d/locallib.conf
-    echo "/usr/local/lib" >> /etc/ld.so.conf.d/locallib.conf
-    ldconfig
-    cd ${cur_dir}/software/
-    download_file "${mcrypt_filename}.tar.gz"
-    tar zxf ${mcrypt_filename}.tar.gz
-    cd ${mcrypt_filename}
+    if [ ! -f "/usr/local/bin/mcrypt" ]; then
+        cd ${cur_dir}/software/
+        download_file "${mcrypt_filename}.tar.gz"
+        tar zxf ${mcrypt_filename}.tar.gz
+        cd ${mcrypt_filename}
 
-    error_detect "./configure"
-    error_detect "parallel_make"
-    error_detect "make install"
+        ldconfig
+        error_detect "./configure"
+        error_detect "parallel_make"
+        error_detect "make install"
+    fi
 }
 
 
 install_libmcrypt(){
-    cd ${cur_dir}/software/
-    download_file "${libmcrypt_filename}.tar.gz"
-    tar zxf ${libmcrypt_filename}.tar.gz
-    cd ${libmcrypt_filename}
+    if [ ! -e "/usr/local/lib/libmcrypt.la" ]; then
+        cd ${cur_dir}/software/
+        download_file "${libmcrypt_filename}.tar.gz"
+        tar zxf ${libmcrypt_filename}.tar.gz
+        cd ${libmcrypt_filename}
 
-    error_detect "./configure"
-    error_detect "parallel_make"
-    error_detect "make install"
+        error_detect "./configure"
+        error_detect "parallel_make"
+        error_detect "make install"
+    fi
 }
 
 
 install_libedit(){
-    cd ${cur_dir}/software/
-    download_file "${libedit_filename}.tar.gz"
-    tar zxf ${libedit_filename}.tar.gz
-    cd ${libedit_filename}
+    if [ ! -e "/usr/local/lib/libedit.a" ]; then
+        cd ${cur_dir}/software/
+        download_file "${libedit_filename}.tar.gz"
+        tar zxf ${libedit_filename}.tar.gz
+        cd ${libedit_filename}
+        
+        error_detect "./configure"
+        error_detect "parallel_make"
+        error_detect "make install"
+    fi
+}
 
-    error_detect "./configure"
+
+install_nghttp2(){
+    if [ ! -e "/usr/lib/libnghttp2.a" ]; then
+        cd ${cur_dir}/software/
+        download_file "${nghttp2_filename}.tar.gz"
+        tar zxf ${nghttp2_filename}.tar.gz
+        cd ${nghttp2_filename}
+
+        export OPENSSL_CFLAGS="-I${openssl_location}/include"
+        export OPENSSL_LIBS="-L${openssl_location}/lib -lssl -lcrypto"
+        error_detect "./configure --prefix=/usr"
+        error_detect "parallel_make"
+        error_detect "make install"
+        unset OPENSSL_CFLAGS
+        unset OPENSSL_LIBS
+    fi
+}
+
+
+install_openssl(){
+    cd ${cur_dir}/software/
+    download_file "${openssl_filename}.tar.gz"
+    tar zxf ${openssl_filename}.tar.gz
+    cd ${openssl_filename}
+
+    error_detect "./config --prefix=${openssl_location} -fPIC shared no-ssl2 zlib-dynamic"
     error_detect "parallel_make"
     error_detect "make install"
 }

@@ -37,13 +37,15 @@ apache_preinstall_settings(){
             --with-pcre=${depends_prefix}/pcre \
             --with-mpm=prefork \
             --with-included-apr \
-            --with-ssl \
+            --with-ssl=${openssl_location} \
+            --with-nghttp2 \
+            --enable-http2 \
             --enable-so \
             --enable-dav \
             --enable-suexec \
             --enable-deflate=shared \
             --enable-ssl=shared \
-            --enable-expires=shared  \
+            --enable-expires=shared \
             --enable-headers=shared \
             --enable-rewrite=shared \
             --enable-static-support \
@@ -70,7 +72,7 @@ if [ "$apache" == "${apache2_2_filename}" ];then
     tar zxf ${apache2_2_filename}.tar.gz
     cd ${apache2_2_filename}
 
-    if grep -q -i "Ubuntu 12.04" /etc/issue;then
+    if grep -qi "Ubuntu 12.04" /etc/issue;then
         sed -i '/SSL_PROTOCOL_SSLV2/d' modules/ssl/ssl_engine_io.c
     fi
 
@@ -84,6 +86,11 @@ if [ "$apache" == "${apache2_2_filename}" ];then
 elif [ "$apache" == "${apache2_4_filename}" ];then
 
     check_installed "install_pcre" "${depends_prefix}/pcre"
+    check_installed "install_openssl" "${openssl_location}"
+    install_nghttp2
+
+    echo "/usr/local/lib" > /etc/ld.so.conf.d/locallib.conf
+    ldconfig
 
     cd ${cur_dir}/software/
     download_file "${apr_filename}.tar.gz"
@@ -97,10 +104,12 @@ elif [ "$apache" == "${apache2_4_filename}" ];then
     mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
 
     LDFLAGS=-ldl
+    LD_LIBRARY_PATH=${openssl_location}/lib:${LD_LIBRARY_PATH}
     error_detect "./configure ${apache_configure_args}"
     error_detect "parallel_make"
     error_detect "make install"
     unset LDFLAGS
+    unset LD_LIBRARY_PATH
     config_apache 2.4
 fi
 }
@@ -181,6 +190,11 @@ EOF
         sed -i -r 's/^#(.*mod_deflate.so)/\1/' ${apache_location}/conf/httpd.conf
         sed -i -r 's/^#(.*mod_expires.so)/\1/' ${apache_location}/conf/httpd.conf
         sed -i -r 's/^#(.*mod_ssl.so)/\1/' ${apache_location}/conf/httpd.conf
+        sed -i -r 's/^#(.*mod_http2.so)/\1/' ${apache_location}/conf/httpd.conf
+        sed -i "s@^export LD_LIBRARY_PATH.*@export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${openssl_location}/lib@" ${apache_location}/bin/envvars
+        echo "ProtocolsHonorOrder On" >> ${apache_location}/conf/httpd.conf
+        echo "Protocols h2 http/1.1" >> ${apache_location}/conf/httpd.conf
+        
         sed -i 's/Allow from All/Require all granted/' ${apache_location}/conf/extra/httpd-vhosts.conf
         sed -i 's/Require host .example.com/Require host localhost/g' ${apache_location}/conf/extra/httpd-info.conf
     elif [ ${version} == "2.2" ];then

@@ -41,16 +41,7 @@ upgrade_apache(){
     echo "You choose = $upgrade_apache"
     echo "----------------------------"
     echo
-    get_char() {
-        SAVEDSTTY=`stty -g`
-        stty -echo
-        stty cbreak
-        dd if=/dev/tty bs=1 count=1 2> /dev/null
-        stty -raw
-        stty echo
-        stty $SAVEDSTTY
-    }
-    echo ""
+
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=`get_char`
 
@@ -94,14 +85,14 @@ upgrade_apache(){
             else
                 echo "httpd-${latest_apache22}.tar.gz [found]"
                 tar -zxf httpd-${latest_apache22}.tar.gz
-                cd httpd-${latest_apache22}/
+                cd httpd-${latest_apache22}
             fi
 
             if grep -q -i "Ubuntu 12.04" /etc/issue;then
                 sed -i '/SSL_PROTOCOL_SSLV2/d' modules/ssl/ssl_engine_io.c
             fi
-            export LDFLAGS=-ldl
-            
+
+            LDFLAGS=-ldl
             error_detect "./configure ${apache_configure_args}"
             error_detect "parallel_make"
             error_detect "make install"
@@ -112,13 +103,15 @@ upgrade_apache(){
                 --with-pcre=${depends_prefix}/pcre \
                 --with-mpm=prefork \
                 --with-included-apr \
-                --with-ssl \
+                --with-ssl=${openssl_location} \
+                --with-nghttp2 \
+                --enable-http2 \
                 --enable-so \
                 --enable-dav \
                 --enable-suexec \
                 --enable-deflate=shared \
                 --enable-ssl=shared \
-                --enable-expires=shared  \
+                --enable-expires=shared \
                 --enable-headers=shared \
                 --enable-rewrite=shared \
                 --enable-static-support \
@@ -137,15 +130,17 @@ upgrade_apache(){
             else
                 echo "httpd-${latest_apache24}.tar.gz [found]"
                 tar -zxf httpd-${latest_apache24}.tar.gz
-                cd httpd-${latest_apache24}/
+                cd httpd-${latest_apache24}
             fi
 
             mv ${cur_dir}/software/${apr_filename} srclib/apr
             mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
 
-            error_detect "./configure $apache_configure_args"
+            LDFLAGS=-ldl
+            error_detect "./configure ${apache_configure_args}"
             error_detect "parallel_make"
             error_detect "make install"
+            unset LDFLAGS
 
         fi
 
