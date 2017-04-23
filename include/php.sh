@@ -14,7 +14,11 @@
 #Pre-installation php
 php_preinstall_settings(){
 
-    display_menu php 4
+    if [[ "$apache" == "do_not_install" ]];then
+        php="do_not_install"
+    else
+        display_menu php 4
+    fi
 
     if [ "$php" != "do_not_install" ];then
 
