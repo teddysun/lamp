@@ -295,7 +295,7 @@ install_nghttp2(){
 
         export OPENSSL_CFLAGS="-I${openssl_location}/include"
         export OPENSSL_LIBS="-L${openssl_location}/lib -lssl -lcrypto"
-        error_detect "./configure --prefix=/usr"
+        error_detect "./configure --prefix=/usr --disable-examples"
         error_detect "parallel_make"
         error_detect "make install"
         unset OPENSSL_CFLAGS
