@@ -74,7 +74,7 @@ if [ "$apache" == "${apache2_2_filename}" ];then
         sed -i '/SSL_PROTOCOL_SSLV2/d' modules/ssl/ssl_engine_io.c
     fi
 
-    export LDFLAGS=-ldl
+    LDFLAGS=-ldl
     error_detect "./configure ${apache_configure_args}"
     error_detect "parallel_make"
     error_detect "make install"
@@ -96,9 +96,11 @@ elif [ "$apache" == "${apache2_4_filename}" ];then
     mv ${cur_dir}/software/${apr_filename} srclib/apr
     mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
 
-    error_detect "./configure $apache_configure_args"
+    LDFLAGS=-ldl
+    error_detect "./configure ${apache_configure_args}"
     error_detect "parallel_make"
     error_detect "make install"
+    unset LDFLAGS
     config_apache 2.4
 fi
 }
@@ -124,17 +126,17 @@ config_apache(){
     touch ${apache_location}/conf/vhost/none.conf
 
     cat > /etc/logrotate.d/httpd <<EOF
-    ${apache_location}/logs/access_log ${apache_location}/logs/error_log {
-        daily
-        rotate 14
-        missingok
-        notifempty
-        compress
-        sharedscripts
-        postrotate
-            [ ! -f ${apache_location}/logs/httpd.pid ] || kill -USR1 \`cat ${apache_location}/logs/httpd.pid\`
-        endscript
-    }
+${apache_location}/logs/access_log ${apache_location}/logs/error_log {
+    daily
+    rotate 14
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+        [ ! -f ${apache_location}/logs/httpd.pid ] || kill -USR1 \`cat ${apache_location}/logs/httpd.pid\`
+    endscript
+}
 EOF
 
     cat > ${apache_location}/conf/extra/httpd-vhosts.conf <<EOF
@@ -200,9 +202,11 @@ EOF
     ln -s ${apache_location}/logs /var/log/httpd
 
     cp -f ${cur_dir}/conf/index.html ${web_root_dir}
+    cp -f ${cur_dir}/conf/index_cn.html ${web_root_dir}
     cp -f ${cur_dir}/conf/lamp.gif ${web_root_dir}
     cp -f ${cur_dir}/conf/jquery.js ${web_root_dir}
     cp -f ${cur_dir}/conf/p.php ${web_root_dir}
+    cp -f ${cur_dir}/conf/p_cn.php ${web_root_dir}
     cp -f ${cur_dir}/conf/phpinfo.php ${web_root_dir}
     cp -f ${cur_dir}/conf/favicon.ico ${web_root_dir}
 
