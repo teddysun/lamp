@@ -801,10 +801,10 @@ firewall_set(){
                 /etc/init.d/iptables save
                 /etc/init.d/iptables restart
             else
-                echo "WARNING: iptables looks like shutdown, please manually set if necessary."
+                echo "WARNING: iptables looks like not running, please manually set if necessary."
             fi
         else
-            echo "iptables looks like not installed"
+            echo "WARNING: iptables looks like not installed."
         fi
     elif centosversion 7; then
         systemctl status firewalld > /dev/null 2>&1
@@ -813,16 +813,7 @@ firewall_set(){
             firewall-cmd --permanent --zone=public --add-service=https
             firewall-cmd --reload
         else
-            echo "Firewalld looks like not running, try to start..."
-            systemctl start firewalld
-            if [ $? -eq 0 ]; then
-                echo "Firewalld start success..."
-                firewall-cmd --permanent --zone=public --add-service=http
-                firewall-cmd --permanent --zone=public --add-service=https
-                firewall-cmd --reload
-            else
-                echo "Try to start firewalld failed."
-            fi
+            echo "WARNING: firewalld looks like not running, please manually set if necessary."
         fi
     fi
     echo "firewall set completed..."
@@ -891,7 +882,7 @@ finally(){
     [ "$apache" != "do_not_install" ] && echo "Start Apache..." && /etc/init.d/httpd start
     [ "$mysql" != "do_not_install" ] && echo "Start MySQL or MariaDB..." && /etc/init.d/mysqld start
     if_in_array "${php_memcached_filename}" "$php_modules_install" && echo "Start Memcached..." && /etc/init.d/memcached start
-    if [ "$php" == "${php7_0_filename}" ]; then
+    if [[ "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]]; then
         if_in_array "${php_redis_filename2}" "$php_modules_install" && echo "Start Redis-server..." && /etc/init.d/redis-server start
     else
         if_in_array "${php_redis_filename}" "$php_modules_install" && echo "Start Redis-server..." && /etc/init.d/redis-server start
@@ -936,9 +927,7 @@ install_lamp(){
     elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
         check_installed "install_percona" "${percona_location}"
     fi
-    if [ "$php" != "do_not_install" ] && [ "$apache" != "do_not_install" ]; then
-        check_installed "install_php" "${php_location}"
-    fi
+    [ "$php" != "do_not_install" ] && check_installed "install_php" "${php_location}"
     [ "$phpmyadmin" != "do_not_install" ] && install_phpmyadmin
     [ "$php_modules_install" != "do_not_install" ] && install_php_modules "$phpConfig"
 
