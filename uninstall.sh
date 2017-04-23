@@ -37,13 +37,13 @@ uninstall_lamp(){
     load_config
 
     echo "uninstalling Apache"
-    [ -f /etc/init.d/httpd ] && /etc/init.d/httpd stop > /dev/null 2>&1 && boot_stop httpd
+    [ -f /etc/init.d/httpd ] && /etc/init.d/httpd stop > /dev/null 2>&1
     rm -f /etc/init.d/httpd
     rm -rf ${apache_location} /usr/sbin/httpd /var/log/httpd /etc/logrotate.d/httpd /var/spool/mail/apache
     echo "Success"
 
     echo "uninstalling MySQL/MariaDB/Percona"
-    [ -f /etc/init.d/mysqld ] && /etc/init.d/mysqld stop > /dev/null 2>&1 && boot_stop mysqld
+    [ -f /etc/init.d/mysqld ] && /etc/init.d/mysqld stop > /dev/null 2>&1
     rm -f /etc/init.d/mysqld
     rm -rf ${mysql_location} ${mariadb_location} ${percona_location} /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
     echo "Success"
@@ -53,10 +53,10 @@ uninstall_lamp(){
     echo "Success"
     echo
     echo "uninstalling others software"
-    [ -f /etc/init.d/memcached ] && /etc/init.d/memcached stop > /dev/null 2>&1 && boot_stop memcached
+    [ -f /etc/init.d/memcached ] && /etc/init.d/memcached stop > /dev/null 2>&1
     rm -f /etc/init.d/memcached
     rm -fr ${depends_prefix}/memcached /usr/bin/memcached
-    [ -f /etc/init.d/redis-server ] && /etc/init.d/redis-server stop > /dev/null 2>&1 && boot_stop redis-server
+    [ -f /etc/init.d/redis-server ] && /etc/init.d/redis-server stop > /dev/null 2>&1
     rm -f /etc/init.d/redis-server
     rm -rf ${depends_prefix}/redis
     rm -rf ${depends_prefix}/libiconv /usr/lib64/libiconv.so.0 /usr/lib/libiconv.so.0
