@@ -25,6 +25,7 @@ Supported System
 - Ubuntu-14.x
 - Ubuntu-15.x
 - Ubuntu-16.x
+- Ubuntu-17.x
 - Debian-7.x
 - Debian-8.x
 
