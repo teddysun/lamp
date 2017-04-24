@@ -63,6 +63,7 @@ uninstall_lamp(){
     rm -rf ${depends_prefix}/imap-2007f
     rm -rf ${depends_prefix}/pcre
     rm -rf ${openssl_location}
+    rm -rf /usr/lib64/libcrypto.so.1.0.0 /usr/lib64/libssl.so.1.0.0 /usr/lib/libcrypto.so.1.0.0 /usr/lib/libssl.so.1.0.0
     rm -rf /usr/lib/libnghttp2.*
     rm -rf /usr/local/lib/libedit.*
     rm -rf /usr/local/lib/libmcrypt.*
