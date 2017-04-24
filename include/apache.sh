@@ -39,18 +39,8 @@ apache_preinstall_settings(){
             --with-included-apr \
             --with-ssl=${openssl_location} \
             --with-nghttp2 \
-            --enable-http2 \
-            --enable-so \
-            --enable-dav \
-            --enable-suexec \
-            --enable-deflate=shared \
-            --enable-ssl=shared \
-            --enable-expires=shared \
-            --enable-headers=shared \
-            --enable-rewrite=shared \
-            --enable-static-support \
-            --enable-modules=all \
-            --enable-mods-shared=all"
+            --enable-modules=reallyall \
+            --enable-mods-shared=reallyall"
         fi
     fi
 }
@@ -60,10 +50,10 @@ install_apache(){
 
     if check_sys packageManager apt;then
         apt-get -y remove apache2 apache2-doc apache2-utils apache2.2-common apache2.2-bin apache2-mpm-prefork apache2-doc apache2-mpm-worker
-        apt-get -y install libssl-dev lynx
+        apt-get -y install libssl-dev libxml2-dev lynx
     elif check_sys packageManager yum;then
         yum -y remove httpd*
-        yum -y install zlib-devel openssl openssl-devel lynx
+        yum -y install zlib-devel openssl openssl-devel libxml2-devel lynx
     fi
 
 if [ "$apache" == "${apache2_2_filename}" ];then

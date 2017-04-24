@@ -88,8 +88,8 @@ install_php_depends(){
         apt_depends=(
             m4 autoconf bison libbz2-dev libgmp-dev libicu-dev libsasl2-dev libsasl2-modules-ldap
             libldap-2.4-2 libldap2-dev libldb-dev libpam0g-dev libcurl4-gnutls-dev snmp libsnmp-dev
-            autoconf2.13 libxml2-dev openssl pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool
-            libjpeg-dev libpng12-dev libfreetype6-dev libmhash-dev libmcrypt-dev libssl-dev patch
+            autoconf2.13 openssl pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool
+            libjpeg-dev libpng12-dev libfreetype6-dev libmhash-dev libmcrypt-dev patch
         )
         for depend in ${apt_depends[@]}
         do
@@ -123,7 +123,7 @@ install_php_depends(){
 
         yum_depends=(
             m4 autoconf bison bzip2-devel pam-devel gmp-devel libicu-devel openldap openldap-devel patch
-            libxml2-devel openssl openssl-devel zlib-devel curl-devel pcre-devel libtool-libs libtool-ltdl-devel
+            curl-devel pcre-devel libtool-libs libtool-ltdl-devel
             libjpeg-devel libpng-devel freetype-devel libxslt libxslt-devel
             net-snmp net-snmp-devel net-snmp-utils net-snmp-perl
         )
