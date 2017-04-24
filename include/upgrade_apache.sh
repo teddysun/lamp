@@ -105,18 +105,8 @@ upgrade_apache(){
                 --with-included-apr \
                 --with-ssl=${openssl_location} \
                 --with-nghttp2 \
-                --enable-http2 \
-                --enable-so \
-                --enable-dav \
-                --enable-suexec \
-                --enable-deflate=shared \
-                --enable-ssl=shared \
-                --enable-expires=shared \
-                --enable-headers=shared \
-                --enable-rewrite=shared \
-                --enable-static-support \
-                --enable-modules=all \
-                --enable-mods-shared=all"
+                --enable-modules=reallyall \
+                --enable-mods-shared=reallyall"
 
             download_file "${apr_filename}.tar.gz"
             tar zxf ${apr_filename}.tar.gz
