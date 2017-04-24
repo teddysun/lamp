@@ -89,7 +89,7 @@ install_php_depends(){
             m4 autoconf bison libbz2-dev libgmp-dev libicu-dev libsasl2-dev libsasl2-modules-ldap
             libldap-2.4-2 libldap2-dev libldb-dev libpam0g-dev libcurl4-gnutls-dev snmp libsnmp-dev
             autoconf2.13 openssl pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool
-            libjpeg-dev libpng12-dev libfreetype6-dev libmhash-dev libmcrypt-dev patch
+            libjpeg-dev libpng-dev libfreetype6-dev libmhash-dev libmcrypt-dev patch
         )
         for depend in ${apt_depends[@]}
         do
@@ -105,6 +105,10 @@ install_php_depends(){
             fi
             ln -sf /usr/lib/x86_64-linux-gnu/libldap* /usr/lib64/
             ln -sf /usr/lib/x86_64-linux-gnu/liblber* /usr/lib64/
+
+            if [ -d /usr/include/x86_64-linux-gnu/curl ] && [ ! -d /usr/include/curl ]; then
+                ln -sf /usr/include/x86_64-linux-gnu/curl /usr/include/curl
+            fi
         else
             if [ -f /usr/include/gmp-i386.h ];then
                 ln -sf /usr/include/gmp-i386.h /usr/include/gmp.h
@@ -113,6 +117,10 @@ install_php_depends(){
             fi
             ln -sf /usr/lib/i386-linux-gnu/libldap* /usr/lib/
             ln -sf /usr/lib/i386-linux-gnu/liblber* /usr/lib/
+
+            if [ -d /usr/include/i386-linux-gnu/curl ] && [ ! -d /usr/include/curl ]; then
+                ln -sf /usr/include/i386-linux-gnu/curl /usr/include/curl
+            fi
         fi
 
         check_installed "install_libiconv" "${depends_prefix}/libiconv"
