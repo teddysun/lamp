@@ -321,6 +321,14 @@ install_openssl(){
     error_detect "./config --prefix=${openssl_location} -fPIC shared no-ssl2 zlib-dynamic"
     error_detect "parallel_make"
     error_detect "make install"
+
+    if is_64bit; then
+        ln -s ${openssl_location}/lib/libssl.so.1.0.0 /usr/lib64/
+        ln -s ${openssl_location}/lib/libcrypto.so.1.0.0 /usr/lib64/
+    else
+        ln -s ${openssl_location}/lib/libssl.so.1.0.0 /usr/lib/
+        ln -s ${openssl_location}/lib/libcrypto.so.1.0.0 /usr/lib/
+    fi
 }
 
 
