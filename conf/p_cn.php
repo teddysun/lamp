@@ -1242,7 +1242,7 @@ else
 
   <tr>
     <td>Oracle 数据库</td>
-    <td><?php echo isfun("ora_close");?></td>
+    <td><?php echo isfun("oci_close");?></td>
     <td>SQL Server 数据库</td>
     <td><?php echo isfun("mssql_close");?></td>
   </tr>

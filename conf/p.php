@@ -1238,8 +1238,8 @@ else
   </tr>
 
   <tr>
-    <td>Oracle </td>
-    <td><?php echo isfun("ora_close");?></td>
+    <td>Oracle OCI8 </td>
+    <td><?php echo isfun("oci_close");?></td>
     <td>SQL Server </td>
     <td><?php echo isfun("mssql_close");?></td>
   </tr>
