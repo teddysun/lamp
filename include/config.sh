@@ -94,11 +94,11 @@ libmcrypt_filename="libmcrypt-2.5.8"
 #mcrypt
 mcrypt_filename="mcrypt-2.6.8"
 #pcre
-pcre_filename="pcre-8.39"
+pcre_filename="pcre-8.40"
 #re2c
 re2c_filename='re2c-0.16'
 #libedit
-libedit_filename='libedit-20160903-3.1'
+libedit_filename='libedit-20170329-3.1'
 #imap
 imap_filename='imap-2007f'
 #libiconv
@@ -109,11 +109,11 @@ set_hint ${swoole_filename} "php-swoole-2.0.7"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.5-0"
+ImageMagick_filename="ImageMagick-7.0.5-4"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.24"
+GraphicsMagick_filename="GraphicsMagick-1.3.25"
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
 php_graphicsmagick_filename2="gmagick-2.0.4RC1"
 set_hint ${php_graphicsmagick_filename} "php-${php_graphicsmagick_filename}"
@@ -150,8 +150,8 @@ php_redis_filename="redis-2.2.8"
 php_redis_filename2="redis-3.1.2"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
-#php-mandodb
-php_mongo_filename="mongo-1.6.14"
+#php-mongodb
+php_mongo_filename="mongodb-1.2.8"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #ICU
 icu_filename="icu4c-4_4_2-src"
