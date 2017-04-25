@@ -810,23 +810,23 @@ install_php_mongo(){
 
     cd ${cur_dir}/software/
 
-    echo "php-mongo install start..."
+    echo "php-mongodb install start..."
     download_file "${php_mongo_filename}.tgz"
     tar zxf ${php_mongo_filename}.tgz
     cd ${php_mongo_filename}
     error_detect "${php_location}/bin/phpize"
-    error_detect "./configure --enable-mongo --with-php-config=${phpConfig}"
+    error_detect "./configure --with-php-config=${phpConfig}"
     error_detect "make"
     error_detect "make install"
 
-    if [ ! -f ${php_location}/php.d/mongo.ini ]; then
-        echo "php-mongo configuration file not found, create it!"
-        cat > ${php_location}/php.d/mongo.ini<<-EOF
-[mongo]
-extension = ${php_extension_dir}/mongo.so
+    if [ ! -f ${php_location}/php.d/mongodb.ini ]; then
+        echo "php-mongodb configuration file not found, create it!"
+        cat > ${php_location}/php.d/mongodb.ini<<-EOF
+[mongodb]
+extension = ${php_extension_dir}/mongodb.so
 EOF
     fi
-    echo "php-mongo install completed..."
+    echo "php-mongodb install completed..."
 }
 
 
