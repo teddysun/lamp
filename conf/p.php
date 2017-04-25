@@ -804,7 +804,7 @@ function displayData(dataJSON)
     </tr>
 
   <tr>
-      <td>Administrator Mail</td>
+      <td>Server Admin</td>
       <td><?php if(isset($_SERVER['SERVER_ADMIN'])) echo $_SERVER['SERVER_ADMIN'];?></td>
         <td>Prober path</td>
         <td><?php echo str_replace('\\','/',__FILE__)?str_replace('\\','/',__FILE__):$_SERVER['SCRIPT_FILENAME'];?></td>
@@ -1033,9 +1033,9 @@ foreach ($able as $key=>$value) {
   </tr>
 
   <tr>
-    <td>Magic quotes gpc </td>
+    <td>Disabling Magic Quotes </td>
     <td><?php echo show("magic_quotes_gpc");?></td>
-    <td>Magic quotes runtime </td>
+    <td>Magic Quotes Runtime </td>
     <td><?php echo show("magic_quotes_runtime");?></td>
   </tr>
 
@@ -1066,7 +1066,7 @@ foreach ($able as $key=>$value) {
     <td><?php echo isfun("snmpget");?></td>
   </tr> 
    <tr>
-    <td>VMailMgr </td>
+    <td>Vmailmgr </td>
     <td><?php echo isfun("vm_adduser");?></td>
     <td>Curl </td>
     <td><?php echo isfun("curl_init");?></td>
@@ -1151,7 +1151,7 @@ else
   <tr>
     <td>IMAP </td>
     <td><?php echo isfun("imap_close");?></td>
-    <td>JDToGregorian </td>
+    <td>Jdtogregorian </td>
     <td><?php echo isfun("JDToGregorian");?></td>
   </tr>
 
