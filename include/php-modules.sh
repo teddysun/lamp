@@ -215,11 +215,11 @@ install_imap(){
     mkdir ${depends_prefix}/imap-2007f/include/
     mkdir ${depends_prefix}/imap-2007f/lib/
     mkdir ${depends_prefix}/imap-2007f/c-client/
-    cp c-client/*.h /usr/local/imap-2007f/include/
-    cp c-client/*.c /usr/local/imap-2007f/lib/
-    cp c-client/*.c /usr/local/imap-2007f/c-client/
-    cp c-client/c-client.a /usr/local/imap-2007f/lib/libc-client.a
-    cp c-client/c-client.a /usr/local/imap-2007f/c-client/libc-client.a
+    cp c-client/*.h ${depends_prefix}/imap-2007f/include/
+    cp c-client/*.c ${depends_prefix}/imap-2007f/lib/
+    cp c-client/*.c ${depends_prefix}/imap-2007f/c-client/
+    cp c-client/c-client.a ${depends_prefix}/imap-2007f/lib/libc-client.a
+    cp c-client/c-client.a ${depends_prefix}/imap-2007f/c-client/libc-client.a
 }
 
 
