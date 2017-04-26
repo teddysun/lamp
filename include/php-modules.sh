@@ -162,7 +162,6 @@ install_libiconv(){
     cd ${cur_dir}/software/
     download_file  "${libiconv_filename}.tar.gz"
     tar zxf ${libiconv_filename}.tar.gz
-    patch -d ${libiconv_filename} -p0 < ${cur_dir}/conf/libiconv-glibc-2.16.patch
     cd ${libiconv_filename}
 
     error_detect "./configure --prefix=${depends_prefix}/libiconv"
