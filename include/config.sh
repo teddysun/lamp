@@ -102,7 +102,7 @@ libedit_filename='libedit-20170329-3.1'
 #imap
 imap_filename='imap-2007f'
 #libiconv
-libiconv_filename="libiconv-1.14"
+libiconv_filename="libiconv-1.15"
 #swoole
 swoole_filename="swoole-src-2.0.7"
 set_hint ${swoole_filename} "php-swoole-2.0.7"
