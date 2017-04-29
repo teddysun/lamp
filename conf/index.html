@@ -1,69 +1,119 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-<head> 
-<title>LAMP stack installation scripts by Teddysun</title> 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
-<meta name="keywords" content="LAMP,LAMP stack installation scripts"> 
-<meta name="description" content="LAMP install successfully"> 
-<style type="text/css"> 
-body {
-color:#333333;
-font-family:"Microsoft YaHei",tahoma,arial,helvetica,sans-serif;
-font-size:15px;
-}
-.links {color: #06C}
-#main {
-margin-right: auto;
-margin-left: auto;
-width: 600px;
-}
-a{
-text-decoration:none; 
-color:#06C; 
--webkit-transition:color .2s; 
--moz-transition:color .2s; 
--ms-transition:color .2s; 
--o-transition:color .2s; 
-transition:color .2s
-}
-</style> 
-</head> 
-<body> 
-<div id="main"> 
-<div align="center"><span style="font-size:18px;color:red;">Congratulations. LAMP is installed successfully!</span></div>
-<div align="center"><a href="https://lamp.sh/" target="_blank"><img src="./lamp.gif" alt="LAMP stack installation scripts"></a></div>
-<p>
-<span><strong>Check environment:</strong></span>
-<a href="./p.php" target="_blank" class="links">PHP Probe</a>
-<a href="./phpinfo.php" target="_blank" class="links">phpinfo</a>
-<a href="./phpmyadmin/" target="_blank" class="links">phpMyAdmin</a>
-<a href="./index_cn.html" target="_blank" class="links">中文</a>
-</p>
-<p><span class="STYLE1"><strong>LAMP Usage:</strong></span></p>
-<p><li>lamp (add, del, list): Create, Delete, List web virtual</li></p>
-<p><span class="STYLE1"><strong>LAMP Upgrade:</strong></span></p>
-<p><li>Execute script:<font color="#008000"> ./upgrade.sh</font></li></p>
-<p><span class="STYLE1"><strong>LAMP Uninstall:</strong></span></p>
-<p><li>Execute script:<font color="#008000"> ./uninstall.sh</font></li></p>
-<p><span class="STYLE1"><strong>Default Location:</strong></span></p>
-<p><li>Apache：/usr/local/apache</li></p>
-<p><li>PHP：/usr/local/php</li></p>
-<p><li>MySQL：/usr/local/mysql</li></p>
-<p><li>MariaDB：/usr/local/mariadb</li></p>
-<p><li>Percona：/usr/local/percona</li></p>
-<p><li>Web root default location：/data/www/default</li></p>
-<p><span><strong>Process Management:</strong></span></p>
-<p><li>Apache：/etc/init.d/httpd (start|stop|restart|status)</li></p>
-<p><li>MySQL：/etc/init.d/mysqld (start|stop|restart|status)</li></p>
-<p><li>MariaDB：/etc/init.d/mysqld (start|stop|restart|status)</li></p>
-<p><li>Percona：/etc/init.d/mysqld (start|stop|restart|status)</li></p>
-<p><li>Memcached：/etc/init.d/memcached (start|stop|restart)</li></p>
-<p><li>Redis-server：/etc/init.d/redis-server (start|stop|restart)</li></p>
-<p><span><strong>More details:</strong></span></p>
-<p><li><a href="https://github.com/teddysun/lamp" target="_blank">Github project</a></li></p>
-<p><li><a href="https://lamp.sh/faq.html" target="_blank">LAMP QA(Chinese)</a></li></p>
-<p align="center"><hr></p>
-<p align="center">LAMP stack installation scripts by <a href="https://lamp.sh/" target="_blank">Teddysun</a></p> 
-</div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>LAMP stack installation scripts by Teddysun</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="LAMP,LAMP stack installation scripts">
+    <meta name="description" content="LAMP install successfully">
+    <style type="text/css">
+        body {
+            color: #333333;
+            font-family: "Microsoft YaHei", tahoma, arial, helvetica, sans-serif;
+            font-size: 15px;
+        }
+        
+        .links {
+            color: #06C
+        }
+        
+        #main {
+            margin-right: auto;
+            margin-left: auto;
+            width: 600px;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #06C;
+            -webkit-transition: color .2s;
+            -moz-transition: color .2s;
+            -ms-transition: color .2s;
+            -o-transition: color .2s;
+            transition: color .2s
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div align="center"><span style="font-size:18px;color:red;">Congratulations. LAMP is installed successfully!</span></div>
+        <div align="center">
+            <a href="https://lamp.sh/" target="_blank"><img src="./lamp.gif" alt="LAMP stack installation scripts"></a>
+        </div>
+        <p>
+            <span><strong>Check environment:</strong></span>
+            <a href="./p.php" target="_blank" class="links">PHP Probe</a>
+            <a href="./phpinfo.php" target="_blank" class="links">phpinfo</a>
+            <a href="./phpmyadmin/" target="_blank" class="links">phpMyAdmin</a>
+            <a href="./index_cn.html" target="_blank" class="links">中文</a>
+        </p>
+        <p><span class="STYLE1"><strong>LAMP Usage:</strong></span></p>
+        <p>
+            <li>lamp (add, del, list): Create, Delete, List web virtual</li>
+        </p>
+        <p><span class="STYLE1"><strong>LAMP Upgrade:</strong></span></p>
+        <p>
+            <li>Execute script:
+                <font color="#008000"> ./upgrade.sh</font>
+            </li>
+        </p>
+        <p><span class="STYLE1"><strong>LAMP Uninstall:</strong></span></p>
+        <p>
+            <li>Execute script:
+                <font color="#008000"> ./uninstall.sh</font>
+            </li>
+        </p>
+        <p><span class="STYLE1"><strong>Default Location:</strong></span></p>
+        <p>
+            <li>Apache：/usr/local/apache</li>
+        </p>
+        <p>
+            <li>PHP：/usr/local/php</li>
+        </p>
+        <p>
+            <li>MySQL：/usr/local/mysql</li>
+        </p>
+        <p>
+            <li>MariaDB：/usr/local/mariadb</li>
+        </p>
+        <p>
+            <li>Percona：/usr/local/percona</li>
+        </p>
+        <p>
+            <li>Web root default location：/data/www/default</li>
+        </p>
+        <p><span><strong>Process Management:</strong></span></p>
+        <p>
+            <li>Apache：/etc/init.d/httpd (start|stop|restart|status)</li>
+        </p>
+        <p>
+            <li>MySQL：/etc/init.d/mysqld (start|stop|restart|status)</li>
+        </p>
+        <p>
+            <li>MariaDB：/etc/init.d/mysqld (start|stop|restart|status)</li>
+        </p>
+        <p>
+            <li>Percona：/etc/init.d/mysqld (start|stop|restart|status)</li>
+        </p>
+        <p>
+            <li>Memcached：/etc/init.d/memcached (start|stop|restart)</li>
+        </p>
+        <p>
+            <li>Redis-server：/etc/init.d/redis-server (start|stop|restart)</li>
+        </p>
+        <p><span><strong>More details:</strong></span></p>
+        <p>
+            <li><a href="https://github.com/teddysun/lamp" target="_blank">Github project</a></li>
+        </p>
+        <p>
+            <li><a href="https://lamp.sh/faq.html" target="_blank">LAMP QA(Chinese)</a></li>
+        </p>
+        <p align="center">
+            <hr>
+        </p>
+        <p align="center">LAMP stack installation scripts by <a href="https://lamp.sh/" target="_blank">Teddysun</a></p>
+    </div>
 </body>
+
 </html>
