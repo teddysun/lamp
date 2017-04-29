@@ -52,4 +52,4 @@ lamp(){
 }
 
 #Run it
-lamp 2>&1 | tee -a /root/lamp.log
+lamp 2>&1 | tee ${cur_dir}/lamp.log

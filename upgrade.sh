@@ -65,19 +65,19 @@ display_menu(){
     else
         case "$Number" in
         1)
-            upgrade_apache 2>&1 | tee /root/upgrade_apache.log
+            upgrade_apache 2>&1 | tee ${cur_dir}/upgrade_apache.log
             break
             ;;
         2)
-            upgrade_db 2>&1 | tee /root/upgrade_db.log
+            upgrade_db 2>&1 | tee ${cur_dir}/upgrade_db.log
             break
             ;;
         3)
-            upgrade_php 2>&1 | tee /root/upgrade_php.log
+            upgrade_php 2>&1 | tee ${cur_dir}/upgrade_php.log
             break
             ;;
         4)
-            upgrade_phpmyadmin 2>&1 | tee /root/upgrade_phpmyadmin.log
+            upgrade_phpmyadmin 2>&1 | tee ${cur_dir}/upgrade_phpmyadmin.log
             break
             ;;
         5)
@@ -111,16 +111,16 @@ elif [ $# == 1 ];then
 
     case $1 in
     apache)
-        upgrade_apache 2>&1 | tee /root/upgrade_apache.log
+        upgrade_apache 2>&1 | tee ${cur_dir}/upgrade_apache.log
         ;;
     db)
-        upgrade_db 2>&1 | tee /root/upgrade_db.log
+        upgrade_db 2>&1 | tee ${cur_dir}/upgrade_db.log
         ;;
     php)
-        upgrade_php 2>&1 | tee /root/upgrade_php.log
+        upgrade_php 2>&1 | tee ${cur_dir}/upgrade_php.log
         ;;
     phpmyadmin)
-        upgrade_phpmyadmin 2>&1 | tee /root/upgrade_phpmyadmin.log
+        upgrade_phpmyadmin 2>&1 | tee ${cur_dir}/upgrade_phpmyadmin.log
         ;;
     *)
         display_usage

@@ -388,7 +388,7 @@ error_detect_depends(){
         architecture=`uname -m`
         mem=`free -m`
         disk=`df -ah`
-        cat >> /root/lamp.log<<EOF
+        cat >> ${cur_dir}/lamp.log<<EOF
         errors detail:
         Distributions:$distro
         Architecture:$architecture
@@ -418,7 +418,7 @@ error_detect(){
         architecture=`uname -m`
         mem=`free -m`
         disk=`df -ah`
-        cat >>/root/lamp.log<<EOF
+        cat >>${cur_dir}/lamp.log<<EOF
         errors detail:
         Distributions:$distro
         Architecture:$architecture
