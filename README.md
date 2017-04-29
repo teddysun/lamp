@@ -1,4 +1,5 @@
 ![LAMP](https://github.com/teddysun/lamp/raw/master/conf/lamp.gif)
+
 Description
 ===========
 LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB/Percona and so on.You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way, Just need to input numbers to choose what you want to install before installation. And all things will be done in a few minutes.
@@ -75,7 +76,7 @@ Backup
 - You must modify the config before run it
 - Backup MySQL/MariaDB/Percona datebases, files and directories
 - Backup file is encrypted with AES256-cbc with SHA1 message-digest (option)
-- Auto transfer backup file to Google Drive (need install `gdrive` command) (option)
+- Auto transfer backup file to Google Drive (need install [gdrive](https://teddysun.com/469.html) command) (option)
 - Auto transfer backup file to FTP server (option)
 - Auto delete Google Drive's or FTP server's remote file (option)
 
