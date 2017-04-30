@@ -188,10 +188,6 @@ install_mysqld(){
     fi
 
     add_to_env "${mysql_location}"
-    if [ -d "${mysql_location}/lib" ] && [ ! -d "${mysql_location}/lib64" ];then
-        cd ${mysql_location}
-        ln -s lib lib64
-    fi
 }
 
 #Configuration mysql
@@ -236,6 +232,8 @@ exit
 EOF
     /etc/init.d/mysqld stop
 
+    create_lib64_dir "${mysql_location}"
+
     rm -f /etc/ld.so.conf.d/mysql.conf
     echo "${mysql_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
     echo "${mysql_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
@@ -279,14 +277,8 @@ install_mariadb(){
         mv ${mysql}-*-${sys_bit_b}/* ${mariadb_location}
     fi
 
-    add_to_env "${mariadb_location}"
-
-    if [ -d "${mariadb_location}/lib" ] && [ ! -d "${mariadb_location}/lib64" ];then
-        cd ${mariadb_location}
-        ln -s lib lib64
-    fi
-
     config_mariadb
+    add_to_env "${mariadb_location}"
 }
 
 #Configuration mariadb
@@ -325,6 +317,8 @@ flush privileges;
 exit
 EOF
     /etc/init.d/mysqld stop
+
+    create_lib64_dir "${mariadb_location}"
 
     rm -f /etc/ld.so.conf.d/mysql.conf
     echo "${mariadb_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
@@ -383,10 +377,6 @@ install_percona(){
         ln -sv libperconaserverclient_r.a libmysqlclient_r.a
         ln -sv libperconaserverclient_r.so libmysqlclient_r.so
     fi
-    if [ -d "${percona_location}/lib" ] && [ ! -d "${percona_location}/lib64" ];then
-        cd ${percona_location}
-        ln -s lib lib64
-    fi
 }
 
 #Configuration percona
@@ -430,6 +420,8 @@ flush privileges;
 exit
 EOF
     /etc/init.d/mysqld stop
+
+    create_lib64_dir "${percona_location}"
 
     rm -f /etc/ld.so.conf.d/mysql.conf
     echo "${percona_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
