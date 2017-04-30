@@ -376,9 +376,12 @@ install_percona(){
 
     add_to_env "${percona_location}"
     #Fix libmysqlclient issue
-    ln -sv ${percona_location}/lib/libperconaserverclient.a ${percona_location}/lib/libmysqlclient.a
+    cd ${percona_location}/lib/
+    ln -sv libperconaserverclient.a libmysqlclient.a
+    ln -sv libperconaserverclient.so libmysqlclient.so
     if [ "$mysql" != "${percona5_7_filename}" ]; then
-        ln -sv ${percona_location}/lib/libperconaserverclient_r.a ${percona_location}/lib/libmysqlclient_r.a
+        ln -sv libperconaserverclient_r.a libmysqlclient_r.a
+        ln -sv libperconaserverclient_r.so libmysqlclient_r.so
     fi
     if [ -d "${percona_location}/lib" ] && [ ! -d "${percona_location}/lib64" ];then
         cd ${percona_location}
