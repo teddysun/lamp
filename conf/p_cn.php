@@ -1000,8 +1000,8 @@ foreach ($able as $key=>$value) {
   <tr>
     <td>dl() 函数(enable_dl)</td>
     <td><?php echo show("enable_dl");?></td>
-    <td>指定包含文件目录(include_path)</td>
-    <td><?php echo show("include_path");?></td>
+    <td>指定包含文件目录(set_include_path)</td>
+    <td><?php echo show("set_include_path");?></td>
   </tr>
 
   <tr>
@@ -1049,8 +1049,8 @@ foreach ($able as $key=>$value) {
   <tr>
     <td>Cookie 支持</td>
     <td><?php echo isset($_COOKIE)?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
-    <td>拼写检查(ASpell Library)</td>
-    <td><?php echo isfun("aspell_check_raw");?></td>
+    <td>拼写检查(PSpell Check)</td>
+    <td><?php echo isfun("pspell_check");?></td>
   </tr>
 
   <tr>
@@ -1061,7 +1061,7 @@ foreach ($able as $key=>$value) {
   </tr>
 
   <tr>
-   <td>PDF 文档支持</td>
+    <td>PDF 文档支持</td>
     <td><?php echo isfun("pdf_close");?></td>
     <td>SNMP 网络管理协议</td>
     <td><?php echo isfun("snmpget");?></td>
@@ -1232,53 +1232,53 @@ else
   <tr><th colspan="4">数据库支持</th></tr>
 
   <tr>
-    <td width="30%">MySQL 数据库</td>
+    <td width="30%">MySQL</td>
     <td width="20%"><?php echo isfun("mysqli_connect"); ?>
     <?php $mysql_ver = getMySQLVersion(); if(!empty($mysql_ver)){ echo "&nbsp;&nbsp;Ver&nbsp;" . $mysql_ver;} ?>
     </td>
-    <td width="30%">ODBC 数据库</td>
+    <td width="30%">ODBC</td>
     <td width="20%"><?php echo isfun("odbc_close");?></td>
   </tr>
 
   <tr>
-    <td>Oracle 数据库</td>
+    <td>Oracle</td>
     <td><?php echo isfun("oci_close");?></td>
-    <td>SQL Server 数据库</td>
+    <td>SQL Server</td>
     <td><?php echo isfun("mssql_close");?></td>
   </tr>
 
   <tr>
-    <td>dBASE 数据库</td>
+    <td>dBASE</td>
     <td><?php echo isfun("dbase_close");?></td>
-    <td>mSQL 数据库</td>
+    <td>mSQL</td>
     <td><?php echo isfun("msql_close");?></td>
   </tr>
 
   <tr>
-    <td>SQLite 数据库</td>
+    <td>SQLite</td>
     <td><?php if(extension_loaded('sqlite3')) {$sqliteVer = SQLite3::version();echo '<font color=green>√</font>　Ver ';echo $sqliteVer[versionString];}else {echo isfun("sqlite_close");if(isfun("sqlite_close") == '<font color="green">√</font>　') {echo "Ver ".@sqlite_libversion();}}?></td>
-    <td>Hyperwave 数据库</td>
+    <td>Hyperwave</td>
     <td><?php echo isfun("hw_close");?></td>
   </tr>
 
   <tr>
-    <td>Postgre SQL 数据库</td>
+    <td>Postgre SQL</td>
     <td><?php echo isfun("pg_close"); ?></td>
-    <td>Informix 数据库</td>
+    <td>Informix</td>
     <td><?php echo isfun("ifx_close");?></td>
   </tr>
 
   <tr>
-    <td>DBA 数据库</td>
+    <td>DBA</td>
     <td><?php echo isfun("dba_close");?></td>
-    <td>DBM 数据库</td>
+    <td>DBM</td>
     <td><?php echo isfun("dbmclose");?></td>
   </tr>
 
   <tr>
-    <td>FilePro 数据库</td>
+    <td>FilePro</td>
     <td><?php echo isfun("filepro_fieldcount");?></td>
-    <td>SyBase 数据库</td>
+    <td>SyBase</td>
     <td><?php echo isfun("sybase_close");?></td>
   </tr> 
 </table>

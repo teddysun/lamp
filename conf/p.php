@@ -1000,8 +1000,8 @@ foreach ($able as $key=>$value) {
   <tr>
     <td>Enable Dl </td>
     <td><?php echo show("enable_dl");?></td>
-    <td>Include Path </td>
-    <td><?php echo show("include_path");?></td>
+    <td>Set Include Path </td>
+    <td><?php echo show("set_include_path");?></td>
   </tr>
 
   <tr>
@@ -1049,8 +1049,8 @@ foreach ($able as $key=>$value) {
   <tr>
     <td>Cookie </td>
     <td><?php echo isset($_COOKIE)?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
-    <td>Spell check </td>
-    <td><?php echo isfun("aspell_check_raw");?></td>
+    <td>PSpell Check </td>
+    <td><?php echo isfun("pspell_check");?></td>
   </tr>
    <tr>
     <td>BCMath </td>
@@ -1074,7 +1074,7 @@ foreach ($able as $key=>$value) {
    <tr>
     <td>SMTP </td>
     <td><?php echo get_cfg_var("SMTP")?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
-    <td>SMTP </td>
+    <td>SMTP Address</td>
     <td><?php echo get_cfg_var("SMTP")?get_cfg_var("SMTP"):'<font color="red">×</font>';?></td>
   </tr> 
 
