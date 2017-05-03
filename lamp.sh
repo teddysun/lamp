@@ -20,7 +20,7 @@ export PATH
 cur_dir=`pwd`
 
 include(){
-    local include=$1
+    local include=${1}
     if [[ -s ${cur_dir}/include/${include}.sh ]];then
         . ${cur_dir}/include/${include}.sh
     else
@@ -38,14 +38,6 @@ lamp(){
     include php
     include php-modules
 
-    clear
-    echo
-    echo "#####################################################################"
-    echo "# Auto Install LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )  #"
-    echo "# Intro: https://lamp.sh                                            #"
-    echo "# Author: Teddysun <i@teddysun.com>                                 #"
-    echo "#####################################################################"
-    echo
     rootness
     load_config
     pre_setting
