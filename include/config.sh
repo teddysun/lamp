@@ -43,7 +43,7 @@ apache2_2_filename="httpd-2.2.32"
 #apache2.4
 apache2_4_filename="httpd-2.4.25"
 #mysql5.5
-mysql5_5_filename="mysql-5.5.55"
+mysql5_5_filename="mysql-5.5.56"
 #mysql5.6
 mysql5_6_filename="mysql-5.6.36"
 #mysql5.7
