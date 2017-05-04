@@ -19,7 +19,7 @@ export PATH
 
 cur_dir=`pwd`
 
-[[ $EUID -ne 0 ]] && echo "Error: This script must be run as root!" && exit 1
+[[ ${EUID} -ne 0 ]] && echo "Error: This script must be run as root!" && exit 1
 
 include(){
     local include=$1
@@ -42,11 +42,11 @@ include upgrade_phpmyadmin
 display_menu(){
 
     echo
-    echo "#####################################################################"
-    echo "# Auto Update LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )   #"
-    echo "# Intro: https://lamp.sh                                            #"
-    echo "# Author: Teddysun <i@teddysun.com>                                 #"
-    echo "#####################################################################"
+    echo "+-------------------------------------------------------------------+"
+    echo "| Auto Update LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )   |"
+    echo "| Intro: https://lamp.sh                                            |"
+    echo "| Author: Teddysun <i@teddysun.com>                                 |"
+    echo "+-------------------------------------------------------------------+"
     echo
     rootness
     load_config
@@ -60,10 +60,10 @@ display_menu(){
     echo -e "\t\033[32m5\033[0m. Exit"
     echo
     read -p "Please input a number: " Number
-    if [[ ! $Number =~ ^[1-5]$ ]];then
+    if [[ ! ${Number} =~ ^[1-5]$ ]];then
         echo "Input error! Please only input 1,2,3,4,5"
     else
-        case "$Number" in
+        case "${Number}" in
         1)
             upgrade_apache 2>&1 | tee ${cur_dir}/upgrade_apache.log
             break

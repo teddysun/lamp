@@ -36,47 +36,46 @@ uninstall_lamp(){
 
     load_config
 
-    echo "uninstalling Apache"
+    log "Info" "uninstalling Apache"
     [ -f /etc/init.d/httpd ] && /etc/init.d/httpd stop > /dev/null 2>&1
     rm -f /etc/init.d/httpd
     rm -rf ${apache_location} /usr/sbin/httpd /var/log/httpd /etc/logrotate.d/httpd /var/spool/mail/apache
-    echo "Success"
-
-    echo "uninstalling MySQL/MariaDB/Percona"
+    log "Info" "Success"
+    echo
+    log "Info" "uninstalling MySQL/MariaDB/Percona"
     [ -f /etc/init.d/mysqld ] && /etc/init.d/mysqld stop > /dev/null 2>&1
     rm -f /etc/init.d/mysqld
     rm -rf ${mysql_location} ${mariadb_location} ${percona_location} /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
-    echo "Success"
-
-    echo "uninstalling PHP"
-    rm -rf ${php_location} /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
-    echo "Success"
+    log "Info" "Success"
     echo
-    echo "uninstalling others software"
+    log "Info" "uninstalling PHP"
+    rm -rf ${php_location} /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
+    log "Info" "Success"
+    echo
+    log "Info" "uninstalling others software"
     [ -f /etc/init.d/memcached ] && /etc/init.d/memcached stop > /dev/null 2>&1
     rm -f /etc/init.d/memcached
     rm -fr ${depends_prefix}/memcached /usr/bin/memcached
     [ -f /etc/init.d/redis-server ] && /etc/init.d/redis-server stop > /dev/null 2>&1
     rm -f /etc/init.d/redis-server
     rm -rf ${depends_prefix}/redis
-    rm -rf ${depends_prefix}/libiconv /usr/lib64/libiconv.so.0 /usr/lib/libiconv.so.0
-    rm -rf ${depends_prefix}/imap-2007f
+    rm -rf /usr/local/lib/libcharset* /usr/local/lib/libiconv* /usr/local/lib/charset.alias /usr/local/lib/preloadable_libiconv.so
+    rm -rf ${depends_prefix}/imap
     rm -rf ${depends_prefix}/pcre
     rm -rf ${openssl_location}
-    rm -rf /usr/lib64/libcrypto.so.1.0.0 /usr/lib64/libssl.so.1.0.0 /usr/lib/libcrypto.so.1.0.0 /usr/lib/libssl.so.1.0.0
     rm -rf /usr/lib/libnghttp2.*
-    rm -rf /usr/local/lib/libedit.*
     rm -rf /usr/local/lib/libmcrypt.*
     rm -rf /usr/local/lib/libmhash.*
+    rm -rf /usr/local/bin/iconv
     rm -rf /usr/local/bin/re2c
     rm -rf /usr/local/bin/mcrypt
     rm -rf /usr/local/bin/mdecrypt
     rm -rf /etc/ld.so.conf.d/locallib.conf
     rm -rf ${web_root_dir}/phpmyadmin
     rm -rf ${web_root_dir}/xcache /tmp/{pcov,phpcore}
-    echo "Success"
+    log "Info" "Success"
     echo
-    echo "Successfully uninstall LAMP!"
+    log "Info" "Successfully uninstall LAMP!"
 }
 
 while :
@@ -86,7 +85,7 @@ do
     uninstall="`upcase_to_lowcase ${uninstall}`"
     case ${uninstall} in
         y) uninstall_lamp ; break;;
-        n) echo "Uninstall cancelled, nothing to do" ; break;;
-        *) echo "Input error. Please only input y/n";;
+        n) log "Info" "Uninstall cancelled, nothing to do" ; break;;
+        *) log "Warning" "Input error. Please only input y/n";;
     esac
 done
