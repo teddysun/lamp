@@ -16,20 +16,24 @@ mysql_preinstall_settings(){
 
     display_menu mysql 6
 
-    if [ "$mysql" != "do_not_install" ];then
-        if [ "$mysql" == "${mysql5_5_filename}" ] || [ "$mysql" == "${mysql5_6_filename}" ] || [ "$mysql" == "${mysql5_7_filename}" ];then
+    if [ "${mysql}" != "do_not_install" ];then
+        if [ "${mysql}" == "${mysql5_5_filename}" ] || [ "${mysql}" == "${mysql5_6_filename}" ] || [ "${mysql}" == "${mysql5_7_filename}" ]; then
             #mysql data
-            read -p "mysql data location(default:${mysql_location}/data,leave blank for default): " mysql_data_location
-            mysql_data_location=${mysql_data_location:=$mysql_location/data}
-            mysql_data_location=`filter_location "$mysql_data_location"`
-            echo "$mysql data location: $mysql_data_location"
+            echo
+            read -p "mysql data location(default:${mysql_location}/data, leave blank for default): " mysql_data_location
+            mysql_data_location=${mysql_data_location:=${mysql_location}/data}
+            mysql_data_location=`filter_location "${mysql_data_location}"`
+            echo
+            echo "${mysql} data location: ${mysql_data_location}"
 
             #set mysql root password
-            read -p "mysql server root password (default:root,leave blank for default): " mysql_root_pass
+            echo
+            read -p "mysql server root password (default:root, leave blank for default): " mysql_root_pass
             mysql_root_pass=${mysql_root_pass:=root}
-            echo "$mysql root password: $mysql_root_pass"
+            echo
+            echo "${mysql} root password: ${mysql_root_pass}"
 
-            if [ "$mysql" == "${mysql5_5_filename}" ];then
+            if [ "${mysql}" == "${mysql5_5_filename}" ]; then
                 mysql_configure_args="-DCMAKE_INSTALL_PREFIX=${mysql_location} \
                 -DMYSQL_DATADIR=${mysql_data_location} \
                 -DSYSCONFDIR=/etc \
@@ -39,7 +43,7 @@ mysql_preinstall_settings(){
                 -DWITH_EXTRA_CHARSETS=complex \
                 -DWITH_READLINE=1 \
                 -DENABLED_LOCAL_INFILE=1"
-            elif [ "$mysql" == "${mysql5_6_filename}" ];then
+            elif [ "${mysql}" == "${mysql5_6_filename}" ]; then
                 mysql_configure_args="-DCMAKE_INSTALL_PREFIX=${mysql_location} \
                 -DMYSQL_DATADIR=${mysql_data_location} \
                 -DSYSCONFDIR=/etc \
@@ -48,7 +52,7 @@ mysql_preinstall_settings(){
                 -DDEFAULT_COLLATION=utf8mb4_general_ci \
                 -DWITH_EXTRA_CHARSETS=complex \
                 -DENABLED_LOCAL_INFILE=1"
-            elif [ "$mysql" == "${mysql5_7_filename}" ];then
+            elif [ "${mysql}" == "${mysql5_7_filename}" ]; then
                 mysql_configure_args="-DCMAKE_INSTALL_PREFIX=${mysql_location} \
                 -DWITH_BOOST=${cur_dir}/software/${boost_filename}  \
                 -DMYSQL_DATADIR=${mysql_data_location} \
@@ -60,30 +64,38 @@ mysql_preinstall_settings(){
                 -DWITH_EMBEDDED_SERVER=1 \
                 -DENABLED_LOCAL_INFILE=1"
             fi
-        elif [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
+        elif [ "${mysql}" == "${mariadb5_5_filename}" ] || [ "${mysql}" == "${mariadb10_0_filename}" ] || [ "${mysql}" == "${mariadb10_1_filename}" ]; then
             #mariadb data
-            read -p "mariadb data location(default:${mariadb_location}/data,leave blank for default): " mariadb_data_location
-            mariadb_data_location=${mariadb_data_location:=$mariadb_location/data}
-            mariadb_data_location=`filter_location "$mariadb_data_location"`
-            echo "mariadb data location: $mariadb_data_location"
+            echo
+            read -p "mariadb data location(default:${mariadb_location}/data, leave blank for default): " mariadb_data_location
+            mariadb_data_location=${mariadb_data_location:=${mariadb_location}/data}
+            mariadb_data_location=`filter_location "${mariadb_data_location}"`
+            echo
+            echo "mariadb data location: ${mariadb_data_location}"
 
             #set mariadb root password
-            read -p "mariadb server root password (default:root,leave blank for default): " mariadb_root_pass
+            echo
+            read -p "mariadb server root password (default:root, leave blank for default): " mariadb_root_pass
             mariadb_root_pass=${mariadb_root_pass:=root}
-            echo "$mysql root password: $mariadb_root_pass"
-        elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
+            echo
+            echo "${mysql} root password: $mariadb_root_pass"
+        elif [ "${mysql}" == "${percona5_5_filename}" ] || [ "${mysql}" == "${percona5_6_filename}" ] || [ "${mysql}" == "${percona5_7_filename}" ]; then
             #percona data
-            read -p "percona data location(default:${percona_location}/data,leave blank for default): " percona_data_location
-            percona_data_location=${percona_data_location:=$percona_location/data}
-            percona_data_location=`filter_location "$percona_data_location"`
+            echo
+            read -p "percona data location(default:${percona_location}/data, leave blank for default): " percona_data_location
+            percona_data_location=${percona_data_location:=${percona_location}/data}
+            percona_data_location=`filter_location "${percona_data_location}"`
+            echo
             echo "percona data location: $percona_data_location"
 
             #set percona root password
-            read -p "percona server root password (default:root,leave blank for default): " percona_root_pass
+            echo
+            read -p "percona server root password (default:root, leave blank for default): " percona_root_pass
             percona_root_pass=${percona_root_pass:=root}
-            echo "$mysql root password: ${percona_root_pass}"
+            echo
+            echo "${mysql} root password: ${percona_root_pass}"
 
-            if [ "$mysql" == "${percona5_5_filename}" ];then
+            if [ "${mysql}" == "${percona5_5_filename}" ]; then
                 percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
                 -DMYSQL_DATADIR=${percona_data_location} \
                 -DSYSCONFDIR=/etc \
@@ -94,7 +106,7 @@ mysql_preinstall_settings(){
                 -DWITH_READLINE=1 \
                 -DENABLE_DTRACE=0 \
                 -DENABLED_LOCAL_INFILE=1"
-            elif [ "$mysql" == "${percona5_6_filename}" ];then
+            elif [ "${mysql}" == "${percona5_6_filename}" ]; then
                 percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
                 -DMYSQL_DATADIR=${percona_data_location} \
                 -DSYSCONFDIR=/etc \
@@ -104,7 +116,7 @@ mysql_preinstall_settings(){
                 -DWITH_EXTRA_CHARSETS=complex \
                 -DENABLE_DTRACE=0 \
                 -DENABLED_LOCAL_INFILE=1"
-            elif [ "$mysql" == "${percona5_7_filename}" ];then
+            elif [ "${mysql}" == "${percona5_7_filename}" ]; then
                 percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
                 -DWITH_BOOST=${cur_dir}/software/${boost_filename} \
                 -DMYSQL_DATADIR=${percona_data_location} \
@@ -124,25 +136,30 @@ mysql_preinstall_settings(){
 #Install Database common
 common_install(){
 
+    local apt_list=(libncurses5-dev cmake m4 bison libaio1 libaio-dev)
+    local yum_list=(ncurses-devel cmake m4 bison libaio libaio-devel)
+    log "Info" "Starting to install dependencies packages for Database..."
+    if check_sys packageManager apt;then
+        for depend in ${apt_list[@]}; do
+            error_detect_depends "apt-get -y install ${depend}"
+        done
+    elif check_sys packageManager yum;then
+        for depend in ${yum_list[@]}; do
+            error_detect_depends "yum -y install ${depend}"
+        done
+    fi
+    log "Info" "Install dependencies packages for Database completed..."
+
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
 
-    if [ "$mysql" == "${mysql5_5_filename}" ] || [ "$mysql" == "${mysql5_6_filename}" ] || [ "$mysql" == "${mysql5_7_filename}" ];then
+    if [[ "${mysql}" == "${mysql5_5_filename}" || "${mysql}" == "${mysql5_6_filename}" || "${mysql}" == "${mysql5_7_filename}" ]]; then
         mkdir -p ${mysql_location} ${mysql_data_location}
-    elif [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
+    elif [[ "${mysql}" == "${mariadb5_5_filename}" || "${mysql}" == "${mariadb10_0_filename}" || "${mysql}" == "${mariadb10_1_filename}" ]]; then
         mkdir -p ${mariadb_location} ${mariadb_data_location}
-    elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
+    elif [[ "${mysql}" == "${percona5_5_filename}" || "${mysql}" == "${percona5_6_filename}" || "${mysql}" == "${percona5_7_filename}" ]]; then
         mkdir -p ${percona_location} ${percona_data_location}
     fi
-
-    if check_sys packageManager apt;then
-        apt-get -y remove mysql-client mysql-server mysql-common
-        apt-get -y install libncurses5-dev cmake m4 bison libaio1 libaio-dev
-    elif check_sys packageManager yum;then
-        yum -y remove mysql-server mysql
-        yum -y install ncurses-devel cmake m4 bison libaio perl-Data-Dumper
-    fi
-
 }
 
 #Install mysql server
@@ -152,7 +169,7 @@ install_mysqld(){
 
     cd ${cur_dir}/software/
 
-    if [ "$mysql" == "${mysql5_5_filename}" ];then
+    if [ "${mysql}" == "${mysql5_5_filename}" ]; then
 
         download_file  "${mysql5_5_filename}.tar.gz"
         tar zxf ${mysql5_5_filename}.tar.gz
@@ -163,7 +180,7 @@ install_mysqld(){
         error_detect "make install"
         config_mysql 5.5
         
-    elif [ "$mysql" == "${mysql5_6_filename}" ];then
+    elif [ "${mysql}" == "${mysql5_6_filename}" ]; then
 
         download_file "${mysql5_6_filename}.tar.gz"
         tar zxf ${mysql5_6_filename}.tar.gz
@@ -173,7 +190,7 @@ install_mysqld(){
         error_detect "make install"
         config_mysql 5.6
 
-    elif [ "$mysql" == "${mysql5_7_filename}" ];then
+    elif [ "${mysql}" == "${mysql5_7_filename}" ]; then
 
         download_file "${boost_filename}.tar.gz"
         tar zxf ${boost_filename}.tar.gz
