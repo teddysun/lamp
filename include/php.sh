@@ -14,47 +14,42 @@
 #Pre-installation php
 php_preinstall_settings(){
 
-    if [[ "$apache" == "do_not_install" ]];then
+    if [[ "${apache}" == "do_not_install" ]]; then
         php="do_not_install"
     else
         display_menu php 4
     fi
 
-    if [ "$php" != "do_not_install" ];then
+    if [ "${php}" != "do_not_install" ]; then
 
-        with_mysql=""
-        if [ "$mysql" == "${mysql5_5_filename}" ] || [ "$mysql" == "${mysql5_6_filename}" ] || [ "$mysql" == "${mysql5_7_filename}" ];then
-            if [[ "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]];then
-                with_mysql="--with-mysqli=$mysql_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock  --with-pdo-mysql=$mysql_location"
+        if [[ "${mysql}" == "${mysql5_5_filename}" || "${mysql}" == "${mysql5_6_filename}" || "${mysql}" == "${mysql5_7_filename}" ]]; then
+            if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" ]]; then
+                with_mysql="--with-mysqli=${mysql_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=${mysql_location}"
             else
-                with_mysql="--with-mysql=$mysql_location --with-mysqli=$mysql_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$mysql_location"
+                with_mysql="--with-mysql=${mysql_location} --with-mysqli=${mysql_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=${mysql_location}"
             fi
-        elif [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
-            if [[ "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]];then
-                with_mysql="--with-mysqli=$mariadb_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock  --with-pdo-mysql=$mariadb_location"
+        elif [[ "${mysql}" == "${mariadb5_5_filename}" || "${mysql}" == "${mariadb10_0_filename}" || "${mysql}" == "${mariadb10_1_filename}" ]]; then
+            if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" ]]; then
+                with_mysql="--with-mysqli=${mariadb_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=${mariadb_location}"
             else
-                with_mysql="--with-mysql=$mariadb_location --with-mysqli=$mariadb_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$mariadb_location"
+                with_mysql="--with-mysql=${mariadb_location} --with-mysqli=${mariadb_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=${mariadb_location}"
             fi
-        elif [ "$mysql" == "${percona5_5_filename}" ] || [ "$mysql" == "${percona5_6_filename}" ] || [ "$mysql" == "${percona5_7_filename}" ];then
-            if [[ "$php" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]];then
-                with_mysql="--with-mysqli=$percona_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock  --with-pdo-mysql=$percona_location"
+        elif [[ "${mysql}" == "${percona5_5_filename}" || "${mysql}" == "${percona5_6_filename}" || "${mysql}" == "${percona5_7_filename}" ]]; then
+            if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" ]]; then
+                with_mysql="--with-mysqli=${percona_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=${percona_location}"
             else
-                with_mysql="--with-mysql=$percona_location --with-mysqli=$percona_location/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=$percona_location"
+                with_mysql="--with-mysql=${percona_location} --with-mysqli=${percona_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=${percona_location}"
             fi
+        else
+            with_mysql=""
         fi
 
-        enable_opcache=""
-        if [[ "$php" != "${php5_3_filename}" && "$php" != "${php5_4_filename}" ]]; then
-            enable_opcache="--enable-opcache"
-        fi
-
-        with_gmp="--with-gmp"
-        with_icu_dir="--with-icu-dir=/usr"
-        if centosversion 5; then
-            if [[ "$php" != "${php5_3_filename}" && "$php" != "${php5_4_filename}" ]]; then
-                with_gmp="--with-gmp=${depends_prefix}"
-                with_icu_dir="--with-icu-dir=${depends_prefix}"
-            fi
+        if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" ]]; then
+            with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
+        elif [[ "${php}" == "${php5_4_filename}" || "${php}" == "${php5_5_filename}" || "${php}" == "${php5_6_filename}" ]]; then
+            with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
+        else
+            with_gd="--with-gd --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
 
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
@@ -64,54 +59,50 @@ php_preinstall_settings(){
         --with-config-file-path=${php_location}/etc \
         --with-config-file-scan-dir=${php_location}/php.d \
         --with-pcre-dir=${depends_prefix}/pcre \
-        --with-iconv-dir=${depends_prefix}/libiconv \
-        --with-mhash \
-        ${with_icu_dir} \
-        --with-bz2 \
-        --with-curl \
-        --with-freetype-dir \
-        --with-gd \
-        --with-gettext \
-        ${with_gmp} \
-        --with-imap=${depends_prefix}/imap-2007f \
+        --with-imap=${depends_prefix}/imap \
         --with-imap-ssl \
-        --with-jpeg-dir \
-        --with-ldap \
-        --with-ldap-sasl \
-        --with-mcrypt \
-        --with-pdo-sqlite \
-        --with-sqlite3 \
+        --with-libxml-dir \
         --with-openssl \
         --with-snmp \
-        --without-pear \
-        --with-png-dir \
+        ${with_libdir} \
+        ${with_mysql} \
+        ${with_gd} \
+        --with-zlib \
+        --with-bz2 \
+        --with-curl=/usr \
+        --with-gettext \
+        --with-gmp \
+        --with-mhash \
+        --with-icu-dir=/usr \
+        --with-ldap \
+        --with-ldap-sasl \
+        --with-libmbfl \
+        --with-onig \
+        --with-mcrypt \
+        --with-unixODBC \
+        --with-pspell=/usr \
+        --with-enchant=/usr \
         --with-readline \
+        --with-tidy=/usr \
         --with-xmlrpc \
         --with-xsl \
-        --with-zlib \
-        ${with_mysql} \
-        ${with_libdir} \
+        --without-pear \
         --enable-bcmath \
         --enable-calendar \
-        --enable-ctype \
-        --enable-dom \
+        --enable-dba \
         --enable-exif \
         --enable-ftp \
         --enable-gd-native-ttf \
+        --enable-gd-jis-conv \
         --enable-intl \
-        --enable-json \
         --enable-mbstring \
         --enable-pcntl \
-        --enable-session \
         --enable-shmop \
-        --enable-simplexml \
         --enable-soap \
         --enable-sockets \
-        --enable-tokenizer \
         --enable-wddx \
-        --enable-xml \
         --enable-zip \
-        ${enable_opcache} \
+        --enable-mysqlnd \
         ${disable_fileinfo}"
     fi
 }
@@ -123,41 +114,44 @@ install_php(){
 
     cd ${cur_dir}/software/
 
-    if [ "$php" == "${php5_3_filename}" ];then
+    if [ "${php}" == "${php5_3_filename}" ];then
         download_file  "${php5_3_filename}.tar.gz"
         tar zxf ${php5_3_filename}.tar.gz
         cd ${php5_3_filename}
         cp ${cur_dir}/conf/php-5.3.patch ./
         patch -p1 < php-5.3.patch
 
-    elif [ "$php" == "${php5_4_filename}" ];then
+    elif [ "${php}" == "${php5_4_filename}" ];then
         download_file  "${php5_4_filename}.tar.gz"
         tar zxf ${php5_4_filename}.tar.gz
         cd ${php5_4_filename}
 
-    elif [ "$php" == "${php5_5_filename}" ];then
+    elif [ "${php}" == "${php5_5_filename}" ];then
         download_file  "${php5_5_filename}.tar.gz"
         tar zxf ${php5_5_filename}.tar.gz
         cd ${php5_5_filename}
 
-    elif [ "$php" == "${php5_6_filename}" ];then
+    elif [ "${php}" == "${php5_6_filename}" ];then
         download_file  "${php5_6_filename}.tar.gz"
         tar zxf ${php5_6_filename}.tar.gz
         cd ${php5_6_filename}
 
-    elif [ "$php" == "${php7_0_filename}" ];then
+    elif [ "${php}" == "${php7_0_filename}" ];then
         download_file  "${php7_0_filename}.tar.gz"
         tar zxf ${php7_0_filename}.tar.gz
         cd ${php7_0_filename}
 
-    elif [ "$php" == "${php7_1_filename}" ];then
+    elif [ "${php}" == "${php7_1_filename}" ];then
         download_file  "${php7_1_filename}.tar.gz"
         tar zxf ${php7_1_filename}.tar.gz
         cd ${php7_1_filename}
 
     fi
 
+    export LD_LIBRARY_PATH=""
+    export CPPFLAGS=""
     error_detect "./configure ${php_configure_args}"
+    ldconfig
     error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
     error_detect "make install"
 
@@ -172,12 +166,12 @@ install_php(){
 config_php(){
 
     rm -f /etc/php.ini /usr/bin/php /usr/bin/php-config /usr/bin/phpize
-    ln -s /usr/local/php/etc/php.ini /etc/php.ini
-    ln -s /usr/local/php/bin/php /usr/bin/php
-    ln -s /usr/local/php/bin/php-config /usr/bin/php-config
-    ln -s /usr/local/php/bin/phpize /usr/bin/phpize
+    ln -s ${php_location}/etc/php.ini /etc/php.ini
+    ln -s ${php_location}/bin/php /usr/bin/
+    ln -s ${php_location}/bin/php-config /usr/bin/
+    ln -s ${php_location}/bin/phpize /usr/bin/
 
-    if [[ "$php" != "${php5_3_filename}" && "$php" != "${php5_4_filename}" ]]; then
+    if [[ "${php}" != "${php5_3_filename}" && "${php}" != "${php5_4_filename}" ]]; then
         extension_dir=`php-config --extension-dir`
         cat > ${php_location}/php.d/opcache.ini<<-EOF
 [opcache]
