@@ -114,50 +114,48 @@ install_php(){
 
     cd ${cur_dir}/software/
 
-    if [ "${php}" == "${php5_3_filename}" ];then
+    if [ "${php}" == "${php5_3_filename}" ]; then
         download_file  "${php5_3_filename}.tar.gz"
         tar zxf ${php5_3_filename}.tar.gz
         cd ${php5_3_filename}
         cp ${cur_dir}/conf/php-5.3.patch ./
         patch -p1 < php-5.3.patch
 
-    elif [ "${php}" == "${php5_4_filename}" ];then
+    elif [ "${php}" == "${php5_4_filename}" ]; then
         download_file  "${php5_4_filename}.tar.gz"
         tar zxf ${php5_4_filename}.tar.gz
         cd ${php5_4_filename}
 
-    elif [ "${php}" == "${php5_5_filename}" ];then
+    elif [ "${php}" == "${php5_5_filename}" ]; then
         download_file  "${php5_5_filename}.tar.gz"
         tar zxf ${php5_5_filename}.tar.gz
         cd ${php5_5_filename}
 
-    elif [ "${php}" == "${php5_6_filename}" ];then
+    elif [ "${php}" == "${php5_6_filename}" ]; then
         download_file  "${php5_6_filename}.tar.gz"
         tar zxf ${php5_6_filename}.tar.gz
         cd ${php5_6_filename}
 
-    elif [ "${php}" == "${php7_0_filename}" ];then
+    elif [ "${php}" == "${php7_0_filename}" ]; then
         download_file  "${php7_0_filename}.tar.gz"
         tar zxf ${php7_0_filename}.tar.gz
         cd ${php7_0_filename}
 
-    elif [ "${php}" == "${php7_1_filename}" ];then
+    elif [ "${php}" == "${php7_1_filename}" ]; then
         download_file  "${php7_1_filename}.tar.gz"
         tar zxf ${php7_1_filename}.tar.gz
         cd ${php7_1_filename}
 
     fi
 
-    export LD_LIBRARY_PATH=""
-    export CPPFLAGS=""
+    unset LD_LIBRARY_PATH
+    unset CPPFLAGS
     error_detect "./configure ${php_configure_args}"
     ldconfig
     error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
     error_detect "make install"
 
-    mkdir -p ${php_location}/etc
-    mkdir -p ${php_location}/php.d
-
+    mkdir -p ${php_location}/{etc,php.d}
     cp -f ${cur_dir}/conf/php.ini ${php_location}/etc/php.ini
     config_php
 }
