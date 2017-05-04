@@ -799,7 +799,7 @@ function displayData(dataJSON)
   <tr>
       <td>Server Hostname</td>
       <td><?php if('/'==DIRECTORY_SEPARATOR ){echo $os[1];}else{echo $os[2];} ?></td>
-      <td>Absolute Path</td>
+      <td>Root Path</td>
       <td><?php echo $_SERVER['DOCUMENT_ROOT']?str_replace('\\','/',$_SERVER['DOCUMENT_ROOT']):str_replace('\\','/',dirname(__FILE__));?></td>
     </tr>
 
