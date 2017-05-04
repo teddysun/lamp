@@ -15,7 +15,7 @@
 upgrade_apache(){
 
     if [ ! -d ${apache_location} ]; then
-        echo "Error:Apache looks like not installed, please check it and try again."
+        log "Error" "Apache looks like not installed, please check it and try again."
         exit 1
     fi
 
@@ -46,7 +46,7 @@ upgrade_apache(){
     char=`get_char`
 
     if [[ "${upgrade_apache}" = "y" || "${upgrade_apache}" = "Y" ]];then
-        echo "Apache upgrade start..."
+        log "Info" "Apache upgrade start..."
         apache_count=`ps -ef | grep -v grep | grep -c "httpd"`
         if [ ${apache_count} -ne 0 ]; then
             /etc/init.d/httpd stop
@@ -83,12 +83,12 @@ upgrade_apache(){
                 backup_apache_link="${download_root_url}/httpd-${latest_apache22}.tar.gz"
                 untar ${latest_apache_link} ${backup_apache_link}
             else
-                echo "httpd-${latest_apache22}.tar.gz [found]"
+                log "Info" "httpd-${latest_apache22}.tar.gz [found]"
                 tar -zxf httpd-${latest_apache22}.tar.gz
                 cd httpd-${latest_apache22}
             fi
 
-            if grep -q -i "Ubuntu 12.04" /etc/issue;then
+            if ubuntuversion 12.04; then
                 sed -i '/SSL_PROTOCOL_SSLV2/d' modules/ssl/ssl_engine_io.c
             fi
 
@@ -103,7 +103,7 @@ upgrade_apache(){
                 --with-pcre=${depends_prefix}/pcre \
                 --with-mpm=prefork \
                 --with-included-apr \
-                --with-ssl=${openssl_location} \
+                --with-ssl \
                 --with-nghttp2 \
                 --enable-modules=reallyall \
                 --enable-mods-shared=reallyall"
@@ -118,7 +118,7 @@ upgrade_apache(){
                 backup_apache_link="${download_root_url}/httpd-${latest_apache24}.tar.gz"
                 untar ${latest_apache_link} ${backup_apache_link}
             else
-                echo "httpd-${latest_apache24}.tar.gz [found]"
+                log "Info" "httpd-${latest_apache24}.tar.gz [found]"
                 tar -zxf httpd-${latest_apache24}.tar.gz
                 cd httpd-${latest_apache24}
             fi
@@ -127,6 +127,9 @@ upgrade_apache(){
             mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
 
             LDFLAGS=-ldl
+            if [ -d ${openssl_location} ]; then
+                apache_configure_args=`echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@"`
+            fi
             error_detect "./configure ${apache_configure_args}"
             error_detect "parallel_make"
             error_detect "make install"
@@ -137,24 +140,25 @@ upgrade_apache(){
         cp -rpf ${apache_location}.bak/logs/* ${apache_location}/logs/
         cp -rpf ${apache_location}.bak/conf/* ${apache_location}/conf/
         cp -rpf ${apache_location}.bak/modules/libphp* ${apache_location}/modules/
+        cp -pf ${apache_location}.bak/bin/envvars ${apache_location}/bin/envvars
 
-        echo "Clear up start..."
+        log "Info" "Clear up start..."
         cd ${cur_dir}/software
         rm -rf httpd-${latest_apache22}/ httpd-${latest_apache24}/
         rm -f httpd-${latest_apache22}.tar.gz httpd-${latest_apache24}.tar.gz ${apr_filename}.tar.gz ${apr_util_filename}.tar.gz
-        echo "Clear up completed..."
+        log "Info" "Clear up completed..."
 
         /etc/init.d/httpd start
         if [ $? -eq 0 ]; then
-            echo "Apache start success!"
+            log "Info" "Apache start success!"
         else
-            echo "Apache start failure!"
+            log "Error" "Apache start failure!"
         fi
 
-        echo "Apache upgrade completed..."
+        log "Info" "Apache upgrade completed..."
     else
         echo
-        echo "Apache upgrade cancelled, nothing to do..."
+        log "Info" "Apache upgrade cancelled, nothing to do..."
         echo
     fi
 

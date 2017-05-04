@@ -45,13 +45,13 @@ upgrade_phpmyadmin(){
     char=`get_char`
 
     if [[ "${upgrade_pma}" = "y" || "${upgrade_pma}" = "Y" ]];then
-        echo "phpMyAdmin upgrade start..."
+        log "Info" "phpMyAdmin upgrade start..."
 
         if [ -d ${web_root_dir}/phpmyadmin ]; then
             mv ${web_root_dir}/phpmyadmin/config.inc.php ${cur_dir}/config.inc.php
             rm -rf ${web_root_dir}/phpmyadmin
         else
-            echo "phpMyAdmin folder not found..."
+            log "Info" "phpMyAdmin folder not found..."
         fi
 
         if [ ! -d ${cur_dir}/software ];then
@@ -85,16 +85,16 @@ upgrade_phpmyadmin(){
 
         echo -e "phpmyadmin\t${latest_pma}" > ${cur_dir}/pmaversion.txt
 
-        echo "Clear up start..."
+        log "Info" "Clear up start..."
         cd ${cur_dir}/software
         rm -rf phpMyAdmin-${latest_pma}-all-languages/
         rm -f phpMyAdmin-${latest_pma}-all-languages.tar.gz
-        echo "Clear up completed..."
+        log "Info" "Clear up completed..."
 
-        echo "phpMyAdmin upgrade completed..."
+        log "Info" "phpMyAdmin upgrade completed..."
     else
         echo
-        echo "phpMyAdmin upgrade cancelled, nothing to do..."
+        log "Info" "phpMyAdmin upgrade cancelled, nothing to do..."
         echo
     fi
 

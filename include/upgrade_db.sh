@@ -15,7 +15,7 @@
 upgrade_db(){
 
     if [ ! -d ${mysql_location} ] && [ ! -d ${mariadb_location} ] && [ ! -d ${percona_location} ]; then
-        echo "Error:MySQL or MariaDB or Percona looks like not installed, please check it and try again."
+        log "Error" "MySQL or MariaDB or Percona looks like not installed, please check it and try again."
         exit 1
     fi
 
@@ -100,14 +100,14 @@ upgrade_db(){
 
 
     if [[ "${upgrade_db}" = "y" || "${upgrade_db}" = "Y" ]];then
-        echo "$(db_name) upgrade start..."
+        log "Info" "$(db_name) upgrade start..."
 
         mysql_count=`ps -ef | grep -v grep | grep -c "mysqld"`
         if [ ${mysql_count} -eq 0 ]; then
-            echo "$(db_name) looks like not running, Try to starting $(db_name)..."
+            log "Info" "$(db_name) looks like not running, Try to starting $(db_name)..."
             /etc/init.d/mysqld start
             if [ $? -ne 0 ]; then
-                echo "$(db_name) starting failed!"
+                log "Error" "$(db_name) starting failed!"
                 exit 1
             fi
         fi
@@ -121,24 +121,24 @@ upgrade_db(){
 exit
 EOF
         if [ $? -ne 0 ]; then
-            echo "$(db_name) root password incorrect! Please check it and try again!"
+            log "Error" "$(db_name) root password incorrect! Please check it and try again!"
             exit 2
         fi
 
-        echo "Starting backup all of databases, Please wait a moment..."
+        log "Info" "Starting backup all of databases, Please wait a moment..."
         /usr/bin/mysqldump -uroot -p${mysql_root_password} --all-databases > ${mysql_dump}
         if [ $? -eq 0 ]; then
-            echo "$(db_name) all of databases backup success"
+            log "Info" "$(db_name) all of databases backup success"
         else
-            echo "$(db_name) all of databases backup failed, Please check it and try again!"
+            log "Error" "$(db_name) all of databases backup failed, Please check it and try again!"
             exit 3
         fi
-        echo "Stoping $(db_name)..."
+        log "Info" "Stopping $(db_name)..."
         /etc/init.d/mysqld stop
         if [ $? -eq 0 ]; then
-            echo "$(db_name) stop success"
+            log "Info" "$(db_name) stop success"
         else
-            echo "$(db_name) stop failed! Please check it and try again!"
+            log "Error" "$(db_name) stop failed! Please check it and try again!"
             exit 4
         fi
         cp -pf /etc/init.d/mysqld ${bkup_dir}/${bkup_file}
@@ -243,9 +243,9 @@ EOF
             "${down_addr1}/mariadb-${latest_mariadb}/bintar-${glibc_flag}-${sys_bit_a}/mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz" \
             "${down_addr2}/mariadb-${latest_mariadb}/bintar-${glibc_flag}-${sys_bit_a}/mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz"
 
-            echo "Extracting MariaDB files..."
+            log "Info" "Extracting MariaDB files..."
             tar zxf mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz
-            echo "Moving MariaDB files..."
+            log "Info" "Moving MariaDB files..."
             mv mariadb-${latest_mariadb}-*-${sys_bit_b}/* ${mariadb_location}
             if [ -d "${mariadb_location}/lib" ] && [ ! -d "${mariadb_location}/lib64" ];then
                 cd ${mariadb_location}
@@ -319,10 +319,14 @@ EOF
             elif [ ${percona_ver} == "5.7" ];then
                 ${percona_location}/bin/mysqld --initialize-insecure --basedir=${percona_location} --datadir=${datalocation} --user=mysql
             fi
+
             #Fix libmysqlclient issue
-            ln -sv ${percona_location}/lib/libperconaserverclient.a ${percona_location}/lib/libmysqlclient.a
+            cd ${percona_location}/lib/
+            ln -sv libperconaserverclient.a libmysqlclient.a
+            ln -sv libperconaserverclient.so libmysqlclient.so
             if [ ${percona_ver} != "5.7" ]; then
-                ln -sv ${percona_location}/lib/libperconaserverclient_r.a ${percona_location}/lib/libmysqlclient_r.a
+                ln -sv libperconaserverclient_r.a libmysqlclient_r.a
+                ln -sv libperconaserverclient_r.so libmysqlclient_r.so
             fi
 
         fi
@@ -332,7 +336,7 @@ EOF
         fi
         /etc/init.d/mysqld start
         if [ $? -ne 0 ]; then
-            echo "Starting $(db_name) failed, Please check it and try again!"
+            log "Error" "Starting $(db_name) failed, Please check it and try again!"
             exit 5
         fi
         /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${mysql_root_password}\" with grant option;"
@@ -344,31 +348,29 @@ delete from mysql.user where not (user='root');
 flush privileges;
 exit
 EOF
-        echo "Starting restore all of databases, Please wait a moment..."
+        log "Info" "Starting restore all of databases, Please wait a moment..."
         /usr/bin/mysql -uroot -p${mysql_root_password} < ${mysql_dump}
         if [ $? -eq 0 ]; then
-            echo "$(db_name) all of databases restore success"
+            log "Info" "$(db_name) all of databases restore success"
         else
-            echo "$(db_name) all of databases restore failed, Please restore it manually!"
+            log "Error" "$(db_name) all of databases restore failed, Please restore it manually!"
             exit 6
         fi
-        echo "Restart $(db_name)..."
+        log "Info" "Restart $(db_name)..."
         /etc/init.d/mysqld restart
-        echo "Restart Apache..."
+        log "Info" "Restart Apache..."
         /etc/init.d/httpd restart
         
-        echo "Clear up start..."
+        log "Info" "Clear up start..."
         cd ${cur_dir}/software
         rm -rf mysql-* mariadb-*
-        echo "Clear up completed..."
+        log "Info" "Clear up completed..."
         echo
-        echo "$(db_name) upgrade completed..."
-        echo "Welcome to visit:https://lamp.sh"
-        echo "Enjoy it!"
+        log "Info" "$(db_name) upgrade completed..."
         echo
     else
         echo
-        echo "$(db_name) upgrade cancelled, nothing to do..."
+        log "Info" "$(db_name) upgrade cancelled, nothing to do..."
         echo
     fi
 
