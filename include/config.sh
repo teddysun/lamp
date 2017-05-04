@@ -56,7 +56,7 @@ mariadb5_5_filename="mariadb-5.5.55"
 #mariadb10.0
 mariadb10_0_filename="mariadb-10.0.30"
 #mariadb10.1
-mariadb10_1_filename="mariadb-10.1.22"
+mariadb10_1_filename="mariadb-10.1.23"
 #percona5.5
 percona5_5_filename="percona-server-5.5.54-38.7"
 set_hint ${percona5_5_filename} "percona-server-5.5.54"
@@ -97,8 +97,6 @@ mcrypt_filename="mcrypt-2.6.8"
 pcre_filename="pcre-8.40"
 #re2c
 re2c_filename='re2c-0.16'
-#libedit
-libedit_filename='libedit-20170329-3.1'
 #imap
 imap_filename='imap-2007f'
 #libiconv
@@ -153,10 +151,6 @@ set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
 php_mongo_filename="mongodb-1.2.8"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
-#ICU
-icu_filename="icu4c-4_4_2-src"
-#gmp
-gmp_filename="gmp-6.1.0"
 
 
 #software array setting
