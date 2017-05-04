@@ -33,37 +33,6 @@ mysql_preinstall_settings(){
             echo
             echo "${mysql} root password: ${mysql_root_pass}"
 
-            if [ "${mysql}" == "${mysql5_5_filename}" ]; then
-                mysql_configure_args="-DCMAKE_INSTALL_PREFIX=${mysql_location} \
-                -DMYSQL_DATADIR=${mysql_data_location} \
-                -DSYSCONFDIR=/etc \
-                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
-                -DDEFAULT_CHARSET=utf8mb4 \
-                -DDEFAULT_COLLATION=utf8mb4_general_ci \
-                -DWITH_EXTRA_CHARSETS=complex \
-                -DWITH_READLINE=1 \
-                -DENABLED_LOCAL_INFILE=1"
-            elif [ "${mysql}" == "${mysql5_6_filename}" ]; then
-                mysql_configure_args="-DCMAKE_INSTALL_PREFIX=${mysql_location} \
-                -DMYSQL_DATADIR=${mysql_data_location} \
-                -DSYSCONFDIR=/etc \
-                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
-                -DDEFAULT_CHARSET=utf8mb4 \
-                -DDEFAULT_COLLATION=utf8mb4_general_ci \
-                -DWITH_EXTRA_CHARSETS=complex \
-                -DENABLED_LOCAL_INFILE=1"
-            elif [ "${mysql}" == "${mysql5_7_filename}" ]; then
-                mysql_configure_args="-DCMAKE_INSTALL_PREFIX=${mysql_location} \
-                -DWITH_BOOST=${cur_dir}/software/${boost_filename}  \
-                -DMYSQL_DATADIR=${mysql_data_location} \
-                -DSYSCONFDIR=/etc \
-                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
-                -DDEFAULT_CHARSET=utf8mb4 \
-                -DDEFAULT_COLLATION=utf8mb4_general_ci \
-                -DWITH_EXTRA_CHARSETS=complex \
-                -DWITH_EMBEDDED_SERVER=1 \
-                -DENABLED_LOCAL_INFILE=1"
-            fi
         elif [ "${mysql}" == "${mariadb5_5_filename}" ] || [ "${mysql}" == "${mariadb10_0_filename}" ] || [ "${mysql}" == "${mariadb10_1_filename}" ]; then
             #mariadb data
             echo
@@ -79,6 +48,7 @@ mysql_preinstall_settings(){
             mariadb_root_pass=${mariadb_root_pass:=root}
             echo
             echo "${mysql} root password: $mariadb_root_pass"
+
         elif [ "${mysql}" == "${percona5_5_filename}" ] || [ "${mysql}" == "${percona5_6_filename}" ] || [ "${mysql}" == "${percona5_7_filename}" ]; then
             #percona data
             echo
@@ -167,49 +137,27 @@ install_mysqld(){
 
     common_install
 
+    is_64bit && sys_bit=x86_64 || sys_bit=i686
+    mysql_ver=$(echo ${mysql} | sed 's/[^0-9.]//g' | cut -d. -f1-2)
+    local url1="http://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql}-linux-glibc2.5-${sys_bit}.tar.gz"
+    local url2="${download_root_url}/${mysql}-linux-glibc2.5-${sys_bit}.tar.gz"
+
     cd ${cur_dir}/software/
 
-    if [ "${mysql}" == "${mysql5_5_filename}" ]; then
+    download_from_url "${mysql}-linux-glibc2.5-${sys_bit}.tar.gz" "${url1}" "${url2}"
+    log "Info" "Extracting MySQL files..."
+    tar zxf ${mysql}-linux-glibc2.5-${sys_bit}.tar.gz
+    log "Info" "Moving MySQL files..."
+    mv ${mysql}-linux-glibc2.5-${sys_bit}/* ${mysql_location}
 
-        download_file  "${mysql5_5_filename}.tar.gz"
-        tar zxf ${mysql5_5_filename}.tar.gz
-        cd ${mysql5_5_filename}
-        error_detect "cmake ${mysql_configure_args}"
-
-        error_detect "parallel_make"
-        error_detect "make install"
-        config_mysql 5.5
-        
-    elif [ "${mysql}" == "${mysql5_6_filename}" ]; then
-
-        download_file "${mysql5_6_filename}.tar.gz"
-        tar zxf ${mysql5_6_filename}.tar.gz
-        cd ${mysql5_6_filename}
-        error_detect "cmake ${mysql_configure_args}"
-        error_detect "parallel_make"
-        error_detect "make install"
-        config_mysql 5.6
-
-    elif [ "${mysql}" == "${mysql5_7_filename}" ]; then
-
-        download_file "${boost_filename}.tar.gz"
-        tar zxf ${boost_filename}.tar.gz
-
-        download_file "${mysql5_7_filename}.tar.gz"
-        tar zxf ${mysql5_7_filename}.tar.gz
-        cd ${mysql5_7_filename}
-        error_detect "cmake ${mysql_configure_args}"
-        error_detect "parallel_make"
-        error_detect "make install"
-        config_mysql 5.7
-    fi
+    config_mysql ${mysql_ver}
 
     add_to_env "${mysql_location}"
 }
 
 #Configuration mysql
 config_mysql(){
-    local version=$1
+    local version=${1}
 
     if [ -f /etc/my.cnf ];then
         mv /etc/my.cnf /etc/my.cnf.bak
@@ -226,9 +174,9 @@ config_mysql(){
     sed -i "s:^datadir=.*:datadir=${mysql_data_location}:g" /etc/init.d/mysqld
     chmod +x /etc/init.d/mysqld
 
-    if [ ${version} == "5.5" ] || [ ${version} == "5.6" ];then
+    if [ "${version}" == "5.5" ] || [ "${version}" == "5.6" ]; then
         ${mysql_location}/scripts/mysql_install_db --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
-    elif [ ${version} == "5.7" ];then
+    elif [ "${version}" == "5.7" ]; then
         ${mysql_location}/bin/mysqld --initialize-insecure --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
     fi
 

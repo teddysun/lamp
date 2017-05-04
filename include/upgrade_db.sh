@@ -158,47 +158,16 @@ EOF
             fi
             mv ${mysql_location} ${mysql_location}.bak
 
-            if [ "${mysql_ver}" == "5.7" ]; then
-                download_file "${boost_filename}.tar.gz"
-                tar zxf ${boost_filename}.tar.gz
-                mysql_configure_args="-DCMAKE_INSTALL_PREFIX=${mysql_location} \
-                -DWITH_BOOST=${cur_dir}/software/${boost_filename}  \
-                -DMYSQL_DATADIR=${datalocation} \
-                -DSYSCONFDIR=/etc \
-                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
-                -DDEFAULT_CHARSET=utf8mb4 \
-                -DDEFAULT_COLLATION=utf8mb4_general_ci \
-                -DWITH_EXTRA_CHARSETS=complex \
-                -DWITH_EMBEDDED_SERVER=1 \
-                -DENABLED_LOCAL_INFILE=1"
-            else
-                mysql_configure_args="-DCMAKE_INSTALL_PREFIX=${mysql_location} \
-                -DMYSQL_DATADIR=${datalocation} \
-                -DSYSCONFDIR=/etc \
-                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
-                -DDEFAULT_CHARSET=utf8mb4 \
-                -DDEFAULT_COLLATION=utf8mb4_general_ci \
-                -DWITH_EXTRA_CHARSETS=complex \
-                -DWITH_READLINE=1 \
-                -DENABLED_LOCAL_INFILE=1"
-            fi
+            is_64bit && sys_bit=x86_64 || sys_bit=i686
+            url1="http://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${latest_mysql}-linux-glibc2.5-${sys_bit}.tar.gz"
+            url2="${download_root_url}/${latest_mysql}-linux-glibc2.5-${sys_bit}.tar.gz"
 
-            if [ ! -s mysql-${latest_mysql}.tar.gz ]; then
-                latest_mysql_link="http://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}.tar.gz"
-                backup_mysql_link="${download_root_url}/mysql-${latest_mysql}.tar.gz"
-                untar ${latest_mysql_link} ${backup_mysql_link}
-            else
-                tar -zxf mysql-${latest_mysql}.tar.gz
-                cd mysql-${latest_mysql}
-            fi
+            download_from_url "${latest_mysql}-linux-glibc2.5-${sys_bit}.tar.gz" "${url1}" "${url2}"
+            log "Info" "Extracting MySQL files..."
+            tar zxf ${latest_mysql}-linux-glibc2.5-${sys_bit}.tar.gz
+            log "Info" "Moving MySQL files..."
+            mv ${latest_mysql}-linux-glibc2.5-${sys_bit}/* ${mysql_location}
 
-            error_detect "cmake ${mysql_configure_args}"
-            error_detect "parallel_make"
-            error_detect "make install"
-            if [ -d "${mysql_location}/lib" ] && [ ! -d "${mysql_location}/lib64" ];then
-                cd ${mysql_location}
-                ln -s lib lib64
-            fi
             chown -R mysql:mysql ${mysql_location} ${datalocation}
             cp -f ${mysql_location}/support-files/mysql.server /etc/init.d/mysqld
             sed -i "s:^basedir=.*:basedir=${mysql_location}:g" /etc/init.d/mysqld

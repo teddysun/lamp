@@ -48,7 +48,6 @@ mysql5_5_filename="mysql-5.5.56"
 mysql5_6_filename="mysql-5.6.36"
 #mysql5.7
 mysql5_7_filename="mysql-5.7.18"
-set_hint ${mysql5_7_filename} "${mysql5_7_filename} (need at least 2GB RAM when building)"
 #boost
 boost_filename="boost_1_59_0"
 #mariadb5.5
