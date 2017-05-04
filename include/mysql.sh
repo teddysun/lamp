@@ -288,9 +288,9 @@ install_mariadb(){
         "${down_addr1}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" \
         "${down_addr2}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz"
 
-        echo "Extracting MariaDB files..."
+        log "Info" "Extracting MariaDB files..."
         tar zxf ${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz
-        echo "Moving MariaDB files..."
+        log "Info" "Moving MariaDB files..."
         mv ${mysql}-*-${sys_bit_b}/* ${mariadb_location}
     fi
 
