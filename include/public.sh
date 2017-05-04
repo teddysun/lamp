@@ -1023,18 +1023,18 @@ finally(){
 
     # Install phpmyadmin database
     if [ -d "${web_root_dir}/phpmyadmin" ]; then
-        /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql
+        /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql > /dev/null 2>&1
     fi
     sleep 3
     netstat -nxtlp
 
     echo
     echo "Start time: ${StartDate}"
-    echo -e "Completion time: $(date "+%Y-%m-%d %H:%M:%S") (Use:${RED} $[($(date +%s)-StartDateSecond)/60] ${PLAIN} minutes)"
+    echo -e "Completion time: $(date "+%Y-%m-%d %H:%M:%S") (Use:${RED} $[($(date +%s)-StartDateSecond)/60]${PLAIN} minutes)"
     echo "Welcome to visit our website: https://lamp.sh"
     echo "Enjoy it"
 
-    exit
+    exit 0
 }
 
 #Install tools
