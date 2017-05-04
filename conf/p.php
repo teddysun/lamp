@@ -806,7 +806,7 @@ function displayData(dataJSON)
   <tr>
       <td>Server Admin</td>
       <td><?php if(isset($_SERVER['SERVER_ADMIN'])) echo $_SERVER['SERVER_ADMIN'];?></td>
-        <td>Prober path</td>
+        <td>Prober Path</td>
         <td><?php echo str_replace('\\','/',__FILE__)?str_replace('\\','/',__FILE__):$_SERVER['SCRIPT_FILENAME'];?></td>
     </tr>    
 </table>
@@ -826,12 +826,12 @@ function displayData(dataJSON)
     <td width="87%" colspan="5"><?php echo $sysInfo['cpu']['model'];?></td>
   </tr>
   <tr>
-    <td>CPU usage</td>
+    <td>CPU Usage</td>
     <td colspan="5"><?php if('/'==DIRECTORY_SEPARATOR){echo $cpu_show." | <a href='?act=cpu_percentage' target='_blank' class='static'>View the chart</a>";}else{echo "Temporarily only support Linux system";}?>
 	</td>
   </tr>
   <tr>
-    <td>Space usage</td>
+    <td>Space Usage</td>
     <td colspan="5">
         Total Space <?php echo $dt;?>&nbsp;G，
         Used <font color='#333333'><span id="useSpace"><?php echo $du;?></span></font>&nbsp;G，
@@ -841,7 +841,7 @@ function displayData(dataJSON)
     </td>
   </tr>
   <tr>
-        <td>Memory usage</td>
+        <td>Memory Usage</td>
         <td colspan="5">
 <?php
 $tmp = array(
