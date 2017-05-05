@@ -309,6 +309,7 @@ EOF
 drop database if exists test;
 delete from mysql.user where user='';
 delete from mysql.user where not (user='root');
+delete from mysql.user where password='';
 flush privileges;
 exit
 EOF
