@@ -51,7 +51,7 @@ mysql5_7_filename="mysql-5.7.18"
 #boost
 boost_filename="boost_1_59_0"
 #mariadb5.5
-mariadb5_5_filename="mariadb-5.5.55"
+mariadb5_5_filename="mariadb-5.5.56"
 #mariadb10.0
 mariadb10_0_filename="mariadb-10.0.30"
 #mariadb10.1
