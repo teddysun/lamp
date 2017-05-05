@@ -18,17 +18,14 @@ YELLOW='\033[0;33m'
 PLAIN='\033[0m'
 
 log(){
-    local marker="$1"
-    local text="$2"
-
-    if   [ "${marker}" == "Warning" ]; then
-        echo -e "[${YELLOW}${marker}${PLAIN}] ${text}"
-    elif [ "${marker}" == "Error" ]; then
-        echo -e "[${RED}${marker}${PLAIN}] ${text}"
-    elif [ "${marker}" == "Info" ]; then
-        echo -e "[${GREEN}${marker}${PLAIN}] ${text}"
+    if   [ "${1}" == "Warning" ]; then
+        echo -e "[${YELLOW}${1}${PLAIN}] ${2}"
+    elif [ "${1}" == "Error" ]; then
+        echo -e "[${RED}${1}${PLAIN}] ${2}"
+    elif [ "${1}" == "Info" ]; then
+        echo -e "[${GREEN}${1}${PLAIN}] ${2}"
     else
-        echo -e "[${marker}] ${text}"
+        echo -e "[${1}] ${2}"
     fi
 }
 
@@ -858,17 +855,13 @@ firewall_set(){
 remove_packages(){
     log "Info" "Starting remove the conflict packages..."
     if check_sys packageManager apt; then
-        {
-            apt-get -y remove --purge apache2 apache2-data apache2-doc apache2-utils apache2.2-common apache2.2-bin apache2-mpm-prefork apache2-mpm-worker
-            apt-get -y remove --purge mysql-client mysql-server mysql-common libmysqlclient18
-            apt-get -y remove --purge php5 php5-common php5-cgi php5-mysql php5-curl php5-gd
-        } > /dev/null 2>&1
+        apt-get -y remove --purge apache2 apache2-* &> /dev/null
+        apt-get -y remove --purge mysql-client mysql-server mysql-common libmysqlclient18 &> /dev/null
+        apt-get -y remove --purge php5 php5-* &> /dev/null
     elif check_sys packageManager yum; then
-        {
-            yum -y remove httpd-*
-            yum -y remove mysql-*
-            yum -y remove php-*
-        } > /dev/null 2>&1
+        yum -y remove httpd-* &> /dev/null
+        yum -y remove mysql-* &> /dev/null
+        yum -y remove php-* &> /dev/null
     fi
     log "Info" "Remove the conflict packages completed..."
 }
@@ -885,7 +878,6 @@ sync_time(){
     ntpdate -d cn.pool.ntp.org > /dev/null 2>&1
     rm -f /etc/localtime
     ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-    ntpdate -v time.nist.gov > /dev/null 2>&1
     hwclock -w > /dev/null 2>&1
     log "Info" "Sync time completed..."
 }
@@ -972,19 +964,19 @@ finally(){
         echo "Apache Location: ${apache_location}"
     fi
     echo
-    if [ "${mysql}" == "${mysql5_5_filename}" ] || [ "${mysql}" == "${mysql5_6_filename}" ] || [ "${mysql}" == "${mysql5_7_filename}" ]; then
+    if [ -d ${mysql_location} ]; then
         echo "MySQL Server: ${mysql}"
         echo "MySQL Location: ${mysql_location}"
         echo "MySQL Data Location: ${mysql_data_location}"
         echo "MySQL Root Password: ${mysql_root_pass}"
         dbrootpwd=${mysql_root_pass}
-    elif [ "${mysql}" == "${mariadb5_5_filename}" ] || [ "${mysql}" == "${mariadb10_0_filename}" ] || [ "${mysql}" == "${mariadb10_1_filename}" ]; then
+    elif [ -d ${mariadb_location} ]; then
         echo "MariaDB Server: ${mysql}"
         echo "MariaDB Location: ${mariadb_location}"
         echo "MariaDB Data Location: ${mariadb_data_location}"
         echo "MariaDB Root Password: ${mariadb_root_pass}"
         dbrootpwd=${mariadb_root_pass}
-    elif [ "${mysql}" == "${percona5_5_filename}" ] || [ "${mysql}" == "${percona5_6_filename}" ] || [ "${mysql}" == "${percona5_7_filename}" ]; then
+    elif [ -d ${percona_location} ]; then
         echo "Percona Server: ${mysql}"
         echo "Percona Location: ${percona_location}"
         echo "Percona Data Location: ${percona_data_location}"
@@ -1012,13 +1004,28 @@ finally(){
     sed -i "s@^mariadb_location=.*@mariadb_location=${mariadb_location}@" /usr/bin/lamp
     sed -i "s@^percona_location=.*@percona_location=${percona_location}@" /usr/bin/lamp
 
-    [ "${apache}" != "do_not_install" ] && echo "Starting Apache..." && /etc/init.d/httpd start
-    [ "${mysql}" != "do_not_install" ] && echo "Starting Database..." && /etc/init.d/mysqld start
-    if_in_array "${php_memcached_filename}" "$php_modules_install" && echo "Starting Memcached..." && /etc/init.d/memcached start
+    if [ "${apache}" != "do_not_install" ]; then
+        echo "Starting Apache..."
+        /etc/init.d/httpd start > /dev/null 2>&1
+    fi
+    if [ "${mysql}" != "do_not_install" ]; then
+        echo "Starting Database..."
+        /etc/init.d/mysqld start > /dev/null 2>&1
+    fi
+    if if_in_array "${php_memcached_filename}" "${php_modules_install}"; then
+        echo "Starting Memcached..." 
+        /etc/init.d/memcached start > /dev/null 2>&1
+    fi
     if [[ "${php}" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]]; then
-        if_in_array "${php_redis_filename2}" "$php_modules_install" && echo "Starting Redis-server..." && /etc/init.d/redis-server start
+        if if_in_array "${php_redis_filename2}" "${php_modules_install}"; then
+            echo "Starting Redis-server..."
+            /etc/init.d/redis-server start > /dev/null 2>&1
+        fi
     else
-        if_in_array "${php_redis_filename}" "$php_modules_install" && echo "Starting Redis-server..." && /etc/init.d/redis-server start
+        if if_in_array "${php_redis_filename}" "${php_modules_install}"; then
+            echo "Starting Redis-server..."
+            /etc/init.d/redis-server start > /dev/null 2>&1
+        fi
     fi
 
     # Install phpmyadmin database
@@ -1029,7 +1036,7 @@ finally(){
     netstat -nxtlp
 
     echo
-    echo "Start time: ${StartDate}"
+    echo "Start time     : ${StartDate}"
     echo -e "Completion time: $(date "+%Y-%m-%d %H:%M:%S") (Use:${RED} $[($(date +%s)-StartDateSecond)/60]${PLAIN} minutes)"
     echo "Welcome to visit our website: https://lamp.sh"
     echo "Enjoy it"
@@ -1091,15 +1098,15 @@ preinstall_lamp(){
 #Pre-installation settings
 pre_setting(){
     if check_sys packageManager yum || check_sys packageManager apt; then
-        # Not support CentOS 5
-        if centosversion 5; then
-            log "Error" "Not support CentOS 5, please change to CentOS 6 or 7 and try again."
+        # Not support CentOS 5 & Debian 6
+        if centosversion 5 || debianversion 6; then
+            log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 12+ and try again."
             exit 1
         fi
         preinstall_lamp
         install_lamp
     else
-        log "Error" "OS is not supported, please change to CentOS 6+ or Debian 7+ or Ubuntu 12+ and try again."
+        log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 12+ and try again."
         exit 1
     fi
 }
