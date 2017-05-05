@@ -325,8 +325,8 @@ install_openssl(){
         error_detect "make"
         error_detect "make install"
 
-        ln -s /usr/local/openssl/lib/libssl.so.1.0.0 /usr/local/lib/
-        ln -s /usr/local/openssl/lib/libcrypto.so.1.0.0 /usr/local/lib/
+        ln -s ${openssl_location}/lib/libssl.so.1.0.0 /usr/local/lib/
+        ln -s ${openssl_location}/lib/libcrypto.so.1.0.0 /usr/local/lib/
         create_lib64_dir "${openssl_location}"
         log "Info" "${openssl_filename} install completed..."
     else
