@@ -322,27 +322,11 @@ install_openssl(){
         cd ${openssl_filename}
 
         error_detect "./config --prefix=${openssl_location} -fPIC shared no-ssl2 zlib-dynamic"
-        error_detect "parallel_make"
+        error_detect "make"
         error_detect "make install"
 
-        if is_64bit; then
-            if check_sys packageManager apt; then
-                ln -s ${openssl_location}/lib/libssl.so.1.0.0 /usr/lib/x86_64-linux-gnu/
-                ln -s ${openssl_location}/lib/libcrypto.so.1.0.0 /usr/lib/x86_64-linux-gnu/
-            elif check_sys packageManager yum; then
-                ln -s ${openssl_location}/lib/libssl.so.1.0.0 /usr/lib64/
-                ln -s ${openssl_location}/lib/libcrypto.so.1.0.0 /usr/lib64/
-            fi
-        else
-            if check_sys packageManager apt; then
-                ln -s ${openssl_location}/lib/libssl.so.1.0.0 /usr/lib/i386-linux-gnu/
-                ln -s ${openssl_location}/lib/libcrypto.so.1.0.0 /usr/lib/i386-linux-gnu/
-            elif check_sys packageManager yum; then
-                ln -s ${openssl_location}/lib/libssl.so.1.0.0 /usr/lib/
-                ln -s ${openssl_location}/lib/libcrypto.so.1.0.0 /usr/lib/
-            fi
-        fi
-        add_to_env "${openssl_location}"
+        ln -s /usr/local/openssl/lib/libssl.so.1.0.0 /usr/local/lib/
+        ln -s /usr/local/openssl/lib/libcrypto.so.1.0.0 /usr/local/lib/
         create_lib64_dir "${openssl_location}"
         log "Info" "${openssl_filename} install completed..."
     else
