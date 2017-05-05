@@ -65,40 +65,6 @@ mysql_preinstall_settings(){
             echo
             echo "${mysql} root password: ${percona_root_pass}"
 
-            if [ "${mysql}" == "${percona5_5_filename}" ]; then
-                percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
-                -DMYSQL_DATADIR=${percona_data_location} \
-                -DSYSCONFDIR=/etc \
-                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
-                -DDEFAULT_CHARSET=utf8mb4 \
-                -DDEFAULT_COLLATION=utf8mb4_general_ci \
-                -DWITH_EXTRA_CHARSETS=complex \
-                -DWITH_READLINE=1 \
-                -DENABLE_DTRACE=0 \
-                -DENABLED_LOCAL_INFILE=1"
-            elif [ "${mysql}" == "${percona5_6_filename}" ]; then
-                percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
-                -DMYSQL_DATADIR=${percona_data_location} \
-                -DSYSCONFDIR=/etc \
-                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
-                -DDEFAULT_CHARSET=utf8mb4 \
-                -DDEFAULT_COLLATION=utf8mb4_general_ci \
-                -DWITH_EXTRA_CHARSETS=complex \
-                -DENABLE_DTRACE=0 \
-                -DENABLED_LOCAL_INFILE=1"
-            elif [ "${mysql}" == "${percona5_7_filename}" ]; then
-                percona_configure_args="-DCMAKE_INSTALL_PREFIX=${percona_location} \
-                -DWITH_BOOST=${cur_dir}/software/${boost_filename} \
-                -DMYSQL_DATADIR=${percona_data_location} \
-                -DSYSCONFDIR=/etc \
-                -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
-                -DDEFAULT_CHARSET=utf8mb4 \
-                -DDEFAULT_COLLATION=utf8mb4_general_ci \
-                -DWITH_EXTRA_CHARSETS=complex \
-                -DWITH_EMBEDDED_SERVER=1 \
-                -DENABLE_DTRACE=0 \
-                -DENABLED_LOCAL_INFILE=1"
-            fi
         fi
     fi
 }
@@ -106,17 +72,32 @@ mysql_preinstall_settings(){
 #Install Database common
 common_install(){
 
-    local apt_list=(libncurses5-dev cmake m4 bison libaio1 libaio-dev)
-    local yum_list=(ncurses-devel cmake m4 bison libaio libaio-devel)
+    local apt_list=(libncurses5-dev cmake m4 bison libaio1 libaio-dev numactl)
+    local yum_list=(ncurses-devel cmake m4 bison libaio libaio-devel numactl-devel)
+    if is_64bit; then
+        local perl_data_dumper_url="${download_root_url}/perl-Data-Dumper-2.125-1.el6.rf.x86_64.rpm"
+    else
+        local perl_data_dumper_url="${download_root_url}/perl-Data-Dumper-2.125-1.el6.rf.i686.rpm"
+    fi
     log "Info" "Starting to install dependencies packages for Database..."
-    if check_sys packageManager apt;then
+    if check_sys packageManager apt; then
         for depend in ${apt_list[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
         done
-    elif check_sys packageManager yum;then
+    elif check_sys packageManager yum; then
         for depend in ${yum_list[@]}; do
             error_detect_depends "yum -y install ${depend}"
         done
+        if centosversion 6; then
+            rpm -q perl-Data-Dumper > /dev/null 2>&1
+            if [ $? -ne 0 ]; then
+                log "Info" "Starting to install package perl-Data-Dumper"
+                rpm -Uvh ${perl_data_dumper_url}
+                [ $? -ne 0 ] && log "Error" "Install package perl-Data-Dumper failed" && exit 1
+            fi
+        elif centosversion 7; then
+            error_detect_depends "yum -y install perl-Data-Dumper"
+        fi
     fi
     log "Info" "Install dependencies packages for Database completed..."
 
@@ -294,57 +275,42 @@ install_percona(){
 
     common_install
 
+    is_64bit && sys_bit=x86_64 || sys_bit=i686
+    if check_sys packageManager apt; then
+        local ssl_ver="ssl100"
+    elif check_sys packageManager yum; then
+        local ssl_ver="ssl101"
+    fi
+    local percona_ver=$(echo ${mysql} | sed 's/[^0-9.]//g' | cut -d. -f1-2)
+    local major_ver=$(echo ${mysql} | cut -d'-' -f1-3)
+    local rel_ver=$(echo ${mysql} | awk -F'-' '{print $4}')
+    local down_addr="https://www.percona.com/downloads/Percona-Server-${percona_ver}/${mysql}/binary/tarball"
+
+    if [[ "${percona_ver}" == "5.5" || "${percona_ver}" == "5.6" ]]; then
+        tarball="${major_ver}-rel${rel_ver}-Linux.${sys_bit}.${ssl_ver}"
+    fi
+    if [[ "${percona_ver}" == "5.7" ]]; then
+        tarball="${mysql}-Linux.${sys_bit}.${ssl_ver}"
+    fi
+
+    local url1="${down_addr}/${tarball}.tar.gz"
+    local url2="${download_root_url}/${tarball}.tar.gz"
+
     cd ${cur_dir}/software/
 
-    if [ "$mysql" == "${percona5_5_filename}" ];then
+    download_from_url "${tarball}.tar.gz" "${url1}" "${url2}"
+    log "Info" "Extracting Percona Server files..."
+    tar zxf ${tarball}.tar.gz
+    log "Info" "Moving Percona Server files..."
+    mv ${tarball}/* ${percona_location}
 
-        download_file  "${percona5_5_filename}.tar.gz"
-        tar zxf ${percona5_5_filename}.tar.gz
-        cd ${percona5_5_filename}
-        error_detect "cmake ${percona_configure_args}"
-
-        error_detect "parallel_make"
-        error_detect "make install"
-        config_percona 5.5
-        
-    elif [ "$mysql" == "${percona5_6_filename}" ];then
-
-        download_file "${percona5_6_filename}.tar.gz"
-        tar zxf ${percona5_6_filename}.tar.gz
-        cd ${percona5_6_filename}
-        error_detect "cmake ${percona_configure_args}"
-        error_detect "parallel_make"
-        error_detect "make install"
-        config_percona 5.6
-
-    elif [ "$mysql" == "${percona5_7_filename}" ];then
-
-        download_file "${boost_filename}.tar.gz"
-        tar zxf ${boost_filename}.tar.gz
-
-        download_file "${percona5_7_filename}.tar.gz"
-        tar zxf ${percona5_7_filename}.tar.gz
-        cd ${percona5_7_filename}
-        error_detect "cmake ${percona_configure_args}"
-        error_detect "parallel_make"
-        error_detect "make install"
-        config_percona 5.7
-    fi
-
+    config_percona ${percona_ver}
     add_to_env "${percona_location}"
-    #Fix libmysqlclient issue
-    cd ${percona_location}/lib/
-    ln -sv libperconaserverclient.a libmysqlclient.a
-    ln -sv libperconaserverclient.so libmysqlclient.so
-    if [ "$mysql" != "${percona5_7_filename}" ]; then
-        ln -sv libperconaserverclient_r.a libmysqlclient_r.a
-        ln -sv libperconaserverclient_r.so libmysqlclient_r.so
-    fi
 }
 
 #Configuration percona
 config_percona(){
-    local version=$1
+    local version=${1}
 
     if [ -f /etc/my.cnf ];then
         mv /etc/my.cnf /etc/my.cnf.bak
@@ -361,15 +327,18 @@ config_percona(){
     sed -i "s:^datadir=.*:datadir=${percona_data_location}:g" /etc/init.d/mysqld
     chmod +x /etc/init.d/mysqld
 
-    if [ ${version} == "5.5" ] || [ ${version} == "5.6" ];then
+    sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysqld_safe
+    sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysql_config
+
+    if [ ${version} == "5.5" ] || [ ${version} == "5.6" ]; then
         ${percona_location}/scripts/mysql_install_db --basedir=${percona_location} --datadir=${percona_data_location} --user=mysql
-    elif [ ${version} == "5.7" ];then
+    elif [ ${version} == "5.7" ]; then
         ${percona_location}/bin/mysqld --initialize-insecure --basedir=${percona_location} --datadir=${percona_data_location} --user=mysql
     fi
 
     rm -f /usr/bin/mysql /usr/bin/mysqldump
-    ln -sv ${percona_location}/bin/mysql /usr/bin/mysql
-    ln -sv ${percona_location}/bin/mysqldump /usr/bin/mysqldump
+    ln -s ${percona_location}/bin/mysql /usr/bin/mysql
+    ln -s ${percona_location}/bin/mysqldump /usr/bin/mysqldump
     boot_start mysqld
 
     /etc/init.d/mysqld start
@@ -390,5 +359,14 @@ EOF
     echo "${percona_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
     echo "${percona_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
     ldconfig
+
+    #Fix libmysqlclient issue
+    cd ${percona_location}/lib/
+    ln -s libperconaserverclient.a libmysqlclient.a
+    ln -s libperconaserverclient.so libmysqlclient.so
+    if [ "$mysql" != "${percona5_7_filename}" ]; then
+        ln -s libperconaserverclient_r.a libmysqlclient_r.a
+        ln -s libperconaserverclient_r.so libmysqlclient_r.so
+    fi
 }
 
