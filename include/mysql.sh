@@ -231,16 +231,14 @@ install_mariadb(){
 
     cd ${cur_dir}/software/
 
-    if [ "$mysql" == "${mariadb5_5_filename}" ] || [ "$mysql" == "${mariadb10_0_filename}" ] || [ "$mysql" == "${mariadb10_1_filename}" ];then
-        download_from_url "${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" \
-        "${down_addr1}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" \
-        "${down_addr2}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz"
+    download_from_url "${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" \
+    "${down_addr1}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz" \
+    "${down_addr2}/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz"
 
-        log "Info" "Extracting MariaDB files..."
-        tar zxf ${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz
-        log "Info" "Moving MariaDB files..."
-        mv ${mysql}-*-${sys_bit_b}/* ${mariadb_location}
-    fi
+    log "Info" "Extracting MariaDB files..."
+    tar zxf ${mysql}-${glibc_flag}-${sys_bit_b}.tar.gz
+    log "Info" "Moving MariaDB files..."
+    mv ${mysql}-*-${sys_bit_b}/* ${mariadb_location}
 
     config_mariadb
     add_to_env "${mariadb_location}"
