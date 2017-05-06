@@ -92,7 +92,7 @@ common_install(){
             rpm -q perl-Data-Dumper > /dev/null 2>&1
             if [ $? -ne 0 ]; then
                 log "Info" "Starting to install package perl-Data-Dumper"
-                rpm -Uvh ${perl_data_dumper_url}
+                rpm -Uvh ${perl_data_dumper_url} > /dev/null 2>&1
                 [ $? -ne 0 ] && log "Error" "Install package perl-Data-Dumper failed" && exit 1
             fi
         elif centosversion 7; then
@@ -111,6 +111,72 @@ common_install(){
     elif [[ "${mysql}" == "${percona5_5_filename}" || "${mysql}" == "${percona5_6_filename}" || "${mysql}" == "${percona5_7_filename}" ]]; then
         mkdir -p ${percona_location} ${percona_data_location}
     fi
+}
+
+common_setup(){
+
+    rm -f /usr/bin/mysql /usr/bin/mysqldump
+    rm -f /etc/ld.so.conf.d/mysql.conf
+
+    if [ -d ${mysql_location} ]; then
+
+        local db_name="MySQL"
+        local db_pass="${mysql_root_pass}"
+        ln -s ${mysql_location}/bin/mysql /usr/bin/mysql
+        ln -s ${mysql_location}/bin/mysqldump /usr/bin/mysqldump
+        cp -f ${mysql_location}/support-files/mysql.server /etc/init.d/mysqld
+        sed -i "s:^basedir=.*:basedir=${mysql_location}:g" /etc/init.d/mysqld
+        sed -i "s:^datadir=.*:datadir=${mysql_data_location}:g" /etc/init.d/mysqld
+        create_lib64_dir "${mysql_location}"
+        echo "${mysql_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
+        echo "${mysql_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
+
+    elif [ -d ${mariadb_location} ]; then
+
+        local db_name="MariaDB"
+        local db_pass="${mariadb_root_pass}"
+        ln -s ${mariadb_location}/bin/mysql /usr/bin/mysql
+        ln -s ${mariadb_location}/bin/mysqldump /usr/bin/mysqldump
+        cp -f ${mariadb_location}/support-files/mysql.server /etc/init.d/mysqld
+        sed -i "s:^basedir=.*:basedir=${mariadb_location}:g" /etc/init.d/mysqld
+        sed -i "s:^datadir=.*:datadir=${mariadb_data_location}:g" /etc/init.d/mysqld
+        create_lib64_dir "${mariadb_location}"
+        echo "${mariadb_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
+        echo "${mariadb_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
+
+    elif [ -d ${percona_location} ]; then
+
+        local db_name="Percona Server"
+        local db_pass="${percona_root_pass}"
+        ln -s ${percona_location}/bin/mysql /usr/bin/mysql
+        ln -s ${percona_location}/bin/mysqldump /usr/bin/mysqldump
+        cp -f ${percona_location}/support-files/mysql.server /etc/init.d/mysqld
+        sed -i "s:^basedir=.*:basedir=${percona_location}:g" /etc/init.d/mysqld
+        sed -i "s:^datadir=.*:datadir=${percona_data_location}:g" /etc/init.d/mysqld
+        create_lib64_dir "${percona_location}"
+        echo "${percona_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
+        echo "${percona_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
+
+    fi
+
+    ldconfig
+    chmod +x /etc/init.d/mysqld
+    boot_start mysqld
+
+    log "Info" "Starting ${db_name}..."
+    /etc/init.d/mysqld start > /dev/null 2>&1
+    /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${db_pass}\" with grant option;"
+    /usr/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${db_pass}\" with grant option;"
+    /usr/bin/mysql -uroot -p${db_pass} <<EOF
+drop database if exists test;
+delete from mysql.user where not (user='root');
+delete from mysql.db where user='';
+flush privileges;
+exit
+EOF
+    log "Info" "Shutting down ${db_name}..."
+    /etc/init.d/mysqld stop > /dev/null 2>&1
+
 }
 
 #Install mysql server
@@ -150,41 +216,14 @@ config_mysql(){
     #create my.cnf
     create_mysql_my_cnf "${mysql_data_location}" "false" "false" "/etc/my.cnf"
 
-    cp -f ${mysql_location}/support-files/mysql.server /etc/init.d/mysqld
-    sed -i "s:^basedir=.*:basedir=${mysql_location}:g" /etc/init.d/mysqld
-    sed -i "s:^datadir=.*:datadir=${mysql_data_location}:g" /etc/init.d/mysqld
-    chmod +x /etc/init.d/mysqld
-
     if [ "${version}" == "5.5" ] || [ "${version}" == "5.6" ]; then
         ${mysql_location}/scripts/mysql_install_db --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
     elif [ "${version}" == "5.7" ]; then
         ${mysql_location}/bin/mysqld --initialize-insecure --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
     fi
 
-    rm -f /usr/bin/mysql /usr/bin/mysqldump
-    ln -s ${mysql_location}/bin/mysql /usr/bin/mysql
-    ln -s ${mysql_location}/bin/mysqldump /usr/bin/mysqldump
-    boot_start mysqld
+    common_setup
 
-    /etc/init.d/mysqld start
-    ${mysql_location}/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${mysql_root_pass}\" with grant option;"
-    ${mysql_location}/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${mysql_root_pass}\" with grant option;"
-    ${mysql_location}/bin/mysql -uroot -p${mysql_root_pass} <<EOF
-drop database if exists test;
-delete from mysql.user where not (user='root');
-delete from mysql.user where password='';
-delete from mysql.db where user='';
-flush privileges;
-exit
-EOF
-    /etc/init.d/mysqld stop
-
-    create_lib64_dir "${mysql_location}"
-
-    rm -f /etc/ld.so.conf.d/mysql.conf
-    echo "${mysql_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
-    echo "${mysql_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
-    ldconfig
 }
 
 #Install mariadb server
@@ -223,6 +262,7 @@ install_mariadb(){
     mv ${mysql}-*-${sys_bit_b}/* ${mariadb_location}
 
     config_mariadb
+
     add_to_env "${mariadb_location}"
 }
 
@@ -239,37 +279,10 @@ config_mariadb(){
     #create my.cnf
     create_mysql_my_cnf "${mariadb_data_location}" "false" "false" "/etc/my.cnf"
 
-    cp -f ${mariadb_location}/support-files/mysql.server /etc/init.d/mysqld
-    sed -i "s@^basedir=.*@basedir=${mariadb_location}@" /etc/init.d/mysqld
-    sed -i "s@^datadir=.*@datadir=${mariadb_data_location}@" /etc/init.d/mysqld
-    chmod +x /etc/init.d/mysqld
-
     ${mariadb_location}/scripts/mysql_install_db --basedir=${mariadb_location} --datadir=${mariadb_data_location} --user=mysql
 
-    rm -f /usr/bin/mysql /usr/bin/mysqldump
-    ln -s ${mariadb_location}/bin/mysql /usr/bin/mysql
-    ln -s ${mariadb_location}/bin/mysqldump /usr/bin/mysqldump
-    boot_start mysqld
+    common_setup
 
-    /etc/init.d/mysqld start
-    ${mariadb_location}/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${mariadb_root_pass}\" with grant option;"
-    ${mariadb_location}/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${mariadb_root_pass}\" with grant option;"
-    ${mariadb_location}/bin/mysql -uroot -p${mariadb_root_pass} <<EOF
-drop database if exists test;
-delete from mysql.user where not (user='root');
-delete from mysql.user where password='';
-delete from mysql.db where user='';
-flush privileges;
-exit
-EOF
-    /etc/init.d/mysqld stop
-
-    create_lib64_dir "${mariadb_location}"
-
-    rm -f /etc/ld.so.conf.d/mysql.conf
-    echo "${mariadb_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
-    echo "${mariadb_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
-    ldconfig
 }
 
 #Install percona server
@@ -307,6 +320,7 @@ install_percona(){
     mv ${tarball}/* ${percona_location}
 
     config_percona ${percona_ver}
+
     add_to_env "${percona_location}"
 }
 
@@ -324,11 +338,6 @@ config_percona(){
     #create my.cnf
     create_mysql_my_cnf "${percona_data_location}" "false" "false" "/etc/my.cnf"
 
-    cp -f ${percona_location}/support-files/mysql.server /etc/init.d/mysqld
-    sed -i "s:^basedir=.*:basedir=${percona_location}:g" /etc/init.d/mysqld
-    sed -i "s:^datadir=.*:datadir=${percona_data_location}:g" /etc/init.d/mysqld
-    chmod +x /etc/init.d/mysqld
-
     sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysqld_safe
     sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysql_config
 
@@ -338,30 +347,7 @@ config_percona(){
         ${percona_location}/bin/mysqld --initialize-insecure --basedir=${percona_location} --datadir=${percona_data_location} --user=mysql
     fi
 
-    rm -f /usr/bin/mysql /usr/bin/mysqldump
-    ln -s ${percona_location}/bin/mysql /usr/bin/mysql
-    ln -s ${percona_location}/bin/mysqldump /usr/bin/mysqldump
-    boot_start mysqld
-
-    /etc/init.d/mysqld start
-    ${percona_location}/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${percona_root_pass}\" with grant option;"
-    ${percona_location}/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${percona_root_pass}\" with grant option;"
-    ${percona_location}/bin/mysql -uroot -p${percona_root_pass} <<EOF
-drop database if exists test;
-delete from mysql.user where not (user='root');
-delete from mysql.user where password='';
-delete from mysql.db where user='';
-flush privileges;
-exit
-EOF
-    /etc/init.d/mysqld stop
-
-    create_lib64_dir "${percona_location}"
-
-    rm -f /etc/ld.so.conf.d/mysql.conf
-    echo "${percona_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
-    echo "${percona_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
-    ldconfig
+    common_setup
 
     #Fix libmysqlclient issue
     cd ${percona_location}/lib/
