@@ -100,6 +100,8 @@ swoole_filename="swoole-src-2.0.7"
 set_hint ${swoole_filename} "php-swoole-2.0.7"
 #xcache
 xcache_filename="xcache-3.2.0"
+#xdebug
+xdebug_filename="xdebug-2.5.3"
 #ImageMagick
 ImageMagick_filename="ImageMagick-7.0.5-5"
 php_imagemagick_filename="imagick-3.4.3"
@@ -184,6 +186,7 @@ php_modules_arr[6]=${php_memcached_filename}
 php_modules_arr[7]=${php_redis_filename}
 php_modules_arr[8]=${php_mongo_filename}
 php_modules_arr[9]=${swoole_filename}
-php_modules_arr[10]="do_not_install"
+php_modules_arr[10]=${xdebug_filename}
+php_modules_arr[11]="do_not_install"
 
 }

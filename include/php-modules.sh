@@ -72,6 +72,7 @@ install_php_modules(){
     if_in_array "${php_memcached_filename}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
     if_in_array "${php_mongo_filename}" "${php_modules_install}" && install_php_mongo "${phpConfig}"
     if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
+    if_in_array "${xdebug_filename}" "${php_modules_install}" && install_xdebug "${phpConfig}"
     if [ "${php}" == "${php7_0_filename}" ] || [ "${php}" == "${php7_1_filename}" ]; then
         if_in_array "${php_graphicsmagick_filename2}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
         if_in_array "${php_redis_filename2}" "${php_modules_install}" && install_php_redis "${phpConfig}"
@@ -857,4 +858,31 @@ extension = ${php_extension_dir}/swoole.so
 EOF
     fi
     log "Info" "php-swoole install completed..."
+}
+
+
+install_xdebug(){
+    local phpConfig=$1
+    local php_version=`get_php_version "${phpConfig}"`
+    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+
+    cd ${cur_dir}/software/
+
+    log "Info" "xdebug install start..."
+    download_file "${xdebug_filename}.tgz"
+    tar zxf ${xdebug_filename}.tgz
+    cd ${xdebug_filename}
+    error_detect "${php_location}/bin/phpize"
+    error_detect "./configure --enable-xdebug --with-php-config=${phpConfig}"
+    error_detect "make"
+    error_detect "make install"
+
+    if [ ! -f ${php_location}/php.d/xdebug.ini ]; then
+        log "Info" "xdebug configuration file not found, create it!"
+        cat > ${php_location}/php.d/xdebug.ini<<-EOF
+[xdebug]
+zend_extension = ${php_extension_dir}/xdebug.so
+EOF
+    fi
+    log "Info" "xdebug install completed..."
 }
