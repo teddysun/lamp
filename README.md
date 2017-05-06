@@ -31,11 +31,11 @@ Supported System
 
 Supported Software
 ==================
-- Apache-2.2 Apache-2.4(Include HTTP2)
-- MySQL-5.5 MySQL-5.6 MySQL-5.7 MariaDB-5.5 MariaDB-10.0 MariaDB-10.1 Percona-Server-5.5 Percona-Server-5.6 Percona-Server-5.7
-- PHP-5.3 PHP-5.4 PHP-5.5 PHP-5.6 PHP-7.0 PHP-7.1
-- PHP Module: OPcache ZendGuardLoader ionCube_Loader XCache Imagemagick GraphicsMagick Memcache Memcached Redis Mongodb Swoole
-- Other Software: Memcached phpMyAdmin Redis-Server
+- Apache-2.2, Apache-2.4(Include HTTP2 module)
+- MySQL-5.5, MySQL-5.6, MySQL-5.7, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7
+- PHP-5.3, PHP-5.4, PHP-5.5, PHP-5.6, PHP-7.0, PHP-7.1
+- PHP Additional Modules: ZendOpcache, ZendGuardLoader, ionCube Loader, XCache, Imagemagick, GraphicsMagick, Memcache, Memcached, Redis, Mongodb, Swoole, Xdebug
+- Other Software: Memcached, phpMyAdmin, Redis-Server
 
 Installation
 ============
