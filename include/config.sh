@@ -48,8 +48,6 @@ mysql5_5_filename="mysql-5.5.56"
 mysql5_6_filename="mysql-5.6.36"
 #mysql5.7
 mysql5_7_filename="mysql-5.7.18"
-#boost
-boost_filename="boost_1_59_0"
 #mariadb5.5
 mariadb5_5_filename="mariadb-5.5.56"
 #mariadb10.0
@@ -103,7 +101,7 @@ set_hint ${swoole_filename} "php-swoole-2.0.7"
 #xcache
 xcache_filename="xcache-3.2.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.5-4"
+ImageMagick_filename="ImageMagick-7.0.5-5"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
