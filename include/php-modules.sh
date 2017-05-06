@@ -57,6 +57,9 @@ phpmyadmin_preinstall_settings(){
     if [[ "${php}" == "do_not_install" ]]; then
         phpmyadmin="do_not_install"
     else
+        if [[ "${php}" != "${php5_3_filename}" && "${php}" != "${php5_4_filename}" ]]; then
+            phpmyadmin_arr=(${phpmyadmin_arr[@]/#${phpmyadmin_filename}/${phpmyadmin_filename2}})
+        fi
         display_menu phpmyadmin 1
     fi
 }
@@ -343,14 +346,18 @@ install_phpmyadmin(){
 
     cd ${cur_dir}/software
 
-    log "Info" "${phpmyadmin_filename} install start..."
-    download_file "${phpmyadmin_filename}.tar.gz"
-    tar zxf ${phpmyadmin_filename}.tar.gz
-    mv ${phpmyadmin_filename} ${web_root_dir}/phpmyadmin
-    cp -f ${cur_dir}/conf/config.inc.php ${web_root_dir}/phpmyadmin/config.inc.php
+    log "Info" "${phpmyadmin} install start..."
+    download_file "${phpmyadmin}.tar.gz"
+    tar zxf ${phpmyadmin}.tar.gz
+    mv ${phpmyadmin} ${web_root_dir}/phpmyadmin
+    if [ "${phpmyadmin}" == "${phpmyadmin_filename}" ]; then
+        cp -f ${cur_dir}/conf/config.inc.php ${web_root_dir}/phpmyadmin/config.inc.php
+    elif [ "${phpmyadmin}" == "${phpmyadmin_filename2}" ]; then
+        cp -f ${cur_dir}/conf/config.inc_new.php ${web_root_dir}/phpmyadmin/config.inc.php
+    fi
     mkdir -p ${web_root_dir}/phpmyadmin/{upload,save}
     chown -R apache:apache ${web_root_dir}/phpmyadmin
-    log "Info" "${phpmyadmin_filename} install completed..."
+    log "Info" "${phpmyadmin} install completed..."
 }
 
 
