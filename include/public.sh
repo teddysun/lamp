@@ -420,7 +420,7 @@ create_mysql_my_cnf(){
         fi
     fi
 
-    echo "create my.cnf file..."
+    log "Info" "create my.cnf file..."
     sleep 1
     cat >${my_cnf_location} <<EOF
 [mysql]
@@ -477,7 +477,7 @@ ${replica}
 
 EOF
 
-    echo "create my.cnf file at ${my_cnf_location} completed."
+    log "Info" "create my.cnf file at ${my_cnf_location} completed."
 
 }
 
