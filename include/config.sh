@@ -55,7 +55,7 @@ mariadb10_0_filename="mariadb-10.0.30"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.23"
 #percona5.5
-percona5_5_filename="Percona-Server-5.5.54-38.7"
+percona5_5_filename="Percona-Server-5.5.55-38.8"
 #percona5.6
 percona5_6_filename="Percona-Server-5.6.35-81.0"
 #percona5.7
