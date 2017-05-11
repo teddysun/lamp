@@ -213,10 +213,10 @@ install_imap(){
         error_detect "make lr5 PASSWDTYPE=std SSLTYPE=unix.nopwd IP=4"
     fi
 
-    mkdir ${depends_prefix}/imap/
-    mkdir ${depends_prefix}/imap/include/
-    mkdir ${depends_prefix}/imap/lib/
-    mkdir ${depends_prefix}/imap/c-client/
+    mkdir -p ${depends_prefix}/imap/
+    mkdir -p ${depends_prefix}/imap/include/
+    mkdir -p ${depends_prefix}/imap/lib/
+    mkdir -p ${depends_prefix}/imap/c-client/
     cp c-client/*.h ${depends_prefix}/imap/include/
     cp c-client/*.c ${depends_prefix}/imap/lib/
     cp c-client/*.c ${depends_prefix}/imap/c-client/
@@ -261,7 +261,7 @@ install_mhash(){
 
 
 install_mcrypt(){
-    if [ ! -f "/usr/local/bin/mcrypt" ]; then
+    if [ ! -e "/usr/local/bin/mcrypt" ]; then
         cd ${cur_dir}/software/
         log "Info" "${mcrypt_filename} install start..."
         download_file "${mcrypt_filename}.tar.gz"
@@ -362,45 +362,45 @@ install_phpmyadmin(){
 
 
 install_ZendGuardLoader(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
     cd ${cur_dir}/software
 
     log "Info" "ZendGuardLoader install start..."
-    if is_64bit;then
-        if [ "$php_version" == "5.3" ];then
+    if is_64bit; then
+        if [ "$php_version" == "5.3" ]; then
             download_file "${ZendGuardLoader53_64_filename}.tar.gz"
             tar zxf ${ZendGuardLoader53_64_filename}.tar.gz
             cp -pf ${ZendGuardLoader53_64_filename}/php-${php_version}.x/ZendGuardLoader.so ${php_extension_dir}/
-        elif [ "$php_version" == "5.4" ];then
+        elif [ "$php_version" == "5.4" ]; then
             download_file "${ZendGuardLoader54_64_filename}.tar.gz"
             tar zxf ${ZendGuardLoader54_64_filename}.tar.gz
             cp -pf ${ZendGuardLoader54_64_filename}/php-${php_version}.x/ZendGuardLoader.so ${php_extension_dir}/
-        elif [ "$php_version" == "5.5" ];then
+        elif [ "$php_version" == "5.5" ]; then
             download_file "${ZendGuardLoader55_64_filename}.tar.gz"
             tar zxf ${ZendGuardLoader55_64_filename}.tar.gz
             cp -pf ${ZendGuardLoader55_64_filename}/ZendGuardLoader.so ${php_extension_dir}/
-        elif [ "$php_version" == "5.6" ];then
+        elif [ "$php_version" == "5.6" ]; then
             download_file "${ZendGuardLoader56_64_filename}.tar.gz"
             tar zxf ${ZendGuardLoader56_64_filename}.tar.gz
             cp -pf ${ZendGuardLoader56_64_filename}/ZendGuardLoader.so ${php_extension_dir}/
         fi
     else
-        if [ "$php_version" == "5.3" ];then
+        if [ "$php_version" == "5.3" ]; then
             download_file  "${ZendGuardLoader53_32_filename}.tar.gz"
             tar zxf ${ZendGuardLoader53_32_filename}.tar.gz
             cp -pf ${ZendGuardLoader53_32_filename}/php-${php_version}.x/ZendGuardLoader.so ${php_extension_dir}/
-        elif [ "$php_version" == "5.4" ];then
+        elif [ "$php_version" == "5.4" ]; then
             download_file  "${ZendGuardLoader54_32_filename}.tar.gz"
             tar zxf ${ZendGuardLoader54_32_filename}.tar.gz
             cp -pf ${ZendGuardLoader54_32_filename}/php-${php_version}.x/ZendGuardLoader.so ${php_extension_dir}/
-        elif [ "$php_version" == "5.5" ];then
+        elif [ "$php_version" == "5.5" ]; then
             download_file "${ZendGuardLoader55_32_filename}.tar.gz"
             tar zxf ${ZendGuardLoader55_32_filename}.tar.gz
             cp -pf ${ZendGuardLoader55_32_filename}/ZendGuardLoader.so ${php_extension_dir}/
-        elif [ "$php_version" == "5.6" ];then
+        elif [ "$php_version" == "5.6" ]; then
             download_file "${ZendGuardLoader56_32_filename}.tar.gz"
             tar zxf ${ZendGuardLoader56_32_filename}.tar.gz
             cp -pf ${ZendGuardLoader56_32_filename}/ZendGuardLoader.so ${php_extension_dir}/
@@ -424,7 +424,7 @@ EOF
 
 
 install_ionCube(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
@@ -453,7 +453,7 @@ EOF
 
 
 install_opcache(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
@@ -488,7 +488,7 @@ EOF
 
 
 install_xcache(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
@@ -555,7 +555,7 @@ EOF
 
 
 install_php_imagesmagick(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
@@ -591,7 +591,7 @@ EOF
 
 
 install_php_graphicsmagick(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
@@ -634,7 +634,7 @@ EOF
 
 
 install_php_memcached(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
@@ -739,7 +739,7 @@ EOF
 
 
 install_php_redis(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
     local redis_install_dir=${depends_prefix}/redis
@@ -757,7 +757,7 @@ install_php_redis(){
     ! is_64bit && sed -i '1i\CFLAGS= -march=i686' src/Makefile && sed -i 's@^OPT=.*@OPT=-O2 -march=i686@' src/.make-settings
     error_detect "make"
 
-    if [ -f "src/redis-server" ];then
+    if [ -f "src/redis-server" ]; then
         mkdir -p ${redis_install_dir}/{bin,etc,var}
         cp src/{redis-benchmark,redis-check-aof,redis-check-dump,redis-cli,redis-sentinel,redis-server} ${redis_install_dir}/bin/
         cp redis.conf ${redis_install_dir}/etc/
@@ -768,14 +768,15 @@ install_php_redis(){
         sed -i 's@daemonize no@daemonize yes@' ${redis_install_dir}/etc/redis.conf
         [ -z "`grep ^maxmemory ${redis_install_dir}/etc/redis.conf`" ] && sed -i "s@maxmemory <bytes>@maxmemory <bytes>\nmaxmemory `expr ${Mem} / 8`000000@" ${redis_install_dir}/etc/redis.conf
 
-        if check_sys packageManager apt;then
-            id -u redis >/dev/null 2>&1
-            [ $? -ne 0 ] && groupadd redis && useradd -M -s /sbin/nologin -g redis redis
-            chown -R redis:redis ${redis_install_dir}
+        if check_sys packageManager apt; then
             cp -f ${cur_dir}/conf/redis-server-init-debian /etc/init.d/redis-server
-        elif check_sys packageManager yum;then
+        elif check_sys packageManager yum; then
             cp -f ${cur_dir}/conf/redis-server-init-centos /etc/init.d/redis-server
         fi
+
+        id -u redis >/dev/null 2>&1
+        [ $? -ne 0 ] && groupadd redis && useradd -M -s /sbin/nologin -g redis redis
+        chown -R redis:redis ${redis_install_dir}
         chmod +x /etc/init.d/redis-server
         boot_start redis-server
         log "Info" "redis-server install completed!"
@@ -784,7 +785,7 @@ install_php_redis(){
         log "Error" "redis-server install failed."
     fi
 
-    if [ ${RT} -eq 0 ];then
+    if [ ${RT} -eq 0 ]; then
         cd ${cur_dir}/software/
         log "Info" "php-redis install start..."
         if [ "$php" == "${php7_0_filename}" ] || [ "$php" == "${php7_1_filename}" ]; then
@@ -815,7 +816,7 @@ EOF
 
 
 install_php_mongo(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
@@ -842,7 +843,7 @@ EOF
 
 
 install_swoole(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
@@ -869,7 +870,7 @@ EOF
 
 
 install_xdebug(){
-    local phpConfig=$1
+    local phpConfig=${1}
     local php_version=`get_php_version "${phpConfig}"`
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
 
