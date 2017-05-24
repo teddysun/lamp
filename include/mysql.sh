@@ -17,23 +17,23 @@ mysql_preinstall_settings(){
     display_menu mysql 6
 
     if [ "${mysql}" != "do_not_install" ];then
-        if [ "${mysql}" == "${mysql5_5_filename}" ] || [ "${mysql}" == "${mysql5_6_filename}" ] || [ "${mysql}" == "${mysql5_7_filename}" ]; then
+        if echo "${mysql}" | grep -qi "mysql"; then
             #mysql data
             echo
             read -p "mysql data location(default:${mysql_location}/data, leave blank for default): " mysql_data_location
             mysql_data_location=${mysql_data_location:=${mysql_location}/data}
             mysql_data_location=`filter_location "${mysql_data_location}"`
             echo
-            echo "${mysql} data location: ${mysql_data_location}"
+            echo "mysql data location: ${mysql_data_location}"
 
             #set mysql root password
             echo
             read -p "mysql server root password (default:root, leave blank for default): " mysql_root_pass
             mysql_root_pass=${mysql_root_pass:=root}
             echo
-            echo "${mysql} root password: ${mysql_root_pass}"
+            echo "mysql root password: ${mysql_root_pass}"
 
-        elif [ "${mysql}" == "${mariadb5_5_filename}" ] || [ "${mysql}" == "${mariadb10_0_filename}" ] || [ "${mysql}" == "${mariadb10_1_filename}" ]; then
+        elif echo "${mysql}" | grep -qi "mariadb"; then
             #mariadb data
             echo
             read -p "mariadb data location(default:${mariadb_location}/data, leave blank for default): " mariadb_data_location
@@ -47,9 +47,9 @@ mysql_preinstall_settings(){
             read -p "mariadb server root password (default:root, leave blank for default): " mariadb_root_pass
             mariadb_root_pass=${mariadb_root_pass:=root}
             echo
-            echo "${mysql} root password: $mariadb_root_pass"
+            echo "mariadb root password: $mariadb_root_pass"
 
-        elif [ "${mysql}" == "${percona5_5_filename}" ] || [ "${mysql}" == "${percona5_6_filename}" ] || [ "${mysql}" == "${percona5_7_filename}" ]; then
+        elif echo "${mysql}" | grep -qi "Percona"; then
             #percona data
             echo
             read -p "percona data location(default:${percona_location}/data, leave blank for default): " percona_data_location
@@ -63,7 +63,7 @@ mysql_preinstall_settings(){
             read -p "percona server root password (default:root, leave blank for default): " percona_root_pass
             percona_root_pass=${percona_root_pass:=root}
             echo
-            echo "${mysql} root password: ${percona_root_pass}"
+            echo "percona root password: ${percona_root_pass}"
 
         fi
     fi
@@ -104,11 +104,11 @@ common_install(){
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
 
-    if [[ "${mysql}" == "${mysql5_5_filename}" || "${mysql}" == "${mysql5_6_filename}" || "${mysql}" == "${mysql5_7_filename}" ]]; then
+    if echo "${mysql}" | grep -qi "mysql"; then
         mkdir -p ${mysql_location} ${mysql_data_location}
-    elif [[ "${mysql}" == "${mariadb5_5_filename}" || "${mysql}" == "${mariadb10_0_filename}" || "${mysql}" == "${mariadb10_1_filename}" ]]; then
+    elif echo "${mysql}" | grep -qi "mariadb"; then
         mkdir -p ${mariadb_location} ${mariadb_data_location}
-    elif [[ "${mysql}" == "${percona5_5_filename}" || "${mysql}" == "${percona5_6_filename}" || "${mysql}" == "${percona5_7_filename}" ]]; then
+    elif echo "${mysql}" | grep -qi "Percona"; then
         mkdir -p ${percona_location} ${percona_data_location}
     fi
 }

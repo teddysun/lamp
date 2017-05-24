@@ -891,17 +891,17 @@ last_confirm(){
     echo "Apache: ${apache}"
     [ "${apache}" != "do_not_install" ] && echo "Apache Location: ${apache_location}"
     echo
-    if [ "${mysql}" == "${mysql5_5_filename}" ] || [ "${mysql}" == "${mysql5_6_filename}" ] || [ "${mysql}" == "${mysql5_7_filename}" ]; then
+    if echo "${mysql}" | grep -qi "mysql"; then
         echo "MySQL: ${mysql}"
         echo "MySQL Location: ${mysql_location}"
         echo "MySQL Data Location: ${mysql_data_location}"
         echo "MySQL Root Password: ${mysql_root_pass}"
-    elif [ "${mysql}" == "${mariadb5_5_filename}" ] || [ "${mysql}" == "${mariadb10_0_filename}" ] || [ "${mysql}" == "${mariadb10_1_filename}" ]; then
+    elif echo "${mysql}" | grep -qi "mariadb"; then
         echo "MariaDB: ${mysql}"
         echo "MariaDB Location: ${mariadb_location}"
         echo "MariaDB Data Location: ${mariadb_data_location}"
         echo "MariaDB Root Password: ${mariadb_root_pass}"
-    elif [ "${mysql}" == "${percona5_5_filename}" ] || [ "${mysql}" == "${percona5_6_filename}" ] || [ "${mysql}" == "${percona5_7_filename}" ]; then
+    elif echo "${mysql}" | grep -qi "Percona"; then
         echo "Percona: ${mysql}"
         echo "Percona Location: ${percona_location}"
         echo "Percona Data Location: ${percona_data_location}"
@@ -1070,11 +1070,11 @@ install_lamp(){
     remove_packages
 
     [ "${apache}" != "do_not_install" ] && check_installed "install_apache" "${apache_location}"
-    if [ "${mysql}" == "${mysql5_5_filename}" ] || [ "${mysql}" == "${mysql5_6_filename}" ] || [ "${mysql}" == "${mysql5_7_filename}" ];then
+    if echo "${mysql}" | grep -qi "mysql"; then
         check_installed "install_mysqld" "${mysql_location}"
-    elif [ "${mysql}" == "${mariadb5_5_filename}" ] || [ "${mysql}" == "${mariadb10_0_filename}" ] || [ "${mysql}" == "${mariadb10_1_filename}" ];then
+    elif echo "${mysql}" | grep -qi "mariadb"; then
         check_installed "install_mariadb" "${mariadb_location}"
-    elif [ "${mysql}" == "${percona5_5_filename}" ] || [ "${mysql}" == "${percona5_6_filename}" ] || [ "${mysql}" == "${percona5_7_filename}" ];then
+    elif echo "${mysql}" | grep -qi "Percona";then
         check_installed "install_percona" "${percona_location}"
     fi
     [ "${php}" != "do_not_install" ] && check_installed "install_php" "${php_location}"

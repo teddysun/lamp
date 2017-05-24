@@ -54,6 +54,8 @@ mariadb5_5_filename="mariadb-5.5.56"
 mariadb10_0_filename="mariadb-10.0.31"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.23"
+#mariadb10.2
+mariadb10_2_filename="mariadb-10.2.6"
 #percona5.5
 percona5_5_filename="Percona-Server-5.5.55-38.8"
 #percona5.6
@@ -161,10 +163,11 @@ mysql_arr[2]=${mysql5_7_filename}
 mysql_arr[3]=${mariadb5_5_filename}
 mysql_arr[4]=${mariadb10_0_filename}
 mysql_arr[5]=${mariadb10_1_filename}
-mysql_arr[6]=${percona5_5_filename}
-mysql_arr[7]=${percona5_6_filename}
-mysql_arr[8]=${percona5_7_filename}
-mysql_arr[9]="do_not_install"
+mysql_arr[6]=${mariadb10_2_filename}
+mysql_arr[7]=${percona5_5_filename}
+mysql_arr[8]=${percona5_6_filename}
+mysql_arr[9]=${percona5_7_filename}
+mysql_arr[10]="do_not_install"
 
 php_arr[0]=${php5_3_filename}
 php_arr[1]=${php5_4_filename}

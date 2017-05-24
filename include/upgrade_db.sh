@@ -51,6 +51,8 @@ upgrade_db(){
             latest_mariadb=`curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}'`
         elif [ "${mariadb_ver}" == "10.1" ]; then
             latest_mariadb=`curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.1/{print $3}'`
+        elif [ "${mariadb_ver}" == "10.2" ]; then
+            latest_mariadb=`curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.2/{print $3}'`
         fi
 
         echo -e "Latest version of MariaDB: \033[41;37m ${latest_mariadb} \033[0m"
