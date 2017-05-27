@@ -54,8 +54,6 @@ mariadb5_5_filename="mariadb-5.5.56"
 mariadb10_0_filename="mariadb-10.0.31"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.23"
-#mariadb10.2
-mariadb10_2_filename="mariadb-10.2.6"
 #percona5.5
 percona5_5_filename="Percona-Server-5.5.55-38.8"
 #percona5.6
@@ -153,44 +151,53 @@ set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 
 
 #software array setting
-apache_arr[0]=${apache2_2_filename}
-apache_arr[1]=${apache2_4_filename}
-apache_arr[2]="do_not_install"
+apache_arr=(
+${apache2_2_filename}
+${apache2_4_filename}
+do_not_install
+)
 
-mysql_arr[0]=${mysql5_5_filename}
-mysql_arr[1]=${mysql5_6_filename}
-mysql_arr[2]=${mysql5_7_filename}
-mysql_arr[3]=${mariadb5_5_filename}
-mysql_arr[4]=${mariadb10_0_filename}
-mysql_arr[5]=${mariadb10_1_filename}
-mysql_arr[6]=${mariadb10_2_filename}
-mysql_arr[7]=${percona5_5_filename}
-mysql_arr[8]=${percona5_6_filename}
-mysql_arr[9]=${percona5_7_filename}
-mysql_arr[10]="do_not_install"
+mysql_arr=(
+${mysql5_5_filename}
+${mysql5_6_filename}
+${mysql5_7_filename}
+${mariadb5_5_filename}
+${mariadb10_0_filename}
+${mariadb10_1_filename}
+${percona5_5_filename}
+${percona5_6_filename}
+${percona5_7_filename}
+do_not_install
+)
 
-php_arr[0]=${php5_3_filename}
-php_arr[1]=${php5_4_filename}
-php_arr[2]=${php5_5_filename}
-php_arr[3]=${php5_6_filename}
-php_arr[4]=${php7_0_filename}
-php_arr[5]=${php7_1_filename}
-php_arr[6]="do_not_install"
+php_arr=(
+${php5_3_filename}
+${php5_4_filename}
+${php5_5_filename}
+${php5_6_filename}
+${php7_0_filename}
+${php7_1_filename}
+do_not_install
+)
 
-phpmyadmin_arr[0]=${phpmyadmin_filename}
-phpmyadmin_arr[1]="do_not_install"
+phpmyadmin_arr=(
+${phpmyadmin_filename}
+do_not_install
+)
 
-php_modules_arr[0]=${opcache_filename}
-php_modules_arr[1]=${ZendGuardLoader_filename}
-php_modules_arr[2]=${ionCube_filename}
-php_modules_arr[3]=${xcache_filename}
-php_modules_arr[4]=${php_imagemagick_filename}
-php_modules_arr[5]=${php_graphicsmagick_filename}
-php_modules_arr[6]=${php_memcached_filename}
-php_modules_arr[7]=${php_redis_filename}
-php_modules_arr[8]=${php_mongo_filename}
-php_modules_arr[9]=${swoole_filename}
-php_modules_arr[10]=${xdebug_filename}
-php_modules_arr[11]="do_not_install"
+php_modules_arr=(
+${opcache_filename}
+${ZendGuardLoader_filename}
+${ionCube_filename}
+${xcache_filename}
+${php_imagemagick_filename}
+${php_graphicsmagick_filename}
+${php_memcached_filename}
+${php_redis_filename}
+${php_mongo_filename}
+${swoole_filename}
+${xdebug_filename}
+do_not_install
+)
 
 }
