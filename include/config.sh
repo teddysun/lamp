@@ -74,7 +74,7 @@ php7_0_filename="php-7.0.19"
 php7_1_filename="php-7.1.5"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.4.15.10-all-languages"
-phpmyadmin_filename2="phpMyAdmin-4.7.0-all-languages"
+phpmyadmin_filename2="phpMyAdmin-4.7.1-all-languages"
 #opcache
 opcache_filename="zendopcache-7.0.5"
 
