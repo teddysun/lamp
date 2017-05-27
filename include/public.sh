@@ -663,11 +663,11 @@ centosversion(){
 }
 
 debianversion(){
-    if check_sys sysRelease debian;then
+    if check_sys sysRelease debian; then
         local version=$( get_opsy )
         local code=${1}
         local main_ver=$( echo ${version} | sed 's/[^0-9]//g')
-        if [ "${main_ver}" == "${code}" ];then
+        if [ "${main_ver}" == "${code}" ]; then
             return 0
         else
             return 1
@@ -678,7 +678,7 @@ debianversion(){
 }
 
 ubuntuversion(){
-    if check_sys sysRelease ubuntu;then
+    if check_sys sysRelease ubuntu; then
         local version=$( get_opsy )
         local code=${1}
         echo ${version} | grep -q "${code}"
