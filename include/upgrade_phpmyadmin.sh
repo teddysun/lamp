@@ -25,12 +25,18 @@ upgrade_phpmyadmin(){
         fi
     fi
 
-    latest_pma=`curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | grep '4.4' | cut -d'<' -f1 | sort -V | tail -1`
+    if [ "${installed_pma}" != "0" ]; then
+        major_ver=`echo ${installed_pma} | cut -d. -f1-2`
+    else
+        log "Error" "phpMyAdmin installation directory not found, please check it and retry."
+        exit 1
+    fi
+    latest_pma=`curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | grep "${major_ver}" | cut -d'<' -f1 | sort -V | tail -1`
     if [ -z ${latest_pma} ]; then
-        latest_pma=`curl -s ${download_root_url}/pmalist.txt | grep '4.4' | tail -1 | awk -F- '{print $2}'`
+        latest_pma=`curl -s ${download_root_url}/pmalist.txt | grep "${major_ver}" | tail -1 | awk -F- '{print $2}'`
     fi
     echo -e "Latest version of phpmyadmin: \033[41;37m ${latest_pma} \033[0m"
-    echo -e "Installed version of phpmyadmin: \033[41;37m $installed_pma \033[0m"
+    echo -e "Installed version of phpmyadmin: \033[41;37m ${installed_pma} \033[0m"
     echo
     echo "Do you want to upgrade phpmyadmin ? (y/n)"
     read -p "(Default: n):" upgrade_pma
