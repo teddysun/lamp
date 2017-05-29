@@ -66,7 +66,7 @@ upgrade_phpmyadmin(){
         cd ${cur_dir}/software
 
         if [ ! -s phpMyAdmin-${latest_pma}-all-languages.tar.gz ]; then
-            latest_pma_link="http://files.phpmyadmin.net/phpMyAdmin/${latest_pma}/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
+            latest_pma_link="https://files.phpmyadmin.net/phpMyAdmin/${latest_pma}/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
             backup_pma_link="${download_root_url}/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
             untar ${latest_pma_link} ${backup_pma_link}
             mkdir -p ${web_root_dir}/phpmyadmin
