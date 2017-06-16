@@ -1,7 +1,8 @@
 ![LAMP](https://github.com/teddysun/lamp/raw/master/conf/lamp.gif)
+
 Description
 ===========
-LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB/Percona and so on.You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way, Just need to input numbers to choose what you want to install before installation. And all things will be done in a few minutes.
+LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB/Percona Server and so on. You can install Apache + PHP + MySQL/MariaDB/Percona Server in an very easy way, just need to choose what you want to install before installation. And all things will be done in a few minutes.
 
 - [Supported System](#supported-system)
 - [Supported Software](#supported-software)
@@ -17,7 +18,6 @@ LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/Mari
 
 Supported System
 ===============
-- CentOS-5.x
 - CentOS-6.x
 - CentOS-7.x
 - Ubuntu-12.x
@@ -25,16 +25,17 @@ Supported System
 - Ubuntu-14.x
 - Ubuntu-15.x
 - Ubuntu-16.x
+- Ubuntu-17.x
 - Debian-7.x
 - Debian-8.x
 
 Supported Software
 ==================
-- Apache-2.2 Apache-2.4
-- MySQL-5.5 MySQL-5.6 MySQL-5.7 MariaDB-5.5 MariaDB-10.0 MariaDB-10.1 Percona-Server-5.5 Percona-Server-5.6 Percona-Server-5.7
-- PHP-5.3 PHP-5.4 PHP-5.5 PHP-5.6 PHP-7.0 PHP-7.1
-- PHP Module: OPcache ZendGuardLoader ionCube_Loader XCache Imagemagick GraphicsMagick Memcache Memcached Redis Mongo Swoole
-- Other Software: Memcached phpMyAdmin Redis-Server
+- Apache-2.2, Apache-2.4 (Include HTTP2 module)
+- MySQL-5.5, MySQL-5.6, MySQL-5.7, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7
+- PHP-5.3, PHP-5.4, PHP-5.5, PHP-5.6, PHP-7.0, PHP-7.1
+- PHP Additional Modules: ZendOpcache, ZendGuardLoader, ionCube Loader, XCache, Imagemagick, GraphicsMagick, Memcache, Memcached, Redis, Mongodb, Swoole, Xdebug
+- Other Software: Memcached, phpMyAdmin, Redis-Server
 
 Installation
 ============
@@ -71,10 +72,10 @@ Upgrade
 
 Backup
 ======
-- You must to modify the config before run it
+- You must modify the config before run it
 - Backup MySQL/MariaDB/Percona datebases, files and directories
 - Backup file is encrypted with AES256-cbc with SHA1 message-digest (option)
-- Auto transfer backup file to Google Drive (need install `gdrive` command) (option)
+- Auto transfer backup file to Google Drive (need install [gdrive](https://teddysun.com/469.html) command) (option)
 - Auto transfer backup file to FTP server (option)
 - Auto delete Google Drive's or FTP server's remote file (option)
 

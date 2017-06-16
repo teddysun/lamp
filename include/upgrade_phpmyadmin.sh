@@ -1,3 +1,16 @@
+# Copyright (C) 2014 - 2017, Teddysun <i@teddysun.com>
+# 
+# This file is part of the LAMP script.
+#
+# LAMP is a powerful bash script for the installation of 
+# Apache + PHP + MySQL/MariaDB/Percona and so on.
+# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Just need to input numbers to choose what you want to install before installation.
+# And all things will be done in a few minutes.
+#
+# Website:  https://lamp.sh
+# Github:   https://github.com/teddysun/lamp
+
 #upgrade phpmyadmin
 upgrade_phpmyadmin(){
 
@@ -12,13 +25,19 @@ upgrade_phpmyadmin(){
         fi
     fi
 
-    latest_pma=`curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | grep '4.4' | cut -d'<' -f1 | sort -V | tail -1`
+    if [ "${installed_pma}" != "0" ]; then
+        major_ver=`echo ${installed_pma} | cut -d. -f1-2`
+    else
+        log "Error" "phpMyAdmin installation directory not found, please check it and retry."
+        exit 1
+    fi
+    latest_pma=`curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | grep "${major_ver}" | cut -d'<' -f1 | sort -V | tail -1`
     if [ -z ${latest_pma} ]; then
-        latest_pma=`curl -s ${download_root_url}/pmalist.txt | grep '4.4' | tail -1 | awk -F- '{print $2}'`
+        latest_pma=`curl -s ${download_root_url}/pmalist.txt | grep "${major_ver}" | tail -1 | awk -F- '{print $2}'`
     fi
     echo -e "Latest version of phpmyadmin: \033[41;37m ${latest_pma} \033[0m"
-    echo -e "Installed version of phpmyadmin: \033[41;37m $installed_pma \033[0m"
-    echo ""
+    echo -e "Installed version of phpmyadmin: \033[41;37m ${installed_pma} \033[0m"
+    echo
     echo "Do you want to upgrade phpmyadmin ? (y/n)"
     read -p "(Default: n):" upgrade_pma
     if [ -z ${upgrade_pma} ]; then
@@ -27,28 +46,18 @@ upgrade_phpmyadmin(){
     echo "---------------------------"
     echo "You choose = ${upgrade_pma}"
     echo "---------------------------"
-    echo ""
-    get_char() {
-        SAVEDSTTY=`stty -g`
-        stty -echo
-        stty cbreak
-        dd if=/dev/tty bs=1 count=1 2> /dev/null
-        stty -raw
-        stty echo
-        stty $SAVEDSTTY
-    }
-    echo ""
+    echo
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=`get_char`
 
     if [[ "${upgrade_pma}" = "y" || "${upgrade_pma}" = "Y" ]];then
-        echo "phpMyAdmin upgrade start..."
+        log "Info" "phpMyAdmin upgrade start..."
 
         if [ -d ${web_root_dir}/phpmyadmin ]; then
             mv ${web_root_dir}/phpmyadmin/config.inc.php ${cur_dir}/config.inc.php
             rm -rf ${web_root_dir}/phpmyadmin
         else
-            echo "phpMyAdmin folder not found..."
+            log "Info" "phpMyAdmin folder not found..."
         fi
 
         if [ ! -d ${cur_dir}/software ];then
@@ -57,7 +66,7 @@ upgrade_phpmyadmin(){
         cd ${cur_dir}/software
 
         if [ ! -s phpMyAdmin-${latest_pma}-all-languages.tar.gz ]; then
-            latest_pma_link="http://files.phpmyadmin.net/phpMyAdmin/${latest_pma}/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
+            latest_pma_link="https://files.phpmyadmin.net/phpMyAdmin/${latest_pma}/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
             backup_pma_link="${download_root_url}/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
             untar ${latest_pma_link} ${backup_pma_link}
             mkdir -p ${web_root_dir}/phpmyadmin
@@ -82,16 +91,16 @@ upgrade_phpmyadmin(){
 
         echo -e "phpmyadmin\t${latest_pma}" > ${cur_dir}/pmaversion.txt
 
-        echo "Clear up start..."
+        log "Info" "Clear up start..."
         cd ${cur_dir}/software
         rm -rf phpMyAdmin-${latest_pma}-all-languages/
         rm -f phpMyAdmin-${latest_pma}-all-languages.tar.gz
-        echo "Clear up completed..."
+        log "Info" "Clear up completed..."
 
-        echo "phpMyAdmin upgrade completed..."
+        log "Info" "phpMyAdmin upgrade completed..."
     else
         echo
-        echo "phpMyAdmin upgrade cancelled, nothing to do..."
+        log "Info" "phpMyAdmin upgrade cancelled, nothing to do..."
         echo
     fi
 

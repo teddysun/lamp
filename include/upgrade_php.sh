@@ -1,8 +1,21 @@
+# Copyright (C) 2014 - 2017, Teddysun <i@teddysun.com>
+# 
+# This file is part of the LAMP script.
+#
+# LAMP is a powerful bash script for the installation of 
+# Apache + PHP + MySQL/MariaDB/Percona and so on.
+# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Just need to input numbers to choose what you want to install before installation.
+# And all things will be done in a few minutes.
+#
+# Website:  https://lamp.sh
+# Github:   https://github.com/teddysun/lamp
+
 #upgrade php
 upgrade_php(){
 
     if [ ! -d ${php_location} ]; then
-        echo "Error:PHP looks like not installed, please check it and try again."
+        log "Error" "PHP looks like not installed, please check it and try again."
         exit 1
     fi
 
@@ -23,7 +36,7 @@ upgrade_php(){
     elif [ "${php_version}" == "5.5" ];then
         latest_php='5.5.38'
     elif [ "${php_version}" == "5.6" ];then
-        latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.6')
+        latest_php='5.6.30'
     elif [ "${php_version}" == "7.0" ];then
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.0')
     elif [ "${php_version}" == "7.1" ];then
@@ -42,29 +55,19 @@ upgrade_php(){
     echo "You choose = ${upgrade_php}"
     echo "---------------------------"
     echo
-    get_char() {
-        SAVEDSTTY=`stty -g`
-        stty -echo
-        stty cbreak
-        dd if=/dev/tty bs=1 count=1 2> /dev/null
-        stty -raw
-        stty echo
-        stty $SAVEDSTTY
-    }
-    echo ""
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=`get_char`
 
     if [[ "${upgrade_php}" = "y" || "${upgrade_php}" = "Y" ]];then
 
-        if [ "${php_version}" == "5.3" ] || [ "${php_version}" == "5.4" ] || [ "${php_version}" == "5.5" ];then
+        if [ "${php_version}" != "7.0" ] && [ "${php_version}" != "7.1" ];then
             if [ "${installed_php}" == "${latest_php}" ]; then
                 echo "${installed_php} is already the latest version and not need to upgrade, nothing to do..."
                 exit
             fi
         fi
 
-        echo "PHP upgrade start..."
+        log "Info" "PHP upgrade start..."
         if [[ -d ${php_location}.bak && -d ${php_location} ]];then
             rm -rf ${php_location}.bak
         fi
@@ -84,7 +87,6 @@ upgrade_php(){
             cd php-${latest_php}/
         fi
 
-        with_mysql=""
         if [ -d ${mariadb_location} ]; then
             if [[ "${php_version}" == "7.0" || "${php_version}" == "7.1" ]]; then
                 with_mysql="--with-mysqli=${mariadb_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
@@ -103,17 +105,16 @@ upgrade_php(){
             else
                 with_mysql="--with-mysql=${percona_location} --with-mysqli=${percona_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
             fi
+        else
+            with_mysql=""
         fi
 
-        enable_opcache=""
-        with_gmp="--with-gmp"
-        with_icu_dir="--with-icu-dir=/usr"
-        if [[ "${php_version}" == "5.5" || "${php_version}" == "5.6" || "${php_version}" == "7.0" || "${php_version}" == "7.1" ]]; then
-            enable_opcache="--enable-opcache"
-            if centosversion 5; then
-                with_gmp="--with-gmp=/usr/local"
-                with_icu_dir="--with-icu-dir=/usr/local"
-            fi
+        if [[ "${php_version}" == "7.0" || "${php_version}" == "7.1" ]]; then
+            with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
+        elif [[ "${php_version}" == "5.4" || "${php_version}" == "5.5" || "${php_version}" == "5.6" ]]; then
+            with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
+        else
+            with_gd="--with-gd --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
 
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
@@ -123,55 +124,50 @@ upgrade_php(){
         --with-config-file-path=${php_location}/etc \
         --with-config-file-scan-dir=${php_location}/php.d \
         --with-pcre-dir=${depends_prefix}/pcre \
-        --with-iconv-dir=${depends_prefix}/libiconv \
-        --with-mhash \
-        ${with_icu_dir} \
-        --with-bz2 \
-        --with-curl \
-        --with-freetype-dir \
-        --with-gd \
-        --with-gettext \
-        ${with_gmp} \
-        --with-imap=${depends_prefix}/imap-2007f \
+        --with-imap=${depends_prefix}/imap \
         --with-imap-ssl \
-        --with-jpeg-dir \
-        --with-ldap \
-        --with-ldap-sasl \
-        --with-mcrypt \
-        --with-pdo_sqlite \
-        --with-sqlite3 \
+        --with-libxml-dir \
         --with-openssl \
         --with-snmp \
-        --without-pear \
-        --with-pdo-mysql \
-        --with-png-dir \
+        ${with_libdir} \
+        ${with_mysql} \
+        ${with_gd} \
+        --with-zlib \
+        --with-bz2 \
+        --with-curl=/usr \
+        --with-gettext \
+        --with-gmp \
+        --with-mhash \
+        --with-icu-dir=/usr \
+        --with-ldap \
+        --with-ldap-sasl \
+        --with-libmbfl \
+        --with-onig \
+        --with-mcrypt \
+        --with-unixODBC \
+        --with-pspell=/usr \
+        --with-enchant=/usr \
         --with-readline \
+        --with-tidy=/usr \
         --with-xmlrpc \
         --with-xsl \
-        --with-zlib \
-        ${with_mysql} \
-        ${with_libdir} \
+        --without-pear \
         --enable-bcmath \
         --enable-calendar \
-        --enable-ctype \
-        --enable-dom \
+        --enable-dba \
         --enable-exif \
         --enable-ftp \
         --enable-gd-native-ttf \
+        --enable-gd-jis-conv \
         --enable-intl \
-        --enable-json \
         --enable-mbstring \
         --enable-pcntl \
-        --enable-session \
         --enable-shmop \
-        --enable-simplexml \
         --enable-soap \
         --enable-sockets \
-        --enable-tokenizer \
         --enable-wddx \
-        --enable-xml \
         --enable-zip \
-        ${enable_opcache} \
+        --enable-mysqlnd \
         ${disable_fileinfo}"
         
         error_detect "./configure ${php_configure_args}"
@@ -185,18 +181,18 @@ upgrade_php(){
         if [ `ls ${php_location}.bak/php.d/ | wc -l` -ne 0 ]; then
             cp -pf ${php_location}.bak/php.d/* ${php_location}/php.d/
         fi
-        echo "Clear up start..."
+        log "Info" "Clear up start..."
         cd ${cur_dir}/software
         rm -rf php-${latest_php}/
         rm -f php-${latest_php}.tar.gz
-        echo "Clear up completed..."
+        log "Info" "Clear up completed..."
 
         /etc/init.d/httpd restart
 
-        echo "PHP upgrade completed..."
+        log "Info" "PHP upgrade completed..."
     else
         echo
-        echo "PHP upgrade cancelled, nothing to do..."
+        log "Info" "PHP upgrade cancelled, nothing to do..."
         echo
     fi
 

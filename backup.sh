@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
+# Copyright (C) 2014 - 2017, Teddysun <i@teddysun.com>
+# 
+# This file is part of the LAMP script.
 #
-# Auto backup script
+# LAMP is a powerful bash script for the installation of 
+# Apache + PHP + MySQL/MariaDB/Percona and so on.
+# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Just need to input numbers to choose what you want to install before installation.
+# And all things will be done in a few minutes.
 #
-# Copyright (C) 2016 Teddysun <i@teddysun.com>
+# Description:      Auto backup shell script
+# Description URL:  https://teddysun.com/469.html
 #
-# URL: https://teddysun.com/469.html
+# Website:  https://lamp.sh
+# Github:   https://github.com/teddysun/lamp
 #
 # You must to modify the config before run it!!!
 # Backup MySQL/MariaDB/Percona datebases, files and directories
@@ -12,7 +21,6 @@
 # Auto transfer backup file to Google Drive (need install gdrive command) (option)
 # Auto transfer backup file to FTP server (option)
 # Auto delete Google Drive's or FTP server's remote file (option)
-#
 
 [[ $EUID -ne 0 ]] && echo "Error: This script must be run as root!" && exit 1
 

@@ -1,3 +1,16 @@
+# Copyright (C) 2014 - 2017, Teddysun <i@teddysun.com>
+# 
+# This file is part of the LAMP script.
+#
+# LAMP is a powerful bash script for the installation of 
+# Apache + PHP + MySQL/MariaDB/Percona and so on.
+# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Just need to input numbers to choose what you want to install before installation.
+# And all things will be done in a few minutes.
+#
+# Website:  https://lamp.sh
+# Github:   https://github.com/teddysun/lamp
+
 #Pre-installation apache
 apache_preinstall_settings(){
 
@@ -25,17 +38,9 @@ apache_preinstall_settings(){
             --with-mpm=prefork \
             --with-included-apr \
             --with-ssl \
-            --enable-so \
-            --enable-dav \
-            --enable-suexec \
-            --enable-deflate=shared \
-            --enable-ssl=shared \
-            --enable-expires=shared  \
-            --enable-headers=shared \
-            --enable-rewrite=shared \
-            --enable-static-support \
-            --enable-modules=all \
-            --enable-mods-shared=all"
+            --with-nghttp2 \
+            --enable-modules=reallyall \
+            --enable-mods-shared=reallyall"
         fi
     fi
 }
@@ -43,51 +48,68 @@ apache_preinstall_settings(){
 #Install apache
 install_apache(){
 
-    if check_sys packageManager apt;then
-        apt-get -y remove apache2 apache2-doc apache2-utils apache2.2-common apache2.2-bin apache2-mpm-prefork apache2-doc apache2-mpm-worker
-        apt-get -y install libssl-dev lynx
-    elif check_sys packageManager yum;then
-        yum -y remove httpd*
-        yum -y install zlib-devel openssl openssl-devel lynx
+    log "Info" "Starting to install dependencies packages for Apache..."
+    local apt_list=(openssl libssl-dev libxml2-dev lynx)
+    local yum_list=(zlib-devel openssl-devel libxml2-devel lynx)
+    if check_sys packageManager apt; then
+        for depend in ${apt_list[@]}; do
+            error_detect_depends "apt-get -y install ${depend}"
+        done
+    elif check_sys packageManager yum; then
+        for depend in ${yum_list[@]}; do
+            error_detect_depends "yum -y install ${depend}"
+        done
+    fi
+    log "Info" "Install dependencies packages for Apache completed..."
+
+    if ! grep -qE "^/usr/local/lib" /etc/ld.so.conf.d/*.conf; then
+        echo "/usr/local/lib" > /etc/ld.so.conf.d/locallib.conf
     fi
 
-if [ "$apache" == "${apache2_2_filename}" ];then
-    cd ${cur_dir}/software/
-    download_file "${apache2_2_filename}.tar.gz"
-    tar zxf ${apache2_2_filename}.tar.gz
-    cd ${apache2_2_filename}
+    if [ "$apache" == "${apache2_2_filename}" ]; then
+        cd ${cur_dir}/software/
+        download_file "${apache2_2_filename}.tar.gz"
+        tar zxf ${apache2_2_filename}.tar.gz
+        cd ${apache2_2_filename}
+    
+        if ubuntuversion 12.04; then
+            sed -i '/SSL_PROTOCOL_SSLV2/d' modules/ssl/ssl_engine_io.c
+        fi
+    
+        LDFLAGS=-ldl
+        error_detect "./configure ${apache_configure_args}"
+        error_detect "parallel_make"
+        error_detect "make install"
+        unset LDFLAGS
+        config_apache 2.2
+    
+    elif [ "$apache" == "${apache2_4_filename}" ]; then
+    
+        check_installed "install_pcre" "${depends_prefix}/pcre"
+        check_installed "install_openssl" "${openssl_location}"
+        install_nghttp2
 
-    if grep -q -i "Ubuntu 12.04" /etc/issue;then
-        sed -i '/SSL_PROTOCOL_SSLV2/d' modules/ssl/ssl_engine_io.c
+        cd ${cur_dir}/software/
+        download_file "${apr_filename}.tar.gz"
+        tar zxf ${apr_filename}.tar.gz
+        download_file "${apr_util_filename}.tar.gz"
+        tar zxf ${apr_util_filename}.tar.gz
+        download_file "${apache2_4_filename}.tar.gz"
+        tar zxf ${apache2_4_filename}.tar.gz
+        cd ${apache2_4_filename}
+        mv ${cur_dir}/software/${apr_filename} srclib/apr
+        mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
+    
+        LDFLAGS=-ldl
+        if [ -d ${openssl_location} ]; then
+            apache_configure_args=`echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@"`
+        fi
+        error_detect "./configure ${apache_configure_args}"
+        error_detect "parallel_make"
+        error_detect "make install"
+        unset LDFLAGS
+        config_apache 2.4
     fi
-
-    export LDFLAGS=-ldl
-    error_detect "./configure ${apache_configure_args}"
-    error_detect "parallel_make"
-    error_detect "make install"
-    unset LDFLAGS
-    config_apache 2.2
-
-elif [ "$apache" == "${apache2_4_filename}" ];then
-
-    check_installed "install_pcre" "${depends_prefix}/pcre"
-
-    cd ${cur_dir}/software/
-    download_file "${apr_filename}.tar.gz"
-    tar zxf ${apr_filename}.tar.gz
-    download_file "${apr_util_filename}.tar.gz"
-    tar zxf ${apr_util_filename}.tar.gz
-    download_file "${apache2_4_filename}.tar.gz"
-    tar zxf ${apache2_4_filename}.tar.gz
-    cd ${apache2_4_filename}
-    mv ${cur_dir}/software/${apr_filename} srclib/apr
-    mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
-
-    error_detect "./configure $apache_configure_args"
-    error_detect "parallel_make"
-    error_detect "make install"
-    config_apache 2.4
-fi
 }
 
 
@@ -98,7 +120,7 @@ config_apache(){
     [ ! -d ${web_root_dir} ] && mkdir -p ${web_root_dir} && chmod -R 755 ${web_root_dir}
     local version=$1
 
-    if [ -f ${apache_location}/conf/httpd.conf ];then
+    if [ -f ${apache_location}/conf/httpd.conf ]; then
         cp -f ${apache_location}/conf/httpd.conf ${apache_location}/conf/httpd.conf.bak
     fi
 
@@ -111,17 +133,17 @@ config_apache(){
     touch ${apache_location}/conf/vhost/none.conf
 
     cat > /etc/logrotate.d/httpd <<EOF
-    ${apache_location}/logs/access_log ${apache_location}/logs/error_log {
-        daily
-        rotate 14
-        missingok
-        notifempty
-        compress
-        sharedscripts
-        postrotate
-            [ ! -f ${apache_location}/logs/httpd.pid ] || kill -USR1 \`cat ${apache_location}/logs/httpd.pid\`
-        endscript
-    }
+${apache_location}/logs/access_log ${apache_location}/logs/error_log {
+    daily
+    rotate 14
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+        [ ! -f ${apache_location}/logs/httpd.pid ] || kill -USR1 \`cat ${apache_location}/logs/httpd.pid\`
+    endscript
+}
 EOF
 
     cat > ${apache_location}/conf/extra/httpd-vhosts.conf <<EOF
@@ -150,7 +172,7 @@ EOF
     sed -i "s@^<Directory \"${apache_location}/htdocs\">@<Directory \"${web_root_dir}\">@" ${apache_location}/conf/httpd.conf
     echo "ServerTokens ProductOnly" >> ${apache_location}/conf/httpd.conf
 
-    if [ ${version} == "2.4" ];then
+    if [ ${version} == "2.4" ]; then
         sed -i -r 's/^#(.*mod_cache.so)/\1/' ${apache_location}/conf/httpd.conf
         sed -i -r 's/^#(.*mod_cache_socache.so)/\1/' ${apache_location}/conf/httpd.conf
         sed -i -r 's/^#(.*mod_socache_shmcb.so)/\1/' ${apache_location}/conf/httpd.conf
@@ -166,9 +188,14 @@ EOF
         sed -i -r 's/^#(.*mod_deflate.so)/\1/' ${apache_location}/conf/httpd.conf
         sed -i -r 's/^#(.*mod_expires.so)/\1/' ${apache_location}/conf/httpd.conf
         sed -i -r 's/^#(.*mod_ssl.so)/\1/' ${apache_location}/conf/httpd.conf
+        sed -i -r 's/^#(.*mod_http2.so)/\1/' ${apache_location}/conf/httpd.conf
+        echo "ProtocolsHonorOrder On" >> ${apache_location}/conf/httpd.conf
+        echo "Protocols h2 http/1.1" >> ${apache_location}/conf/httpd.conf
+        [ -d ${openssl_location} ] && sed -i "s@^export LD_LIBRARY_PATH.*@export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${openssl_location}/lib@" ${apache_location}/bin/envvars
+
         sed -i 's/Allow from All/Require all granted/' ${apache_location}/conf/extra/httpd-vhosts.conf
         sed -i 's/Require host .example.com/Require host localhost/g' ${apache_location}/conf/extra/httpd-info.conf
-    elif [ ${version} == "2.2" ];then
+    elif [ ${version} == "2.2" ]; then
         sed -i -r 's/^(.*mod_unique_id.so)/\#&/' ${apache_location}/conf/httpd.conf
         sed -i 's/Allow from .example.com/Allow from localhost/g' ${apache_location}/conf/extra/httpd-info.conf
     fi
@@ -187,9 +214,11 @@ EOF
     ln -s ${apache_location}/logs /var/log/httpd
 
     cp -f ${cur_dir}/conf/index.html ${web_root_dir}
+    cp -f ${cur_dir}/conf/index_cn.html ${web_root_dir}
     cp -f ${cur_dir}/conf/lamp.gif ${web_root_dir}
     cp -f ${cur_dir}/conf/jquery.js ${web_root_dir}
     cp -f ${cur_dir}/conf/p.php ${web_root_dir}
+    cp -f ${cur_dir}/conf/p_cn.php ${web_root_dir}
     cp -f ${cur_dir}/conf/phpinfo.php ${web_root_dir}
     cp -f ${cur_dir}/conf/favicon.ico ${web_root_dir}
 
