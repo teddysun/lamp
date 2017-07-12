@@ -50,7 +50,7 @@ install_apache(){
 
     log "Info" "Starting to install dependencies packages for Apache..."
     local apt_list=(openssl libssl-dev libxml2-dev lynx)
-    local yum_list=(zlib-devel openssl-devel libxml2-devel lynx)
+    local yum_list=(zlib-devel openssl-devel libxml2-devel lynx expat-devel)
     if check_sys packageManager apt; then
         for depend in ${apt_list[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
