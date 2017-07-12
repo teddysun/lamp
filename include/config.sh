@@ -39,7 +39,7 @@ nghttp2_filename="nghttp2-1.23.0"
 #openssl
 openssl_filename="openssl-1.0.2l"
 #apache2.2
-apache2_2_filename="httpd-2.2.32"
+apache2_2_filename="httpd-2.2.34"
 #apache2.4
 apache2_4_filename="httpd-2.4.27"
 #mysql5.5
