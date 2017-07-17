@@ -29,17 +29,17 @@ upgrade_php(){
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
     local installed_php=`${php_location}/bin/php -r 'echo PHP_VERSION;' 2>/dev/null`
 
-    if   [ "${php_version}" == "5.3" ];then
+    if   [ "${php_version}" == "5.3" ]; then
         latest_php='5.3.29'
-    elif [ "${php_version}" == "5.4" ];then
+    elif [ "${php_version}" == "5.4" ]; then
         latest_php='5.4.45'
-    elif [ "${php_version}" == "5.5" ];then
+    elif [ "${php_version}" == "5.5" ]; then
         latest_php='5.5.38'
-    elif [ "${php_version}" == "5.6" ];then
+    elif [ "${php_version}" == "5.6" ]; then
         latest_php='5.6.30'
-    elif [ "${php_version}" == "7.0" ];then
+    elif [ "${php_version}" == "7.0" ]; then
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.0')
-    elif [ "${php_version}" == "7.1" ];then
+    elif [ "${php_version}" == "7.1" ]; then
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.1')
     fi
 
@@ -58,9 +58,9 @@ upgrade_php(){
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=`get_char`
 
-    if [[ "${upgrade_php}" = "y" || "${upgrade_php}" = "Y" ]];then
+    if [[ "${upgrade_php}" = "y" || "${upgrade_php}" = "Y" ]]; then
 
-        if [ "${php_version}" != "7.0" ] && [ "${php_version}" != "7.1" ];then
+        if [ "${php_version}" != "7.0" ] && [ "${php_version}" != "7.1" ]; then
             if [ "${installed_php}" == "${latest_php}" ]; then
                 echo "${installed_php} is already the latest version and not need to upgrade, nothing to do..."
                 exit
@@ -68,12 +68,12 @@ upgrade_php(){
         fi
 
         log "Info" "PHP upgrade start..."
-        if [[ -d ${php_location}.bak && -d ${php_location} ]];then
+        if [[ -d ${php_location}.bak && -d ${php_location} ]]; then
             rm -rf ${php_location}.bak
         fi
         mv ${php_location} ${php_location}.bak
 
-        if [ ! -d ${cur_dir}/software ];then
+        if [ ! -d ${cur_dir}/software ]; then
             mkdir -p ${cur_dir}/software
         fi
         cd ${cur_dir}/software
@@ -171,14 +171,17 @@ upgrade_php(){
         ${disable_fileinfo}"
         
         error_detect "./configure ${php_configure_args}"
-        error_detect "parallel_make"
+        if [ "${php_version}" == "7.0" ]; then
+            error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
+        else
+            error_detect "parallel_make"
+        fi
         error_detect "make install"
 
-        mkdir -p ${php_location}/etc
-        mkdir -p ${php_location}/php.d
+        mkdir -p ${php_location}/{etc,php.d}
         cp -pf ${php_location}.bak/etc/php.ini ${php_location}/etc/php.ini
-        cp -pf ${php_location}.bak/lib/php/extensions/no-debug-non-zts-*/* ${php_extension_dir}/
-        if [ `ls ${php_location}.bak/php.d/ | wc -l` -ne 0 ]; then
+        cp -pn ${php_location}.bak/lib/php/extensions/no-debug-non-zts-*/* ${php_extension_dir}/
+        if [ `ls ${php_location}.bak/php.d/ | wc -l` -gt 0 ]; then
             cp -pf ${php_location}.bak/php.d/* ${php_location}/php.d/
         fi
         log "Info" "Clear up start..."
