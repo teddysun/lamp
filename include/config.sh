@@ -43,11 +43,11 @@ apache2_2_filename="httpd-2.2.34"
 #apache2.4
 apache2_4_filename="httpd-2.4.27"
 #mysql5.5
-mysql5_5_filename="mysql-5.5.56"
+mysql5_5_filename="mysql-5.5.57"
 #mysql5.6
-mysql5_6_filename="mysql-5.6.36"
+mysql5_6_filename="mysql-5.6.37"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.18"
+mysql5_7_filename="mysql-5.7.19"
 #mariadb5.5
 mariadb5_5_filename="mariadb-5.5.56"
 #mariadb10.0
