@@ -160,14 +160,14 @@ EOF
             [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
             is_64bit && sys_bit=x86_64 || sys_bit=i686
-            url1="http://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}-linux-glibc2.5-${sys_bit}.tar.gz"
-            url2="${download_root_url}/mysql-${latest_mysql}-linux-glibc2.5-${sys_bit}.tar.gz"
+            url1="http://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+            url2="${download_root_url}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
 
-            download_from_url "mysql-${latest_mysql}-linux-glibc2.5-${sys_bit}.tar.gz" "${url1}" "${url2}"
+            download_from_url "mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz" "${url1}" "${url2}"
             log "Info" "Extracting MySQL files..."
-            tar zxf mysql-${latest_mysql}-linux-glibc2.5-${sys_bit}.tar.gz
+            tar zxf mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz
             log "Info" "Moving MySQL files..."
-            mv mysql-${latest_mysql}-linux-glibc2.5-${sys_bit}/* ${mysql_location}
+            mv mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}/* ${mysql_location}
 
             chown -R mysql:mysql ${mysql_location} ${datalocation}
             cp -f ${mysql_location}/support-files/mysql.server /etc/init.d/mysqld
