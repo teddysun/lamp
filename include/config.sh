@@ -49,7 +49,7 @@ mysql5_6_filename="mysql-5.6.37"
 #mysql5.7
 mysql5_7_filename="mysql-5.7.19"
 #mariadb5.5
-mariadb5_5_filename="mariadb-5.5.56"
+mariadb5_5_filename="mariadb-5.5.57"
 #mariadb10.0
 mariadb10_0_filename="mariadb-10.0.31"
 #mariadb10.1
