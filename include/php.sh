@@ -23,7 +23,11 @@ php_preinstall_settings(){
     if [ "${php}" != "do_not_install" ]; then
 
         if [ "${mysql}" != "do_not_install" ]; then
-            with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
+            if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" ]]; then
+                with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
+            else
+                with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
+            fi
         else
             with_mysql=""
         fi
