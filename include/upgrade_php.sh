@@ -36,7 +36,7 @@ upgrade_php(){
     elif [ "${php_version}" == "5.5" ]; then
         latest_php='5.5.38'
     elif [ "${php_version}" == "5.6" ]; then
-        latest_php='5.6.30'
+        latest_php='5.6.31'
     elif [ "${php_version}" == "7.0" ]; then
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.0')
     elif [ "${php_version}" == "7.1" ]; then
@@ -87,23 +87,11 @@ upgrade_php(){
             cd php-${latest_php}/
         fi
 
-        if [ -d ${mariadb_location} ]; then
+        if [ -d ${mariadb_location} ] || [ -d ${mysql_location} ] || [ -d ${percona_location} ]; then
             if [[ "${php_version}" == "7.0" || "${php_version}" == "7.1" ]]; then
-                with_mysql="--with-mysqli=${mariadb_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
+                with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             else
-                with_mysql="--with-mysql=${mariadb_location} --with-mysqli=${mariadb_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
-            fi
-        elif [ -d ${mysql_location} ]; then
-            if [[ "${php_version}" == "7.0" || "${php_version}" == "7.1" ]]; then
-                with_mysql="--with-mysqli=${mysql_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
-            else
-                with_mysql="--with-mysql=${mysql_location} --with-mysqli=${mysql_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
-            fi
-        elif [ -d ${percona_location} ]; then
-            if [[ "${php_version}" == "7.0" || "${php_version}" == "7.1" ]]; then
-                with_mysql="--with-mysqli=${percona_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
-            else
-                with_mysql="--with-mysql=${percona_location} --with-mysqli=${percona_location}/bin/mysql_config --with-mysql-sock=/tmp/mysql.sock"
+                with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             fi
         else
             with_mysql=""
@@ -167,7 +155,6 @@ upgrade_php(){
         --enable-sockets \
         --enable-wddx \
         --enable-zip \
-        --enable-mysqlnd \
         ${disable_fileinfo}"
         
         error_detect "./configure ${php_configure_args}"
