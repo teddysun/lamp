@@ -1050,7 +1050,8 @@ install_tool(){
     if check_sys packageManager apt; then
         apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev > /dev/null 2>&1
     elif check_sys packageManager yum; then
-        yum -y install gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel > /dev/null 2>&1
+        yum -y install yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel > /dev/null 2>&1
+        yum-config-manager --enable epel > /dev/null 2>&1
     fi
     log "Info" "Install tools completed..."
 
