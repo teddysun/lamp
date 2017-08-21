@@ -595,14 +595,14 @@ untar(){
         wget -c -t3 -T3 ${1} -P ${cur_dir}/
         if [ $? -ne 0 ]; then
             rm -rf ${cur_dir}/${software_name}
-            wget -c -t3 -T60 ${2} -P ${cur_dir}/
+            wget -cv -t3 -T60 ${2} -P ${cur_dir}/
             software_name=`echo ${2} | awk -F/ '{print $NF}'`
             tarball_type=`echo ${2} | awk -F. '{print $NF}'`
         fi
     else
         software_name=`echo ${2} | awk -F/ '{print $NF}'`
         tarball_type=`echo ${2} | awk -F. '{print $NF}'`
-        wget -c -t3 -T3 ${2} -P ${cur_dir}/ || exit
+        wget -cv -t3 -T3 ${2} -P ${cur_dir}/ || exit
     fi
     extracted_dir=`tar tf ${cur_dir}/${software_name} | tail -n 1 | awk -F/ '{print $1}'`
     case ${tarball_type} in
@@ -745,7 +745,7 @@ download_file(){
         log "Info" "${1} [found]"
     else
         log "Info" "${1} not found, download now..."
-        wget -cq -t3 -T60 ${url}
+        wget -cv -t3 -T60 ${url}
         if [ $? -eq 0 ]; then
             log "Info" "${1} download completed..."
         else
@@ -762,13 +762,13 @@ download_from_url(){
         log "Info" "${filename} [found]"
     else
         log "Info" "${filename} not found, download now..."
-        wget -cq -t3 -T3 ${2}
+        wget -cv -t3 -T3 ${2}
         if [ $? -eq 0 ]; then
             log "Info" "${filename} download completed..."
         else
             rm -f ${filename}
             log "Info" "${filename} download failed, retrying download from backup site..."
-            wget -cq -t3 -T60 ${3}
+            wget -cv -t3 -T60 ${3}
             if [ $? -eq 0 ]; then
                 log "Info" "${filename} download completed..."
             else
