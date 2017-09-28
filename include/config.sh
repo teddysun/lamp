@@ -53,9 +53,9 @@ mariadb5_5_filename="mariadb-5.5.57"
 #mariadb10.0
 mariadb10_0_filename="mariadb-10.0.32"
 #mariadb10.1
-mariadb10_1_filename="mariadb-10.1.26"
+mariadb10_1_filename="mariadb-10.1.28"
 #mariadb10.2
-mariadb10_2_filename="mariadb-10.2.8"
+mariadb10_2_filename="mariadb-10.2.9"
 #percona5.5
 percona5_5_filename="Percona-Server-5.5.57-38.9"
 #percona5.6
@@ -71,7 +71,7 @@ php5_5_filename="php-5.5.38"
 #php5.6
 php5_6_filename="php-5.6.31"
 #php7.0
-php7_0_filename="php-7.0.23"
+php7_0_filename="php-7.0.24"
 #php7.1
 php7_1_filename="php-7.1.9"
 #phpMyAdmin
