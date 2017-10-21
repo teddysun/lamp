@@ -99,8 +99,8 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-1.9.18"
-set_hint ${swoole_filename} "php-swoole-1.9.18"
+swoole_filename="swoole-src-1.9.21"
+set_hint ${swoole_filename} "php-swoole-1.9.21"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
