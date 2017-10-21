@@ -28,6 +28,7 @@ Supported System
 - Ubuntu-17.x
 - Debian-7.x
 - Debian-8.x
+- Debian-9.x
 
 Supported Software
 ==================
@@ -41,20 +42,18 @@ Installation
 ============
 If your server system: CentOS
 ```bash
-yum -y install wget screen unzip
-wget --no-check-certificate -O lamp.zip https://github.com/teddysun/lamp/archive/master.zip
-unzip lamp.zip
-cd lamp-master
+yum -y install wget screen git
+git clone https://github.com/teddysun/lamp.git
+cd lamp
 chmod +x *.sh
 screen -S lamp
 ./lamp.sh
 ```
 If your server system: Debian/Ubuntu
 ```bash
-apt-get -y install wget screen unzip
-wget --no-check-certificate -O lamp.zip https://github.com/teddysun/lamp/archive/master.zip
-unzip lamp.zip
-cd lamp-master
+apt-get -y install wget screen git
+git clone https://github.com/teddysun/lamp.git
+cd lamp
 chmod +x *.sh
 screen -S lamp
 ./lamp.sh
