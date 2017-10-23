@@ -81,9 +81,9 @@ phpmyadmin_filename2="phpMyAdmin-4.7.5-all-languages"
 opcache_filename="zendopcache-7.0.5"
 
 #apr
-apr_filename="apr-1.6.2"
+apr_filename="apr-1.6.3"
 #apr-util
-apr_util_filename="apr-util-1.6.0"
+apr_util_filename="apr-util-1.6.1"
 #mhash
 mhash_filename="mhash-0.9.9.9"
 #libmcrypt
