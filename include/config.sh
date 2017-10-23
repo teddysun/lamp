@@ -41,7 +41,7 @@ openssl_filename="openssl-1.0.2l"
 #apache2.2
 apache2_2_filename="httpd-2.2.34"
 #apache2.4
-apache2_4_filename="httpd-2.4.28"
+apache2_4_filename="httpd-2.4.29"
 #mysql5.5
 mysql5_5_filename="mysql-5.5.58"
 #mysql5.6
@@ -76,7 +76,7 @@ php7_0_filename="php-7.0.24"
 php7_1_filename="php-7.1.10"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.4.15.10-all-languages"
-phpmyadmin_filename2="phpMyAdmin-4.7.4-all-languages"
+phpmyadmin_filename2="phpMyAdmin-4.7.5-all-languages"
 #opcache
 opcache_filename="zendopcache-7.0.5"
 
