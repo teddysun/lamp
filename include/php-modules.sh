@@ -22,7 +22,9 @@ php_modules_preinstall_settings(){
         echo
         echo "${php} available modules:"
         echo
-        if [ "${php}" == "${php5_5_filename}" ]; then
+        if [ "${php}" == "${php5_3_filename}" ] || [ "${php}" == "${php5_4_filename}" ]; then
+            php_modules_arr=(${php_modules_arr[@]#${php_mongo_filename}})
+        elif [ "${php}" == "${php5_5_filename}" ]; then
             php_modules_arr=(${php_modules_arr[@]#${opcache_filename}})
         elif [ "${php}" == "${php5_6_filename}" ]; then
             php_modules_arr=(${php_modules_arr[@]#${opcache_filename}})
@@ -32,7 +34,6 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]#${ZendGuardLoader_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${php_mongo_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         elif [ "${php}" == "${php7_1_filename}" ]; then
@@ -40,9 +41,7 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]#${opcache_filename}})
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]#${ZendGuardLoader_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${php_mongo_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
 
