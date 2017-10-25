@@ -104,7 +104,7 @@ set_hint ${swoole_filename} "php-swoole-1.9.21"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
-xdebug_filename="xdebug-2.5.3"
+xdebug_filename="xdebug-2.5.5"
 #ImageMagick
 ImageMagick_filename="ImageMagick-7.0.6-6"
 php_imagemagick_filename="imagick-3.4.3"
@@ -144,7 +144,7 @@ set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 redis_filename="redis-3.2.10"
 #php-redis
 php_redis_filename="redis-2.2.8"
-php_redis_filename2="redis-3.1.3"
+php_redis_filename2="redis-3.1.4"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
