@@ -148,7 +148,7 @@ php_redis_filename2="redis-3.1.3"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.3.0beta1"
+php_mongo_filename="mongodb-1.3.1"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 
 
