@@ -36,7 +36,7 @@ upgrade_php(){
     elif [ "${php_version}" == "5.5" ]; then
         latest_php='5.5.38'
     elif [ "${php_version}" == "5.6" ]; then
-        latest_php='5.6.31'
+        latest_php='5.6.32'
     elif [ "${php_version}" == "7.0" ]; then
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.0')
     elif [ "${php_version}" == "7.1" ]; then
