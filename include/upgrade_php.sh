@@ -158,7 +158,7 @@ upgrade_php(){
         ${disable_fileinfo}"
         
         error_detect "./configure ${php_configure_args}"
-        if [ "${php_version}" == "7.0" ]; then
+        if [ "${php_version}" == "5.6" ] || [ "${php_version}" == "7.0" ]; then
             error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
         else
             error_detect "parallel_make"
