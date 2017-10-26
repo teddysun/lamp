@@ -35,7 +35,7 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.26.0"
+nghttp2_filename="nghttp2-1.27.0"
 #openssl
 openssl_filename="openssl-1.0.2l"
 #apache2.2
@@ -93,7 +93,7 @@ mcrypt_filename="mcrypt-2.6.8"
 #pcre
 pcre_filename="pcre-8.40"
 #re2c
-re2c_filename='re2c-0.16'
+re2c_filename='re2c-1.0.2'
 #imap
 imap_filename='imap-2007f'
 #libiconv
@@ -106,7 +106,7 @@ xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.5.5"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.6-6"
+ImageMagick_filename="ImageMagick-7.0.7-8"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
@@ -141,7 +141,7 @@ php_memcache_filename="memcache-3.0.8"
 php_memcached_filename="memcached-3.0.3"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 #redis
-redis_filename="redis-3.2.10"
+redis_filename="redis-3.2.11"
 #php-redis
 php_redis_filename="redis-2.2.8"
 php_redis_filename2="redis-3.1.4"
