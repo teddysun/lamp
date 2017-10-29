@@ -60,10 +60,10 @@ function show($varName)
     switch($result = get_cfg_var($varName))
     {
         case 0:
-            return '<font color="red">×</font>';
+            return '<font color="red"><i class="fa fa-times"></i></font>';
         break;
         case 1:
-            return '<font color="green">√</font>';
+            return '<font color="green"><i class="fa fa-check"></i></font>';
         break;
         default:
             return $result;
@@ -103,9 +103,9 @@ elseif(isset($_POST['act']) && $_POST['act']=="开始测试")
         acd1ok=acd1.getTime();
     </script>
     <?php
-    for($i=1;$i<=100000;$i++)
+    for($i=1;$i<=204800;$i++)
     {
-        echo "<!--567890#########0#########0#########0#########0#########0#########0#########0#########012345-->";
+        echo "<!--34567890#########0#########0#########0#########0#########0#########0#########0#########012345-->";
     }
     ?>
     <script language="javascript" type="text/javascript">
@@ -133,7 +133,7 @@ elseif(isset($_GET['act']) && $_GET['act'] == "disable_functions")
     $disFuns=get_cfg_var("disable_functions");
     if(empty($disFuns))
     {
-        $arr = '<font color=red>×</font>';
+        $arr = '<font color=red><i class="fa fa-times"></i></font>';
     }
     else
     { 
@@ -186,7 +186,7 @@ function getMySQLVersion() {
 //网络速度测试
 if(isset($_POST['act']) && $_POST['speed'])
 {
-    $speed=round(100/($_POST['speed']/1000),2);
+    $speed=round(100/($_POST['speed']/2048),2);
 }
 elseif(isset($_GET['speed']) && $_GET['speed']=="0")
 {
@@ -194,7 +194,7 @@ elseif(isset($_GET['speed']) && $_GET['speed']=="0")
 }
 elseif(isset($_GET['speed']) and $_GET['speed']>0)
 {
-    $speed=round(100/($_GET['speed']/1000),2); //下载速度：$speed kb/s
+    $speed=round(100/($_GET['speed']/2048),2); //下载速度：$speed kb/s
 }
 else
 {
@@ -205,12 +205,12 @@ else
 function isfun($funName = '')
 {
     if (!$funName || trim($funName) == '' || preg_match('~[^a-z0-9\_]+~i', $funName, $tmp)) return '错误';
-    return (false !== function_exists($funName)) ? '<font color="green">√</font>' : '<font color="red">×</font>';
+    return (false !== function_exists($funName)) ? '<font color="green"><i class="fa fa-check"></i></font>' : '<font color="red"><i class="fa fa-times"></i></font>';
 }
 function isfun1($funName = '')
 {
     if (!$funName || trim($funName) == '' || preg_match('~[^a-z0-9\_]+~i', $funName, $tmp)) return '错误';
-    return (false !== function_exists($funName)) ? '√' : '×';
+    return (false !== function_exists($funName)) ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
 }
 
 //整数运算能力测试
@@ -615,46 +615,49 @@ if ($_GET['act'] == "rt")
 <title><?php echo $title; ?></title>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="data:image/png;base64,Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAADAADEDgAAxA4AAAAAAAAAAAAAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICA19fX19fX19fXwICAwICAwICAwICAwICAwICAwICA19fX19fX19fXwICAwICAwICA19fXAAAA19fXwICAwICAwICAwICAwICAwICAwICA19fXAAAA19fXwICAwICAwICA19fXAAAA19fX19fXwICAwICA19fXwICAwICA19fX19fXAAAA19fX19fXwICAwICA19fXAAAAAAAAAAAA19fX19fXAAAA19fX19fXAAAA19fXAAAAAAAAAAAA19fX19fX19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fX19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fX19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fXAAAA19fX19fXAAAA19fX19fXAAAAAAAAAAAA19fX19fXAAAAAAAAAAAA19fX19fXAAAAAAAAAAAA19fX19fXwICA19fX19fX19fXwICA19fXAAAA19fX19fXwICAwICA19fX19fX19fXwICAwICAwICAwICAwICAwICAwICA19fXAAAA19fXwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICA19fX19fX19fXwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICAwICA" type="image/x-icon" rel="icon" />
 <style type="text/css">
 <!--
-* {font-family: Microsoft Yahei, Tahoma, Arial; }
-body{text-align: center; margin: 0 auto; padding: 0; background-color:#fafafa;font-size:12.5px;font-family:Microsoft Yahei, Tahoma, Arial}
-h1 {font-size: 26px; padding: 0; margin: 0; color: #333333; font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;}
+body{margin: 0 auto; padding: 0; background-color:#eee;font-size:14px;font-family: Noto Sans CJK SC,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;}
+a,input,button{outline: none !important;-webkit-appearance: none;border-radius: 0;}
+button::-moz-focus-inner,input::-moz-focus-inner{border-color:transparent !important;}
+:focus {border: none;outline: 0;}
+h1 {font-size: 26px; padding: 0; margin: 0; color: #333333;}
 h1 small {font-size: 11px; font-family: Tahoma; font-weight: bold; }
 a{color: #666; text-decoration:none;}
 a.black{color: #000000; text-decoration:none;}
-table{width:100%;clear:both;padding: 0; margin: 0 0 10px;border-collapse:collapse; border-spacing: 0;
-box-shadow: 1px 1px 1px #CCC;
--moz-box-shadow: 1px 1px 1px #CCC;
--webkit-box-shadow: 1px 1px 1px #CCC;
--ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#CCCCCC')";}
-th{padding: 3px 6px; font-weight:bold;background:#dedede;color:#626262;border:1px solid #cccccc; text-align:left;}
+table{width:100%;clear:both;padding: 0; margin: 0 0 18px;border-collapse:collapse; border-spacing: 0;box-shadow: 1px 1px 4px #999;}
+th{padding: 6px 12px; font-weight:bold;background:#9191c4;color:#000;border:1px solid #9191c4; text-align:left;font-size:16px;border-bottom: 0px;font-weight: normal;}
 tr{padding: 0; background:#FFFFFF;}
 td{padding: 3px 6px; border:1px solid #CCCCCC;}
-.w_logo{height:25px;text-align:left;color:#333;FONT-SIZE: 15px; width:13%; }
-.w_top{height:25px;text-align:center; width:8.7%;}
-.w_top:hover{background:#dadada;}
+#nav{height:48px;font-size: 15px;background-color:#447;color:#fff !important;position:fixed;top:0px;width:100%;cursor: default;}
+.w_logo{height:29px; padding:9px 24px;display: inline-block;font-size: 18px;float:left;}
+.w_top{height:24px;color:#fff;font-size: 15px;display: inline-block;padding:12px 24px;transition: background-color 0.2s;float:left;cursor: default;}
+.w_top:hover{background:#0C2136;}
 .w_foot{height:25px;text-align:center; background:#dedede;}
-input{padding: 2px; background: #FFFFFF; border-top:1px solid #666666; border-left:1px solid #666666; border-right:1px solid #CCCCCC; border-bottom:1px solid #CCCCCC; font-size:12px}
-input.btn{font-weight: bold; height: 20px; line-height: 20px; padding: 0 6px; color:#666666; background: #f2f2f2; border:1px solid #999;font-size:12px}
-.bar {border:1px solid #999999; background:#FFFFFF; height:5px; font-size:2px; width:89%; margin:2px 0 5px 0;padding:1px; overflow: hidden;}
-.bar_1 {border:1px dotted #999999; background:#FFFFFF; height:5px; font-size:2px; width:89%; margin:2px 0 5px 0;padding:1px; overflow: hidden;}
-.barli_red{background:#ff6600; height:5px; margin:0px; padding:0;}
-.barli_blue{background:#0099FF; height:5px; margin:0px; padding:0;}
-.barli_green{background:#36b52a; height:5px; margin:0px; padding:0;}
-.barli_black{background:#333; height:5px; margin:0px; padding:0;}
-.barli_1{background:#999999; height:5px; margin:0px; padding:0;}
-.barli{background:#36b52a; height:5px; margin:0px; padding:0;}
-#page {width: 960px; padding: 0 auto; margin: 0 auto; text-align: left;}
+input{padding: 2px; background: #FFFFFF;border:1px solid #888;font-size:12px; color:#000;}
+input:focus{border:1px solid #666;}
+input.btn{line-height: 20px; padding: 6px 15px; color:#fff; background: #447; font-size:12px; border:0;transition: background-color 0.2s;box-shadow: 0 0 1px #888888;}
+input.btn:hover{background:#558;}
+.bar {border:0; background:#ddd; height:15px; font-size:2px; width:89%; margin:2px 0 5px 0;overflow: hidden;}
+.barli_red{background:#d9534f; height:15px; margin:0px; padding:0;}
+.barli_blue{background:#337ab7; height:15px; margin:0px; padding:0;}
+.barli_green{background:#5cb85c; height:15px; margin:0px; padding:0;}
+.barli_orange{background:#f0ad4e; height:15px; margin:0px; padding:0;}
+.barli_blue2{background:#5bc0de; height:15px; margin:0px; padding:0;}
+#page {max-width: 1080px; padding: 0 auto; margin: 80px auto 0; text-align: left;}
 #header{position:relative; padding:5px;}
-.w_small{font-size: 14px; font-family: Consolas;}
-.w_number{color: #f800fe;}
+.w_small{font-family: Courier New;}
+.w_number{color: #177BBE;}
 .sudu {padding: 0; background:#5dafd1; }
 .suduk { margin:0px; padding:0;}
 .resYes{}
 .resNo{color: #FF0000;}
-.word{font-size: 14px; font-family: Consolas; word-break: break-all;}
-.static{color: #009900;}
+.word{word-break:break-all;}
+@media screen and (max-width: 1180px){
+	#page {margin: 80px 50px 0; }
+}
 -->
 </style>
 <script language="JavaScript" type="text/javascript" src="./jquery.js"></script>
@@ -761,15 +764,25 @@ function displayData(dataJSON)
 
 <body>
 <a name="w_top"></a>
+<div id="nav">
+    <div style="display: inline-block">
+        <div class="w_logo"><span>PHP探针</span></div>
+    </div>
+    <div style="display: inline-block">
+        <a class="w_top" onclick="$('body,html').animate({ scrollTop: 0 }, 200);"><i class="fa fa-tasks"></i> 服务器信息</a>
+        <a class="w_top" onclick="$('body,html').animate({ scrollTop: $('#w_php').offset().top }, 200);"><i class="fa fa-tags"></i> PHP参数</a>
+        <a class="w_top" onclick="$('body,html').animate({ scrollTop: $('#w_module').offset().top }, 200);"><i class="fa fa-cogs"></i> 组件支持</a>
+        <a class="w_top" onclick="$('body,html').animate({ scrollTop: $('#w_module_other').offset().top }, 200);"><i class="fa fa-cubes"></i> 第三方组件</a>
+        <a class="w_top" onclick="$('body,html').animate({ scrollTop: $('#w_db').offset().top }, 200);"><i class="fa fa-database"></i> 数据库支持</a>
+        <a class="w_top" onclick="$('body,html').animate({ scrollTop: $('#w_performance').offset().top }, 200);"><i class="fa fa-tachometer"></i> 性能检测</a>
+        <a class="w_top" onclick="$('body,html').animate({ scrollTop: $('#w_performance').offset().top }, 200);"><i class="fa fa-cloud-upload"></i> 网络测试</a>
+        <a class="w_top" onclick="$('body,html').animate({ scrollTop: $('#w_performance').offset().top }, 200);"><i class="fa fa-link"></i> MySQL连接检测</a>
+    </div>
+</div>
 <div id="page">
-    <table>
-        <tr>
-            <th class="w_logo">PHP 探针</th>
-        </tr>
-    </table>
 <!--服务器相关参数-->
 <table>
-  <tr><th colspan="4">服务器参数</th></tr>
+  <tr><th colspan="4"><i class="fa fa-tasks"></i> 服务器参数</th></tr>
   <tr>
     <td>服务器域名/IP地址</td>
     <td colspan="3"><?php echo @get_current_user();?> - <?php echo $_SERVER['SERVER_NAME'];?>(<?php if('/'==DIRECTORY_SEPARATOR){echo $_SERVER['SERVER_ADDR'];}else{echo @gethostbyname($_SERVER['SERVER_NAME']);} ?>)&nbsp;&nbsp;你的 IP 地址是：<?php echo @$_SERVER['REMOTE_ADDR'];?></td>
@@ -813,7 +826,7 @@ function displayData(dataJSON)
 
 <?if("show"==$sysReShow){?>
 <table>
-  <tr><th colspan="6">服务器实时数据</th></tr>
+  <tr><th colspan="6"><i class="fa fa-area-chart"></i> 服务器实时数据</th></tr>
 
   <tr>
     <td width="13%" >服务器当前时间</td>
@@ -827,8 +840,8 @@ function displayData(dataJSON)
   </tr>
   <tr>
     <td>CPU使用状况</td>
-    <td colspan="5"><?php if('/'==DIRECTORY_SEPARATOR){echo $cpu_show." | <a href='?act=cpu_percentage' target='_blank' class='static'>查看图表</a>";}else{echo "暂时只支持Linux系统";}?>
-	</td>
+    <td colspan="5"><?php if('/'==DIRECTORY_SEPARATOR){echo $cpu_show." | <a href='".$phpSelf."?act=cpu_percentage' target='_blank' class='static'>查看图表 <i class=\"fa fa-external-link\"></i> </a>";}else{echo "暂时只支持Linux系统";}?>
+    </td>
   </tr>
   <tr>
     <td>硬盘使用状况</td>
@@ -837,7 +850,7 @@ function displayData(dataJSON)
         已用 <font color='#333333'><span id="useSpace"><?php echo $du;?></span></font>&nbsp;G，
         空闲 <font color='#333333'><span id="freeSpace"><?php echo $df;?></span></font>&nbsp;G，
         使用率 <span id="hdPercent"><?php echo $hdPercent;?></span>%
-        <div class="bar"><div id="barhdPercent" class="barli_black" style="width:<?php echo $hdPercent;?>%" >&nbsp;</div> </div>
+        <div class="bar"><div id="barhdPercent" class="barli_orange" style="width:<?php echo $hdPercent;?>%" >&nbsp;</div> </div>
     </td>
   </tr>
   <tr>
@@ -879,7 +892,7 @@ if($sysInfo['memCached']>0)
           , 使用率
           <span id="memRealPercent"><?php echo $memRealPercent;?></span>
           %
-          <div class="bar_1"><div id="barmemRealPercent" class="barli_1" style="width:<?php echo $memRealPercent?>%" >&nbsp;</div></div> 
+          <div class="bar"><div id="barmemRealPercent" class="barli_blue2" style="width:<?php echo $memRealPercent?>%" >&nbsp;</div></div> 
 <?php
 }
 //判断如果SWAP区为0，不显示
@@ -912,7 +925,7 @@ if($sysInfo['swapTotal']>0)
 
 <?php if (false !== ($strs = @file("/proc/net/dev"))) : ?>
 <table>
-    <tr><th colspan="5">网络使用状况</th></tr>
+    <tr><th colspan="5"><i class="fa fa-bar-chart"></i> 网络使用状况</th></tr>
 <?php for ($i = 2; $i < count($strs); $i++ ) : ?>
 <?php preg_match_all( "/([^\s]+):[\s]{0,}(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/", $strs[$i], $info );?>
      <tr>
@@ -929,7 +942,7 @@ if($sysInfo['swapTotal']>0)
 
 <table width="100%" cellpadding="3" cellspacing="0" align="center">
   <tr>
-    <th colspan="4">PHP 已编译模块检测</th>
+    <th colspan="4"><i class="fa fa-download "></i> PHP 已编译模块检测</th>
   </tr>
   <tr>
     <td colspan="4"><span class="w_small">
@@ -946,9 +959,9 @@ foreach ($able as $key=>$value) {
   </tr>
 </table>
 
-<a name="w_php"></a>
+<a name="w_php" id="w_php" style="position:relative;top:-60px;"></a>
 <table>
-  <tr><th colspan="4">PHP 相关参数</th></tr>
+  <tr><th colspan="4"><i class="fa fa-tags"></i> PHP 参数</th></tr>
   <tr>
     <td width="30%">PHP 信息(phpinfo)</td>
     <td width="20%">
@@ -956,7 +969,7 @@ foreach ($able as $key=>$value) {
         $phpSelf = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
         $disFuns=get_cfg_var("disable_functions");
         ?>
-        <?php echo "<a href='?act=phpinfo' target='_blank' class='static'>PHPINFO</a>";?>
+       <?php echo (false!==preg_match("phpinfo",$disFuns))? '<font color="red"><i class="fa fa-times"></i></font>' :"<a href='$phpSelf?act=phpinfo' target='_blank'>PHPINFO <i class=\"fa fa-external-link\"></i></a>";?>
     </td>
     <td width="30%">PHP 版本(php_version)</td>
     <td width="20%"><?php echo PHP_VERSION;?></td>
@@ -1048,7 +1061,7 @@ foreach ($able as $key=>$value) {
 
   <tr>
     <td>Cookie 支持</td>
-    <td><?php echo isset($_COOKIE)?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+    <td><?php echo isset($_COOKIE)?'<font color="green"><i class="fa fa-check"></i></font>' : '<font color="red"><i class="fa fa-times"></i></font>';?></td>
     <td>拼写检查(PSpell Check)</td>
     <td><?php echo isfun("pspell_check");?></td>
   </tr>
@@ -1076,14 +1089,14 @@ foreach ($able as $key=>$value) {
 
   <tr>
     <td>SMTP 支持</td>
-    <td><?php echo get_cfg_var("SMTP")?'<font color="green">√</font>' : '<font color="red">×</font>';?></td>
+    <td><?php echo get_cfg_var("SMTP")?'<font color="green"><i class="fa fa-check"></i></font>' : '<font color="red"><i class="fa fa-times"></i></font>';?></td>
     <td>SMTP 地址</td>
-    <td><?php echo get_cfg_var("SMTP")?get_cfg_var("SMTP"):'<font color="red">×</font>';?></td>
+    <td><?php echo get_cfg_var("SMTP")?get_cfg_var("SMTP"):'<font color="red"><i class="fa fa-times"></i></font>';?></td>
   </tr> 
 
   <tr>
     <td>默认支持函数(enable_functions)</td>
-    <td colspan="3"><a href='<?php echo $phpSelf;?>?act=Function' target='_blank' class='static'>请点这里查看详细</a></td>        
+    <td colspan="3"><a href='<?php echo $phpSelf;?>?act=Function' target='_blank' class='static'>查看详细 <i class="fa fa-external-link"></i></a></td>        
   </tr>
 
   <tr>
@@ -1093,7 +1106,7 @@ foreach ($able as $key=>$value) {
 $disFuns=get_cfg_var("disable_functions");
 if(empty($disFuns))
 {
-    echo '<font color=red>×</font>';
+    echo '<font color=red><i class="fa fa-times"></i></font>';
 }
 else
 { 
@@ -1112,10 +1125,10 @@ else
   </tr>
 </table>
 
-<a name="w_module"></a>
+<a name="w_module" id="w_module" style="position:relative;top:-60px;"></a>
 <!--组件信息-->
 <table>
-  <tr><th colspan="4" >组件支持</th></tr>
+  <tr><th colspan="4" ><i class="fa fa-cogs"></i> 组件支持</th></tr>
 
   <tr>
     <td width="30%">FTP 支持</td>
@@ -1145,7 +1158,7 @@ else
         if(function_exists(gd_info)) {
             $gd_info = @gd_info();
             echo $gd_info["GD Version"];
-        }else{echo '<font color="red">×</font>';}
+        }else{echo '<font color="red"><i class="fa fa-times"></i></font>';}
     ?></td>
     <td>压缩文件支持(Zlib)</td>
     <td><?php echo isfun("gzclose");?></td>
@@ -1187,13 +1200,13 @@ else
   </tr>
 </table>
 
-<a name="w_module_other"></a>
+<a name="w_module_other" id="w_module_other" style="position:relative;top:-60px;"></a>
 <!--第三方组件信息-->
 <table>
-  <tr><th colspan="4" >第三方组件</th></tr>
+  <tr><th colspan="4" ><i class="fa fa-cubes"></i> 第三方组件</th></tr>
   <tr>
     <td width="30%">Zend 版本</td>
-    <td width="20%"><?php $zend_version = zend_version();if(empty($zend_version)){echo '<font color=red>×</font>';}else{echo '<font color=green>√</font>　Ver ';echo $zend_version;}?></td>
+    <td width="20%"><?php $zend_version = zend_version();if(empty($zend_version)){echo "<font color=red><i class=\"fa fa-times\"></i></font>";}else{echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";echo $zend_version;}?></td>
     <td width="30%">
 <?php
 $PHP_VERSION = PHP_VERSION;
@@ -1208,28 +1221,28 @@ else
 }
 ?>
     </td>
-    <td width="20%"><?php if($PHP_VERSION > 2){if(function_exists("zend_loader_version")){ echo '<font color=green>√</font>　Ver ';echo zend_loader_version();} else { echo '<font color=red>×</font>';}} else{if(function_exists('zend_optimizer_version')){ echo '<font color=green>√</font>　Ver ';echo zend_optimizer_version();}else{    echo (get_cfg_var("zend_optimizer.optimization_level")||get_cfg_var("zend_extension_manager.optimizer_ts")||get_cfg_var("zend.ze1_compatibility_mode")||get_cfg_var("zend_extension_ts"))?'<font color=green>√</font>':'<font color=red>×</font>';}}?></td>
+    <td width="20%"><?php if($PHP_VERSION > 2){if(function_exists("zend_loader_version")){ echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";echo zend_loader_version();} else { echo "<font color=red><i class=\"fa fa-times\"></i></font>";}} else{if(function_exists('zend_optimizer_version')){ echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";echo zend_optimizer_version();}else{echo (get_cfg_var("zend_optimizer.optimization_level")||get_cfg_var("zend_extension_manager.optimizer_ts")||get_cfg_var("zend.ze1_compatibility_mode")||get_cfg_var("zend_extension_ts"))?'<font color=green><i class="fa fa-check"></i></font>':'<font color=red><i class="fa fa-times"></i></font>';}}?></td>
   </tr>
 
   <tr>
     <td>eAccelerator</td>
-    <td><?php if((phpversion('eAccelerator'))!=''){echo '<font color=green>√</font>　Ver ';echo phpversion('eAccelerator');}else{ echo "<font color=red>×</font>";} ?></td>
+    <td><?php if((phpversion('eAccelerator'))!=''){echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";echo phpversion('eAccelerator');}else{ echo "<font color=red><i class=\"fa fa-times\"></i></font>";} ?></td>
     <td>ionCube Loader</td>
-    <td><?php if(extension_loaded('ionCube Loader')){   $ys = ioncube_loader_iversion();   $gm = ".".(int)substr($ys,3,2);   echo '<font color=green>√</font>　Ver ';echo ionCube_Loader_version().$gm;}else{echo "<font color=red>×</font>";}?></td>
+    <td><?php if(extension_loaded('ionCube Loader')){$ys = ioncube_loader_iversion();$gm = ".".(int)substr($ys,3,2);echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";echo ionCube_Loader_version().$gm;}else{echo "<font color=red><i class=\"fa fa-times\"></i></font>";}?></td>
   </tr>
 
   <tr>
     <td>XCache</td>
-    <td><?php if((phpversion('XCache'))!=''){echo '<font color=green>√</font>　Ver ';echo phpversion('XCache');}else{ echo "<font color=red>×</font>";} ?></td>
+    <td><?php if((phpversion('XCache'))!=''){echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";echo phpversion('XCache');}else{ echo "<font color=red><i class=\"fa fa-times\"></i></font>";} ?></td>
     <td>Zend OPcache</td>
-    <td><?php if(function_exists('opcache_get_configuration')){echo '<font color=green>√</font>　Ver ';$configuration=call_user_func('opcache_get_configuration'); echo $configuration['version']['version'];}else{ echo "<font color=red>×</font>";} ?></td>
+    <td><?php if(function_exists('opcache_get_configuration')){echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";$configuration=call_user_func('opcache_get_configuration'); echo $configuration['version']['version'];}else{ echo "<font color=red><i class=\"fa fa-times\"></i></font>";} ?></td>
   </tr>
 </table>
 
-<a name="w_db"></a>
+<a name="w_db" id="w_db" style="position:relative;top:-60px;"></a>
 <!--数据库支持-->
 <table>
-  <tr><th colspan="4">数据库支持</th></tr>
+  <tr><th colspan="4"><i class="fa fa-database"></i> 数据库支持</th></tr>
 
   <tr>
     <td width="30%">MySQL</td>
@@ -1256,7 +1269,7 @@ else
 
   <tr>
     <td>SQLite</td>
-    <td><?php if(extension_loaded('sqlite3')) {$sqliteVer = SQLite3::version();echo '<font color=green>√</font>　Ver ';echo $sqliteVer[versionString];}else {echo isfun("sqlite_close");if(isfun("sqlite_close") == '<font color="green">√</font>　') {echo "Ver ".@sqlite_libversion();}}?></td>
+    <td><?php if(extension_loaded('sqlite3')) {$sqliteVer = SQLite3::version();echo '<font color=green><i class="fa fa-check"></i></font>　Ver ';echo $sqliteVer[versionString];}else {echo isfun("sqlite_close");if(isfun("sqlite_close") == '<font color="green">√</font>　') {echo "Ver ".@sqlite_libversion();}}?></td>
     <td>Hyperwave</td>
     <td><?php echo isfun("hw_close");?></td>
   </tr>
@@ -1283,11 +1296,11 @@ else
   </tr> 
 </table>
 
-<a name="w_performance"></a><a name="bottom"></a>
-<form action="<?php echo $_SERVER[PHP_SELF]."#bottom";?>" method="post">
+<a name="w_performance" id="w_performance" style="position:relative;top:-60px;"></a>
+<form action="<?php echo $_SERVER[PHP_SELF]."#w_performance";?>" method="post">
 <!--服务器性能检测-->
 <table>
-  <tr><th colspan="5">服务器性能检测</th></tr>
+  <tr><th colspan="5"><i class="fa fa-tachometer"></i> 服务器性能检测</th></tr>
 
   <tr align="center">
     <td width="19%">参照对象</td>
@@ -1358,14 +1371,14 @@ else
 <input type="hidden" name="pFloat" value="<?php echo $valFloat;?>" />
 <input type="hidden" name="pIo" value="<?php echo $valIo;?>" />
 
-<a name="w_networkspeed"></a>
+<a name="w_networkspeed" style="position:relative;top:-60px;"></a>
 <!--网络速度测试-->
 <table>
-    <tr><th colspan="3">网络速度测试</th></tr>
+	<tr><th colspan="3"><i class="fa fa-cloud-upload"></i> 网络速度测试</th></tr>
   <tr>
     <td width="19%" align="center"><input name="act" type="submit" class="btn" value="开始测试" />
     <br />
-    向客户端传送1000k字节数据<br />
+    向客户端传送2048KB数据<br />
     带宽比例按理想值计算
     </td>
     <td width="81%" align="center" >
@@ -1385,40 +1398,43 @@ else
     <td height="15" width="50">10M</td>
     </tr>
    <tr>
-    <td colspan="11" class="suduk" ><table align="center" width="550" border="0" cellspacing="0" cellpadding="0" height="8" class="suduk">
+    <td colspan="11" class="suduk" ><table align="center" width="550" border="0" cellspacing="0" cellpadding="0" height="8" class="suduk" style="box-shadow:0 0 0;">
     <tr>
-      <td class="sudu"  width="<?php 
-    if(preg_match("/[^\d-., ]/",$speed))
-        {
-            echo "0";
-        }
-    else{
-            echo 550*($speed/11000);
-        } 
-        ?>"></td>
-      <td class="suduk" width="<?php 
-    if(preg_match("/[^\d-., ]/",$speed))
-        {
-            echo "550";
-        }
-    else{
-            echo 550-550*($speed/11000);
-        } 
-        ?>"></td>
+      <td class="sudu" style="border: 0px none; height: 6px;" width="<?php 
+	if(preg_match("/[^\d-., ]/",$speed))
+		{
+			echo "0";
+		}
+	else{
+			echo 550*($speed/11000);
+		} 
+		?>"></td>
+      <td class="suduk" style="border: 0px none; height: 6px;" width="<?php 
+	if(preg_match("/[^\d-., ]/",$speed))
+		{
+			echo "550";
+		}
+	else{
+			echo 550-550*($speed/11000);
+		} 
+		?>"></td>
     </tr>
     </table>
    </td>
   </tr>
   </table>
-  <?php echo (isset($_GET['speed']))?"下载1000KB数据用时 <font color='#cc0000'>".$_GET['speed']."</font> 毫秒，下载速度："."<font color='#cc0000'>".$speed."</font>"." kb/s，需测试多次取平均值，超过10M直接看下载速度":"<font color='#cc0000'>&nbsp;未探测&nbsp;</font>" ?>
+  <?php echo (isset($_GET['speed']))?"下载2048KB数据用时 <font color='#177BBE'>".$_GET['speed']."</font> 毫秒，下载速度："."<font color='#177BBE'>".$speed."</font>"." kb/s，需测试多次取平均值，超过10M直接看下载速度":"<font color='#177BBE'>&nbsp;未探测&nbsp;</font>" ?>
+
     </td>
   </tr>
 </table>
 
-<a name="w_MySQL"></a>
+<a name="w_MySQL" style="position:relative;top:-60px;"></a>
+
 <!--MySQL数据库连接检测-->
 <table>
-  <tr><th colspan="3">MySQL 数据库连接检测</th></tr>
+
+	<tr><th colspan="3"><i class="fa fa-link"></i> MySQL数据库连接检测</th></tr>
 
   <tr>
     <td width="15%"></td>
@@ -1449,11 +1465,11 @@ else
   }
 ?>
     
-<a name="w_function"></a>
+<a name="w_function" style="position:relative;top:-60px;"></a>
 <!--函数检测-->
 <table>
 
-  <tr><th colspan="3">函数检测</th></tr>
+  <tr><th colspan="3"><i class="fa fa-code"></i> 函数检测</th></tr>
 
   <tr>
     <td width="15%"></td>
@@ -1473,10 +1489,10 @@ else
 ?>
 </table>
 
-<a name="w_mail"></a>
+<a name="w_mail" style="position:relative;top:-60px;"></a>
 <!--邮件发送检测-->
 <table>
-  <tr><th colspan="3">邮件发送检测</th></tr>
+  <tr><th colspan="3"><i class="fa fa-envelope-o "></i> 邮件发送检测</th></tr>
   <tr>
     <td width="15%"></td>
     <td width="60%">
