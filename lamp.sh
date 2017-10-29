@@ -9,7 +9,7 @@
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
-# System Required:  CentOS 5+ / Debian 7+ / Ubuntu 12+
+# System Required:  CentOS 6+ / Debian 7+ / Ubuntu 12+
 # Description:  Install LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
