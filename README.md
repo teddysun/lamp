@@ -40,7 +40,7 @@ Supported Software
 
 Installation
 ============
-If your server system: CentOS
+- If your server system: CentOS
 ```bash
 yum -y install wget screen git
 git clone https://github.com/teddysun/lamp.git
@@ -49,7 +49,7 @@ chmod +x *.sh
 screen -S lamp
 ./lamp.sh
 ```
-If your server system: Debian/Ubuntu
+- If your server system: Debian/Ubuntu
 ```bash
 apt-get -y install wget screen git
 git clone https://github.com/teddysun/lamp.git
@@ -109,19 +109,19 @@ Default Location
 | MySQL Location             | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/mysql                               |
-| Data Location              | /usr/local/mysql/data(default)                 |
+| Data Location              | /usr/local/mysql/data                          |
 | my.cnf Configuration File  | /etc/my.cnf                                    |
 
 | MariaDB Location           | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/mariadb                             |
-| Data Location              | /usr/local/mariadb/data(default)               |
+| Data Location              | /usr/local/mariadb/data                        |
 | my.cnf Configuration File  | /etc/my.cnf                                    |
 
 | Percona Location           | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/percona                             |
-| Data Location              | /usr/local/percona/data(default)               |
+| Data Location              | /usr/local/percona/data                        |
 | my.cnf Configuration File  | /etc/my.cnf                                    |
 
 Process Management
