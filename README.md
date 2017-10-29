@@ -62,6 +62,8 @@ screen -S lamp
 Upgrade
 =======
 ```bash
+git pull                 // Get latest version
+
 ./upgrade.sh             // Select one to upgrade
 ./upgrade.sh apache      // Upgrade Apache
 ./upgrade.sh db          // Upgrade MySQL/MariaDB/Percona
@@ -107,19 +109,19 @@ Default Location
 | MySQL Location             | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/mysql                               |
-| Data Location              | /usr/local/mysql/data                          |
+| Data Location              | /usr/local/mysql/data(default)                 |
 | my.cnf Configuration File  | /etc/my.cnf                                    |
 
 | MariaDB Location           | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/mariadb                             |
-| Data Location              | /usr/local/mariadb/data                        |
+| Data Location              | /usr/local/mariadb/data(default)               |
 | my.cnf Configuration File  | /etc/my.cnf                                    |
 
 | Percona Location           | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/percona                             |
-| Data Location              | /usr/local/percona/data                        |
+| Data Location              | /usr/local/percona/data(default)               |
 | my.cnf Configuration File  | /etc/my.cnf                                    |
 
 Process Management
