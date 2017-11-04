@@ -338,8 +338,10 @@ check_lets_cron(){
 }
 
 vhost_list(){
-    echo "Server Name"
-    echo "------------"
+    if [ `ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | wc -l` -gt 0 ]; then
+        echo "Server Name"
+        echo "------------"
+    fi
     ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | sed 's/.conf//g'
 }
 
