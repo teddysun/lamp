@@ -151,12 +151,13 @@ EOF
 ServerName localhost
 ServerAlias localhost
 DocumentRoot ${web_root_dir}
-DirectoryIndex index.php index.html index.htm
 <Directory ${web_root_dir}>
-Options +Includes -Indexes
-AllowOverride All
-Order Deny,Allow
-Allow from All
+    SetOutputFilter DEFLATE
+    Options FollowSymLinks
+    AllowOverride All
+    Order Deny,Allow
+    Allow from All
+    DirectoryIndex index.php index.html index.htm
 </Directory>
 </VirtualHost>
 Include ${apache_location}/conf/vhost/*.conf
@@ -195,9 +196,11 @@ EOF
 
         sed -i 's/Allow from All/Require all granted/' ${apache_location}/conf/extra/httpd-vhosts.conf
         sed -i 's/Require host .example.com/Require host localhost/g' ${apache_location}/conf/extra/httpd-info.conf
+        cp -f ${cur_dir}/conf/httpd24-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
     elif [ ${version} == "2.2" ]; then
         sed -i -r 's/^(.*mod_unique_id.so)/\#&/' ${apache_location}/conf/httpd.conf
         sed -i 's/Allow from .example.com/Allow from localhost/g' ${apache_location}/conf/extra/httpd-info.conf
+        cp -f ${cur_dir}/conf/httpd22-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
     fi
 
     rm -f /etc/init.d/httpd
