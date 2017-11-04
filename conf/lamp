@@ -9,7 +9,7 @@
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
-# System Required:  CentOS 5+ / Debian 7+ / Ubuntu 12+
+# System Required:  CentOS 6+ / Debian 7+ / Ubuntu 12+
 # Description:  Create, Delete, List Apache Virtual Host
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
@@ -67,15 +67,25 @@ set_apache_allow_syntax(){
     fi
 }
 
+check_email () {
+    local email=$1
+    regex="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?\$"
+    if [[ $email =~ $regex ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 vhost_add(){
     set_apache_allow_syntax
 
     while :
     do
-        read -p "Please enter server names(like this:www.lamp.sh lamp.sh): " server_names
+        read -p "Please enter server names(example: www.lamp.sh lamp.sh): " server_names
         for i in ${server_names};do
             if apache_vhost_is_exist $i;then
-                echo "Error: vhost [$i] is exist, please check it and try again."
+                echo "Error: virtual host [$i] is exist, please check it and try again"
                 break
             fi
             break 2
@@ -87,17 +97,39 @@ vhost_add(){
     website_root=${website_root:=$default_root}
     php_admin_value=""
     if [ -s /usr/bin/php ];then
-        php_admin_value="php_admin_value open_basedir ${website_root}:/tmp:/proc"
+        php_admin_value="php_admin_value open_basedir ${website_root}:/tmp:/var/tmp:/proc"
     fi
 
     while :
     do
-        read -p "Do you want to create database?[y/n]:" create
+        read -p "Please enter Administrator Email address: " email
+        if [ -z ${email} ]; then
+            echo "Error: Administrator Email address can not be empty"
+        elif check_email ${email}; then
+            echo "Administrator Email address:${email}"
+            break
+        else
+            echo "Error: Please enter a correct email address"
+        fi
+    done
+
+    while :
+    do
+        read -p "Do you want to create a database and mysql user with same name? [y/n]:" create
         case ${create} in
         y|Y)
             if [ ! "$(command -v "mysql")" ]; then
-                echo "Error: $(db_name) is not installed, please check it and try again."
+                echo "Error: $(db_name) is not installed, please check it and try again"
                 exit 1
+            fi
+            mysql_count=$(ps -ef | grep -v grep | grep -c "mysqld")
+            if [ ${mysql_count} -eq 0 ]; then
+                echo "Info: $(db_name) looks like not running, Try to starting $(db_name)..."
+                /etc/init.d/mysqld start > /dev/null 2>&1
+                if [ $? -ne 0 ]; then
+                    echo "Error: $(db_name) starting failed!"
+                    exit 1
+                fi
             fi
             read -p "Please enter your $(db_name) root password:" mysqlroot_passwd
             mysql -uroot -p${mysqlroot_passwd} <<EOF
@@ -108,20 +140,45 @@ EOF
                 exit 1
             fi
             read -p "Please enter the database name:" dbname
-            [ -z ${dbname} ] && echo "Error: database name can not be empty." && exit 1
+            [ -z ${dbname} ] && echo "Error: database name can not be empty" && exit 1
             read -p "Please set the password for user ${dbname}:" mysqlpwd
-            [ -z ${mysqlpwd} ] && echo "Error: user password can not be empty." && exit 1
+            [ -z ${mysqlpwd} ] && echo "Error: user password can not be empty" && exit 1
             create="y"
             break
             ;;
         n|N)
-            echo "Don't create database."
+            echo "Do not create a database"
             create="n"
             break
             ;;
         *) echo "Please enter only y or n"
         esac
     done
+
+    mkdir -p /data/wwwlog/${server_names%% *} ${website_root}
+
+    cat > ${apache_location}/conf/vhost/${server_names%% *}.conf << EOF
+<VirtualHost *:80>
+    ServerAdmin ${email}
+    ${php_admin_value}
+    ServerName ${server_names%% *}
+    ServerAlias ${server_names}
+    DocumentRoot ${website_root}
+    <Directory ${website_root}>
+        SetOutputFilter DEFLATE
+        Options FollowSymLinks
+        AllowOverride All
+        Order Deny,Allow
+        ${allow_from_all}
+        DirectoryIndex index.php index.html index.htm
+    </Directory>
+    ErrorLog /data/wwwlog/${server_names%% *}/error.log
+    CustomLog /data/wwwlog/${server_names%% *}/access.log combined
+</VirtualHost>
+EOF
+
+    echo "Virtual host [${server_names%% *}] has been created"
+    echo "Website root directory is: ${website_root}"
 
     if [ "$create" == "y" ]; then
         mysql -uroot -p${mysqlroot_passwd} <<EOF
@@ -130,60 +187,179 @@ GRANT ALL PRIVILEGES ON \`${dbname}\` . * TO '${dbname}'@'localhost' IDENTIFIED 
 GRANT ALL PRIVILEGES ON \`${dbname}\` . * TO '${dbname}'@'127.0.0.1' IDENTIFIED BY '${mysqlpwd}';
 FLUSH PRIVILEGES;
 EOF
+        echo "Database [${dbname}] and mysql user [${dbname}] has been created"
     fi
 
-    cat > ${apache_location}/conf/vhost/${server_names%% *}.conf << EOF
-    <VirtualHost *:80>
+    echo "Reloading the apache config file..."
+    if ${apache_location}/bin/apachectl -t; then
+        /etc/init.d/httpd restart
+        echo "Reload success"
+    else
+        echo "Error: Reload failed! config file had an error, please fix it and try again"
+        exit 1
+    fi
+
+    read -p "Do you want to add a SSL certificate? [y/n]:" create_ssl
+    if [ "${create_ssl}" == "y" ] || [ "${create_ssl}" == "Y" ]; then
+        add_ssl_memu
+        add_ssl
+        echo "Reloading the apache config file..."
+        if ${apache_location}/bin/apachectl -t; then
+            /etc/init.d/httpd restart
+            echo "Reload success"
+        else
+            echo "Error: Reload failed! config file had an error, please fix it and try again"
+        fi
+    else
+        echo "Do not add a SSL certificate"
+    fi
+
+    chown -R apache:apache /data/wwwlog/${server_names%% *} ${website_root}
+    echo "All done"
+}
+
+add_ssl_memu(){
+    echo "1: Use your own SSL Certificate and Key"
+    echo "2: Use Let's Encrypt to create SSL Certificate and Key"
+    while :
+    do
+        read -p "Please enter 1 or 2: " ssl_pick
+        if [ "${ssl_pick}" == "1" ]; then
+            while :
+            do
+            read -p "Please enter full path to SSL Certificate file: " ssl_certificate
+            if [ -z ${ssl_certificate} ]; then
+                echo "Error: SSL Certificate file can not be empty"
+            elif [ -f ${ssl_certificate} ]; then
+                break
+            else
+                echo "${ssl_certificate} does not exist or is not a file!"
+            fi
+            done
+
+            while :
+            do
+            read -p "Please enter full path to SSL Certificate Key file: " ssl_certificate_key
+            if [ -z ${ssl_certificate_key} ]; then
+                echo "Error: SSL Certificate Key file can not be empty"
+            elif [ -f ${ssl_certificate_key} ]; then
+                break
+            else
+                echo "${ssl_certificate_key} does not exist or is not a file!"
+            fi
+            done
+            break
+        elif [ "${ssl_pick}" == "2" ]; then
+            echo "You have already chosen Let's Encrypt"
+            echo "It will be processed automatically"
+            break
+        else
+            echo "Error: Please only enter 1 or 2"
+        fi
+    done
+}
+
+create_ssl_config(){
+    sed -i 's@#Include conf/extra/httpd-ssl.conf@Include conf/extra/httpd-ssl.conf@g' ${apache_location}/conf/httpd.conf
+    cat >> ${apache_location}/conf/vhost/${server_names%% *}.conf << EOF
+<VirtualHost *:443>
+    ServerAdmin ${email}
+    ${php_admin_value}
+    DocumentRoot ${website_root}
     ServerName ${server_names%% *}
     ServerAlias ${server_names}
-    DocumentRoot ${website_root}
-    DirectoryIndex index.php index.html index.htm
+    SSLEngine on
+    SSLCertificateFile ${ssl_certificate}
+    SSLCertificateKeyFile ${ssl_certificate_key}
     <Directory ${website_root}>
-    Options +Includes -Indexes
-    AllowOverride All
-    Order Deny,Allow
-    ${allow_from_all}
-    ${php_admin_value}
+        SetOutputFilter DEFLATE
+        Options FollowSymLinks
+        AllowOverride All
+        Order Deny,Allow
+        ${allow_from_all}
+        DirectoryIndex index.php index.html index.htm
     </Directory>
-    ErrorLog  /data/wwwlog/${server_names%% *}/error.log
-    TransferLog  /data/wwwlog/${server_names%% *}/access.log
-    </VirtualHost>
+    ErrorLog  /data/wwwlog/${server_names%% *}/ssl_error.log
+    CustomLog  /data/wwwlog/${server_names%% *}/ssl_access.log combined
+</VirtualHost>
 EOF
-    echo "Congratulations. vhost [${server_names%% *}] had created."
-    echo "Website root directory is: ${website_root}/"
+}
 
-    mkdir -p /data/wwwlog/${server_names%% *} ${website_root}
-    chown -R apache:apache /data/wwwlog/${server_names%% *} ${website_root}
+add_ssl(){
+    if [ "${ssl_pick}" == "1" ]; then
+        create_ssl_config
+    elif [ "${ssl_pick}" == "2" ]; then
+        letsdomain=""
+        if [ ! -z "${server_names}" ]; then
+            for i in ${server_names}
+            do
+                letsdomain=${letsdomain}" -d ${i}"
+            done
+        fi
+        add_letsencrypt
+    fi
+}
 
-    echo "Reloading the apache config file..."
-    if ${apache_location}/bin/apachectl -t;then
-        /etc/init.d/httpd restart
-        echo "Reload success."
-    else
-        echo "Error: Reload failed! config file had an error, please fix it and try again."
+add_letsencrypt(){
+    if [[ "${email}" == "" || "${website_root}" == "" || "${letsdomain}" == "" ]]; then
+        echo "Error: [email, website_root, letsdomain] parameter are needed!"
         exit 1
+    fi
+    if [ ! -d "${website_root}" ]; then
+        echo "Error: ${website_root} does not exist or is not a directory!"
+        exit 1
+    fi
+    if [ ! -s /bin/certbot ]; then
+        echo "Installing certbot command..."
+        wget --no-check-certificate -O /bin/certbot https://dl.eff.org/certbot-auto
+        chmod +x /bin/certbot
+    fi
+
+    echo "Starting create Let's Encrypt SSL Certificate..."
+    /bin/certbot certonly --email ${email} --agree-tos -n --webroot -w ${website_root} ${letsdomain}
+    if [ $? -eq 0 ]; then
+        ssl_certificate="/etc/letsencrypt/live/${server_names%% *}/fullchain.pem"
+        ssl_certificate_key="/etc/letsencrypt/live/${server_names%% *}/privkey.pem"
+        create_ssl_config
+        check_lets_cron
+        echo "Create Let's Encrypt SSL Certificate successfully"
+    else
+        echo "Error: Create Let's Encrypt SSL Certificate failed!"
+    fi
+}
+
+check_lets_cron(){
+    if crontab -l | grep -q "/bin/certbot renew --disable-hook-validation"; then
+        echo "Let's encrypt crontab renew rule is exist."
+    else
+        echo "Let's encrypt crontab renew rule is not exist, create it!"
+        (crontab -l ; echo '0 3 */7 * * /bin/certbot renew --disable-hook-validation --renew-hook "/etc/init.d/httpd restart"') | crontab -
     fi
 }
 
 vhost_list(){
-    sed -n -r -e 's/ServerAlias\s+(.*)/\1/p' -e 's/DocumentRoot\s+(.*)/\1/p'  ${apache_location}/conf/vhost/*.conf | awk 'BEGIN{printf ("%-50s %-50s\n%-50s %-50s\n","server name","website root","-----------","------------")}{printf("%-50s",$0);getline;printf $0"\n" }'
+    echo "Server Name"
+    echo "------------"
+    ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | sed 's/.conf//g'
 }
 
 vhost_del(){
-    read -p "Please enter server name of vhost you want to delete it(like this:www.lamp.sh): " domain
+    read -p "Please enter domain you want to delete it(example: www.lamp.sh): " domain
     if ! apache_vhost_is_exist "$domain";then
-        echo "Error: vhost [$domain] not found!"
+        echo "Error: Virtual host [$domain] not found!"
         exit 1
     else
         rm -f ${apache_location}/conf/vhost/${domain}.conf
-        echo "Delete the server name [${domain}] of vhost completed."
+        echo "Delete virtual host [${domain}] completed"
+        echo "Website files will not be deleted for security reasons"
+        echo "You need to manually delete the website files"
 
         echo "Reloading the apache config file..."
         if ${apache_location}/bin/apachectl -t;then
             /etc/init.d/httpd restart
-            echo "Reload success."
+            echo "Reload success"
         else
-            echo "Error: Reload failed! config file had an error, please fix it and try again."
+            echo "Error: Reload failed! config file had an error, please fix it and try again"
             exit 1
         fi
     fi
