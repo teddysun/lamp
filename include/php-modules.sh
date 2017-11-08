@@ -90,7 +90,7 @@ install_php_depends(){
     if check_sys packageManager apt; then
         apt_depends=(
             autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev
-            libldap-2.4-2 libldap2-dev libsasl2-dev libsasl2-modules-ldap
+            libldap-2.4-2 libldap2-dev libsasl2-dev libsasl2-modules-ldap libc-client2007e-dev libkrb5-dev
             autoconf2.13 pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool unixodbc-dev libtidy-dev
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev
@@ -103,7 +103,9 @@ install_php_depends(){
         log "Info" "Install dependencies packages for PHP completed..."
 
         if is_64bit; then
-            [ ! -d /usr/lib64 ] && mkdir /usr/lib64
+            if [ ! -d /usr/lib64 ] && [ -d /usr/lib ]; then
+                ln -sf /usr/lib /usr/lib64
+            fi
 
             if [ -f /usr/include/gmp-x86_64.h ]; then
                 ln -sf /usr/include/gmp-x86_64.h /usr/include/
@@ -149,9 +151,9 @@ install_php_depends(){
         install_mhash
         install_libmcrypt
         install_mcrypt
+        check_installed "install_imap" "${depends_prefix}/imap"
     fi
 
-    check_installed "install_imap" "${depends_prefix}/imap"
     install_libiconv
     install_re2c
 

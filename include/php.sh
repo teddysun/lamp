@@ -40,6 +40,7 @@ php_preinstall_settings(){
             with_gd="--with-gd --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
 
+        [ -d ${depends_prefix}/imap ] && with_imap="--with-imap=${depends_prefix}/imap" || with_imap="--with-imap --with-kerberos"
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
 
         php_configure_args="--prefix=${php_location} \
@@ -47,7 +48,7 @@ php_preinstall_settings(){
         --with-config-file-path=${php_location}/etc \
         --with-config-file-scan-dir=${php_location}/php.d \
         --with-pcre-dir=${depends_prefix}/pcre \
-        --with-imap=${depends_prefix}/imap \
+        ${with_imap} \
         --with-imap-ssl \
         --with-libxml-dir \
         --with-openssl \
