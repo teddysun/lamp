@@ -105,11 +105,12 @@ upgrade_php(){
             with_gd="--with-gd --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
 
-        if [ -d ${depends_prefix}/imap ]; then
+        if check_sys packageManager yum; then
             with_imap="--with-imap=${depends_prefix}/imap"
-        else
+        elif check_sys packageManager apt; then
             with_imap="--with-imap --with-kerberos"
         fi
+
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
 
         php_configure_args="--prefix=${php_location} \
