@@ -1004,6 +1004,8 @@ finally(){
     sed -i "s@^mariadb_location=.*@mariadb_location=${mariadb_location}@" /usr/bin/lamp
     sed -i "s@^percona_location=.*@percona_location=${percona_location}@" /usr/bin/lamp
 
+    ldconfig
+
     if [ "${apache}" != "do_not_install" ]; then
         echo "Starting Apache..."
         /etc/init.d/httpd start > /dev/null 2>&1
