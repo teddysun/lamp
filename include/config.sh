@@ -71,9 +71,9 @@ php5_5_filename="php-5.5.38"
 #php5.6
 php5_6_filename="php-5.6.32"
 #php7.0
-php7_0_filename="php-7.0.25"
+php7_0_filename="php-7.0.26"
 #php7.1
-php7_1_filename="php-7.1.11"
+php7_1_filename="php-7.1.12"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.4.15.10-all-languages"
 phpmyadmin_filename2="phpMyAdmin-4.7.5-all-languages"
