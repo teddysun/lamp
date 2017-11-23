@@ -37,7 +37,7 @@ parallel_compile=1
 #nghttp2
 nghttp2_filename="nghttp2-1.27.0"
 #openssl
-openssl_filename="openssl-1.0.2l"
+openssl_filename="openssl-1.0.2m"
 #apache2.2
 apache2_2_filename="httpd-2.2.34"
 #apache2.4
