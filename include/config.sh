@@ -35,7 +35,7 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.27.0"
+nghttp2_filename="nghttp2-1.28.0"
 #openssl
 openssl_filename="openssl-1.0.2m"
 #apache2.2
@@ -76,7 +76,7 @@ php7_0_filename="php-7.0.26"
 php7_1_filename="php-7.1.12"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.4.15.10-all-languages"
-phpmyadmin_filename2="phpMyAdmin-4.7.5-all-languages"
+phpmyadmin_filename2="phpMyAdmin-4.7.6-all-languages"
 #opcache
 opcache_filename="zendopcache-7.0.5"
 
