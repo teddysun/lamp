@@ -23,7 +23,7 @@ php_preinstall_settings(){
     if [ "${php}" != "do_not_install" ]; then
 
         if [ "${mysql}" != "do_not_install" ]; then
-            if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" ]]; then
+            if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" || "${php}" == "${php7_2_filename}" ]]; then
                 with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             else
                 with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
@@ -32,12 +32,18 @@ php_preinstall_settings(){
             with_mysql=""
         fi
 
-        if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" ]]; then
+        if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" || "${php}" == "${php7_2_filename}" ]]; then
             with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         elif [[ "${php}" == "${php5_4_filename}" || "${php}" == "${php5_5_filename}" || "${php}" == "${php5_6_filename}" ]]; then
             with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         else
             with_gd="--with-gd --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
+        fi
+
+        if [[ "${php}" == "${php7_2_filename}" ]]; then
+            other_options="--enable-zend-test"
+        else
+            other_options="--with-mcrypt --enable-gd-native-ttf"
         fi
 
         if check_sys packageManager yum; then
@@ -72,7 +78,6 @@ php_preinstall_settings(){
         --with-ldap-sasl \
         --with-libmbfl \
         --with-onig \
-        --with-mcrypt \
         --with-unixODBC \
         --with-pspell=/usr \
         --with-enchant=/usr \
@@ -81,12 +86,12 @@ php_preinstall_settings(){
         --with-xmlrpc \
         --with-xsl \
         --without-pear \
+        ${other_options} \
         --enable-bcmath \
         --enable-calendar \
         --enable-dba \
         --enable-exif \
         --enable-ftp \
-        --enable-gd-native-ttf \
         --enable-gd-jis-conv \
         --enable-intl \
         --enable-mbstring \
@@ -138,6 +143,11 @@ install_php(){
         download_file  "${php7_1_filename}.tar.gz"
         tar zxf ${php7_1_filename}.tar.gz
         cd ${php7_1_filename}
+
+    elif [ "${php}" == "${php7_2_filename}" ]; then
+        download_file  "${php7_2_filename}.tar.gz"
+        tar zxf ${php7_2_filename}.tar.gz
+        cd ${php7_2_filename}
 
     fi
 

@@ -74,6 +74,8 @@ php5_6_filename="php-5.6.32"
 php7_0_filename="php-7.0.26"
 #php7.1
 php7_1_filename="php-7.1.12"
+#php7.2
+php7_2_filename="php-7.2.0"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.4.15.10-all-languages"
 phpmyadmin_filename2="phpMyAdmin-4.7.6-all-languages"
@@ -99,8 +101,8 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-1.9.21"
-set_hint ${swoole_filename} "php-swoole-1.9.21"
+swoole_filename="swoole-src-1.9.23"
+set_hint ${swoole_filename} "php-swoole-1.9.23"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
@@ -180,6 +182,7 @@ ${php5_5_filename}
 ${php5_6_filename}
 ${php7_0_filename}
 ${php7_1_filename}
+${php7_2_filename}
 do_not_install
 )
 
