@@ -93,7 +93,7 @@ libmcrypt_filename="libmcrypt-2.5.8"
 #mcrypt
 mcrypt_filename="mcrypt-2.6.8"
 #pcre
-pcre_filename="pcre-8.40"
+pcre_filename="pcre-8.41"
 #re2c
 re2c_filename='re2c-1.0.2'
 #imap
