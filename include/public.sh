@@ -891,6 +891,14 @@ last_confirm(){
     echo "Apache: ${apache}"
     [ "${apache}" != "do_not_install" ] && echo "Apache Location: ${apache_location}"
     echo
+    if [ "${apache_modules_install}" != "do_not_install" ]; then
+        echo "Apache Additional Modules:"
+        for a in ${apache_modules_install[@]}
+        do
+            echo "${a}"
+        done
+    fi
+    echo
     if echo "${mysql}" | grep -qi "mysql"; then
         echo "MySQL: ${mysql}"
         echo "MySQL Location: ${mysql_location}"
@@ -963,6 +971,8 @@ finally(){
     if [ "${apache}" != "do_not_install" ]; then
         echo "Apache Location: ${apache_location}"
     fi
+    echo
+    echo "Apache Modules: ${apache_modules_install}"
     echo
     if [ -d ${mysql_location} ]; then
         echo "MySQL Server: ${mysql}"
@@ -1073,6 +1083,7 @@ install_lamp(){
     remove_packages
 
     [ "${apache}" != "do_not_install" ] && check_installed "install_apache" "${apache_location}"
+    [ "${apache_modules_install}" != "do_not_install" ] && install_apache_modules
     if echo "${mysql}" | grep -qi "mysql"; then
         check_installed "install_mysqld" "${mysql_location}"
     elif echo "${mysql}" | grep -qi "mariadb"; then

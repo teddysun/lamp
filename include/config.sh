@@ -86,6 +86,11 @@ opcache_filename="zendopcache-7.0.5"
 apr_filename="apr-1.6.3"
 #apr-util
 apr_util_filename="apr-util-1.6.1"
+#mod_wsgi
+mod_wsgi_filename="mod_wsgi-4.5.22"
+#mod_jk
+mod_jk_filename="tomcat-connectors-1.2.42-src"
+set_hint ${mod_jk_filename} "mod_jk-1.2.42"
 #mhash
 mhash_filename="mhash-0.9.9.9"
 #libmcrypt
@@ -158,6 +163,12 @@ set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 apache_arr=(
 ${apache2_2_filename}
 ${apache2_4_filename}
+do_not_install
+)
+
+apache_modules_arr=(
+${mod_wsgi_filename}
+${mod_jk_filename}
 do_not_install
 )
 
