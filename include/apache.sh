@@ -14,35 +14,18 @@
 #Pre-installation apache
 apache_preinstall_settings(){
 
-    display_menu apache 2
+    display_menu apache 1
     display_menu_multi apache_modules last
 
     if [[ "$apache" != "do_not_install" ]];then
-        if [ "$apache" == "${apache2_2_filename}" ];then
-            apache_configure_args="--prefix=${apache_location} \
-            --with-included-apr \
-            --with-mpm=prefork \
-            --with-ssl \
-            --enable-so \
-            --enable-suexec \
-            --enable-deflate=shared \
-            --enable-expires=shared \
-            --enable-ssl=shared \
-            --enable-headers=shared \
-            --enable-rewrite=shared \
-            --enable-static-support \
-            --enable-modules=all \
-            --enable-mods-shared=all"
-        elif [ "$apache" == "${apache2_4_filename}" ];then
-            apache_configure_args="--prefix=${apache_location} \
-            --with-pcre=${depends_prefix}/pcre \
-            --with-mpm=event \
-            --with-included-apr \
-            --with-ssl \
-            --with-nghttp2 \
-            --enable-modules=reallyall \
-            --enable-mods-shared=reallyall"
-        fi
+        apache_configure_args="--prefix=${apache_location} \
+        --with-pcre=${depends_prefix}/pcre \
+        --with-mpm=event \
+        --with-included-apr \
+        --with-ssl \
+        --with-nghttp2 \
+        --enable-modules=reallyall \
+        --enable-mods-shared=reallyall"
     fi
 }
 
@@ -67,50 +50,30 @@ install_apache(){
         echo "/usr/local/lib" > /etc/ld.so.conf.d/locallib.conf
     fi
 
-    if [ "$apache" == "${apache2_2_filename}" ]; then
-        cd ${cur_dir}/software/
-        download_file "${apache2_2_filename}.tar.gz"
-        tar zxf ${apache2_2_filename}.tar.gz
-        cd ${apache2_2_filename}
-    
-        if ubuntuversion 12.04; then
-            sed -i '/SSL_PROTOCOL_SSLV2/d' modules/ssl/ssl_engine_io.c
-        fi
-    
-        LDFLAGS=-ldl
-        error_detect "./configure ${apache_configure_args}"
-        error_detect "parallel_make"
-        error_detect "make install"
-        unset LDFLAGS
-        config_apache 2.2
-    
-    elif [ "$apache" == "${apache2_4_filename}" ]; then
-    
-        check_installed "install_pcre" "${depends_prefix}/pcre"
-        check_installed "install_openssl" "${openssl_location}"
-        install_nghttp2
+    check_installed "install_pcre" "${depends_prefix}/pcre"
+    check_installed "install_openssl" "${openssl_location}"
+    install_nghttp2
 
-        cd ${cur_dir}/software/
-        download_file "${apr_filename}.tar.gz"
-        tar zxf ${apr_filename}.tar.gz
-        download_file "${apr_util_filename}.tar.gz"
-        tar zxf ${apr_util_filename}.tar.gz
-        download_file "${apache2_4_filename}.tar.gz"
-        tar zxf ${apache2_4_filename}.tar.gz
-        cd ${apache2_4_filename}
-        mv ${cur_dir}/software/${apr_filename} srclib/apr
-        mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
-    
-        LDFLAGS=-ldl
-        if [ -d ${openssl_location} ]; then
-            apache_configure_args=`echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@"`
-        fi
-        error_detect "./configure ${apache_configure_args}"
-        error_detect "parallel_make"
-        error_detect "make install"
-        unset LDFLAGS
-        config_apache 2.4
+    cd ${cur_dir}/software/
+    download_file "${apr_filename}.tar.gz"
+    tar zxf ${apr_filename}.tar.gz
+    download_file "${apr_util_filename}.tar.gz"
+    tar zxf ${apr_util_filename}.tar.gz
+    download_file "${apache2_4_filename}.tar.gz"
+    tar zxf ${apache2_4_filename}.tar.gz
+    cd ${apache2_4_filename}
+    mv ${cur_dir}/software/${apr_filename} srclib/apr
+    mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
+
+    LDFLAGS=-ldl
+    if [ -d ${openssl_location} ]; then
+        apache_configure_args=`echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@"`
     fi
+    error_detect "./configure ${apache_configure_args}"
+    error_detect "parallel_make"
+    error_detect "make install"
+    unset LDFLAGS
+    config_apache
 }
 
 
@@ -174,35 +137,76 @@ EOF
     sed -i "s@^<Directory \"${apache_location}/htdocs\">@<Directory \"${web_root_dir}\">@" ${apache_location}/conf/httpd.conf
     echo "ServerTokens ProductOnly" >> ${apache_location}/conf/httpd.conf
 
-    if [ ${version} == "2.4" ]; then
-        sed -i -r 's/^#(.*mod_cache.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_cache_socache.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_socache_shmcb.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_socache_dbm.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_socache_memcache.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_proxy.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_proxy_connect.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_proxy_ftp.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_proxy_http.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_suexec.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_vhost_alias.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_rewrite.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_deflate.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_expires.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_ssl.so)/\1/' ${apache_location}/conf/httpd.conf
-        sed -i -r 's/^#(.*mod_http2.so)/\1/' ${apache_location}/conf/httpd.conf
-        echo "ProtocolsHonorOrder On" >> ${apache_location}/conf/httpd.conf
-        echo "Protocols h2 http/1.1" >> ${apache_location}/conf/httpd.conf
-        [ -d ${openssl_location} ] && sed -i "s@^export LD_LIBRARY_PATH.*@export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${openssl_location}/lib@" ${apache_location}/bin/envvars
+    sed -i -r 's/^#(.*mod_cache.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_cache_socache.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_socache_shmcb.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_socache_dbm.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_socache_memcache.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_connect.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_ftp.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_http.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_suexec.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_vhost_alias.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_rewrite.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_deflate.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_expires.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_ssl.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_http2.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_authn_dbm.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_authn_anon.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_authn_dbd.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_authn_socache.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_authz_dbm.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_authz_owner.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_authz_dbd.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_authnz_fcgi.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_auth_form.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_auth_digest.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_http2.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_html.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_fcgi.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_scgi.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_fdpass.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_wstunnel.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_ajp.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_balancer.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_express.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_proxy_hcheck.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_echo.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_case_filter.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_case_filter_in.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_buffer.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_data.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_ratelimit.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_ext_filter.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_request.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_include.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_reflector.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_substitute.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_sed.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_charset_lite.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_xml2enc.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_session.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_session_cookie.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_heartbeat.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_heartmonitor.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_dav.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_dav_fs.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_dav_lock.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_info.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_actions.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_speling.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_userdir.so)/\1/' ${apache_location}/conf/httpd.conf
 
-        sed -i 's/Allow from All/Require all granted/' ${apache_location}/conf/extra/httpd-vhosts.conf
-        sed -i 's/Require host .example.com/Require host localhost/g' ${apache_location}/conf/extra/httpd-info.conf
-        cp -f ${cur_dir}/conf/httpd24-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
-    elif [ ${version} == "2.2" ]; then
-        sed -i -r 's/^(.*mod_unique_id.so)/\#&/' ${apache_location}/conf/httpd.conf
-        sed -i 's/Allow from .example.com/Allow from localhost/g' ${apache_location}/conf/extra/httpd-info.conf
-        cp -f ${cur_dir}/conf/httpd22-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
-    fi
+    echo "ProtocolsHonorOrder On" >> ${apache_location}/conf/httpd.conf
+    echo "Protocols h2 http/1.1" >> ${apache_location}/conf/httpd.conf
+
+    [ -d ${openssl_location} ] && sed -i "s@^export LD_LIBRARY_PATH.*@export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${openssl_location}/lib@" ${apache_location}/bin/envvars
+
+    sed -i 's/Allow from All/Require all granted/' ${apache_location}/conf/extra/httpd-vhosts.conf
+    sed -i 's/Require host .example.com/Require host localhost/g' ${apache_location}/conf/extra/httpd-info.conf
+    cp -f ${cur_dir}/conf/httpd24-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
 
     rm -f /etc/init.d/httpd
     if centosversion 6; then

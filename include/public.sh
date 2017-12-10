@@ -942,9 +942,7 @@ last_confirm(){
     StartDateSecond=$(date +%s)
     log "Info" "Start time: ${StartDate}"
 
-    if [ -d ${cur_dir}/software ]; then
-        rm -rf ${cur_dir}/software/*
-    else
+    if [ ! -d ${cur_dir}/software ]; then
         mkdir -p ${cur_dir}/software
     fi
 

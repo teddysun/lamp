@@ -29,13 +29,7 @@ upgrade_php(){
     local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
     local installed_php=`${php_location}/bin/php -r 'echo PHP_VERSION;' 2>/dev/null`
 
-    if   [ "${php_version}" == "5.3" ]; then
-        latest_php='5.3.29'
-    elif [ "${php_version}" == "5.4" ]; then
-        latest_php='5.4.45'
-    elif [ "${php_version}" == "5.5" ]; then
-        latest_php='5.5.38'
-    elif [ "${php_version}" == "5.6" ]; then
+    if [ "${php_version}" == "5.6" ]; then
         latest_php='5.6.32'
     elif [ "${php_version}" == "7.0" ]; then
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.0')
@@ -101,10 +95,8 @@ upgrade_php(){
 
         if [[ "${php_version}" == "7.0" || "${php_version}" == "7.1"  || "${php_version}" == "7.2" ]]; then
             with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
-        elif [[ "${php_version}" == "5.4" || "${php_version}" == "5.5" || "${php_version}" == "5.6" ]]; then
+        elif [[ "${php_version}" == "5.6" ]]; then
             with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
-        else
-            with_gd="--with-gd --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
 
         if [[ "${php_version}" == "7.2" ]]; then

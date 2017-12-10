@@ -38,8 +38,6 @@ parallel_compile=1
 nghttp2_filename="nghttp2-1.28.0"
 #openssl
 openssl_filename="openssl-1.0.2m"
-#apache2.2
-apache2_2_filename="httpd-2.2.34"
 #apache2.4
 apache2_4_filename="httpd-2.4.29"
 #mysql5.5
@@ -62,12 +60,6 @@ percona5_5_filename="Percona-Server-5.5.58-38.10"
 percona5_6_filename="Percona-Server-5.6.38-83.0"
 #percona5.7
 percona5_7_filename="Percona-Server-5.7.19-17"
-#php5.3
-php5_3_filename="php-5.3.29"
-#php5.4
-php5_4_filename="php-5.4.45"
-#php5.5
-php5_5_filename="php-5.5.38"
 #php5.6
 php5_6_filename="php-5.6.32"
 #php7.0
@@ -77,10 +69,7 @@ php7_1_filename="php-7.1.12"
 #php7.2
 php7_2_filename="php-7.2.0"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.4.15.10-all-languages"
-phpmyadmin_filename2="phpMyAdmin-4.7.6-all-languages"
-#opcache
-opcache_filename="zendopcache-7.0.5"
+phpmyadmin_filename="phpMyAdmin-4.7.6-all-languages"
 
 #apr
 apr_filename="apr-1.6.3"
@@ -126,16 +115,6 @@ set_hint ${php_graphicsmagick_filename2} "php-${php_graphicsmagick_filename2}"
 ionCube_filename="ioncube_loaders"
 ionCube32_filename="ioncube_loaders_lin_x86"
 ionCube64_filename="ioncube_loaders_lin_x86-64"
-#ZendGuardLoader
-ZendGuardLoader_filename="ZendGuardLoader"
-ZendGuardLoader53_32_filename="ZendGuardLoader-php-5.3-linux-glibc23-i386"
-ZendGuardLoader53_64_filename="ZendGuardLoader-php-5.3-linux-glibc23-x86_64"
-ZendGuardLoader54_32_filename="ZendGuardLoader-70429-PHP-5.4-linux-glibc23-i386"
-ZendGuardLoader54_64_filename="ZendGuardLoader-70429-PHP-5.4-linux-glibc23-x86_64"
-ZendGuardLoader55_32_filename="zend-loader-php5.5-linux-i386"
-ZendGuardLoader55_64_filename="zend-loader-php5.5-linux-x86_64"
-ZendGuardLoader56_32_filename="zend-loader-php5.6-linux-i386"
-ZendGuardLoader56_64_filename="zend-loader-php5.6-linux-x86_64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
@@ -161,7 +140,6 @@ set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 
 #software array setting
 apache_arr=(
-${apache2_2_filename}
 ${apache2_4_filename}
 do_not_install
 )
@@ -187,9 +165,6 @@ do_not_install
 )
 
 php_arr=(
-${php5_3_filename}
-${php5_4_filename}
-${php5_5_filename}
 ${php5_6_filename}
 ${php7_0_filename}
 ${php7_1_filename}
@@ -203,8 +178,6 @@ do_not_install
 )
 
 php_modules_arr=(
-${opcache_filename}
-${ZendGuardLoader_filename}
 ${ionCube_filename}
 ${xcache_filename}
 ${php_imagemagick_filename}

@@ -21,13 +21,9 @@ upgrade_apache(){
 
     local installed_apache=`${apache_location}/bin/httpd -v | grep 'version' | awk -F/ '{print $2}' | cut -d' ' -f1`
     local apache_version=`echo ${installed_apache} | cut -d. -f1-2`
-    local latest_apache22=`curl -s http://httpd.apache.org/download.cgi | awk '/#apache22/{print $2}' | head -n 1 | awk -F'>' '{print $2}' | cut -d'<' -f1`
     local latest_apache24=`curl -s http://httpd.apache.org/download.cgi | awk '/#apache24/{print $2}' | head -n 1 | awk -F'>' '{print $2}' | cut -d'<' -f1`
 
-    if [ "${apache_version}" == "2.2" ];then
-        echo -e "Latest version of Apache: \033[41;37m $latest_apache22 \033[0m"
-        echo -e "Installed version of Apache: \033[41;37m $installed_apache \033[0m"
-    elif [ "${apache_version}" == "2.4" ];then
+    if [ "${apache_version}" == "2.4" ];then
         echo -e "Latest version of Apache: \033[41;37m $latest_apache24 \033[0m"
         echo -e "Installed version of Apache: \033[41;37m $installed_apache \033[0m"
     fi
@@ -62,43 +58,7 @@ upgrade_apache(){
         fi
         cd ${cur_dir}/software
 
-        if [ "${apache_version}" == "2.2" ];then
-            apache_configure_args="--prefix=${apache_location} \
-                --with-included-apr \
-                --with-mpm=prefork \
-                --with-ssl \
-                --enable-so \
-                --enable-suexec \
-                --enable-deflate=shared \
-                --enable-expires=shared \
-                --enable-ssl=shared \
-                --enable-headers=shared \
-                --enable-rewrite=shared \
-                --enable-static-support \
-                --enable-modules=all \
-                --enable-mods-shared=all"
-
-            if [ ! -s httpd-${latest_apache22}.tar.gz ]; then
-                latest_apache_link="http://www.us.apache.org/dist//httpd/httpd-${latest_apache22}.tar.gz"
-                backup_apache_link="${download_root_url}/httpd-${latest_apache22}.tar.gz"
-                untar ${latest_apache_link} ${backup_apache_link}
-            else
-                log "Info" "httpd-${latest_apache22}.tar.gz [found]"
-                tar -zxf httpd-${latest_apache22}.tar.gz
-                cd httpd-${latest_apache22}
-            fi
-
-            if ubuntuversion 12.04; then
-                sed -i '/SSL_PROTOCOL_SSLV2/d' modules/ssl/ssl_engine_io.c
-            fi
-
-            LDFLAGS=-ldl
-            error_detect "./configure ${apache_configure_args}"
-            error_detect "parallel_make"
-            error_detect "make install"
-            unset LDFLAGS
-
-        elif [ "${apache_version}" == "2.4" ];then
+        if [ "${apache_version}" == "2.4" ];then
             apache_configure_args="--prefix=${apache_location} \
                 --with-pcre=${depends_prefix}/pcre \
                 --with-mpm=event \

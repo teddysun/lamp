@@ -17,7 +17,7 @@ php_preinstall_settings(){
     if [[ "${apache}" == "do_not_install" ]]; then
         php="do_not_install"
     else
-        display_menu php 4
+        display_menu php 1
     fi
 
     if [ "${php}" != "do_not_install" ]; then
@@ -34,10 +34,8 @@ php_preinstall_settings(){
 
         if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" || "${php}" == "${php7_2_filename}" ]]; then
             with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
-        elif [[ "${php}" == "${php5_4_filename}" || "${php}" == "${php5_5_filename}" || "${php}" == "${php5_6_filename}" ]]; then
+        elif [[ "${php}" == "${php5_6_filename}" ]]; then
             with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
-        else
-            with_gd="--with-gd --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
 
         if [[ "${php}" == "${php7_2_filename}" ]]; then
@@ -112,24 +110,7 @@ install_php(){
 
     cd ${cur_dir}/software/
 
-    if [ "${php}" == "${php5_3_filename}" ]; then
-        download_file  "${php5_3_filename}.tar.gz"
-        tar zxf ${php5_3_filename}.tar.gz
-        cd ${php5_3_filename}
-        cp ${cur_dir}/conf/php-5.3.patch ./
-        patch -p1 < php-5.3.patch
-
-    elif [ "${php}" == "${php5_4_filename}" ]; then
-        download_file  "${php5_4_filename}.tar.gz"
-        tar zxf ${php5_4_filename}.tar.gz
-        cd ${php5_4_filename}
-
-    elif [ "${php}" == "${php5_5_filename}" ]; then
-        download_file  "${php5_5_filename}.tar.gz"
-        tar zxf ${php5_5_filename}.tar.gz
-        cd ${php5_5_filename}
-
-    elif [ "${php}" == "${php5_6_filename}" ]; then
+    if [ "${php}" == "${php5_6_filename}" ]; then
         download_file  "${php5_6_filename}.tar.gz"
         tar zxf ${php5_6_filename}.tar.gz
         cd ${php5_6_filename}
@@ -172,9 +153,8 @@ config_php(){
     ln -s ${php_location}/bin/php-config /usr/bin/
     ln -s ${php_location}/bin/phpize /usr/bin/
 
-    if [[ "${php}" != "${php5_3_filename}" && "${php}" != "${php5_4_filename}" ]]; then
-        extension_dir=`php-config --extension-dir`
-        cat > ${php_location}/php.d/opcache.ini<<-EOF
+    extension_dir=`php-config --extension-dir`
+    cat > ${php_location}/php.d/opcache.ini<<-EOF
 [opcache]
 zend_extension=${extension_dir}/opcache.so
 opcache.enable_cli=1
@@ -186,9 +166,8 @@ opcache.fast_shutdown=1
 opcache.save_comments=0
 EOF
 
-        cp -f ${cur_dir}/conf/ocp.php ${web_root_dir}/ocp.php
-        chown apache:apache ${web_root_dir}/ocp.php
-    fi
+    cp -f ${cur_dir}/conf/ocp.php ${web_root_dir}/ocp.php
+    chown apache:apache ${web_root_dir}/ocp.php
 
     if [[ -d ${mysql_data_location} || -d ${mariadb_data_location} || -d ${percona_data_location} ]]; then
         sock_location=/tmp/mysql.sock
