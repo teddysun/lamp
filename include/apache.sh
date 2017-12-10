@@ -167,12 +167,6 @@ EOF
     sed -i -r 's/^#(.*mod_proxy_html.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_proxy_fcgi.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_proxy_scgi.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_fdpass.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_wstunnel.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_ajp.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_balancer.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_express.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_hcheck.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_echo.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_case_filter.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_case_filter_in.so)/\1/' ${apache_location}/conf/httpd.conf
@@ -189,8 +183,6 @@ EOF
     sed -i -r 's/^#(.*mod_xml2enc.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_session.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_session_cookie.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_heartbeat.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_heartmonitor.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_dav.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_dav_fs.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_dav_lock.so)/\1/' ${apache_location}/conf/httpd.conf

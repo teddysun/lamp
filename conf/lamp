@@ -55,8 +55,6 @@ set_apache_allow_syntax(){
     if [[ -s /usr/sbin/httpd ]]; then
         if /usr/sbin/httpd -v | grep -q "Apache/2.4"; then
             allow_from_all="Require all granted"
-        elif /usr/sbin/httpd -v | grep -q "Apache/2.2"; then
-            allow_from_all="Allow from All"
         else
             echo "Error: Can not get Apache version..."
             exit 1
@@ -329,11 +327,13 @@ add_letsencrypt(){
 }
 
 check_lets_cron(){
-    if crontab -l | grep -q "/bin/certbot renew --disable-hook-validation"; then
-        echo "Let's encrypt crontab renew rule is exist."
-    else
-        echo "Let's encrypt crontab renew rule is not exist, create it!"
-        (crontab -l ; echo '0 3 */7 * * /bin/certbot renew --disable-hook-validation --renew-hook "/etc/init.d/httpd restart"') | crontab -
+    if [ "$(command -v crontab)" ]; then
+        if crontab -l | grep -q "/bin/certbot renew --disable-hook-validation"; then
+            echo "Let's encrypt crontab renew rule is exist."
+        else
+            echo "Let's encrypt crontab renew rule is not exist, create it!"
+            (crontab -l ; echo '0 3 */7 * * /bin/certbot renew --disable-hook-validation --renew-hook "/etc/init.d/httpd restart"') | crontab -
+        fi
     fi
 }
 
