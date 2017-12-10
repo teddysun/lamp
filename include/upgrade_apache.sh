@@ -101,7 +101,7 @@ upgrade_apache(){
         elif [ "${apache_version}" == "2.4" ];then
             apache_configure_args="--prefix=${apache_location} \
                 --with-pcre=${depends_prefix}/pcre \
-                --with-mpm=prefork \
+                --with-mpm=event \
                 --with-included-apr \
                 --with-ssl \
                 --with-nghttp2 \
@@ -141,6 +141,12 @@ upgrade_apache(){
         cp -rpf ${apache_location}.bak/conf/* ${apache_location}/conf/
         cp -rpf ${apache_location}.bak/modules/libphp* ${apache_location}/modules/
         cp -pf ${apache_location}.bak/bin/envvars ${apache_location}/bin/envvars
+        if [ -f ${apache_location}.bak/modules/mod_wsgi.so ]; then
+            cp -pf ${apache_location}.bak/modules/mod_wsgi.so ${apache_location}/modules/
+        fi
+        if [ -f ${apache_location}.bak/modules/mod_jk.so ]; then
+            cp -pf ${apache_location}.bak/modules/mod_jk.so ${apache_location}/modules/
+        fi
 
         log "Info" "Clear up start..."
         cd ${cur_dir}/software

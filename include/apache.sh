@@ -15,6 +15,7 @@
 apache_preinstall_settings(){
 
     display_menu apache 2
+    display_menu_multi apache_modules last
 
     if [[ "$apache" != "do_not_install" ]];then
         if [ "$apache" == "${apache2_2_filename}" ];then
@@ -35,7 +36,7 @@ apache_preinstall_settings(){
         elif [ "$apache" == "${apache2_4_filename}" ];then
             apache_configure_args="--prefix=${apache_location} \
             --with-pcre=${depends_prefix}/pcre \
-            --with-mpm=prefork \
+            --with-mpm=event \
             --with-included-apr \
             --with-ssl \
             --with-nghttp2 \
@@ -229,4 +230,45 @@ EOF
 
     boot_start httpd
 
+}
+
+install_apache_modules(){
+    if_in_array "${mod_wsgi_filename}" "${apache_modules_install}" && install_mod_wsgi
+    if_in_array "${mod_jk_filename}" "${apache_modules_install}" && install_mod_jk
+}
+
+install_mod_wsgi(){
+    cd ${cur_dir}/software/
+    log "Info" "${mod_wsgi_filename} install start..."
+    download_file "${mod_wsgi_filename}.tar.gz"
+    tar zxf ${mod_wsgi_filename}.tar.gz
+    cd ${mod_wsgi_filename}
+
+    error_detect "./configure --with-apxs=${apache_location}/bin/apxs"
+    error_detect "make"
+    error_detect "make install"
+    # add mod_wsgi to httpd.conf
+    if [[ `grep -E -c "^\s*LoadModule wsgi_module modules/mod_wsgi.so" ${apache_location}/conf/httpd.conf` -eq 0 ]]; then
+        lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
+        sed -i "${lnum}aLoadModule wsgi_module modules/mod_wsgi.so" ${apache_location}/conf/httpd.conf
+    fi
+    log "Info" "${mod_wsgi_filename} install completed..."
+}
+
+install_mod_jk(){
+    cd ${cur_dir}/software/
+    log "Info" "${mod_jk_filename} install start..."
+    download_file "${mod_jk_filename}.tar.gz"
+    tar zxf ${mod_jk_filename}.tar.gz
+    cd ${mod_jk_filename}/native
+
+    error_detect "./configure --with-apxs=${apache_location}/bin/apxs --enable-api-compatibility"
+    error_detect "make"
+    error_detect "make install"
+    # add mod_jk to httpd.conf
+    if [[ `grep -E -c "^\s*LoadModule jk_module modules/mod_jk.so" ${apache_location}/conf/httpd.conf` -eq 0 ]]; then
+        lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
+        sed -i "${lnum}aLoadModule jk_module modules/mod_jk.so" ${apache_location}/conf/httpd.conf
+    fi
+    log "Info" "${mod_jk_filename} install completed..."
 }
