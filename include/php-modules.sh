@@ -436,18 +436,18 @@ install_ionCube(){
     if is_64bit; then
         download_file  "${ionCube64_filename}.tar.gz"
         tar zxf ${ionCube64_filename}.tar.gz
-        cp -pf ioncube/ioncube_loader_lin_${php_version}.so ${php_extension_dir}/
+        cp -pf ioncube/ioncube_loader_lin_${php_version}_ts.so ${php_extension_dir}/
     else
         download_file  "${ionCube32_filename}.tar.gz"
         tar zxf ${ionCube32_filename}.tar.gz
-        cp -pf ioncube/ioncube_loader_lin_${php_version}.so ${php_extension_dir}/
+        cp -pf ioncube/ioncube_loader_lin_${php_version}_ts.so ${php_extension_dir}/
     fi
 
     if [ ! -f ${php_location}/php.d/ioncube.ini ]; then
         log "Info" "ionCube Loader configuration file not found, create it!"
         cat > ${php_location}/php.d/ioncube.ini<<-EOF
 [ionCube Loader]
-zend_extension = ${php_extension_dir}/ioncube_loader_lin_${php_version}.so
+zend_extension = ${php_extension_dir}/ioncube_loader_lin_${php_version}_ts.so
 EOF
     fi
     log "Info" "ionCube Loader install completed..."
