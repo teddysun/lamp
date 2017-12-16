@@ -42,11 +42,11 @@ Installation
 ============
 - If your server system: CentOS
 ```bash
-curl -sSL http://bit.ly/2Byxrog | sh
+curl -sSL http://bit.ly/centos-lamp | sh
 ```
 - If your server system: Debian/Ubuntu
 ```bash
-curl -sSL http://bit.ly/2kzusBx | sh
+curl -sSL http://bit.ly/debian-lamp | sh
 ```
 
 Upgrade
