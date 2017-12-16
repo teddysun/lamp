@@ -46,12 +46,7 @@ curl -sSL http://bit.ly/2Byxrog | sh
 ```
 - If your server system: Debian/Ubuntu
 ```bash
-apt-get -y install wget screen git
-git clone https://github.com/teddysun/lamp.git
-cd lamp
-chmod +x *.sh
-screen -S lamp
-./lamp.sh
+curl -sSL http://bit.ly/2kzusBx | sh
 ```
 
 Upgrade
