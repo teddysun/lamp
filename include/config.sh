@@ -28,7 +28,7 @@ depends_prefix=/usr/local
 web_root_dir=/data/www/default
 
 #Download root URL
-download_root_url="http://dl.lamp.sh/files"
+download_root_url="https://dl.lamp.sh/files"
 
 #parallel compile option,1:enable,0:disable
 parallel_compile=1
@@ -51,7 +51,7 @@ mariadb5_5_filename="mariadb-5.5.58"
 #mariadb10.0
 mariadb10_0_filename="mariadb-10.0.33"
 #mariadb10.1
-mariadb10_1_filename="mariadb-10.1.29"
+mariadb10_1_filename="mariadb-10.1.30"
 #mariadb10.2
 mariadb10_2_filename="mariadb-10.2.11"
 #percona5.5
@@ -69,7 +69,7 @@ php7_1_filename="php-7.1.12"
 #php7.2
 php7_2_filename="php-7.2.0"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.7.6-all-languages"
+phpmyadmin_filename="phpMyAdmin-4.7.7-all-languages"
 
 #apr
 apr_filename="apr-1.6.3"
