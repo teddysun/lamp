@@ -745,7 +745,7 @@ download_file(){
         log "Info" "${1} [found]"
     else
         log "Info" "${1} not found, download now..."
-        wget -cv -t3 -T60 ${url}
+        wget --no-check-certificate -cv -t3 -T60 ${url}
         if [ $? -eq 0 ]; then
             log "Info" "${1} download completed..."
         else
@@ -762,13 +762,13 @@ download_from_url(){
         log "Info" "${filename} [found]"
     else
         log "Info" "${filename} not found, download now..."
-        wget -cv -t3 -T3 ${2}
+        wget --no-check-certificate -cv -t3 -T3 ${2}
         if [ $? -eq 0 ]; then
             log "Info" "${filename} download completed..."
         else
             rm -f ${filename}
             log "Info" "${filename} download failed, retrying download from backup site..."
-            wget -cv -t3 -T60 ${3}
+            wget --no-check-certificate -cv -t3 -T60 ${3}
             if [ $? -eq 0 ]; then
                 log "Info" "${filename} download completed..."
             else
