@@ -20,8 +20,6 @@ Supported System
 ===============
 - CentOS-6.x
 - CentOS-7.x
-- Ubuntu-12.x
-- Ubuntu-13.x
 - Ubuntu-14.x
 - Ubuntu-15.x
 - Ubuntu-16.x
@@ -152,6 +150,6 @@ Support(Chinese): https://lamp.sh/support.html
 
 License
 =======
-Copyright (C) 2013 - 2017 Teddysun
+Copyright (C) 2013 - 2018 Teddysun
 
 Licensed under the [GPLv3](LICENSE) License.
