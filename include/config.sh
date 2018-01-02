@@ -35,7 +35,7 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.28.0"
+nghttp2_filename="nghttp2-1.29.0"
 #openssl
 openssl_filename="openssl-1.0.2n"
 #apache2.4
@@ -76,7 +76,7 @@ apr_filename="apr-1.6.3"
 #apr-util
 apr_util_filename="apr-util-1.6.1"
 #mod_wsgi
-mod_wsgi_filename="mod_wsgi-4.5.22"
+mod_wsgi_filename="mod_wsgi-4.5.24"
 #mod_jk
 mod_jk_filename="tomcat-connectors-1.2.42-src"
 set_hint ${mod_jk_filename} "mod_jk-1.2.42"
@@ -95,20 +95,20 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-2.0.10-stable"
-set_hint ${swoole_filename} "php-swoole-2.0.10"
+swoole_filename="swoole-src-2.0.12"
+set_hint ${swoole_filename} "php-swoole-2.0.12"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.5.5"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.7-8"
+ImageMagick_filename="ImageMagick-7.0.7-19"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.26"
+GraphicsMagick_filename="GraphicsMagick-1.3.27"
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
-php_graphicsmagick_filename2="gmagick-2.0.4RC1"
+php_graphicsmagick_filename2="gmagick-2.0.5RC1"
 set_hint ${php_graphicsmagick_filename} "php-${php_graphicsmagick_filename}"
 set_hint ${php_graphicsmagick_filename2} "php-${php_graphicsmagick_filename2}"
 #ionCube
@@ -118,23 +118,23 @@ ionCube64_filename="ioncube_loaders_lin_x86-64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
-memcached_filename="memcached-1.5.0"
+memcached_filename="memcached-1.5.4"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 #php-memcache
 php_memcache_filename="memcache-3.0.8"
 #php-memcached
-php_memcached_filename="memcached-3.0.3"
+php_memcached_filename="memcached-3.0.4"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 #redis
 redis_filename="redis-3.2.11"
 #php-redis
 php_redis_filename="redis-2.2.8"
-php_redis_filename2="redis-3.1.4"
+php_redis_filename2="redis-3.1.5"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.3.1"
+php_mongo_filename="mongodb-1.3.4"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 
 
