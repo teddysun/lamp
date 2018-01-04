@@ -168,7 +168,7 @@ upgrade_php(){
 
         mkdir -p ${php_location}/{etc,php.d}
         cp -pf ${php_location}.bak/etc/php.ini ${php_location}/etc/php.ini
-        cp -pn ${php_location}.bak/lib/php/extensions/no-debug-non-zts-*/* ${php_extension_dir}/
+        cp -pn ${php_location}.bak/lib/php/extensions/no-debug-zts-*/* ${php_extension_dir}/
         if [ `ls ${php_location}.bak/php.d/ | wc -l` -gt 0 ]; then
             cp -pf ${php_location}.bak/php.d/* ${php_location}/php.d/
         fi
