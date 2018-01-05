@@ -1168,7 +1168,7 @@ else
     <td>IMAP 电子邮件系统函数库</td>
     <td><?php echo isfun("imap_close");?></td>
     <td>历法运算函数库</td>
-    <td><?php echo isfun("JDToGregorian");?></td>
+    <td><?php echo isfun("jdtogregorian");?></td>
   </tr>
 
   <tr>
@@ -1193,8 +1193,8 @@ else
   </tr>
 
   <tr>
-    <td>MCrypt 加密处理</td>
-    <td><?php echo isfun("mcrypt_module_open");?></td>
+    <td>OpenSSL 加密处理</td>
+    <td><?php echo isfun("openssl_open");?></td>
     <td>Mhash 哈稀计算</td>
     <td><?php echo isfun("mhash_count");?></td>
   </tr>
