@@ -1026,13 +1026,13 @@ finally(){
         echo "Starting Memcached..." 
         /etc/init.d/memcached start > /dev/null 2>&1
     fi
-    if [[ "${php}" == "${php7_0_filename}" || "$php" == "${php7_1_filename}" ]]; then
-        if if_in_array "${php_redis_filename2}" "${php_modules_install}"; then
+    if [[ "${php}" == "${php5_6_filename}" ]]; then
+        if if_in_array "${php_redis_filename}" "${php_modules_install}"; then
             echo "Starting Redis-server..."
             /etc/init.d/redis-server start > /dev/null 2>&1
         fi
     else
-        if if_in_array "${php_redis_filename}" "${php_modules_install}"; then
+        if if_in_array "${php_redis_filename2}" "${php_modules_install}"; then
             echo "Starting Redis-server..."
             /etc/init.d/redis-server start > /dev/null 2>&1
         fi
@@ -1058,7 +1058,7 @@ finally(){
 install_tool(){
     log "Info" "Starting to install tools..."
     if check_sys packageManager apt; then
-        apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev > /dev/null 2>&1
+        apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron > /dev/null 2>&1
     elif check_sys packageManager yum; then
         yum install -y -q yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs
         yum-config-manager --enable epel > /dev/null 2>&1
@@ -1112,13 +1112,13 @@ pre_setting(){
     if check_sys packageManager yum || check_sys packageManager apt; then
         # Not support CentOS 5 & Debian 6
         if centosversion 5 || debianversion 6; then
-            log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 12+ and try again."
+            log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 14+ and try again."
             exit 1
         fi
         preinstall_lamp
         install_lamp
     else
-        log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 12+ and try again."
+        log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 14+ and try again."
         exit 1
     fi
 }

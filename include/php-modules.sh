@@ -105,6 +105,9 @@ install_php_depends(){
             if [ -d /usr/include/x86_64-linux-gnu/curl ] && [ ! -d /usr/include/curl ]; then
                 ln -sf /usr/include/x86_64-linux-gnu/curl /usr/include/
             fi
+
+            create_lib_link libc-client.a
+            create_lib_link libc-client.so
         else
             if [ -f /usr/include/gmp-i386.h ]; then
                 ln -sf /usr/include/gmp-i386.h /usr/include/
