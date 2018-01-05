@@ -96,7 +96,9 @@ Default Location
 | Web root location          | /data/www/default                              |
 | Main Configuration File    | /usr/local/apache/conf/httpd.conf              |
 | Default Virtual Host conf  | /usr/local/apache/conf/extra/httpd-vhosts.conf |
-| Virtual Host location      | /usr/local/apache/conf/vhost/                  |
+| Virtual Host location      | /data/www/virtual_host_names                   |
+| Virtual Host log location  | /data/wwwlog/virtual_host_names                |
+| Virtual Host conf          | /usr/local/apache/conf/vhost/virtual_host.conf |
 
 | PHP Location               | Path                                           |
 |----------------------------|------------------------------------------------|
