@@ -30,7 +30,7 @@ upgrade_php(){
     local installed_php=`${php_location}/bin/php -r 'echo PHP_VERSION;' 2>/dev/null`
 
     if [ "${php_version}" == "5.6" ]; then
-        latest_php='5.6.32'
+        latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '5.6')
     elif [ "${php_version}" == "7.0" ]; then
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.0')
     elif [ "${php_version}" == "7.1" ]; then
