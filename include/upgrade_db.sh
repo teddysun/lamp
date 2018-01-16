@@ -162,7 +162,7 @@ EOF
             [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
             is_64bit && sys_bit=x86_64 || sys_bit=i686
-            url1="http://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+            url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
             url2="${download_root_url}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
 
             download_from_url "mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz" "${url1}" "${url2}"

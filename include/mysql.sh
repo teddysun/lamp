@@ -186,7 +186,7 @@ install_mysqld(){
 
     is_64bit && sys_bit=x86_64 || sys_bit=i686
     mysql_ver=$(echo ${mysql} | sed 's/[^0-9.]//g' | cut -d. -f1-2)
-    local url1="http://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+    local url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
     local url2="${download_root_url}/${mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
 
     cd ${cur_dir}/software/
