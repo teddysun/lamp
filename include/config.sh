@@ -49,13 +49,13 @@ mysql5_7_filename="mysql-5.7.21"
 #mariadb5.5
 mariadb5_5_filename="mariadb-5.5.59"
 #mariadb10.0
-mariadb10_0_filename="mariadb-10.0.33"
+mariadb10_0_filename="mariadb-10.0.34"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.30"
 #mariadb10.2
 mariadb10_2_filename="mariadb-10.2.12"
 #percona5.5
-percona5_5_filename="Percona-Server-5.5.58-38.10"
+percona5_5_filename="Percona-Server-5.5.59-38.11"
 #percona5.6
 percona5_6_filename="Percona-Server-5.6.38-83.0"
 #percona5.7
