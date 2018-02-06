@@ -35,7 +35,7 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.29.0"
+nghttp2_filename="nghttp2-1.30.0"
 #openssl
 openssl_filename="openssl-1.0.2n"
 #apache2.4
@@ -100,13 +100,13 @@ set_hint ${swoole_filename} "php-swoole-2.0.12"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
-xdebug_filename="xdebug-2.5.5"
+xdebug_filename="xdebug-2.6.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.7-19"
+ImageMagick_filename="ImageMagick-7.0.7-22"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.27"
+GraphicsMagick_filename="GraphicsMagick-1.3.28"
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
 php_graphicsmagick_filename2="gmagick-2.0.5RC1"
 set_hint ${php_graphicsmagick_filename} "php-${php_graphicsmagick_filename}"
