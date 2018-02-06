@@ -22,20 +22,12 @@ php_modules_preinstall_settings(){
         echo
         echo "${php} available modules:"
         echo
-        if [[ "${php}" == "${php7_0_filename}" || "${php}" == "${php7_1_filename}" ]]; then
+        if [[ "${php}" != "${php5_6_filename}" ]]; then
             # delete some modules & change some module version
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
-        elif [ "${php}" == "${php7_2_filename}" ]; then
-            # delete some modules & change some module version
-            php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${xdebug_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
-            php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
-            php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
-
         fi
         display_menu_multi php_modules last
     fi
