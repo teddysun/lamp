@@ -27,6 +27,7 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
+            php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         fi
         display_menu_multi php_modules last
@@ -49,16 +50,17 @@ install_php_modules(){
     if_in_array "${ionCube_filename}" "${php_modules_install}" && install_ionCube "${phpConfig}"
     if_in_array "${xcache_filename}" "${php_modules_install}" && install_xcache "${phpConfig}"
     if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && install_php_imagesmagick "${phpConfig}"
-    if_in_array "${php_memcached_filename}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
     if_in_array "${php_mongo_filename}" "${php_modules_install}" && install_php_mongo "${phpConfig}"
     if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
     if_in_array "${xdebug_filename}" "${php_modules_install}" && install_xdebug "${phpConfig}"
     if [ "${php}" == "${php5_6_filename}" ]; then
         if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
         if_in_array "${php_redis_filename}" "${php_modules_install}" && install_php_redis "${phpConfig}"
+        if_in_array "${php_memcached_filename}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
     else
         if_in_array "${php_graphicsmagick_filename2}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
         if_in_array "${php_redis_filename2}" "${php_modules_install}" && install_php_redis "${phpConfig}"
+        if_in_array "${php_memcached_filename2}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
     fi
 }
 
@@ -599,9 +601,15 @@ EOF
     cd ${cur_dir}/software
     
     log "Info" "php-memcached extension install start..."
-    download_file "${php_memcached_filename}.tgz"
-    tar zxf ${php_memcached_filename}.tgz
-    cd ${php_memcached_filename}
+    if [ "$php" == "${php5_6_filename}" ]; then
+        download_file "${php_memcached_filename}.tgz"
+        tar zxf ${php_memcached_filename}.tgz
+        cd ${php_memcached_filename}
+    else
+        download_file "${php_memcached_filename2}.tgz"
+        tar zxf ${php_memcached_filename2}.tgz
+        cd ${php_memcached_filename2}
+    fi
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
     error_detect "make"

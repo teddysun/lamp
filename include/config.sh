@@ -124,8 +124,10 @@ libmemcached_filename="libmemcached-1.0.18"
 #php-memcache
 php_memcache_filename="memcache-3.0.8"
 #php-memcached
-php_memcached_filename="memcached-3.0.4"
+php_memcached_filename="memcached-2.2.0"
+php_memcached_filename2="memcached-3.0.4"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
+set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
 redis_filename="redis-3.2.11"
 #php-redis
