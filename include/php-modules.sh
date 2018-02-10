@@ -25,7 +25,6 @@ php_modules_preinstall_settings(){
         if [[ "${php}" != "${php5_6_filename}" ]]; then
             # delete some modules & change some module version
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
