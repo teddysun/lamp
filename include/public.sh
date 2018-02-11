@@ -745,7 +745,7 @@ download_file(){
         log "Info" "${1} [found]"
     else
         log "Info" "${1} not found, download now..."
-        wget --no-check-certificate -cv -t3 -T60 ${url}
+        wget -cv -t3 -T60 ${url}
         if [ $? -eq 0 ]; then
             log "Info" "${1} download completed..."
         else
@@ -762,13 +762,13 @@ download_from_url(){
         log "Info" "${filename} [found]"
     else
         log "Info" "${filename} not found, download now..."
-        wget --no-check-certificate -cv -t3 -T3 ${2}
+        wget -cv -t3 -T3 ${2}
         if [ $? -eq 0 ]; then
             log "Info" "${filename} download completed..."
         else
             rm -f ${filename}
             log "Info" "${filename} download failed, retrying download from backup site..."
-            wget --no-check-certificate -cv -t3 -T60 ${3}
+            wget -cv -t3 -T60 ${3}
             if [ $? -eq 0 ]; then
                 log "Info" "${filename} download completed..."
             else
@@ -1022,10 +1022,19 @@ finally(){
         echo "Starting Database..."
         /etc/init.d/mysqld start > /dev/null 2>&1
     fi
-    if if_in_array "${php_memcached_filename}" "${php_modules_install}"; then
-        echo "Starting Memcached..." 
-        /etc/init.d/memcached start > /dev/null 2>&1
+
+    if [[ "${php}" == "${php5_6_filename}" ]]; then
+        if if_in_array "${php_memcached_filename}" "${php_modules_install}"; then
+            echo "Starting Memcached..."
+            /etc/init.d/memcached start > /dev/null 2>&1
+        fi
+    else
+        if if_in_array "${php_memcached_filename2}" "${php_modules_install}"; then
+            echo "Starting Memcached..."
+            /etc/init.d/memcached start > /dev/null 2>&1
+        fi
     fi
+
     if [[ "${php}" == "${php5_6_filename}" ]]; then
         if if_in_array "${php_redis_filename}" "${php_modules_install}"; then
             echo "Starting Redis-server..."
@@ -1058,9 +1067,10 @@ finally(){
 install_tool(){
     log "Info" "Starting to install tools..."
     if check_sys packageManager apt; then
-        apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron > /dev/null 2>&1
+        apt-get -y update > /dev/null 2>&1
+        apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates > /dev/null 2>&1
     elif check_sys packageManager yum; then
-        yum install -y -q yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs
+        yum install -y -q yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates
         yum-config-manager --enable epel > /dev/null 2>&1
     fi
     log "Info" "Install tools completed..."
