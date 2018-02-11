@@ -107,6 +107,9 @@ upgrade_apache(){
         if [ -f ${apache_location}.bak/modules/mod_jk.so ]; then
             cp -pf ${apache_location}.bak/modules/mod_jk.so ${apache_location}/modules/
         fi
+        if [ -f ${apache_location}.bak/modules/mod_security2.so ]; then
+            cp -pf ${apache_location}.bak/modules/mod_security2.so ${apache_location}/modules/
+        fi
 
         log "Info" "Clear up start..."
         cd ${cur_dir}/software

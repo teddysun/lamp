@@ -34,7 +34,7 @@ install_apache(){
 
     log "Info" "Starting to install dependencies packages for Apache..."
     local apt_list=(openssl libssl-dev libxml2-dev lynx lua-expat-dev)
-    local yum_list=(zlib-devel openssl-devel libxml2-devel lynx expat-devel lua-devel)
+    local yum_list=(zlib-devel openssl-devel libxml2-devel lynx expat-devel lua-devel lua)
     if check_sys packageManager apt; then
         for depend in ${apt_list[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
@@ -190,6 +190,7 @@ EOF
     sed -i -r 's/^#(.*mod_actions.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_speling.so)/\1/' ${apache_location}/conf/httpd.conf
     sed -i -r 's/^#(.*mod_userdir.so)/\1/' ${apache_location}/conf/httpd.conf
+    sed -i -r 's/^#(.*mod_unique_id.so)/\1/' ${apache_location}/conf/httpd.conf
 
     echo "ProtocolsHonorOrder On" >> ${apache_location}/conf/httpd.conf
     echo "Protocols h2 http/1.1" >> ${apache_location}/conf/httpd.conf
@@ -230,6 +231,7 @@ EOF
 
 install_apache_modules(){
     if_in_array "${mod_wsgi_filename}" "${apache_modules_install}" && install_mod_wsgi
+    if_in_array "${mod_security_filename}" "${apache_modules_install}" && install_mod_security
     if_in_array "${mod_jk_filename}" "${apache_modules_install}" && install_mod_jk
 }
 
@@ -267,4 +269,23 @@ install_mod_jk(){
         sed -i "${lnum}aLoadModule jk_module modules/mod_jk.so" ${apache_location}/conf/httpd.conf
     fi
     log "Info" "${mod_jk_filename} install completed..."
+}
+
+install_mod_security(){
+    cd ${cur_dir}/software/
+    log "Info" "${mod_security_filename} install start..."
+    download_file "${mod_security_filename}.tar.gz"
+    tar zxf ${mod_security_filename}.tar.gz
+    cd ${mod_security_filename}
+
+    error_detect "./configure --prefix=${depends_prefix} --with-apxs=${apache_location}/bin/apxs --with-apr=${apache_location}/bin/apr-1-config --with-apu=${apache_location}/bin/apu-1-config"
+    error_detect "make"
+    error_detect "make install"
+    chmod 755 ${apache_location}/modules/mod_security2.so
+    # add mod_security to httpd.conf
+    if [[ `grep -E -c "^\s*LoadModule security2_module modules/mod_security2.so" ${apache_location}/conf/httpd.conf` -eq 0 ]]; then
+        lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
+        sed -i "${lnum}aLoadModule security2_module modules/mod_security2.so" ${apache_location}/conf/httpd.conf
+    fi
+    log "Info" "${mod_security_filename} install completed..."
 }

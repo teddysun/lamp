@@ -80,6 +80,9 @@ mod_wsgi_filename="mod_wsgi-4.5.24"
 #mod_jk
 mod_jk_filename="tomcat-connectors-1.2.42-src"
 set_hint ${mod_jk_filename} "mod_jk-1.2.42"
+#mod_security
+mod_security_filename="modsecurity-2.9.2"
+set_hint ${mod_security_filename} "mod_security-2.9.2"
 #mhash
 mhash_filename="mhash-0.9.9.9"
 #libmcrypt
@@ -148,6 +151,7 @@ do_not_install
 
 apache_modules_arr=(
 ${mod_wsgi_filename}
+${mod_security_filename}
 ${mod_jk_filename}
 do_not_install
 )
