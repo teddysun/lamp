@@ -69,7 +69,7 @@ php7_1_filename="php-7.1.14"
 #php7.2
 php7_2_filename="php-7.2.2"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.7.7-all-languages"
+phpmyadmin_filename="phpMyAdmin-4.7.8-all-languages"
 
 #apr
 apr_filename="apr-1.6.3"
