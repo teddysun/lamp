@@ -22,8 +22,10 @@ php_modules_preinstall_settings(){
         echo
         echo "${php} available modules:"
         echo
-        if [[ "${php}" != "${php5_6_filename}" ]]; then
-            # delete some modules & change some module version
+        # delete some modules & change some module version
+        if [[ "${php}" == "${php5_6_filename}" ]]; then
+            php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
+        else
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
@@ -57,6 +59,7 @@ install_php_modules(){
         if_in_array "${php_redis_filename}" "${php_modules_install}" && install_php_redis "${phpConfig}"
         if_in_array "${php_memcached_filename}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
     else
+        if_in_array "${php_libsodium_filename}" "${php_modules_install}" && install_php_libsodium "${phpConfig}"
         if_in_array "${php_graphicsmagick_filename2}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
         if_in_array "${php_redis_filename2}" "${php_modules_install}" && install_php_redis "${phpConfig}"
         if_in_array "${php_memcached_filename2}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
@@ -433,6 +436,42 @@ xcache.coveragedump_directory = "/tmp/pcov"
 EOF
     fi
     log "Info" "XCache install completed..."
+}
+
+
+install_php_libsodium(){
+    local phpConfig=${1}
+    local php_version=`get_php_version "${phpConfig}"`
+    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+
+    cd ${cur_dir}/software/
+
+    log "Info" "php-libsodium install start..."
+    download_file "${libsodium_filename}.tar.gz"
+    tar zxf ${libsodium_filename}.tar.gz
+    cd ${libsodium_filename}
+    error_detect "./configure --prefix=/usr"
+    error_detect "make"
+    error_detect "make install"
+
+    cd ${cur_dir}/software/
+
+    download_file "${php_libsodium_filename}.tar.gz"
+    tar zxf ${php_libsodium_filename}.tar.gz
+    cd ${php_libsodium_filename}
+    error_detect "${php_location}/bin/phpize"
+    error_detect "./configure --with-php-config=${phpConfig}"
+    error_detect "make"
+    error_detect "make install"
+    
+    if [ ! -f ${php_location}/php.d/sodium.ini ]; then
+        log "Info" "libsodium configuration file not found, create it!"
+        cat > ${php_location}/php.d/sodium.ini<<-EOF
+[sodium]
+extension = ${php_extension_dir}/sodium.so
+EOF
+    fi
+    log "Info" "php-libsodium install completed..."
 }
 
 

@@ -141,6 +141,9 @@ set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
 php_mongo_filename="mongodb-1.3.4"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
+#php-libsodium
+libsodium_filename="libsodium-1.0.16"
+php_libsodium_filename="libsodium-php-2.0.10"
 
 
 #software array setting
@@ -191,6 +194,7 @@ ${php_graphicsmagick_filename}
 ${php_memcached_filename}
 ${php_redis_filename}
 ${php_mongo_filename}
+${php_libsodium_filename}
 ${swoole_filename}
 ${xdebug_filename}
 do_not_install
