@@ -602,26 +602,6 @@ install_php_memcached(){
 
     cd ${cur_dir}/software
 
-    log "Info" "php-memcache install start..."
-    download_file "${php_memcache_filename}.tgz"
-    tar xzf ${php_memcache_filename}.tgz
-    cd ${php_memcache_filename}
-    error_detect "${php_location}/bin/phpize"
-    error_detect "./configure --enable-memcache --with-php-config=${phpConfig}"
-    error_detect "make"
-    error_detect "make install"
-    
-    if [ ! -f ${php_location}/php.d/memcache.ini ]; then
-        log "Info" "php-memcache configuration file not found, create it!"
-        cat > ${php_location}/php.d/memcache.ini<<-EOF
-[memcache]
-extension = ${php_extension_dir}/memcache.so
-EOF
-    fi
-    log "Info" "php-memcache install completed..."
-    
-    cd ${cur_dir}/software
-    
     log "Info" "libmemcached install start..."
     if check_sys packageManager apt;then
         apt-get -y install libsasl2-dev
