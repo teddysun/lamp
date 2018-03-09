@@ -121,7 +121,7 @@ ionCube64_filename="ioncube_loaders_lin_x86-64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
-memcached_filename="memcached-1.5.5"
+memcached_filename="memcached-1.5.6"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 #php-memcached
