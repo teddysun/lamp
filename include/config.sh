@@ -35,7 +35,7 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.30.0"
+nghttp2_filename="nghttp2-1.31.0"
 #openssl
 openssl_filename="openssl-1.0.2n"
 #apache2.4
@@ -76,10 +76,10 @@ apr_filename="apr-1.6.3"
 #apr-util
 apr_util_filename="apr-util-1.6.1"
 #mod_wsgi
-mod_wsgi_filename="mod_wsgi-4.5.24"
+mod_wsgi_filename="mod_wsgi-4.6.2"
 #mod_jk
-mod_jk_filename="tomcat-connectors-1.2.42-src"
-set_hint ${mod_jk_filename} "mod_jk-1.2.42"
+mod_jk_filename="tomcat-connectors-1.2.43-src"
+set_hint ${mod_jk_filename} "mod_jk-1.2.43"
 #mod_security
 mod_security_filename="modsecurity-2.9.2"
 set_hint ${mod_security_filename} "mod_security-2.9.2"
@@ -98,14 +98,14 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-2.0.12"
-set_hint ${swoole_filename} "php-swoole-2.0.12"
+swoole_filename="swoole-src-2.1.1"
+set_hint ${swoole_filename} "php-swoole-2.1.1"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.6.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.7-22"
+ImageMagick_filename="ImageMagick-7.0.7-26"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
@@ -133,11 +133,11 @@ set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 redis_filename="redis-3.2.11"
 #php-redis
 php_redis_filename="redis-2.2.8"
-php_redis_filename2="redis-3.1.5"
+php_redis_filename2="redis-3.1.6"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.3.4"
+php_mongo_filename="mongodb-1.4.2"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.16"
