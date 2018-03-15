@@ -1023,32 +1023,18 @@ finally(){
         /etc/init.d/mysqld start > /dev/null 2>&1
     fi
 
-    if [[ "${php}" == "${php5_6_filename}" ]]; then
-        if if_in_array "${php_memcached_filename}" "${php_modules_install}"; then
-            echo "Starting Memcached..."
-            /etc/init.d/memcached start > /dev/null 2>&1
-        fi
-    else
-        if if_in_array "${php_memcached_filename2}" "${php_modules_install}"; then
-            echo "Starting Memcached..."
-            /etc/init.d/memcached start > /dev/null 2>&1
-        fi
+    if if_in_array "${php_memcached_filename}" "${php_modules_install}" || if_in_array "${php_memcached_filename2}" "${php_modules_install}"; then
+        echo "Starting Memcached..."
+        /etc/init.d/memcached start > /dev/null 2>&1
     fi
 
-    if [[ "${php}" == "${php5_6_filename}" ]]; then
-        if if_in_array "${php_redis_filename}" "${php_modules_install}"; then
-            echo "Starting Redis-server..."
-            /etc/init.d/redis-server start > /dev/null 2>&1
-        fi
-    else
-        if if_in_array "${php_redis_filename2}" "${php_modules_install}"; then
-            echo "Starting Redis-server..."
-            /etc/init.d/redis-server start > /dev/null 2>&1
-        fi
+    if if_in_array "${php_redis_filename}" "${php_modules_install}" || if_in_array "${php_redis_filename2}" "${php_modules_install}"; then
+        echo "Starting Redis-server..."
+        /etc/init.d/redis-server start > /dev/null 2>&1
     fi
 
     # Install phpmyadmin database
-    if [ -d "${web_root_dir}/phpmyadmin" ]; then
+    if [ -d "${web_root_dir}/phpmyadmin" ] && [ -f /usr/bin/mysql ]; then
         /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql > /dev/null 2>&1
     fi
     sleep 3
@@ -1065,15 +1051,15 @@ finally(){
 
 #Install tools
 install_tool(){
-    log "Info" "Starting to install tools..."
+    log "Info" "Starting to install development tools..."
     if check_sys packageManager apt; then
         apt-get -y update > /dev/null 2>&1
         apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates > /dev/null 2>&1
     elif check_sys packageManager yum; then
-        yum install -y -q yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates
+        yum install -y yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates > /dev/null 2>&1
         yum-config-manager --enable epel > /dev/null 2>&1
     fi
-    log "Info" "Install tools completed..."
+    log "Info" "Install development tools completed..."
 
     check_command_exist "gcc"
     check_command_exist "g++"
