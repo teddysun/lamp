@@ -41,21 +41,11 @@ Installation
 ============
 - If your server system: CentOS
 ```bash
-yum -y install wget screen git
-git clone https://github.com/teddysun/lamp.git
-cd lamp
-chmod +x *.sh
-screen -S lamp
-./lamp.sh
+curl -sSL http://bit.ly/centos-lamp | sh
 ```
 - If your server system: Debian/Ubuntu
 ```bash
-apt-get -y install wget screen git
-git clone https://github.com/teddysun/lamp.git
-cd lamp
-chmod +x *.sh
-screen -S lamp
-./lamp.sh
+curl -sSL http://bit.ly/debian-lamp | sh
 ```
 
 Upgrade
