@@ -111,6 +111,7 @@ ${apache_location}/logs/access_log ${apache_location}/logs/error_log {
 EOF
 
     cat > ${apache_location}/conf/extra/httpd-vhosts.conf <<EOF
+Include ${apache_location}/conf/vhost/*.conf
 <VirtualHost *:80>
 ServerName localhost
 ServerAlias localhost
@@ -124,7 +125,6 @@ DocumentRoot ${web_root_dir}
     DirectoryIndex index.php index.html index.htm
 </Directory>
 </VirtualHost>
-Include ${apache_location}/conf/vhost/*.conf
 EOF
 
     sed -i 's/^User.*/User apache/i' ${apache_location}/conf/httpd.conf
