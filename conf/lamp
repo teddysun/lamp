@@ -255,6 +255,8 @@ add_ssl_memu(){
             echo "Error: Please only enter 1 or 2"
         fi
     done
+
+    read -p "Do you want force redirection from HTTP to HTTPS automatically? [y/n]:" force_ssl
 }
 
 create_ssl_config(){
@@ -287,6 +289,16 @@ create_ssl_config(){
 EOF
 }
 
+create_ssl_htaccess(){
+    cat > ${website_root}/.htaccess << EOF
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+</IfModule>
+EOF
+}
+
 add_ssl(){
     if [ "${ssl_pick}" == "1" ]; then
         create_ssl_config
@@ -299,6 +311,13 @@ add_ssl(){
             done
         fi
         add_letsencrypt
+    fi
+    if [ "${force_ssl}" == "y" ] || [ "${force_ssl}" == "Y" ]; then
+        echo "You chosen force redirection from HTTP to HTTPS automatically"
+        create_ssl_htaccess
+        echo "and it's already done"
+    else
+        echo "Do not force redirection from HTTP to HTTPS automatically"
     fi
 }
 
