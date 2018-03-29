@@ -76,7 +76,7 @@ apr_filename="apr-1.6.3"
 #apr-util
 apr_util_filename="apr-util-1.6.1"
 #mod_wsgi
-mod_wsgi_filename="mod_wsgi-4.6.2"
+mod_wsgi_filename="mod_wsgi-4.6.3"
 #mod_jk
 mod_jk_filename="tomcat-connectors-1.2.43-src"
 set_hint ${mod_jk_filename} "mod_jk-1.2.43"
