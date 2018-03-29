@@ -56,13 +56,6 @@ upgrade_php(){
 
     if [[ "${upgrade_php}" = "y" || "${upgrade_php}" = "Y" ]]; then
 
-        if [[ "${php_version}" != "7.0" && "${php_version}" != "7.1" && "${php_version}" != "7.2" ]]; then
-            if [ "${installed_php}" == "${latest_php}" ]; then
-                echo "${installed_php} is already the latest version and not need to upgrade, nothing to do..."
-                exit
-            fi
-        fi
-
         log "Info" "PHP upgrade start..."
         if [[ -d ${php_location}.bak && -d ${php_location} ]]; then
             rm -rf ${php_location}.bak
