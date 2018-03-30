@@ -63,11 +63,11 @@ percona5_7_filename="Percona-Server-5.7.21-20"
 #php5.6
 php5_6_filename="php-5.6.34"
 #php7.0
-php7_0_filename="php-7.0.28"
+php7_0_filename="php-7.0.29"
 #php7.1
-php7_1_filename="php-7.1.15"
+php7_1_filename="php-7.1.16"
 #php7.2
-php7_2_filename="php-7.2.3"
+php7_2_filename="php-7.2.4"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.7.9-all-languages"
 
