@@ -76,7 +76,7 @@ apr_filename="apr-1.6.3"
 #apr-util
 apr_util_filename="apr-util-1.6.1"
 #mod_wsgi
-mod_wsgi_filename="mod_wsgi-4.6.3"
+mod_wsgi_filename="mod_wsgi-4.6.4"
 #mod_jk
 mod_jk_filename="tomcat-connectors-1.2.43-src"
 set_hint ${mod_jk_filename} "mod_jk-1.2.43"
@@ -105,7 +105,7 @@ xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.6.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.7-26"
+ImageMagick_filename="ImageMagick-7.0.7-28"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
