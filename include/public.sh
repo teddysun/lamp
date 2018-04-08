@@ -1011,6 +1011,7 @@ finally(){
     sed -i "s@^mysql_location=.*@mysql_location=${mysql_location}@" /usr/bin/lamp
     sed -i "s@^mariadb_location=.*@mariadb_location=${mariadb_location}@" /usr/bin/lamp
     sed -i "s@^percona_location=.*@percona_location=${percona_location}@" /usr/bin/lamp
+    sed -i "s@^web_root_dir=.*@web_root_dir=${web_root_dir}@" /usr/bin/lamp
 
     ldconfig
 

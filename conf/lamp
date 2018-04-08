@@ -21,6 +21,7 @@ apache_location=/usr/local/apache
 mysql_location=/usr/local/mysql
 mariadb_location=/usr/local/mariadb
 percona_location=/usr/local/percona
+web_root_dir=/data/www/default
 
 rootness(){
     if [[ $EUID -ne 0 ]]; then
@@ -95,7 +96,7 @@ vhost_add(){
     website_root=${website_root:=$default_root}
     php_admin_value=""
     if [ -s /usr/bin/php ];then
-        php_admin_value="php_admin_value open_basedir ${website_root}:/tmp:/var/tmp:/proc"
+        php_admin_value="php_admin_value open_basedir ${website_root}:/tmp:/var/tmp:/proc:${web_root_dir}/phpmyadmin"
     fi
 
     while :
