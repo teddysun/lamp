@@ -1014,6 +1014,15 @@ finally(){
 
     ldconfig
 
+    # Add phpmyadmin Alias
+    if [ -d "${web_root_dir}/phpmyadmin" ]; then
+        cat >> ${apache_location}/conf/httpd.conf <<EOF
+<IfModule alias_module>
+    Alias /phpmyadmin ${web_root_dir}/phpmyadmin
+</IfModule>
+EOF
+    fi
+
     if [ "${apache}" != "do_not_install" ]; then
         echo "Starting Apache..."
         /etc/init.d/httpd start > /dev/null 2>&1
@@ -1037,6 +1046,7 @@ finally(){
     if [ -d "${web_root_dir}/phpmyadmin" ] && [ -f /usr/bin/mysql ]; then
         /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql > /dev/null 2>&1
     fi
+
     sleep 3
     netstat -nxtlp
 
