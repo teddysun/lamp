@@ -721,7 +721,7 @@ boot_stop(){
         update-rc.d -f ${1} remove
     elif check_sys packageManager yum; then
         chkconfig ${1} off
-        chkconfig --remove ${1}
+        chkconfig --del ${1}
     fi
 }
 
