@@ -41,11 +41,11 @@ openssl_filename="openssl-1.0.2n"
 #apache2.4
 apache2_4_filename="httpd-2.4.33"
 #mysql5.5
-mysql5_5_filename="mysql-5.5.59"
+mysql5_5_filename="mysql-5.5.60"
 #mysql5.6
-mysql5_6_filename="mysql-5.6.39"
+mysql5_6_filename="mysql-5.6.40"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.21"
+mysql5_7_filename="mysql-5.7.22"
 #mariadb5.5
 mariadb5_5_filename="mariadb-5.5.59"
 #mariadb10.0
