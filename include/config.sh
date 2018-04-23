@@ -47,7 +47,7 @@ mysql5_6_filename="mysql-5.6.40"
 #mysql5.7
 mysql5_7_filename="mysql-5.7.22"
 #mariadb5.5
-mariadb5_5_filename="mariadb-5.5.59"
+mariadb5_5_filename="mariadb-5.5.60"
 #mariadb10.0
 mariadb10_0_filename="mariadb-10.0.34"
 #mariadb10.1
