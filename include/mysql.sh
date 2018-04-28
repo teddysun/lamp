@@ -115,7 +115,7 @@ common_install(){
 
 common_setup(){
 
-    rm -f /usr/bin/mysql /usr/bin/mysqldump
+    rm -f /usr/bin/mysql /usr/bin/mysqldump /usr/bin/mysqladmin
     rm -f /etc/ld.so.conf.d/mysql.conf
 
     if [ -d ${mysql_location} ]; then
@@ -124,6 +124,7 @@ common_setup(){
         local db_pass="${mysql_root_pass}"
         ln -s ${mysql_location}/bin/mysql /usr/bin/mysql
         ln -s ${mysql_location}/bin/mysqldump /usr/bin/mysqldump
+        ln -s ${mysql_location}/bin/mysqladmin /usr/bin/mysqladmin
         cp -f ${mysql_location}/support-files/mysql.server /etc/init.d/mysqld
         sed -i "s:^basedir=.*:basedir=${mysql_location}:g" /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=${mysql_data_location}:g" /etc/init.d/mysqld
@@ -137,6 +138,7 @@ common_setup(){
         local db_pass="${mariadb_root_pass}"
         ln -s ${mariadb_location}/bin/mysql /usr/bin/mysql
         ln -s ${mariadb_location}/bin/mysqldump /usr/bin/mysqldump
+        ln -s ${mariadb_location}/bin/mysqladmin /usr/bin/mysqladmin
         cp -f ${mariadb_location}/support-files/mysql.server /etc/init.d/mysqld
         sed -i "s:^basedir=.*:basedir=${mariadb_location}:g" /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=${mariadb_data_location}:g" /etc/init.d/mysqld
@@ -150,6 +152,7 @@ common_setup(){
         local db_pass="${percona_root_pass}"
         ln -s ${percona_location}/bin/mysql /usr/bin/mysql
         ln -s ${percona_location}/bin/mysqldump /usr/bin/mysqldump
+        ln -s ${percona_location}/bin/mysqladmin /usr/bin/mysqladmin
         cp -f ${percona_location}/support-files/mysql.server /etc/init.d/mysqld
         sed -i "s:^basedir=.*:basedir=${percona_location}:g" /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=${percona_data_location}:g" /etc/init.d/mysqld
