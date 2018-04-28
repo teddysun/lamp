@@ -35,9 +35,9 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.31.0"
+nghttp2_filename="nghttp2-1.31.1"
 #openssl
-openssl_filename="openssl-1.0.2n"
+openssl_filename="openssl-1.0.2o"
 #apache2.4
 apache2_4_filename="httpd-2.4.33"
 #mysql5.5
@@ -121,7 +121,7 @@ ionCube64_filename="ioncube_loaders_lin_x86-64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
-memcached_filename="memcached-1.5.6"
+memcached_filename="memcached-1.5.7"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 #php-memcached
@@ -137,7 +137,7 @@ php_redis_filename2="redis-3.1.6"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.4.2"
+php_mongo_filename="mongodb-1.4.3"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.16"
