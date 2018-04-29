@@ -14,7 +14,7 @@
 #Pre-installation mysql or mariadb or percona
 mysql_preinstall_settings(){
 
-    display_menu mysql 6
+    display_menu mysql 3
 
     if [ "${mysql}" != "do_not_install" ];then
         if echo "${mysql}" | grep -qi "mysql"; then
@@ -113,6 +113,115 @@ common_install(){
     fi
 }
 
+#create mysql cnf
+create_mysql_my_cnf(){
+
+    local mysqlDataLocation=${1}
+    local binlog=${2}
+    local replica=${3}
+    local my_cnf_location=${4}
+
+    local memory=512M
+    local storage=InnoDB
+    local totalMemory=$(awk 'NR==1{print $2}' /proc/meminfo)
+    if [[ ${totalMemory} -lt 393216 ]]; then
+        memory=256M
+    elif [[ ${totalMemory} -lt 786432 ]]; then
+        memory=512M
+    elif [[ ${totalMemory} -lt 1572864 ]]; then
+        memory=1G
+    elif [[ ${totalMemory} -lt 3145728 ]]; then
+        memory=2G
+    elif [[ ${totalMemory} -lt 6291456 ]]; then
+        memory=4G
+    elif [[ ${totalMemory} -lt 12582912 ]]; then
+        memory=8G
+    elif [[ ${totalMemory} -lt 25165824 ]]; then
+        memory=16G
+    else
+        memory=32G
+    fi
+
+    case ${memory} in
+        256M)innodb_log_file_size=32M;innodb_buffer_pool_size=64M;open_files_limit=512;table_open_cache=200;max_connections=64;;
+        512M)innodb_log_file_size=32M;innodb_buffer_pool_size=128M;open_files_limit=512;table_open_cache=200;max_connections=128;;
+        1G)innodb_log_file_size=64M;innodb_buffer_pool_size=256M;open_files_limit=1024;table_open_cache=400;max_connections=256;;
+        2G)innodb_log_file_size=64M;innodb_buffer_pool_size=512M;open_files_limit=1024;table_open_cache=400;max_connections=300;;
+        4G)innodb_log_file_size=128M;innodb_buffer_pool_size=1G;open_files_limit=2048;table_open_cache=800;max_connections=400;;
+        8G)innodb_log_file_size=256M;innodb_buffer_pool_size=2G;open_files_limit=4096;table_open_cache=1600;max_connections=400;;
+        16G)innodb_log_file_size=512M;innodb_buffer_pool_size=4G;open_files_limit=8192;table_open_cache=2000;max_connections=512;;
+        32G)innodb_log_file_size=512M;innodb_buffer_pool_size=8G;open_files_limit=65535;table_open_cache=2048;max_connections=1024;;
+        *) echo "input error, please input a number";;
+    esac
+
+    if ${binlog}; then
+        binlog="# BINARY LOGGING #\nlog-bin = ${mysqlDataLocation}/mysql-bin\nserver-id = 1\nexpire-logs-days = 14\nsync-binlog = 1"
+        binlog=$(echo -e $binlog)
+    else
+        binlog=""
+    fi
+
+    if ${replica}; then
+        replica="# REPLICATION #\nrelay-log = ${mysqlDataLocation}/relay-bin\nslave-net-timeout = 60"
+        replica=$(echo -e $replica)
+    else
+        replica=""
+    fi
+
+    log "Info" "create my.cnf file..."
+    cat >${my_cnf_location} <<EOF
+[mysql]
+
+# CLIENT #
+port                           = 3306
+socket                         = /tmp/mysql.sock
+
+[mysqld]
+# GENERAL #
+port                           = 3306
+user                           = mysql
+default-storage-engine         = ${storage}
+socket                         = /tmp/mysql.sock
+pid-file                       = ${mysqlDataLocation}/mysql.pid
+skip-name-resolve
+skip-external-locking
+
+# INNODB #
+innodb-log-files-in-group      = 2
+innodb-log-file-size           = ${innodb_log_file_size}
+innodb-flush-log-at-trx-commit = 2
+innodb-file-per-table          = 1
+innodb-buffer-pool-size        = ${innodb_buffer_pool_size}
+
+# CACHES AND LIMITS #
+tmp-table-size                 = 32M
+max-heap-table-size            = 32M
+max-connections                = ${max_connections}
+thread-cache-size              = 50
+open-files-limit               = ${open_files_limit}
+table-open-cache               = ${table_open_cache}
+
+# SAFETY #
+max-allowed-packet             = 16M
+max-connect-errors             = 1000000
+
+# DATA STORAGE #
+datadir                        = ${mysqlDataLocation}
+
+# LOGGING #
+log-error                      = ${mysqlDataLocation}/mysql-error.log
+
+${binlog}
+
+${replica}
+
+EOF
+
+    log "Info" "create my.cnf file at ${my_cnf_location} completed."
+
+}
+
+
 common_setup(){
 
     rm -f /usr/bin/mysql /usr/bin/mysqldump /usr/bin/mysqladmin
@@ -168,15 +277,23 @@ common_setup(){
 
     log "Info" "Starting ${db_name}..."
     /etc/init.d/mysqld start > /dev/null 2>&1
-    /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${db_pass}\" with grant option;"
-    /usr/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${db_pass}\" with grant option;"
-    /usr/bin/mysql -uroot -p${db_pass} <<EOF
+    if [ "${db_name}" == "MySQL" ] && [ "${mysql_ver}" == "8.0" ]; then
+        /usr/bin/mysql -uroot -hlocalhost -e "create user root@'127.0.0.1' identified by \"${db_pass}\";"
+        /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'127.0.0.1' with grant option;"
+        /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'localhost' with grant option;"
+        /usr/bin/mysql -uroot -hlocalhost -e "alter user root@'localhost' identified by \"${db_pass}\";"
+    else
+        /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${db_pass}\" with grant option;"
+        /usr/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${db_pass}\" with grant option;"
+        /usr/bin/mysql -uroot -p${db_pass} <<EOF
 drop database if exists test;
 delete from mysql.user where not (user='root');
 delete from mysql.db where user='';
 flush privileges;
 exit
 EOF
+    fi
+
     log "Info" "Shutting down ${db_name}..."
     /etc/init.d/mysqld stop > /dev/null 2>&1
 
@@ -219,9 +336,12 @@ config_mysql(){
     #create my.cnf
     create_mysql_my_cnf "${mysql_data_location}" "false" "false" "/etc/my.cnf"
 
+    if [ "${version}" == "8.0" ]; then
+        echo "default_authentication_plugin  = mysql_native_password" >> /etc/my.cnf
+    fi
     if [ "${version}" == "5.5" ] || [ "${version}" == "5.6" ]; then
         ${mysql_location}/scripts/mysql_install_db --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
-    elif [ "${version}" == "5.7" ]; then
+    elif [ "${version}" == "5.7" ] || [ "${version}" == "8.0" ]; then
         ${mysql_location}/bin/mysqld --initialize-insecure --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
     fi
 

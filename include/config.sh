@@ -46,6 +46,8 @@ mysql5_5_filename="mysql-5.5.60"
 mysql5_6_filename="mysql-5.6.40"
 #mysql5.7
 mysql5_7_filename="mysql-5.7.22"
+#mysql8.0
+mysql8_0_filename="mysql-8.0.11"
 #mariadb5.5
 mariadb5_5_filename="mariadb-5.5.60"
 #mariadb10.0
@@ -161,6 +163,7 @@ mysql_arr=(
 ${mysql5_5_filename}
 ${mysql5_6_filename}
 ${mysql5_7_filename}
+${mysql8_0_filename}
 ${mariadb5_5_filename}
 ${mariadb10_0_filename}
 ${mariadb10_1_filename}
