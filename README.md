@@ -19,20 +19,21 @@ LAMP is a powerful bash script for the installation of Apache + PHP + MySQL/Mari
 Supported System
 ===============
 - CentOS-6.x
-- CentOS-7.x
+- CentOS-7.x (recommend)
 - Ubuntu-14.x
 - Ubuntu-15.x
 - Ubuntu-16.x
 - Ubuntu-17.x
+- Ubuntu-18.x (recommend)
 - Debian-7.x
 - Debian-8.x
-- Debian-9.x
+- Debian-9.x (recommend)
 
 Supported Software
 ==================
 - Apache-2.4 (Include HTTP/2 module: mod_http2)
 - Apache Additional Modules: mod_wsgi, mod_security, mod_jk
-- MySQL-5.5, MySQL-5.6, MySQL-5.7, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7
+- MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7
 - PHP-5.6, PHP-7.0, PHP-7.1, PHP-7.2
 - PHP Additional Modules: opcache, ioncube_loaders, xcache, imagick, gmagick, libsodium, memcached, redis, mongodb, swoole, xdebug
 - Other Software: ImageMagick, GraphicsMagick, Memcached, phpMyAdmin, Redis-Server
