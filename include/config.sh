@@ -92,7 +92,7 @@ libmcrypt_filename="libmcrypt-2.5.8"
 #mcrypt
 mcrypt_filename="mcrypt-2.6.8"
 #pcre
-pcre_filename="pcre-8.41"
+pcre_filename="pcre-8.42"
 #re2c
 re2c_filename='re2c-1.0.2'
 #imap
@@ -100,8 +100,8 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-2.1.1"
-set_hint ${swoole_filename} "php-swoole-2.1.1"
+swoole_filename="swoole-src-2.1.3"
+set_hint ${swoole_filename} "php-swoole-2.1.3"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
@@ -132,10 +132,10 @@ php_memcached_filename2="memcached-3.0.4"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
-redis_filename="redis-3.2.11"
+redis_filename="redis-4.0.9"
 #php-redis
 php_redis_filename="redis-2.2.8"
-php_redis_filename2="redis-3.1.6"
+php_redis_filename2="redis-4.0.2"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
