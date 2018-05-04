@@ -51,7 +51,7 @@ mysql8_0_filename="mysql-8.0.11"
 #mariadb5.5
 mariadb5_5_filename="mariadb-5.5.60"
 #mariadb10.0
-mariadb10_0_filename="mariadb-10.0.34"
+mariadb10_0_filename="mariadb-10.0.35"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.32"
 #mariadb10.2
