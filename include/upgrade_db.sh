@@ -34,6 +34,8 @@ upgrade_db(){
             latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/5.6.html | awk '/MySQL Community Server/{print $4}' | grep '5.6'`
         elif [ "${mysql_ver}" == "5.7" ]; then
             latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7'`
+        elif [ "${mysql_ver}" == "8.0" ]; then
+            latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/8.0.html | awk '/MySQL Community Server/{print $4}' | grep '8.0'`
         fi
 
         echo -e "Latest version of MySQL: \033[41;37m ${latest_mysql} \033[0m"
@@ -179,7 +181,7 @@ EOF
 
             if [ ${mysql_ver} == "5.5" ] || [ ${mysql_ver} == "5.6" ]; then
                 ${mysql_location}/scripts/mysql_install_db --basedir=${mysql_location} --datadir=${datalocation} --user=mysql
-            elif [ ${mysql_ver} == "5.7" ]; then
+            elif [ ${mysql_ver} == "5.7" ] || [ ${mysql_ver} == "8.0" ]; then
                 ${mysql_location}/bin/mysqld --initialize-insecure --basedir=${mysql_location} --datadir=${datalocation} --user=mysql
             fi
 
@@ -305,15 +307,22 @@ EOF
             log "Error" "Starting $(db_name) failed, Please check it and try again!"
             exit 5
         fi
-        /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${mysql_root_password}\" with grant option;"
-        /usr/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${mysql_root_password}\" with grant option;"
-        /usr/bin/mysql -uroot -p${mysql_root_password} <<EOF
+        if [ "${db_name}" == "MySQL" ] && [ "${mysql_ver}" == "8.0" ]; then
+            /usr/bin/mysql -uroot -hlocalhost -e "create user root@'127.0.0.1' identified by \"${mysql_root_password}\";"
+            /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'127.0.0.1' with grant option;"
+            /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'localhost' with grant option;"
+            /usr/bin/mysql -uroot -hlocalhost -e "alter user root@'localhost' identified by \"${mysql_root_password}\";"
+        else
+            /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${mysql_root_password}\" with grant option;"
+            /usr/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${mysql_root_password}\" with grant option;"
+            /usr/bin/mysql -uroot -p${mysql_root_password} <<EOF
 drop database if exists test;
 delete from mysql.user where user='';
 delete from mysql.user where not (user='root');
 flush privileges;
 exit
 EOF
+        fi
         log "Info" "Starting restore all of databases, Please wait a moment..."
         /usr/bin/mysql -uroot -p${mysql_root_password} < ${mysql_dump} > /dev/null 2>&1
         if [ $? -eq 0 ]; then
