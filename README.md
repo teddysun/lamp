@@ -33,7 +33,7 @@ Supported Software
 ==================
 - Apache-2.4 (Include HTTP/2 module: mod_http2)
 - Apache Additional Modules: mod_wsgi, mod_security, mod_jk
-- MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7
+- MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, MariaDB-10.3, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7
 - PHP-5.6, PHP-7.0, PHP-7.1, PHP-7.2
 - PHP Additional Modules: opcache, ioncube_loaders, xcache, imagick, gmagick, libsodium, memcached, redis, mongodb, swoole, xdebug
 - Other Software: ImageMagick, GraphicsMagick, Memcached, phpMyAdmin, Redis-Server
