@@ -14,6 +14,11 @@
 #Pre-installation mysql or mariadb or percona
 mysql_preinstall_settings(){
 
+    libc_version=`getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}'`
+
+    if version_lt ${libc_version} 2.14; then
+        mysql_arr=(${mysql_arr[@]#${mariadb10_3_filename}})
+    fi
     display_menu mysql 3
 
     if [ "${mysql}" != "do_not_install" ];then
@@ -361,8 +366,6 @@ install_mariadb(){
         local down_addr1=http://sfo1.mirrors.digitalocean.com/mariadb/
         local down_addr2=http://mirrors.aliyun.com/mariadb/
     fi
-
-    local libc_version=`getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}'`
 
     if version_lt ${libc_version} 2.14; then
         glibc_flag=linux
