@@ -102,18 +102,18 @@ imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-2.1.3"
-set_hint ${swoole_filename} "php-swoole-2.1.3"
+swoole_filename="swoole-src-2.2.0"
+set_hint ${swoole_filename} "php-swoole-2.2.0"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.6.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.7-28"
+ImageMagick_filename="ImageMagick-7.0.7-38"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.28"
+GraphicsMagick_filename="GraphicsMagick-1.3.29"
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
 php_graphicsmagick_filename2="gmagick-2.0.5RC1"
 set_hint ${php_graphicsmagick_filename} "php-${php_graphicsmagick_filename}"
@@ -125,7 +125,7 @@ ionCube64_filename="ioncube_loaders_lin_x86-64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
-memcached_filename="memcached-1.5.7"
+memcached_filename="memcached-1.5.8"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 #php-memcached
@@ -145,7 +145,7 @@ php_mongo_filename="mongodb-1.4.3"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.16"
-php_libsodium_filename="libsodium-php-2.0.10"
+php_libsodium_filename="libsodium-php-2.0.11"
 
 
 #software array setting
