@@ -71,7 +71,7 @@ php7_0_filename="php-7.0.30"
 #php7.1
 php7_1_filename="php-7.1.18"
 #php7.2
-php7_2_filename="php-7.2.6"
+php7_2_filename="php-7.2.7"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.8.1-all-languages"
 
