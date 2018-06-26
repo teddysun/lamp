@@ -63,24 +63,12 @@ screen -S lamp
 - If you want to set defaut values
 system: Debian/Ubuntu
 ```bash
-
-apache=httpd-2.4.33
-apache_modules_install[1]=modsecurity-2.9.2
-mysql=mysql-5.7.22
-mysql_location=/usr/local/mysql
-mysql_data_location=/usr/local/mysql/data
-mysql_root_pass=root
-php=php-7.2.7
-php_modules_install[0]=imagick-3.4.3
-php_modules_install[1]=gmagick-2.0.5RC1
-phpmyadmin=phpMyAdmin-4.8.2-all-languages
-
 apt-get -y install wget screen git
 git clone -b develop https://github.com/peterconsuegra/lamp.git
 cd lamp
 chmod +x *.sh
 screen -S lamp
-./lamp.sh
+./lamp.sh -i default_install
 
 
 Upgrade
