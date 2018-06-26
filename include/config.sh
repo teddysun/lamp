@@ -69,7 +69,7 @@ php5_6_filename="php-5.6.36"
 #php7.0
 php7_0_filename="php-7.0.30"
 #php7.1
-php7_1_filename="php-7.1.18"
+php7_1_filename="php-7.1.19"
 #php7.2
 php7_2_filename="php-7.2.7"
 #phpMyAdmin
