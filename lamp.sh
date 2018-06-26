@@ -19,13 +19,13 @@ do
 case "${option}" 
 	in
 	a) apache=${OPTARG};;
-	p) apache_modules_install+=("$OPTARG");;
+	c) apache_modules_install+=("$OPTARG");;
 	m) mysql=${OPTARG};;
 	l) mysql_location=${OPTARG};;
 	d) mysql_data_location=${OPTARG};;
 	r) mysql_root_pass=${OPTARG};;
 	p) php=${OPTARG};;
-	m) php_modules_install+=("$OPTARG");;
+	o) php_modules_install+=("$OPTARG");;
 	h) phpmyadmin=${OPTARG};;
 esac 
 done 
