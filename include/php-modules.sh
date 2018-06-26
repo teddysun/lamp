@@ -32,7 +32,7 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         fi
 		
-		if [ ${#apache_modules_install[@]} -eq 0 ]; then
+		if [ ${#php_modules_install[@]} -eq 0 ]; then
 		   display_menu_multi php_modules last
 		fi
     fi

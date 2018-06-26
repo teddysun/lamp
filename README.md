@@ -76,7 +76,7 @@ php_modules_install[1]=gmagick-2.0.5RC1
 phpmyadmin=phpMyAdmin-4.8.2-all-languages
 
 apt-get -y install wget screen git
-git clone https://github.com/teddysun/lamp.git
+git clone -b develop https://github.com/peterconsuegra/lamp.git
 cd lamp
 chmod +x *.sh
 screen -S lamp
