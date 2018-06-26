@@ -19,24 +19,31 @@ mysql_preinstall_settings(){
     if version_lt ${libc_version} 2.14; then
         mysql_arr=(${mysql_arr[@]#${mariadb10_3_filename}})
     fi
-    display_menu mysql 3
+    
+	if [ -z "mysql" ] ; then
+	    display_menu mysql 3
+	fi
 
     if [ "${mysql}" != "do_not_install" ];then
         if echo "${mysql}" | grep -qi "mysql"; then
             #mysql data
-            echo
-            read -p "mysql data location(default:${mysql_location}/data, leave blank for default): " mysql_data_location
-            mysql_data_location=${mysql_data_location:=${mysql_location}/data}
-            mysql_data_location=`filter_location "${mysql_data_location}"`
-            echo
-            echo "mysql data location: ${mysql_data_location}"
+			if [ -z "mysql_data_location" ] ; then
+            	echo
+            	read -p "mysql data location(default:${mysql_location}/data, leave blank for default): " mysql_data_location
+            	mysql_data_location=${mysql_data_location:=${mysql_location}/data}
+            	mysql_data_location=`filter_location "${mysql_data_location}"`
+            	echo
+            	echo "mysql data location: ${mysql_data_location}"
+			fi
 
             #set mysql server root password
-            echo
-            read -p "mysql server root password (default:root, leave blank for default): " mysql_root_pass
-            mysql_root_pass=${mysql_root_pass:=root}
-            echo
-            echo "mysql server root password: ${mysql_root_pass}"
+			if [ -z "mysql_root_pass" ] ; then
+            	echo
+            	read -p "mysql server root password (default:root, leave blank for default): " mysql_root_pass
+            	mysql_root_pass=${mysql_root_pass:=root}
+            	echo
+            	echo "mysql server root password: ${mysql_root_pass}"
+			fi
 
         elif echo "${mysql}" | grep -qi "mariadb"; then
             #mariadb data

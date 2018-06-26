@@ -31,7 +31,10 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         fi
-        display_menu_multi php_modules last
+		
+		if [ ${#apache_modules_install[@]} -eq 0 ]; then
+		   display_menu_multi php_modules last
+		fi
     fi
 }
 
@@ -41,7 +44,9 @@ phpmyadmin_preinstall_settings(){
     if [[ "${php}" == "do_not_install" ]]; then
         phpmyadmin="do_not_install"
     else
-        display_menu phpmyadmin 1
+		if [ -z "phpmyadmin" ] ; then
+		    display_menu phpmyadmin 1
+		fi
     fi
 }
 

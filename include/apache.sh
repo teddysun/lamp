@@ -14,8 +14,10 @@
 #Pre-installation apache
 apache_preinstall_settings(){
 
-    display_menu apache 1
-    display_menu_multi apache_modules last
+	if [ -z "apache" ] ; then
+	    display_menu apache 1
+	    display_menu_multi apache_modules last
+	fi
 
     if [[ "$apache" != "do_not_install" ]];then
         apache_configure_args="--prefix=${apache_location} \
