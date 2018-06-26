@@ -64,11 +64,11 @@ screen -S lamp
 system: Debian/Ubuntu
 ```bash
 apt-get -y install wget screen git
-git clone -b develop https://github.com/peterconsuegra/lamp.git
+git clone -b odevelop https://github.com/peterconsuegra/lamp.git
 cd lamp
 chmod +x *.sh
 screen -S lamp
-./lamp.sh -i default_install
+./lamp.sh -a apache=httpd-2.4.33 -p modsecurity-2.9.2 -m mysql-5.7.22 -l /usr/local/mysql -d /usr/local/mysql/data -r root -p php-7.2.7 -m imagick-3.4.3 -n gmagick-2.0.5RC1 -h phpMyAdmin-4.8.2-all-languages
 
 
 Upgrade
