@@ -18,16 +18,15 @@ while getopts a:p:m:l:d:r:p:m:n:h: option
 do 
 case "${option}" 
 	in
-	a) apache=httpd-2.4.33
-	p) apache_modules_install[1]=modsecurity-2.9.2
-	m) mysql=mysql-5.7.22
-	l) mysql_location=/usr/local/mysql
-	d) mysql_data_location=/usr/local/mysql/data
-	r) mysql_root_pass=root
-	p) php=php-7.2.7
-	m) php_modules_install[0]=imagick-3.4.3
-	n) php_modules_install[1]=gmagick-2.0.5RC1
-	h) phpmyadmin=phpMyAdmin-4.8.2-all-languages
+	a) apache=${OPTARG};;
+	p) apache_modules_install+=("$OPTARG");;
+	m) mysql=${OPTARG};;
+	l) mysql_location=${OPTARG};;
+	d) mysql_data_location=${OPTARG};;
+	r) mysql_root_pass=${OPTARG};;
+	p) php=${OPTARG};;
+	m) php_modules_install+=("$OPTARG");;
+	h) phpmyadmin=${OPTARG};;
 esac 
 done 
 
