@@ -14,7 +14,7 @@
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
 
-while getopts a:p:m:l:d:r:p:m:n:h: option 
+while getopts a:c:m:l:d:r:p:o:h: option 
 do 
 case "${option}" 
 	in
