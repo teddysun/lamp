@@ -39,7 +39,7 @@ nghttp2_filename="nghttp2-1.32.0"
 #openssl
 openssl_filename="openssl-1.0.2o"
 #apache2.4
-apache2_4_filename="httpd-2.4.33"
+apache2_4_filename="httpd-2.4.34"
 #mysql5.5
 mysql5_5_filename="mysql-5.5.60"
 #mysql5.6
@@ -65,13 +65,13 @@ percona5_6_filename="Percona-Server-5.6.40-84.0"
 #percona5.7
 percona5_7_filename="Percona-Server-5.7.22-22"
 #php5.6
-php5_6_filename="php-5.6.36"
+php5_6_filename="php-5.6.37"
 #php7.0
-php7_0_filename="php-7.0.30"
+php7_0_filename="php-7.0.31"
 #php7.1
-php7_1_filename="php-7.1.19"
+php7_1_filename="php-7.1.20"
 #php7.2
-php7_2_filename="php-7.2.7"
+php7_2_filename="php-7.2.8"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.8.2-all-languages"
 
