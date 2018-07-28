@@ -26,16 +26,16 @@ upgrade_db(){
         db_flg="mysql"
         bkup_dir="${cur_dir}/mysql_bkup"
         mysql_dump="${bkup_dir}/mysql_all_backup_${update_date}.dump"
-        installed_mysql=`${mysql_location}/bin/mysql -V | awk '{print $5}' | tr -d ","`
-        mysql_ver=`echo ${installed_mysql} | cut -d. -f1-2`
+        installed_mysql=$(${mysql_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+        mysql_ver=$(echo ${installed_mysql} | cut -d. -f1-2)
         if   [ "${mysql_ver}" == "5.5" ]; then
-            latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/5.5.html | awk '/MySQL Community Server/{print $4}' | grep '5.5'`
+            latest_mysql=$(curl -s https://dev.mysql.com/downloads/mysql/5.5.html | awk '/MySQL Community Server/{print $4}' | grep '5.5')
         elif [ "${mysql_ver}" == "5.6" ]; then
-            latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/5.6.html | awk '/MySQL Community Server/{print $4}' | grep '5.6'`
+            latest_mysql=$(curl -s https://dev.mysql.com/downloads/mysql/5.6.html | awk '/MySQL Community Server/{print $4}' | grep '5.6')
         elif [ "${mysql_ver}" == "5.7" ]; then
-            latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7'`
+            latest_mysql=$(curl -s https://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7')
         elif [ "${mysql_ver}" == "8.0" ]; then
-            latest_mysql=`curl -s https://dev.mysql.com/downloads/mysql/8.0.html | awk '/MySQL Community Server/{print $4}' | grep '8.0'`
+            latest_mysql=$(curl -s https://dev.mysql.com/downloads/mysql/8.0.html | awk '/MySQL Community Server/{print $4}' | grep '8.0')
         fi
 
         echo -e "Latest version of MySQL: \033[41;37m ${latest_mysql} \033[0m"
@@ -45,18 +45,18 @@ upgrade_db(){
         db_flg="mariadb"
         bkup_dir="${cur_dir}/mariadb_bkup"
         mysql_dump="${bkup_dir}/mariadb_all_backup_${update_date}.dump"
-        installed_mariadb=`${mariadb_location}/bin/mysql -V | awk '{print $5}' | tr -d "," | cut -d- -f1`
-        mariadb_ver=`echo ${installed_mariadb} | cut -d. -f1-2`
+        installed_mariadb=$(${mariadb_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+        mariadb_ver=$(echo ${installed_mariadb} | cut -d. -f1-2)
         if   [ "${mariadb_ver}" == "5.5" ]; then
-            latest_mariadb=`curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/5.5/{print $3}'`
+            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/5.5/{print $3}')
         elif [ "${mariadb_ver}" == "10.0" ]; then
-            latest_mariadb=`curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}'`
+            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}')
         elif [ "${mariadb_ver}" == "10.1" ]; then
-            latest_mariadb=`curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.1/{print $3}'`
+            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.1/{print $3}')
         elif [ "${mariadb_ver}" == "10.2" ]; then
-            latest_mariadb=`curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.2/{print $3}'`
+            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.2/{print $3}')
         elif [ "${mariadb_ver}" == "10.3" ]; then
-            latest_mariadb=`curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.3/{print $3}'`
+            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.3/{print $3}')
         fi
 
         echo -e "Latest version of MariaDB: \033[41;37m ${latest_mariadb} \033[0m"
@@ -65,14 +65,14 @@ upgrade_db(){
         db_flg="percona"
         bkup_dir="${cur_dir}/percona_bkup"
         mysql_dump="${bkup_dir}/percona_all_backup_${update_date}.dump"
-        installed_percona=`${percona_location}/bin/mysql -V | awk '{print $5}' | tr -d ","`
-        percona_ver=`echo ${installed_percona} | cut -d. -f1-2`
+        installed_percona=$(${percona_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+        percona_ver=$(echo ${installed_percona} | cut -d. -f1-2)
         if   [ "${percona_ver}" == "5.5" ]; then
-            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.5/LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.5/{print $2}' | cut -d'"' -f1`
+            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-5.5/LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.5/{print $2}' | cut -d'"' -f1)
         elif [ "${percona_ver}" == "5.6" ]; then
-            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-5.6/LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.6/{print $2}' | cut -d'"' -f1`
+            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-5.6/LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.6/{print $2}' | cut -d'"' -f1)
         elif [ "${percona_ver}" == "5.7" ]; then
-            latest_percona=`curl -s https://www.percona.com/downloads/Percona-Server-LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.7/{print $2}' | cut -d'"' -f1`
+            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.7/{print $2}' | cut -d'"' -f1)
         fi
 
         echo -e "Latest version of Percona: \033[41;37m ${latest_percona} \033[0m"
@@ -108,7 +108,7 @@ upgrade_db(){
     if [[ "${upgrade_db}" = "y" || "${upgrade_db}" = "Y" ]]; then
         log "Info" "$(db_name) upgrade start..."
 
-        mysql_count=`ps -ef | grep -v grep | grep -c "mysqld"`
+        mysql_count=$(ps -ef | grep -v grep | grep -c "mysqld")
         if [ ${mysql_count} -eq 0 ]; then
             log "Info" "$(db_name) looks like not running, Try to starting $(db_name)..."
             /etc/init.d/mysqld start > /dev/null 2>&1
@@ -149,7 +149,7 @@ EOF
         fi
         cp -pf /etc/init.d/mysqld ${bkup_dir}/${bkup_file}
 
-        datalocation=`cat ${bkup_dir}/${bkup_file} | grep -w 'datadir=' | awk -F= '{print $2}' | head -1`
+        datalocation=$(cat ${bkup_dir}/${bkup_file} | grep -w 'datadir=' | awk -F= '{print $2}' | head -1)
 
         if [ ! -d ${cur_dir}/software ]; then
             mkdir -p ${cur_dir}/software
