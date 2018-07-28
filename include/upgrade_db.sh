@@ -318,7 +318,7 @@ EOF
             log "Error" "Starting $(db_name) failed, Please check it and try again!"
             exit 5
         fi
-        if [ "${db_name}" == "MySQL" ] && [ "${mysql_ver}" == "8.0" ]; then
+        if [ "${mysql_ver}" == "8.0" ]; then
             /usr/bin/mysql -uroot -hlocalhost -e "create user root@'127.0.0.1' identified by \"${mysql_root_password}\";"
             /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'127.0.0.1' with grant option;"
             /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'localhost' with grant option;"
