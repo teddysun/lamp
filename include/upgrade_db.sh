@@ -166,12 +166,21 @@ EOF
             [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
             is_64bit && sys_bit=x86_64 || sys_bit=i686
-            url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
-            url2="${download_root_url}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+            log "Info" "Downloading and Extracting MySQL files..."
+            if [ "${mysql_ver}" == "8.0" ]; then
+                url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.xz"
+                url2="${download_root_url}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.xz"
+                mysql_file="mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.xz"
+                download_from_url "${mysql_file}" "${url1}" "${url2}"
+                tar Jxf ${mysql_file}
+            else
+                url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+                url2="${download_root_url}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+                mysql_file="mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+                download_from_url "${mysql_file}" "${url1}" "${url2}"
+                tar zxf ${mysql_file}
+            fi
 
-            download_from_url "mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz" "${url1}" "${url2}"
-            log "Info" "Extracting MySQL files..."
-            tar zxf mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz
             log "Info" "Moving MySQL files..."
             mv mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}/* ${mysql_location}
 
@@ -181,9 +190,9 @@ EOF
             sed -i "s:^datadir=.*:datadir=${datalocation}:g" /etc/init.d/mysqld
             chmod +x /etc/init.d/mysqld
 
-            if [ ${mysql_ver} == "5.5" ] || [ ${mysql_ver} == "5.6" ]; then
+            if [ "${mysql_ver}" == "5.5" ] || [ "${mysql_ver}" == "5.6" ]; then
                 ${mysql_location}/scripts/mysql_install_db --basedir=${mysql_location} --datadir=${datalocation} --user=mysql
-            elif [ ${mysql_ver} == "5.7" ] || [ ${mysql_ver} == "8.0" ]; then
+            elif [ "${mysql_ver}" == "5.7" ] || [ "${mysql_ver}" == "8.0" ]; then
                 ${mysql_location}/bin/mysqld --initialize-insecure --basedir=${mysql_location} --datadir=${datalocation} --user=mysql
             fi
 

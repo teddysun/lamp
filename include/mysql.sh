@@ -311,14 +311,22 @@ install_mysqld(){
 
     is_64bit && sys_bit=x86_64 || sys_bit=i686
     mysql_ver=$(echo ${mysql} | sed 's/[^0-9.]//g' | cut -d. -f1-2)
-    local url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
-    local url2="${download_root_url}/${mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
-
     cd ${cur_dir}/software/
+    log "Info" "Downloading and Extracting MySQL files..."
+    if [ "${mysql_ver}" == "8.0" ]; then
+        url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql}-linux-glibc2.12-${sys_bit}.tar.xz"
+        url2="${download_root_url}/${mysql}-linux-glibc2.12-${sys_bit}.tar.xz"
+        mysql_file="${mysql}-linux-glibc2.12-${sys_bit}.tar.xz"
+        download_from_url "${mysql_file}" "${url1}" "${url2}"
+        tar Jxf ${mysql_file}
+    else
+        url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+        url2="${download_root_url}/${mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+        mysql_file="${mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
+        download_from_url "${mysql_file}" "${url1}" "${url2}"
+        tar zxf ${mysql_file}
+    fi
 
-    download_from_url "${mysql}-linux-glibc2.12-${sys_bit}.tar.gz" "${url1}" "${url2}"
-    log "Info" "Extracting MySQL files..."
-    tar zxf ${mysql}-linux-glibc2.12-${sys_bit}.tar.gz
     log "Info" "Moving MySQL files..."
     mv ${mysql}-linux-glibc2.12-${sys_bit}/* ${mysql_location}
 
