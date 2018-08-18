@@ -37,7 +37,7 @@ parallel_compile=1
 #nghttp2
 nghttp2_filename="nghttp2-1.32.0"
 #openssl
-openssl_filename="openssl-1.0.2o"
+openssl_filename="openssl-1.0.2p"
 #apache2.4
 apache2_4_filename="httpd-2.4.34"
 #mysql5.5
@@ -59,9 +59,9 @@ mariadb10_2_filename="mariadb-10.2.17"
 #mariadb10.3
 mariadb10_3_filename="mariadb-10.3.9"
 #percona5.5
-percona5_5_filename="Percona-Server-5.5.60-38.12"
+percona5_5_filename="Percona-Server-5.5.61-38.13"
 #percona5.6
-percona5_6_filename="Percona-Server-5.6.40-84.0"
+percona5_6_filename="Percona-Server-5.6.41-84.1"
 #percona5.7
 percona5_7_filename="Percona-Server-5.7.22-22"
 #php5.6
@@ -69,9 +69,9 @@ php5_6_filename="php-5.6.37"
 #php7.0
 php7_0_filename="php-7.0.31"
 #php7.1
-php7_1_filename="php-7.1.20"
+php7_1_filename="php-7.1.21"
 #php7.2
-php7_2_filename="php-7.2.8"
+php7_2_filename="php-7.2.9"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.8.2-all-languages"
 
@@ -109,11 +109,11 @@ xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.6.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.7-38"
+ImageMagick_filename="ImageMagick-7.0.8-10"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.29"
+GraphicsMagick_filename="GraphicsMagick-1.3.30"
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
 php_graphicsmagick_filename2="gmagick-2.0.5RC1"
 set_hint ${php_graphicsmagick_filename} "php-${php_graphicsmagick_filename}"
