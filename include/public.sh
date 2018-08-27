@@ -891,6 +891,15 @@ finally(){
 EOF
     fi
 
+    # Add kodexplorer Alias
+    if [ -d "${web_root_dir}/kod" ]; then
+        cat >> ${apache_location}/conf/httpd.conf <<EOF
+<IfModule alias_module>
+    Alias /kod ${web_root_dir}/kod
+</IfModule>
+EOF
+    fi
+
     if [ "${apache}" != "do_not_install" ]; then
         echo "Starting Apache..."
         /etc/init.d/httpd start > /dev/null 2>&1
@@ -932,9 +941,16 @@ install_tool(){
     log "Info" "Starting to install development tools..."
     if check_sys packageManager apt; then
         apt-get -y update > /dev/null 2>&1
-        apt-get -y install gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates > /dev/null 2>&1
+        apt_tools=(gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates)
+        for tool in ${apt_tools[@]}; do
+            error_detect_depends "apt-get -y install ${tool}"
+        done
     elif check_sys packageManager yum; then
-        yum install -y yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates > /dev/null 2>&1
+        yum makecache
+        yum_tools=(yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates)
+        for tool in ${yum_tools[@]}; do
+            error_detect_depends "yum -y install ${tool}"
+        done
         yum-config-manager --enable epel > /dev/null 2>&1
     fi
     log "Info" "Install development tools completed..."
@@ -965,6 +981,7 @@ install_lamp(){
     fi
     [ "${php}" != "do_not_install" ] && check_installed "install_php" "${php_location}"
     [ "${phpmyadmin}" != "do_not_install" ] && install_phpmyadmin
+    [ "${kodexplorer}" != "do_not_install" ] && install_kodexplorer
     [ "${php_modules_install}" != "do_not_install" ] && install_php_modules "${phpConfig}"
 
     finally
@@ -979,6 +996,7 @@ preinstall_lamp(){
     php_preinstall_settings
     php_modules_preinstall_settings
     phpmyadmin_preinstall_settings
+    kodexplorer_preinstall_settings
 }
 
 #Pre-installation settings

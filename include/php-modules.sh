@@ -45,6 +45,14 @@ phpmyadmin_preinstall_settings(){
     fi
 }
 
+#Pre-installation kodexplorer
+kodexplorer_preinstall_settings(){
+    if [[ "${php}" == "do_not_install" ]]; then
+        kodexplorer="do_not_install"
+    else
+        display_menu kodexplorer 1
+    fi
+}
 
 install_php_modules(){
     local phpConfig=${1}
@@ -340,6 +348,24 @@ install_phpmyadmin(){
     mkdir -p ${web_root_dir}/phpmyadmin/{upload,save}
     chown -R apache:apache ${web_root_dir}/phpmyadmin
     log "Info" "${phpmyadmin} install completed..."
+}
+
+
+install_kodexplorer(){
+    if [ -d ${web_root_dir}/kod ];then
+        rm -rf ${web_root_dir}/kod
+    fi
+
+    cd ${cur_dir}/software
+
+    log "Info" "${kodexplorer} install start..."
+    kod_url1="https://static.kodcloud.com/update/download/lamp/${kodexplorer}.tar.gz"
+    kod_url2="${download_root_url}/${kodexplorer}.tar.gz"
+    download_from_url "${kodexplorer}.tar.gz" "${kod_url1}" "${kod_url2}"
+    tar zxf ${kodexplorer}.tar.gz
+    mv kod ${web_root_dir}/kod
+    chown -R apache:apache ${web_root_dir}/kod
+    log "Info" "${kodexplorer} install completed..."
 }
 
 

@@ -72,6 +72,7 @@ uninstall_lamp(){
     rm -rf /usr/local/bin/mdecrypt
     rm -rf /etc/ld.so.conf.d/locallib.conf
     rm -rf ${web_root_dir}/phpmyadmin
+    rm -rf ${web_root_dir}/kod
     rm -rf ${web_root_dir}/xcache /tmp/{pcov,phpcore}
     log "Info" "Success"
     echo

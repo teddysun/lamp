@@ -74,6 +74,8 @@ php7_1_filename="php-7.1.21"
 php7_2_filename="php-7.2.9"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.8.3-all-languages"
+#kodexplorer
+kodexplorer_filename="kodexplorer"
 
 #apr
 apr_filename="apr-1.6.3"
@@ -187,6 +189,11 @@ do_not_install
 
 phpmyadmin_arr=(
 ${phpmyadmin_filename}
+do_not_install
+)
+
+kodexplorer_arr=(
+${kodexplorer_filename}
 do_not_install
 )
 
