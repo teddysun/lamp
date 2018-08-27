@@ -796,6 +796,9 @@ last_confirm(){
     echo "phpMyAdmin: ${phpmyadmin}"
     [ "${phpmyadmin}" != "do_not_install" ] && echo "phpMyAdmin Location: ${web_root_dir}/phpmyadmin"
     echo
+    echo "KodExplorer: ${kodexplorer}"
+    [ "${kodexplorer}" != "do_not_install" ] && echo "KodExplorer Location: ${web_root_dir}/kod"
+    echo
     echo "---------------------------------------------------------------------"
     echo
 
@@ -868,6 +871,9 @@ finally(){
     echo
     echo "phpMyAdmin: ${phpmyadmin}"
     [ "${phpmyadmin}" != "do_not_install" ] && echo "phpMyAdmin Location: ${web_root_dir}/phpmyadmin"
+    echo
+    echo "KodExplorer: ${kodexplorer}"
+    [ "${kodexplorer}" != "do_not_install" ] && echo "KodExplorer Location: ${web_root_dir}/kod"
     echo
     echo "---------------------------------------------------------------------"
     echo
