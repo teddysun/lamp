@@ -31,12 +31,12 @@ Supported System
 
 Supported Software
 ==================
-- Apache-2.4 (Include HTTP/2 module: mod_http2)
-- Apache Additional Modules: mod_wsgi, mod_security, mod_jk
+- Apache-2.4 (Include HTTP/2 module: [nghttp2](https://github.com/nghttp2/nghttp2), mod_http2)
+- Apache Additional Modules: [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), [mod_security](https://github.com/SpiderLabs/ModSecurity), [mod_jk](https://tomcat.apache.org/download-connectors.cgi)
 - MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, MariaDB-10.3, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7
 - PHP-5.6, PHP-7.0, PHP-7.1, PHP-7.2
-- PHP Additional Modules: opcache, ioncube_loaders, xcache, imagick, gmagick, libsodium, memcached, redis, mongodb, swoole, xdebug
-- Other Software: ImageMagick, GraphicsMagick, Memcached, phpMyAdmin, Redis-Server, [KodExplorer](https://kodcloud.com/)
+- PHP Additional Modules: opcache, ioncube_loaders, xcache, imagick, gmagick, [libsodium](https://github.com/jedisct1/libsodium-php), memcached, redis, mongodb, [swoole](https://github.com/swoole/swoole-src), [xdebug](https://github.com/xdebug/xdebug)
+- Other Software: ImageMagick, GraphicsMagick, Memcached, [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), Redis-Server, [KodExplorer](https://github.com/kalcaddle/KodExplorer)
 
 Installation
 ============
@@ -103,6 +103,14 @@ Default Location
 | Virtual Host log location  | /data/wwwlog/virtual_host_names                |
 | Virtual Host conf          | /usr/local/apache/conf/vhost/virtual_host.conf |
 
+| phpMyAdmin Location        | Path                                           |
+|----------------------------|------------------------------------------------|
+| Installation location      | /data/www/default/phpmyadmin                   |
+
+| KodExplorer Location       | Path                                           |
+|----------------------------|------------------------------------------------|
+| Installation location      | /data/www/default/kod                          |
+
 | PHP Location               | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/php                                 |
@@ -148,8 +156,7 @@ lamp Command
 
 Bugs & Issues
 =============
-Please feel free to report any bugs or issues to us, email to: i@teddysun.com
-or [open issues](https://github.com/teddysun/lamp/issues) on Github.
+Please feel free to report any bugs or issues to us, email to: i@teddysun.com or [open issues](https://github.com/teddysun/lamp/issues) on Github.
 
 Support(Chinese): https://lamp.sh/support.html
 
