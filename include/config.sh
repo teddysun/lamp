@@ -109,7 +109,7 @@ set_hint ${swoole_filename} "php-swoole-2.2.0"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
-xdebug_filename="xdebug-2.6.0"
+xdebug_filename="xdebug-2.6.1"
 #ImageMagick
 ImageMagick_filename="ImageMagick-7.0.8-10"
 php_imagemagick_filename="imagick-3.4.3"
@@ -127,7 +127,7 @@ ionCube64_filename="ioncube_loaders_lin_x86-64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
-memcached_filename="memcached-1.5.8"
+memcached_filename="memcached-1.5.10"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 #php-memcached
@@ -136,14 +136,14 @@ php_memcached_filename2="memcached-3.0.4"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
-redis_filename="redis-4.0.9"
+redis_filename="redis-4.0.11"
 #php-redis
 php_redis_filename="redis-2.2.8"
-php_redis_filename2="redis-4.0.2"
+php_redis_filename2="redis-4.1.1"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.4.3"
+php_mongo_filename="mongodb-1.5.2"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.16"
