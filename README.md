@@ -35,8 +35,8 @@ Supported Software
 - Apache Additional Modules: [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), [mod_security](https://github.com/SpiderLabs/ModSecurity), [mod_jk](https://tomcat.apache.org/download-connectors.cgi)
 - MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, MariaDB-10.3, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7
 - PHP-5.6, PHP-7.0, PHP-7.1, PHP-7.2
-- PHP Additional Modules: opcache, ioncube_loaders, xcache, imagick, gmagick, [libsodium](https://github.com/jedisct1/libsodium-php), memcached, redis, mongodb, [swoole](https://github.com/swoole/swoole-src), [xdebug](https://github.com/xdebug/xdebug)
-- Other Software: ImageMagick, GraphicsMagick, Memcached, [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), Redis-Server, [KodExplorer](https://github.com/kalcaddle/KodExplorer)
+- PHP Additional Modules: opcache, [ionCube Loader](https://www.ioncube.com/loaders.php), [xcache](https://xcache.lighttpd.net/), [imagick](https://pecl.php.net/package/imagick), [gmagick](https://pecl.php.net/package/gmagick), [libsodium](https://github.com/jedisct1/libsodium-php), [memcached](https://github.com/php-memcached-dev/php-memcached), [redis](https://github.com/phpredis/phpredis), [mongodb](https://pecl.php.net/package/mongodb), [swoole](https://github.com/swoole/swoole-src), [xdebug](https://github.com/xdebug/xdebug)
+- Other Software: [ImageMagick](https://github.com/ImageMagick/ImageMagick), [GraphicsMagick](http://www.graphicsmagick.org/), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Redis](https://github.com/antirez/redis), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
 
 Installation
 ============
