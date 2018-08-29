@@ -1,4 +1,4 @@
-![LAMP](https://github.com/teddysun/lamp/raw/master/conf/lamp.gif)
+![LAMP](https://github.com/teddysun/lamp/raw/master/conf/lamp.png)
 
 Description
 ===========
