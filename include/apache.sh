@@ -223,7 +223,7 @@ EOF
 
     cp -f ${cur_dir}/conf/index.html ${web_root_dir}
     cp -f ${cur_dir}/conf/index_cn.html ${web_root_dir}
-    cp -f ${cur_dir}/conf/lamp.gif ${web_root_dir}
+    cp -f ${cur_dir}/conf/lamp.png ${web_root_dir}
     cp -f ${cur_dir}/conf/jquery.js ${web_root_dir}
     cp -f ${cur_dir}/conf/p.php ${web_root_dir}
     cp -f ${cur_dir}/conf/p_cn.php ${web_root_dir}
