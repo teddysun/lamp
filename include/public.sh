@@ -952,7 +952,7 @@ install_tool(){
             error_detect_depends "apt-get -y install ${tool}"
         done
     elif check_sys packageManager yum; then
-        yum makecache
+        yum makecache > /dev/null 2>&1
         yum_tools=(yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates)
         for tool in ${yum_tools[@]}; do
             error_detect_depends "yum -y install ${tool}"
