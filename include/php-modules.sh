@@ -25,6 +25,7 @@ php_modules_preinstall_settings(){
         # delete some modules & change some module version
         if [[ "${php}" == "${php5_6_filename}" ]]; then
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
         else
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
