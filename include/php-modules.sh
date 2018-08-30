@@ -360,11 +360,12 @@ install_kodexplorer(){
     cd ${cur_dir}/software
 
     log "Info" "${kodexplorer} install start..."
-    kod_url1="https://static.kodcloud.com/update/download/lamp/${kodexplorer}.tar.gz"
+    kod_version=$(echo ${kodexplorer} | grep -oE '[0-9]+\.[0-9]+')
+    kod_url1="https://github.com/kalcaddle/kodfile/archive/${kod_version}.tar.gz"
     kod_url2="${download_root_url}/${kodexplorer}.tar.gz"
     download_from_url "${kodexplorer}.tar.gz" "${kod_url1}" "${kod_url2}"
     tar zxf ${kodexplorer}.tar.gz
-    mv kod ${web_root_dir}/kod
+    mv ${kodexplorer} ${web_root_dir}/kod
     chown -R apache:apache ${web_root_dir}/kod
     log "Info" "${kodexplorer} install completed..."
 }
