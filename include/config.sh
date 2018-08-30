@@ -75,7 +75,7 @@ php7_2_filename="php-7.2.9"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.8.3-all-languages"
 #kodexplorer
-kodexplorer_filename="kodexplorer"
+kodexplorer_filename="kodfile-4.33"
 
 #apr
 apr_filename="apr-1.6.3"
