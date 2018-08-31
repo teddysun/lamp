@@ -735,17 +735,9 @@ remove_packages(){
 
 sync_time(){
     log "Info" "Starting to sync time..."
-    if check_sys packageManager apt; then
-        apt-get -y update > /dev/null 2>&1
-        apt-get -y install ntpdate > /dev/null 2>&1
-    elif check_sys packageManager yum; then
-        yum -y install ntp > /dev/null 2>&1
-    fi
-    check_command_exist ntpdate
-    ntpdate -d cn.pool.ntp.org > /dev/null 2>&1
+    ntpdate -bv cn.pool.ntp.org
     rm -f /etc/localtime
     ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-    hwclock -w > /dev/null 2>&1
     log "Info" "Sync time completed..."
 }
 
@@ -944,13 +936,13 @@ install_tool(){
     log "Info" "Starting to install development tools..."
     if check_sys packageManager apt; then
         apt-get -y update > /dev/null 2>&1
-        apt_tools=(gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates)
+        apt_tools=(gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates ntpdate)
         for tool in ${apt_tools[@]}; do
             error_detect_depends "apt-get -y install ${tool}"
         done
     elif check_sys packageManager yum; then
         yum makecache > /dev/null 2>&1
-        yum_tools=(yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates)
+        yum_tools=(yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates ntpdate)
         for tool in ${yum_tools[@]}; do
             error_detect_depends "yum -y install ${tool}"
         done
@@ -964,14 +956,15 @@ install_tool(){
     check_command_exist "wget"
     check_command_exist "perl"
     check_command_exist "netstat"
+    check_command_exist "ntpdate"
 }
 
 #start install lamp
 install_lamp(){
     last_confirm
     disable_selinux
-    sync_time
     install_tool
+    sync_time
     remove_packages
 
     [ "${apache}" != "do_not_install" ] && check_installed "install_apache" "${apache_location}"
