@@ -757,7 +757,6 @@ last_confirm(){
     echo
     echo "Apache: ${apache}"
     [ "${apache}" != "do_not_install" ] && echo "Apache Location: ${apache_location}"
-    echo
     if [ "${apache_modules_install}" != "do_not_install" ]; then
         echo "Apache Additional Modules:"
         for a in ${apache_modules_install[@]}
@@ -805,8 +804,6 @@ last_confirm(){
     echo "Press any key to start...or Press Ctrl+C to cancel"
     echo
     char=`get_char`
-
-    sync_time
 
     StartDate=$(date "+%Y-%m-%d %H:%M:%S")
     StartDateSecond=$(date +%s)
@@ -973,6 +970,7 @@ install_tool(){
 install_lamp(){
     last_confirm
     disable_selinux
+    sync_time
     install_tool
     remove_packages
 
