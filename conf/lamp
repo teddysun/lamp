@@ -95,8 +95,14 @@ vhost_add(){
     read -p "Please enter website root directory(default:$default_root): " website_root
     website_root=${website_root:=$default_root}
     php_admin_value=""
-    if [ -s /usr/bin/php ];then
-        php_admin_value="php_admin_value open_basedir ${website_root}:/tmp:/var/tmp:/proc:${web_root_dir}/phpmyadmin"
+    if [ -s /usr/bin/php ]; then
+        php_admin_value="php_admin_value open_basedir ${website_root}:/tmp:/var/tmp:/proc"
+        if [ -d "${web_root_dir}/phpmyadmin" ]; then
+            php_admin_value="${php_admin_value}:${web_root_dir}/phpmyadmin"
+        fi
+        if [ -d "${web_root_dir}/kod" ]; then
+            php_admin_value="${php_admin_value}:${web_root_dir}/kod"
+        fi
     fi
 
     while :
