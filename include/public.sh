@@ -629,13 +629,13 @@ download_from_url(){
         log "Info" "${filename} [found]"
     else
         log "Info" "${filename} not found, download now..."
-        wget -cv -t3 -T3 ${2}
+        wget --no-check-certificate -cv -t3 -T60 -O ${filename} ${2}
         if [ $? -eq 0 ]; then
             log "Info" "${filename} download completed..."
         else
             rm -f ${filename}
             log "Info" "${filename} download failed, retrying download from backup site..."
-            wget -cv -t3 -T60 ${3}
+            wget --no-check-certificate -cv -t3 -T60 -O ${filename} ${3}
             if [ $? -eq 0 ]; then
                 log "Info" "${filename} download completed..."
             else

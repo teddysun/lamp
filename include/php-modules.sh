@@ -335,7 +335,7 @@ install_openssl(){
 
 
 install_phpmyadmin(){
-    if [ -d ${web_root_dir}/phpmyadmin ];then
+    if [ -d "${web_root_dir}/phpmyadmin" ]; then
         rm -rf ${web_root_dir}/phpmyadmin
     fi
 
@@ -353,7 +353,7 @@ install_phpmyadmin(){
 
 
 install_kodexplorer(){
-    if [ -d ${web_root_dir}/kod ];then
+    if [ -d "${web_root_dir}/kod" ]; then
         rm -rf ${web_root_dir}/kod
     fi
 
