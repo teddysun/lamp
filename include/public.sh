@@ -808,7 +808,7 @@ last_confirm(){
 }
 
 #Finally to do
-finally(){
+install_finally(){
     log "Info" "Starting clean up..."
     cd ${cur_dir}
     rm -rf ${cur_dir}/software
@@ -932,7 +932,7 @@ EOF
 }
 
 #Install tools
-install_tool(){
+install_tools(){
     log "Info" "Starting to install development tools..."
     if check_sys packageManager apt; then
         apt-get -y update > /dev/null 2>&1
@@ -960,10 +960,10 @@ install_tool(){
 }
 
 #start install lamp
-install_lamp(){
+lamp_install(){
     last_confirm
     disable_selinux
-    install_tool
+    install_tools
     sync_time
     remove_packages
 
@@ -981,11 +981,11 @@ install_lamp(){
     [ "${kodexplorer}" != "do_not_install" ] && install_kodexplorer
     [ "${php_modules_install}" != "do_not_install" ] && install_php_modules "${phpConfig}"
 
-    finally
+    install_finally
 }
 
 #Pre-installation
-preinstall_lamp(){
+lamp_preinstall(){
     check_ram
     display_os_info
     apache_preinstall_settings
@@ -1004,8 +1004,8 @@ pre_setting(){
             log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 14+ and try again."
             exit 1
         fi
-        preinstall_lamp
-        install_lamp
+        lamp_preinstall
+        lamp_install
     else
         log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 14+ and try again."
         exit 1
