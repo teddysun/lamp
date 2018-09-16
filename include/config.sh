@@ -75,8 +75,10 @@ php7_2_filename="php-7.2.10"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.8.3-all-languages"
 #kodexplorer
-kodexplorer_filename="kodfile-4.35"
-set_hint ${kodexplorer_filename} "kodexplorer-4.35"
+kod_version=$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)
+[ -z "${kod_version}" ] && kod_version="4.35"
+kodexplorer_filename="kodfile-${kod_version}"
+set_hint ${kodexplorer_filename} "kodexplorer-${kod_version}"
 
 #apr
 apr_filename="apr-1.6.3"
