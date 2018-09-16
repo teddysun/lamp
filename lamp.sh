@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (C) 2014 - 2018, Teddysun <i@teddysun.com>
+# Copyright (C) 2013 - 2018 Teddysun <i@teddysun.com>
 # 
 # This file is part of the LAMP script.
 #
@@ -17,7 +17,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-cur_dir=`pwd`
+cur_dir=$(pwd)
 
 include(){
     local include=${1}
