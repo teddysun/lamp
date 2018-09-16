@@ -35,7 +35,7 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.32.1"
+nghttp2_filename="nghttp2-1.33.0"
 #openssl
 openssl_filename="openssl-1.0.2p"
 #apache2.4
@@ -81,7 +81,7 @@ kodexplorer_filename="kodfile-${kod_version}"
 set_hint ${kodexplorer_filename} "kodexplorer-${kod_version}"
 
 #apr
-apr_filename="apr-1.6.3"
+apr_filename="apr-1.6.5"
 #apr-util
 apr_util_filename="apr-util-1.6.1"
 #mod_wsgi
