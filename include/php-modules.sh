@@ -28,6 +28,7 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
         else
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
+            php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename}/${xdebug_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
@@ -62,12 +63,13 @@ install_php_modules(){
     if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && install_php_imagesmagick "${phpConfig}"
     if_in_array "${php_mongo_filename}" "${php_modules_install}" && install_php_mongo "${phpConfig}"
     if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
-    if_in_array "${xdebug_filename}" "${php_modules_install}" && install_xdebug "${phpConfig}"
     if [ "${php}" == "${php5_6_filename}" ]; then
+        if_in_array "${xdebug_filename}" "${php_modules_install}" && install_xdebug "${phpConfig}"
         if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
         if_in_array "${php_redis_filename}" "${php_modules_install}" && install_php_redis "${phpConfig}"
         if_in_array "${php_memcached_filename}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
     else
+        if_in_array "${xdebug_filename2}" "${php_modules_install}" && install_xdebug "${phpConfig}"
         if_in_array "${php_libsodium_filename}" "${php_modules_install}" && install_php_libsodium "${phpConfig}"
         if_in_array "${php_graphicsmagick_filename2}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
         if_in_array "${php_redis_filename2}" "${php_modules_install}" && install_php_redis "${phpConfig}"
@@ -812,9 +814,15 @@ install_xdebug(){
     cd ${cur_dir}/software/
 
     log "Info" "xdebug install start..."
-    download_file "${xdebug_filename}.tgz"
-    tar zxf ${xdebug_filename}.tgz
-    cd ${xdebug_filename}
+    if [ "$php" == "${php5_6_filename}" ]; then
+        download_file "${xdebug_filename}.tgz"
+        tar zxf ${xdebug_filename}.tgz
+        cd ${xdebug_filename}
+    else
+        download_file "${xdebug_filename2}.tgz"
+        tar zxf ${xdebug_filename2}.tgz
+        cd ${xdebug_filename2}
+    fi
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --enable-xdebug --with-php-config=${phpConfig}"
     error_detect "make"
