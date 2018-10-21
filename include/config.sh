@@ -35,7 +35,7 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.33.0"
+nghttp2_filename="nghttp2-1.34.0"
 #openssl
 openssl_filename="openssl-1.0.2p"
 #apache2.4
@@ -115,7 +115,7 @@ xcache_filename="xcache-3.2.0"
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename2="xdebug-2.6.1"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-10"
+ImageMagick_filename="ImageMagick-7.0.8-12"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
