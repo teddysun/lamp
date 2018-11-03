@@ -53,7 +53,7 @@ mariadb5_5_filename="mariadb-5.5.62"
 #mariadb10.0
 mariadb10_0_filename="mariadb-10.0.37"
 #mariadb10.1
-mariadb10_1_filename="mariadb-10.1.36"
+mariadb10_1_filename="mariadb-10.1.37"
 #mariadb10.2
 mariadb10_2_filename="mariadb-10.2.18"
 #mariadb10.3
