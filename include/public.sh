@@ -739,6 +739,11 @@ sync_time(){
     rm -f /etc/localtime
     ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
     log "Info" "Sync time completed..."
+
+    StartDate=$(date "+%Y-%m-%d %H:%M:%S")
+    StartDateSecond=$(date +%s)
+    log "Info" "Start time: ${StartDate}"
+
 }
 
 #Last confirm
@@ -796,10 +801,6 @@ last_confirm(){
     echo "Press any key to start...or Press Ctrl+C to cancel"
     echo
     char=`get_char`
-
-    StartDate=$(date "+%Y-%m-%d %H:%M:%S")
-    StartDateSecond=$(date +%s)
-    log "Info" "Start time: ${StartDate}"
 
     if [ ! -d ${cur_dir}/software ]; then
         mkdir -p ${cur_dir}/software
