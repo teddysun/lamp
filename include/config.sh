@@ -85,10 +85,10 @@ apr_filename="apr-1.6.5"
 #apr-util
 apr_util_filename="apr-util-1.6.1"
 #mod_wsgi
-mod_wsgi_filename="mod_wsgi-4.6.4"
+mod_wsgi_filename="mod_wsgi-4.6.5"
 #mod_jk
-mod_jk_filename="tomcat-connectors-1.2.43-src"
-set_hint ${mod_jk_filename} "mod_jk-1.2.43"
+mod_jk_filename="tomcat-connectors-1.2.46-src"
+set_hint ${mod_jk_filename} "mod_jk-1.2.46"
 #mod_security
 mod_security_filename="modsecurity-2.9.2"
 set_hint ${mod_security_filename} "mod_security-2.9.2"
@@ -115,7 +115,7 @@ xcache_filename="xcache-3.2.0"
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename2="xdebug-2.6.1"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-12"
+ImageMagick_filename="ImageMagick-7.0.8-14"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
@@ -131,7 +131,7 @@ ionCube64_filename="ioncube_loaders_lin_x86-64"
 #libevent
 libevent_filename="libevent-2.0.22-stable"
 #memcached
-memcached_filename="memcached-1.5.10"
+memcached_filename="memcached-1.5.12"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 #php-memcached
@@ -147,11 +147,11 @@ php_redis_filename2="redis-4.1.1"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.5.2"
+php_mongo_filename="mongodb-1.5.3"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.16"
-php_libsodium_filename="libsodium-php-2.0.11"
+php_libsodium_filename="libsodium-php-2.0.14"
 
 
 #software array setting
