@@ -67,7 +67,7 @@ install_apache(){
 
     LDFLAGS=-ldl
     if [ -d ${openssl_location} ]; then
-        apache_configure_args=`echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@"`
+        apache_configure_args=$(echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@")
     fi
     error_detect "./configure ${apache_configure_args}"
     error_detect "parallel_make"
@@ -88,7 +88,7 @@ config_apache(){
         cp -f ${apache_location}/conf/httpd.conf ${apache_location}/conf/httpd.conf.bak
     fi
 
-    grep -E -q "^\s*#\s*Include conf/extra/httpd-vhosts.conf" ${apache_location}/conf/httpd.conf && \
+    grep -qE "^\s*#\s*Include conf/extra/httpd-vhosts.conf" ${apache_location}/conf/httpd.conf && \
     sed -i 's#^\s*\#\s*Include conf/extra/httpd-vhosts.conf#Include conf/extra/httpd-vhosts.conf#' ${apache_location}/conf/httpd.conf || \
     sed -i '$aInclude conf/extra/httpd-vhosts.conf' ${apache_location}/conf/httpd.conf
 
