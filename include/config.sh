@@ -101,7 +101,7 @@ mcrypt_filename="mcrypt-2.6.8"
 #pcre
 pcre_filename="pcre-8.42"
 #re2c
-re2c_filename='re2c-1.0.2'
+re2c_filename='re2c-1.1.1'
 #imap
 imap_filename='imap-2007f'
 #libiconv
