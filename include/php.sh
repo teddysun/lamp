@@ -44,12 +44,6 @@ php_preinstall_settings(){
             other_options="--with-mcrypt --enable-gd-native-ttf"
         fi
 
-        if check_sys packageManager yum; then
-            with_imap="--with-imap"
-        elif check_sys packageManager apt; then
-            with_imap="--with-imap --with-kerberos"
-        fi
-
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
 
         php_configure_args="--prefix=${php_location} \
@@ -57,7 +51,8 @@ php_preinstall_settings(){
         --with-config-file-path=${php_location}/etc \
         --with-config-file-scan-dir=${php_location}/php.d \
         --with-pcre-dir=${depends_prefix}/pcre \
-        ${with_imap} \
+        --with-imap \
+        --with-kerberos \
         --with-imap-ssl \
         --with-libxml-dir \
         --with-openssl \
