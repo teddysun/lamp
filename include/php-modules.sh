@@ -142,12 +142,16 @@ install_php_depends(){
         do
             error_detect_depends "yum -y install ${depend}"
         done
+        if centosversion 6; then
+            error_detect_depends "yum -y install libc-client-devel"
+        elif centosversion 7; then
+            error_detect_depends "yum -y install uw-imap-devel"
+        fi
         log "Info" "Install dependencies packages for PHP completed..."
 
         install_mhash
         install_libmcrypt
         install_mcrypt
-        check_installed "install_imap" "${depends_prefix}/imap"
     fi
 
     install_libiconv
@@ -189,39 +193,6 @@ install_re2c(){
         error_detect "make install"
         log "Info" "${re2c_filename} install completed..."
     fi
-}
-
-
-install_imap(){
-    cd ${cur_dir}/software/
-    log "Info" "${imap_filename} install start..."
-    download_file "${imap_filename}.tar.gz"
-    tar zxf ${imap_filename}.tar.gz
-    cd ${imap_filename}
-
-    if [ -d ${openssl_location} ]; then
-        sed -ir "s@SSLINCLUDE=/usr/include/openssl@SSLINCLUDE=${openssl_location}/include@" Makefile
-        sed -ir "s@SSLLIB=/usr/lib@SSLLIB=${openssl_location}/lib@" Makefile
-    fi
-
-    if is_64bit; then
-        error_detect "make lr5 PASSWDTYPE=std SSLTYPE=unix.nopwd EXTRACFLAGS=-fPIC IP=4"
-    else
-        error_detect "make lr5 PASSWDTYPE=std SSLTYPE=unix.nopwd IP=4"
-    fi
-
-    mkdir -p ${depends_prefix}/imap/
-    mkdir -p ${depends_prefix}/imap/include/
-    mkdir -p ${depends_prefix}/imap/lib/
-    mkdir -p ${depends_prefix}/imap/c-client/
-    cp c-client/*.h ${depends_prefix}/imap/include/
-    cp c-client/*.c ${depends_prefix}/imap/lib/
-    cp c-client/*.c ${depends_prefix}/imap/c-client/
-    cp c-client/c-client.a ${depends_prefix}/imap/lib/libc-client.a
-    cp c-client/c-client.a ${depends_prefix}/imap/c-client/libc-client.a
-    add_to_env "${depends_prefix}/imap"
-    create_lib64_dir "${depends_prefix}/imap"
-    log "Info" "${imap_filename} install completed..."
 }
 
 

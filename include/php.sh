@@ -45,7 +45,7 @@ php_preinstall_settings(){
         fi
 
         if check_sys packageManager yum; then
-            with_imap="--with-imap=${depends_prefix}/imap"
+            with_imap="--with-imap"
         elif check_sys packageManager apt; then
             with_imap="--with-imap --with-kerberos"
         fi
