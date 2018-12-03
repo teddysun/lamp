@@ -55,7 +55,7 @@ screen -S lamp
 apt-get -y install wget screen git
 git clone https://github.com/teddysun/lamp.git
 cd lamp
-chmod +x *.sh
+chmod 755 *.sh
 screen -S lamp
 ./lamp.sh
 ```
@@ -91,8 +91,8 @@ Uninstall
 ./uninstall.sh
 ```
 
-Default Location
-================
+Default Installation Location
+=============================
 | Apache Location            | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/apache                              |
