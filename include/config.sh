@@ -35,7 +35,7 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.34.0"
+nghttp2_filename="nghttp2-1.35.0"
 #openssl
 openssl_filename="openssl-1.1.1a"
 #apache2.4
