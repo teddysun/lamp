@@ -2,7 +2,7 @@
 
 Description
 ===========
-[LAMP](https://lamp.sh/) is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB/Percona Server and so on. You can install Apache + PHP + MySQL/MariaDB/Percona Server in an very easy way, just need to choose what you want to install before installation. And all things will be done in a few minutes.
+[LAMP](https://lamp.sh/) is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB/Percona Server and so on. You can install Apache + PHP + MySQL/MariaDB/Percona Server in an very easy way, just need to choose what you want to install before installation. And all things will be done in few minutes.
 
 - [Supported System](#supported-system)
 - [Supported Software](#supported-software)
@@ -10,7 +10,7 @@ Description
 - [Upgrade](#upgrade)
 - [Backup](#backup)
 - [Uninstall](#uninstall)
-- [Default Location](#default-location)
+- [Default Installation Location](#default-installation-location)
 - [Process Management](#process-management)
 - [lamp command](#lamp-command)
 - [Bugs & Issues](#bugs--issues)
