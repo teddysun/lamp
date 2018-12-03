@@ -102,8 +102,6 @@ mcrypt_filename="mcrypt-2.6.8"
 pcre_filename="pcre-8.42"
 #re2c
 re2c_filename='re2c-1.1.1'
-#imap
-imap_filename='imap-2007f'
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
@@ -151,7 +149,7 @@ php_mongo_filename="mongodb-1.5.3"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.16"
-php_libsodium_filename="libsodium-php-2.0.14"
+php_libsodium_filename="libsodium-php-2.0.15"
 
 
 #software array setting
