@@ -72,6 +72,8 @@ php7_0_filename="php-7.0.33"
 php7_1_filename="php-7.1.25"
 #php7.2
 php7_2_filename="php-7.2.13"
+#php7.3
+php7_3_filename="php-7.3.0"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.8.3-all-languages"
 #kodexplorer
@@ -186,6 +188,7 @@ ${php5_6_filename}
 ${php7_0_filename}
 ${php7_1_filename}
 ${php7_2_filename}
+${php7_3_filename}
 do_not_install
 )
 
