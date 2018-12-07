@@ -37,6 +37,8 @@ upgrade_php(){
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.1')
     elif [ "${php_version}" == "7.2" ]; then
         latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.2')
+    elif [ "${php_version}" == "7.3" ]; then
+        latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.3')
     fi
 
     echo -e "Latest version of PHP: \033[41;37m ${latest_php} \033[0m"
@@ -77,31 +79,25 @@ upgrade_php(){
         fi
 
         if [ -d ${mariadb_location} ] || [ -d ${mysql_location} ] || [ -d ${percona_location} ]; then
-            if [[ "${php_version}" == "7.0" || "${php_version}" == "7.1" || "${php_version}" == "7.2" ]]; then
-                with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
-            else
+            if [ "${php_version}" == "5.6" ]; then
                 with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
+            else
+                with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             fi
         else
             with_mysql=""
         fi
 
-        if [[ "${php_version}" == "7.0" || "${php_version}" == "7.1"  || "${php_version}" == "7.2" ]]; then
-            with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
-        elif [[ "${php_version}" == "5.6" ]]; then
+        if [ "${php_version}" == "5.6" ]; then
             with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
+        else
+            with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
 
-        if [[ "${php_version}" == "7.2" ]]; then
+        if [[ "${php_version}" == "7.2" || "${php_version}" == "7.3" ]]; then
             other_options="--enable-zend-test"
         else
             other_options="--with-mcrypt --enable-gd-native-ttf"
-        fi
-
-        if check_sys packageManager yum; then
-            with_imap="--with-imap=${depends_prefix}/imap"
-        elif check_sys packageManager apt; then
-            with_imap="--with-imap --with-kerberos"
         fi
 
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
@@ -111,7 +107,8 @@ upgrade_php(){
         --with-config-file-path=${php_location}/etc \
         --with-config-file-scan-dir=${php_location}/php.d \
         --with-pcre-dir=${depends_prefix}/pcre \
-        ${with_imap} \
+        --with-imap \
+        --with-kerberos \
         --with-imap-ssl \
         --with-libxml-dir \
         --with-openssl \
@@ -162,7 +159,7 @@ upgrade_php(){
         mkdir -p ${php_location}/{etc,php.d}
         cp -pf ${php_location}.bak/etc/php.ini ${php_location}/etc/php.ini
         cp -pn ${php_location}.bak/lib/php/extensions/no-debug-zts-*/* ${php_extension_dir}/
-        if [ `ls ${php_location}.bak/php.d/ | wc -l` -gt 0 ]; then
+        if [ $(ls ${php_location}.bak/php.d/ | wc -l) -gt 0 ]; then
             cp -pf ${php_location}.bak/php.d/* ${php_location}/php.d/
         fi
         log "Info" "Clear up start..."
