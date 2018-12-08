@@ -102,6 +102,9 @@ common_install(){
             fi
         elif centosversion 7; then
             error_detect_depends "yum -y install perl-Data-Dumper"
+        else
+            error_detect_depends "yum -y install perl-Data-Dumper"
+            error_detect_depends "yum -y install ncurses-compat-libs"
         fi
     fi
     log "Info" "Install dependencies packages for Database completed..."
