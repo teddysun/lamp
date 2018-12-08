@@ -21,11 +21,8 @@ Supported System
 - CentOS-6.x
 - CentOS-7.x (recommend)
 - Ubuntu-14.x
-- Ubuntu-15.x
 - Ubuntu-16.x
-- Ubuntu-17.x
 - Ubuntu-18.x (recommend)
-- Debian-7.x
 - Debian-8.x
 - Debian-9.x (recommend)
 
