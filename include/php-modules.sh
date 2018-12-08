@@ -93,7 +93,7 @@ install_php_depends(){
             libldap-2.4-2 libldap2-dev libsasl2-dev libsasl2-modules-ldap libc-client2007e-dev libkrb5-dev
             autoconf2.13 pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool unixodbc-dev libtidy-dev
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
-            libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev
+            libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
         log "Info" "Starting to install dependencies packages for PHP..."
         for depend in ${apt_depends[@]}
@@ -142,7 +142,7 @@ install_php_depends(){
             curl-devel pcre-devel libtool-libs libtool-ltdl-devel libwebp-devel libXpm-devel
             libvpx-devel libjpeg-devel libpng-devel freetype-devel oniguruma-devel
             aspell-devel enchant-devel readline-devel unixODBC-devel libtidy-devel
-            openldap-devel libxslt-devel net-snmp net-snmp-devel
+            openldap-devel libxslt-devel net-snmp net-snmp-devel libzip-devel
         )
         log "Info" "Starting to install dependencies packages for PHP..."
         for depend in ${yum_depends[@]}
@@ -151,7 +151,7 @@ install_php_depends(){
         done
         if centosversion 6; then
             error_detect_depends "yum -y install libc-client-devel"
-        elif centosversion 7; then
+        else
             error_detect_depends "yum -y install uw-imap-devel"
         fi
         log "Info" "Install dependencies packages for PHP completed..."

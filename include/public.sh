@@ -706,11 +706,12 @@ firewall_set(){
         else
             log "Warning" "iptables looks like not installed."
         fi
-    elif centosversion 7; then
+    else
         systemctl status firewalld > /dev/null 2>&1
         if [ $? -eq 0 ]; then
-            firewall-cmd --permanent --zone=public --add-service=http > /dev/null 2>&1
-            firewall-cmd --permanent --zone=public --add-service=https > /dev/null 2>&1
+            default_zone=$(firewall-cmd --get-default-zone)
+            firewall-cmd --permanent --zone=${default_zone} --add-service=http > /dev/null 2>&1
+            firewall-cmd --permanent --zone=${default_zone} --add-service=https > /dev/null 2>&1
             firewall-cmd --reload > /dev/null 2>&1
         else
             log "Warning" "firewalld looks like not running, please manually set if necessary."
@@ -943,11 +944,14 @@ install_tools(){
         done
     elif check_sys packageManager yum; then
         yum makecache > /dev/null 2>&1
-        yum_tools=(yum-utils epel-release gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates ntpdate)
+        yum_tools=(yum-utils gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates ntpdate)
         for tool in ${yum_tools[@]}; do
             error_detect_depends "yum -y install ${tool}"
         done
-        yum-config-manager --enable epel > /dev/null 2>&1
+        if centosversion 6 || centosversion 7; then
+            error_detect_depends "yum -y install epel-release"
+            yum-config-manager --enable epel > /dev/null 2>&1
+        fi
     fi
     log "Info" "Install development tools completed..."
 
