@@ -20,6 +20,7 @@ Supported System
 ===============
 - CentOS-6.x
 - CentOS-7.x (recommend)
+- Fedora-28
 - Fedora-29 (recommend)
 - Ubuntu-14.x
 - Ubuntu-16.x
