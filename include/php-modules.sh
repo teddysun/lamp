@@ -26,6 +26,13 @@ php_modules_preinstall_settings(){
         if [[ "${php}" == "${php5_6_filename}" ]]; then
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
             php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
+        elif [[ "${php}" == "${php7_3_filename}" ]]; then
+            php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
+            php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename}/${xdebug_filename2}})
+            php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
+            php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
+            php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         else
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename}/${xdebug_filename2}})
@@ -344,8 +351,8 @@ install_kodexplorer(){
 
 install_ionCube(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
     cd ${cur_dir}/software/
 
@@ -373,8 +380,8 @@ EOF
 
 install_xcache(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
     log "Info" "XCache install start..."
     cd ${cur_dir}/software/
@@ -440,8 +447,8 @@ EOF
 
 install_php_libsodium(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
     cd ${cur_dir}/software/
 
@@ -476,8 +483,8 @@ EOF
 
 install_php_imagesmagick(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
     cd ${cur_dir}/software/
 
@@ -512,8 +519,8 @@ EOF
 
 install_php_graphicsmagick(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
     cd ${cur_dir}/software/
 
@@ -555,8 +562,8 @@ EOF
 
 install_php_memcached(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
     cd ${cur_dir}/software
 
@@ -646,12 +653,12 @@ EOF
 
 install_php_redis(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
     local redis_install_dir=${depends_prefix}/redis
     local tram=$( free -m | awk '/Mem/ {print $2}' )
     local swap=$( free -m | awk '/Swap/ {print $2}' )
-    local Mem=`expr $tram + $swap`
+    local Mem=$(expr $tram + $swap)
     local RT=0
 
     cd ${cur_dir}/software/
@@ -723,8 +730,8 @@ EOF
 
 install_php_mongo(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
     cd ${cur_dir}/software/
 
@@ -750,8 +757,8 @@ EOF
 
 install_swoole(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
     cd ${cur_dir}/software/
 
@@ -777,8 +784,8 @@ EOF
 
 install_xdebug(){
     local phpConfig=${1}
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
     cd ${cur_dir}/software/
 
