@@ -103,19 +103,19 @@ mcrypt_filename="mcrypt-2.6.8"
 #pcre
 pcre_filename="pcre-8.42"
 #re2c
-re2c_filename='re2c-1.1.1'
+re2c_filename="re2c-1.1.1"
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-2.2.0"
-set_hint ${swoole_filename} "php-swoole-2.2.0"
+swoole_filename="swoole-src-4.2.9"
+set_hint ${swoole_filename} "php-swoole-4.2.9"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename2="xdebug-2.6.1"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-14"
+ImageMagick_filename="ImageMagick-7.0.8-15"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
