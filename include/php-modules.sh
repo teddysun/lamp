@@ -142,7 +142,7 @@ install_php_depends(){
             curl-devel pcre-devel libtool-libs libtool-ltdl-devel libwebp-devel libXpm-devel
             libvpx-devel libjpeg-devel libpng-devel freetype-devel oniguruma-devel
             aspell-devel enchant-devel readline-devel unixODBC-devel libtidy-devel
-            openldap-devel libxslt-devel net-snmp net-snmp-devel libzip-devel
+            openldap-devel libxslt-devel net-snmp net-snmp-devel
         )
         log "Info" "Starting to install dependencies packages for PHP..."
         for depend in ${yum_depends[@]}
@@ -159,6 +159,7 @@ install_php_depends(){
         install_mhash
         install_libmcrypt
         install_mcrypt
+        install_libzip
     fi
 
     install_libiconv
@@ -266,6 +267,23 @@ install_libmcrypt(){
         log "Info" "${libmcrypt_filename} install completed..."
     fi
 }
+
+
+install_libzip(){
+    if [ ! -e "/usr/lib/libzip.la" ]; then
+        cd ${cur_dir}/software/
+        log "Info" "${libzip_filename} install start..."
+        download_file "${libzip_filename}.tar.gz"
+        tar zxf ${libzip_filename}.tar.gz
+        cd ${libzip_filename}
+
+        error_detect "./configure --prefix=/usr"
+        error_detect "parallel_make"
+        error_detect "make install"
+        log "Info" "${libzip_filename} install completed..."
+    fi
+}
+
 
 install_nghttp2(){
     cd ${cur_dir}/software/

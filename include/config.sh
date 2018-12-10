@@ -104,6 +104,8 @@ mcrypt_filename="mcrypt-2.6.8"
 pcre_filename="pcre-8.42"
 #re2c
 re2c_filename="re2c-1.1.1"
+#libzip
+libzip_filename="libzip-1.3.2"
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
