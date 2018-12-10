@@ -100,6 +100,12 @@ upgrade_php(){
             other_options="--with-mcrypt --enable-gd-native-ttf"
         fi
 
+        if [ "${php_version}" == "7.3" ]; then
+            with_libmbfl=""
+        else
+            with_libmbfl="--with-libmbfl"
+        fi
+
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
 
         php_configure_args="--prefix=${php_location} \
@@ -125,7 +131,7 @@ upgrade_php(){
         --with-icu-dir=/usr \
         --with-ldap \
         --with-ldap-sasl \
-        --with-libmbfl \
+        ${with_libmbfl} \
         --with-onig \
         --with-unixODBC \
         --with-pspell=/usr \
