@@ -44,6 +44,12 @@ php_preinstall_settings(){
             other_options="--with-mcrypt --enable-gd-native-ttf"
         fi
 
+        if [ "${php}" == "${php7_3_filename}" ]; then
+            with_libmbfl=""
+        else
+            with_libmbfl="--with-libmbfl"
+        fi
+
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
 
         php_configure_args="--prefix=${php_location} \
@@ -69,7 +75,7 @@ php_preinstall_settings(){
         --with-icu-dir=/usr \
         --with-ldap \
         --with-ldap-sasl \
-        --with-libmbfl \
+        ${with_libmbfl} \
         --with-onig \
         --with-unixODBC \
         --with-pspell=/usr \
