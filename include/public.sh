@@ -1004,15 +1004,15 @@ lamp_preinstall(){
 #Pre-installation settings
 pre_setting(){
     if check_sys packageManager yum || check_sys packageManager apt; then
-        # Not support CentOS 5 & Debian 6
-        if centosversion 5 || debianversion 6; then
-            log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 14+ and try again."
+        # Not support CentOS 5 & Debian 6, 7
+        if centosversion 5 || debianversion 6 || debianversion 7; then
+            log "Error" "Not supported OS, please change to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
             exit 1
         fi
         lamp_preinstall
         lamp_install
     else
-        log "Error" "Not supported OS, please change to CentOS 6+ or Debian 7+ or Ubuntu 14+ and try again."
+        log "Error" "Not supported OS, please change to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
         exit 1
     fi
 }

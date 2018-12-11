@@ -9,7 +9,7 @@
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
-# System Required:  CentOS 6+ / Debian 7+ / Ubuntu 14+
+# System Required:  CentOS 6+ / Debian 8+ / Ubuntu 14+
 # Description:  Create, Delete, List Apache Virtual Host
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
@@ -24,7 +24,7 @@ percona_location=/usr/local/percona
 web_root_dir=/data/www/default
 
 rootness(){
-    if [[ $EUID -ne 0 ]]; then
+    if [[ ${EUID} -ne 0 ]]; then
         echo "Error: This script must be run as root" 1>&2
         exit 1
     fi
@@ -32,11 +32,11 @@ rootness(){
 
 vhost(){
     local action=$1
-    case $action in
+    case ${action} in
         add ) vhost_add;;
         list ) vhost_list;;
         del ) vhost_del;;
-        *) echo "action $action not found";exit 1;;
+        *) echo "action ${action} not found";exit 1;;
     esac
 }
 
@@ -66,10 +66,9 @@ set_apache_allow_syntax(){
     fi
 }
 
-check_email () {
-    local email=$1
+check_email(){
     regex="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?\$"
-    if [[ $email =~ $regex ]]; then
+    if [[ ${1} =~ ${regex} ]]; then
         return 0
     else
         return 1
@@ -81,10 +80,10 @@ vhost_add(){
 
     while :
     do
-        read -p "Please enter server names(example: www.lamp.sh lamp.sh): " server_names
+        read -p "Please enter server names (for example: www.lamp.sh lamp.sh): " server_names
         for i in ${server_names};do
-            if apache_vhost_is_exist $i;then
-                echo "Error: virtual host [$i] is exist, please check it and try again"
+            if apache_vhost_is_exist ${i};then
+                echo "Error: virtual host [${i}] is exist, please check it and try again"
                 break
             fi
             break 2
@@ -108,7 +107,7 @@ vhost_add(){
     while :
     do
         read -p "Please enter Administrator Email address: " email
-        if [ -z ${email} ]; then
+        if [ -z "${email}" ]; then
             echo "Error: Administrator Email address can not be empty"
         elif check_email ${email}; then
             echo "Administrator Email address:${email}"
@@ -224,8 +223,8 @@ EOF
 }
 
 add_ssl_memu(){
-    echo "1: Use your own SSL Certificate and Key"
-    echo "2: Use Let's Encrypt to create SSL Certificate and Key"
+    echo -e "\033[32m1.\033[0m Use your own SSL Certificate and Key"
+    echo -e "\033[32m2.\033[0m Use Let's Encrypt to create SSL Certificate and Key"
     while :
     do
         read -p "Please enter 1 or 2: " ssl_pick
@@ -233,9 +232,9 @@ add_ssl_memu(){
             while :
             do
             read -p "Please enter full path to SSL Certificate file: " ssl_certificate
-            if [ -z ${ssl_certificate} ]; then
+            if [ -z "${ssl_certificate}" ]; then
                 echo "Error: SSL Certificate file can not be empty"
-            elif [ -f ${ssl_certificate} ]; then
+            elif [ -f "${ssl_certificate}" ]; then
                 break
             else
                 echo "${ssl_certificate} does not exist or is not a file!"
@@ -245,9 +244,9 @@ add_ssl_memu(){
             while :
             do
             read -p "Please enter full path to SSL Certificate Key file: " ssl_certificate_key
-            if [ -z ${ssl_certificate_key} ]; then
+            if [ -z "${ssl_certificate_key}" ]; then
                 echo "Error: SSL Certificate Key file can not be empty"
-            elif [ -f ${ssl_certificate_key} ]; then
+            elif [ -f "${ssl_certificate_key}" ]; then
                 break
             else
                 echo "${ssl_certificate_key} does not exist or is not a file!"
@@ -368,17 +367,19 @@ check_lets_cron(){
 }
 
 vhost_list(){
-    if [ `ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | wc -l` -gt 0 ]; then
+    if [ $(ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | wc -l) -gt 0 ]; then
         echo "Server Name"
         echo "------------"
+    else
+        echo "Apache virtual host not found. You can create a new Apache virtual host with command: lamp add"
     fi
     ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | sed 's/.conf//g'
 }
 
 vhost_del(){
-    read -p "Please enter domain you want to delete it(example: www.lamp.sh): " domain
-    if ! apache_vhost_is_exist "$domain";then
-        echo "Error: Virtual host [$domain] not found!"
+    read -p "Please enter a domain you want to delete it (for example: www.lamp.sh): " domain
+    if ! apache_vhost_is_exist "${domain}";then
+        echo "Error: Virtual host [${domain}] not found!"
         exit 1
     else
         rm -f ${apache_location}/conf/vhost/${domain}.conf
@@ -398,9 +399,8 @@ vhost_del(){
 }
 
 apache_vhost_is_exist(){
-    local domain=$1
     local conf_file="${apache_location}/conf/vhost/$1.conf"
-    if [ -f "$conf_file" ];then
+    if [ -f "${conf_file}" ]; then
         return 0
     else
         return 1
@@ -411,22 +411,21 @@ display_usage(){
 printf "
 
 Usage: `basename $0` [ add | del | list ]
-add     Create new Apache Virtual Host
-del     Delete Apache Virtual Host
-list    List all of Apache Virtual Host
+add     Create a new Apache virtual host
+del     Delete a Apache virtual host
+list    List all of Apache virtual hosts
 
 "
 }
 
 #Run it
 rootness
-if [ $# != 1 ];then
+if [ $# -ne 1 ]; then
     display_usage
     exit 1
 fi
 
 action=$1
-
 case ${action} in
     add)  vhost ${action} ;;
     list) vhost ${action} ;;

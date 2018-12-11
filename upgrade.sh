@@ -9,7 +9,7 @@
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
-# System Required:  CentOS 6+ / Debian 7+ / Ubuntu 14+
+# System Required:  CentOS 6+ / Debian 8+ / Ubuntu 14+
 # Description:  Update LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
@@ -60,7 +60,7 @@ display_menu(){
     echo -e "\t\033[32m5\033[0m. Exit"
     echo
     read -p "Please input a number: " Number
-    if [[ ! ${Number} =~ ^[1-5]$ ]];then
+    if [[ ! ${Number} =~ ^[1-5]$ ]]; then
         echo "Input error! Please only input 1,2,3,4,5"
     else
         case "${Number}" in
@@ -103,12 +103,11 @@ phpmyadmin                --->Upgrade phpMyAdmin
 }
 
 
-if   [ $# == 0 ];then
+if   [ $# == 0 ]; then
     display_menu
-elif [ $# == 1 ];then
+elif [ $# == 1 ]; then
     rootness
     load_config
-
     case $1 in
     apache)
         upgrade_apache 2>&1 | tee ${cur_dir}/upgrade_apache.log
