@@ -135,8 +135,8 @@ install_php(){
 
     unset LD_LIBRARY_PATH
     unset CPPFLAGS
-    error_detect "./configure ${php_configure_args}"
     ldconfig
+    error_detect "./configure ${php_configure_args}"
     error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
     error_detect "make install"
 

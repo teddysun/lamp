@@ -729,7 +729,7 @@ remove_packages(){
     elif check_sys packageManager yum; then
         yum -y remove httpd-* &> /dev/null
         yum -y remove mysql-* &> /dev/null
-        yum -y remove php-* &> /dev/null
+        yum -y remove php-* libzip-devel libzip &> /dev/null
     fi
     log "Info" "Remove the conflict packages completed..."
 }
