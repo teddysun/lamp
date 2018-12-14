@@ -131,7 +131,7 @@ ionCube_filename="ioncube_loaders"
 ionCube32_filename="ioncube_loaders_lin_x86"
 ionCube64_filename="ioncube_loaders_lin_x86-64"
 #libevent
-libevent_filename="libevent-2.0.22-stable"
+libevent_filename="libevent-2.1.8-stable"
 #memcached
 memcached_filename="memcached-1.5.12"
 #libmemcached
