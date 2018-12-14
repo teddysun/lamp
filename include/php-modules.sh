@@ -592,12 +592,7 @@ install_php_memcached(){
     error_detect "./configure"
     error_detect "make"
     error_detect "make install"
-
-    if is_64bit; then
-        ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib64/
-    else
-        ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib/
-    fi
+    ldconfig
     log "Info" "libevent install completed..."
 
     cd ${cur_dir}/software
