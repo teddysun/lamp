@@ -153,7 +153,7 @@ php_mongo_filename="mongodb-1.5.3"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.16"
-php_libsodium_filename="libsodium-php-2.0.15"
+php_libsodium_filename="libsodium-php-2.0.20"
 
 
 #software array setting
