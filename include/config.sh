@@ -109,8 +109,8 @@ libzip_filename="libzip-1.3.2"
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-4.2.9"
-set_hint ${swoole_filename} "php-swoole-4.2.9"
+swoole_filename="swoole-src-4.2.10"
+set_hint ${swoole_filename} "php-swoole-4.2.10"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
