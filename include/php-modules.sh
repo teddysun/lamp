@@ -26,13 +26,6 @@ php_modules_preinstall_settings(){
         if [[ "${php}" == "${php5_6_filename}" ]]; then
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
             php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
-        elif [[ "${php}" == "${php7_3_filename}" ]]; then
-            php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
-            php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename}/${xdebug_filename2}})
-            php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
-            php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
-            php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         else
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename}/${xdebug_filename2}})
@@ -376,11 +369,11 @@ install_ionCube(){
 
     log "Info" "ionCube Loader install start..."
     if is_64bit; then
-        download_file  "${ionCube64_filename}.tar.gz"
+        download_file "${ionCube64_filename}.tar.gz"
         tar zxf ${ionCube64_filename}.tar.gz
         cp -pf ioncube/ioncube_loader_lin_${php_version}_ts.so ${php_extension_dir}/
     else
-        download_file  "${ionCube32_filename}.tar.gz"
+        download_file "${ionCube32_filename}.tar.gz"
         tar zxf ${ionCube32_filename}.tar.gz
         cp -pf ioncube/ioncube_loader_lin_${php_version}_ts.so ${php_extension_dir}/
     fi
