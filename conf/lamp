@@ -367,7 +367,7 @@ check_lets_cron(){
 }
 
 vhost_list(){
-    if [ $(ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | wc -l) -gt 0 ]; then
+    if [ $(ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "default" | wc -l) -gt 0 ]; then
         echo "Server Name"
         echo "------------"
     else
