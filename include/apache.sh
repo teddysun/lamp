@@ -94,7 +94,6 @@ config_apache(){
 
     mv ${apache_location}/conf/extra/httpd-vhosts.conf ${apache_location}/conf/extra/httpd-vhosts.conf.bak
     mkdir -p ${apache_location}/conf/vhost/
-    touch ${apache_location}/conf/vhost/none.conf
 
     cat > /etc/logrotate.d/httpd <<EOF
 ${apache_location}/logs/access_log ${apache_location}/logs/error_log {
@@ -112,9 +111,11 @@ EOF
 
     cat > ${apache_location}/conf/extra/httpd-vhosts.conf <<EOF
 Include ${apache_location}/conf/vhost/*.conf
-<VirtualHost *:80>
+EOF
+
+    cat > ${apache_location}/conf/vhost/default.conf <<EOF
+<VirtualHost _default_:80>
 ServerName localhost
-ServerAlias localhost
 DocumentRoot ${web_root_dir}
 <Directory ${web_root_dir}>
     SetOutputFilter DEFLATE

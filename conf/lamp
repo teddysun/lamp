@@ -373,7 +373,7 @@ vhost_list(){
     else
         echo "Apache virtual host not found. You can create a new Apache virtual host with command: lamp add"
     fi
-    ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | sed 's/.conf//g'
+    ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "default" | sed 's/.conf//g'
 }
 
 vhost_del(){
