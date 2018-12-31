@@ -334,7 +334,7 @@ install_phpmyadmin(){
     download_file "${phpmyadmin}.tar.gz"
     tar zxf ${phpmyadmin}.tar.gz
     mv ${phpmyadmin} ${web_root_dir}/phpmyadmin
-    cp -f ${cur_dir}/conf/config.inc_new.php ${web_root_dir}/phpmyadmin/config.inc.php
+    cp -f ${cur_dir}/conf/config.inc.php ${web_root_dir}/phpmyadmin/config.inc.php
     mkdir -p ${web_root_dir}/phpmyadmin/{upload,save}
     chown -R apache:apache ${web_root_dir}/phpmyadmin
     log "Info" "${phpmyadmin} install completed..."
