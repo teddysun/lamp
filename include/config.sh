@@ -117,11 +117,11 @@ xcache_filename="xcache-3.2.0"
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename2="xdebug-2.6.1"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-19"
+ImageMagick_filename="ImageMagick-7.0.8-22"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.30"
+GraphicsMagick_filename="GraphicsMagick-1.3.31"
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
 php_graphicsmagick_filename2="gmagick-2.0.5RC1"
 set_hint ${php_graphicsmagick_filename} "php-${php_graphicsmagick_filename}"
