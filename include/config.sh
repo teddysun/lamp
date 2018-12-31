@@ -145,7 +145,7 @@ set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 redis_filename="redis-4.0.11"
 #php-redis
 php_redis_filename="redis-2.2.8"
-php_redis_filename2="redis-4.1.1"
+php_redis_filename2="redis-4.2.0"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
