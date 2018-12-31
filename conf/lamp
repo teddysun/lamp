@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # Copyright (C) 2013 - 2018 Teddysun <i@teddysun.com>
 # 
 # This file is part of the LAMP script.
@@ -25,7 +25,7 @@ web_root_dir=/data/www/default
 
 rootness(){
     if [[ ${EUID} -ne 0 ]]; then
-        echo "Error: This script must be run as root" 1>&2
+        echo -e "\033[31mError:\033[0m This script must be run as root" 1>&2
         exit 1
     fi
 }
@@ -57,11 +57,11 @@ set_apache_allow_syntax(){
         if /usr/sbin/httpd -v | grep -q "Apache/2.4"; then
             allow_from_all="Require all granted"
         else
-            echo "Error: Can not get Apache version..."
+            echo -e "\033[31mError:\033[0m Can not get Apache version..."
             exit 1
         fi
     else
-        echo "Error: Can not find Apache, may be not installed. Please check it and try again."
+        echo -e "\033[31mError:\033[0m Can not find Apache, may be not installed. Please check it and try again."
         exit 1
     fi
 }
@@ -75,15 +75,28 @@ check_email(){
     fi
 }
 
+filter_location(){
+    local location=${1}
+    if ! echo ${location} | grep -q "^/"; then
+        while true
+        do
+            read -p "Please enter a correct location: " location
+            echo ${location} | grep -q "^/" && echo ${location} && break
+        done
+    else
+        echo ${location}
+    fi
+}
+
 vhost_add(){
     set_apache_allow_syntax
 
     while :
     do
-        read -p "Please enter server names (for example: www.lamp.sh lamp.sh): " server_names
-        for i in ${server_names};do
-            if apache_vhost_is_exist ${i};then
-                echo "Error: virtual host [${i}] is exist, please check it and try again"
+        read -p "Please enter server names (for example: lamp.sh www.lamp.sh): " server_names
+        for i in ${server_names}; do
+            if apache_vhost_is_exist ${i}; then
+                echo -e "\033[31mError:\033[0m virtual host [${i}] is existed, please check it and try again."
                 break
             fi
             break 2
@@ -93,6 +106,9 @@ vhost_add(){
     default_root="/data/www/${server_names%% *}"
     read -p "Please enter website root directory(default:$default_root): " website_root
     website_root=${website_root:=$default_root}
+    website_root=$(filter_location "${website_root}")
+    echo "website root directory: ${website_root}"
+    echo
     php_admin_value=""
     if [ -s /usr/bin/php ]; then
         php_admin_value="php_admin_value open_basedir ${website_root}:/tmp:/var/tmp:/proc"
@@ -108,12 +124,13 @@ vhost_add(){
     do
         read -p "Please enter Administrator Email address: " email
         if [ -z "${email}" ]; then
-            echo "Error: Administrator Email address can not be empty"
+            echo -e "\033[31mError:\033[0m Administrator Email address can not be empty."
         elif check_email ${email}; then
             echo "Administrator Email address:${email}"
+            echo
             break
         else
-            echo "Error: Please enter a correct email address"
+            echo -e "\033[31mError:\033[0m Please enter a correct email address."
         fi
     done
 
@@ -123,7 +140,7 @@ vhost_add(){
         case ${create} in
         y|Y)
             if [ ! "$(command -v "mysql")" ]; then
-                echo "Error: $(db_name) is not installed, please check it and try again"
+                echo -e "\033[31mError:\033[0m $(db_name) is not installed, please check it and try again."
                 exit 1
             fi
             mysql_count=$(ps -ef | grep -v grep | grep -c "mysqld")
@@ -131,7 +148,7 @@ vhost_add(){
                 echo "Info: $(db_name) looks like not running, Try to starting $(db_name)..."
                 /etc/init.d/mysqld start > /dev/null 2>&1
                 if [ $? -ne 0 ]; then
-                    echo "Error: $(db_name) starting failed!"
+                    echo -e "\033[31mError:\033[0m $(db_name) starting failed!"
                     exit 1
                 fi
             fi
@@ -140,18 +157,20 @@ vhost_add(){
 exit
 EOF
             if [ $? -ne 0 ]; then
-                echo "Error: $(db_name) root password incorrect! Please check it and try again!"
+                echo -e "\033[31mError:\033[0m $(db_name) root password incorrect! Please check it and try again."
                 exit 1
             fi
             read -p "Please enter the database name:" dbname
-            [ -z ${dbname} ] && echo "Error: database name can not be empty" && exit 1
+            [ -z ${dbname} ] && echo -e "\033[31mError:\033[0m database name can not be empty." && exit 1
             read -p "Please set the password for user ${dbname}:" mysqlpwd
-            [ -z ${mysqlpwd} ] && echo "Error: user password can not be empty" && exit 1
+            echo
+            [ -z ${mysqlpwd} ] && echo -e "\033[31mError:\033[0m user password can not be empty." && exit 1
             create="y"
             break
             ;;
         n|N)
             echo "Do not create a database"
+            echo
             create="n"
             break
             ;;
@@ -184,7 +203,7 @@ EOF
     echo "Virtual host [${server_names%% *}] has been created"
     echo "Website root directory is: ${website_root}"
 
-    if [ "$create" == "y" ]; then
+    if [ "$create" = "y" ]; then
         mysql -uroot -p${mysqlroot_passwd} <<EOF
 CREATE DATABASE IF NOT EXISTS \`${dbname}\` CHARACTER SET utf8 COLLATE utf8_general_ci;
 GRANT ALL PRIVILEGES ON \`${dbname}\` . * TO '${dbname}'@'localhost' IDENTIFIED BY '${mysqlpwd}';
@@ -197,25 +216,28 @@ EOF
     echo "Reloading the apache config file..."
     if ${apache_location}/bin/apachectl -t; then
         /etc/init.d/httpd restart
-        echo "Reload success"
+        echo "Reload succeed"
+        echo
     else
-        echo "Error: Reload failed! config file had an error, please fix it and try again"
+        echo -e "\033[31mError:\033[0m Reload failed. Apache config file had an error, please fix it and try again."
         exit 1
     fi
 
     read -p "Do you want to add a SSL certificate? [y/n]:" create_ssl
-    if [ "${create_ssl}" == "y" ] || [ "${create_ssl}" == "Y" ]; then
+    if [ "${create_ssl}" = "y" ] || [ "${create_ssl}" = "Y" ]; then
         add_ssl_memu
-        add_ssl
+        add_ssl_cert
         echo "Reloading the apache config file..."
         if ${apache_location}/bin/apachectl -t; then
             /etc/init.d/httpd restart
-            echo "Reload success"
+            echo "Reload succeed"
+            echo
         else
-            echo "Error: Reload failed! config file had an error, please fix it and try again"
+            echo -e "\033[31mError:\033[0m Reload failed. Apache config file had an error, please fix it and try again."
         fi
     else
         echo "Do not add a SSL certificate"
+        echo
     fi
 
     chown -R apache:apache /data/wwwlog/${server_names%% *} ${website_root}
@@ -224,20 +246,21 @@ EOF
 
 add_ssl_memu(){
     echo -e "\033[32m1.\033[0m Use your own SSL Certificate and Key"
-    echo -e "\033[32m2.\033[0m Use Let's Encrypt to create SSL Certificate and Key"
+    echo -e "\033[32m2.\033[0m Use Let's Encrypt CA to create SSL Certificate and Key"
+    echo -e "\033[32m3.\033[0m Use Buypass.com CA to create SSL Certificate and Key"
     while :
     do
-        read -p "Please enter 1 or 2: " ssl_pick
-        if [ "${ssl_pick}" == "1" ]; then
+        read -p "Please enter 1 or 2 or 3: " ssl_pick
+        if [ "${ssl_pick}" = "1" ]; then
             while :
             do
             read -p "Please enter full path to SSL Certificate file: " ssl_certificate
             if [ -z "${ssl_certificate}" ]; then
-                echo "Error: SSL Certificate file can not be empty"
+                echo -e "\033[31mError:\033[0m SSL Certificate file can not be empty."
             elif [ -f "${ssl_certificate}" ]; then
                 break
             else
-                echo "${ssl_certificate} does not exist or is not a file!"
+                echo -e "\033[31mError:\033[0m ${ssl_certificate} does not exist or is not a file."
             fi
             done
 
@@ -245,24 +268,35 @@ add_ssl_memu(){
             do
             read -p "Please enter full path to SSL Certificate Key file: " ssl_certificate_key
             if [ -z "${ssl_certificate_key}" ]; then
-                echo "Error: SSL Certificate Key file can not be empty"
+                echo -e "\033[31mError:\033[0m SSL Certificate Key file can not be empty."
             elif [ -f "${ssl_certificate_key}" ]; then
                 break
             else
-                echo "${ssl_certificate_key} does not exist or is not a file!"
+                echo -e "\033[31mError:\033[0m ${ssl_certificate_key} does not exist or is not a file."
             fi
             done
             break
-        elif [ "${ssl_pick}" == "2" ]; then
-            echo "You have already chosen Let's Encrypt"
-            echo "It will be processed automatically"
+        elif [ "${ssl_pick}" = "2" ]; then
+            echo "You have already chosen Let's Encrypt CA, and it will be processed automatically"
+            echo
+            break
+        elif [ "${ssl_pick}" = "3" ]; then
+            echo "You have already chosen Buypass.com CA, and it will be processed automatically"
+            echo
             break
         else
-            echo "Error: Please only enter 1 or 2"
+            echo -e "\033[31mError:\033[0m Please only enter 1 or 2 or 3"
         fi
     done
 
-    read -p "Do you want force redirection from HTTP to HTTPS automatically? [y/n]:" force_ssl
+    read -p "Do you want force redirection from HTTP to HTTPS? [y/n]:" force_ssl
+    if [ "${force_ssl}" = "y" ] || [ "${force_ssl}" = "Y" ]; then
+        echo "You chosen force redirection from HTTP to HTTPS, and it will be processed automatically"
+        echo
+    else
+        echo "Do not force redirection from HTTP to HTTPS"
+        echo
+    fi
 }
 
 create_ssl_config(){
@@ -305,94 +339,105 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
 EOF
 }
 
-add_ssl(){
-    if [ "${ssl_pick}" == "1" ]; then
-        create_ssl_config
-    elif [ "${ssl_pick}" == "2" ]; then
-        letsdomain=""
-        if [ ! -z "${server_names}" ]; then
-            for i in ${server_names}
-            do
-                letsdomain=${letsdomain}" -d ${i}"
-            done
+check_lets_cron(){
+    if [ "$(command -v crontab)" ]; then
+        if crontab -l | grep -q "/bin/certbot renew --disable-hook-validation"; then
+            echo "Cron job for automatic renewal of certificates is existed."
+        else
+            echo "Cron job for automatic renewal of certificates is not exist, create it."
+            (crontab -l ; echo '0 3 */7 * * /bin/certbot renew --disable-hook-validation --renew-hook "/etc/init.d/httpd restart"') | crontab -
         fi
-        add_letsencrypt
-    fi
-    if [ "${force_ssl}" == "y" ] || [ "${force_ssl}" == "Y" ]; then
-        echo "You chosen force redirection from HTTP to HTTPS automatically"
-        create_ssl_htaccess
-        echo "and it's already done"
     else
-        echo "Do not force redirection from HTTP to HTTPS automatically"
+        echo -e "\033[33mWarning:\033[0m crontab command not found, please set up a cron job by manually."
     fi
 }
 
 add_letsencrypt(){
-    if [[ "${email}" == "" || "${website_root}" == "" || "${letsdomain}" == "" ]]; then
-        echo "Error: [email, website_root, letsdomain] parameter are needed!"
-        exit 1
-    fi
-    if [ ! -d "${website_root}" ]; then
-        echo "Error: ${website_root} does not exist or is not a directory!"
-        exit 1
-    fi
-    if [ ! -s /bin/certbot ]; then
-        echo "Installing certbot command..."
-        wget --no-check-certificate -O /bin/certbot https://dl.eff.org/certbot-auto
-        chmod +x /bin/certbot
-    fi
-
     echo "Starting create Let's Encrypt SSL Certificate..."
-    /bin/certbot certonly --email ${email} --agree-tos -n --webroot -w ${website_root} ${letsdomain}
+    /bin/certbot certonly -m ${email} --agree-tos -n --webroot -w ${website_root} ${letsdomain}
     if [ $? -eq 0 ]; then
         ssl_certificate="/etc/letsencrypt/live/${server_names%% *}/fullchain.pem"
         ssl_certificate_key="/etc/letsencrypt/live/${server_names%% *}/privkey.pem"
-        create_ssl_config
-        check_lets_cron
-        echo "Create Let's Encrypt SSL Certificate successfully"
+        echo "Create Let's Encrypt SSL Certificate succeed"
     else
-        echo "Error: Create Let's Encrypt SSL Certificate failed!"
+        echo -e "\033[31mError:\033[0m Create Let's Encrypt SSL Certificate failed."
+        exit 1
     fi
 }
 
-check_lets_cron(){
-    if [ "$(command -v crontab)" ]; then
-        if crontab -l | grep -q "/bin/certbot renew --disable-hook-validation"; then
-            echo "Let's encrypt crontab renew rule is exist."
-        else
-            echo "Let's encrypt crontab renew rule is not exist, create it!"
-            (crontab -l ; echo '0 3 */7 * * /bin/certbot renew --disable-hook-validation --renew-hook "/etc/init.d/httpd restart"') | crontab -
-        fi
+add_buypass(){
+    echo "Starting create Buypass.com SSL Certificate..."
+    /bin/certbot certonly -m ${email} --agree-tos -n --webroot -w ${website_root} ${letsdomain} --server 'https://api.buypass.com/acme/directory'
+    if [ $? -eq 0 ]; then
+        ssl_certificate="/etc/letsencrypt/live/${server_names%% *}/fullchain.pem"
+        ssl_certificate_key="/etc/letsencrypt/live/${server_names%% *}/privkey.pem"
+        echo "Create Buypass.com SSL Certificate succeed"
+    else
+        echo -e "\033[31mError:\033[0m Create Buypass.com SSL Certificate failed."
+        exit 1
+    fi
+}
+
+add_ssl_cert(){
+    if [ -z "${email}" ] || [ -z "${website_root}" ]; then
+        echo -e "\033[31mError:\033[0m parameters must be specified."
+        exit 1
+    fi
+    if [ ! -d "${website_root}" ]; then
+        echo -e "\033[31mError:\033[0m ${website_root} does not exist or is not a directory."
+        exit 1
+    fi
+    letsdomain=""
+    if [ ! -z "${server_names}" ]; then
+        for i in ${server_names}; do
+            letsdomain=${letsdomain}" -d ${i}"
+        done
+    fi
+
+    if [ ! -s /bin/certbot ]; then
+        wget --no-check-certificate -qO /bin/certbot https://dl.eff.org/certbot-auto
+        chmod +x /bin/certbot
+    fi
+
+    if [ "${ssl_pick}" = "2" ]; then
+        add_letsencrypt
+    elif [ "${ssl_pick}" = "3" ]; then
+        add_buypass
+    fi
+
+    create_ssl_config
+    check_lets_cron
+
+    if [ "${force_ssl}" = "y" ] || [ "${force_ssl}" = "Y" ]; then
+        create_ssl_htaccess
     fi
 }
 
 vhost_list(){
-    if [ $(ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "default" | wc -l) -gt 0 ]; then
+    if [ $(ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | grep -v "default" | wc -l) -gt 0 ]; then
         echo "Server Name"
         echo "------------"
     else
         echo "Apache virtual host not found. You can create a new Apache virtual host with command: lamp add"
     fi
-    ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "default" | sed 's/.conf//g'
+    ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | grep -v "default" | sed 's/.conf//g'
 }
 
 vhost_del(){
     read -p "Please enter a domain you want to delete it (for example: www.lamp.sh): " domain
-    if ! apache_vhost_is_exist "${domain}";then
-        echo "Error: Virtual host [${domain}] not found!"
+    if ! apache_vhost_is_exist "${domain}"; then
+        echo -e "\033[31mError:\033[0m Virtual host [${domain}] not found."
         exit 1
     else
         rm -f ${apache_location}/conf/vhost/${domain}.conf
-        echo "Delete virtual host [${domain}] completed"
-        echo "Website files will not be deleted for security reasons"
-        echo "You need to manually delete the website files"
-
+        echo "Virtual host [${domain}] has been deleted, and website files will not be deleted."
+        echo "You need to delete the website files by manually if necessary."
         echo "Reloading the apache config file..."
-        if ${apache_location}/bin/apachectl -t;then
+        if ${apache_location}/bin/apachectl -t; then
             /etc/init.d/httpd restart
-            echo "Reload success"
+            echo "Reload succeed"
         else
-            echo "Error: Reload failed! config file had an error, please fix it and try again"
+            echo -e "\033[31mError:\033[0m Reload failed. Apache config file had an error, please fix it and try again"
             exit 1
         fi
     fi
