@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # Copyright (C) 2013 - 2019 Teddysun <i@teddysun.com>
 # 
 # This file is part of the LAMP script.
@@ -53,7 +53,7 @@ db_name(){
 }
 
 set_apache_allow_syntax(){
-    if [[ -s /usr/sbin/httpd ]]; then
+    if [ -s /usr/sbin/httpd ]; then
         if /usr/sbin/httpd -v | grep -q "Apache/2.4"; then
             allow_from_all="Require all granted"
         else
