@@ -142,10 +142,13 @@ install_php_depends(){
         do
             error_detect_depends "yum -y install ${depend}"
         done
-        if centosversion 6; then
+        if yum list | grep "libc-client-devel" > /dev/null 2>&1; then
             error_detect_depends "yum -y install libc-client-devel"
-        else
+        elif yum list | grep "uw-imap-devel" > /dev/null 2>&1; then
             error_detect_depends "yum -y install uw-imap-devel"
+        else
+            log "Error" "There is no rpm package libc-client-devel or uw-imap-devel, please check it and try again."
+            exit 1
         fi
         log "Info" "Install dependencies packages for PHP completed..."
 
