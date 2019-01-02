@@ -100,10 +100,10 @@ common_install(){
                 rpm -Uvh ${perl_data_dumper_url} > /dev/null 2>&1
                 [ $? -ne 0 ] && log "Error" "Install package perl-Data-Dumper failed" && exit 1
             fi
-        elif centosversion 7; then
-            error_detect_depends "yum -y install perl-Data-Dumper"
         else
             error_detect_depends "yum -y install perl-Data-Dumper"
+        fi
+        if grep -Eqi "fedora" /etc/issue; then
             error_detect_depends "yum -y install ncurses-compat-libs"
         fi
     fi
