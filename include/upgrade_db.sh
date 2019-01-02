@@ -65,7 +65,7 @@ upgrade_db(){
         db_flg="percona"
         bkup_dir="${cur_dir}/percona_bkup"
         mysql_dump="${bkup_dir}/percona_all_backup_${update_date}.dump"
-        installed_percona=$(${percona_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+        installed_percona=$(${percona_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\-[0-9]+')
         percona_ver=$(echo ${installed_percona} | cut -d. -f1-2)
         if   [ "${percona_ver}" == "5.5" ]; then
             latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-5.5/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.5/{print $2}' | cut -d'"' -f1)
