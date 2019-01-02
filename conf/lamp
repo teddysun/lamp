@@ -277,11 +277,11 @@ add_ssl_memu(){
             done
             break
         elif [ "${ssl_pick}" = "2" ]; then
-            echo "You have already chosen Let's Encrypt CA, and it will be processed automatically"
+            echo "You chosen Let's Encrypt CA, and it will be processed automatically"
             echo
             break
         elif [ "${ssl_pick}" = "3" ]; then
-            echo "You have already chosen Buypass.com CA, and it will be processed automatically"
+            echo "You chosen Buypass.com CA, and it will be processed automatically"
             echo
             break
         else
