@@ -103,7 +103,7 @@ common_install(){
         else
             error_detect_depends "yum -y install perl-Data-Dumper"
         fi
-        if grep -Eqi "fedora" /etc/os-release; then
+        if echo $(get_opsy) | grep -Eqi "fedora"; then
             error_detect_depends "yum -y install ncurses-compat-libs"
         fi
     fi
