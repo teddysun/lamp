@@ -21,7 +21,6 @@ Supported System
 - Amazon Linux 2018.03
 - CentOS-6.x
 - CentOS-7.x (recommend)
-- Fedora-28
 - Fedora-29 (recommend)
 - Debian-8.x
 - Debian-9.x (recommend)
