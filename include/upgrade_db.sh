@@ -300,9 +300,9 @@ EOF
             sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysqld_safe
             sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysql_config
 
-            if [ ${percona_ver} == "5.5" ] || [ ${percona_ver} == "5.6" ]; then
+            if [ "${percona_ver}" == "5.5" ] || [ "${percona_ver}" == "5.6" ]; then
                 ${percona_location}/scripts/mysql_install_db --basedir=${percona_location} --datadir=${datalocation} --user=mysql
-            elif [ ${percona_ver} == "5.7" ] || [ ${percona_ver} == "8.0" ]; then
+            elif [ "${percona_ver}" == "5.7" ] || [ "${percona_ver}" == "8.0" ]; then
                 ${percona_location}/bin/mysqld --initialize-insecure --basedir=${percona_location} --datadir=${datalocation} --user=mysql
             fi
 
@@ -312,7 +312,7 @@ EOF
             cd ${percona_location}/lib/
             ln -s libperconaserverclient.a libmysqlclient.a
             ln -s libperconaserverclient.so libmysqlclient.so
-            if [ ${percona_ver} != "5.7" ] && [ ${percona_ver} != "8.0" ]; then
+            if [ "${percona_ver}" != "5.7" ] && [ "${percona_ver}" != "8.0" ]; then
                 ln -s libperconaserverclient_r.a libmysqlclient_r.a
                 ln -s libperconaserverclient_r.so libmysqlclient_r.so
             fi
