@@ -625,6 +625,7 @@ install_php_memcached(){
     fi
     download_file "${libmemcached_filename}.tar.gz"
     tar zxf ${libmemcached_filename}.tar.gz
+    patch -d ${libmemcached_filename} -p0 < ${cur_dir}/conf/libmemcached-build.patch
     cd ${libmemcached_filename}
     error_detect "./configure --with-memcached=${depends_prefix}/memcached --enable-sasl"
     error_detect "make"
