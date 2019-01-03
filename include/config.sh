@@ -117,7 +117,7 @@ set_hint ${swoole_filename} "php-swoole-4.2.11"
 xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.5.5"
-xdebug_filename2="xdebug-2.6.1"
+xdebug_filename2="xdebug-2.7.0beta1"
 #ImageMagick
 ImageMagick_filename="ImageMagick-7.0.8-22"
 php_imagemagick_filename="imagick-3.4.3"
