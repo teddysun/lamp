@@ -73,6 +73,8 @@ upgrade_db(){
             latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-5.6/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.6/{print $2}' | cut -d'"' -f1)
         elif [ "${percona_ver}" == "5.7" ]; then
             latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-5.7/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.7/{print $2}' | cut -d'"' -f1)
+        elif [ "${percona_ver}" == "8.0" ]; then
+            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-8.0/{print $2}' | cut -d'"' -f1)
         fi
 
         echo -e "Latest version of Percona: \033[41;37m ${latest_percona} \033[0m"
@@ -256,7 +258,15 @@ EOF
 
             is_64bit && sys_bit=x86_64 || sys_bit=i686
             if check_sys packageManager apt; then
-                ssl_ver="ssl100"
+                if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -lt 9 ]; then
+                    ssl_ver="ssl100"
+                fi
+                if [ -n "$(get_ubuntuversion)" ] && [ $(get_ubuntuversion) -ge 14 ]; then
+                    ssl_ver="ssl102"
+                fi
+                if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -eq 9 ]; then
+                    ssl_ver="ssl102"
+                fi
             elif check_sys packageManager yum; then
                 ssl_ver="ssl101"
             fi
@@ -268,7 +278,7 @@ EOF
             if [[ "${percona_ver}" == "5.5" || "${percona_ver}" == "5.6" ]]; then
                 tarball="${major_ver}-rel${rel_ver}-Linux.${sys_bit}.${ssl_ver}"
             fi
-            if [[ "${percona_ver}" == "5.7" ]]; then
+            if [[ "${percona_ver}" == "5.7" || "${percona_ver}" == "8.0" ]]; then
                 tarball="Percona-Server-${latest_percona}-Linux.${sys_bit}.${ssl_ver}"
             fi
 
@@ -292,7 +302,7 @@ EOF
 
             if [ ${percona_ver} == "5.5" ] || [ ${percona_ver} == "5.6" ]; then
                 ${percona_location}/scripts/mysql_install_db --basedir=${percona_location} --datadir=${datalocation} --user=mysql
-            elif [ ${percona_ver} == "5.7" ]; then
+            elif [ ${percona_ver} == "5.7" ] || [ ${percona_ver} == "8.0" ]; then
                 ${percona_location}/bin/mysqld --initialize-insecure --basedir=${percona_location} --datadir=${datalocation} --user=mysql
             fi
 
@@ -302,7 +312,7 @@ EOF
             cd ${percona_location}/lib/
             ln -s libperconaserverclient.a libmysqlclient.a
             ln -s libperconaserverclient.so libmysqlclient.so
-            if [ ${percona_ver} != "5.7" ]; then
+            if [ ${percona_ver} != "5.7" ] && [ ${percona_ver} != "8.0" ]; then
                 ln -s libperconaserverclient_r.a libmysqlclient_r.a
                 ln -s libperconaserverclient_r.so libmysqlclient_r.so
             fi
@@ -318,7 +328,7 @@ EOF
             log "Error" "Starting $(db_name) failed, Please check it and try again!"
             exit 5
         fi
-        if [ "${mysql_ver}" == "8.0" ]; then
+        if [ "${mysql_ver}" == "8.0" ] || [ "${percona_ver}" == "8.0" ]; then
             /usr/bin/mysql -uroot -hlocalhost -e "create user root@'127.0.0.1' identified by \"${mysql_root_password}\";"
             /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'127.0.0.1' with grant option;"
             /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'localhost' with grant option;"

@@ -64,6 +64,8 @@ percona5_5_filename="Percona-Server-5.5.62-38.14"
 percona5_6_filename="Percona-Server-5.6.42-84.2"
 #percona5.7
 percona5_7_filename="Percona-Server-5.7.24-27"
+#percona8.0
+percona8_0_filename="Percona-Server-8.0.13-3"
 #php5.6
 php5_6_filename="php-5.6.39"
 #php7.0
@@ -182,6 +184,7 @@ ${mariadb10_3_filename}
 ${percona5_5_filename}
 ${percona5_6_filename}
 ${percona5_7_filename}
+${percona8_0_filename}
 do_not_install
 )
 

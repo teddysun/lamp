@@ -285,7 +285,7 @@ common_setup(){
 
     log "Info" "Starting ${db_name}..."
     /etc/init.d/mysqld start > /dev/null 2>&1
-    if [ "${db_name}" == "MySQL" ] && [ "${mysql_ver}" == "8.0" ]; then
+    if [ "${mysql}" == "${mysql8_0_filename}" ] || [ "${mysql}" == "${percona8_0_filename}" ]; then
         /usr/bin/mysql -uroot -hlocalhost -e "create user root@'127.0.0.1' identified by \"${db_pass}\";"
         /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'127.0.0.1' with grant option;"
         /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'localhost' with grant option;"
@@ -429,7 +429,15 @@ install_percona(){
 
     is_64bit && sys_bit=x86_64 || sys_bit=i686
     if check_sys packageManager apt; then
-        local ssl_ver="ssl100"
+        if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -lt 9 ]; then
+            local ssl_ver="ssl100"
+        fi
+        if [ -n "$(get_ubuntuversion)" ] && [ $(get_ubuntuversion) -ge 14 ]; then
+            local ssl_ver="ssl102"
+        fi
+        if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -eq 9 ]; then
+            local ssl_ver="ssl102"
+        fi
     elif check_sys packageManager yum; then
         local ssl_ver="ssl101"
     fi
@@ -441,7 +449,7 @@ install_percona(){
     if [[ "${percona_ver}" == "5.5" || "${percona_ver}" == "5.6" ]]; then
         tarball="${major_ver}-rel${rel_ver}-Linux.${sys_bit}.${ssl_ver}"
     fi
-    if [[ "${percona_ver}" == "5.7" ]]; then
+    if [[ "${percona_ver}" == "5.7" || "${percona_ver}" == "8.0" ]]; then
         tarball="${mysql}-Linux.${sys_bit}.${ssl_ver}"
     fi
 
@@ -475,12 +483,16 @@ config_percona(){
     #create my.cnf
     create_mysql_my_cnf "${percona_data_location}" "false" "false" "/etc/my.cnf"
 
+    if [ "${version}" == "8.0" ]; then
+        echo "default_authentication_plugin  = mysql_native_password" >> /etc/my.cnf
+    fi
+
     sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysqld_safe
     sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysql_config
 
     if [ ${version} == "5.5" ] || [ ${version} == "5.6" ]; then
         ${percona_location}/scripts/mysql_install_db --basedir=${percona_location} --datadir=${percona_data_location} --user=mysql
-    elif [ ${version} == "5.7" ]; then
+    elif [ ${version} == "5.7" ] || [ ${version} == "8.0" ]; then
         ${percona_location}/bin/mysqld --initialize-insecure --basedir=${percona_location} --datadir=${percona_data_location} --user=mysql
     fi
 
@@ -490,7 +502,7 @@ config_percona(){
     cd ${percona_location}/lib/
     ln -s libperconaserverclient.a libmysqlclient.a
     ln -s libperconaserverclient.so libmysqlclient.so
-    if [ "$mysql" != "${percona5_7_filename}" ]; then
+    if [ "${mysql}" != "${percona5_7_filename}" ] && [ "${mysql}" != "${percona8_0_filename}" ]; then
         ln -s libperconaserverclient_r.a libmysqlclient_r.a
         ln -s libperconaserverclient_r.so libmysqlclient_r.so
     fi
