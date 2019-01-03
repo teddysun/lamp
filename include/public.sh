@@ -529,6 +529,15 @@ centosversion(){
     fi
 }
 
+get_centosversion(){
+    if check_sys sysRelease centos; then
+        local version="$(versionget)"
+        echo ${version%%.*}
+    else
+        echo ""
+    fi
+}
+
 debianversion(){
     if check_sys sysRelease debian; then
         local version=$( get_opsy )
@@ -544,6 +553,16 @@ debianversion(){
     fi
 }
 
+get_debianversion(){
+    if check_sys sysRelease debian; then
+        local version=$( get_opsy )
+        local main_ver=$( echo ${version} | grep -oE  "[0-9.]+")
+        echo ${main_ver%%.*}
+    else
+        echo ""
+    fi
+}
+
 ubuntuversion(){
     if check_sys sysRelease ubuntu; then
         local version=$( get_opsy )
@@ -556,6 +575,16 @@ ubuntuversion(){
         fi
     else
         return 1
+    fi
+}
+
+get_ubuntuversion(){
+    if check_sys sysRelease ubuntu; then
+        local version=$( get_opsy )
+        local main_ver=$( echo ${version} | grep -oE  "[0-9.]+")
+        echo ${main_ver%%.*}
+    else
+        echo ""
     fi
 }
 
@@ -1003,16 +1032,25 @@ lamp_preinstall(){
 
 #Pre-installation settings
 pre_setting(){
+    is_support_flg=0
     if check_sys packageManager yum || check_sys packageManager apt; then
-        # Not support CentOS 5 & Debian 6, 7
-        if centosversion 5 || debianversion 6 || debianversion 7; then
-            log "Error" "Not supported OS, please change to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
-            exit 1
+        # Not support CentOS prior to 6 & Debian prior to 8 & Ubuntu prior to 14 versions
+        if [ -n "$(get_centosversion)" ] && [ $(get_centosversion) -lt 6 ]; then
+            is_support_flg=1
         fi
-        lamp_preinstall
-        lamp_install
+        if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -lt 8 ]; then
+            is_support_flg=1
+        fi
+        if [ -n "$(get_ubuntuversion)" ] && [ $(get_ubuntuversion) -lt 14 ]; then
+            is_support_flg=1
+        fi
     else
-        log "Error" "Not supported OS, please change to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
+        is_support_flg=1
+    fi
+    if [ ${is_support_flg} -eq 1 ]; then
+        log "Error" "Not supported OS, please change OS to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
         exit 1
     fi
+    lamp_preinstall
+    lamp_install
 }
