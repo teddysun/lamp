@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# redis - this script starts and stops the redis-server daemon
+# Run level information:
+# chkconfig: 2345 99 99
+# description:  Redis is a persistent key-value database
+# processname:  redis-server
+# config:      /usr/local/redis/etc/redis.conf
+# pidfile:     /var/run/redis.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+EXEC=/usr/local/redis/bin/redis-server
+CLIEXEC=/usr/local/redis/bin/redis-cli
+PIDFILE=/var/run/redis.pid
+CONF=/usr/local/redis/etc/redis.conf
+REDISPORT=6379
+
+case "$1" in
+    start)
+        if [ -f $PIDFILE ]; then
+            echo "$PIDFILE exists, process is already running or crashed"
+        else
+            echo "Starting Redis server..."
+            $EXEC $CONF
+        fi
+        ;;
+    stop)
+        if [ ! -f $PIDFILE ]; then
+            echo "$PIDFILE does not exist, process is not running"
+        else
+            PID=$(cat $PIDFILE)
+            echo "Stopping Redis server..."
+            $CLIEXEC -p $REDISPORT shutdown
+            while [ -d /proc/${PID} ]; do
+                echo "Waiting for Redis to shutdown..."
+                sleep 1
+            done
+            echo "Redis stopped"
+        fi
+        ;;
+    status)
+        if [ ! -f $PIDFILE ]; then
+            echo 'Redis is not running'
+        else
+            PID=$(cat $PIDFILE)
+            echo "Redis is running ($PID)"
+        fi
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Please use start, stop, restart or status as first argument"
+        ;;
+esac

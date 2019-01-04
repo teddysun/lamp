@@ -695,7 +695,11 @@ install_php_redis(){
         if check_sys packageManager apt; then
             cp -f ${cur_dir}/conf/redis-server-init-debian /etc/init.d/redis-server
         elif check_sys packageManager yum; then
-            cp -f ${cur_dir}/conf/redis-server-init-centos /etc/init.d/redis-server
+            if echo $(get_opsy) | grep -Eqi "fedora"; then
+                cp -f ${cur_dir}/conf/redis-server-init-fedora /etc/init.d/redis-server
+            else
+                cp -f ${cur_dir}/conf/redis-server-init-centos /etc/init.d/redis-server
+            fi
         fi
 
         id -u redis >/dev/null 2>&1
