@@ -55,6 +55,10 @@ mysql_preinstall_settings(){
             echo "mariadb server root password: $mariadb_root_pass"
 
         elif echo "${mysql}" | grep -qi "Percona"; then
+            if [ "${mysql}" == "${percona8_0_filename}" ] && ! is_64bit; then
+                log "Error" "${percona8_0_filename} is not support 32 bit OS, please change to 64 bit OS and try again."
+                exit 1
+            fi
             #percona data
             echo
             read -p "percona data location(default:${percona_location}/data, leave blank for default): " percona_data_location
