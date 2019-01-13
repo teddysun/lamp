@@ -13,11 +13,17 @@
 
 #Pre-installation apache
 apache_preinstall_settings(){
-
     display_menu apache 1
-    display_menu_multi apache_modules last
+    if [ "${apache}" == "do_not_install" ]; then
+        apache_modules_install="do_not_install"
+    else
+        display_menu_multi apache_modules last
+    fi
+}
 
-    if [[ "$apache" != "do_not_install" ]];then
+#Install apache
+install_apache(){
+    if [ "$apache" != "do_not_install" ]; then
         apache_configure_args="--prefix=${apache_location} \
         --with-pcre=${depends_prefix}/pcre \
         --with-mpm=event \
@@ -27,11 +33,6 @@ apache_preinstall_settings(){
         --enable-modules=reallyall \
         --enable-mods-shared=reallyall"
     fi
-}
-
-#Install apache
-install_apache(){
-
     log "Info" "Starting to install dependencies packages for Apache..."
     local apt_list=(zlib1g-dev openssl libssl-dev libxml2-dev lynx lua-expat-dev libjansson-dev)
     local yum_list=(zlib-devel openssl-devel libxml2-devel lynx expat-devel lua-devel lua jansson-devel)

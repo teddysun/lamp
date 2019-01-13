@@ -14,7 +14,7 @@
 #Pre-installation php modules
 php_modules_preinstall_settings(){
 
-    if [[ "${php}" == "do_not_install" ]]; then
+    if [ "${php}" == "do_not_install" ]; then
         php_modules_install="do_not_install"
     else
         phpConfig=${php_location}/bin/php-config
@@ -23,7 +23,7 @@ php_modules_preinstall_settings(){
         echo "${php} available modules:"
         echo
         # delete some modules & change some module version
-        if [[ "${php}" == "${php5_6_filename}" ]]; then
+        if [ "${php}" == "${php5_6_filename}" ]; then
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
             php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
         else
@@ -40,7 +40,7 @@ php_modules_preinstall_settings(){
 
 #Pre-installation phpmyadmin
 phpmyadmin_preinstall_settings(){
-    if [[ "${php}" == "do_not_install" ]]; then
+    if [ "${php}" == "do_not_install" ]; then
         phpmyadmin="do_not_install"
     else
         display_menu phpmyadmin 1
@@ -49,7 +49,7 @@ phpmyadmin_preinstall_settings(){
 
 #Pre-installation kodexplorer
 kodexplorer_preinstall_settings(){
-    if [[ "${php}" == "do_not_install" ]]; then
+    if [ "${php}" == "do_not_install" ]; then
         kodexplorer="do_not_install"
     else
         display_menu kodexplorer 1
@@ -59,11 +59,10 @@ kodexplorer_preinstall_settings(){
 install_php_modules(){
     local phpConfig=${1}
     if_in_array "${ionCube_filename}" "${php_modules_install}" && install_ionCube "${phpConfig}"
-    if_in_array "${xcache_filename}" "${php_modules_install}" && install_xcache "${phpConfig}"
     if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && install_php_imagesmagick "${phpConfig}"
     if_in_array "${php_mongo_filename}" "${php_modules_install}" && install_php_mongo "${phpConfig}"
-    if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
     if [ "${php}" == "${php5_6_filename}" ]; then
+        if_in_array "${xcache_filename}" "${php_modules_install}" && install_xcache "${phpConfig}"
         if_in_array "${xdebug_filename}" "${php_modules_install}" && install_xdebug "${phpConfig}"
         if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
         if_in_array "${php_redis_filename}" "${php_modules_install}" && install_php_redis "${phpConfig}"
@@ -74,6 +73,7 @@ install_php_modules(){
         if_in_array "${php_graphicsmagick_filename2}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
         if_in_array "${php_redis_filename2}" "${php_modules_install}" && install_php_redis "${phpConfig}"
         if_in_array "${php_memcached_filename2}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
+        if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
     fi
 }
 

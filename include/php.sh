@@ -13,15 +13,16 @@
 
 #Pre-installation php
 php_preinstall_settings(){
-
-    if [[ "${apache}" == "do_not_install" ]]; then
+    if [ "${apache}" == "do_not_install" ]; then
         php="do_not_install"
     else
         display_menu php 4
     fi
+}
 
+#Intall PHP
+install_php(){
     if [ "${php}" != "do_not_install" ]; then
-
         if [ "${mysql}" != "do_not_install" ]; then
             if [ "${php}" == "${php5_6_filename}" ]; then
                 with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
@@ -31,27 +32,22 @@ php_preinstall_settings(){
         else
             with_mysql=""
         fi
-
         if [ "${php}" == "${php5_6_filename}" ]; then
             with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         else
             with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
-
         if [[ "${php}" == "${php7_2_filename}" || "${php}" == "${php7_3_filename}" ]]; then
             other_options="--enable-zend-test"
         else
             other_options="--with-mcrypt --enable-gd-native-ttf"
         fi
-
         if [ "${php}" == "${php7_3_filename}" ]; then
             with_libmbfl=""
         else
             with_libmbfl="--with-libmbfl"
         fi
-
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
-
         php_configure_args="--prefix=${php_location} \
         --with-apxs2=${apache_location}/bin/apxs \
         --with-config-file-path=${php_location}/etc \
@@ -102,10 +98,7 @@ php_preinstall_settings(){
         --enable-zip \
         ${disable_fileinfo}"
     fi
-}
 
-#Intall PHP
-install_php(){
     #Install PHP depends
     install_php_depends
 

@@ -52,6 +52,10 @@ get_ip_country(){
     [ ! -z ${country} ] && echo ${country} || echo
 }
 
+get_libc_version(){
+    getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}'
+}
+
 get_opsy(){
     [ -f /etc/redhat-release ] && awk '{print ($1,$3~/^[0-9]/?$3:$4)}' /etc/redhat-release && return
     [ -f /etc/os-release ] && awk -F'[= "]' '/PRETTY_NAME/{print $3,$4,$5}' /etc/os-release && return
@@ -291,6 +295,28 @@ check_installed(){
         add_to_env "${location}"
     else
         ${cmd}
+    fi
+}
+
+check_os(){
+    is_support_flg=0
+    if check_sys packageManager yum || check_sys packageManager apt; then
+        # Not support CentOS prior to 6 & Debian prior to 8 & Ubuntu prior to 14 versions
+        if [ -n "$(get_centosversion)" ] && [ $(get_centosversion) -lt 6 ]; then
+            is_support_flg=1
+        fi
+        if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -lt 8 ]; then
+            is_support_flg=1
+        fi
+        if [ -n "$(get_ubuntuversion)" ] && [ $(get_ubuntuversion) -lt 14 ]; then
+            is_support_flg=1
+        fi
+    else
+        is_support_flg=1
+    fi
+    if [ ${is_support_flg} -eq 1 ]; then
+        log "Error" "Not supported OS, please change OS to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
+        exit 1
     fi
 }
 
@@ -776,6 +802,12 @@ sync_time(){
 
 }
 
+start_install(){
+    echo "Press any key to start...or Press Ctrl+C to cancel"
+    echo
+    char=`get_char`
+}
+
 #Last confirm
 last_confirm(){
     clear
@@ -792,18 +824,16 @@ last_confirm(){
         done
     fi
     echo
+    echo "Database: ${mysql}"
     if echo "${mysql}" | grep -qi "mysql"; then
-        echo "MySQL: ${mysql}"
         echo "MySQL Location: ${mysql_location}"
         echo "MySQL Data Location: ${mysql_data_location}"
         echo "MySQL Root Password: ${mysql_root_pass}"
     elif echo "${mysql}" | grep -qi "mariadb"; then
-        echo "MariaDB: ${mysql}"
         echo "MariaDB Location: ${mariadb_location}"
         echo "MariaDB Data Location: ${mariadb_data_location}"
         echo "MariaDB Root Password: ${mariadb_root_pass}"
     elif echo "${mysql}" | grep -qi "Percona"; then
-        echo "Percona: ${mysql}"
         echo "Percona Location: ${percona_location}"
         echo "Percona Data Location: ${percona_data_location}"
         echo "Percona Root Password: ${percona_root_pass}"
@@ -827,15 +857,6 @@ last_confirm(){
     echo
     echo "---------------------------------------------------------------------"
     echo
-
-    echo "Press any key to start...or Press Ctrl+C to cancel"
-    echo
-    char=`get_char`
-
-    if [ ! -d ${cur_dir}/software ]; then
-        mkdir -p ${cur_dir}/software
-    fi
-
 }
 
 #Finally to do
@@ -859,23 +880,26 @@ install_finally(){
         echo "Default Website: http://$(get_ip)"
         echo "Apache Location: ${apache_location}"
     fi
+    if [ "${apache_modules_install}" != "do_not_install" ]; then
+        echo "Apache Additional Modules:"
+        for a in ${apache_modules_install[@]}
+        do
+            echo "${a}"
+        done
+    fi
     echo
-    echo "Apache Modules: ${apache_modules_install}"
-    echo
+    echo "Database: ${mysql}"
     if [ -d ${mysql_location} ]; then
-        echo "MySQL Server: ${mysql}"
         echo "MySQL Location: ${mysql_location}"
         echo "MySQL Data Location: ${mysql_data_location}"
         echo "MySQL Root Password: ${mysql_root_pass}"
         dbrootpwd=${mysql_root_pass}
     elif [ -d ${mariadb_location} ]; then
-        echo "MariaDB Server: ${mysql}"
         echo "MariaDB Location: ${mariadb_location}"
         echo "MariaDB Data Location: ${mariadb_data_location}"
         echo "MariaDB Root Password: ${mariadb_root_pass}"
         dbrootpwd=${mariadb_root_pass}
     elif [ -d ${percona_location} ]; then
-        echo "Percona Server: ${mysql}"
         echo "Percona Location: ${percona_location}"
         echo "Percona Data Location: ${percona_data_location}"
         echo "Percona Root Password: ${percona_root_pass}"
@@ -883,11 +907,14 @@ install_finally(){
     fi
     echo
     echo "PHP: ${php}"
-    if [ "${php}" != "do_not_install" ]; then
-        echo "PHP Location: ${php_location}"
+    [ "${php}" != "do_not_install" ] && echo "PHP Location: ${php_location}"
+    if [ "${php_modules_install}" != "do_not_install" ]; then
+        echo "PHP Additional Modules:"
+        for m in ${php_modules_install[@]}
+        do
+            echo "${m}"
+        done
     fi
-    echo
-    echo "PHP Modules: ${php_modules_install}"
     echo
     echo "phpMyAdmin: ${phpmyadmin}"
     [ "${phpmyadmin}" != "do_not_install" ] && echo "phpMyAdmin Location: ${web_root_dir}/phpmyadmin"
@@ -995,12 +1022,14 @@ install_tools(){
 
 #start install lamp
 lamp_install(){
-    last_confirm
     disable_selinux
     install_tools
     sync_time
     remove_packages
 
+    if [ ! -d ${cur_dir}/software ]; then
+        mkdir -p ${cur_dir}/software
+    fi
     [ "${apache}" != "do_not_install" ] && check_installed "install_apache" "${apache_location}"
     [ "${apache_modules_install}" != "do_not_install" ] && install_apache_modules
     if echo "${mysql}" | grep -qi "mysql"; then
@@ -1020,8 +1049,6 @@ lamp_install(){
 
 #Pre-installation
 lamp_preinstall(){
-    check_ram
-    display_os_info
     apache_preinstall_settings
     mysql_preinstall_settings
     php_preinstall_settings
@@ -1032,25 +1059,11 @@ lamp_preinstall(){
 
 #Pre-installation settings
 pre_setting(){
-    is_support_flg=0
-    if check_sys packageManager yum || check_sys packageManager apt; then
-        # Not support CentOS prior to 6 & Debian prior to 8 & Ubuntu prior to 14 versions
-        if [ -n "$(get_centosversion)" ] && [ $(get_centosversion) -lt 6 ]; then
-            is_support_flg=1
-        fi
-        if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -lt 8 ]; then
-            is_support_flg=1
-        fi
-        if [ -n "$(get_ubuntuversion)" ] && [ $(get_ubuntuversion) -lt 14 ]; then
-            is_support_flg=1
-        fi
-    else
-        is_support_flg=1
-    fi
-    if [ ${is_support_flg} -eq 1 ]; then
-        log "Error" "Not supported OS, please change OS to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
-        exit 1
-    fi
+    check_os
+    check_ram
+    display_os_info
     lamp_preinstall
+    last_confirm
+    start_install
     lamp_install
 }
