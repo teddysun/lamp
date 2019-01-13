@@ -1,4 +1,4 @@
-![LAMP](https://github.com/teddysun/lamp/raw/master/conf/lamp.png)
+![LAMP](conf/lamp.png)
 
 Description
 ===========
@@ -57,6 +57,16 @@ cd lamp
 chmod 755 *.sh
 screen -S lamp
 ./lamp.sh
+```
+
+- [Automation install mode](https://lamp.sh/autoinstall.html)
+```bash
+~/lamp/lamp.sh -h
+```
+
+- Automation install mode example
+```bash
+~/lamp/lamp.sh --apache_option 1 --apache_modules mod_wsgi,mod_security --db_option 3 --db_root_pwd teddysun.com --php_option 4 --php_extensions ioncube,imagick,redis,mongodb,libsodium,swoole --phpmyadmin_option 1 --kodexplorer_option 1
 ```
 
 Upgrade
