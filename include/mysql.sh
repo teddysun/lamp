@@ -14,9 +14,7 @@
 #Pre-installation mysql or mariadb or percona
 mysql_preinstall_settings(){
 
-    libc_version=`getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}'`
-
-    if version_lt ${libc_version} 2.14; then
+    if version_lt $(get_libc_version) 2.14; then
         mysql_arr=(${mysql_arr[@]#${mariadb10_3_filename}})
     fi
     display_menu mysql 3
@@ -33,8 +31,8 @@ mysql_preinstall_settings(){
 
             #set mysql server root password
             echo
-            read -p "mysql server root password (default:root, leave blank for default): " mysql_root_pass
-            mysql_root_pass=${mysql_root_pass:=root}
+            read -p "mysql server root password (default:lamp.sh, leave blank for default): " mysql_root_pass
+            mysql_root_pass=${mysql_root_pass:=lamp.sh}
             echo
             echo "mysql server root password: ${mysql_root_pass}"
 
@@ -49,8 +47,8 @@ mysql_preinstall_settings(){
 
             #set mariadb server root password
             echo
-            read -p "mariadb server root password (default:root, leave blank for default): " mariadb_root_pass
-            mariadb_root_pass=${mariadb_root_pass:=root}
+            read -p "mariadb server root password (default:lamp.sh, leave blank for default): " mariadb_root_pass
+            mariadb_root_pass=${mariadb_root_pass:=lamp.sh}
             echo
             echo "mariadb server root password: $mariadb_root_pass"
 
@@ -69,8 +67,8 @@ mysql_preinstall_settings(){
 
             #set percona server root password
             echo
-            read -p "percona server root password (default:root, leave blank for default): " percona_root_pass
-            percona_root_pass=${percona_root_pass:=root}
+            read -p "percona server root password (default:lamp.sh, leave blank for default): " percona_root_pass
+            percona_root_pass=${percona_root_pass:=lamp.sh}
             echo
             echo "percona server root password: ${percona_root_pass}"
 
