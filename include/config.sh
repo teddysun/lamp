@@ -35,7 +35,7 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.35.1"
+nghttp2_filename="nghttp2-1.36.0"
 #openssl
 openssl_filename="openssl-1.1.1a"
 #apache2.4
@@ -65,7 +65,7 @@ percona5_6_filename="Percona-Server-5.6.42-84.2"
 #percona5.7
 percona5_7_filename="Percona-Server-5.7.24-27"
 #percona8.0
-percona8_0_filename="Percona-Server-8.0.13-3"
+percona8_0_filename="Percona-Server-8.0.13-4"
 #php5.6
 php5_6_filename="php-5.6.40"
 #php7.0
