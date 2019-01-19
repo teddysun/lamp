@@ -94,8 +94,8 @@ mod_wsgi_filename="mod_wsgi-4.6.5"
 mod_jk_filename="tomcat-connectors-1.2.46-src"
 set_hint ${mod_jk_filename} "mod_jk-1.2.46"
 #mod_security
-mod_security_filename="modsecurity-2.9.2"
-set_hint ${mod_security_filename} "mod_security-2.9.2"
+mod_security_filename="modsecurity-2.9.3"
+set_hint ${mod_security_filename} "mod_security-2.9.3"
 #mhash
 mhash_filename="mhash-0.9.9.9"
 #libmcrypt
@@ -119,7 +119,7 @@ xcache_filename="xcache-3.2.0"
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename2="xdebug-2.7.0beta1"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-22"
+ImageMagick_filename="ImageMagick-7.0.8-24"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
