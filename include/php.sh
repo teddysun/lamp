@@ -58,6 +58,7 @@ install_php(){
         --with-imap-ssl \
         --with-libxml-dir \
         --with-openssl \
+        --with-openssl-dir=${openssl_location}
         --with-snmp \
         ${with_libdir} \
         ${with_mysql} \
