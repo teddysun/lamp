@@ -77,7 +77,7 @@ php7_2_filename="php-7.2.14"
 #php7.3
 php7_3_filename="php-7.3.1"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.8.4-all-languages"
+phpmyadmin_filename="phpMyAdmin-4.8.5-all-languages"
 #kodexplorer
 kod_version=$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)
 [ -z "${kod_version}" ] && kod_version="4.35"
