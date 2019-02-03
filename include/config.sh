@@ -111,15 +111,15 @@ libzip_filename="libzip-1.3.2"
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-4.2.12"
-set_hint ${swoole_filename} "php-swoole-4.2.12"
+swoole_filename="swoole-src-4.2.13"
+set_hint ${swoole_filename} "php-swoole-4.2.13"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.5.5"
-xdebug_filename2="xdebug-2.7.0beta1"
+xdebug_filename2="xdebug-2.7.0RC1"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-24"
+ImageMagick_filename="ImageMagick-7.0.8-25"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
