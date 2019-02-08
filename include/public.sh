@@ -485,17 +485,17 @@ untar(){
     if [ -n ${1} ]; then
         software_name=`echo $1 | awk -F/ '{print $NF}'`
         tarball_type=`echo $1 | awk -F. '{print $NF}'`
-        wget -c -t3 -T3 ${1} -P ${cur_dir}/
+        wget --no-check-certificate -cv -t3 -T60 ${1} -P ${cur_dir}/
         if [ $? -ne 0 ]; then
             rm -rf ${cur_dir}/${software_name}
-            wget -cv -t3 -T60 ${2} -P ${cur_dir}/
+            wget --no-check-certificate -cv -t3 -T60 ${2} -P ${cur_dir}/
             software_name=`echo ${2} | awk -F/ '{print $NF}'`
             tarball_type=`echo ${2} | awk -F. '{print $NF}'`
         fi
     else
         software_name=`echo ${2} | awk -F/ '{print $NF}'`
         tarball_type=`echo ${2} | awk -F. '{print $NF}'`
-        wget -cv -t3 -T3 ${2} -P ${cur_dir}/ || exit
+        wget --no-check-certificate -cv -t3 -T60 ${2} -P ${cur_dir}/ || exit
     fi
     extracted_dir=`tar tf ${cur_dir}/${software_name} | tail -n 1 | awk -F/ '{print $1}'`
     case ${tarball_type} in
