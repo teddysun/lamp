@@ -30,7 +30,7 @@ include(){
 }
 
 version(){
-    echo "Version: 20190112"
+    echo "Version: 20190210"
 }
 
 show_parameters(){
@@ -65,7 +65,7 @@ Options:
 --db_root_pwd [password]         Database root password. for example: lamp.sh
 --php_option [1-6]               PHP version
 --php_extensions [ext name]      PHP extensions: ioncube, xcache, imagick, gmagick
-                                 memcached, redis, mongodb, libsodium, swoole, xdebug
+                                 memcached, redis, mongodb, libsodium, swoole, yaf, xdebug
 --phpmyadmin_option [1-2]        phpMyAdmin version
 --kodexplorer_option [1-2]       KodExplorer version
 
@@ -138,6 +138,7 @@ process(){
             [ -n "$(echo ${php_extensions} | grep -w mongodb)" ] && php_modules_install="${php_modules_install} ${php_mongo_filename}"
             [ -n "$(echo ${php_extensions} | grep -w libsodium)" ] && php_modules_install="${php_modules_install} ${php_libsodium_filename}"
             [ -n "$(echo ${php_extensions} | grep -w swoole)" ] && php_modules_install="${php_modules_install} ${swoole_filename}"
+            [ -n "$(echo ${php_extensions} | grep -w yaf)" ] && php_modules_install="${php_modules_install} ${yaf_filename}"
             [ -n "$(echo ${php_extensions} | grep -w xdebug)" ] && php_modules_install="${php_modules_install} ${xdebug_filename}"
             ;;
         --db_option)
@@ -216,6 +217,7 @@ set_parameters(){
     if [ -n "${php_modules_install}" ] && [ "${php}" == "${php5_6_filename}" ]; then
         if_in_array "${php_libsodium_filename}" "${php_modules_install}" && { echo "Error: ${php_libsodium_filename} is not support ${php}, please remove php extension: libsodium."; exit 1; }
         if_in_array "${swoole_filename}" "${php_modules_install}" && { echo "Error: ${swoole_filename} is not support ${php}, please remove php extension: swoole."; exit 1; }
+        if_in_array "${yaf_filename}" "${php_modules_install}" && { echo "Error: ${yaf_filename} is not support ${php}, please remove php extension: yaf."; exit 1; }
     fi
     if [ -n "${php_modules_install}" ] && [ "${php}" != "${php5_6_filename}" ]; then
         if_in_array "${xcache_filename}" "${php_modules_install}" && { echo "Error: ${xcache_filename} is not support ${php}, please remove php extension: xcache."; exit 1; }

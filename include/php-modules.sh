@@ -26,6 +26,7 @@ php_modules_preinstall_settings(){
         if [ "${php}" == "${php5_6_filename}" ]; then
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
             php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${yaf_filename}})
         else
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename}/${xdebug_filename2}})
@@ -74,6 +75,7 @@ install_php_modules(){
         if_in_array "${php_redis_filename2}" "${php_modules_install}" && install_php_redis "${phpConfig}"
         if_in_array "${php_memcached_filename2}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
         if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
+        if_in_array "${yaf_filename}" "${php_modules_install}" && install_yaf "${phpConfig}"
     fi
 }
 
@@ -370,7 +372,7 @@ install_ionCube(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "ionCube Loader install start..."
+    log "Info" "PHP extension ionCube Loader install start..."
     if is_64bit; then
         download_file "${ionCube64_filename}.tar.gz"
         tar zxf ${ionCube64_filename}.tar.gz
@@ -382,13 +384,13 @@ install_ionCube(){
     fi
 
     if [ ! -f ${php_location}/php.d/ioncube.ini ]; then
-        log "Info" "ionCube Loader configuration file not found, create it!"
+        log "Info" "PHP extension ionCube Loader configuration file not found, create it!"
         cat > ${php_location}/php.d/ioncube.ini<<-EOF
 [ionCube Loader]
 zend_extension = ${php_extension_dir}/ioncube_loader_lin_${php_version}_ts.so
 EOF
     fi
-    log "Info" "ionCube Loader install completed..."
+    log "Info" "PHP extension ionCube Loader install completed..."
 }
 
 
@@ -397,7 +399,7 @@ install_xcache(){
     local php_version=$(get_php_version "${phpConfig}")
     local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
-    log "Info" "XCache install start..."
+    log "Info" "PHP extension XCache install start..."
     cd ${cur_dir}/software/
     download_file "${xcache_filename}.tar.gz"
     tar zxf ${xcache_filename}.tar.gz
@@ -416,7 +418,7 @@ install_xcache(){
     chmod 700 /tmp/{pcov,phpcore}
     
     if [ ! -f ${php_location}/php.d/xcache.ini ]; then
-        log "Info" "XCache configuration file not found, create it!"
+        log "Info" "PHP extension XCache configuration file not found, create it!"
         cat > ${php_location}/php.d/xcache.ini<<-EOF
 [xcache-common]
 extension = ${php_extension_dir}/xcache.so
@@ -455,7 +457,7 @@ xcache.coverager_autostart =  On
 xcache.coveragedump_directory = "/tmp/pcov"
 EOF
     fi
-    log "Info" "XCache install completed..."
+    log "Info" "PHP extension XCache install completed..."
 }
 
 
@@ -466,7 +468,7 @@ install_php_libsodium(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "php-libsodium install start..."
+    log "Info" "PHP extension libsodium install start..."
     download_file "${libsodium_filename}.tar.gz"
     tar zxf ${libsodium_filename}.tar.gz
     cd ${libsodium_filename}
@@ -485,13 +487,13 @@ install_php_libsodium(){
     error_detect "make install"
     
     if [ ! -f ${php_location}/php.d/sodium.ini ]; then
-        log "Info" "libsodium configuration file not found, create it!"
+        log "Info" "PHP extension libsodium configuration file not found, create it!"
         cat > ${php_location}/php.d/sodium.ini<<-EOF
 [sodium]
 extension = ${php_extension_dir}/sodium.so
 EOF
     fi
-    log "Info" "php-libsodium install completed..."
+    log "Info" "PHP extension libsodium install completed..."
 }
 
 
@@ -502,7 +504,7 @@ install_php_imagesmagick(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "php-imagemagick install start..."
+    log "Info" "PHP extension imagemagick install start..."
     download_file "${ImageMagick_filename}.tar.gz"
     tar zxf ${ImageMagick_filename}.tar.gz
     cd ${ImageMagick_filename}
@@ -521,13 +523,13 @@ install_php_imagesmagick(){
     error_detect "make install"
     
     if [ ! -f ${php_location}/php.d/imagick.ini ]; then
-        log "Info" "imagemagick configuration file not found, create it!"
+        log "Info" "PHP extension imagemagick configuration file not found, create it!"
         cat > ${php_location}/php.d/imagick.ini<<-EOF
 [imagick]
 extension = ${php_extension_dir}/imagick.so
 EOF
     fi
-    log "Info" "php-imagemagick install completed..."
+    log "Info" "PHP extension imagemagick install completed..."
 }
 
 
@@ -538,7 +540,7 @@ install_php_graphicsmagick(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "php-graphicsmagick install start..."
+    log "Info" "PHP extension graphicsmagick install start..."
     download_file "${GraphicsMagick_filename}.tar.gz"
     tar zxf ${GraphicsMagick_filename}.tar.gz
     cd ${GraphicsMagick_filename}
@@ -564,13 +566,13 @@ install_php_graphicsmagick(){
     error_detect "make install"
     
     if [ ! -f ${php_location}/php.d/gmagick.ini ]; then
-        log "Info" "graphicsmagick configuration file not found, create it!"
+        log "Info" "PHP extension graphicsmagick configuration file not found, create it!"
         cat > ${php_location}/php.d/gmagick.ini<<-EOF
 [gmagick]
 extension = ${php_extension_dir}/gmagick.so
 EOF
     fi
-    log "Info" "php-graphicsmagick install completed..."
+    log "Info" "PHP extension graphicsmagick install completed..."
 }
 
 
@@ -634,7 +636,7 @@ install_php_memcached(){
     
     cd ${cur_dir}/software
     
-    log "Info" "php-memcached extension install start..."
+    log "Info" "PHP extension memcached extension install start..."
     if [ "$php" == "${php5_6_filename}" ]; then
         download_file "${php_memcached_filename}.tgz"
         tar zxf ${php_memcached_filename}.tgz
@@ -650,14 +652,14 @@ install_php_memcached(){
     error_detect "make install"
 
     if [ ! -f ${php_location}/php.d/memcached.ini ]; then
-        log "Info" "php-memcached configuration file not found, create it!"
+        log "Info" "PHP extension memcached configuration file not found, create it!"
         cat > ${php_location}/php.d/memcached.ini<<-EOF
 [memcached]
 extension = ${php_extension_dir}/memcached.so
 memcached.use_sasl = 1
 EOF
     fi
-    log "Info" "php-memcached install completed..."
+    log "Info" "PHP extension memcached install completed..."
 }
 
 
@@ -715,7 +717,7 @@ install_php_redis(){
 
     if [ ${RT} -eq 0 ]; then
         cd ${cur_dir}/software/
-        log "Info" "php-redis install start..."
+        log "Info" "PHP extension redis install start..."
         if [ "$php" == "${php5_6_filename}" ]; then
             download_file  "${php_redis_filename}.tgz"
             tar zxf ${php_redis_filename}.tgz
@@ -732,13 +734,13 @@ install_php_redis(){
         error_detect "make install"
         
         if [ ! -f ${php_location}/php.d/redis.ini ]; then
-            log "Info" "php-redis configuration file not found, create it!"
+            log "Info" "PHP extension redis configuration file not found, create it!"
             cat > ${php_location}/php.d/redis.ini<<-EOF
 [redis]
 extension = ${php_extension_dir}/redis.so
 EOF
         fi
-        log "Info" "php-redis install completed..."
+        log "Info" "PHP extension redis install completed..."
     fi
 }
 
@@ -750,7 +752,7 @@ install_php_mongo(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "php-mongodb install start..."
+    log "Info" "PHP extension mongodb install start..."
     download_file "${php_mongo_filename}.tgz"
     tar zxf ${php_mongo_filename}.tgz
     cd ${php_mongo_filename}
@@ -760,13 +762,13 @@ install_php_mongo(){
     error_detect "make install"
 
     if [ ! -f ${php_location}/php.d/mongodb.ini ]; then
-        log "Info" "php-mongodb configuration file not found, create it!"
+        log "Info" "PHP extension mongodb configuration file not found, create it!"
         cat > ${php_location}/php.d/mongodb.ini<<-EOF
 [mongodb]
 extension = ${php_extension_dir}/mongodb.so
 EOF
     fi
-    log "Info" "php-mongodb install completed..."
+    log "Info" "PHP extension mongodb install completed..."
 }
 
 
@@ -777,7 +779,7 @@ install_swoole(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "php-swoole install start..."
+    log "Info" "PHP extension swoole install start..."
     download_file "${swoole_filename}.tar.gz"
     tar zxf ${swoole_filename}.tar.gz
     cd ${swoole_filename}
@@ -787,13 +789,13 @@ install_swoole(){
     error_detect "make install"
 
     if [ ! -f ${php_location}/php.d/swoole.ini ]; then
-        log "Info" "php-swoole configuration file not found, create it!"
+        log "Info" "PHP extension swoole configuration file not found, create it!"
         cat > ${php_location}/php.d/swoole.ini<<-EOF
 [swoole]
 extension = ${php_extension_dir}/swoole.so
 EOF
     fi
-    log "Info" "php-swoole install completed..."
+    log "Info" "PHP extension swoole install completed..."
 }
 
 
@@ -804,7 +806,7 @@ install_xdebug(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "xdebug install start..."
+    log "Info" "PHP extension xdebug install start..."
     if [ "$php" == "${php5_6_filename}" ]; then
         download_file "${xdebug_filename}.tgz"
         tar zxf ${xdebug_filename}.tgz
@@ -820,11 +822,38 @@ install_xdebug(){
     error_detect "make install"
 
     if [ ! -f ${php_location}/php.d/xdebug.ini ]; then
-        log "Info" "xdebug configuration file not found, create it!"
+        log "Info" "PHP extension xdebug configuration file not found, create it!"
         cat > ${php_location}/php.d/xdebug.ini<<-EOF
 [xdebug]
 zend_extension = ${php_extension_dir}/xdebug.so
 EOF
     fi
-    log "Info" "xdebug install completed..."
+    log "Info" "PHP extension xdebug install completed..."
+}
+
+
+install_yaf(){
+    local phpConfig=${1}
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
+
+    cd ${cur_dir}/software/
+
+    log "Info" "PHP extension yaf install start..."
+    download_file "${yaf_filename}.tgz"
+    tar zxf ${yaf_filename}.tgz
+    cd ${yaf_filename}
+    error_detect "${php_location}/bin/phpize"
+    error_detect "./configure --with-php-config=${phpConfig}"
+    error_detect "make"
+    error_detect "make install"
+
+    if [ ! -f ${php_location}/php.d/yaf.ini ]; then
+        log "Info" "PHP extension yaf configuration file not found, create it!"
+        cat > ${php_location}/php.d/yaf.ini<<-EOF
+[yaf]
+extension = ${php_extension_dir}/yaf.so
+EOF
+    fi
+    log "Info" "PHP extension yaf install completed..."
 }

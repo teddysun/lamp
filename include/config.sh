@@ -113,6 +113,8 @@ libiconv_filename="libiconv-1.15"
 #swoole
 swoole_filename="swoole-src-4.2.13"
 set_hint ${swoole_filename} "php-swoole-4.2.13"
+#yaf
+yaf_filename="yaf-3.0.8"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
@@ -217,6 +219,7 @@ ${php_redis_filename}
 ${php_mongo_filename}
 ${php_libsodium_filename}
 ${swoole_filename}
+${yaf_filename}
 ${xdebug_filename}
 do_not_install
 )
