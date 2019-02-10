@@ -56,26 +56,28 @@ show_help(){
     printf "
 Usage: $0 [Options]...[Parameters]...
 Options:
--h, --help                       Print this help text and exit
--v, --version                    Print program version and exit
---apache_option [1-2]            Apache server version
---apache_modules [mod name]      Apache modules: mod_wsgi, mod_security, mod_jk
---db_option [1-14]               Database version
---db_data_path [location]        Database Data Location. for example: /data/db
---db_root_pwd [password]         Database root password. for example: lamp.sh
---php_option [1-6]               PHP version
---php_extensions [ext name]      PHP extensions: ioncube, xcache, imagick, gmagick
-                                 memcached, redis, mongodb, libsodium, swoole, yaf, xdebug
---phpmyadmin_option [1-2]        phpMyAdmin version
---kodexplorer_option [1-2]       KodExplorer version
+-h, --help                      Print this help text and exit
+-v, --version                   Print program version and exit
+--apache_option [1-2]           Apache server version
+--apache_modules [mod name]     Apache modules: mod_wsgi, mod_security, mod_jk
+--db_option [1-14]              Database version
+--db_data_path [location]       Database Data Location. for example: /data/db
+--db_root_pwd [password]        Database root password. for example: lamp.sh
+--php_option [1-6]              PHP version
+--php_extensions [ext name]     PHP extensions: ioncube, xcache, imagick,
+                                gmagick, memcached, redis,
+                                mongodb, libsodium, swoole,
+                                yaf, xdebug
+--phpmyadmin_option [1-2]       phpMyAdmin version
+--kodexplorer_option [1-2]      KodExplorer version
 
 Parameters:
 "
-    echo "--apache_option [1-2], please select a apache version like below"
+    echo "--apache_option [1-2], please select a Apache version like below"
     show_parameters apache
-    echo "--db_option [1-14], please select a database version like below"
+    echo "--db_option [1-14], please select a Database version like below"
     show_parameters mysql
-    echo "--php_option [1-6], please select a php version like below"
+    echo "--php_option [1-6], please select a PHP version like below"
     show_parameters php
     echo "--phpmyadmin [1-2], please select a phpMyAdmin version like below"
     show_parameters phpmyadmin
