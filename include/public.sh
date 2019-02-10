@@ -842,7 +842,7 @@ last_confirm(){
     echo "PHP: ${php}"
     [ "${php}" != "do_not_install" ] && echo "PHP Location: ${php_location}"
     if [ "${php_modules_install}" != "do_not_install" ]; then
-        echo "PHP Additional Modules:"
+        echo "PHP Additional Extensions:"
         for m in ${php_modules_install[@]}
         do
             echo "${m}"
@@ -909,7 +909,7 @@ install_finally(){
     echo "PHP: ${php}"
     [ "${php}" != "do_not_install" ] && echo "PHP Location: ${php_location}"
     if [ "${php_modules_install}" != "do_not_install" ]; then
-        echo "PHP Additional Modules:"
+        echo "PHP Additional Extensions:"
         for m in ${php_modules_install[@]}
         do
             echo "${m}"
