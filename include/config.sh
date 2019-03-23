@@ -37,7 +37,7 @@ parallel_compile=1
 #nghttp2
 nghttp2_filename="nghttp2-1.37.0"
 #openssl
-openssl_filename="openssl-1.1.1a"
+openssl_filename="openssl-1.1.1b"
 #apache2.4
 apache2_4_filename="httpd-2.4.38"
 #mysql5.5
@@ -111,17 +111,17 @@ libzip_filename="libzip-1.3.2"
 #libiconv
 libiconv_filename="libiconv-1.15"
 #swoole
-swoole_filename="swoole-src-4.2.13"
-set_hint ${swoole_filename} "php-swoole-4.2.13"
+swoole_filename="swoole-src-4.3.1"
+set_hint ${swoole_filename} "php-swoole-4.3.1"
 #yaf
 yaf_filename="yaf-3.0.8"
 #xcache
 xcache_filename="xcache-3.2.0"
 #xdebug
 xdebug_filename="xdebug-2.5.5"
-xdebug_filename2="xdebug-2.7.0RC1"
+xdebug_filename2="xdebug-2.7.0"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-28"
+ImageMagick_filename="ImageMagick-7.0.8-34"
 php_imagemagick_filename="imagick-3.4.3"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
@@ -146,7 +146,7 @@ php_memcached_filename2="memcached-3.1.3"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
-redis_filename="redis-5.0.3"
+redis_filename="redis-5.0.4"
 #php-redis
 php_redis_filename="redis-2.2.8"
 php_redis_filename2="redis-4.2.0"
