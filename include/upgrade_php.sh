@@ -70,7 +70,7 @@ upgrade_php(){
         cd ${cur_dir}/software
 
         if [ ! -s php-${latest_php}.tar.gz ]; then
-            latest_php_link="http://php.net/distributions/php-${latest_php}.tar.gz"
+            latest_php_link="https://www.php.net/distributions/php-${latest_php}.tar.gz"
             backup_php_link="${download_root_url}/php-${latest_php}.tar.gz"
             untar ${latest_php_link} ${backup_php_link}
         else
