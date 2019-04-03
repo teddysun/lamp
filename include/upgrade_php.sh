@@ -34,11 +34,11 @@ upgrade_php(){
     elif [ "${php_version}" == "7.0" ]; then
         latest_php="7.0.33"
     elif [ "${php_version}" == "7.1" ]; then
-        latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.1')
+        latest_php=$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.1')
     elif [ "${php_version}" == "7.2" ]; then
-        latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.2')
+        latest_php=$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.2')
     elif [ "${php_version}" == "7.3" ]; then
-        latest_php=$(curl -s http://php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.3')
+        latest_php=$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.3')
     fi
 
     echo -e "Latest version of PHP: \033[41;37m ${latest_php} \033[0m"
