@@ -71,11 +71,11 @@ php5_6_filename="php-5.6.40"
 #php7.0
 php7_0_filename="php-7.0.33"
 #php7.1
-php7_1_filename="php-7.1.27"
+php7_1_filename="php-7.1.28"
 #php7.2
-php7_2_filename="php-7.2.16"
+php7_2_filename="php-7.2.17"
 #php7.3
-php7_3_filename="php-7.3.3"
+php7_3_filename="php-7.3.4"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.8.5-all-languages"
 #kodexplorer
