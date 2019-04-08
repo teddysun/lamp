@@ -67,7 +67,7 @@ install_apache(){
     mv ${cur_dir}/software/${apr_util_filename} srclib/apr-util
 
     LDFLAGS=-ldl
-    if [ -d ${openssl_location} ]; then
+    if [ -d "${openssl_location}" ]; then
         apache_configure_args=$(echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@")
     fi
     error_detect "./configure ${apache_configure_args}"
@@ -81,21 +81,26 @@ install_apache(){
 config_apache(){
     id -u apache >/dev/null 2>&1
     [ $? -ne 0 ] && groupadd apache && useradd -M -s /sbin/nologin -g apache apache
-
-    [ ! -d ${web_root_dir} ] && mkdir -p ${web_root_dir} && chmod -R 755 ${web_root_dir}
-    local version=$1
-
-    if [ -f ${apache_location}/conf/httpd.conf ]; then
+    [ ! -d "${web_root_dir}" ] && mkdir -p ${web_root_dir} && chmod -R 755 ${web_root_dir}
+    if [ -f "${apache_location}/conf/httpd.conf" ]; then
         cp -f ${apache_location}/conf/httpd.conf ${apache_location}/conf/httpd.conf.bak
     fi
-
+    mv ${apache_location}/conf/extra/httpd-vhosts.conf ${apache_location}/conf/extra/httpd-vhosts.conf.bak
+    mkdir -p ${apache_location}/conf/vhost/
     grep -qE "^\s*#\s*Include conf/extra/httpd-vhosts.conf" ${apache_location}/conf/httpd.conf && \
     sed -i 's#^\s*\#\s*Include conf/extra/httpd-vhosts.conf#Include conf/extra/httpd-vhosts.conf#' ${apache_location}/conf/httpd.conf || \
     sed -i '$aInclude conf/extra/httpd-vhosts.conf' ${apache_location}/conf/httpd.conf
-
-    mv ${apache_location}/conf/extra/httpd-vhosts.conf ${apache_location}/conf/extra/httpd-vhosts.conf.bak
-    mkdir -p ${apache_location}/conf/vhost/
-
+    sed -i 's/^User.*/User apache/i' ${apache_location}/conf/httpd.conf
+    sed -i 's/^Group.*/Group apache/i' ${apache_location}/conf/httpd.conf
+    sed -i 's/^#ServerName www.example.com:80/ServerName 0.0.0.0:80/' ${apache_location}/conf/httpd.conf
+    sed -i 's/^ServerAdmin you@example.com/ServerAdmin admin@localhost/' ${apache_location}/conf/httpd.conf
+    sed -i 's@^#Include conf/extra/httpd-info.conf@Include conf/extra/httpd-info.conf@' ${apache_location}/conf/httpd.conf
+    sed -i 's@DirectoryIndex index.html@DirectoryIndex index.html index.php@' ${apache_location}/conf/httpd.conf
+    sed -i "s@^DocumentRoot.*@DocumentRoot \"${web_root_dir}\"@" ${apache_location}/conf/httpd.conf
+    sed -i "s@^<Directory \"${apache_location}/htdocs\">@<Directory \"${web_root_dir}\">@" ${apache_location}/conf/httpd.conf
+    echo "ServerTokens ProductOnly" >> ${apache_location}/conf/httpd.conf
+    echo "ProtocolsHonorOrder On" >> ${apache_location}/conf/httpd.conf
+    echo "Protocols h2 http/1.1" >> ${apache_location}/conf/httpd.conf
     cat > /etc/logrotate.d/httpd <<EOF
 ${apache_location}/logs/access_log ${apache_location}/logs/error_log {
     daily
@@ -109,11 +114,9 @@ ${apache_location}/logs/access_log ${apache_location}/logs/error_log {
     endscript
 }
 EOF
-
     cat > ${apache_location}/conf/extra/httpd-vhosts.conf <<EOF
 Include ${apache_location}/conf/vhost/*.conf
 EOF
-
     cat > ${apache_location}/conf/vhost/default.conf <<EOF
 <VirtualHost _default_:80>
 ServerName localhost
@@ -129,100 +132,92 @@ DocumentRoot ${web_root_dir}
 </VirtualHost>
 EOF
 
-    sed -i 's/^User.*/User apache/i' ${apache_location}/conf/httpd.conf
-    sed -i 's/^Group.*/Group apache/i' ${apache_location}/conf/httpd.conf
-    sed -i 's/^#ServerName www.example.com:80/ServerName 0.0.0.0:80/' ${apache_location}/conf/httpd.conf
-    sed -i 's/^ServerAdmin you@example.com/ServerAdmin admin@localhost/' ${apache_location}/conf/httpd.conf
-    sed -i 's@^#Include conf/extra/httpd-info.conf@Include conf/extra/httpd-info.conf@' ${apache_location}/conf/httpd.conf
-    sed -i 's@DirectoryIndex index.html@DirectoryIndex index.html index.php@' ${apache_location}/conf/httpd.conf
-    sed -i "s@^DocumentRoot.*@DocumentRoot \"${web_root_dir}\"@" ${apache_location}/conf/httpd.conf
-    sed -i "s@^<Directory \"${apache_location}/htdocs\">@<Directory \"${web_root_dir}\">@" ${apache_location}/conf/httpd.conf
-    echo "ServerTokens ProductOnly" >> ${apache_location}/conf/httpd.conf
-
-    sed -i -r 's/^#(.*mod_cache.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_cache_socache.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_socache_shmcb.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_socache_dbm.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_socache_memcache.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_connect.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_ftp.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_http.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_suexec.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_vhost_alias.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_rewrite.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_deflate.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_expires.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_ssl.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_http2.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_authn_dbm.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_authn_anon.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_authn_dbd.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_authn_socache.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_authz_dbm.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_authz_owner.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_authz_dbd.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_authnz_fcgi.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_auth_form.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_auth_digest.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_http2.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_html.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_fcgi.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_proxy_scgi.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_echo.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_case_filter.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_case_filter_in.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_buffer.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_data.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_ratelimit.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_ext_filter.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_request.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_include.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_reflector.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_substitute.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_sed.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_charset_lite.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_xml2enc.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_session.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_session_cookie.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_dav.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_dav_fs.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_dav_lock.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_info.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_actions.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_speling.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_userdir.so)/\1/' ${apache_location}/conf/httpd.conf
-    sed -i -r 's/^#(.*mod_unique_id.so)/\1/' ${apache_location}/conf/httpd.conf
+# httpd modules array
+httpd_mod_list=(
+mod_actions.so
+mod_auth_digest.so
+mod_auth_form.so
+mod_authn_anon.so
+mod_authn_dbd.so
+mod_authn_dbm.so
+mod_authn_socache.so
+mod_authnz_fcgi.so
+mod_authz_dbd.so
+mod_authz_dbm.so
+mod_authz_owner.so
+mod_buffer.so
+mod_cache.so
+mod_cache_socache.so
+mod_case_filter.so
+mod_case_filter_in.so
+mod_charset_lite.so
+mod_data.so
+mod_dav.so
+mod_dav_fs.so
+mod_dav_lock.so
+mod_deflate.so
+mod_echo.so
+mod_expires.so
+mod_ext_filter.so
+mod_http2.so
+mod_include.so
+mod_info.so
+mod_proxy.so
+mod_proxy_connect.so
+mod_proxy_fcgi.so
+mod_proxy_ftp.so
+mod_proxy_html.so
+mod_proxy_http.so
+mod_proxy_http2.so
+mod_proxy_scgi.so
+mod_ratelimit.so
+mod_reflector.so
+mod_request.so
+mod_rewrite.so
+mod_sed.so
+mod_session.so
+mod_session_cookie.so
+mod_socache_dbm.so
+mod_socache_memcache.so
+mod_socache_shmcb.so
+mod_speling.so
+mod_ssl.so
+mod_substitute.so
+mod_suexec.so
+mod_unique_id.so
+mod_userdir.so
+mod_vhost_alias.so
+mod_xml2enc.so
+)
+    # enable some modules by default
+    for mod in ${httpd_mod_list[@]}; do
+        if [ -s "${apache_location}/modules/${mod}" ]; then
+            sed -i -r "s/^#(.*${mod})/\1/" ${apache_location}/conf/httpd.conf
+        fi
+    done
     # add mod_md to httpd.conf
-    if [[ `grep -E -c "^\s*LoadModule md_module modules/mod_md.so" ${apache_location}/conf/httpd.conf` -eq 0 ]]; then
-        if [ -f ${apache_location}/modules/mod_md.so ]; then
+    if [[ $(grep -Ec "^\s*LoadModule md_module modules/mod_md.so" ${apache_location}/conf/httpd.conf) -eq 0 ]]; then
+        if [ -f "${apache_location}/modules/mod_md.so" ]; then
             lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
             sed -i "${lnum}aLoadModule md_module modules/mod_md.so" ${apache_location}/conf/httpd.conf
         fi
     fi
 
-    echo "ProtocolsHonorOrder On" >> ${apache_location}/conf/httpd.conf
-    echo "Protocols h2 http/1.1" >> ${apache_location}/conf/httpd.conf
-
-    [ -d ${openssl_location} ] && sed -i "s@^export LD_LIBRARY_PATH.*@export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${openssl_location}/lib@" ${apache_location}/bin/envvars
-
+    [ -d "${openssl_location}" ] && sed -i "s@^export LD_LIBRARY_PATH.*@export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${openssl_location}/lib@" ${apache_location}/bin/envvars
     sed -i 's/Allow from All/Require all granted/' ${apache_location}/conf/extra/httpd-vhosts.conf
     sed -i 's/Require host .example.com/Require host localhost/g' ${apache_location}/conf/extra/httpd-info.conf
     cp -f ${cur_dir}/conf/httpd24-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
-
     rm -f /etc/init.d/httpd
     if centosversion 6; then
         cp -f ${cur_dir}/conf/httpd-init-centos6 /etc/init.d/httpd
     else
         cp -f ${cur_dir}/conf/httpd-init /etc/init.d/httpd
     fi
-    sed -i "s#^apache_location=.*#apache_location=$apache_location#" /etc/init.d/httpd
+    sed -i "s#^apache_location=.*#apache_location=${apache_location}#" /etc/init.d/httpd
     chmod +x /etc/init.d/httpd
-
     rm -fr /var/log/httpd /usr/sbin/httpd
     ln -s ${apache_location}/bin/httpd /usr/sbin/httpd
     ln -s ${apache_location}/logs /var/log/httpd
-
     cp -f ${cur_dir}/conf/index.html ${web_root_dir}
     cp -f ${cur_dir}/conf/index_cn.html ${web_root_dir}
     cp -f ${cur_dir}/conf/lamp.png ${web_root_dir}
@@ -231,9 +226,7 @@ EOF
     cp -f ${cur_dir}/conf/p_cn.php ${web_root_dir}
     cp -f ${cur_dir}/conf/phpinfo.php ${web_root_dir}
     cp -f ${cur_dir}/conf/favicon.ico ${web_root_dir}
-
     chown -R apache.apache ${web_root_dir}
-
     boot_start httpd
 
 }
@@ -255,7 +248,7 @@ install_mod_wsgi(){
     error_detect "make"
     error_detect "make install"
     # add mod_wsgi to httpd.conf
-    if [[ `grep -E -c "^\s*LoadModule wsgi_module modules/mod_wsgi.so" ${apache_location}/conf/httpd.conf` -eq 0 ]]; then
+    if [[ $(grep -Ec "^\s*LoadModule wsgi_module modules/mod_wsgi.so" ${apache_location}/conf/httpd.conf) -eq 0 ]]; then
         lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
         sed -i "${lnum}aLoadModule wsgi_module modules/mod_wsgi.so" ${apache_location}/conf/httpd.conf
     fi
@@ -273,7 +266,7 @@ install_mod_jk(){
     error_detect "make"
     error_detect "make install"
     # add mod_jk to httpd.conf
-    if [[ `grep -E -c "^\s*LoadModule jk_module modules/mod_jk.so" ${apache_location}/conf/httpd.conf` -eq 0 ]]; then
+    if [[ $(grep -Ec "^\s*LoadModule jk_module modules/mod_jk.so" ${apache_location}/conf/httpd.conf) -eq 0 ]]; then
         lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
         sed -i "${lnum}aLoadModule jk_module modules/mod_jk.so" ${apache_location}/conf/httpd.conf
     fi
@@ -292,7 +285,7 @@ install_mod_security(){
     error_detect "make install"
     chmod 755 ${apache_location}/modules/mod_security2.so
     # add mod_security to httpd.conf
-    if [[ `grep -E -c "^\s*LoadModule security2_module modules/mod_security2.so" ${apache_location}/conf/httpd.conf` -eq 0 ]]; then
+    if [[ $(grep -Ec "^\s*LoadModule security2_module modules/mod_security2.so" ${apache_location}/conf/httpd.conf) -eq 0 ]]; then
         lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
         sed -i "${lnum}aLoadModule security2_module modules/mod_security2.so" ${apache_location}/conf/httpd.conf
     fi
