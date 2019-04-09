@@ -1,0 +1,9 @@
+.gitignore
+lamp.log
+upgrade_apache.log
+upgrade_db.log
+upgrade_php.log
+upgrade_phpmyadmin.log
+pmaversion.txt
+software/
+mysql_bkup/
