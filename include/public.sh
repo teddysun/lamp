@@ -89,7 +89,7 @@ get_php_version(){
 }
 
 get_char(){
-    SAVEDSTTY=`stty -g`
+    SAVEDSTTY=$(stty -g)
     stty -echo
     stty cbreak
     dd if=/dev/tty bs=1 count=1 2> /dev/null
@@ -408,16 +408,16 @@ create_lib64_dir(){
 
 error_detect_depends(){
     local command=${1}
-    local work_dir=`pwd`
-    local depend=`echo "$1" | awk '{print $4}'`
+    local work_dir=$(pwd)
+    local depend=$(echo "$1" | awk '{print $4}')
     log "Info" "Starting to install package ${depend}"
     ${command} > /dev/null 2>&1
     if [ $? -ne 0 ]; then
-        distro=`get_opsy`
-        version=`cat /proc/version`
-        architecture=`uname -m`
-        mem=`free -m`
-        disk=`df -ah`
+        distro=$(get_opsy)
+        version=$(cat /proc/version)
+        architecture=$(uname -m)
+        mem=$(free -m)
+        disk=$(df -ah)
         cat >> ${cur_dir}/lamp.log<<EOF
         Errors Detail:
         Distributions:${distro}
@@ -442,15 +442,15 @@ EOF
 
 error_detect(){
     local command=${1}
-    local work_dir=`pwd`
-    local cur_soft=`echo ${work_dir#$cur_dir} | awk -F'/' '{print $3}'`
+    local work_dir=$(pwd)
+    local cur_soft=$(echo ${work_dir#$cur_dir} | awk -F'/' '{print $3}')
     ${command}
     if [ $? -ne 0 ]; then
-        distro=`get_opsy`
-        version=`cat /proc/version`
-        architecture=`uname -m`
-        mem=`free -m`
-        disk=`df -ah`
+        distro=$(get_opsy)
+        version=$(cat /proc/version)
+        architecture=$(uname -m)
+        mem=$(free -m)
+        disk=$(df -ah)
         cat >>${cur_dir}/lamp.log<<EOF
         Errors Detail:
         Distributions:$distro
@@ -481,23 +481,23 @@ upcase_to_lowcase(){
 
 untar(){
     local tarball_type
-    local cur_dir=`pwd`
+    local cur_dir=$(pwd)
     if [ -n ${1} ]; then
-        software_name=`echo $1 | awk -F/ '{print $NF}'`
-        tarball_type=`echo $1 | awk -F. '{print $NF}'`
+        software_name=$(echo $1 | awk -F/ '{print $NF}')
+        tarball_type=$(echo $1 | awk -F. '{print $NF}')
         wget --no-check-certificate -cv -t3 -T60 ${1} -P ${cur_dir}/
         if [ $? -ne 0 ]; then
             rm -rf ${cur_dir}/${software_name}
             wget --no-check-certificate -cv -t3 -T60 ${2} -P ${cur_dir}/
-            software_name=`echo ${2} | awk -F/ '{print $NF}'`
-            tarball_type=`echo ${2} | awk -F. '{print $NF}'`
+            software_name=$(echo ${2} | awk -F/ '{print $NF}')
+            tarball_type=$(echo ${2} | awk -F. '{print $NF}')
         fi
     else
-        software_name=`echo ${2} | awk -F/ '{print $NF}'`
-        tarball_type=`echo ${2} | awk -F. '{print $NF}'`
+        software_name=$(echo ${2} | awk -F/ '{print $NF}')
+        tarball_type=$(echo ${2} | awk -F. '{print $NF}')
         wget --no-check-certificate -cv -t3 -T60 ${2} -P ${cur_dir}/ || exit
     fi
-    extracted_dir=`tar tf ${cur_dir}/${software_name} | tail -n 1 | awk -F/ '{print $1}'`
+    extracted_dir=$(tar tf ${cur_dir}/${software_name} | tail -n 1 | awk -F/ '{print $1}')
     case ${tarball_type} in
         gz|tgz)
             tar zxf ${cur_dir}/${software_name} -C ${cur_dir}/ && cd ${cur_dir}/${extracted_dir} || return 1
@@ -616,7 +616,7 @@ get_ubuntuversion(){
 
 parallel_make(){
     local para="${1}"
-    cpunum=`cat /proc/cpuinfo |grep 'processor'|wc -l`
+    cpunum=$(cat /proc/cpuinfo | grep 'processor' | wc -l)
 
     if [ ${parallel_compile} -eq 0 ]; then
         cpunum=1
@@ -661,7 +661,7 @@ filter_location(){
 }
 
 download_file(){
-    local cur_dir=`pwd`
+    local cur_dir=$(pwd)
     local url="${download_root_url}/${1}"
     if [ -s ${1} ]; then
         log "Info" "${1} [found]"
@@ -679,7 +679,7 @@ download_file(){
 
 download_from_url(){
     local filename=${1}
-    local cur_dir=`pwd`
+    local cur_dir=$(pwd)
     if [ -s ${filename} ]; then
         log "Info" "${filename} [found]"
     else
@@ -702,7 +702,7 @@ download_from_url(){
 }
 
 is_64bit(){
-    if [ `getconf WORD_BIT` = '32' ] && [ `getconf LONG_BIT` = '64' ]; then
+    if [ $(getconf WORD_BIT) = '32' ] && [ $(getconf LONG_BIT) = '64' ]; then
         return 0
     else
         return 1
@@ -805,7 +805,7 @@ sync_time(){
 start_install(){
     echo "Press any key to start...or Press Ctrl+C to cancel"
     echo
-    char=`get_char`
+    char=$(get_char)
 }
 
 #Last confirm

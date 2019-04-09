@@ -14,14 +14,14 @@
 #upgrade apache
 upgrade_apache(){
 
-    if [ ! -d ${apache_location} ]; then
+    if [ ! -d "${apache_location}" ]; then
         log "Error" "Apache looks like not installed, please check it and try again."
         exit 1
     fi
 
-    local installed_apache=`${apache_location}/bin/httpd -v | grep 'version' | awk -F/ '{print $2}' | cut -d' ' -f1`
-    local apache_version=`echo ${installed_apache} | cut -d. -f1-2`
-    local latest_apache24=`curl -s http://httpd.apache.org/download.cgi | awk '/#apache24/{print $2}' | head -n 1 | awk -F'>' '{print $2}' | cut -d'<' -f1`
+    local installed_apache=$(${apache_location}/bin/httpd -v | grep 'version' | awk -F/ '{print $2}' | cut -d' ' -f1)
+    local apache_version=$(echo ${installed_apache} | cut -d. -f1-2)
+    local latest_apache24=$(curl -s http://httpd.apache.org/download.cgi | awk '/#apache24/{print $2}' | head -n 1 | awk -F'>' '{print $2}' | cut -d'<' -f1)
 
     if [ "${apache_version}" == "2.4" ];then
         echo -e "Latest version of Apache: \033[41;37m $latest_apache24 \033[0m"
@@ -39,11 +39,11 @@ upgrade_apache(){
     echo
 
     echo "Press any key to start...or Press Ctrl+C to cancel"
-    char=`get_char`
+    char=$(get_char)
 
     if [[ "${upgrade_apache}" = "y" || "${upgrade_apache}" = "Y" ]];then
         log "Info" "Apache upgrade start..."
-        apache_count=`ps -ef | grep -v grep | grep -c "httpd"`
+        apache_count=$(ps -ef | grep -v grep | grep -c "httpd")
         if [ ${apache_count} -ne 0 ]; then
             /etc/init.d/httpd stop
         fi
@@ -88,7 +88,7 @@ upgrade_apache(){
 
             LDFLAGS=-ldl
             if [ -d ${openssl_location} ]; then
-                apache_configure_args=`echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@"`
+                apache_configure_args=$(echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@")
             fi
             error_detect "./configure ${apache_configure_args}"
             error_detect "parallel_make"

@@ -25,9 +25,9 @@ upgrade_php(){
     [ ${ramsum} -lt 600 ] && disable_fileinfo="--disable-fileinfo" || disable_fileinfo=""
 
     local phpConfig=${php_location}/bin/php-config
-    local php_version=`get_php_version "${phpConfig}"`
-    local php_extension_dir=`get_php_extension_dir "${phpConfig}"`
-    local installed_php=`${php_location}/bin/php -r 'echo PHP_VERSION;' 2>/dev/null`
+    local php_version=$(get_php_version "${phpConfig}")
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
+    local installed_php=$(${php_location}/bin/php -r 'echo PHP_VERSION;' 2>/dev/null)
 
     if [ "${php_version}" == "5.6" ]; then
         latest_php="5.6.40"
@@ -54,7 +54,7 @@ upgrade_php(){
     echo "---------------------------"
     echo
     echo "Press any key to start...or Press Ctrl+C to cancel"
-    char=`get_char`
+    char=$(get_char)
 
     if [[ "${upgrade_php}" = "y" || "${upgrade_php}" = "Y" ]]; then
 

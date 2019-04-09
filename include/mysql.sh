@@ -25,7 +25,7 @@ mysql_preinstall_settings(){
             echo
             read -p "mysql data location(default:${mysql_location}/data, leave blank for default): " mysql_data_location
             mysql_data_location=${mysql_data_location:=${mysql_location}/data}
-            mysql_data_location=`filter_location "${mysql_data_location}"`
+            mysql_data_location=$(filter_location "${mysql_data_location}")
             echo
             echo "mysql data location: ${mysql_data_location}"
 
@@ -41,7 +41,7 @@ mysql_preinstall_settings(){
             echo
             read -p "mariadb data location(default:${mariadb_location}/data, leave blank for default): " mariadb_data_location
             mariadb_data_location=${mariadb_data_location:=${mariadb_location}/data}
-            mariadb_data_location=`filter_location "${mariadb_data_location}"`
+            mariadb_data_location=$(filter_location "${mariadb_data_location}")
             echo
             echo "mariadb data location: ${mariadb_data_location}"
 
@@ -61,7 +61,7 @@ mysql_preinstall_settings(){
             echo
             read -p "percona data location(default:${percona_location}/data, leave blank for default): " percona_data_location
             percona_data_location=${percona_data_location:=${percona_location}/data}
-            percona_data_location=`filter_location "${percona_data_location}"`
+            percona_data_location=$(filter_location "${percona_data_location}")
             echo
             echo "percona data location: $percona_data_location"
 

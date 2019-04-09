@@ -15,25 +15,25 @@
 upgrade_phpmyadmin(){
 
     if [ -d ${web_root_dir}/phpmyadmin ]; then
-        installed_pma=`awk '/Version/{print $2}' ${web_root_dir}/phpmyadmin/README`
+        installed_pma=$(awk '/Version/{print $2}' ${web_root_dir}/phpmyadmin/README)
     else
         if [ -s "$cur_dir/pmaversion.txt" ]; then
-            installed_pma=`awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt`
+            installed_pma=$(awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt)
         else
             echo -e "phpmyadmin\t0" > ${cur_dir}/pmaversion.txt
-            installed_pma=`awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt`
+            installed_pma=$(awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt)
         fi
     fi
 
     if [ "${installed_pma}" != "0" ]; then
-        major_ver=`echo ${installed_pma} | cut -d. -f1-2`
+        major_ver=$(echo ${installed_pma} | cut -d. -f1-2)
     else
         log "Error" "phpMyAdmin installation directory not found, please check it and retry."
         exit 1
     fi
-    latest_pma=`curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | grep "${major_ver}" | cut -d'<' -f1 | sort -V | tail -1`
+    latest_pma=$(curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | grep "${major_ver}" | cut -d'<' -f1 | sort -V | tail -1)
     if [ -z ${latest_pma} ]; then
-        latest_pma=`curl -s ${download_root_url}/pmalist.txt | grep "${major_ver}" | tail -1 | awk -F- '{print $2}'`
+        latest_pma=$(curl -s ${download_root_url}/pmalist.txt | grep "${major_ver}" | tail -1 | awk -F- '{print $2}')
     fi
     echo -e "Latest version of phpmyadmin: \033[41;37m ${latest_pma} \033[0m"
     echo -e "Installed version of phpmyadmin: \033[41;37m ${installed_pma} \033[0m"
@@ -48,7 +48,7 @@ upgrade_phpmyadmin(){
     echo "---------------------------"
     echo
     echo "Press any key to start...or Press Ctrl+C to cancel"
-    char=`get_char`
+    char=$(get_char)
 
     if [[ "${upgrade_pma}" = "y" || "${upgrade_pma}" = "Y" ]];then
         log "Info" "phpMyAdmin upgrade start..."

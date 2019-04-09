@@ -14,12 +14,12 @@
 #upgrade database
 upgrade_db(){
 
-    if [ ! -d ${mysql_location} ] && [ ! -d ${mariadb_location} ] && [ ! -d ${percona_location} ]; then
+    if [ ! -d "${mysql_location}" ] && [ ! -d "${mariadb_location}" ] && [ ! -d "${percona_location}" ]; then
         log "Error" "MySQL or MariaDB or Percona looks like not installed, please check it and try again."
         exit 1
     fi
 
-    update_date=`date +"%Y%m%d"`
+    update_date=$(date +"%Y%m%d")
     bkup_file="mysqld_${update_date}.bak"
 
     if [ -d ${mysql_location} ]; then
@@ -104,7 +104,7 @@ upgrade_db(){
     echo "---------------------------"
     echo
     echo "Press any key to start...or Press Ctrl+C to cancel"
-    char=`get_char`
+    char=$(get_char)
 
 
     if [[ "${upgrade_db}" = "y" || "${upgrade_db}" = "Y" ]]; then
@@ -217,7 +217,7 @@ EOF
                 down_addr2=http://mirrors.aliyun.com/mariadb/
             fi
 
-            libc_version=`getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}'`
+            libc_version=$(getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}')
 
             if version_lt ${libc_version} 2.14; then
                 glibc_flag=linux
