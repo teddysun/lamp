@@ -176,6 +176,7 @@ install_libiconv(){
         log "Info" "${libiconv_filename} install start..."
         download_file  "${libiconv_filename}.tar.gz"
         tar zxf ${libiconv_filename}.tar.gz
+        patch -d ${libiconv_filename} -p0 < ${cur_dir}/conf/libiconv-glibc-2.16.patch
         cd ${libiconv_filename}
 
         error_detect "./configure"
@@ -609,9 +610,9 @@ install_php_memcached(){
     rm -f /usr/bin/memcached
     ln -s ${depends_prefix}/memcached/bin/memcached /usr/bin/memcached
     if check_sys packageManager apt;then
-        cp -f ${cur_dir}/conf/memcached-init-debian /etc/init.d/memcached
+        cp -f ${cur_dir}/init.d/memcached-init-debian /etc/init.d/memcached
     elif check_sys packageManager yum;then
-        cp -f ${cur_dir}/conf/memcached-init-centos /etc/init.d/memcached
+        cp -f ${cur_dir}/init.d/memcached-init-centos /etc/init.d/memcached
     fi
     chmod +x /etc/init.d/memcached
     boot_start memcached
@@ -695,12 +696,12 @@ install_php_redis(){
         [ -z "`grep ^maxmemory ${redis_install_dir}/etc/redis.conf`" ] && sed -i "s@maxmemory <bytes>@maxmemory <bytes>\nmaxmemory `expr ${Mem} / 8`000000@" ${redis_install_dir}/etc/redis.conf
 
         if check_sys packageManager apt; then
-            cp -f ${cur_dir}/conf/redis-server-init-debian /etc/init.d/redis-server
+            cp -f ${cur_dir}/init.d/redis-server-init-debian /etc/init.d/redis-server
         elif check_sys packageManager yum; then
             if echo $(get_opsy) | grep -Eqi "fedora"; then
-                cp -f ${cur_dir}/conf/redis-server-init-fedora /etc/init.d/redis-server
+                cp -f ${cur_dir}/init.d/redis-server-init-fedora /etc/init.d/redis-server
             else
-                cp -f ${cur_dir}/conf/redis-server-init-centos /etc/init.d/redis-server
+                cp -f ${cur_dir}/init.d/redis-server-init-centos /etc/init.d/redis-server
             fi
         fi
 

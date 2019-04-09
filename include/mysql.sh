@@ -380,7 +380,7 @@ install_mariadb(){
         local down_addr2=http://mirrors.aliyun.com/mariadb/
     fi
 
-    if version_lt ${libc_version} 2.14; then
+    if version_lt $(get_libc_version) 2.14; then
         glibc_flag=linux
     else
         glibc_flag=linux-glibc_214

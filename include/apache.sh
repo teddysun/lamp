@@ -102,7 +102,7 @@ config_apache(){
     echo "ProtocolsHonorOrder On" >> ${apache_location}/conf/httpd.conf
     echo "Protocols h2 http/1.1" >> ${apache_location}/conf/httpd.conf
     cat > /etc/logrotate.d/httpd <<EOF
-${apache_location}/logs/access_log ${apache_location}/logs/error_log {
+${apache_location}/logs/*log {
     daily
     rotate 14
     missingok
@@ -209,9 +209,9 @@ mod_xml2enc.so
     cp -f ${cur_dir}/conf/httpd24-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
     rm -f /etc/init.d/httpd
     if centosversion 6; then
-        cp -f ${cur_dir}/conf/httpd-init-centos6 /etc/init.d/httpd
+        cp -f ${cur_dir}/init.d/httpd-init-centos6 /etc/init.d/httpd
     else
-        cp -f ${cur_dir}/conf/httpd-init /etc/init.d/httpd
+        cp -f ${cur_dir}/init.d/httpd-init /etc/init.d/httpd
     fi
     sed -i "s#^apache_location=.*#apache_location=${apache_location}#" /etc/init.d/httpd
     chmod +x /etc/init.d/httpd
