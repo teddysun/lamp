@@ -199,7 +199,6 @@ display_menu_multi(){
     prompt="Please input one or more number between 1 and ${arr_len} ${default_prompt} (for example: 1 2 3): "
 
     echo -e "\n-------------------------- ${soft} install --------------------------\n"
-    echo
     for ((i=1;i<=${arr_len};i++ )); do
         vname="$(get_valid_valname ${arr[$i-1]})"
         hint="$(get_hint $vname)"
