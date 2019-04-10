@@ -29,7 +29,7 @@ include(){
     fi
 }
 
-display_menu(){
+upgrade_menu(){
 
     echo
     echo "+-------------------------------------------------------------------+"
@@ -99,7 +99,7 @@ load_config
 rootness
 
 if [ ${#} -eq 0 ]; then
-    display_menu
+    upgrade_menu
 elif [ ${#} -eq 1 ]; then
     case $1 in
     apache)
