@@ -21,7 +21,6 @@ php_modules_preinstall_settings(){
 
         echo
         echo "${php} available modules:"
-        echo
         # delete some modules & change some module version
         if [ "${php}" == "${php5_6_filename}" ]; then
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})

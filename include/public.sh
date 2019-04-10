@@ -198,7 +198,7 @@ display_menu_multi(){
     fi
     prompt="Please input one or more number between 1 and ${arr_len} ${default_prompt} (for example: 1 2 3): "
 
-    echo "-------------------------- $soft install --------------------------"
+    echo -e "\n-------------------------- ${soft} install --------------------------\n"
     echo
     for ((i=1;i<=${arr_len};i++ )); do
         vname="$(get_valid_valname ${arr[$i-1]})"
