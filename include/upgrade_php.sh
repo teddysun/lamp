@@ -14,7 +14,7 @@
 #upgrade php
 upgrade_php(){
 
-    if [ ! -d ${php_location} ]; then
+    if [ ! -d "${php_location}" ]; then
         log "Error" "PHP looks like not installed, please check it and try again."
         exit 1
     fi
@@ -59,7 +59,7 @@ upgrade_php(){
     if [[ "${upgrade_php}" = "y" || "${upgrade_php}" = "Y" ]]; then
 
         log "Info" "PHP upgrade start..."
-        if [[ -d ${php_location}.bak && -d ${php_location} ]]; then
+        if [[ -d "${php_location}.bak" && -d "${php_location}" ]]; then
             rm -rf ${php_location}.bak
         fi
         mv ${php_location} ${php_location}.bak
@@ -74,11 +74,11 @@ upgrade_php(){
             backup_php_link="${download_root_url}/php-${latest_php}.tar.gz"
             untar ${latest_php_link} ${backup_php_link}
         else
-            tar -zxf php-${latest_php}.tar.gz
+            tar zxf php-${latest_php}.tar.gz
             cd php-${latest_php}/
         fi
 
-        if [ -d ${mariadb_location} ] || [ -d ${mysql_location} ] || [ -d ${percona_location} ]; then
+        if [ -d "${mariadb_location}" ] || [ -d "${mysql_location}" ] || [ -d "${percona_location}" ]; then
             if [ "${php_version}" == "5.6" ]; then
                 with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             else
@@ -173,9 +173,7 @@ upgrade_php(){
         rm -rf php-${latest_php}/
         rm -f php-${latest_php}.tar.gz
         log "Info" "Clear up completed..."
-
-        /etc/init.d/httpd restart
-
+        /etc/init.d/httpd restart > /dev/null 2>&1
         log "Info" "PHP upgrade completed..."
     else
         echo

@@ -23,16 +23,15 @@ apache_preinstall_settings(){
 
 #Install apache
 install_apache(){
-    if [ "$apache" != "do_not_install" ]; then
-        apache_configure_args="--prefix=${apache_location} \
-        --with-pcre=${depends_prefix}/pcre \
-        --with-mpm=event \
-        --with-included-apr \
-        --with-ssl \
-        --with-nghttp2 \
-        --enable-modules=reallyall \
-        --enable-mods-shared=reallyall"
-    fi
+    apache_configure_args="--prefix=${apache_location} \
+    --with-pcre=${depends_prefix}/pcre \
+    --with-mpm=event \
+    --with-included-apr \
+    --with-ssl \
+    --with-nghttp2 \
+    --enable-modules=reallyall \
+    --enable-mods-shared=reallyall"
+
     log "Info" "Starting to install dependencies packages for Apache..."
     local apt_list=(zlib1g-dev openssl libssl-dev libxml2-dev lynx lua-expat-dev libjansson-dev)
     local yum_list=(zlib-devel openssl-devel libxml2-devel lynx expat-devel lua-devel lua jansson-devel)
@@ -50,6 +49,7 @@ install_apache(){
     if ! grep -qE "^/usr/local/lib" /etc/ld.so.conf.d/*.conf; then
         echo "/usr/local/lib" > /etc/ld.so.conf.d/locallib.conf
     fi
+    ldconfig
 
     check_installed "install_pcre" "${depends_prefix}/pcre"
     check_installed "install_openssl" "${openssl_location}"
@@ -237,6 +237,49 @@ install_apache_modules(){
     if_in_array "${mod_jk_filename}" "${apache_modules_install}" && install_mod_jk
 }
 
+install_nghttp2(){
+    cd ${cur_dir}/software/
+    log "Info" "${nghttp2_filename} install start..."
+    download_file "${nghttp2_filename}.tar.gz"
+    tar zxf ${nghttp2_filename}.tar.gz
+    cd ${nghttp2_filename}
+
+    if [ -d "${openssl_location}" ]; then
+        export OPENSSL_CFLAGS="-I${openssl_location}/include"
+        export OPENSSL_LIBS="-L${openssl_location}/lib -lssl -lcrypto"
+    fi
+    error_detect "./configure --prefix=/usr --enable-lib-only"
+    error_detect "parallel_make"
+    error_detect "make install"
+    unset OPENSSL_CFLAGS OPENSSL_LIBS
+    log "Info" "${nghttp2_filename} install completed..."
+}
+
+install_openssl(){
+    local openssl_version=$(openssl version -v)
+    local major_version=$(echo ${openssl_version} | awk '{print $2}' | grep -oE "[0-9.]+")
+
+    if version_lt ${major_version} 1.1.1; then
+        cd ${cur_dir}/software/
+        log "Info" "${openssl_filename} install start..."
+        download_file "${openssl_filename}.tar.gz"
+        tar zxf ${openssl_filename}.tar.gz
+        cd ${openssl_filename}
+
+        error_detect "./config --prefix=${openssl_location} -fPIC shared zlib"
+        error_detect "make"
+        error_detect "make install"
+
+        if ! grep -qE "^${openssl_location}/lib" /etc/ld.so.conf.d/*.conf; then
+            echo "${openssl_location}/lib" > /etc/ld.so.conf.d/openssl.conf
+        fi
+        ldconfig
+        log "Info" "${openssl_filename} install completed..."
+    else
+        log "Info" "OpenSSL version is greater than or equal to 1.1.1, installation skipped."
+    fi
+}
+
 install_mod_wsgi(){
     cd ${cur_dir}/software/
     log "Info" "${mod_wsgi_filename} install start..."
@@ -284,7 +327,7 @@ install_mod_security(){
     error_detect "make"
     error_detect "make install"
     chmod 755 ${apache_location}/modules/mod_security2.so
-    # add mod_security to httpd.conf
+    # add mod_security2 to httpd.conf
     if [[ $(grep -Ec "^\s*LoadModule security2_module modules/mod_security2.so" ${apache_location}/conf/httpd.conf) -eq 0 ]]; then
         lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
         sed -i "${lnum}aLoadModule security2_module modules/mod_security2.so" ${apache_location}/conf/httpd.conf

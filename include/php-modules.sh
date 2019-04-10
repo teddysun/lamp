@@ -284,51 +284,6 @@ install_libzip(){
 }
 
 
-install_nghttp2(){
-    cd ${cur_dir}/software/
-    log "Info" "${nghttp2_filename} install start..."
-    download_file "${nghttp2_filename}.tar.gz"
-    tar zxf ${nghttp2_filename}.tar.gz
-    cd ${nghttp2_filename}
-
-    if [ -d ${openssl_location} ]; then
-        export OPENSSL_CFLAGS="-I${openssl_location}/include"
-        export OPENSSL_LIBS="-L${openssl_location}/lib -lssl -lcrypto"
-    fi
-    error_detect "./configure --prefix=/usr --enable-lib-only"
-    error_detect "parallel_make"
-    error_detect "make install"
-    unset OPENSSL_CFLAGS OPENSSL_LIBS
-    log "Info" "${nghttp2_filename} install completed..."
-}
-
-
-install_openssl(){
-    local openssl_version=$(openssl version -v)
-    local major_version=$(echo ${openssl_version} | awk '{print $2}' | grep -oE "[0-9.]+")
-
-    if version_lt ${major_version} 1.1.1; then
-        cd ${cur_dir}/software/
-        log "Info" "${openssl_filename} install start..."
-        download_file "${openssl_filename}.tar.gz"
-        tar zxf ${openssl_filename}.tar.gz
-        cd ${openssl_filename}
-
-        error_detect "./config --prefix=${openssl_location} -fPIC shared zlib"
-        error_detect "make"
-        error_detect "make install"
-
-        if ! grep -qE "^${openssl_location}/lib" /etc/ld.so.conf.d/*.conf; then
-            echo "${openssl_location}/lib" > /etc/ld.so.conf.d/openssl.conf
-        fi
-        ldconfig
-        log "Info" "${openssl_filename} install completed..."
-    else
-        log "Info" "OpenSSL version is greater than or equal to 1.1.1, installation skipped."
-    fi
-}
-
-
 install_phpmyadmin(){
     if [ -d "${web_root_dir}/phpmyadmin" ]; then
         rm -rf ${web_root_dir}/phpmyadmin

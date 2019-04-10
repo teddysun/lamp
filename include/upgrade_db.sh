@@ -106,12 +106,9 @@ upgrade_db(){
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=$(get_char)
 
-
     if [[ "${upgrade_db}" = "y" || "${upgrade_db}" = "Y" ]]; then
         log "Info" "$(db_name) upgrade start..."
-
-        mysql_count=$(ps -ef | grep -v grep | grep -c "mysqld")
-        if [ ${mysql_count} -eq 0 ]; then
+        if [ $(ps -ef | grep -v grep | grep -c "mysqld") -eq 0 ]; then
             log "Info" "$(db_name) looks like not running, Try to starting $(db_name)..."
             /etc/init.d/mysqld start > /dev/null 2>&1
             if [ $? -ne 0 ]; then
@@ -120,7 +117,7 @@ upgrade_db(){
             fi
         fi
 
-        if [ ! -d ${bkup_dir} ]; then
+        if [ ! -d "${bkup_dir}" ]; then
             mkdir -p ${bkup_dir}
         fi
 
@@ -158,9 +155,8 @@ EOF
         fi
         cd ${cur_dir}/software
 
-        if [ -d ${mysql_location} ]; then
-
-            if [ -d ${mysql_location}.bak ]; then
+        if [ -d "${mysql_location}" ]; then
+            if [ -d "${mysql_location}.bak" ]; then
                 rm -rf ${mysql_location}.bak
             fi
             mv ${mysql_location} ${mysql_location}.bak
@@ -200,9 +196,8 @@ EOF
 
             create_lib64_dir "${mysql_location}"
 
-        elif [ -d ${mariadb_location} ]; then
-
-            if [ -d ${mariadb_location}.bak ]; then
+        elif [ -d "${mariadb_location}" ]; then
+            if [ -d "${mariadb_location}.bak" ]; then
                 rm -rf ${mariadb_location}.bak
             fi
             mv ${mariadb_location} ${mariadb_location}.bak
@@ -247,9 +242,8 @@ EOF
 
             create_lib64_dir "${mariadb_location}"
 
-        elif [ -d ${percona_location} ]; then
-
-            if [ -d ${percona_location}.bak ]; then
+        elif [ -d "${percona_location}" ]; then
+            if [ -d "${percona_location}.bak" ]; then
                 rm -rf ${percona_location}.bak
             fi
             mv ${percona_location} ${percona_location}.bak

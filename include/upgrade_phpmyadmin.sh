@@ -72,7 +72,7 @@ upgrade_phpmyadmin(){
             mkdir -p ${web_root_dir}/phpmyadmin
             mv * ${web_root_dir}/phpmyadmin
         else
-            tar -zxf phpMyAdmin-${latest_pma}-all-languages.tar.gz
+            tar zxf phpMyAdmin-${latest_pma}-all-languages.tar.gz
             mv phpMyAdmin-${latest_pma}-all-languages ${web_root_dir}/phpmyadmin
         fi
         if [ -s ${cur_dir}/config.inc.php ]; then

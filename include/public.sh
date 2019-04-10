@@ -453,14 +453,14 @@ error_detect(){
         disk=$(df -ah)
         cat >>${cur_dir}/lamp.log<<EOF
         Errors Detail:
-        Distributions:$distro
-        Architecture:$architecture
-        Version:$version
+        Distributions:${distro}
+        Architecture:${architecture}
+        Version:${version}
         Memery:
         ${mem}
         Disk:
         ${disk}
-        PHP Version: $php
+        PHP Version: ${php}
         PHP compile parameter: ${php_configure_args}
         Issue:failed to install ${cur_soft}
 EOF

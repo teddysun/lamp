@@ -207,7 +207,7 @@ start_backup() {
     fi
 
     # Delete MySQL temporary dump file
-    for sql in `ls ${TEMPDIR}*.sql`
+    for sql in $(ls ${TEMPDIR}*.sql)
     do
         log "Delete MySQL temporary dump file: ${sql}"
         rm -f ${sql}
@@ -218,7 +218,7 @@ start_backup() {
     else
         OUT_FILE="${TARFILE}"
     fi
-    log "File name: ${OUT_FILE}, File size: `calculate_size ${OUT_FILE}`"
+    log "File name: ${OUT_FILE}, File size: $(calculate_size ${OUT_FILE})"
 }
 
 # Transfer backup file to Google Drive

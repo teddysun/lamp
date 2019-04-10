@@ -251,15 +251,8 @@ set_parameters(){
     phpConfig=${php_location}/bin/php-config
 }
 
-#lamp main process
-lamp(){
-    rootness
-    pre_setting
-}
-
 #lamp auto process
 lamp_auto(){
-    rootness
     check_os
     check_ram
     display_os_info
@@ -269,11 +262,11 @@ lamp_auto(){
 
 main() {
     if [ -z "$1" ]; then
-        lamp 2>&1 | tee ${cur_dir}/lamp.log
+        pre_setting 2>&1 | tee ${cur_dir}/lamp.log
     else
         process "$@"
         set_parameters
-        lamp_auto  2>&1 | tee ${cur_dir}/lamp.log
+        lamp_auto 2>&1 | tee ${cur_dir}/lamp.log
     fi
 }
 
@@ -284,6 +277,7 @@ include mysql
 include php
 include php-modules
 load_config
+rootness
 
 #Run it
 main "$@"
