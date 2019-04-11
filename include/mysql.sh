@@ -480,8 +480,8 @@ config_percona(){
         echo "default_authentication_plugin  = mysql_native_password" >> /etc/my.cnf
     fi
 
-    sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysqld_safe
-    sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysql_config
+    sed -ir "s@/usr/local/${percona_filename}@${percona_location}@g" ${percona_location}/bin/mysqld_safe
+    sed -ir "s@/usr/local/${percona_filename}@${percona_location}@g" ${percona_location}/bin/mysql_config
 
     if [ ${version} == "5.5" ] || [ ${version} == "5.6" ]; then
         ${percona_location}/scripts/mysql_install_db --basedir=${percona_location} --datadir=${percona_data_location} --user=mysql
