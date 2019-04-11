@@ -165,22 +165,20 @@ EOF
 
             is_64bit && sys_bit=x86_64 || sys_bit=i686
             log "Info" "Downloading and Extracting MySQL files..."
+
+            mysql_filename="mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}"
             if [ "${mysql_ver}" == "8.0" ]; then
-                url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.xz"
-                url2="${download_root_url}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.xz"
-                mysql_file="mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.xz"
-                download_from_url "${mysql_file}" "${url1}" "${url2}"
-                tar Jxf ${mysql_file}
+                mysql_filename_url="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql_filename}.tar.xz"
+                download_file "${mysql_filename}.tar.xz" "${mysql_filename_url}"
+                tar Jxf ${mysql_filename}.tar.xz
             else
-                url1="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
-                url2="${download_root_url}/mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
-                mysql_file="mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}.tar.gz"
-                download_from_url "${mysql_file}" "${url1}" "${url2}"
-                tar zxf ${mysql_file}
+                mysql_filename_url="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql_filename}.tar.gz"
+                download_file "${mysql_filename}.tar.gz" "${mysql_filename_url}"
+                tar zxf ${mysql_filename}.tar.gz
             fi
 
             log "Info" "Moving MySQL files..."
-            mv mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}/* ${mysql_location}
+            mv ${mysql_filename}/* ${mysql_location}
 
             chown -R mysql:mysql ${mysql_location} ${datalocation}
             cp -f ${mysql_location}/support-files/mysql.server /etc/init.d/mysqld
@@ -204,14 +202,6 @@ EOF
             mkdir -p ${mariadb_location}
             [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
-            if [ "$(get_ip_country)" == "CN" ]; then
-                down_addr1=http://mirrors.aliyun.com/mariadb/
-                down_addr2=http://sfo1.mirrors.digitalocean.com/mariadb/
-            else
-                down_addr1=http://sfo1.mirrors.digitalocean.com/mariadb/
-                down_addr2=http://mirrors.aliyun.com/mariadb/
-            fi
-
             libc_version=$(getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}')
 
             if version_lt ${libc_version} 2.14; then
@@ -219,18 +209,22 @@ EOF
             else
                 glibc_flag=linux-glibc_214
             fi
-            
             is_64bit && sys_bit_a=x86_64 || sys_bit_a=x86
             is_64bit && sys_bit_b=x86_64 || sys_bit_b=i686
 
-            download_from_url "mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz" \
-            "${down_addr1}/mariadb-${latest_mariadb}/bintar-${glibc_flag}-${sys_bit_a}/mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz" \
-            "${down_addr2}/mariadb-${latest_mariadb}/bintar-${glibc_flag}-${sys_bit_a}/mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz"
+            mariadb_filename="mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}"
+            if [ "$(get_ip_country)" == "CN" ]; then
+                mariadb_filename_url="http://mirrors.aliyun.com/mariadb/mariadb-${latest_mariadb}/bintar-${glibc_flag}-${sys_bit_a}/${mariadb_filename}.tar.gz"
+            else
+                mariadb_filename_url="http://sfo1.mirrors.digitalocean.com/mariadb/mariadb-${latest_mariadb}/bintar-${glibc_flag}-${sys_bit_a}/${mariadb_filename}.tar.gz"
+            fi
+
+            download_file "${mariadb_filename}.tar.gz" "${mariadb_filename_url}"
 
             log "Info" "Extracting MariaDB files..."
-            tar zxf mariadb-${latest_mariadb}-${glibc_flag}-${sys_bit_b}.tar.gz
+            tar zxf ${mariadb_filename}.tar.gz
             log "Info" "Moving MariaDB files..."
-            mv mariadb-${latest_mariadb}-*-${sys_bit_b}/* ${mariadb_location}
+            mv ${mariadb_filename}/* ${mariadb_location}
 
             chown -R mysql:mysql ${mariadb_location} ${datalocation}
             cp -f ${mariadb_location}/support-files/mysql.server /etc/init.d/mysqld
@@ -270,20 +264,19 @@ EOF
             down_addr="https://www.percona.com/downloads/Percona-Server-${percona_ver}/Percona-Server-${latest_percona}/binary/tarball"
 
             if [[ "${percona_ver}" == "5.5" || "${percona_ver}" == "5.6" ]]; then
-                tarball="${major_ver}-rel${rel_ver}-Linux.${sys_bit}.${ssl_ver}"
+                percona_filename="${major_ver}-rel${rel_ver}-Linux.${sys_bit}.${ssl_ver}"
             fi
             if [[ "${percona_ver}" == "5.7" || "${percona_ver}" == "8.0" ]]; then
-                tarball="Percona-Server-${latest_percona}-Linux.${sys_bit}.${ssl_ver}"
+                percona_filename="Percona-Server-${latest_percona}-Linux.${sys_bit}.${ssl_ver}"
             fi
 
-            url1="${down_addr}/${tarball}.tar.gz"
-            url2="${download_root_url}/${tarball}.tar.gz"
+            percona_filename_url="${down_addr}/${percona_filename}.tar.gz"
 
-            download_from_url "${tarball}.tar.gz" "${url1}" "${url2}"
+            download_file "${percona_filename}.tar.gz" "${percona_filename_url}"
             log "Info" "Extracting Percona Server files..."
-            tar zxf ${tarball}.tar.gz
+            tar zxf ${percona_filename}.tar.gz
             log "Info" "Moving Percona Server files..."
-            mv ${tarball}/* ${percona_location}
+            mv ${percona_filename}/* ${percona_location}
 
             chown -R mysql:mysql ${percona_location} ${datalocation}
             cp -f ${percona_location}/support-files/mysql.server /etc/init.d/mysqld
@@ -291,8 +284,8 @@ EOF
             sed -i "s:^datadir=.*:datadir=${datalocation}:g" /etc/init.d/mysqld
             chmod +x /etc/init.d/mysqld
 
-            sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysqld_safe
-            sed -ir "s@/usr/local/${tarball}@${percona_location}@g" ${percona_location}/bin/mysql_config
+            sed -ir "s@/usr/local/${percona_filename}@${percona_location}@g" ${percona_location}/bin/mysqld_safe
+            sed -ir "s@/usr/local/${percona_filename}@${percona_location}@g" ${percona_location}/bin/mysql_config
 
             if [ "${percona_ver}" == "5.5" ] || [ "${percona_ver}" == "5.6" ]; then
                 ${percona_location}/scripts/mysql_install_db --basedir=${percona_location} --datadir=${datalocation} --user=mysql

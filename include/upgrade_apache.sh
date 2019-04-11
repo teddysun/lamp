@@ -63,13 +63,13 @@ upgrade_apache(){
             --enable-modules=reallyall \
             --enable-mods-shared=reallyall"
 
-        download_file "${apr_filename}.tar.gz"
+        download_file "${apr_filename}.tar.gz" "${apr_filename_url}"
         tar zxf ${apr_filename}.tar.gz
-        download_file "${apr_util_filename}.tar.gz"
+        download_file "${apr_util_filename}.tar.gz" "${apr_util_filename_url}"
         tar zxf ${apr_util_filename}.tar.gz
 
         if [ ! -s httpd-${latest_apache24}.tar.gz ]; then
-            latest_apache_link="http://www.us.apache.org/dist//httpd/httpd-${latest_apache24}.tar.gz"
+            latest_apache_link="https://www-us.apache.org/dist//httpd/httpd-${latest_apache24}.tar.gz"
             backup_apache_link="${download_root_url}/httpd-${latest_apache24}.tar.gz"
             untar ${latest_apache_link} ${backup_apache_link}
         else

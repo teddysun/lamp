@@ -56,11 +56,11 @@ install_apache(){
     install_nghttp2
 
     cd ${cur_dir}/software/
-    download_file "${apr_filename}.tar.gz"
+    download_file "${apr_filename}.tar.gz" "${apr_filename_url}"
     tar zxf ${apr_filename}.tar.gz
-    download_file "${apr_util_filename}.tar.gz"
+    download_file "${apr_util_filename}.tar.gz" "${apr_util_filename_url}"
     tar zxf ${apr_util_filename}.tar.gz
-    download_file "${apache2_4_filename}.tar.gz"
+    download_file "${apache2_4_filename}.tar.gz" "${apache2_4_filename_url}"
     tar zxf ${apache2_4_filename}.tar.gz
     cd ${apache2_4_filename}
     mv ${cur_dir}/software/${apr_filename} srclib/apr
@@ -240,7 +240,7 @@ install_apache_modules(){
 install_nghttp2(){
     cd ${cur_dir}/software/
     log "Info" "${nghttp2_filename} install start..."
-    download_file "${nghttp2_filename}.tar.gz"
+    download_file "${nghttp2_filename}.tar.gz" "${nghttp2_filename_url}"
     tar zxf ${nghttp2_filename}.tar.gz
     cd ${nghttp2_filename}
 
@@ -262,7 +262,7 @@ install_openssl(){
     if version_lt ${major_version} 1.1.1; then
         cd ${cur_dir}/software/
         log "Info" "${openssl_filename} install start..."
-        download_file "${openssl_filename}.tar.gz"
+        download_file "${openssl_filename}.tar.gz" "${openssl_filename_url}"
         tar zxf ${openssl_filename}.tar.gz
         cd ${openssl_filename}
 
@@ -283,7 +283,7 @@ install_openssl(){
 install_mod_wsgi(){
     cd ${cur_dir}/software/
     log "Info" "${mod_wsgi_filename} install start..."
-    download_file "${mod_wsgi_filename}.tar.gz"
+    download_file "${mod_wsgi_filename}.tar.gz" "${mod_wsgi_filename_url}"
     tar zxf ${mod_wsgi_filename}.tar.gz
     cd ${mod_wsgi_filename}
 
@@ -301,7 +301,7 @@ install_mod_wsgi(){
 install_mod_jk(){
     cd ${cur_dir}/software/
     log "Info" "${mod_jk_filename} install start..."
-    download_file "${mod_jk_filename}.tar.gz"
+    download_file "${mod_jk_filename}.tar.gz" "${mod_jk_filename_url}"
     tar zxf ${mod_jk_filename}.tar.gz
     cd ${mod_jk_filename}/native
 
@@ -319,7 +319,7 @@ install_mod_jk(){
 install_mod_security(){
     cd ${cur_dir}/software/
     log "Info" "${mod_security_filename} install start..."
-    download_file "${mod_security_filename}.tar.gz"
+    download_file "${mod_security_filename}.tar.gz" "${mod_security_filename_url}"
     tar zxf ${mod_security_filename}.tar.gz
     cd ${mod_security_filename}
 

@@ -103,23 +103,23 @@ install_php(){
     cd ${cur_dir}/software/
 
     if [ "${php}" == "${php5_6_filename}" ]; then
-        download_file  "${php5_6_filename}.tar.gz"
+        download_file  "${php5_6_filename}.tar.gz" "${php5_6_filename_url}"
         tar zxf ${php5_6_filename}.tar.gz
         cd ${php5_6_filename}
     elif [ "${php}" == "${php7_0_filename}" ]; then
-        download_file  "${php7_0_filename}.tar.gz"
+        download_file  "${php7_0_filename}.tar.gz" "${php7_0_filename_url}"
         tar zxf ${php7_0_filename}.tar.gz
         cd ${php7_0_filename}
     elif [ "${php}" == "${php7_1_filename}" ]; then
-        download_file  "${php7_1_filename}.tar.gz"
+        download_file  "${php7_1_filename}.tar.gz" "${php7_1_filename_url}"
         tar zxf ${php7_1_filename}.tar.gz
         cd ${php7_1_filename}
     elif [ "${php}" == "${php7_2_filename}" ]; then
-        download_file  "${php7_2_filename}.tar.gz"
+        download_file  "${php7_2_filename}.tar.gz" "${php7_2_filename_url}"
         tar zxf ${php7_2_filename}.tar.gz
         cd ${php7_2_filename}
     elif [ "${php}" == "${php7_3_filename}" ]; then
-        download_file  "${php7_3_filename}.tar.gz"
+        download_file  "${php7_3_filename}.tar.gz" "${php7_3_filename_url}"
         tar zxf ${php7_3_filename}.tar.gz
         cd ${php7_3_filename}
     fi
