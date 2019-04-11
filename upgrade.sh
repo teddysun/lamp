@@ -41,11 +41,11 @@ upgrade_menu(){
 
     while true
     do
-    echo -e "\t\033[32m1\033[0m. Upgrade Apache"
-    echo -e "\t\033[32m2\033[0m. Upgrade MySQL/MariaDB/Percona"
-    echo -e "\t\033[32m3\033[0m. Upgrade PHP"
-    echo -e "\t\033[32m4\033[0m. Upgrade phpMyAdmin"
-    echo -e "\t\033[32m5\033[0m. Exit"
+    echo -e "\t\033[1;32m1\033[0m. Upgrade Apache"
+    echo -e "\t\033[1;32m2\033[0m. Upgrade MySQL/MariaDB/Percona"
+    echo -e "\t\033[1;32m3\033[0m. Upgrade PHP"
+    echo -e "\t\033[1;32m4\033[0m. Upgrade phpMyAdmin"
+    echo -e "\t\033[1;32m5\033[0m. Exit"
     echo
     read -p "Please input a number: " number
     if [[ ! ${number} =~ ^[1-5]$ ]]; then
