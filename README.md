@@ -43,6 +43,8 @@ Software Version
 | Apache & Additional Modules | Version                                        |
 |-----------------------------|------------------------------------------------|
 | httpd                       | 2.4.39                                         |
+| apr                         | 1.7.0                                          |
+| apr-util                    | 1.6.1                                          |
 | nghttp2                     | 1.37.0                                         |
 | openssl                     | 1.1.1b                                         |
 | mod_wsgi                    | 4.6.5                                          |
@@ -60,7 +62,7 @@ Software Version
 | PHP                         | 5.6.40, 7.0.33, 7.1.28, 7.2.17, 7.3.4          |
 | ionCube Loader              | 10.3.4                                         |
 | XCache(PHP 5.6 only)        | 3.2.0                                          |
-| ImageMagick                 | 7.0.8-34                                       |
+| ImageMagick                 | 7.0.8-39                                       |
 | imagick extension           | 3.4.3                                          |
 | GraphicsMagick              | 1.3.31                                         |
 | gmagick extension(PHP 5.6)  | 1.1.7RC3                                       |
@@ -73,12 +75,12 @@ Software Version
 | memcached extension(PHP 7)  | 3.1.3                                          |
 | redis                       | 5.0.4                                          |
 | redis extension(PHP 5.6)    | 2.2.8                                          |
-| redis extension(PHP 7)      | 4.2.0                                          |
+| redis extension(PHP 7)      | 4.3.0                                          |
 | mongodb extension           | 1.5.3                                          |
 | swoole extension(PHP 7 only)| 4.3.1                                          |
 | yaf extension(PHP 7 only)   | 3.0.8                                          |
 | xdebug extension(PHP 5.6)   | 2.5.5                                          |
-| xdebug extension(PHP 7)     | 2.7.0                                          |
+| xdebug extension(PHP 7)     | 2.7.1                                          |
 | phpMyAdmin                  | 4.8.5                                          |
 | KodExplorer                 | 4.35                                           |
 
