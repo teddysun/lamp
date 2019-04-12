@@ -1,7 +1,11 @@
-![LAMP](conf/lamp.png)
+<div align="center">
+    <a href="https://lamp.sh/">
+        <img alt="LAMP" src="https://github.com/teddysun/lamp/blob/master/conf/lamp.png">
+    </a>
+</div>
 
-Description
-===========
+## Description
+
 [LAMP](https://lamp.sh/) is a powerful bash script for the installation of Apache + PHP + MySQL/MariaDB/Percona Server and so on. You can install Apache + PHP + MySQL/MariaDB/Percona Server in an very easy way, just need to choose what you want to install before installation. And all things will be done in few minutes.
 
 - [Supported System](#supported-system)
@@ -17,8 +21,8 @@ Description
 - [Bugs & Issues](#bugs--issues)
 - [License](#license)
 
-Supported System
-===============
+## Supported System
+
 - Amazon Linux 2018.03
 - CentOS-6.x
 - CentOS-7.x (recommend)
@@ -29,8 +33,8 @@ Supported System
 - Ubuntu-16.x
 - Ubuntu-18.x (recommend)
 
-Supported Software
-==================
+## Supported Software
+
 - Apache-2.4 (Include HTTP/2 module: [nghttp2](https://github.com/nghttp2/nghttp2), [mod_http2](https://httpd.apache.org/docs/2.4/mod/mod_http2.html))
 - Apache Additional Modules: [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), [mod_security](https://github.com/SpiderLabs/ModSecurity), [mod_jk](https://tomcat.apache.org/download-connectors.cgi)
 - MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, MariaDB-10.3, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7, Percona-Server-8.0
@@ -38,8 +42,8 @@ Supported Software
 - PHP Additional extensions: Zend OPcache, [ionCube Loader](https://www.ioncube.com/loaders.php), [XCache](https://xcache.lighttpd.net/), [imagick](https://pecl.php.net/package/imagick), [gmagick](https://pecl.php.net/package/gmagick), [libsodium](https://github.com/jedisct1/libsodium-php), [memcached](https://github.com/php-memcached-dev/php-memcached), [redis](https://github.com/phpredis/phpredis), [mongodb](https://pecl.php.net/package/mongodb), [swoole](https://github.com/swoole/swoole-src), [yaf](https://github.com/laruence/yaf), [xdebug](https://github.com/xdebug/xdebug)
 - Other Software: [OpenSSL](https://github.com/openssl/openssl), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [GraphicsMagick](http://www.graphicsmagick.org/), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Redis](https://github.com/antirez/redis), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
 
-Software Version
-==================
+## Software Version
+
 | Apache & Additional Modules | Version                                        |
 |-----------------------------|------------------------------------------------|
 | httpd                       | 2.4.39                                         |
@@ -84,8 +88,8 @@ Software Version
 | phpMyAdmin                  | 4.8.5                                          |
 | KodExplorer                 | 4.35                                           |
 
-Installation
-============
+## Installation
+
 - If your server system: Amazon Linux/CentOS/Fedora
 ```bash
 yum -y install wget screen git
@@ -116,8 +120,8 @@ screen -S lamp
 ~/lamp/lamp.sh --apache_option 1 --apache_modules mod_wsgi,mod_security --db_option 3 --db_root_pwd teddysun.com --php_option 4 --php_extensions ioncube,imagick,redis,mongodb,libsodium,swoole --phpmyadmin_option 1 --kodexplorer_option 1
 ```
 
-Upgrade
-=======
+## Upgrade
+
 ```bash
 git pull                 // Get latest version first
 
@@ -128,8 +132,8 @@ git pull                 // Get latest version first
 ./upgrade.sh phpmyadmin  // Upgrade phpMyAdmin
 ```
 
-Backup
-======
+## Backup
+
 - You must modify the config before run it
 - Backup MySQL/MariaDB/Percona datebases, files and directories
 - Backup file is encrypted with AES256-cbc with SHA1 message-digest (option)
@@ -141,14 +145,14 @@ Backup
 ./backup.sh
 ```
 
-Uninstall
-=========
+## Uninstall
+
 ```bash
 ./uninstall.sh
 ```
 
-Default Installation Location
-=============================
+## Default Installation Location
+
 | Apache Location            | Path                                           |
 |----------------------------|------------------------------------------------|
 | Install Prefix             | /usr/local/apache                              |
@@ -191,8 +195,8 @@ Default Installation Location
 | Data Location              | /usr/local/percona/data                        |
 | my.cnf Configuration File  | /etc/my.cnf                                    |
 
-Process Management
-==================
+## Process Management
+
 | Process     | Command                                                 |
 |-------------|---------------------------------------------------------|
 | Apache      | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
@@ -202,22 +206,22 @@ Process Management
 | Memcached   | /etc/init.d/memcached (start\|stop\|restart)            |
 | Redis-Server| /etc/init.d/redis-server (start\|stop\|restart)         |
 
-lamp Command
-============
+## lamp Command
+
 | Command    | Description                     |
 |------------|---------------------------------|
 | lamp add   | create a virtual host           |
 | lamp list  | list all virtual host           |
 | lamp del   | remove a virtual host           |
 
-Bugs & Issues
-=============
+## Bugs & Issues
+
 Please feel free to report any bugs or issues to us, email to: i@teddysun.com or [open issues](https://github.com/teddysun/lamp/issues) on Github.
 
-Support(Chinese): https://lamp.sh/support.html
+Support(Chinese only): https://lamp.sh/support.html
 
-License
-=======
-Copyright (C) 2013 - 2019 Teddysun
+## License
+
+Copyright (C) 2013 - 2019 [Teddysun](https://teddysun.com/)
 
 Licensed under the [GPLv3](LICENSE) License.
