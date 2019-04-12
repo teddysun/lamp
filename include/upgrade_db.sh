@@ -74,7 +74,7 @@ upgrade_db(){
         elif [ "${percona_ver}" == "5.7" ]; then
             latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-5.7/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.7/{print $2}' | cut -d'"' -f1)
         elif [ "${percona_ver}" == "8.0" ]; then
-            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-LATEST/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-8.0/{print $2}' | cut -d'"' -f1)
+            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-8.0/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-8.0/{print $2}' | cut -d'"' -f1)
         fi
 
         echo -e "Latest version of Percona: \033[41;37m ${latest_percona} \033[0m"
@@ -202,9 +202,7 @@ EOF
             mkdir -p ${mariadb_location}
             [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
-            libc_version=$(getconf -a | grep GNU_LIBC_VERSION | awk '{print $NF}')
-
-            if version_lt ${libc_version} 2.14; then
+            if version_lt $(get_libc_version) 2.14; then
                 glibc_flag=linux
             else
                 glibc_flag=linux-glibc_214

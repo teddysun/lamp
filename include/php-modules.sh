@@ -13,12 +13,10 @@
 
 #Pre-installation php modules
 php_modules_preinstall_settings(){
-
     if [ "${php}" == "do_not_install" ]; then
         php_modules_install="do_not_install"
     else
         phpConfig=${php_location}/bin/php-config
-
         echo
         echo "${php} available modules:"
         # delete some modules & change some module version
@@ -36,7 +34,6 @@ php_modules_preinstall_settings(){
         display_menu_multi php_modules last
     fi
 }
-
 
 #Pre-installation phpmyadmin
 phpmyadmin_preinstall_settings(){
@@ -78,9 +75,7 @@ install_php_modules(){
     fi
 }
 
-
 install_php_depends(){
-
     if check_sys packageManager apt; then
         apt_depends=(
             autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev
@@ -161,13 +156,11 @@ install_php_depends(){
 
     install_libiconv
     install_re2c
-
     # Fixed unixODBC issue
     if [ -f /usr/include/sqlext.h ] && [ ! -f /usr/local/include/sqlext.h ]; then
         ln -sf /usr/include/sqlext.h /usr/local/include/
     fi
 }
-
 
 install_libiconv(){
     if [ ! -e "/usr/local/bin/iconv" ]; then
@@ -185,7 +178,6 @@ install_libiconv(){
     fi
 }
 
-
 install_re2c(){
     if [ ! -e "/usr/local/bin/re2c" ]; then
         cd ${cur_dir}/software/
@@ -201,23 +193,6 @@ install_re2c(){
     fi
 }
 
-
-install_pcre(){
-    cd ${cur_dir}/software/
-    log "Info" "${pcre_filename} install start..."
-    download_file "${pcre_filename}.tar.gz" "${pcre_filename_url}"
-    tar zxf ${pcre_filename}.tar.gz
-    cd ${pcre_filename}
-
-    error_detect "./configure --prefix=${depends_prefix}/pcre"
-    error_detect "parallel_make"
-    error_detect "make install"
-    add_to_env "${depends_prefix}/pcre"
-    create_lib64_dir "${depends_prefix}/pcre"
-    log "Info" "${pcre_filename} install completed..."
-}
-
-
 install_mhash(){
     if [ ! -e "/usr/local/lib/libmhash.a" ]; then
         cd ${cur_dir}/software/
@@ -232,7 +207,6 @@ install_mhash(){
         log "Info" "${mhash_filename} install completed..."
     fi
 }
-
 
 install_mcrypt(){
     if [ ! -e "/usr/local/bin/mcrypt" ]; then
@@ -250,7 +224,6 @@ install_mcrypt(){
     fi
 }
 
-
 install_libmcrypt(){
     if [ ! -e "/usr/local/lib/libmcrypt.la" ]; then
         cd ${cur_dir}/software/
@@ -266,7 +239,6 @@ install_libmcrypt(){
     fi
 }
 
-
 install_libzip(){
     if [ ! -e "/usr/lib/libzip.la" ]; then
         cd ${cur_dir}/software/
@@ -281,7 +253,6 @@ install_libzip(){
         log "Info" "${libzip_filename} install completed..."
     fi
 }
-
 
 install_phpmyadmin(){
     if [ -d "${web_root_dir}/phpmyadmin" ]; then
@@ -300,7 +271,6 @@ install_phpmyadmin(){
     log "Info" "${phpmyadmin_filename} install completed..."
 }
 
-
 install_kodexplorer(){
     if [ -d "${web_root_dir}/kod" ]; then
         rm -rf ${web_root_dir}/kod
@@ -315,7 +285,6 @@ install_kodexplorer(){
     chown -R apache:apache ${web_root_dir}/kod
     log "Info" "${kodexplorer_filename} install completed..."
 }
-
 
 install_ionCube(){
     local phpConfig=${1}
@@ -344,7 +313,6 @@ EOF
     fi
     log "Info" "PHP extension ionCube Loader install completed..."
 }
-
 
 install_xcache(){
     local phpConfig=${1}
@@ -412,7 +380,6 @@ EOF
     log "Info" "PHP extension XCache install completed..."
 }
 
-
 install_php_libsodium(){
     local phpConfig=${1}
     local php_version=$(get_php_version "${phpConfig}")
@@ -448,7 +415,6 @@ EOF
     log "Info" "PHP extension libsodium install completed..."
 }
 
-
 install_php_imagesmagick(){
     local phpConfig=${1}
     local php_version=$(get_php_version "${phpConfig}")
@@ -483,7 +449,6 @@ EOF
     fi
     log "Info" "PHP extension imagemagick install completed..."
 }
-
 
 install_php_graphicsmagick(){
     local phpConfig=${1}
@@ -526,7 +491,6 @@ EOF
     fi
     log "Info" "PHP extension graphicsmagick install completed..."
 }
-
 
 install_php_memcached(){
     local phpConfig=${1}
@@ -614,7 +578,6 @@ EOF
     log "Info" "PHP extension memcached install completed..."
 }
 
-
 install_php_redis(){
     local phpConfig=${1}
     local php_version=$(get_php_version "${phpConfig}")
@@ -696,7 +659,6 @@ EOF
     fi
 }
 
-
 install_php_mongo(){
     local phpConfig=${1}
     local php_version=$(get_php_version "${phpConfig}")
@@ -723,7 +685,6 @@ EOF
     log "Info" "PHP extension mongodb install completed..."
 }
 
-
 install_swoole(){
     local phpConfig=${1}
     local php_version=$(get_php_version "${phpConfig}")
@@ -749,7 +710,6 @@ EOF
     fi
     log "Info" "PHP extension swoole install completed..."
 }
-
 
 install_xdebug(){
     local phpConfig=${1}
@@ -782,7 +742,6 @@ EOF
     fi
     log "Info" "PHP extension xdebug install completed..."
 }
-
 
 install_yaf(){
     local phpConfig=${1}

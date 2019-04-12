@@ -237,6 +237,21 @@ install_apache_modules(){
     if_in_array "${mod_jk_filename}" "${apache_modules_install}" && install_mod_jk
 }
 
+install_pcre(){
+    cd ${cur_dir}/software/
+    log "Info" "${pcre_filename} install start..."
+    download_file "${pcre_filename}.tar.gz" "${pcre_filename_url}"
+    tar zxf ${pcre_filename}.tar.gz
+    cd ${pcre_filename}
+
+    error_detect "./configure --prefix=${depends_prefix}/pcre"
+    error_detect "parallel_make"
+    error_detect "make install"
+    add_to_env "${depends_prefix}/pcre"
+    create_lib64_dir "${depends_prefix}/pcre"
+    log "Info" "${pcre_filename} install completed..."
+}
+
 install_nghttp2(){
     cd ${cur_dir}/software/
     log "Info" "${nghttp2_filename} install start..."
