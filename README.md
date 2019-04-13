@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://lamp.sh/">
+    <a href="https://lamp.sh/" target="_blank">
         <img alt="LAMP" src="https://github.com/teddysun/lamp/blob/master/conf/lamp.png">
     </a>
 </div>
@@ -123,7 +123,10 @@ screen -S lamp
 ## Upgrade
 
 ```bash
+cd ~/lamp
+git reset --hard         // Resets the index and working tree
 git pull                 // Get latest version first
+chmod 755 *.sh
 
 ./upgrade.sh             // Select one to upgrade
 ./upgrade.sh apache      // Upgrade Apache
