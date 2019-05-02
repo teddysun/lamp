@@ -131,7 +131,7 @@ install_php_depends(){
             curl-devel pcre-devel libtool-libs libtool-ltdl-devel libwebp-devel libXpm-devel
             libvpx-devel libjpeg-devel libpng-devel freetype-devel oniguruma-devel
             aspell-devel enchant-devel readline-devel unixODBC-devel libtidy-devel
-            openldap-devel libxslt-devel net-snmp net-snmp-devel
+            openldap-devel libxslt-devel net-snmp net-snmp-devel krb5-devel
         )
         log "Info" "Starting to install dependencies packages for PHP..."
         for depend in ${yum_depends[@]}
