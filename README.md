@@ -59,7 +59,7 @@
 |-----------------------------|------------------------------------------------|
 | MySQL                       | 5.5.62, 5.6.44, 5.7.26, 8.0.16                 |
 | MariaDB                     | 5.5.64, 10.0.38, 10.1.40, 10.2.24, 10.3.15     |
-| Percona-Server              | 5.5.62-38.14, 5.6.43-84.3, 5.7.25-28, 8.0.15-6 |
+| Percona-Server              | 5.5.62-38.14, 5.6.44-85.0, 5.7.25-28, 8.0.15-6 |
 
 | PHP & Additional extensions | Version                                        |
 |-----------------------------|------------------------------------------------|
@@ -81,7 +81,7 @@
 | redis extension(PHP 5.6)    | 2.2.8                                          |
 | redis extension(PHP 7)      | 4.3.0                                          |
 | mongodb extension           | 1.5.3                                          |
-| swoole extension(PHP 7 only)| 4.3.3                                          |
+| swoole extension(PHP 7 only)| 4.3.4                                          |
 | yaf extension(PHP 7 only)   | 3.0.8                                          |
 | xdebug extension(PHP 5.6)   | 2.5.5                                          |
 | xdebug extension(PHP 7)     | 2.7.1                                          |
