@@ -145,13 +145,13 @@ xcache_filename_url="https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0
 #xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://xdebug.org/files/xdebug-2.5.5.tgz"
-xdebug_filename2="xdebug-2.7.1"
-xdebug_filename2_url="https://xdebug.org/files/xdebug-2.7.1.tgz"
+xdebug_filename2="xdebug-2.7.2"
+xdebug_filename2_url="https://xdebug.org/files/xdebug-2.7.2.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-39"
-ImageMagick_filename_url="https://www.imagemagick.org/download/ImageMagick-7.0.8-39.tar.gz"
-php_imagemagick_filename="imagick-3.4.3"
-php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.3.tgz"
+ImageMagick_filename="ImageMagick-7.0.8-46"
+ImageMagick_filename_url="https://www.imagemagick.org/download/ImageMagick-7.0.8-46.tar.gz"
+php_imagemagick_filename="imagick-3.4.4"
+php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
 GraphicsMagick_filename="GraphicsMagick-1.3.31"
@@ -172,8 +172,8 @@ ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_l
 libevent_filename="libevent-2.1.8-stable"
 libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz"
 #memcached
-memcached_filename="memcached-1.5.12"
-memcached_filename_url="http://www.memcached.org/files/memcached-1.5.12.tar.gz"
+memcached_filename="memcached-1.5.15"
+memcached_filename_url="http://www.memcached.org/files/memcached-1.5.15.tar.gz"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 libmemcached_filename_url="https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz"
@@ -185,8 +185,8 @@ php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.3.tgz"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
-redis_filename="redis-5.0.4"
-redis_filename_url="http://download.redis.io/releases/redis-5.0.4.tar.gz"
+redis_filename="redis-5.0.5"
+redis_filename_url="http://download.redis.io/releases/redis-5.0.5.tar.gz"
 #php-redis
 php_redis_filename="redis-2.2.8"
 php_redis_filename_url="https://pecl.php.net/get/redis-2.2.8.tgz"
