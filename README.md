@@ -66,25 +66,25 @@
 | PHP                         | 5.6.40, 7.0.33, 7.1.29, 7.2.18, 7.3.5          |
 | ionCube Loader              | 10.3.4                                         |
 | XCache(PHP 5.6 only)        | 3.2.0                                          |
-| ImageMagick                 | 7.0.8-39                                       |
-| imagick extension           | 3.4.3                                          |
+| ImageMagick                 | 7.0.8-46                                       |
+| imagick extension           | 3.4.4                                          |
 | GraphicsMagick              | 1.3.31                                         |
 | gmagick extension(PHP 5.6)  | 1.1.7RC3                                       |
 | gmagick extension(PHP 7)    | 2.0.5RC1                                       |
 | libsodium                   | 1.0.17                                         |
 | libsodium extension         | 2.0.21                                         |
-| memcached                   | 1.5.12                                         |
+| memcached                   | 1.5.15                                         |
 | libmemcached                | 1.0.18                                         |
 | memcached extension(PHP 5.6)| 2.2.0                                          |
 | memcached extension(PHP 7)  | 3.1.3                                          |
-| redis                       | 5.0.4                                          |
+| redis                       | 5.0.5                                          |
 | redis extension(PHP 5.6)    | 2.2.8                                          |
 | redis extension(PHP 7)      | 4.3.0                                          |
 | mongodb extension           | 1.5.3                                          |
 | swoole extension(PHP 7 only)| 4.3.4                                          |
 | yaf extension(PHP 7 only)   | 3.0.8                                          |
 | xdebug extension(PHP 5.6)   | 2.5.5                                          |
-| xdebug extension(PHP 7)     | 2.7.1                                          |
+| xdebug extension(PHP 7)     | 2.7.2                                         |
 | phpMyAdmin                  | 4.8.5                                          |
 | KodExplorer                 | 4.35                                           |
 
