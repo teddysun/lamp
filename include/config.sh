@@ -66,7 +66,7 @@ percona5_5_filename="Percona-Server-5.5.62-38.14"
 #percona5.6
 percona5_6_filename="Percona-Server-5.6.44-86.0"
 #percona5.7
-percona5_7_filename="Percona-Server-5.7.25-28"
+percona5_7_filename="Percona-Server-5.7.26-29"
 #percona8.0
 percona8_0_filename="Percona-Server-8.0.15-6"
 #php5.6
