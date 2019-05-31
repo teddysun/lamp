@@ -63,7 +63,7 @@
 
 | PHP & Additional extensions | Version                                        |
 |-----------------------------|------------------------------------------------|
-| PHP                         | 5.6.40, 7.0.33, 7.1.29, 7.2.18, 7.3.5          |
+| PHP                         | 5.6.40, 7.0.33, 7.1.30, 7.2.19, 7.3.6          |
 | ionCube Loader              | 10.3.4                                         |
 | XCache(PHP 5.6 only)        | 3.2.0                                          |
 | ImageMagick                 | 7.0.8-46                                       |
@@ -71,7 +71,7 @@
 | GraphicsMagick              | 1.3.31                                         |
 | gmagick extension(PHP 5.6)  | 1.1.7RC3                                       |
 | gmagick extension(PHP 7)    | 2.0.5RC1                                       |
-| libsodium                   | 1.0.17                                         |
+| libsodium                   | 1.0.18                                         |
 | libsodium extension         | 2.0.21                                         |
 | memcached                   | 1.5.15                                         |
 | libmemcached                | 1.0.18                                         |
