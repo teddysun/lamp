@@ -76,14 +76,14 @@ php5_6_filename_url="https://www.php.net/distributions/php-5.6.40.tar.gz"
 php7_0_filename="php-7.0.33"
 php7_0_filename_url="https://www.php.net/distributions/php-7.0.33.tar.gz"
 #php7.1
-php7_1_filename="php-7.1.29"
-php7_1_filename_url="https://www.php.net/distributions/php-7.1.29.tar.gz"
+php7_1_filename="php-7.1.30"
+php7_1_filename_url="https://www.php.net/distributions/php-7.1.30.tar.gz"
 #php7.2
-php7_2_filename="php-7.2.18"
-php7_2_filename_url="https://www.php.net/distributions/php-7.2.18.tar.gz"
+php7_2_filename="php-7.2.19"
+php7_2_filename_url="https://www.php.net/distributions/php-7.2.19.tar.gz"
 #php7.3
-php7_3_filename="php-7.3.5"
-php7_3_filename_url="https://www.php.net/distributions/php-7.3.5.tar.gz"
+php7_3_filename="php-7.3.6"
+php7_3_filename_url="https://www.php.net/distributions/php-7.3.6.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.8.5-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.8.5/phpMyAdmin-4.8.5-all-languages.tar.gz"
@@ -199,8 +199,8 @@ php_mongo_filename="mongodb-1.5.3"
 php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.5.3.tgz"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
-libsodium_filename="libsodium-1.0.17"
-libsodium_filename_url="https://github.com/jedisct1/libsodium/releases/download/1.0.17/libsodium-1.0.17.tar.gz"
+libsodium_filename="libsodium-1.0.18"
+libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
 php_libsodium_filename="libsodium-php-2.0.21"
 php_libsodium_filename_url="https://github.com/jedisct1/libsodium-php/archive/2.0.21.tar.gz"
 
