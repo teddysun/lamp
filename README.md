@@ -26,7 +26,7 @@
 - Amazon Linux 2018.03
 - CentOS-6.x
 - CentOS-7.x (recommend)
-- Fedora-29 (recommend)
+- Fedora-29
 - Debian-8.x
 - Debian-9.x (recommend)
 - Ubuntu-14.x
@@ -49,8 +49,8 @@
 | httpd                       | 2.4.39                                         |
 | apr                         | 1.7.0                                          |
 | apr-util                    | 1.6.1                                          |
-| nghttp2                     | 1.38.0                                         |
-| openssl                     | 1.1.1b                                         |
+| nghttp2                     | 1.39.1                                         |
+| openssl                     | 1.1.1c                                         |
 | mod_wsgi                    | 4.6.5                                          |
 | mod_security2               | 2.9.3                                          |
 | mod_jk                      | 1.2.46                                         |
@@ -81,7 +81,7 @@
 | redis extension(PHP 5.6)    | 2.2.8                                          |
 | redis extension(PHP 7)      | 4.3.0                                          |
 | mongodb extension           | 1.5.3                                          |
-| swoole extension(PHP 7 only)| 4.3.4                                          |
+| swoole extension(PHP 7 only)| 4.3.5                                          |
 | yaf extension(PHP 7 only)   | 3.0.8                                          |
 | xdebug extension(PHP 5.6)   | 2.5.5                                          |
 | xdebug extension(PHP 7)     | 2.7.2                                         |
