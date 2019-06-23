@@ -29,7 +29,6 @@
 - Fedora-29
 - Debian-8.x
 - Debian-9.x (recommend)
-- Ubuntu-14.x
 - Ubuntu-16.x
 - Ubuntu-18.x (recommend)
 
