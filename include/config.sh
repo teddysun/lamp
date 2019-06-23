@@ -61,6 +61,8 @@ mariadb10_1_filename="mariadb-10.1.40"
 mariadb10_2_filename="mariadb-10.2.25"
 #mariadb10.3
 mariadb10_3_filename="mariadb-10.3.16"
+#mariadb10.4
+mariadb10_4_filename="mariadb-10.4.6"
 #percona5.5
 percona5_5_filename="Percona-Server-5.5.62-38.14"
 #percona5.6
@@ -85,8 +87,8 @@ php7_2_filename_url="https://www.php.net/distributions/php-7.2.19.tar.gz"
 php7_3_filename="php-7.3.6"
 php7_3_filename_url="https://www.php.net/distributions/php-7.3.6.tar.gz"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.8.5-all-languages"
-phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.8.5/phpMyAdmin-4.8.5-all-languages.tar.gz"
+phpmyadmin_filename="phpMyAdmin-4.9.0.1-all-languages"
+phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.tar.gz"
 #kodexplorer
 kod_version=$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)
 [ -z "${kod_version}" ] && kod_version="4.35"
@@ -228,6 +230,7 @@ ${mariadb10_0_filename}
 ${mariadb10_1_filename}
 ${mariadb10_2_filename}
 ${mariadb10_3_filename}
+${mariadb10_4_filename}
 ${percona5_5_filename}
 ${percona5_6_filename}
 ${percona5_7_filename}

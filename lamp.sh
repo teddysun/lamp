@@ -30,7 +30,7 @@ include(){
 }
 
 version(){
-    echo "Version: 20190515"
+    echo "Version: 20190623"
 }
 
 show_parameters(){
@@ -60,7 +60,7 @@ Options:
 -v, --version                   Print program version and exit
 --apache_option [1-2]           Apache server version
 --apache_modules [mod name]     Apache modules: mod_wsgi, mod_security, mod_jk
---db_option [1-14]              Database version
+--db_option [1-15]              Database version
 --db_data_path [location]       Database Data Location. for example: /data/db
 --db_root_pwd [password]        Database root password. for example: lamp.sh
 --php_option [1-6]              PHP version
@@ -76,7 +76,7 @@ Parameters:
 "
     echo "--apache_option [1-2], please select a Apache version like below"
     show_parameters apache
-    echo "--db_option [1-14], please select a Database version like below"
+    echo "--db_option [1-15], please select a Database version like below"
     show_parameters mysql
     echo "--php_option [1-6], please select a PHP version like below"
     show_parameters php
@@ -150,10 +150,10 @@ process(){
                 log "Error" "db_option input error. please only input a number."
                 exit 1
             fi
-            [[ "${db_option}" -lt 1 || "${db_option}" -gt 14 ]] && { log "Error" "db_option input error. please only input a number between 1 and 14"; exit 1; }
+            [[ "${db_option}" -lt 1 || "${db_option}" -gt 15 ]] && { log "Error" "db_option input error. please only input a number between 1 and 15"; exit 1; }
             eval mysql=${mysql_arr[${db_option}-1]}
-            if [ "${mysql}" == "${mariadb10_3_filename}" ] && version_lt $(get_libc_version) 2.14; then
-                log "Error" "db_option input error. ${mariadb10_3_filename} is not be supported in your OS, please input a correct number."
+            if [[ "${mysql}" == "${mariadb10_3_filename}" || "${mysql}" == "${mariadb10_4_filename}" ]] && version_lt $(get_libc_version) 2.14; then
+                log "Error" "db_option input error. ${mysql} is not be supported in your OS, please input a correct number."
                 exit 1
             fi
             if [ "${mysql}" == "${percona8_0_filename}" ] && ! is_64bit; then

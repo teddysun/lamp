@@ -16,6 +16,7 @@ mysql_preinstall_settings(){
 
     if version_lt $(get_libc_version) 2.14; then
         mysql_arr=(${mysql_arr[@]#${mariadb10_3_filename}})
+        mysql_arr=(${mysql_arr[@]#${mariadb10_4_filename}})
     fi
     display_menu mysql 3
 
