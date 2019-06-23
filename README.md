@@ -37,56 +37,56 @@
 
 - Apache-2.4 (Include HTTP/2 module: [nghttp2](https://github.com/nghttp2/nghttp2), [mod_http2](https://httpd.apache.org/docs/2.4/mod/mod_http2.html))
 - Apache Additional Modules: [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), [mod_security](https://github.com/SpiderLabs/ModSecurity), [mod_jk](https://tomcat.apache.org/download-connectors.cgi)
-- MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, MariaDB-10.3, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7, Percona-Server-8.0
+- MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, MariaDB-10.3, MariaDB-10.4, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7, Percona-Server-8.0
 - PHP-5.6, PHP-7.0, PHP-7.1, PHP-7.2, PHP-7.3
 - PHP Additional extensions: Zend OPcache, [ionCube Loader](https://www.ioncube.com/loaders.php), [XCache](https://xcache.lighttpd.net/), [imagick](https://pecl.php.net/package/imagick), [gmagick](https://pecl.php.net/package/gmagick), [libsodium](https://github.com/jedisct1/libsodium-php), [memcached](https://github.com/php-memcached-dev/php-memcached), [redis](https://github.com/phpredis/phpredis), [mongodb](https://pecl.php.net/package/mongodb), [swoole](https://github.com/swoole/swoole-src), [yaf](https://github.com/laruence/yaf), [xdebug](https://github.com/xdebug/xdebug)
 - Other Software: [OpenSSL](https://github.com/openssl/openssl), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [GraphicsMagick](http://www.graphicsmagick.org/), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Redis](https://github.com/antirez/redis), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
 
 ## Software Version
 
-| Apache & Additional Modules | Version                                        |
-|-----------------------------|------------------------------------------------|
-| httpd                       | 2.4.39                                         |
-| apr                         | 1.7.0                                          |
-| apr-util                    | 1.6.1                                          |
-| nghttp2                     | 1.39.1                                         |
-| openssl                     | 1.1.1c                                         |
-| mod_wsgi                    | 4.6.5                                          |
-| mod_security2               | 2.9.3                                          |
-| mod_jk                      | 1.2.46                                         |
+| Apache & Additional Modules | Version                                            |
+|-----------------------------|----------------------------------------------------|
+| httpd                       | 2.4.39                                             |
+| apr                         | 1.7.0                                              |
+| apr-util                    | 1.6.1                                              |
+| nghttp2                     | 1.39.1                                             |
+| openssl                     | 1.1.1c                                             |
+| mod_wsgi                    | 4.6.5                                              |
+| mod_security2               | 2.9.3                                              |
+| mod_jk                      | 1.2.46                                             |
 
-| Database                    | Version                                        |
-|-----------------------------|------------------------------------------------|
-| MySQL                       | 5.5.62, 5.6.44, 5.7.26, 8.0.16                 |
-| MariaDB                     | 5.5.64, 10.0.38, 10.1.40, 10.2.25, 10.3.16     |
-| Percona-Server              | 5.5.62-38.14, 5.6.44-86.0, 5.7.26-29, 8.0.15-6 |
+| Database                    | Version                                            |
+|-----------------------------|----------------------------------------------------|
+| MySQL                       | 5.5.62, 5.6.44, 5.7.26, 8.0.16                     |
+| MariaDB                     | 5.5.64, 10.0.38, 10.1.40, 10.2.25, 10.3.16, 10.4.6 |
+| Percona-Server              | 5.5.62-38.14, 5.6.44-86.0, 5.7.26-29, 8.0.15-6     |
 
-| PHP & Additional extensions | Version                                        |
-|-----------------------------|------------------------------------------------|
-| PHP                         | 5.6.40, 7.0.33, 7.1.30, 7.2.19, 7.3.6          |
-| ionCube Loader              | 10.3.4                                         |
-| XCache(PHP 5.6 only)        | 3.2.0                                          |
-| ImageMagick                 | 7.0.8-46                                       |
-| imagick extension           | 3.4.4                                          |
-| GraphicsMagick              | 1.3.31                                         |
-| gmagick extension(PHP 5.6)  | 1.1.7RC3                                       |
-| gmagick extension(PHP 7)    | 2.0.5RC1                                       |
-| libsodium                   | 1.0.18                                         |
-| libsodium extension         | 2.0.21                                         |
-| memcached                   | 1.5.15                                         |
-| libmemcached                | 1.0.18                                         |
-| memcached extension(PHP 5.6)| 2.2.0                                          |
-| memcached extension(PHP 7)  | 3.1.3                                          |
-| redis                       | 5.0.5                                          |
-| redis extension(PHP 5.6)    | 2.2.8                                          |
-| redis extension(PHP 7)      | 4.3.0                                          |
-| mongodb extension           | 1.5.3                                          |
-| swoole extension(PHP 7 only)| 4.3.5                                          |
-| yaf extension(PHP 7 only)   | 3.0.8                                          |
-| xdebug extension(PHP 5.6)   | 2.5.5                                          |
-| xdebug extension(PHP 7)     | 2.7.2                                         |
-| phpMyAdmin                  | 4.8.5                                          |
-| KodExplorer                 | 4.35                                           |
+| PHP & Additional extensions | Version                                            |
+|-----------------------------|----------------------------------------------------|
+| PHP                         | 5.6.40, 7.0.33, 7.1.30, 7.2.19, 7.3.6              |
+| ionCube Loader              | 10.3.6                                             |
+| XCache(PHP 5.6 only)        | 3.2.0                                              |
+| ImageMagick                 | 7.0.8-46                                           |
+| imagick extension           | 3.4.4                                              |
+| GraphicsMagick              | 1.3.31                                             |
+| gmagick extension(PHP 5.6)  | 1.1.7RC3                                           |
+| gmagick extension(PHP 7)    | 2.0.5RC1                                           |
+| libsodium                   | 1.0.18                                             |
+| libsodium extension         | 2.0.21                                             |
+| memcached                   | 1.5.15                                             |
+| libmemcached                | 1.0.18                                             |
+| memcached extension(PHP 5.6)| 2.2.0                                              |
+| memcached extension(PHP 7)  | 3.1.3                                              |
+| redis                       | 5.0.5                                              |
+| redis extension(PHP 5.6)    | 2.2.8                                              |
+| redis extension(PHP 7)      | 4.3.0                                              |
+| mongodb extension           | 1.5.3                                              |
+| swoole extension(PHP 7 only)| 4.3.5                                              |
+| yaf extension(PHP 7 only)   | 3.0.8                                              |
+| xdebug extension(PHP 5.6)   | 2.5.5                                              |
+| xdebug extension(PHP 7)     | 2.7.2                                              |
+| phpMyAdmin                  | 4.9.0.1                                            |
+| KodExplorer                 | 4.35                                               |
 
 ## Installation
 
