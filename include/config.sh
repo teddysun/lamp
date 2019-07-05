@@ -81,11 +81,11 @@ php7_0_filename_url="https://www.php.net/distributions/php-7.0.33.tar.gz"
 php7_1_filename="php-7.1.30"
 php7_1_filename_url="https://www.php.net/distributions/php-7.1.30.tar.gz"
 #php7.2
-php7_2_filename="php-7.2.19"
-php7_2_filename_url="https://www.php.net/distributions/php-7.2.19.tar.gz"
+php7_2_filename="php-7.2.20"
+php7_2_filename_url="https://www.php.net/distributions/php-7.2.20.tar.gz"
 #php7.3
-php7_3_filename="php-7.3.6"
-php7_3_filename_url="https://www.php.net/distributions/php-7.3.6.tar.gz"
+php7_3_filename="php-7.3.7"
+php7_3_filename_url="https://www.php.net/distributions/php-7.3.7.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.9.0.1-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.tar.gz"
