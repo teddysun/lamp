@@ -19,7 +19,7 @@ USER=memcached
 GROUP=memcached
 MAXCONN=1024
 CACHESIZE=64
-OPTIONS=""
+OPTIONS="-l 127.0.0.1"
 
 if [ -f /etc/sysconfig/memcached ];then
     . /etc/sysconfig/memcached
