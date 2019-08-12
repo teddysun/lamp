@@ -1,11 +1,13 @@
---- srclib/stdio.in.h.orig 2011-08-07 16:42:06.000000000 +0300
-+++ srclib/stdio.in.h 2013-01-10 15:53:03.000000000 +0200
-@@ -695,7 +695,9 @@
- /* It is very rare that the developer ever has full control of stdin,
-    so any use of gets warrants an unconditional warning.  Assume it is
-    always declared, since it is required by C89.  */
+--- srclib/stdio.in.h.orig	2019-01-28 05:12:37.000000000 +0800
++++ srclib/stdio.in.h	2019-08-12 11:44:16.902282369 +0800
+@@ -751,7 +751,9 @@ _GL_WARN_ON_USE (getline, "getline is un
+    removed it.  */
+ #undef gets
+ #if HAVE_RAW_DECL_GETS && !defined __cplusplus
 -_GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
 +#if defined(__GLIBC__) && !defined(__UCLIBC__) && !__GLIBC_PREREQ(2, 16)
 + _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
 +#endif
  #endif
+ 
+ #if @GNULIB_OBSTACK_PRINTF@ || @GNULIB_OBSTACK_PRINTF_POSIX@
