@@ -80,9 +80,9 @@ Parameters:
     show_parameters mysql
     echo "--php_option [1-6], please select a PHP version like below"
     show_parameters php
-    echo "--phpmyadmin [1-2], please select a phpMyAdmin version like below"
+    echo "--phpmyadmin_option [1-2], please select a phpMyAdmin version like below"
     show_parameters phpmyadmin
-    echo "--kodexplorer [1-2], please select a KodExplorer version like below"
+    echo "--kodexplorer_option [1-2], please select a KodExplorer version like below"
     show_parameters kodexplorer
 }
 
