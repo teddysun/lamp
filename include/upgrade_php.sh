@@ -78,19 +78,11 @@ upgrade_php(){
             cd php-${latest_php}/
         fi
 
-        if [ -d "${mariadb_location}" ] || [ -d "${mysql_location}" ] || [ -d "${percona_location}" ]; then
-            if [ "${php_version}" == "5.6" ]; then
-                with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
-            else
-                with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
-            fi
-        else
-            with_mysql=""
-        fi
-
         if [ "${php_version}" == "5.6" ]; then
+            with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         else
+            with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
 
