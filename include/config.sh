@@ -174,8 +174,8 @@ ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_l
 libevent_filename="libevent-2.1.8-stable"
 libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz"
 #memcached
-memcached_filename="memcached-1.5.15"
-memcached_filename_url="http://www.memcached.org/files/memcached-1.5.15.tar.gz"
+memcached_filename="memcached-1.5.16"
+memcached_filename_url="http://www.memcached.org/files/memcached-1.5.16.tar.gz"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 libmemcached_filename_url="https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz"
@@ -197,8 +197,8 @@ php_redis_filename2_url="https://pecl.php.net/get/redis-4.3.0.tgz"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.5.3"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.5.3.tgz"
+php_mongo_filename="mongodb-1.5.5"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.5.5.tgz"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.18"
