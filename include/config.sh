@@ -70,7 +70,7 @@ percona5_6_filename="Percona-Server-5.6.44-86.0"
 #percona5.7
 percona5_7_filename="Percona-Server-5.7.26-29"
 #percona8.0
-percona8_0_filename="Percona-Server-8.0.15-6"
+percona8_0_filename="Percona-Server-8.0.16-7"
 #php5.6
 php5_6_filename="php-5.6.40"
 php5_6_filename_url="https://www.php.net/distributions/php-5.6.40.tar.gz"
