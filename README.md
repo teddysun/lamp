@@ -62,8 +62,8 @@
 
 | PHP & Additional extensions | Version                                            |
 |-----------------------------|----------------------------------------------------|
-| PHP                         | 5.6.40, 7.0.33, 7.1.31, 7.2.21, 7.3.8              |
-| ionCube Loader              | 10.3.7                                             |
+| PHP                         | 5.6.40, 7.0.33, 7.1.32, 7.2.22, 7.3.9              |
+| ionCube Loader              | 10.3.8                                             |
 | XCache(PHP 5.6 only)        | 3.2.0                                              |
 | ImageMagick                 | 7.0.8-60                                           |
 | imagick extension           | 3.4.4                                              |
@@ -80,7 +80,7 @@
 | redis extension(PHP 5.6)    | 2.2.8                                              |
 | redis extension(PHP 7)      | 4.3.0                                              |
 | mongodb extension           | 1.5.5                                              |
-| swoole extension(PHP 7 only)| 4.3.6                                              |
+| swoole extension(PHP 7 only)| 4.4.5                                              |
 | yaf extension(PHP 7 only)   | 3.0.8                                              |
 | xdebug extension(PHP 5.6)   | 2.5.5                                              |
 | xdebug extension(PHP 7)     | 2.7.2                                              |
