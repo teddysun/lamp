@@ -78,14 +78,14 @@ php5_6_filename_url="https://www.php.net/distributions/php-5.6.40.tar.gz"
 php7_0_filename="php-7.0.33"
 php7_0_filename_url="https://www.php.net/distributions/php-7.0.33.tar.gz"
 #php7.1
-php7_1_filename="php-7.1.31"
-php7_1_filename_url="https://www.php.net/distributions/php-7.1.31.tar.gz"
+php7_1_filename="php-7.1.32"
+php7_1_filename_url="https://www.php.net/distributions/php-7.1.32.tar.gz"
 #php7.2
-php7_2_filename="php-7.2.21"
-php7_2_filename_url="https://www.php.net/distributions/php-7.2.21.tar.gz"
+php7_2_filename="php-7.2.22"
+php7_2_filename_url="https://www.php.net/distributions/php-7.2.22.tar.gz"
 #php7.3
-php7_3_filename="php-7.3.8"
-php7_3_filename_url="https://www.php.net/distributions/php-7.3.8.tar.gz"
+php7_3_filename="php-7.3.9"
+php7_3_filename_url="https://www.php.net/distributions/php-7.3.9.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.9.0.1-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.tar.gz"
@@ -135,9 +135,9 @@ libzip_filename_url="https://libzip.org/download/libzip-1.3.2.tar.gz"
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
 #swoole
-swoole_filename="swoole-src-4.3.6"
-swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.3.6.tar.gz"
-set_hint ${swoole_filename} "php-swoole-4.3.6"
+swoole_filename="swoole-src-4.4.5"
+swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.5.tar.gz"
+set_hint ${swoole_filename} "php-swoole-4.4.5"
 #yaf
 yaf_filename="yaf-3.0.8"
 yaf_filename_url="https://pecl.php.net/get/yaf-3.0.8.tgz"
