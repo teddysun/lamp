@@ -9,7 +9,7 @@
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
-# System Required:  CentOS 6+ / Fedora28+ / Debian 8+ / Ubuntu 14+
+# System Required:  CentOS 6+ / Fedora29 / Debian 8+ / Ubuntu 14+
 # Description:  Install LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
@@ -30,7 +30,7 @@ include(){
 }
 
 version(){
-    echo "Version: 20190623"
+    echo "Version: 20190901"
 }
 
 show_parameters(){
