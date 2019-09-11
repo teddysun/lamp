@@ -197,8 +197,8 @@ php_redis_filename2_url="https://pecl.php.net/get/redis-4.3.0.tgz"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.5.5"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.5.5.tgz"
+php_mongo_filename="mongodb-1.6.0"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.6.0.tgz"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.18"
