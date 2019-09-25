@@ -135,9 +135,9 @@ libzip_filename_url="https://libzip.org/download/libzip-1.3.2.tar.gz"
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
 #swoole
-swoole_filename="swoole-src-4.4.5"
-swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.5.tar.gz"
-set_hint ${swoole_filename} "php-swoole-4.4.5"
+swoole_filename="swoole-src-4.4.7"
+swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.7.tar.gz"
+set_hint ${swoole_filename} "php-swoole-4.4.7"
 #yaf
 yaf_filename="yaf-3.0.8"
 yaf_filename_url="https://pecl.php.net/get/yaf-3.0.8.tgz"
@@ -150,14 +150,14 @@ xdebug_filename_url="https://xdebug.org/files/xdebug-2.5.5.tgz"
 xdebug_filename2="xdebug-2.7.2"
 xdebug_filename2_url="https://xdebug.org/files/xdebug-2.7.2.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-64"
-ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.8-64.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.8-66"
+ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.8-66.tar.gz"
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.31"
-GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.31/GraphicsMagick-1.3.31.tar.gz/download"
+GraphicsMagick_filename="GraphicsMagick-1.3.33"
+GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.33/GraphicsMagick-1.3.33.tar.gz/download"
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
 php_graphicsmagick_filename_url="https://pecl.php.net/get/gmagick-1.1.7RC3.tgz"
 php_graphicsmagick_filename2="gmagick-2.0.5RC1"
@@ -174,8 +174,8 @@ ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_l
 libevent_filename="libevent-2.1.8-stable"
 libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz"
 #memcached
-memcached_filename="memcached-1.5.16"
-memcached_filename_url="http://www.memcached.org/files/memcached-1.5.16.tar.gz"
+memcached_filename="memcached-1.5.18"
+memcached_filename_url="http://www.memcached.org/files/memcached-1.5.18.tar.gz"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 libmemcached_filename_url="https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz"
@@ -187,13 +187,13 @@ php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.3.tgz"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
-redis_filename="redis-5.0.5"
-redis_filename_url="http://download.redis.io/releases/redis-5.0.5.tar.gz"
+redis_filename="redis-5.0.6"
+redis_filename_url="http://download.redis.io/releases/redis-5.0.6.tar.gz"
 #php-redis
-php_redis_filename="redis-2.2.8"
-php_redis_filename_url="https://pecl.php.net/get/redis-2.2.8.tgz"
-php_redis_filename2="redis-4.3.0"
-php_redis_filename2_url="https://pecl.php.net/get/redis-4.3.0.tgz"
+php_redis_filename="redis-4.3.0"
+php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
+php_redis_filename2="redis-5.0.2"
+php_redis_filename2_url="https://pecl.php.net/get/redis-5.0.2.tgz"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
@@ -203,8 +203,8 @@ set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
-php_libsodium_filename="libsodium-php-2.0.21"
-php_libsodium_filename_url="https://github.com/jedisct1/libsodium-php/archive/2.0.21.tar.gz"
+php_libsodium_filename="libsodium-php-2.0.22"
+php_libsodium_filename_url="https://github.com/jedisct1/libsodium-php/archive/2.0.22.tar.gz"
 
 
 #software array setting
