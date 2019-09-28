@@ -84,12 +84,12 @@ install_php_depends(){
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
-        log "Info" "Starting to install dependencies packages for PHP..."
+        _info "Starting to install dependencies packages for PHP..."
         for depend in ${apt_depends[@]}
         do
             error_detect_depends "apt-get -y install ${depend}"
         done
-        log "Info" "Install dependencies packages for PHP completed..."
+        _info "Install dependencies packages for PHP completed..."
 
         if is_64bit; then
             if [ ! -d /usr/lib64 ] && [ -d /usr/lib ]; then
@@ -133,7 +133,7 @@ install_php_depends(){
             aspell-devel enchant-devel readline-devel unixODBC-devel libtidy-devel
             openldap-devel libxslt-devel net-snmp net-snmp-devel krb5-devel
         )
-        log "Info" "Starting to install dependencies packages for PHP..."
+        _info "Starting to install dependencies packages for PHP..."
         for depend in ${yum_depends[@]}
         do
             error_detect_depends "yum -y install ${depend}"
@@ -143,10 +143,9 @@ install_php_depends(){
         elif yum list | grep "uw-imap-devel" > /dev/null 2>&1; then
             error_detect_depends "yum -y install uw-imap-devel"
         else
-            log "Error" "There is no rpm package libc-client-devel or uw-imap-devel, please check it and try again."
-            exit 1
+            _error "There is no rpm package libc-client-devel or uw-imap-devel, please check it and try again."
         fi
-        log "Info" "Install dependencies packages for PHP completed..."
+        _info "Install dependencies packages for PHP completed..."
 
         install_mhash
         install_libmcrypt
@@ -165,7 +164,7 @@ install_php_depends(){
 install_libiconv(){
     if [ ! -e "/usr/local/bin/iconv" ]; then
         cd ${cur_dir}/software/
-        log "Info" "${libiconv_filename} install start..."
+        _info "${libiconv_filename} install start..."
         download_file  "${libiconv_filename}.tar.gz" "${libiconv_filename_url}"
         tar zxf ${libiconv_filename}.tar.gz
         patch -d ${libiconv_filename} -p0 < ${cur_dir}/conf/libiconv-glibc-2.16.patch
@@ -174,14 +173,14 @@ install_libiconv(){
         error_detect "./configure"
         error_detect "parallel_make"
         error_detect "make install"
-        log "Info" "${libiconv_filename} install completed..."
+        _info "${libiconv_filename} install completed..."
     fi
 }
 
 install_re2c(){
     if [ ! -e "/usr/local/bin/re2c" ]; then
         cd ${cur_dir}/software/
-        log "Info" "${re2c_filename} install start..."
+        _info "${re2c_filename} install start..."
         download_file "${re2c_filename}.tar.xz" "${re2c_filename_url}"
         tar Jxf ${re2c_filename}.tar.xz
         cd ${re2c_filename}
@@ -189,14 +188,14 @@ install_re2c(){
         error_detect "./configure"
         error_detect "make"
         error_detect "make install"
-        log "Info" "${re2c_filename} install completed..."
+        _info "${re2c_filename} install completed..."
     fi
 }
 
 install_mhash(){
     if [ ! -e "/usr/local/lib/libmhash.a" ]; then
         cd ${cur_dir}/software/
-        log "Info" "${mhash_filename} install start..."
+        _info "${mhash_filename} install start..."
         download_file "${mhash_filename}.tar.gz" "${mhash_filename_url}"
         tar zxf ${mhash_filename}.tar.gz
         cd ${mhash_filename}
@@ -204,14 +203,14 @@ install_mhash(){
         error_detect "./configure"
         error_detect "parallel_make"
         error_detect "make install"
-        log "Info" "${mhash_filename} install completed..."
+        _info "${mhash_filename} install completed..."
     fi
 }
 
 install_mcrypt(){
     if [ ! -e "/usr/local/bin/mcrypt" ]; then
         cd ${cur_dir}/software/
-        log "Info" "${mcrypt_filename} install start..."
+        _info "${mcrypt_filename} install start..."
         download_file "${mcrypt_filename}.tar.gz" "${mcrypt_filename_url}"
         tar zxf ${mcrypt_filename}.tar.gz
         cd ${mcrypt_filename}
@@ -220,14 +219,14 @@ install_mcrypt(){
         error_detect "./configure"
         error_detect "parallel_make"
         error_detect "make install"
-        log "Info" "${mcrypt_filename} install completed..."
+        _info "${mcrypt_filename} install completed..."
     fi
 }
 
 install_libmcrypt(){
     if [ ! -e "/usr/local/lib/libmcrypt.la" ]; then
         cd ${cur_dir}/software/
-        log "Info" "${libmcrypt_filename} install start..."
+        _info "${libmcrypt_filename} install start..."
         download_file "${libmcrypt_filename}.tar.gz" "${libmcrypt_filename_url}"
         tar zxf ${libmcrypt_filename}.tar.gz
         cd ${libmcrypt_filename}
@@ -235,14 +234,14 @@ install_libmcrypt(){
         error_detect "./configure"
         error_detect "parallel_make"
         error_detect "make install"
-        log "Info" "${libmcrypt_filename} install completed..."
+        _info "${libmcrypt_filename} install completed..."
     fi
 }
 
 install_libzip(){
     if [ ! -e "/usr/lib/libzip.la" ]; then
         cd ${cur_dir}/software/
-        log "Info" "${libzip_filename} install start..."
+        _info "${libzip_filename} install start..."
         download_file "${libzip_filename}.tar.gz" "${libzip_filename_url}"
         tar zxf ${libzip_filename}.tar.gz
         cd ${libzip_filename}
@@ -250,7 +249,7 @@ install_libzip(){
         error_detect "./configure --prefix=/usr"
         error_detect "parallel_make"
         error_detect "make install"
-        log "Info" "${libzip_filename} install completed..."
+        _info "${libzip_filename} install completed..."
     fi
 }
 
@@ -261,14 +260,14 @@ install_phpmyadmin(){
 
     cd ${cur_dir}/software
 
-    log "Info" "${phpmyadmin_filename} install start..."
+    _info "${phpmyadmin_filename} install start..."
     download_file "${phpmyadmin_filename}.tar.gz" "${phpmyadmin_filename_url}"
     tar zxf ${phpmyadmin_filename}.tar.gz
     mv ${phpmyadmin_filename} ${web_root_dir}/phpmyadmin
     cp -f ${cur_dir}/conf/config.inc.php ${web_root_dir}/phpmyadmin/config.inc.php
     mkdir -p ${web_root_dir}/phpmyadmin/{upload,save}
     chown -R apache:apache ${web_root_dir}/phpmyadmin
-    log "Info" "${phpmyadmin_filename} install completed..."
+    _info "${phpmyadmin_filename} install completed..."
 }
 
 install_kodexplorer(){
@@ -278,12 +277,12 @@ install_kodexplorer(){
 
     cd ${cur_dir}/software
 
-    log "Info" "${kodexplorer_filename} install start..."
+    _info "${kodexplorer_filename} install start..."
     download_file "${kodexplorer_filename}.tar.gz" "${kodexplorer_filename_url}"
     tar zxf ${kodexplorer_filename}.tar.gz
     mv ${kodexplorer_filename} ${web_root_dir}/kod
     chown -R apache:apache ${web_root_dir}/kod
-    log "Info" "${kodexplorer_filename} install completed..."
+    _info "${kodexplorer_filename} install completed..."
 }
 
 install_ionCube(){
@@ -293,7 +292,7 @@ install_ionCube(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "PHP extension ionCube Loader install start..."
+    _info "PHP extension ionCube Loader install start..."
     if is_64bit; then
         download_file "${ionCube64_filename}.tar.gz" "${ionCube64_filename_url}"
         tar zxf ${ionCube64_filename}.tar.gz
@@ -305,13 +304,13 @@ install_ionCube(){
     fi
 
     if [ ! -f ${php_location}/php.d/ioncube.ini ]; then
-        log "Info" "PHP extension ionCube Loader configuration file not found, create it!"
+        _info "PHP extension ionCube Loader configuration file not found, create it!"
         cat > ${php_location}/php.d/ioncube.ini<<-EOF
 [ionCube Loader]
 zend_extension = ${php_extension_dir}/ioncube_loader_lin_${php_version}_ts.so
 EOF
     fi
-    log "Info" "PHP extension ionCube Loader install completed..."
+    _info "PHP extension ionCube Loader install completed..."
 }
 
 install_xcache(){
@@ -319,7 +318,7 @@ install_xcache(){
     local php_version=$(get_php_version "${phpConfig}")
     local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
 
-    log "Info" "PHP extension XCache install start..."
+    _info "PHP extension XCache install start..."
     cd ${cur_dir}/software/
     download_file "${xcache_filename}.tar.gz" "${xcache_filename_url}"
     tar zxf ${xcache_filename}.tar.gz
@@ -338,7 +337,7 @@ install_xcache(){
     chmod 700 /tmp/{pcov,phpcore}
     
     if [ ! -f ${php_location}/php.d/xcache.ini ]; then
-        log "Info" "PHP extension XCache configuration file not found, create it!"
+        _info "PHP extension XCache configuration file not found, create it!"
         cat > ${php_location}/php.d/xcache.ini<<-EOF
 [xcache-common]
 extension = ${php_extension_dir}/xcache.so
@@ -377,7 +376,7 @@ xcache.coverager_autostart =  On
 xcache.coveragedump_directory = "/tmp/pcov"
 EOF
     fi
-    log "Info" "PHP extension XCache install completed..."
+    _info "PHP extension XCache install completed..."
 }
 
 install_php_libsodium(){
@@ -387,7 +386,7 @@ install_php_libsodium(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "PHP extension libsodium install start..."
+    _info "PHP extension libsodium install start..."
     download_file "${libsodium_filename}.tar.gz" "${libsodium_filename_url}"
     tar zxf ${libsodium_filename}.tar.gz
     cd ${libsodium_filename}
@@ -406,13 +405,13 @@ install_php_libsodium(){
     error_detect "make install"
     
     if [ ! -f ${php_location}/php.d/sodium.ini ]; then
-        log "Info" "PHP extension libsodium configuration file not found, create it!"
+        _info "PHP extension libsodium configuration file not found, create it!"
         cat > ${php_location}/php.d/sodium.ini<<-EOF
 [sodium]
 extension = ${php_extension_dir}/sodium.so
 EOF
     fi
-    log "Info" "PHP extension libsodium install completed..."
+    _info "PHP extension libsodium install completed..."
 }
 
 install_php_imagesmagick(){
@@ -422,7 +421,7 @@ install_php_imagesmagick(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "PHP extension imagemagick install start..."
+    _info "PHP extension imagemagick install start..."
     download_file "${ImageMagick_filename}.tar.gz" "${ImageMagick_filename_url}"
     tar zxf ${ImageMagick_filename}.tar.gz
     cd ${ImageMagick_filename}
@@ -441,13 +440,13 @@ install_php_imagesmagick(){
     error_detect "make install"
     
     if [ ! -f ${php_location}/php.d/imagick.ini ]; then
-        log "Info" "PHP extension imagemagick configuration file not found, create it!"
+        _info "PHP extension imagemagick configuration file not found, create it!"
         cat > ${php_location}/php.d/imagick.ini<<-EOF
 [imagick]
 extension = ${php_extension_dir}/imagick.so
 EOF
     fi
-    log "Info" "PHP extension imagemagick install completed..."
+    _info "PHP extension imagemagick install completed..."
 }
 
 install_php_graphicsmagick(){
@@ -457,7 +456,7 @@ install_php_graphicsmagick(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "PHP extension graphicsmagick install start..."
+    _info "PHP extension graphicsmagick install start..."
     download_file "${GraphicsMagick_filename}.tar.gz" "${GraphicsMagick_filename_url}"
     tar zxf ${GraphicsMagick_filename}.tar.gz
     cd ${GraphicsMagick_filename}
@@ -483,13 +482,13 @@ install_php_graphicsmagick(){
     error_detect "make install"
     
     if [ ! -f ${php_location}/php.d/gmagick.ini ]; then
-        log "Info" "PHP extension graphicsmagick configuration file not found, create it!"
+        _info "PHP extension graphicsmagick configuration file not found, create it!"
         cat > ${php_location}/php.d/gmagick.ini<<-EOF
 [gmagick]
 extension = ${php_extension_dir}/gmagick.so
 EOF
     fi
-    log "Info" "PHP extension graphicsmagick install completed..."
+    _info "PHP extension graphicsmagick install completed..."
 }
 
 install_php_memcached(){
@@ -499,7 +498,7 @@ install_php_memcached(){
 
     cd ${cur_dir}/software
 
-    log "Info" "libevent install start..."
+    _info "libevent install start..."
     download_file "${libevent_filename}.tar.gz" "${libevent_filename_url}"
     tar zxf ${libevent_filename}.tar.gz
     cd ${libevent_filename}
@@ -507,11 +506,11 @@ install_php_memcached(){
     error_detect "make"
     error_detect "make install"
     ldconfig
-    log "Info" "libevent install completed..."
+    _info "libevent install completed..."
 
     cd ${cur_dir}/software
 
-    log "Info" "memcached install start..."
+    _info "memcached install start..."
     id -u memcached >/dev/null 2>&1
     [ $? -ne 0 ] && groupadd memcached && useradd -M -s /sbin/nologin -g memcached memcached
     download_file "${memcached_filename}.tar.gz" "${memcached_filename_url}"
@@ -531,11 +530,11 @@ install_php_memcached(){
     fi
     chmod +x /etc/init.d/memcached
     boot_start memcached
-    log "Info" "memcached install completed..."
+    _info "memcached install completed..."
 
     cd ${cur_dir}/software
 
-    log "Info" "libmemcached install start..."
+    _info "libmemcached install start..."
     if check_sys packageManager apt;then
         apt-get -y install libsasl2-dev
     elif check_sys packageManager yum;then
@@ -548,11 +547,11 @@ install_php_memcached(){
     error_detect "./configure --with-memcached=${depends_prefix}/memcached --enable-sasl"
     error_detect "make"
     error_detect "make install"
-    log "Info" "libmemcached install completed..."
+    _info "libmemcached install completed..."
     
     cd ${cur_dir}/software
     
-    log "Info" "PHP extension memcached extension install start..."
+    _info "PHP extension memcached extension install start..."
     if [ "$php" == "${php5_6_filename}" ]; then
         download_file "${php_memcached_filename}.tgz" "${php_memcached_filename_url}"
         tar zxf ${php_memcached_filename}.tgz
@@ -568,14 +567,14 @@ install_php_memcached(){
     error_detect "make install"
 
     if [ ! -f ${php_location}/php.d/memcached.ini ]; then
-        log "Info" "PHP extension memcached configuration file not found, create it!"
+        _info "PHP extension memcached configuration file not found, create it!"
         cat > ${php_location}/php.d/memcached.ini<<-EOF
 [memcached]
 extension = ${php_extension_dir}/memcached.so
 memcached.use_sasl = 1
 EOF
     fi
-    log "Info" "PHP extension memcached install completed..."
+    _info "PHP extension memcached install completed..."
 }
 
 install_php_redis(){
@@ -590,7 +589,7 @@ install_php_redis(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "redis-server install start..."
+    _info "redis-server install start..."
     download_file "${redis_filename}.tar.gz" "${redis_filename_url}"
     tar zxf ${redis_filename}.tar.gz
     cd ${redis_filename}
@@ -624,15 +623,15 @@ install_php_redis(){
         chown -R redis:redis ${redis_install_dir}
         chmod +x /etc/init.d/redis-server
         boot_start redis-server
-        log "Info" "redis-server install completed!"
+        _info "redis-server install completed!"
     else
         RT=1
-        log "Error" "redis-server install failed."
+        _error "redis-server install failed."
     fi
 
     if [ ${RT} -eq 0 ]; then
         cd ${cur_dir}/software/
-        log "Info" "PHP extension redis install start..."
+        _info "PHP extension redis install start..."
         if [ "$php" == "${php5_6_filename}" ]; then
             download_file  "${php_redis_filename}.tgz" "${php_redis_filename_url}"
             tar zxf ${php_redis_filename}.tgz
@@ -649,13 +648,13 @@ install_php_redis(){
         error_detect "make install"
         
         if [ ! -f ${php_location}/php.d/redis.ini ]; then
-            log "Info" "PHP extension redis configuration file not found, create it!"
+            _info "PHP extension redis configuration file not found, create it!"
             cat > ${php_location}/php.d/redis.ini<<-EOF
 [redis]
 extension = ${php_extension_dir}/redis.so
 EOF
         fi
-        log "Info" "PHP extension redis install completed..."
+        _info "PHP extension redis install completed..."
     fi
 }
 
@@ -666,7 +665,7 @@ install_php_mongo(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "PHP extension mongodb install start..."
+    _info "PHP extension mongodb install start..."
     download_file "${php_mongo_filename}.tgz" "${php_mongo_filename_url}"
     tar zxf ${php_mongo_filename}.tgz
     cd ${php_mongo_filename}
@@ -676,13 +675,13 @@ install_php_mongo(){
     error_detect "make install"
 
     if [ ! -f ${php_location}/php.d/mongodb.ini ]; then
-        log "Info" "PHP extension mongodb configuration file not found, create it!"
+        _info "PHP extension mongodb configuration file not found, create it!"
         cat > ${php_location}/php.d/mongodb.ini<<-EOF
 [mongodb]
 extension = ${php_extension_dir}/mongodb.so
 EOF
     fi
-    log "Info" "PHP extension mongodb install completed..."
+    _info "PHP extension mongodb install completed..."
 }
 
 install_swoole(){
@@ -692,7 +691,7 @@ install_swoole(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "PHP extension swoole install start..."
+    _info "PHP extension swoole install start..."
     download_file "${swoole_filename}.tar.gz" "${swoole_filename_url}"
     tar zxf ${swoole_filename}.tar.gz
     cd ${swoole_filename}
@@ -702,13 +701,13 @@ install_swoole(){
     error_detect "make install"
 
     if [ ! -f ${php_location}/php.d/swoole.ini ]; then
-        log "Info" "PHP extension swoole configuration file not found, create it!"
+        _info "PHP extension swoole configuration file not found, create it!"
         cat > ${php_location}/php.d/swoole.ini<<-EOF
 [swoole]
 extension = ${php_extension_dir}/swoole.so
 EOF
     fi
-    log "Info" "PHP extension swoole install completed..."
+    _info "PHP extension swoole install completed..."
 }
 
 install_xdebug(){
@@ -718,7 +717,7 @@ install_xdebug(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "PHP extension xdebug install start..."
+    _info "PHP extension xdebug install start..."
     if [ "$php" == "${php5_6_filename}" ]; then
         download_file "${xdebug_filename}.tgz" "${xdebug_filename_url}"
         tar zxf ${xdebug_filename}.tgz
@@ -734,13 +733,13 @@ install_xdebug(){
     error_detect "make install"
 
     if [ ! -f ${php_location}/php.d/xdebug.ini ]; then
-        log "Info" "PHP extension xdebug configuration file not found, create it!"
+        _info "PHP extension xdebug configuration file not found, create it!"
         cat > ${php_location}/php.d/xdebug.ini<<-EOF
 [xdebug]
 zend_extension = ${php_extension_dir}/xdebug.so
 EOF
     fi
-    log "Info" "PHP extension xdebug install completed..."
+    _info "PHP extension xdebug install completed..."
 }
 
 install_yaf(){
@@ -750,7 +749,7 @@ install_yaf(){
 
     cd ${cur_dir}/software/
 
-    log "Info" "PHP extension yaf install start..."
+    _info "PHP extension yaf install start..."
     download_file "${yaf_filename}.tgz" "${yaf_filename_url}"
     tar zxf ${yaf_filename}.tgz
     cd ${yaf_filename}
@@ -760,11 +759,11 @@ install_yaf(){
     error_detect "make install"
 
     if [ ! -f ${php_location}/php.d/yaf.ini ]; then
-        log "Info" "PHP extension yaf configuration file not found, create it!"
+        _info "PHP extension yaf configuration file not found, create it!"
         cat > ${php_location}/php.d/yaf.ini<<-EOF
 [yaf]
 extension = ${php_extension_dir}/yaf.so
 EOF
     fi
-    log "Info" "PHP extension yaf install completed..."
+    _info "PHP extension yaf install completed..."
 }

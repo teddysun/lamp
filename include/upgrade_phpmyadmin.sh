@@ -14,57 +14,38 @@
 #upgrade phpmyadmin
 upgrade_phpmyadmin(){
 
-    if [ -d ${web_root_dir}/phpmyadmin ]; then
-        installed_pma=$(awk '/Version/{print $2}' ${web_root_dir}/phpmyadmin/README)
+    if [ -d "${web_root_dir}/phpmyadmin" ]; then
+        installed_pma="$(awk '/Version/{print $2}' ${web_root_dir}/phpmyadmin/README)"
     else
         if [ -s "$cur_dir/pmaversion.txt" ]; then
-            installed_pma=$(awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt)
+            installed_pma="$(awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt)"
         else
             echo -e "phpmyadmin\t0" > ${cur_dir}/pmaversion.txt
-            installed_pma=$(awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt)
+            installed_pma="$(awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt)"
         fi
     fi
 
     if [ "${installed_pma}" != "0" ]; then
-        major_ver=$(echo ${installed_pma} | cut -d. -f1-2)
+        major_ver="$(echo ${installed_pma} | cut -d. -f1-2)"
     else
-        log "Error" "phpMyAdmin installation directory not found, please check it and retry."
-        exit 1
+        _error "phpMyAdmin installation directory not found, please check it and retry"
     fi
-    latest_pma=$(curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | grep "${major_ver}" | cut -d'<' -f1 | sort -V | tail -1)
-    if [ -z ${latest_pma} ]; then
-        latest_pma=$(curl -s ${download_root_url}/pmalist.txt | grep "${major_ver}" | tail -1 | awk -F- '{print $2}')
-    fi
-    echo -e "Latest version of phpmyadmin: \033[41;37m ${latest_pma} \033[0m"
-    echo -e "Installed version of phpmyadmin: \033[41;37m ${installed_pma} \033[0m"
-    echo
-    echo "Do you want to upgrade phpmyadmin ? (y/n)"
-    read -p "(Default: n):" upgrade_pma
-    if [ -z ${upgrade_pma} ]; then
-        upgrade_pma="n"
-    fi
-    echo "---------------------------"
-    echo "You choose = ${upgrade_pma}"
-    echo "---------------------------"
-    echo
-    echo "Press any key to start...or Press Ctrl+C to cancel"
-    char=$(get_char)
-
+    latest_pma="$(curl -s https://www.phpmyadmin.net/files/ | awk -F\> '/\/files\//{print $3}' | grep "${major_ver}" | cut -d'<' -f1 | sort -V | tail -1)"
+    [ -z "${latest_pma}" ] && latest_pma="$(curl -s ${download_root_url}/pmalist.txt | grep "${major_ver}" | tail -1 | awk -F- '{print $2}')"
+    _info "Latest version of phpmyadmin   : $(_red ${latest_pma})"
+    _info "Installed version of phpmyadmin: $(_red ${installed_pma})"
+    read -p "Do you want to upgrade phpMyAdmin? (y/n) (Default: n):" upgrade_pma
+    [ -z "${upgrade_pma}" ] && upgrade_pma="n"
     if [[ "${upgrade_pma}" = "y" || "${upgrade_pma}" = "Y" ]];then
-        log "Info" "phpMyAdmin upgrade start..."
-
-        if [ -d ${web_root_dir}/phpmyadmin ]; then
+        _info "phpMyAdmin upgrade start..."
+        if [ -d "${web_root_dir}/phpmyadmin" ]; then
             mv ${web_root_dir}/phpmyadmin/config.inc.php ${cur_dir}/config.inc.php
             rm -rf ${web_root_dir}/phpmyadmin
         else
-            log "Info" "phpMyAdmin folder not found..."
+            _error "phpMyAdmin installation directory not found..."
         fi
-
-        if [ ! -d ${cur_dir}/software ];then
-            mkdir -p ${cur_dir}/software
-        fi
+        [ ! -d "${cur_dir}/software" ] && mkdir -p ${cur_dir}/software
         cd ${cur_dir}/software
-
         if [ ! -s phpMyAdmin-${latest_pma}-all-languages.tar.gz ]; then
             latest_pma_link="https://files.phpmyadmin.net/phpMyAdmin/${latest_pma}/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
             backup_pma_link="${download_root_url}/phpMyAdmin-${latest_pma}-all-languages.tar.gz"
@@ -86,22 +67,16 @@ upgrade_phpmyadmin(){
         elif [ -s ${web_root_dir}/phpmyadmin/sql/create_tables.sql ]; then
             cp -f ${web_root_dir}/phpmyadmin/sql/create_tables.sql ${web_root_dir}/phpmyadmin/upload/
         fi
-
         chown -R apache:apache ${web_root_dir}/phpmyadmin
-
         echo -e "phpmyadmin\t${latest_pma}" > ${cur_dir}/pmaversion.txt
-
-        log "Info" "Clear up start..."
+        _info "Clear up start..."
         cd ${cur_dir}/software
         rm -rf phpMyAdmin-${latest_pma}-all-languages/
         rm -f phpMyAdmin-${latest_pma}-all-languages.tar.gz
-        log "Info" "Clear up completed..."
-
-        log "Info" "phpMyAdmin upgrade completed..."
+        _info "Clear up completed..."
+        _info "phpMyAdmin upgrade completed..."
     else
-        echo
-        log "Info" "phpMyAdmin upgrade cancelled, nothing to do..."
-        echo
+        _info "phpMyAdmin upgrade cancelled, nothing to do..."
     fi
 
 }

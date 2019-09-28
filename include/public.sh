@@ -11,28 +11,41 @@
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
 
-# Define Color
-RED='\033[1;31m'
-GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-PLAIN='\033[0m'
+_red(){
+    printf '\033[1;31;31m%b\033[0m' "$1"
+}
 
-log(){
-    if   [ "${1}" == "Warning" ]; then
-        echo -e "[${YELLOW}${1}${PLAIN}] ${2}"
-    elif [ "${1}" == "Error" ]; then
-        echo -e "[${RED}${1}${PLAIN}] ${2}"
-    elif [ "${1}" == "Info" ]; then
-        echo -e "[${GREEN}${1}${PLAIN}] ${2}"
-    else
-        echo -e "[${1}] ${2}"
-    fi
+_green(){
+    printf '\033[1;31;32m%b\033[0m' "$1"
+}
+
+_yellow(){
+    printf '\033[1;31;33m%b\033[0m' "$1"
+}
+
+_printargs(){
+    printf -- "%s" "$1"
+    printf "\n"
+}
+
+_info(){
+    _printargs "$@"
+}
+
+_warn(){
+    _yellow "$1"
+    printf "\n"
+}
+
+_error(){
+    _red "$1"
+    printf "\n"
+    exit 1
 }
 
 rootness(){
     if [[ ${EUID} -ne 0 ]]; then
-        log "Error" "This script must be run as root"
-        exit 1
+        _error "This script must be run as root"
     fi
 }
 
@@ -41,15 +54,16 @@ generate_password(){
 }
 
 get_ip(){
-    local IP=$( ip addr | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | egrep -v "^192\.168|^172\.1[6-9]\.|^172\.2[0-9]\.|^172\.3[0-2]\.|^10\.|^127\.|^255\.|^0\." | head -n 1 )
-    [ -z "${IP}" ] && IP=$( wget -qO- -t1 -T2 ipv4.icanhazip.com )
-    [ -z "${IP}" ] && IP=$( wget -qO- -t1 -T2 ipinfo.io/ip )
-    [ -n "${IP}" ] && echo ${IP} || echo
+    local ipv4=$( ip addr | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | \
+    egrep -v "^192\.168|^172\.1[6-9]\.|^172\.2[0-9]\.|^172\.3[0-2]\.|^10\.|^127\.|^255\.|^0\." | head -n 1 )
+    [ -z "${ipv4}" ] && ipv4=$( wget -qO- -t1 -T2 ipv4.icanhazip.com )
+    [ -z "${ipv4}" ] && ipv4=$( wget -qO- -t1 -T2 ipinfo.io/ip )
+    printf -- "%s" "${ipv4}"
 }
 
 get_ip_country(){
     local country=$( wget -qO- -t1 -T2 ipinfo.io/$(get_ip)/country )
-    [ -n "${country}" ] && echo ${country} || echo
+    printf -- "%s" "${country}"
 }
 
 get_libc_version(){
@@ -79,12 +93,12 @@ get_os_info(){
 }
 
 get_php_extension_dir(){
-    local phpConfig=${1}
+    local phpConfig="$1"
     ${phpConfig} --extension-dir
 }
 
 get_php_version(){
-    local phpConfig=${1}
+    local phpConfig="$1"
     ${phpConfig} --version | cut -d'.' -f1-2
 }
 
@@ -99,19 +113,19 @@ get_char(){
 }
 
 get_valid_valname(){
-    local val=${1}
+    local val="$1"
     local new_val=$(eval echo $val | sed 's/[-.]/_/g')
     echo ${new_val}
 }
 
 get_hint(){
-    local val=${1}
+    local val="$1"
     local new_val=$(get_valid_valname $val)
     eval echo "\$hint_${new_val}"
 }
 
 set_hint(){
-    local val=${1}
+    local val="$1"
     local hint="$2"
     local new_val=$(get_valid_valname $val)
     eval hint_${new_val}="\$hint"
@@ -126,8 +140,8 @@ disable_selinux(){
 
 #Display Memu
 display_menu(){
-    local soft=${1}
-    local default=${2}
+    local soft="$1"
+    local default="$2"
     eval local arr=(\${${soft}_arr[@]})
     local default_prompt
     if [[ "$default" != "" ]]; then
@@ -148,7 +162,7 @@ display_menu(){
             vname="$(get_valid_valname ${arr[$i-1]})"
             hint="$(get_hint $vname)"
             [[ "$hint" == "" ]] && hint="${arr[$i-1]}"
-            echo -e "${GREEN}${i}${PLAIN}. $hint"
+            _info "$(_green ${i}). $hint"
         done
         echo
         read -p "${prompt}" pick
@@ -179,8 +193,8 @@ display_menu(){
 
 #Display multiple Menu
 display_menu_multi(){
-    local soft=${1}
-    local default=${2}
+    local soft="$1"
+    local default="$2"
     eval local arr=(\${${soft}_arr[@]})
     local arr_len=${#arr[@]}
     local pick
@@ -203,7 +217,7 @@ display_menu_multi(){
         vname="$(get_valid_valname ${arr[$i-1]})"
         hint="$(get_hint $vname)"
         [[ "$hint" == "" ]] && hint="${arr[$i-1]}"
-        echo -e "${GREEN}${i}${PLAIN}. $hint"
+        _info "$(_green ${i}). $hint"
     done
     echo
     while true
@@ -275,17 +289,25 @@ display_os_info(){
 }
 
 check_command_exist(){
-    if [ ! "$(command -v "${1}")" ]; then
-        log "Error" "${1} is not installed, please install it and try again."
-        exit 1
+    local cmd="$1"
+    if eval type type > /dev/null 2>&1; then
+        eval type "$cmd" > /dev/null 2>&1
+    elif command > /dev/null 2>&1; then
+        command -v "$cmd" > /dev/null 2>&1
+    else
+        which "$cmd" > /dev/null 2>&1
+    fi
+    rt=$?
+    if [ ${rt} -ne 0 ]; then
+        _error "$cmd is not installed, please install it and try again."
     fi
 }
 
 check_installed(){
-    local cmd=${1}
-    local location=${2}
+    local cmd="$1"
+    local location="$2"
     if [ -d "${location}" ]; then
-        log "Info" "${location} already exists, skipped the installation."
+        _info "${location} already exists, skipped the installation."
         add_to_env "${location}"
     else
         ${cmd}
@@ -309,28 +331,24 @@ check_os(){
         is_support_flg=1
     fi
     if [ ${is_support_flg} -eq 1 ]; then
-        log "Error" "Not supported OS, please change OS to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
-        exit 1
+        _error "Not supported OS, please change OS to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
     fi
 }
 
 check_ram(){
     get_os_info
     if [ ${ramsum} -lt 480 ]; then
-        log "Error" "Not enough memory. The LAMP installation needs memory: ${tram}MB*RAM + ${swap}MB*SWAP >= 480MB"
-        exit 1
+        _error "Not enough memory. The LAMP installation needs memory: ${tram}MB*RAM + ${swap}MB*SWAP >= 480MB"
     fi
     [ ${ramsum} -lt 600 ] && disable_fileinfo="--disable-fileinfo" || disable_fileinfo=""
 }
 
 #Check system
 check_sys(){
-    local checkType=$1
-    local value=$2
-
+    local checkType="$1"
+    local value="$2"
     local release=''
     local systemPackage=''
-
     if [[ -f /etc/redhat-release ]]; then
         release="centos"
         systemPackage="yum"
@@ -370,7 +388,7 @@ check_sys(){
 }
 
 create_lib_link(){
-    local lib=${1}
+    local lib="$1"
     if [ ! -s "/usr/lib64/$lib" ] && [ ! -s "/usr/lib/$lib" ]; then
         libdir=$(find /usr/lib /usr/lib64 -name "$lib" | awk 'NR==1{print}')
         if [ "$libdir" != "" ]; then
@@ -391,7 +409,7 @@ create_lib_link(){
 }
 
 create_lib64_dir(){
-    local dir=${1}
+    local dir="$1"
     if is_64bit; then
         if [ -s "$dir/lib/" ] && [ ! -s  "$dir/lib64/" ]; then
             cd ${dir}
@@ -401,11 +419,11 @@ create_lib64_dir(){
 }
 
 error_detect_depends(){
-    local command=${1}
+    local command="$1"
     local work_dir=$(pwd)
     local depend=$(echo "$1" | awk '{print $4}')
-    log "Info" "Starting to install package ${depend}"
-    ${command} > /dev/null 2>&1
+    _info "Starting to install package ${depend}"
+    ${command} 1 > /dev/null
     if [ $? -ne 0 ]; then
         distro=$(get_opsy)
         version=$(cat /proc/version)
@@ -435,7 +453,7 @@ EOF
 }
 
 error_detect(){
-    local command=${1}
+    local command="$1"
     local work_dir=$(pwd)
     local cur_soft=$(echo ${work_dir#$cur_dir} | awk -F'/' '{print $3}')
     ${command}
@@ -609,7 +627,7 @@ get_ubuntuversion(){
 }
 
 parallel_make(){
-    local para="${1}"
+    local para="$1"
     cpunum=$(cat /proc/cpuinfo | grep 'processor' | wc -l)
 
     if [ ${parallel_compile} -eq 0 ]; then
@@ -625,24 +643,24 @@ parallel_make(){
 
 boot_start(){
     if check_sys packageManager apt; then
-        update-rc.d -f ${1} defaults
+        update-rc.d -f "$1" defaults
     elif check_sys packageManager yum; then
-        chkconfig --add ${1}
-        chkconfig ${1} on
+        chkconfig --add "$1"
+        chkconfig "$1" on
     fi
 }
 
 boot_stop(){
     if check_sys packageManager apt; then
-        update-rc.d -f ${1} remove
+        update-rc.d -f "$1" remove
     elif check_sys packageManager yum; then
-        chkconfig ${1} off
-        chkconfig --del ${1}
+        chkconfig "$1" off
+        chkconfig --del "$1"
     fi
 }
 
 filter_location(){
-    local location=${1}
+    local location="$1"
     if ! echo ${location} | grep -q "^/"; then
         while true
         do
@@ -659,22 +677,21 @@ filter_location(){
 # $2: primary url
 download_file(){
     local cur_dir=$(pwd)
-    if [ -s "${1}" ]; then
-        log "Info" "${1} [found]"
+    if [ -s "$1" ]; then
+        _info "$1 [found]"
     else
-        log "Info" "${1} not found, download now..."
+        _info "$1 not found, download now..."
         wget --no-check-certificate -cv -t3 -T60 -O ${1} ${2}
         if [ $? -eq 0 ]; then
-            log "Info" "${1} download completed..."
+            _info "$1 download completed..."
         else
-            rm -f ${1}
-            log "Info" "${1} download failed, retrying download from secondary url..."
-            wget --no-check-certificate -cv -t3 -T60 -O ${1} "${download_root_url}${1}"
+            rm -f "$1"
+            _info "$1 download failed, retrying download from secondary url..."
+            wget --no-check-certificate -cv -t3 -T60 -O "$1" "${download_root_url}${1}"
             if [ $? -eq 0 ]; then
-                log "Info" "${1} download completed..."
+                _info "$1 download completed..."
             else
-                log "Error" "Failed to download ${1}, please download it to ${cur_dir} directory manually and try again."
-                exit 1
+                _error "Failed to download $1, please download it to ${cur_dir} directory manually and try again."
             fi
         fi
     fi
@@ -689,7 +706,7 @@ is_64bit(){
 }
 
 is_digit(){
-    local input=${1}
+    local input="$1"
     if [[ "$input" =~ ^[0-9]+$ ]]; then
         return 0
     else
@@ -698,8 +715,8 @@ is_digit(){
 }
 
 if_in_array(){
-    local element=${1}
-    local array=${2}
+    local element="$1"
+    local array="$2"
     for i in ${array}
     do
         if [ "$i" == "$element" ]; then
@@ -710,7 +727,7 @@ if_in_array(){
 }
 
 add_to_env(){
-    local location=${1}
+    local location="$1"
     cd ${location} && [ ! -d lib ] && [ -d lib64 ] && ln -s lib64 lib
     [ -d "${location}/lib" ] && export LD_LIBRARY_PATH=${location}/lib:${LD_LIBRARY_PATH}
     [ -d "${location}/bin" ] && export PATH=${location}/bin:${PATH}
@@ -718,7 +735,7 @@ add_to_env(){
 }
 
 firewall_set(){
-    log "Info" "Starting set Firewall..."
+    _info "Starting set Firewall..."
 
     if centosversion 6; then
         if [ -e /etc/init.d/iptables ]; then
@@ -735,10 +752,10 @@ firewall_set(){
                 /etc/init.d/iptables save > /dev/null 2>&1
                 /etc/init.d/iptables restart > /dev/null 2>&1
             else
-                log "Warning" "iptables looks like not running, please manually set if necessary."
+                _warn "iptables looks like not running, please manually set if necessary."
             fi
         else
-            log "Warning" "iptables looks like not installed."
+            _warn "iptables looks like not installed."
         fi
     else
         systemctl status firewalld > /dev/null 2>&1
@@ -748,14 +765,14 @@ firewall_set(){
             firewall-cmd --permanent --zone=${default_zone} --add-service=https > /dev/null 2>&1
             firewall-cmd --reload > /dev/null 2>&1
         else
-            log "Warning" "firewalld looks like not running, please manually set if necessary."
+            _warn "firewalld looks like not running, please manually set if necessary."
         fi
     fi
-    log "Info" "Firewall set completed..."
+    _info "Firewall set completed..."
 }
 
 remove_packages(){
-    log "Info" "Starting remove the conflict packages..."
+    _info "Starting remove the conflict packages..."
     if check_sys packageManager apt; then
         [ "${apache}" != "do_not_install" ] && apt-get -y remove --purge apache2 apache2-* &> /dev/null
         [ "${mysql}" != "do_not_install" ] && apt-get -y remove --purge mysql-client mysql-server mysql-common libmysqlclient18 &> /dev/null
@@ -765,19 +782,19 @@ remove_packages(){
         [ "${mysql}" != "do_not_install" ] && yum -y remove mysql-* &> /dev/null
         [ "${php}" != "do_not_install" ] && yum -y remove php-* libzip-devel libzip &> /dev/null
     fi
-    log "Info" "Remove the conflict packages completed..."
+    _info "Remove the conflict packages completed..."
 }
 
 sync_time(){
-    log "Info" "Starting to sync time..."
+    _info "Starting to sync time..."
     ntpdate -bv cn.pool.ntp.org
     rm -f /etc/localtime
     ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-    log "Info" "Sync time completed..."
+    _info "Sync time completed..."
 
     StartDate=$(date "+%Y-%m-%d %H:%M:%S")
     StartDateSecond=$(date +%s)
-    log "Info" "Start time: ${StartDate}"
+    _info "Start time: ${StartDate}"
 
 }
 
@@ -840,10 +857,10 @@ last_confirm(){
 
 #Finally to do
 install_finally(){
-    log "Info" "Starting clean up..."
+    _info "Starting clean up..."
     cd ${cur_dir}
     rm -rf ${cur_dir}/software
-    log "Info" "Clean up completed..."
+    _info "Clean up completed..."
 
     if check_sys packageManager yum; then
         firewall_set
@@ -956,21 +973,21 @@ EOF
         /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql > /dev/null 2>&1
     fi
 
-    sleep 3
-    netstat -nxtlp
-
+    sleep 1
+    netstat -tunlp
     echo
-    echo "Start time     : ${StartDate}"
-    echo -e "Completion time: $(date "+%Y-%m-%d %H:%M:%S") (Use:${RED} $[($(date +%s)-StartDateSecond)/60]${PLAIN} minutes)"
-    echo "Welcome to visit our website: https://lamp.sh"
-    echo "Enjoy it"
+    _info "Start time     : ${StartDate}"
+    _info "Completion time: $(date "+%Y-%m-%d %H:%M:%S") (Use:$(_red $[($(date +%s)-StartDateSecond)/60]) minutes)"
+    _info "Welcome to visit our website:"
+    _info "https://lamp.sh"
+    _info "Enjoy it"
 
     exit 0
 }
 
 #Install tools
 install_tools(){
-    log "Info" "Starting to install development tools..."
+    _info "Starting to install development tools..."
     if check_sys packageManager apt; then
         apt-get -y update > /dev/null 2>&1
         apt_tools=(gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates ntpdate)
@@ -988,7 +1005,7 @@ install_tools(){
             yum-config-manager --enable epel > /dev/null 2>&1
         fi
     fi
-    log "Info" "Install development tools completed..."
+    _info "Install development tools completed..."
 
     check_command_exist "gcc"
     check_command_exist "g++"

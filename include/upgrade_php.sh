@@ -15,8 +15,7 @@
 upgrade_php(){
 
     if [ ! -d "${php_location}" ]; then
-        log "Error" "PHP looks like not installed, please check it and try again."
-        exit 1
+        _error "PHP looks like not installed, please check it and try again."
     fi
 
     local tram=$( free -m | awk '/Mem/ {print $2}' )
@@ -34,31 +33,19 @@ upgrade_php(){
     elif [ "${php_version}" == "7.0" ]; then
         latest_php="7.0.33"
     elif [ "${php_version}" == "7.1" ]; then
-        latest_php=$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.1')
+        latest_php="$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.1')"
     elif [ "${php_version}" == "7.2" ]; then
-        latest_php=$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.2')
+        latest_php="$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.2')"
     elif [ "${php_version}" == "7.3" ]; then
-        latest_php=$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.3')
+        latest_php="$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.3')"
     fi
 
-    echo -e "Latest version of PHP: \033[41;37m ${latest_php} \033[0m"
-    echo -e "Installed version of PHP: \033[41;37m ${installed_php} \033[0m"
-    echo
-    echo "Do you want to upgrade PHP ? (y/n)"
-    read -p "(Default: n):" upgrade_php
-    if [ -z ${upgrade_php} ]; then
-        upgrade_php="n"
-    fi
-    echo "---------------------------"
-    echo "You choose = ${upgrade_php}"
-    echo "---------------------------"
-    echo
-    echo "Press any key to start...or Press Ctrl+C to cancel"
-    char=$(get_char)
-
+    _info "Latest version of PHP   : $(_red ${latest_php})"
+    _info "Installed version of PHP: $(_red ${installed_php})"
+    read -p "Do you want to upgrade PHP? (y/n) (Default: n):" upgrade_php
+    [ -z "${upgrade_php}" ] && upgrade_php="n"
     if [[ "${upgrade_php}" = "y" || "${upgrade_php}" = "Y" ]]; then
-
-        log "Info" "PHP upgrade start..."
+        _info "PHP upgrade start..."
         if [[ -d "${php_location}.bak" && -d "${php_location}" ]]; then
             rm -rf ${php_location}.bak
         fi
@@ -160,17 +147,15 @@ upgrade_php(){
         if [ $(ls ${php_location}.bak/php.d/ | wc -l) -gt 0 ]; then
             cp -pf ${php_location}.bak/php.d/* ${php_location}/php.d/
         fi
-        log "Info" "Clear up start..."
+        _info "Clear up start..."
         cd ${cur_dir}/software
         rm -rf php-${latest_php}/
         rm -f php-${latest_php}.tar.gz
-        log "Info" "Clear up completed..."
+        _info "Clear up completed..."
         /etc/init.d/httpd restart > /dev/null 2>&1
-        log "Info" "PHP upgrade completed..."
+        _info "PHP upgrade completed..."
     else
-        echo
-        log "Info" "PHP upgrade cancelled, nothing to do..."
-        echo
+        _info "PHP upgrade cancelled, nothing to do..."
     fi
 
 }

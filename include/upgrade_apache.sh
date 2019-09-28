@@ -15,31 +15,18 @@
 upgrade_apache(){
 
     if [ ! -d "${apache_location}" ]; then
-        log "Error" "Apache looks like not installed, please check it and try again."
-        exit 1
+        _error "Apache looks like not installed, please check it and try again."
     fi
 
-    local installed_apache=$(${apache_location}/bin/httpd -v | grep 'version' | awk -F/ '{print $2}' | cut -d' ' -f1)
-    local latest_apache24=$(curl -s http://httpd.apache.org/download.cgi | awk '/#apache24/{print $2}' | head -n 1 | awk -F'>' '{print $2}' | cut -d'<' -f1)
+    local installed_apache="$(${apache_location}/bin/httpd -v | grep 'version' | awk -F/ '{print $2}' | cut -d' ' -f1)"
+    local latest_apache24="$(curl -s http://httpd.apache.org/download.cgi | awk '/#apache24/{print $2}' | head -n 1 | awk -F'>' '{print $2}' | cut -d'<' -f1)"
 
-    echo -e "Latest version of Apache: \033[41;37m $latest_apache24 \033[0m"
-    echo -e "Installed version of Apache: \033[41;37m $installed_apache \033[0m"
-    echo
-    echo "Do you want to upgrade Apache ? (y/n)"
-    read -p "(Default: n):" upgrade_apache
-    if [ -z ${upgrade_apache} ]; then
-        upgrade_apache="n"
-    fi
-    echo "----------------------------"
-    echo "You choose = $upgrade_apache"
-    echo "----------------------------"
-    echo
-
-    echo "Press any key to start...or Press Ctrl+C to cancel"
-    char=$(get_char)
-
+    _info "Latest version of Apache   : $(_red ${latest_apache24})"
+    _info "Installed version of Apache: $(_red ${installed_apache})"
+    read -p "Do you want to upgrade Apache? (y/n) (Default: n):" upgrade_apache
+    [ -z "${upgrade_apache}" ] && upgrade_apache="n"
     if [[ "${upgrade_apache}" = "y" || "${upgrade_apache}" = "Y" ]]; then
-        log "Info" "Apache upgrade start..."
+        _info "Apache upgrade start..."
         if [ $(ps -ef | grep -v grep | grep -c "httpd") -gt 0 ]; then
             /etc/init.d/httpd stop > /dev/null 2>&1
         fi
@@ -73,7 +60,7 @@ upgrade_apache(){
             backup_apache_link="${download_root_url}/httpd-${latest_apache24}.tar.gz"
             untar ${latest_apache_link} ${backup_apache_link}
         else
-            log "Info" "httpd-${latest_apache24}.tar.gz [found]"
+            _info "httpd-${latest_apache24}.tar.gz [found]"
             tar zxf httpd-${latest_apache24}.tar.gz
             cd httpd-${latest_apache24}
         fi
@@ -83,7 +70,7 @@ upgrade_apache(){
 
         LDFLAGS=-ldl
         if [ -d "${openssl_location}" ]; then
-            apache_configure_args=$(echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@")
+            apache_configure_args="$(echo ${apache_configure_args} | sed -e "s@--with-ssl@--with-ssl=${openssl_location}@")"
         fi
         error_detect "./configure ${apache_configure_args}"
         error_detect "parallel_make"
@@ -104,23 +91,21 @@ upgrade_apache(){
             cp -pf ${apache_location}.bak/modules/mod_security2.so ${apache_location}/modules/
         fi
 
-        log "Info" "Clear up start..."
+        _info "Clear up start..."
         cd ${cur_dir}/software
         rm -rf httpd-${latest_apache24}
         rm -f httpd-${latest_apache24}.tar.gz ${apr_filename}.tar.gz ${apr_util_filename}.tar.gz
-        log "Info" "Clear up completed..."
+        _info "Clear up completed..."
 
         /etc/init.d/httpd start
         if [ $? -eq 0 ]; then
-            log "Info" "Apache start success!"
+            _info "Apache start success"
         else
-            log "Error" "Apache start failure!"
+            _warn "Apache start failure"
         fi
-        log "Info" "Apache upgrade completed..."
+        _info "Apache upgrade completed..."
     else
-        echo
-        log "Info" "Apache upgrade cancelled, nothing to do..."
-        echo
+        _info "Apache upgrade cancelled, nothing to do..."
     fi
 
 }

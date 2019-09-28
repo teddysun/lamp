@@ -55,8 +55,7 @@ mysql_preinstall_settings(){
 
         elif echo "${mysql}" | grep -qi "Percona"; then
             if [ "${mysql}" == "${percona8_0_filename}" ] && ! is_64bit; then
-                log "Error" "${percona8_0_filename} is not support 32 bit OS, please change to 64 bit OS and try again."
-                exit 1
+                _error "${percona8_0_filename} is not support 32 bit OS, please change to 64 bit OS and try again"
             fi
             #percona data
             echo
@@ -87,7 +86,7 @@ common_install(){
     else
         local perl_data_dumper_url="${download_root_url}/perl-Data-Dumper-2.125-1.el6.rf.i686.rpm"
     fi
-    log "Info" "Starting to install dependencies packages for Database..."
+    _info "Starting to install dependencies packages for Database..."
     if check_sys packageManager apt; then
         for depend in ${apt_list[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
@@ -99,9 +98,9 @@ common_install(){
         if centosversion 6; then
             rpm -q perl-Data-Dumper > /dev/null 2>&1
             if [ $? -ne 0 ]; then
-                log "Info" "Starting to install package perl-Data-Dumper"
+                _info "Starting to install package perl-Data-Dumper"
                 rpm -Uvh ${perl_data_dumper_url} > /dev/null 2>&1
-                [ $? -ne 0 ] && log "Error" "Install package perl-Data-Dumper failed" && exit 1
+                [ $? -ne 0 ] && _error "Install package perl-Data-Dumper failed"
             fi
         else
             error_detect_depends "yum -y install perl-Data-Dumper"
@@ -110,7 +109,7 @@ common_install(){
             error_detect_depends "yum -y install ncurses-compat-libs"
         fi
     fi
-    log "Info" "Install dependencies packages for Database completed..."
+    _info "Install dependencies packages for Database completed..."
 
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
@@ -179,7 +178,7 @@ create_mysql_my_cnf(){
         replica=""
     fi
 
-    log "Info" "create my.cnf file..."
+    _info "create my.cnf file..."
     cat >${my_cnf_location} <<EOF
 [mysql]
 
@@ -228,7 +227,7 @@ ${replica}
 
 EOF
 
-    log "Info" "create my.cnf file at ${my_cnf_location} completed."
+    _info "create my.cnf file at ${my_cnf_location} completed."
 
 }
 
@@ -286,7 +285,7 @@ common_setup(){
     chmod +x /etc/init.d/mysqld
     boot_start mysqld
 
-    log "Info" "Starting ${db_name}..."
+    _info "Starting ${db_name}..."
     /etc/init.d/mysqld start > /dev/null 2>&1
     if [ "${mysql}" == "${mysql8_0_filename}" ] || [ "${mysql}" == "${percona8_0_filename}" ]; then
         /usr/bin/mysql -uroot -hlocalhost -e "create user root@'127.0.0.1' identified by \"${db_pass}\";"
@@ -305,7 +304,7 @@ exit
 EOF
     fi
 
-    log "Info" "Shutting down ${db_name}..."
+    _info "Shutting down ${db_name}..."
     /etc/init.d/mysqld stop > /dev/null 2>&1
 
 }
@@ -318,7 +317,7 @@ install_mysqld(){
     is_64bit && sys_bit=x86_64 || sys_bit=i686
     mysql_ver=$(echo ${mysql} | sed 's/[^0-9.]//g' | cut -d. -f1-2)
     cd ${cur_dir}/software/
-    log "Info" "Downloading and Extracting MySQL files..."
+    _info "Downloading and Extracting MySQL files..."
 
     mysql_filename="${mysql}-linux-glibc2.12-${sys_bit}"
     if [ "${mysql_ver}" == "8.0" ]; then
@@ -331,7 +330,7 @@ install_mysqld(){
         tar zxf ${mysql_filename}.tar.gz
     fi
 
-    log "Info" "Moving MySQL files..."
+    _info "Moving MySQL files..."
     mv ${mysql_filename}/* ${mysql_location}
 
     config_mysql ${mysql_ver}
@@ -390,9 +389,9 @@ install_mariadb(){
     cd ${cur_dir}/software/
     download_file "${mariadb_filename}.tar.gz" "${mariadb_filename_url}"
 
-    log "Info" "Extracting MariaDB files..."
+    _info "Extracting MariaDB files..."
     tar zxf ${mariadb_filename}.tar.gz
-    log "Info" "Moving MariaDB files..."
+    _info "Moving MariaDB files..."
     mv ${mariadb_filename}/* ${mariadb_location}
 
     config_mariadb
@@ -453,9 +452,9 @@ install_percona(){
 
     cd ${cur_dir}/software/
     download_file "${percona_filename}.tar.gz" "${percona_filename_url}"
-    log "Info" "Extracting Percona Server files..."
+    _info "Extracting Percona Server files..."
     tar zxf ${percona_filename}.tar.gz
-    log "Info" "Moving Percona Server files..."
+    _info "Moving Percona Server files..."
     mv ${percona_filename}/* ${percona_location}
 
     config_percona ${percona_ver}

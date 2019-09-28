@@ -15,107 +15,82 @@
 upgrade_db(){
 
     if [ ! -d "${mysql_location}" ] && [ ! -d "${mariadb_location}" ] && [ ! -d "${percona_location}" ]; then
-        log "Error" "MySQL or MariaDB or Percona looks like not installed, please check it and try again."
-        exit 1
+        _error "MySQL or MariaDB or Percona looks like not installed, please check it and try again"
     fi
 
     update_date=$(date +"%Y%m%d")
     bkup_file="mysqld_${update_date}.bak"
 
-    if [ -d ${mysql_location} ]; then
-        db_flg="mysql"
+    if [ -d "${mysql_location}" ]; then
+        db_name="MySQL"
         bkup_dir="${cur_dir}/mysql_bkup"
         mysql_dump="${bkup_dir}/mysql_all_backup_${update_date}.dump"
-        installed_mysql=$(${mysql_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
-        mysql_ver=$(echo ${installed_mysql} | cut -d. -f1-2)
+        installed_mysql="$(${mysql_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+        mysql_ver="$(echo ${installed_mysql} | cut -d. -f1-2)"
         if   [ "${mysql_ver}" == "5.5" ]; then
-            latest_mysql=$(curl -s https://dev.mysql.com/downloads/mysql/5.5.html | awk '/MySQL Community Server/{print $4}' | grep '5.5')
+            latest_mysql="$(curl -s https://dev.mysql.com/downloads/mysql/5.5.html | awk '/MySQL Community Server/{print $4}' | grep '5.5')"
         elif [ "${mysql_ver}" == "5.6" ]; then
-            latest_mysql=$(curl -s https://dev.mysql.com/downloads/mysql/5.6.html | awk '/MySQL Community Server/{print $4}' | grep '5.6')
+            latest_mysql="$(curl -s https://dev.mysql.com/downloads/mysql/5.6.html | awk '/MySQL Community Server/{print $4}' | grep '5.6')"
         elif [ "${mysql_ver}" == "5.7" ]; then
-            latest_mysql=$(curl -s https://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7')
+            latest_mysql="$(curl -s https://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7')"
         elif [ "${mysql_ver}" == "8.0" ]; then
-            latest_mysql=$(curl -s https://dev.mysql.com/downloads/mysql/8.0.html | awk '/MySQL Community Server/{print $4}' | grep '8.0')
+            latest_mysql="$(curl -s https://dev.mysql.com/downloads/mysql/8.0.html | awk '/MySQL Community Server/{print $4}' | grep '8.0')"
         fi
 
-        echo -e "Latest version of MySQL: \033[41;37m ${latest_mysql} \033[0m"
-        echo -e "Installed version of MySQL: \033[41;37m ${installed_mysql} \033[0m"
+        _info "Latest version of MySQL   : $(_red ${latest_mysql})"
+        _info "Installed version of MySQL: $(_red ${installed_mysql})"
 
-    elif [ -d ${mariadb_location} ]; then
-        db_flg="mariadb"
+    elif [ -d "${mariadb_location}" ]; then
+        db_name="MariaDB"
         bkup_dir="${cur_dir}/mariadb_bkup"
         mysql_dump="${bkup_dir}/mariadb_all_backup_${update_date}.dump"
-        installed_mariadb=$(${mariadb_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
-        mariadb_ver=$(echo ${installed_mariadb} | cut -d. -f1-2)
+        installed_mariadb="$(${mariadb_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+        mariadb_ver="$(echo ${installed_mariadb} | cut -d. -f1-2)"
         if   [ "${mariadb_ver}" == "5.5" ]; then
-            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/5.5/{print $3}')
+            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/5.5/{print $3}')"
         elif [ "${mariadb_ver}" == "10.0" ]; then
-            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}')
+            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}')"
         elif [ "${mariadb_ver}" == "10.1" ]; then
-            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.1/{print $3}')
+            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.1/{print $3}')"
         elif [ "${mariadb_ver}" == "10.2" ]; then
-            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.2/{print $3}')
+            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.2/{print $3}')"
         elif [ "${mariadb_ver}" == "10.3" ]; then
-            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.3/{print $3}')
+            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.3/{print $3}')"
         elif [ "${mariadb_ver}" == "10.4" ]; then
-            latest_mariadb=$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.4/{print $3}')
+            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.4/{print $3}')"
         fi
 
-        echo -e "Latest version of MariaDB: \033[41;37m ${latest_mariadb} \033[0m"
-        echo -e "Installed version of MariaDB: \033[41;37m ${installed_mariadb} \033[0m"
-    elif [ -d ${percona_location} ]; then
-        db_flg="percona"
+        _info "Latest version of MariaDB   : $(_red ${latest_mariadb})"
+        _info "Installed version of MariaDB: $(_red ${installed_mariadb})"
+    elif [ -d "${percona_location}" ]; then
+        db_name="Percona Server"
         bkup_dir="${cur_dir}/percona_bkup"
         mysql_dump="${bkup_dir}/percona_all_backup_${update_date}.dump"
-        installed_percona=$(${percona_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\-[0-9]+')
-        percona_ver=$(echo ${installed_percona} | cut -d. -f1-2)
+        installed_percona="$(${percona_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\-[0-9]+')"
+        percona_ver="$(echo ${installed_percona} | cut -d. -f1-2)"
         if   [ "${percona_ver}" == "5.5" ]; then
-            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-5.5/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.5/{print $2}' | cut -d'"' -f1)
+            latest_percona="$(curl -s https://www.percona.com/downloads/Percona-Server-5.5/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.5/{print $2}' | cut -d'"' -f1)"
         elif [ "${percona_ver}" == "5.6" ]; then
-            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-5.6/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.6/{print $2}' | cut -d'"' -f1)
+            latest_percona="$(curl -s https://www.percona.com/downloads/Percona-Server-5.6/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.6/{print $2}' | cut -d'"' -f1)"
         elif [ "${percona_ver}" == "5.7" ]; then
-            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-5.7/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.7/{print $2}' | cut -d'"' -f1)
+            latest_percona="$(curl -s https://www.percona.com/downloads/Percona-Server-5.7/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-5.7/{print $2}' | cut -d'"' -f1)"
         elif [ "${percona_ver}" == "8.0" ]; then
-            latest_percona=$(curl -s https://www.percona.com/downloads/Percona-Server-8.0/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-8.0/{print $2}' | cut -d'"' -f1)
+            latest_percona="$(curl -s https://www.percona.com/downloads/Percona-Server-8.0/ | grep 'selected' | head -1 | awk -F '/Percona-Server-' '/Percona-Server-8.0/{print $2}' | cut -d'"' -f1)"
         fi
 
-        echo -e "Latest version of Percona: \033[41;37m ${latest_percona} \033[0m"
-        echo -e "Installed version of Percona: \033[41;37m ${installed_percona} \033[0m"
+        _info "Latest version of Percona   : $(_red ${latest_percona})"
+        _info "Installed version of Percona: $(_red ${installed_percona})"
 
     fi
-
-    db_name(){
-        if [ "${db_flg}" == "mysql" ]; then
-            echo "MySQL"
-        elif [ "${db_flg}" == "mariadb" ]; then
-            echo "MariaDB"
-        elif [ "${db_flg}" == "percona" ]; then
-            echo "Percona Server"
-        fi
-    }
-
-    echo
-    echo "Do you want to upgrade $(db_name) ? (y/n)"
-
-    read -p "(Default: n):" upgrade_db
-    if [ -z ${upgrade_db} ]; then
-        upgrade_db="n"
-    fi
-    echo "---------------------------"
-    echo "You choose = ${upgrade_db}"
-    echo "---------------------------"
-    echo
-    echo "Press any key to start...or Press Ctrl+C to cancel"
-    char=$(get_char)
-
+    read -p "Do you want to upgrade ${db_name}? (y/n) (Default: n):" upgrade_db
+    [ -z "${upgrade_db}" ] && upgrade_db="n"
     if [[ "${upgrade_db}" = "y" || "${upgrade_db}" = "Y" ]]; then
-        log "Info" "$(db_name) upgrade start..."
+        _info "${db_name} upgrade start..."
         if [ $(ps -ef | grep -v grep | grep -c "mysqld") -eq 0 ]; then
-            log "Info" "$(db_name) looks like not running, Try to starting $(db_name)..."
+            _info "${db_name} looks like not running, Try to starting ${db_name}..."
             /etc/init.d/mysqld start > /dev/null 2>&1
             if [ $? -ne 0 ]; then
-                log "Error" "$(db_name) starting failed!"
-                exit 1
+                _error "Starting ${db_name} failed"
             fi
         fi
 
@@ -123,30 +98,27 @@ upgrade_db(){
             mkdir -p ${bkup_dir}
         fi
 
-        read -p "Please input your $(db_name) root password:" mysql_root_password
+        read -p "Please input your ${db_name} root password:" mysql_root_password
         /usr/bin/mysql -uroot -p${mysql_root_password} <<EOF
 exit
 EOF
         if [ $? -ne 0 ]; then
-            log "Error" "$(db_name) root password incorrect! Please check it and try again!"
-            exit 2
+            _error "${db_name}  root password incorrect, Please check it and try again"
         fi
 
-        log "Info" "Starting backup all of databases, Please wait a moment..."
+        _info "Starting backup all of databases, Please wait a moment..."
         /usr/bin/mysqldump -uroot -p${mysql_root_password} --all-databases > ${mysql_dump}
         if [ $? -eq 0 ]; then
-            log "Info" "$(db_name) all of databases backup success"
+            _info "${db_name} all of databases backup success"
         else
-            log "Error" "$(db_name) all of databases backup failed, Please check it and try again!"
-            exit 3
+            _error "${db_name} all of databases backup failed, Please check it and try again"
         fi
-        log "Info" "Stopping $(db_name)..."
+        _info "Stopping ${db_name}..."
         /etc/init.d/mysqld stop > /dev/null 2>&1
         if [ $? -eq 0 ]; then
-            log "Info" "$(db_name) stop success"
+            _info "${db_name} stop success"
         else
-            log "Error" "$(db_name) stop failed! Please check it and try again!"
-            exit 4
+            _error "${db_name} stop failed, Please check it and try again"
         fi
         cp -pf /etc/init.d/mysqld ${bkup_dir}/${bkup_file}
 
@@ -166,7 +138,7 @@ EOF
             [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
             is_64bit && sys_bit=x86_64 || sys_bit=i686
-            log "Info" "Downloading and Extracting MySQL files..."
+            _info "Downloading and Extracting MySQL files..."
 
             mysql_filename="mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}"
             if [ "${mysql_ver}" == "8.0" ]; then
@@ -179,7 +151,7 @@ EOF
                 tar zxf ${mysql_filename}.tar.gz
             fi
 
-            log "Info" "Moving MySQL files..."
+            _info "Moving MySQL files..."
             mv ${mysql_filename}/* ${mysql_location}
 
             chown -R mysql:mysql ${mysql_location} ${datalocation}
@@ -221,9 +193,9 @@ EOF
 
             download_file "${mariadb_filename}.tar.gz" "${mariadb_filename_url}"
 
-            log "Info" "Extracting MariaDB files..."
+            _info "Extracting MariaDB files..."
             tar zxf ${mariadb_filename}.tar.gz
-            log "Info" "Moving MariaDB files..."
+            _info "Moving MariaDB files..."
             mv ${mariadb_filename}/* ${mariadb_location}
 
             chown -R mysql:mysql ${mariadb_location} ${datalocation}
@@ -273,9 +245,9 @@ EOF
             percona_filename_url="${down_addr}/${percona_filename}.tar.gz"
 
             download_file "${percona_filename}.tar.gz" "${percona_filename_url}"
-            log "Info" "Extracting Percona Server files..."
+            _info "Extracting Percona Server files..."
             tar zxf ${percona_filename}.tar.gz
-            log "Info" "Moving Percona Server files..."
+            _info "Moving Percona Server files..."
             mv ${percona_filename}/* ${percona_location}
 
             chown -R mysql:mysql ${percona_location} ${datalocation}
@@ -309,11 +281,10 @@ EOF
         if [ -d "/proc/vz" ]; then
             ulimit -s unlimited
         fi
-        log "Info" "Starting $(db_name)..."
+        _info "Starting ${db_name}..."
         /etc/init.d/mysqld start > /dev/null 2>&1
         if [ $? -ne 0 ]; then
-            log "Error" "Starting $(db_name) failed, Please check it and try again!"
-            exit 5
+            _error "Starting ${db_name} failed, Please check it and try again"
         fi
         if [ "${mysql_ver}" == "8.0" ] || [ "${percona_ver}" == "8.0" ]; then
             /usr/bin/mysql -uroot -hlocalhost -e "create user root@'127.0.0.1' identified by \"${mysql_root_password}\";"
@@ -331,29 +302,26 @@ flush privileges;
 exit
 EOF
         fi
-        log "Info" "Starting restore all of databases, Please wait a moment..."
+        _info "Starting restore all of databases, Please wait a moment..."
         /usr/bin/mysql -uroot -p${mysql_root_password} < ${mysql_dump} > /dev/null 2>&1
         if [ $? -eq 0 ]; then
-            log "Info" "$(db_name) all of databases restore success"
+            _info "${db_name} all of databases restore success"
         else
-            log "Error" "$(db_name) all of databases restore failed, Please restore it manually!"
-            exit 6
+            _warn "${db_name} all of databases restore failed, Please restore it manually"
         fi
-        log "Info" "Restart $(db_name)..."
+        _info "Restart ${db_name}..."
         /etc/init.d/mysqld restart > /dev/null 2>&1
-        log "Info" "Restart Apache..."
+        _info "Restart Apache..."
         /etc/init.d/httpd restart > /dev/null 2>&1
 
-        log "Info" "Clear up start..."
+        _info "Clear up start..."
         cd ${cur_dir}/software
         rm -rf mysql-* mariadb-* Percona-Server-*
-        log "Info" "Clear up completed..."
+        _info "Clear up completed..."
         echo
-        log "Info" "$(db_name) upgrade completed..."
+        _info "${db_name} upgrade completed..."
     else
-        echo
-        log "Info" "$(db_name) upgrade cancelled, nothing to do..."
-        echo
+        _info "${db_name} upgrade cancelled, nothing to do..."
     fi
 
 }

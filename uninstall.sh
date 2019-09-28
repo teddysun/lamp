@@ -30,27 +30,27 @@ include(){
 }
 
 uninstall_lamp(){
-    log "Info" "uninstalling Apache"
+    _info "uninstalling Apache"
     if [ -f /etc/init.d/httpd ] && [ $(ps -ef | grep -v grep | grep -c "httpd") -gt 0 ]; then
         /etc/init.d/httpd stop > /dev/null 2>&1
     fi
     rm -f /etc/init.d/httpd
     rm -rf ${apache_location} /usr/sbin/httpd /var/log/httpd /etc/logrotate.d/httpd /var/spool/mail/apache
-    log "Info" "Success"
+    _info "Success"
     echo
-    log "Info" "uninstalling MySQL/MariaDB/Percona"
+    _info "uninstalling MySQL or MariaDB or Percona Server"
     if [ -f /etc/init.d/mysqld ] && [ $(ps -ef | grep -v grep | grep -c "mysqld") -gt 0 ]; then
         /etc/init.d/mysqld stop > /dev/null 2>&1
     fi
     rm -f /etc/init.d/mysqld
     rm -rf ${mysql_location} ${mariadb_location} ${percona_location} /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
-    log "Info" "Success"
+    _info "Success"
     echo
-    log "Info" "uninstalling PHP"
+    _info "uninstalling PHP"
     rm -rf ${php_location} /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
-    log "Info" "Success"
+    _info "Success"
     echo
-    log "Info" "uninstalling others software"
+    _info "uninstalling others software"
     [ -f /etc/init.d/memcached ] && /etc/init.d/memcached stop > /dev/null 2>&1
     rm -f /etc/init.d/memcached
     rm -fr ${depends_prefix}/memcached /usr/bin/memcached
@@ -72,9 +72,9 @@ uninstall_lamp(){
     rm -rf ${web_root_dir}/phpmyadmin
     rm -rf ${web_root_dir}/kod
     rm -rf ${web_root_dir}/xcache /tmp/{pcov,phpcore}
-    log "Info" "Success"
+    _info "Success"
     echo
-    log "Info" "Successfully uninstall LAMP"
+    _info "Successfully uninstall LAMP"
 }
 
 include config
@@ -89,7 +89,7 @@ do
     uninstall=$(upcase_to_lowcase ${uninstall})
     case ${uninstall} in
         y) uninstall_lamp ; break;;
-        n) log "Info" "Uninstall cancelled, nothing to do" ; break;;
-        *) log "Warning" "Input error. Please only input y/n";;
+        n) _info "Uninstall cancelled, nothing to do" ; break;;
+        *) _warn "Input error, Please only input y or n";;
     esac
 done
