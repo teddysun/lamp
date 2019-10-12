@@ -150,8 +150,8 @@ xdebug_filename_url="https://xdebug.org/files/xdebug-2.5.5.tgz"
 xdebug_filename2="xdebug-2.7.2"
 xdebug_filename2_url="https://xdebug.org/files/xdebug-2.7.2.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-66"
-ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.8-66.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.8-68"
+ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.8-68.tar.gz"
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
@@ -174,8 +174,8 @@ ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_l
 libevent_filename="libevent-2.1.8-stable"
 libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz"
 #memcached
-memcached_filename="memcached-1.5.18"
-memcached_filename_url="http://www.memcached.org/files/memcached-1.5.18.tar.gz"
+memcached_filename="memcached-1.5.19"
+memcached_filename_url="http://www.memcached.org/files/memcached-1.5.19.tar.gz"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 libmemcached_filename_url="https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz"
