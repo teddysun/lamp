@@ -39,7 +39,7 @@
 - MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, MariaDB-10.3, MariaDB-10.4, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7, Percona-Server-8.0
 - PHP-5.6, PHP-7.0, PHP-7.1, PHP-7.2, PHP-7.3
 - PHP Additional extensions: Zend OPcache, [ionCube Loader](https://www.ioncube.com/loaders.php), [XCache](https://xcache.lighttpd.net/), [imagick](https://pecl.php.net/package/imagick), [gmagick](https://pecl.php.net/package/gmagick), [libsodium](https://github.com/jedisct1/libsodium-php), [memcached](https://github.com/php-memcached-dev/php-memcached), [redis](https://github.com/phpredis/phpredis), [mongodb](https://pecl.php.net/package/mongodb), [swoole](https://github.com/swoole/swoole-src), [yaf](https://github.com/laruence/yaf), [xdebug](https://github.com/xdebug/xdebug)
-- Other Software: [OpenSSL](https://github.com/openssl/openssl), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [GraphicsMagick](http://www.graphicsmagick.org/), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Redis](https://github.com/antirez/redis), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
+- Other Software: [OpenSSL](https://github.com/openssl/openssl), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [GraphicsMagick](http://www.graphicsmagick.org/), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Redis](https://github.com/antirez/redis), [re2c](https://github.com/skvadrik/re2c), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
 
 ## Software Version
 
@@ -65,14 +65,14 @@
 | PHP                         | 5.6.40, 7.0.33, 7.1.32, 7.2.23, 7.3.10             |
 | ionCube Loader              | 10.3.8                                             |
 | XCache(PHP 5.6 only)        | 3.2.0                                              |
-| ImageMagick                 | 7.0.8-66                                           |
+| ImageMagick                 | 7.0.8-68                                           |
 | imagick extension           | 3.4.4                                              |
 | GraphicsMagick              | 1.3.33                                             |
 | gmagick extension(PHP 5.6)  | 1.1.7RC3                                           |
 | gmagick extension(PHP 7)    | 2.0.5RC1                                           |
 | libsodium                   | 1.0.18                                             |
 | libsodium extension         | 2.0.22                                             |
-| memcached                   | 1.5.18                                             |
+| memcached                   | 1.5.19                                             |
 | libmemcached                | 1.0.18                                             |
 | memcached extension(PHP 5.6)| 2.2.0                                              |
 | memcached extension(PHP 7)  | 3.1.3                                              |
