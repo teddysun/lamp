@@ -46,11 +46,11 @@ apache2_4_filename_url="http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.41.ta
 #mysql5.5
 mysql5_5_filename="mysql-5.5.62"
 #mysql5.6
-mysql5_6_filename="mysql-5.6.45"
+mysql5_6_filename="mysql-5.6.46"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.27"
+mysql5_7_filename="mysql-5.7.28"
 #mysql8.0
-mysql8_0_filename="mysql-8.0.17"
+mysql8_0_filename="mysql-8.0.18"
 #mariadb5.5
 mariadb5_5_filename="mariadb-5.5.65"
 #mariadb10.0
@@ -135,9 +135,9 @@ libzip_filename_url="https://libzip.org/download/libzip-1.3.2.tar.gz"
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
 #swoole
-swoole_filename="swoole-src-4.4.7"
-swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.7.tar.gz"
-set_hint ${swoole_filename} "php-swoole-4.4.7"
+swoole_filename="swoole-src-4.4.8"
+swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.8.tar.gz"
+set_hint ${swoole_filename} "php-swoole-4.4.8"
 #yaf
 yaf_filename="yaf-3.0.8"
 yaf_filename_url="https://pecl.php.net/get/yaf-3.0.8.tgz"
