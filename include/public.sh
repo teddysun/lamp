@@ -423,7 +423,7 @@ error_detect_depends(){
     local work_dir=$(pwd)
     local depend=$(echo "$1" | awk '{print $4}')
     _info "Starting to install package ${depend}"
-    ${command} 1 > /dev/null
+    ${command} > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         distro=$(get_opsy)
         version=$(cat /proc/version)
