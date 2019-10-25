@@ -62,8 +62,8 @@
 
 | PHP & Additional extensions | Version                                            |
 |-----------------------------|----------------------------------------------------|
-| PHP                         | 5.6.40, 7.0.33, 7.1.32, 7.2.23, 7.3.10             |
-| ionCube Loader              | 10.3.8                                             |
+| PHP                         | 5.6.40, 7.0.33, 7.1.33, 7.2.24, 7.3.11             |
+| ionCube Loader              | 10.3.9                                             |
 | XCache(PHP 5.6 only)        | 3.2.0                                              |
 | ImageMagick                 | 7.0.8-68                                           |
 | imagick extension           | 3.4.4                                              |
