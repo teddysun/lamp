@@ -35,8 +35,8 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.39.2"
-nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.39.2/nghttp2-1.39.2.tar.gz"
+nghttp2_filename="nghttp2-1.40.0"
+nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.40.0/nghttp2-1.40.0.tar.gz"
 #openssl
 openssl_filename="openssl-1.1.1d"
 openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1d.tar.gz"
@@ -68,7 +68,7 @@ percona5_5_filename="Percona-Server-5.5.62-38.14"
 #percona5.6
 percona5_6_filename="Percona-Server-5.6.46-86.2"
 #percona5.7
-percona5_7_filename="Percona-Server-5.7.27-30"
+percona5_7_filename="Percona-Server-5.7.28-31"
 #percona8.0
 percona8_0_filename="Percona-Server-8.0.16-7"
 #php5.6
