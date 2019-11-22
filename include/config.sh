@@ -135,9 +135,9 @@ libzip_filename_url="https://libzip.org/download/libzip-1.3.2.tar.gz"
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
 #swoole
-swoole_filename="swoole-src-4.4.8"
-swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.8.tar.gz"
-set_hint ${swoole_filename} "php-swoole-4.4.8"
+swoole_filename="swoole-src-4.4.12"
+swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.12.tar.gz"
+set_hint ${swoole_filename} "php-swoole-4.4.12"
 #yaf
 yaf_filename="yaf-3.0.8"
 yaf_filename_url="https://pecl.php.net/get/yaf-3.0.8.tgz"
