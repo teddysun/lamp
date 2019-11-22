@@ -80,7 +80,7 @@
 | redis extension(PHP 5.6)    | 4.3.0                                              |
 | redis extension(PHP 7)      | 5.0.2                                              |
 | mongodb extension           | 1.6.0                                              |
-| swoole extension(PHP 7 only)| 4.4.8                                              |
+| swoole extension(PHP 7 only)| 4.4.12                                             |
 | yaf extension(PHP 7 only)   | 3.0.8                                              |
 | xdebug extension(PHP 5.6)   | 2.5.5                                              |
 | xdebug extension(PHP 7)     | 2.7.2                                              |
