@@ -87,8 +87,8 @@ php7_2_filename_url="https://www.php.net/distributions/php-7.2.25.tar.gz"
 php7_3_filename="php-7.3.12"
 php7_3_filename_url="https://www.php.net/distributions/php-7.3.12.tar.gz"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.9.1-all-languages"
-phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.1/phpMyAdmin-4.9.1-all-languages.tar.gz"
+phpmyadmin_filename="phpMyAdmin-4.9.2-all-languages"
+phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.2/phpMyAdmin-4.9.2-all-languages.tar.gz"
 #kodexplorer
 kod_version=$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)
 [ -z "${kod_version}" ] && kod_version="4.35"

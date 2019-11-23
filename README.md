@@ -84,7 +84,7 @@
 | yaf extension(PHP 7 only)   | 3.0.8                                              |
 | xdebug extension(PHP 5.6)   | 2.5.5                                              |
 | xdebug extension(PHP 7)     | 2.7.2                                              |
-| phpMyAdmin                  | 4.9.1                                              |
+| phpMyAdmin                  | 4.9.2                                              |
 | KodExplorer                 | 4.35                                               |
 
 ## Installation
