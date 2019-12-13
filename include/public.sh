@@ -1036,7 +1036,7 @@ lamp_install(){
         check_installed "install_percona" "${percona_location}"
     fi
     [ "${php}" != "do_not_install" ] && check_installed "install_php" "${php_location}"
-    [ "${phpmyadmin}" != "do_not_install" ] && install_phpmyadmin
+    [ "${phpmyadmin_install}" != "do_not_install" ] && install_phpmyadmin_modules
     [ "${kodexplorer}" != "do_not_install" ] && install_kodexplorer
     [ "${php_modules_install}" != "do_not_install" ] && install_php_modules "${phpConfig}"
 

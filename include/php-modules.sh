@@ -40,7 +40,7 @@ phpmyadmin_preinstall_settings(){
     if [ "${php}" == "do_not_install" ]; then
         phpmyadmin="do_not_install"
     else
-        display_menu phpmyadmin 1
+        display_menu_multi phpmyadmin 1
     fi
 }
 
@@ -73,6 +73,11 @@ install_php_modules(){
         if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
         if_in_array "${yaf_filename}" "${php_modules_install}" && install_yaf "${phpConfig}"
     fi
+}
+
+install_phpmyadmin_modules(){
+    if_in_array "${phpmyadmin_filename}" "${phpmyadmin_install}" && install_phpmyadmin
+    if_in_array "${adminer_filename}" "${phpmyadmin_install}" && install_adminer
 }
 
 install_php_depends(){
@@ -268,6 +273,15 @@ install_phpmyadmin(){
     mkdir -p ${web_root_dir}/phpmyadmin/{upload,save}
     chown -R apache:apache ${web_root_dir}/phpmyadmin
     _info "${phpmyadmin_filename} install completed..."
+}
+
+install_adminer(){
+    _info "${adminer_filename} install start..."
+    cd ${cur_dir}/software
+    download_file "${adminer_filename}.php" "${adminer_filename_url}"
+    mv ${adminer_filename}.php ${web_root_dir}/adminer.php
+    chown apache:apache ${web_root_dir}/adminer.php
+    _info "${adminer_filename} install completed..."
 }
 
 install_kodexplorer(){
