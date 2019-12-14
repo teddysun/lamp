@@ -39,7 +39,7 @@
 - MySQL-5.5, MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-5.5, MariaDB-10.0, MariaDB-10.1, MariaDB-10.2, MariaDB-10.3, MariaDB-10.4, Percona-Server-5.5, Percona-Server-5.6, Percona-Server-5.7, Percona-Server-8.0
 - PHP-5.6, PHP-7.0, PHP-7.1, PHP-7.2, PHP-7.3
 - PHP Additional extensions: Zend OPcache, [ionCube Loader](https://www.ioncube.com/loaders.php), [XCache](https://xcache.lighttpd.net/), [imagick](https://pecl.php.net/package/imagick), [gmagick](https://pecl.php.net/package/gmagick), [libsodium](https://github.com/jedisct1/libsodium-php), [memcached](https://github.com/php-memcached-dev/php-memcached), [redis](https://github.com/phpredis/phpredis), [mongodb](https://pecl.php.net/package/mongodb), [swoole](https://github.com/swoole/swoole-src), [yaf](https://github.com/laruence/yaf), [xdebug](https://github.com/xdebug/xdebug)
-- Other Software: [OpenSSL](https://github.com/openssl/openssl), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [GraphicsMagick](http://www.graphicsmagick.org/), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Redis](https://github.com/antirez/redis), [re2c](https://github.com/skvadrik/re2c), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
+- Other Software: [OpenSSL](https://github.com/openssl/openssl), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [GraphicsMagick](http://www.graphicsmagick.org/), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Adminer](https://github.com/vrana/adminer), [Redis](https://github.com/antirez/redis), [re2c](https://github.com/skvadrik/re2c), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
 
 ## Software Version
 
@@ -85,6 +85,7 @@
 | xdebug extension(PHP 5.6)   | 2.5.5                                              |
 | xdebug extension(PHP 7)     | 2.7.2                                              |
 | phpMyAdmin                  | 4.9.2                                              |
+| Adminer                     | 4.7.5                                              |
 | KodExplorer                 | 4.35                                               |
 
 ## Installation
@@ -116,7 +117,7 @@ screen -S lamp
 
 - Automation install mode example
 ```bash
-~/lamp/lamp.sh --apache_option 1 --apache_modules mod_wsgi,mod_security --db_option 3 --db_root_pwd teddysun.com --php_option 4 --php_extensions ioncube,imagick,redis,mongodb,libsodium,swoole --phpmyadmin_option 1 --kodexplorer_option 1
+~/lamp/lamp.sh --apache_option 1 --apache_modules mod_wsgi,mod_security --db_option 3 --db_root_pwd teddysun.com --php_option 4 --php_extensions ioncube,imagick,redis,mongodb,libsodium,swoole --db_manage_modules phpmyadmin,adminer --kodexplorer_option 1
 ```
 
 ## Upgrade
@@ -132,6 +133,7 @@ chmod 755 *.sh
 ./upgrade.sh db          // Upgrade MySQL/MariaDB/Percona
 ./upgrade.sh php         // Upgrade PHP
 ./upgrade.sh phpmyadmin  // Upgrade phpMyAdmin
+./upgrade.sh adminer     // Upgrade Adminer
 ```
 
 ## Backup
@@ -168,6 +170,10 @@ chmod 755 *.sh
 | phpMyAdmin Location        | Path                                           |
 |----------------------------|------------------------------------------------|
 | Installation location      | /data/www/default/phpmyadmin                   |
+
+| Adminer Location           | Path                                           |
+|----------------------------|------------------------------------------------|
+| Installation location      | /data/www/default/adminer.php                  |
 
 | KodExplorer Location       | Path                                           |
 |----------------------------|------------------------------------------------|
