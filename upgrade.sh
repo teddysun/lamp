@@ -45,11 +45,12 @@ upgrade_menu(){
     _info "$(_green 2). Upgrade MySQL/MariaDB/Percona"
     _info "$(_green 3). Upgrade PHP"
     _info "$(_green 4). Upgrade phpMyAdmin"
-    _info "$(_green 5). Exit"
+    _info "$(_green 5). Upgrade Adminer"
+    _info "$(_green 6). Exit"
     echo
     read -p "Please input a number: " number
-    if [[ ! ${number} =~ ^[1-5]$ ]]; then
-        _error "Input error, please only input 1~5"
+    if [[ ! ${number} =~ ^[1-6]$ ]]; then
+        _error "Input error, please only input 1~6"
     else
         case "${number}" in
         1)
@@ -69,6 +70,10 @@ upgrade_menu(){
             break
             ;;
         5)
+            upgrade_adminer 2>&1 | tee ${cur_dir}/upgrade_adminer.log
+            break
+            ;;
+        6)
             exit
             ;;
         esac
@@ -80,11 +85,12 @@ upgrade_menu(){
 display_usage(){
 printf "
 
-Usage: $0 [ apache | db | php | phpmyadmin ]
+Usage: $0 [ apache | db | php | phpmyadmin | adminer ]
 apache                    --->Upgrade Apache
 db                        --->Upgrade MySQL/MariaDB/Percona
 php                       --->Upgrade PHP
 phpmyadmin                --->Upgrade phpMyAdmin
+adminer                   --->Upgrade Adminer
 
 "
 }
@@ -95,6 +101,7 @@ include upgrade_apache
 include upgrade_db
 include upgrade_php
 include upgrade_phpmyadmin
+include upgrade_adminer
 load_config
 rootness
 
@@ -113,6 +120,9 @@ elif [ ${#} -eq 1 ]; then
         ;;
     phpmyadmin)
         upgrade_phpmyadmin 2>&1 | tee ${cur_dir}/upgrade_phpmyadmin.log
+        ;;
+    adminer)
+        upgrade_adminer 2>&1 | tee ${cur_dir}/upgrade_adminer.log
         ;;
     *)
         display_usage
