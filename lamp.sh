@@ -66,7 +66,7 @@ Options:
 --php_extensions [ext name]     PHP extensions: 
                                 ioncube, xcache, imagick, gmagick, memcached,
                                 redis, mongodb, libsodium, swoole, yaf, xdebug
---phpmyadmin_option [1-2]       phpMyAdmin version
+--db_manage_modules [mod name]  Database management modules: phpmyadmin, adminer
 --kodexplorer_option [1-2]      KodExplorer version
 
 Parameters:
@@ -77,8 +77,6 @@ Parameters:
     show_parameters mysql
     echo "--php_option [1-6], please select a PHP version like below"
     show_parameters php
-    echo "--phpmyadmin_option [1-2], please select a phpMyAdmin version like below"
-    show_parameters phpmyadmin
     echo "--kodexplorer_option [1-2], please select a KodExplorer version like below"
     show_parameters kodexplorer
 }
@@ -91,7 +89,7 @@ process(){
     db_option=""
     db_data_path=""
     db_root_pwd=""
-    phpmyadmin_option=""
+    db_manage_modules=""
     kodexplorer_option=""
     while [ ${#} -gt 0 ]; do
         case "$1" in
@@ -169,13 +167,11 @@ process(){
                 _error "db_root_pwd input error, must more than 5 characters"
             fi
             ;;
-        --phpmyadmin_option)
-            phpmyadmin_option="$2"
-            if ! is_digit ${phpmyadmin_option}; then
-                _error "phpmyadmin_option input error, please only input a number"
-            fi
-            [[ "${phpmyadmin_option}" -lt 1 || "${phpmyadmin_option}" -gt 2 ]] && _error "phpmyadmin_option input error, please only input a number between 1 and 2"
-            eval phpmyadmin=${phpmyadmin_arr[${phpmyadmin_option}-1]}
+        --db_manage_modules)
+            db_manage_modules="$2"
+            phpmyadmin_install=""
+            [ -n "$(echo ${db_manage_modules} | grep -w phpmyadmin)" ] && phpmyadmin_install="${phpmyadmin_filename}"
+            [ -n "$(echo ${db_manage_modules} | grep -w adminer)" ] && phpmyadmin_install="${phpmyadmin_install} ${adminer_filename}"
             ;;
         --kodexplorer_option)
             kodexplorer_option="$2"
@@ -195,9 +191,11 @@ process(){
 
 set_parameters(){
     [ -z "${apache_option}" ] && apache="do_not_install"
-    [ -z "${apache_modules}" ] && apache_modules_install="do_not_install"
     [ -z "${apache_modules_install}" ] && apache_modules_install="do_not_install"
     [ "${apache}" == "do_not_install" ] && apache_modules_install="do_not_install"
+    if [ -n "${apache_option}" ] && [ -n "${apache_modules_install}" ]; then
+        apache_modules_install=(${apache_modules_install})
+    fi
 
     [ -z "${php_option}" ] && php="do_not_install"
     [ "${apache}" == "do_not_install" ] && php="do_not_install"
@@ -231,8 +229,11 @@ set_parameters(){
         percona_root_pass=${db_root_pwd:=lamp.sh}
     fi
 
-    [ -z "${phpmyadmin_option}" ] && phpmyadmin="do_not_install"
-    [ "${php}" == "do_not_install" ] && phpmyadmin="do_not_install"
+    [ -z "${db_manage_modules}" ] && phpmyadmin_install="do_not_install"
+    [ "${php}" == "do_not_install" ] && phpmyadmin_install="do_not_install"
+    if [ -n "${php}" ] && [ -n "${db_manage_modules}" ]; then
+        phpmyadmin_install=(${phpmyadmin_install})
+    fi
     [ -z "${kodexplorer_option}" ] && kodexplorer="do_not_install"
     [ "${php}" == "do_not_install" ] && kodexplorer="do_not_install"
 
