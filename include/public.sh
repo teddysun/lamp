@@ -835,6 +835,14 @@ last_confirm(){
         echo "Percona Root Password: ${percona_root_pass}"
     fi
     echo
+    if [ "${phpmyadmin_install}" != "do_not_install" ]; then
+        echo "Database Management Modules:"
+        for a in ${phpmyadmin_install[@]}
+        do
+            echo "${a}"
+        done
+    fi
+    echo
     echo "PHP: ${php}"
     [ "${php}" != "do_not_install" ] && echo "PHP Location: ${php_location}"
     if [ "${php_modules_install}" != "do_not_install" ]; then
@@ -844,9 +852,6 @@ last_confirm(){
             echo "${m}"
         done
     fi
-    echo
-    echo "phpMyAdmin: ${phpmyadmin}"
-    [ "${phpmyadmin}" != "do_not_install" ] && echo "phpMyAdmin Location: ${web_root_dir}/phpmyadmin"
     echo
     echo "KodExplorer: ${kodexplorer}"
     [ "${kodexplorer}" != "do_not_install" ] && echo "KodExplorer Location: ${web_root_dir}/kod"
@@ -902,6 +907,14 @@ install_finally(){
         dbrootpwd=${percona_root_pass}
     fi
     echo
+    if [ "${phpmyadmin_install}" != "do_not_install" ]; then
+        echo "Database Management Modules:"
+        for a in ${phpmyadmin_install[@]}
+        do
+            echo "${a}"
+        done
+    fi
+    echo
     echo "PHP: ${php}"
     [ "${php}" != "do_not_install" ] && echo "PHP Location: ${php_location}"
     if [ "${php_modules_install}" != "do_not_install" ]; then
@@ -911,9 +924,6 @@ install_finally(){
             echo "${m}"
         done
     fi
-    echo
-    echo "phpMyAdmin: ${phpmyadmin}"
-    [ "${phpmyadmin}" != "do_not_install" ] && echo "phpMyAdmin Location: ${web_root_dir}/phpmyadmin"
     echo
     echo "KodExplorer: ${kodexplorer}"
     [ "${kodexplorer}" != "do_not_install" ] && echo "KodExplorer Location: ${web_root_dir}/kod"
