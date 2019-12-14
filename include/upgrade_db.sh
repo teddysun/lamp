@@ -47,17 +47,17 @@ upgrade_db(){
         installed_mariadb="$(${mariadb_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
         mariadb_ver="$(echo ${installed_mariadb} | cut -d. -f1-2)"
         if   [ "${mariadb_ver}" == "5.5" ]; then
-            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/5.5/{print $3}')"
+            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/5.5/{print $3}')"
         elif [ "${mariadb_ver}" == "10.0" ]; then
-            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}')"
+            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.0/{print $3}')"
         elif [ "${mariadb_ver}" == "10.1" ]; then
-            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.1/{print $3}')"
+            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.1/{print $3}')"
         elif [ "${mariadb_ver}" == "10.2" ]; then
-            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.2/{print $3}')"
+            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.2/{print $3}')"
         elif [ "${mariadb_ver}" == "10.3" ]; then
-            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.3/{print $3}')"
+            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.3/{print $3}')"
         elif [ "${mariadb_ver}" == "10.4" ]; then
-            latest_mariadb="$(curl -s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.4/{print $3}')"
+            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.4/{print $3}')"
         fi
 
         _info "Latest version of MariaDB   : $(_red ${latest_mariadb})"
