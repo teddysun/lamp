@@ -50,7 +50,7 @@
 | apr-util                    | 1.6.1                                              |
 | nghttp2                     | 1.40.0                                             |
 | openssl                     | 1.1.1d                                             |
-| mod_wsgi                    | 4.6.5                                              |
+| mod_wsgi                    | 4.7.0                                              |
 | mod_security2               | 2.9.3                                              |
 | mod_jk                      | 1.2.46                                             |
 
@@ -78,13 +78,13 @@
 | memcached extension(PHP 7)  | 3.1.3                                              |
 | redis                       | 5.0.6                                              |
 | redis extension(PHP 5.6)    | 4.3.0                                              |
-| redis extension(PHP 7)      | 5.0.2                                              |
-| mongodb extension           | 1.6.0                                              |
-| swoole extension(PHP 7 only)| 4.4.12                                             |
+| redis extension(PHP 7)      | 5.1.1                                              |
+| mongodb extension           | 1.6.1                                              |
+| swoole extension(PHP 7 only)| 4.4.14                                             |
 | yaf extension(PHP 7 only)   | 3.0.8                                              |
 | xdebug extension(PHP 5.6)   | 2.5.5                                              |
 | xdebug extension(PHP 7)     | 2.7.2                                              |
-| phpMyAdmin                  | 4.9.2                                              |
+| phpMyAdmin                  | 4.9.3                                              |
 | Adminer                     | 4.7.5                                              |
 | KodExplorer                 | 4.35                                               |
 
