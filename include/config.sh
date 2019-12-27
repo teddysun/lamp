@@ -195,8 +195,8 @@ redis_filename_url="http://download.redis.io/releases/redis-5.0.6.tar.gz"
 #php-redis
 php_redis_filename="redis-4.3.0"
 php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
-php_redis_filename2="redis-5.0.2"
-php_redis_filename2_url="https://pecl.php.net/get/redis-5.0.2.tgz"
+php_redis_filename2="redis-5.1.1"
+php_redis_filename2_url="https://pecl.php.net/get/redis-5.1.1.tgz"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
