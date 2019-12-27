@@ -87,8 +87,8 @@ php7_2_filename_url="https://www.php.net/distributions/php-7.2.26.tar.gz"
 php7_3_filename="php-7.3.13"
 php7_3_filename_url="https://www.php.net/distributions/php-7.3.13.tar.gz"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.9.2-all-languages"
-phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.2/phpMyAdmin-4.9.2-all-languages.tar.gz"
+phpmyadmin_filename="phpMyAdmin-4.9.3-all-languages"
+phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.3/phpMyAdmin-4.9.3-all-languages.tar.gz"
 #Adminer
 adminer_filename="adminer-4.7.5"
 adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.7.5/adminer-4.7.5.php"
@@ -106,8 +106,8 @@ apr_filename_url="http://ftp.jaist.ac.jp/pub/apache//apr/apr-1.7.0.tar.gz"
 apr_util_filename="apr-util-1.6.1"
 apr_util_filename_url="http://ftp.jaist.ac.jp/pub/apache//apr/apr-util-1.6.1.tar.gz"
 #mod_wsgi
-mod_wsgi_filename="mod_wsgi-4.6.5"
-mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/4.6.5.tar.gz"
+mod_wsgi_filename="mod_wsgi-4.7.0"
+mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/4.7.0.tar.gz"
 #mod_jk
 mod_jk_filename="tomcat-connectors-1.2.46-src"
 mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.46-src.tar.gz"
@@ -129,8 +129,8 @@ mcrypt_filename_url="https://sourceforge.net/projects/mcrypt/files/MCrypt/2.6.8/
 pcre_filename="pcre-8.43"
 pcre_filename_url="https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.gz"
 #re2c
-re2c_filename="re2c-1.2.1"
-re2c_filename_url="https://github.com/skvadrik/re2c/releases/download/1.2.1/re2c-1.2.1.tar.xz"
+re2c_filename="re2c-1.3"
+re2c_filename_url="https://github.com/skvadrik/re2c/releases/download/1.3/re2c-1.3.tar.xz"
 #libzip
 libzip_filename="libzip-1.3.2"
 libzip_filename_url="https://libzip.org/download/libzip-1.3.2.tar.gz"
@@ -138,9 +138,9 @@ libzip_filename_url="https://libzip.org/download/libzip-1.3.2.tar.gz"
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
 #swoole
-swoole_filename="swoole-src-4.4.12"
-swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.12.tar.gz"
-set_hint ${swoole_filename} "php-swoole-4.4.12"
+swoole_filename="swoole-src-4.4.14"
+swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.14.tar.gz"
+set_hint ${swoole_filename} "php-swoole-4.4.14"
 #yaf
 yaf_filename="yaf-3.0.8"
 yaf_filename_url="https://pecl.php.net/get/yaf-3.0.8.tgz"
@@ -200,8 +200,8 @@ php_redis_filename2_url="https://pecl.php.net/get/redis-5.0.2.tgz"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.6.0"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.6.0.tgz"
+php_mongo_filename="mongodb-1.6.1"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.6.1.tgz"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.18"
