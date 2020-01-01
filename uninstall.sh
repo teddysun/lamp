@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (C) 2013 - 2019 Teddysun <i@teddysun.com>
+# Copyright (C) 2013 - 2020 Teddysun <i@teddysun.com>
 # 
 # This file is part of the LAMP script.
 #
