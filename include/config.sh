@@ -87,8 +87,8 @@ php7_2_filename_url="https://www.php.net/distributions/php-7.2.26.tar.gz"
 php7_3_filename="php-7.3.13"
 php7_3_filename_url="https://www.php.net/distributions/php-7.3.13.tar.gz"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.9.3-all-languages"
-phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.3/phpMyAdmin-4.9.3-all-languages.tar.gz"
+phpmyadmin_filename="phpMyAdmin-4.9.4-all-languages"
+phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.4/phpMyAdmin-4.9.4-all-languages.tar.gz"
 #Adminer
 adminer_filename="adminer-4.7.5"
 adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.7.5/adminer-4.7.5.php"
