@@ -66,7 +66,7 @@ mariadb10_4_filename="mariadb-10.4.11"
 #percona5.5
 percona5_5_filename="Percona-Server-5.5.62-38.14"
 #percona5.6
-percona5_6_filename="Percona-Server-5.6.46-86.2"
+percona5_6_filename="Percona-Server-5.6.47-87.0"
 #percona5.7
 percona5_7_filename="Percona-Server-5.7.28-31"
 #percona8.0
@@ -81,11 +81,11 @@ php7_0_filename_url="https://www.php.net/distributions/php-7.0.33.tar.gz"
 php7_1_filename="php-7.1.33"
 php7_1_filename_url="https://www.php.net/distributions/php-7.1.33.tar.gz"
 #php7.2
-php7_2_filename="php-7.2.26"
-php7_2_filename_url="https://www.php.net/distributions/php-7.2.26.tar.gz"
+php7_2_filename="php-7.2.27"
+php7_2_filename_url="https://www.php.net/distributions/php-7.2.27.tar.gz"
 #php7.3
-php7_3_filename="php-7.3.13"
-php7_3_filename_url="https://www.php.net/distributions/php-7.3.13.tar.gz"
+php7_3_filename="php-7.3.14"
+php7_3_filename_url="https://www.php.net/distributions/php-7.3.14.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.9.4-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.4/phpMyAdmin-4.9.4-all-languages.tar.gz"
