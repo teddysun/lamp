@@ -85,7 +85,7 @@
 | xdebug extension(PHP 5.6)   | 2.5.5                                              |
 | xdebug extension(PHP 7)     | 2.7.2                                              |
 | phpMyAdmin                  | 4.9.4                                              |
-| Adminer                     | 4.7.5                                              |
+| Adminer                     | 4.7.6                                              |
 | KodExplorer                 | 4.35                                               |
 
 ## Installation
