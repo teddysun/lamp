@@ -140,10 +140,10 @@ chmod 755 *.sh
 
 - You must modify the config before run it
 - Backup MySQL/MariaDB/Percona datebases, files and directories
-- Backup file is encrypted with AES256-cbc with SHA1 message-digest (option)
-- Auto transfer backup file to Google Drive (need install [gdrive](https://teddysun.com/469.html) command) (option)
-- Auto transfer backup file to FTP server (option)
-- Auto delete Google Drive's or FTP server's remote file (option)
+- Backup file is encrypted with AES256-cbc with SHA1 message-digest (Depends on `openssl` command) (option)
+- Auto transfer backup file to Google Drive (Depends on [`rclone`](https://teddysun.com/469.html) command) (option)
+- Auto transfer backup file to FTP server (Depends on `ftp` command) (option)
+- Auto delete remote file from Google Drive or FTP server (option)
 
 ```bash
 ./backup.sh
