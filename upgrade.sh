@@ -17,7 +17,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-cur_dir=$(pwd)
+cur_dir=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 
 include(){
     local include=$1
