@@ -230,7 +230,7 @@ start_backup() {
 # https://rclone.org/downloads/
 rclone_upload() {
     if ${RCLONE_FLG} && ${RCLONE_COMMAND}; then
-        [ -z "${RCLONE_NAME}" ] && log "Error: RCLONE_NAME can not be empty!" && exit 1
+        [ -z "${RCLONE_NAME}" ] && log "Error: RCLONE_NAME can not be empty!" && return 1
         if [ -n "${RCLONE_FOLDER}" ]; then
             rclone ls ${RCLONE_NAME}:${RCLONE_FOLDER} 2>&1 > /dev/null
             if [ $? -ne 0 ]; then
@@ -242,7 +242,7 @@ rclone_upload() {
         rclone copy ${OUT_FILE} ${RCLONE_NAME}:${RCLONE_FOLDER} >> ${LOGFILE}
         if [ $? -ne 0 ]; then
             log "Error: Tranferring backup file: ${OUT_FILE} to Google Drive failed"
-            exit 1
+            return 1
         fi
         log "Tranferring backup file: ${OUT_FILE} to Google Drive completed"
     fi
@@ -251,10 +251,10 @@ rclone_upload() {
 # Tranferring backup file to FTP server
 ftp_upload() {
     if ${FTP_FLG}; then
-        [ -z "${FTP_HOST}" ] && log "Error: FTP_HOST can not be empty!" && exit 1
-        [ -z "${FTP_USER}" ] && log "Error: FTP_USER can not be empty!" && exit 1
-        [ -z "${FTP_PASS}" ] && log "Error: FTP_PASS can not be empty!" && exit 1
-        [ -z "${FTP_DIR}" ] && log "Error: FTP_DIR can not be empty!" && exit 1
+        [ -z "${FTP_HOST}" ] && log "Error: FTP_HOST can not be empty!" && return 1
+        [ -z "${FTP_USER}" ] && log "Error: FTP_USER can not be empty!" && return 1
+        [ -z "${FTP_PASS}" ] && log "Error: FTP_PASS can not be empty!" && return 1
+        [ -z "${FTP_DIR}" ] && log "Error: FTP_DIR can not be empty!" && return 1
         local FTP_OUT_FILE=$(basename ${OUT_FILE})
         log "Tranferring backup file: ${FTP_OUT_FILE} to FTP server"
         ftp -in ${FTP_HOST} 2>&1 >> ${LOGFILE} <<EOF
@@ -267,7 +267,7 @@ quit
 EOF
         if [ $? -ne 0 ]; then
             log "Error: Tranferring backup file: ${FTP_OUT_FILE} to FTP server failed"
-            exit 1
+            return 1
         fi
         log "Tranferring backup file: ${FTP_OUT_FILE} to FTP server completed"
     fi
