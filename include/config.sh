@@ -106,16 +106,16 @@ apr_filename_url="http://ftp.jaist.ac.jp/pub/apache//apr/apr-1.7.0.tar.gz"
 apr_util_filename="apr-util-1.6.1"
 apr_util_filename_url="http://ftp.jaist.ac.jp/pub/apache//apr/apr-util-1.6.1.tar.gz"
 #mod_wsgi
-mod_wsgi_filename="mod_wsgi-4.7.0"
-mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/4.7.0.tar.gz"
+mod_wsgi_filename="mod_wsgi-4.7.1"
+mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/4.7.1.tar.gz"
 #mod_jk
 mod_jk_filename="tomcat-connectors-1.2.46-src"
 mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.46-src.tar.gz"
 set_hint ${mod_jk_filename} "mod_jk-1.2.46"
 #mod_security
-mod_security_filename="modsecurity-2.9.3"
-mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.3/modsecurity-2.9.3.tar.gz"
-set_hint ${mod_security_filename} "mod_security-2.9.3"
+mod_security_filename="modsecurity-v3.0.4"
+mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v3.0.4/modsecurity-v3.0.4.tar.gz"
+set_hint ${mod_security_filename} "mod_security-3.0.4"
 #mhash
 mhash_filename="mhash-0.9.9.9"
 mhash_filename_url="https://sourceforge.net/projects/mhash/files/mhash/0.9.9.9/mhash-0.9.9.9.tar.gz/download"
@@ -126,8 +126,8 @@ libmcrypt_filename_url="https://sourceforge.net/projects/mcrypt/files/Libmcrypt/
 mcrypt_filename="mcrypt-2.6.8"
 mcrypt_filename_url="https://sourceforge.net/projects/mcrypt/files/MCrypt/2.6.8/mcrypt-2.6.8.tar.gz/download"
 #pcre
-pcre_filename="pcre-8.43"
-pcre_filename_url="https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.gz"
+pcre_filename="pcre-8.44"
+pcre_filename_url="https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz"
 #re2c
 re2c_filename="re2c-1.3"
 re2c_filename_url="https://github.com/skvadrik/re2c/releases/download/1.3/re2c-1.3.tar.xz"
@@ -138,20 +138,20 @@ libzip_filename_url="https://libzip.org/download/libzip-1.3.2.tar.gz"
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
 #swoole
-swoole_filename="swoole-src-4.4.16"
-swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.16.tar.gz"
-set_hint ${swoole_filename} "php-swoole-4.4.16"
+swoole_filename="swoole-src-4.4.18"
+swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.18.tar.gz"
+set_hint ${swoole_filename} "php-swoole-4.4.18"
 #yaf
-yaf_filename="yaf-3.0.8"
-yaf_filename_url="https://pecl.php.net/get/yaf-3.0.8.tgz"
+yaf_filename="yaf-3.2.1"
+yaf_filename_url="https://pecl.php.net/get/yaf-3.2.1.tgz"
 #xcache
 xcache_filename="xcache-3.2.0"
 xcache_filename_url="https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.gz"
 #xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://xdebug.org/files/xdebug-2.5.5.tgz"
-xdebug_filename2="xdebug-2.7.2"
-xdebug_filename2_url="https://xdebug.org/files/xdebug-2.7.2.tgz"
+xdebug_filename2="xdebug-2.9.5"
+xdebug_filename2_url="https://xdebug.org/files/xdebug-2.9.5.tgz"
 #ImageMagick
 ImageMagick_filename="ImageMagick-7.0.8-68"
 ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.8-68.tar.gz"
@@ -174,34 +174,34 @@ ionCube32_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_l
 ionCube64_filename="ioncube_loaders_lin_x86-64"
 ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"
 #libevent
-libevent_filename="libevent-2.1.8-stable"
-libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz"
+libevent_filename="libevent-2.1.11-stable"
+libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz"
 #memcached
-memcached_filename="memcached-1.5.19"
-memcached_filename_url="http://www.memcached.org/files/memcached-1.5.19.tar.gz"
+memcached_filename="memcached-1.6.5"
+memcached_filename_url="http://www.memcached.org/files/memcached-1.6.5.tar.gz"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 libmemcached_filename_url="https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz"
 #php-memcached
 php_memcached_filename="memcached-2.2.0"
 php_memcached_filename_url="https://pecl.php.net/get/memcached-2.2.0.tgz"
-php_memcached_filename2="memcached-3.1.3"
-php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.3.tgz"
+php_memcached_filename2="memcached-3.1.5"
+php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
-redis_filename="redis-5.0.6"
-redis_filename_url="http://download.redis.io/releases/redis-5.0.6.tar.gz"
+redis_filename="redis-5.0.8"
+redis_filename_url="http://download.redis.io/releases/redis-5.0.8.tar.gz"
 #php-redis
 php_redis_filename="redis-4.3.0"
 php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
-php_redis_filename2="redis-5.1.1"
-php_redis_filename2_url="https://pecl.php.net/get/redis-5.1.1.tgz"
+php_redis_filename2="redis-5.2.1"
+php_redis_filename2_url="https://pecl.php.net/get/redis-5.2.1.tgz"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.6.1"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.6.1.tgz"
+php_mongo_filename="mongodb-1.7.4"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.7.4.tgz"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.18"
