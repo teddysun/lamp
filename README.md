@@ -50,8 +50,8 @@
 | apr-util                    | 1.6.1                                              |
 | nghttp2                     | 1.40.0                                             |
 | openssl                     | 1.1.1g                                             |
-| mod_wsgi                    | 4.7.0                                              |
-| mod_security2               | 2.9.3                                              |
+| mod_wsgi                    | 4.7.1                                              |
+| mod_security2               | 3.0.4                                              |
 | mod_jk                      | 1.2.46                                             |
 
 | Database                    | Version                                            |
@@ -72,18 +72,18 @@
 | gmagick extension(PHP 7)    | 2.0.5RC1                                           |
 | libsodium                   | 1.0.18                                             |
 | libsodium extension         | 2.0.22                                             |
-| memcached                   | 1.5.19                                             |
+| memcached                   | 1.6.5                                              |
 | libmemcached                | 1.0.18                                             |
 | memcached extension(PHP 5.6)| 2.2.0                                              |
-| memcached extension(PHP 7)  | 3.1.3                                              |
-| redis                       | 5.0.6                                              |
+| memcached extension(PHP 7)  | 3.1.5                                              |
+| redis                       | 5.0.8                                              |
 | redis extension(PHP 5.6)    | 4.3.0                                              |
-| redis extension(PHP 7)      | 5.1.1                                              |
-| mongodb extension           | 1.6.1                                              |
-| swoole extension(PHP 7 only)| 4.4.16                                             |
-| yaf extension(PHP 7 only)   | 3.0.8                                              |
+| redis extension(PHP 7)      | 5.2.1                                              |
+| mongodb extension           | 1.7.4                                              |
+| swoole extension(PHP 7 only)| 4.4.18                                             |
+| yaf extension(PHP 7 only)   | 3.2.1                                              |
 | xdebug extension(PHP 5.6)   | 2.5.5                                              |
-| xdebug extension(PHP 7)     | 2.7.2                                              |
+| xdebug extension(PHP 7)     | 2.9.5                                              |
 | phpMyAdmin                  | 4.9.5                                              |
 | Adminer                     | 4.7.6                                              |
 | KodExplorer                 | 4.35                                               |
