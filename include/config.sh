@@ -142,8 +142,8 @@ swoole_filename="swoole-src-4.4.18"
 swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.4.18.tar.gz"
 set_hint ${swoole_filename} "php-swoole-4.4.18"
 #yaf
-yaf_filename="yaf-3.2.1"
-yaf_filename_url="https://pecl.php.net/get/yaf-3.2.1.tgz"
+yaf_filename="yaf-3.2.2"
+yaf_filename_url="https://pecl.php.net/get/yaf-3.2.2.tgz"
 #xcache
 xcache_filename="xcache-3.2.0"
 xcache_filename_url="https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.gz"
