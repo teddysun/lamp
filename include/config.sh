@@ -90,8 +90,8 @@ php7_3_filename_url="https://www.php.net/distributions/php-7.3.18.tar.gz"
 phpmyadmin_filename="phpMyAdmin-4.9.5-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.tar.gz"
 #Adminer
-adminer_filename="adminer-4.7.6"
-adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.7.6/adminer-4.7.6.php"
+adminer_filename="adminer-4.7.7"
+adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.7.7/adminer-4.7.7.php"
 #kodexplorer
 kod_version=$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)
 [ -z "${kod_version}" ] && kod_version="4.35"
