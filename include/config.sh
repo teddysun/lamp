@@ -84,8 +84,8 @@ php7_1_filename_url="https://www.php.net/distributions/php-7.1.33.tar.gz"
 php7_2_filename="php-7.2.31"
 php7_2_filename_url="https://www.php.net/distributions/php-7.2.31.tar.gz"
 #php7.3
-php7_3_filename="php-7.3.18"
-php7_3_filename_url="https://www.php.net/distributions/php-7.3.18.tar.gz"
+php7_3_filename="php-7.3.19"
+php7_3_filename_url="https://www.php.net/distributions/php-7.3.19.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.9.5-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.tar.gz"
