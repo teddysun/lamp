@@ -3,8 +3,8 @@
 # This file is part of the LAMP script.
 #
 # LAMP is a powerful bash script for the installation of 
-# Apache + PHP + MySQL/MariaDB/Percona and so on.
-# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Apache + PHP + MySQL/MariaDB and so on.
+# You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
@@ -17,7 +17,6 @@ load_config(){
 apache_location=/usr/local/apache
 mysql_location=/usr/local/mysql
 mariadb_location=/usr/local/mariadb
-percona_location=/usr/local/percona
 php_location=/usr/local/php
 openssl_location=/usr/local/openssl
 
@@ -43,18 +42,12 @@ openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1g.tar.gz"
 #apache2.4
 apache2_4_filename="httpd-2.4.43"
 apache2_4_filename_url="http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.43.tar.gz"
-#mysql5.5
-mysql5_5_filename="mysql-5.5.62"
 #mysql5.6
 mysql5_6_filename="mysql-5.6.49"
 #mysql5.7
 mysql5_7_filename="mysql-5.7.31"
 #mysql8.0
 mysql8_0_filename="mysql-8.0.21"
-#mariadb5.5
-mariadb5_5_filename="mariadb-5.5.68"
-#mariadb10.0
-mariadb10_0_filename="mariadb-10.0.38"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.45"
 #mariadb10.2
@@ -63,14 +56,8 @@ mariadb10_2_filename="mariadb-10.2.32"
 mariadb10_3_filename="mariadb-10.3.23"
 #mariadb10.4
 mariadb10_4_filename="mariadb-10.4.13"
-#percona5.5
-percona5_5_filename="Percona-Server-5.5.62-38.14"
-#percona5.6
-percona5_6_filename="Percona-Server-5.6.48-88.0"
-#percona5.7
-percona5_7_filename="Percona-Server-5.7.30-33"
-#percona8.0
-percona8_0_filename="Percona-Server-8.0.16-7"
+#mariadb10.5
+mariadb10_5_filename="mariadb-10.5.4"
 #php5.6
 php5_6_filename="php-5.6.40"
 php5_6_filename_url="https://www.php.net/distributions/php-5.6.40.tar.gz"
@@ -86,6 +73,9 @@ php7_2_filename_url="https://www.php.net/distributions/php-7.2.32.tar.gz"
 #php7.3
 php7_3_filename="php-7.3.20"
 php7_3_filename_url="https://www.php.net/distributions/php-7.3.20.tar.gz"
+#php7.4
+php7_4_filename="php-7.4.8"
+php7_4_filename_url="https://www.php.net/distributions/php-7.4.8.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.9.5-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.tar.gz"
@@ -131,36 +121,40 @@ pcre_filename_url="https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz"
 #re2c
 re2c_filename="re2c-1.3"
 re2c_filename_url="https://github.com/skvadrik/re2c/releases/download/1.3/re2c-1.3.tar.xz"
+#cmake
+cmake_filename="cmake-3.18.0"
+cmake_filename_url="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0.tar.gz"
+cmake_filename2="cmake-3.18.0-Linux-x86_64"
+cmake_filename_url2="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0-Linux-x86_64.tar.gz"
 #libzip
-libzip_filename="libzip-1.3.2"
-libzip_filename_url="https://libzip.org/download/libzip-1.3.2.tar.gz"
+libzip_filename="libzip-1.7.3"
+libzip_filename_url="https://libzip.org/download/libzip-1.7.3.tar.gz"
 #libiconv
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
 #swoole
-swoole_filename="swoole-src-4.5.2"
-swoole_filename_url="https://github.com/swoole/swoole-src/archive/v4.5.2.tar.gz"
-set_hint ${swoole_filename} "php-swoole-4.5.2"
+swoole_filename="swoole-4.5.2"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.5.2.tgz"
 #yaf
-yaf_filename="yaf-3.2.2"
-yaf_filename_url="https://pecl.php.net/get/yaf-3.2.2.tgz"
+yaf_filename="yaf-3.2.5"
+yaf_filename_url="https://pecl.php.net/get/yaf-3.2.5.tgz"
 #xcache
 xcache_filename="xcache-3.2.0"
 xcache_filename_url="https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.gz"
 #xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://xdebug.org/files/xdebug-2.5.5.tgz"
-xdebug_filename2="xdebug-2.9.5"
-xdebug_filename2_url="https://xdebug.org/files/xdebug-2.9.5.tgz"
+xdebug_filename2="xdebug-2.9.6"
+xdebug_filename2_url="https://xdebug.org/files/xdebug-2.9.6.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.8-68"
-ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.8-68.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.10-24"
+ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-24.tar.gz"
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
 set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.33"
-GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.33/GraphicsMagick-1.3.33.tar.gz/download"
+GraphicsMagick_filename="GraphicsMagick-1.3.35"
+GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.35/GraphicsMagick-1.3.35.tar.gz/download"
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
 php_graphicsmagick_filename_url="https://pecl.php.net/get/gmagick-1.1.7RC3.tgz"
 php_graphicsmagick_filename2="gmagick-2.0.5RC1"
@@ -174,11 +168,11 @@ ionCube32_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_l
 ionCube64_filename="ioncube_loaders_lin_x86-64"
 ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"
 #libevent
-libevent_filename="libevent-2.1.11-stable"
-libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz"
+libevent_filename="libevent-2.1.12-stable"
+libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz"
 #memcached
-memcached_filename="memcached-1.6.5"
-memcached_filename_url="http://www.memcached.org/files/memcached-1.6.5.tar.gz"
+memcached_filename="memcached-1.6.6"
+memcached_filename_url="http://www.memcached.org/files/memcached-1.6.6.tar.gz"
 #libmemcached
 libmemcached_filename="libmemcached-1.0.18"
 libmemcached_filename_url="https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz"
@@ -190,18 +184,18 @@ php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
-redis_filename="redis-5.0.8"
-redis_filename_url="http://download.redis.io/releases/redis-5.0.8.tar.gz"
+redis_filename="redis-6.0.6"
+redis_filename_url="http://download.redis.io/releases/redis-6.0.6.tar.gz"
 #php-redis
 php_redis_filename="redis-4.3.0"
 php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
-php_redis_filename2="redis-5.2.1"
-php_redis_filename2_url="https://pecl.php.net/get/redis-5.2.1.tgz"
+php_redis_filename2="redis-5.3.1"
+php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.1.tgz"
 set_hint ${php_redis_filename} "php-${php_redis_filename}"
 set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
 #php-mongodb
-php_mongo_filename="mongodb-1.7.4"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.7.4.tgz"
+php_mongo_filename="mongodb-1.7.5"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.7.5.tgz"
 set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
 #php-libsodium
 libsodium_filename="libsodium-1.0.18"
@@ -224,20 +218,14 @@ do_not_install
 )
 
 mysql_arr=(
-${mysql5_5_filename}
 ${mysql5_6_filename}
 ${mysql5_7_filename}
 ${mysql8_0_filename}
-${mariadb5_5_filename}
-${mariadb10_0_filename}
 ${mariadb10_1_filename}
 ${mariadb10_2_filename}
 ${mariadb10_3_filename}
 ${mariadb10_4_filename}
-${percona5_5_filename}
-${percona5_6_filename}
-${percona5_7_filename}
-${percona8_0_filename}
+${mariadb10_5_filename}
 do_not_install
 )
 
@@ -247,6 +235,7 @@ ${php7_0_filename}
 ${php7_1_filename}
 ${php7_2_filename}
 ${php7_3_filename}
+${php7_4_filename}
 do_not_install
 )
 

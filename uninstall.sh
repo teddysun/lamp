@@ -4,13 +4,13 @@
 # This file is part of the LAMP script.
 #
 # LAMP is a powerful bash script for the installation of 
-# Apache + PHP + MySQL/MariaDB/Percona and so on.
-# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Apache + PHP + MySQL/MariaDB and so on.
+# You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
 # System Required:  CentOS 6+ / Fedora28+ / Debian 8+ / Ubuntu 14+
-# Description:  Uninstall LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )
+# Description:  Uninstall LAMP(Linux + Apache + MySQL/MariaDB + PHP )
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
 
@@ -38,12 +38,12 @@ uninstall_lamp(){
     rm -rf ${apache_location} /usr/sbin/httpd /var/log/httpd /etc/logrotate.d/httpd /var/spool/mail/apache
     _info "Success"
     echo
-    _info "uninstalling MySQL or MariaDB or Percona Server"
+    _info "uninstalling MySQL or MariaDB"
     if [ -f /etc/init.d/mysqld ] && [ $(ps -ef | grep -v grep | grep -c "mysqld") -gt 0 ]; then
         /etc/init.d/mysqld stop > /dev/null 2>&1
     fi
     rm -f /etc/init.d/mysqld
-    rm -rf ${mysql_location} ${mariadb_location} ${percona_location} /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
+    rm -rf ${mysql_location} ${mariadb_location} /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
     _info "Success"
     echo
     _info "uninstalling PHP"
@@ -60,6 +60,7 @@ uninstall_lamp(){
     rm -rf /usr/local/lib/libcharset* /usr/local/lib/libiconv* /usr/local/lib/charset.alias /usr/local/lib/preloadable_libiconv.so
     rm -rf ${depends_prefix}/imap
     rm -rf ${depends_prefix}/pcre
+    rm -rf ${depends_prefix}/cmake
     rm -rf ${openssl_location} /etc/ld.so.conf.d/openssl.conf
     rm -rf /usr/lib/libnghttp2.*
     rm -rf /usr/local/lib/libmcrypt.*

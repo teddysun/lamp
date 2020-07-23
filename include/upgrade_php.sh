@@ -3,8 +3,8 @@
 # This file is part of the LAMP script.
 #
 # LAMP is a powerful bash script for the installation of 
-# Apache + PHP + MySQL/MariaDB/Percona and so on.
-# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Apache + PHP + MySQL/MariaDB and so on.
+# You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
@@ -28,17 +28,28 @@ upgrade_php(){
     local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
     local installed_php=$(${php_location}/bin/php -r 'echo PHP_VERSION;' 2>/dev/null)
 
-    if [ "${php_version}" == "5.6" ]; then
-        latest_php="5.6.40"
-    elif [ "${php_version}" == "7.0" ]; then
-        latest_php="7.0.33"
-    elif [ "${php_version}" == "7.1" ]; then
-        latest_php="7.1.33"
-    elif [ "${php_version}" == "7.2" ]; then
-        latest_php="$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.2')"
-    elif [ "${php_version}" == "7.3" ]; then
-        latest_php="$(curl -s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.3')"
-    fi
+    case "${php_version}" in
+        5.6)
+            latest_php="5.6.40"
+            ;;
+        7.0)
+            latest_php="7.0.33"
+            ;;
+        7.1)
+            latest_php="7.1.33"
+            ;;
+        7.2)
+            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.2')"
+            ;;
+        7.3)
+            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.3')"
+            ;;
+        7.4)
+            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.4')"
+            ;;
+        *)
+        # do nothing
+    esac
 
     _info "Latest version of PHP   : $(_red ${latest_php})"
     _info "Installed version of PHP: $(_red ${installed_php})"
@@ -65,37 +76,52 @@ upgrade_php(){
             cd php-${latest_php}/
         fi
 
-        if [ "${php_version}" == "5.6" ]; then
+        if [[ "${php_version}" == "5.6" ]]; then
             with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
+        elif [ "${php_version}" == "7.4" ]; then
+            with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
+            with_gd="--enable-gd --with-webp --with-jpeg --with-xpm --with-freetype"
         else
             with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
-
-        if [[ "${php_version}" == "7.2" || "${php_version}" == "7.3" ]]; then
-            other_options="--enable-zend-test"
-        else
-            other_options="--with-mcrypt --enable-gd-native-ttf"
-        fi
-
-        if [ "${php_version}" == "7.3" ]; then
+        if [[ "${php_version}" == "7.3" || "${php_version}" == "7.4" ]]; then
             with_libmbfl=""
         else
             with_libmbfl="--with-libmbfl"
         fi
-
+        if [[ "${php_version}" == "7.4" ]]; then
+            with_pcre="--with-pcre-jit"
+            with_libxml=""
+            with_icu=""
+            with_onig=""
+            enable_wddx=""
+            enable_zip="--with-zip"
+        else
+            with_pcre="--with-pcre-dir=${depends_prefix}/pcre"
+            with_libxml="--with-libxml-dir"
+            with_icu="--with-icu-dir"
+            with_onig="--with-onig"
+            enable_wddx="--enable-wddx"
+            enable_zip="--enable-zip"
+        fi
+        if [[ "${php_version}" == "7.2" || "${php_version}" == "7.3" || "${php_version}" == "7.4" ]]; then
+            other_options="--enable-zend-test"
+        else
+            other_options="--with-mcrypt --enable-gd-native-ttf"
+        fi
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
-
-        php_configure_args="--prefix=${php_location} \
+        php_configure_args="
+        --prefix=${php_location} \
         --with-apxs2=${apache_location}/bin/apxs \
         --with-config-file-path=${php_location}/etc \
         --with-config-file-scan-dir=${php_location}/php.d \
-        --with-pcre-dir=${depends_prefix}/pcre \
+        ${with_pcre} \
         --with-imap \
         --with-kerberos \
         --with-imap-ssl \
-        --with-libxml-dir \
+        ${with_libxml} \
         --with-openssl \
         --with-snmp \
         ${with_libdir} \
@@ -107,12 +133,11 @@ upgrade_php(){
         --with-gettext \
         --with-gmp \
         --with-mhash \
-        --with-icu-dir=/usr \
+        ${with_icu} \
         --with-ldap \
         --with-ldap-sasl \
         ${with_libmbfl} \
-        --with-onig \
-        --with-unixODBC \
+        ${with_onig} \
         --with-pspell=/usr \
         --with-enchant=/usr \
         --with-readline \
@@ -133,8 +158,8 @@ upgrade_php(){
         --enable-shmop \
         --enable-soap \
         --enable-sockets \
-        --enable-wddx \
-        --enable-zip \
+        ${enable_wddx} \
+        ${enable_zip} \
         ${disable_fileinfo}"
 
         error_detect "./configure ${php_configure_args}"

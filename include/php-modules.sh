@@ -3,8 +3,8 @@
 # This file is part of the LAMP script.
 #
 # LAMP is a powerful bash script for the installation of 
-# Apache + PHP + MySQL/MariaDB/Percona and so on.
-# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Apache + PHP + MySQL/MariaDB and so on.
+# You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
@@ -85,7 +85,7 @@ install_php_depends(){
         apt_depends=(
             autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev
             libldap-2.4-2 libldap2-dev libsasl2-dev libsasl2-modules-ldap libc-client2007e-dev libkrb5-dev
-            autoconf2.13 pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool unixodbc-dev libtidy-dev
+            autoconf2.13 pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool libtidy-dev
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
@@ -135,7 +135,7 @@ install_php_depends(){
             autoconf patch m4 bison bzip2-devel pam-devel gmp-devel libicu-devel
             curl-devel pcre-devel libtool-libs libtool-ltdl-devel libwebp-devel libXpm-devel
             libvpx-devel libjpeg-devel libpng-devel freetype-devel oniguruma-devel
-            aspell-devel enchant-devel readline-devel unixODBC-devel libtidy-devel
+            aspell-devel enchant-devel readline-devel libtidy-devel sqlite-devel
             openldap-devel libxslt-devel net-snmp net-snmp-devel krb5-devel
         )
         _info "Starting to install dependencies packages for PHP..."
@@ -160,10 +160,6 @@ install_php_depends(){
 
     install_libiconv
     install_re2c
-    # Fixed unixODBC issue
-    if [ -f /usr/include/sqlext.h ] && [ ! -f /usr/local/include/sqlext.h ]; then
-        ln -sf /usr/include/sqlext.h /usr/local/include/
-    fi
 }
 
 install_libiconv(){
@@ -244,18 +240,40 @@ install_libmcrypt(){
 }
 
 install_libzip(){
-    if [ ! -e "/usr/lib/libzip.la" ]; then
+    local cmake_bin="$(command -v cmake)"
+    local cmake_ver="$(${cmake_bin} --version | head -1 | grep -oE "[0-9.]+")"
+    if version_lt ${cmake_ver} 3.0.2; then
         cd ${cur_dir}/software/
-        _info "${libzip_filename} install start..."
-        download_file "${libzip_filename}.tar.gz" "${libzip_filename_url}"
-        tar zxf ${libzip_filename}.tar.gz
-        cd ${libzip_filename}
-
-        error_detect "./configure --prefix=/usr"
-        error_detect "parallel_make"
-        error_detect "make install"
-        _info "${libzip_filename} install completed..."
+        _info "${cmake_filename} install start..."
+        if is_64bit; then
+            if [ ! -d "${depends_prefix}/cmake" ]; then
+                download_file "${cmake_filename2}.tar.gz" "${cmake_filename_url2}"
+                tar zxf ${cmake_filename2}.tar.gz -C ${depends_prefix}
+                mv ${depends_prefix}/${cmake_filename2} ${depends_prefix}/cmake
+            fi
+            [ -x "${depends_prefix}/cmake/bin/cmake" ] && cmake_bin="${depends_prefix}/cmake/bin/cmake"
+        else
+            download_file "${cmake_filename}.tar.gz" "${cmake_filename_url}"
+            tar zxf ${cmake_filename}.tar.gz
+            cd ${cmake_filename}
+            error_detect "./bootstrap --prefix=${depends_prefix}"
+            error_detect "parallel_make"
+            error_detect "make install"
+            cmake_bin="${depends_prefix}/bin/cmake"
+        fi
+        _info "${cmake_filename} install completed..."
     fi
+    cd ${cur_dir}/software/
+    _info "${libzip_filename} install start..."
+    download_file "${libzip_filename}.tar.gz" "${libzip_filename_url}"
+    tar zxf ${libzip_filename}.tar.gz
+    cd ${libzip_filename} && mkdir build && cd build
+
+    error_detect "${cmake_bin} .."
+    error_detect "parallel_make"
+    error_detect "make install"
+    is_64bit && cp -pv libzip.pc /usr/lib64/pkgconfig || cp -pv libzip.pc /usr/lib/pkgconfig
+    _info "${libzip_filename} install completed..."
 }
 
 install_phpmyadmin(){

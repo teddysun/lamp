@@ -3,8 +3,8 @@
 # This file is part of the LAMP script.
 #
 # LAMP is a powerful bash script for the installation of 
-# Apache + PHP + MySQL/MariaDB/Percona and so on.
-# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Apache + PHP + MySQL/MariaDB and so on.
+# You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
@@ -265,7 +265,7 @@ display_os_info(){
     clear
     echo
     echo "+-------------------------------------------------------------------+"
-    echo "| Auto Install LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )  |"
+    echo "| Auto Install LAMP(Linux + Apache + MySQL/MariaDB + PHP )          |"
     echo "| Website: https://lamp.sh                                          |"
     echo "| Author : Teddysun <i@teddysun.com>                                |"
     echo "+-------------------------------------------------------------------+"
@@ -829,10 +829,6 @@ last_confirm(){
         echo "MariaDB Location: ${mariadb_location}"
         echo "MariaDB Data Location: ${mariadb_data_location}"
         echo "MariaDB Root Password: ${mariadb_root_pass}"
-    elif echo "${mysql}" | grep -qi "Percona"; then
-        echo "Percona Location: ${percona_location}"
-        echo "Percona Data Location: ${percona_data_location}"
-        echo "Percona Root Password: ${percona_root_pass}"
     fi
     echo
     if [ "${phpmyadmin_install}" != "do_not_install" ]; then
@@ -900,11 +896,6 @@ install_finally(){
         echo "MariaDB Data Location: ${mariadb_data_location}"
         echo "MariaDB Root Password: ${mariadb_root_pass}"
         dbrootpwd=${mariadb_root_pass}
-    elif [ -d ${percona_location} ]; then
-        echo "Percona Location: ${percona_location}"
-        echo "Percona Data Location: ${percona_data_location}"
-        echo "Percona Root Password: ${percona_root_pass}"
-        dbrootpwd=${percona_root_pass}
     fi
     echo
     if [ "${phpmyadmin_install}" != "do_not_install" ]; then
@@ -936,7 +927,6 @@ install_finally(){
     sed -i "s@^apache_location=.*@apache_location=${apache_location}@" /usr/bin/lamp
     sed -i "s@^mysql_location=.*@mysql_location=${mysql_location}@" /usr/bin/lamp
     sed -i "s@^mariadb_location=.*@mariadb_location=${mariadb_location}@" /usr/bin/lamp
-    sed -i "s@^percona_location=.*@percona_location=${percona_location}@" /usr/bin/lamp
     sed -i "s@^web_root_dir=.*@web_root_dir=${web_root_dir}@" /usr/bin/lamp
 
     ldconfig
@@ -988,10 +978,8 @@ EOF
     echo
     _info "Start time     : ${StartDate}"
     _info "Completion time: $(date "+%Y-%m-%d %H:%M:%S") (Use:$(_red $[($(date +%s)-StartDateSecond)/60]) minutes)"
-    _info "Welcome to visit our website:"
-    _info "https://lamp.sh"
+    _info "Welcome to visit our website: https://lamp.sh"
     _info "Enjoy it"
-
     exit 0
 }
 
@@ -1042,8 +1030,6 @@ lamp_install(){
         check_installed "install_mysqld" "${mysql_location}"
     elif echo "${mysql}" | grep -qi "mariadb"; then
         check_installed "install_mariadb" "${mariadb_location}"
-    elif echo "${mysql}" | grep -qi "Percona";then
-        check_installed "install_percona" "${percona_location}"
     fi
     [ "${php}" != "do_not_install" ] && check_installed "install_php" "${php_location}"
     [ "${phpmyadmin_install}" != "do_not_install" ] && install_phpmyadmin_modules

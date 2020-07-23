@@ -4,13 +4,13 @@
 # This file is part of the LAMP script.
 #
 # LAMP is a powerful bash script for the installation of 
-# Apache + PHP + MySQL/MariaDB/Percona and so on.
-# You can install Apache + PHP + MySQL/MariaDB/Percona in an very easy way.
+# Apache + PHP + MySQL/MariaDB and so on.
+# You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
 # System Required:  CentOS 6+ / Fedora28+ / Debian 8+ / Ubuntu 14+
-# Description:  Update LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )
+# Description:  Update LAMP(Linux + Apache + MySQL/MariaDB + PHP )
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
 
@@ -33,7 +33,7 @@ upgrade_menu(){
 
     echo
     echo "+-------------------------------------------------------------------+"
-    echo "| Auto Update LAMP(Linux + Apache + MySQL/MariaDB/Percona + PHP )   |"
+    echo "| Auto Update LAMP(Linux + Apache + MySQL/MariaDB + PHP )           |"
     echo "| Intro: https://lamp.sh                                            |"
     echo "| Author: Teddysun <i@teddysun.com>                                 |"
     echo "+-------------------------------------------------------------------+"
@@ -42,7 +42,7 @@ upgrade_menu(){
     while true
     do
     _info "$(_green 1). Upgrade Apache"
-    _info "$(_green 2). Upgrade MySQL/MariaDB/Percona"
+    _info "$(_green 2). Upgrade MySQL or MariaDB"
     _info "$(_green 3). Upgrade PHP"
     _info "$(_green 4). Upgrade phpMyAdmin"
     _info "$(_green 5). Upgrade Adminer"
@@ -87,7 +87,7 @@ printf "
 
 Usage: $0 [ apache | db | php | phpmyadmin | adminer ]
 apache                    --->Upgrade Apache
-db                        --->Upgrade MySQL/MariaDB/Percona
+db                        --->Upgrade MySQL or MariaDB
 php                       --->Upgrade PHP
 phpmyadmin                --->Upgrade phpMyAdmin
 adminer                   --->Upgrade Adminer
