@@ -1228,7 +1228,7 @@ else
     <td>eAccelerator</td>
     <td><?php if((phpversion('eAccelerator'))!=''){echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";echo phpversion('eAccelerator');}else{ echo "<font color=red><i class=\"fa fa-times\"></i></font>";} ?></td>
     <td>ionCube Loader</td>
-    <td><?php if(extension_loaded('ionCube Loader')){$ys = ioncube_loader_iversion();$gm = ".".(int)substr($ys,3,2);echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";echo ionCube_Loader_version().$gm;}else{echo "<font color=red><i class=\"fa fa-times\"></i></font>";}?></td>
+    <td><?php if(extension_loaded('ionCube Loader')){$ys = ioncube_loader_iversion();$gm = ".".(int)substr($ys,4,2);echo "<font color=green><i class=\"fa fa-check\"></i></font>　Ver ";echo ionCube_Loader_version().$gm;}else{echo "<font color=red><i class=\"fa fa-times\"></i></font>";}?></td>
   </tr>
 
   <tr>
