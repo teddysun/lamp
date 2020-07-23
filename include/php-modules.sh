@@ -263,17 +263,19 @@ install_libzip(){
         fi
         _info "${cmake_filename} install completed..."
     fi
-    cd ${cur_dir}/software/
-    _info "${libzip_filename} install start..."
-    download_file "${libzip_filename}.tar.gz" "${libzip_filename_url}"
-    tar zxf ${libzip_filename}.tar.gz
-    cd ${libzip_filename} && mkdir build && cd build
+    if [ ! -e "/usr/local/bin/zipcmp" ]; then
+        cd ${cur_dir}/software/
+        _info "${libzip_filename} install start..."
+        download_file "${libzip_filename}.tar.gz" "${libzip_filename_url}"
+        tar zxf ${libzip_filename}.tar.gz
+        cd ${libzip_filename} && mkdir build && cd build
 
-    error_detect "${cmake_bin} .."
-    error_detect "parallel_make"
-    error_detect "make install"
-    is_64bit && cp -pv libzip.pc /usr/lib64/pkgconfig || cp -pv libzip.pc /usr/lib/pkgconfig
-    _info "${libzip_filename} install completed..."
+        error_detect "${cmake_bin} .."
+        error_detect "parallel_make"
+        error_detect "make install"
+        is_64bit && cp -pv libzip.pc /usr/lib64/pkgconfig || cp -pv libzip.pc /usr/lib/pkgconfig
+        _info "${libzip_filename} install completed..."
+    fi
 }
 
 install_phpmyadmin(){
