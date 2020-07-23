@@ -182,8 +182,8 @@ install_re2c(){
     if [ ! -e "/usr/local/bin/re2c" ]; then
         cd ${cur_dir}/software/
         _info "${re2c_filename} install start..."
-        download_file "${re2c_filename}.tar.xz" "${re2c_filename_url}"
-        tar Jxf ${re2c_filename}.tar.xz
+        download_file "${re2c_filename}.tar.gz" "${re2c_filename_url}"
+        tar zxf ${re2c_filename}.tar.gz
         cd ${re2c_filename}
 
         error_detect "./configure"

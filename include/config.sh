@@ -120,7 +120,7 @@ pcre_filename="pcre-8.44"
 pcre_filename_url="https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz"
 #re2c
 re2c_filename="re2c-1.3"
-re2c_filename_url="https://github.com/skvadrik/re2c/releases/download/1.3/re2c-1.3.tar.xz"
+re2c_filename_url="${download_root_url}/re2c-1.3.tar.gz"
 #cmake
 cmake_filename="cmake-3.18.0"
 cmake_filename_url="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0.tar.gz"
