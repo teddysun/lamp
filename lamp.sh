@@ -119,7 +119,7 @@ process(){
             if ! is_digit ${php_option}; then
                 _error "php_option input error, please only input a number"
             fi
-            [[ "${php_option}" -lt 1 || "${php_option}" -gt 7 ]] && _error "php_option input error, please only input a number between 1 and 6"
+            [[ "${php_option}" -lt 1 || "${php_option}" -gt 7 ]] && _error "php_option input error, please only input a number between 1 and 7"
             eval php=${php_arr[${php_option}-1]}
             ;;
         --php_extensions)
@@ -142,9 +142,9 @@ process(){
             if ! is_digit ${db_option}; then
                 _error "db_option input error, please only input a number"
             fi
-            [[ "${db_option}" -lt 1 || "${db_option}" -gt 9 ]] && _error "db_option input error, please only input a number between 1 and 15"
+            [[ "${db_option}" -lt 1 || "${db_option}" -gt 9 ]] && _error "db_option input error, please only input a number between 1 and 9"
             eval mysql=${mysql_arr[${db_option}-1]}
-            if [[ "${mysql}" == "${mariadb10_3_filename}" || "${mysql}" == "${mariadb10_4_filename}" ]] && version_lt $(get_libc_version) 2.14; then
+            if [[ "${mysql}" == "${mariadb10_3_filename}" || "${mysql}" == "${mariadb10_4_filename}" || "${mysql}" == "${mariadb10_5_filename}" ]] && version_lt $(get_libc_version) 2.14; then
                 _error "db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
             fi
             ;;
