@@ -119,8 +119,8 @@ mcrypt_filename_url="https://sourceforge.net/projects/mcrypt/files/MCrypt/2.6.8/
 pcre_filename="pcre-8.44"
 pcre_filename_url="https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz"
 #re2c
-re2c_filename="re2c-1.3"
-re2c_filename_url="${download_root_url}/re2c-1.3.tar.gz"
+re2c_filename="re2c-2.0"
+re2c_filename_url="${download_root_url}/re2c-2.0.tar.gz"
 #cmake
 cmake_filename="cmake-3.18.0"
 cmake_filename_url="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0.tar.gz"
@@ -202,7 +202,6 @@ libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
 php_libsodium_filename="libsodium-php-2.0.22"
 php_libsodium_filename_url="https://github.com/jedisct1/libsodium-php/archive/2.0.22.tar.gz"
-
 
 #software array setting
 apache_arr=(
