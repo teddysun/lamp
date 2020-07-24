@@ -202,6 +202,12 @@ libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
 php_libsodium_filename="libsodium-php-2.0.22"
 php_libsodium_filename_url="https://github.com/jedisct1/libsodium-php/archive/2.0.22.tar.gz"
+#sqlite3
+sqlite3_filename="sqlite-autoconf-3310000"
+sqlite3_filename_url="${download_root_url}/sqlite-autoconf-3310000.tar.gz"
+#icu4c
+icu4c_filename="icu"
+icu4c_filename_url="https://github.com/unicode-org/icu/releases/download/release-50-2/icu4c-50_2-src.tgz"
 
 #software array setting
 apache_arr=(

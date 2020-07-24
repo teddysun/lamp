@@ -156,10 +156,99 @@ install_php_depends(){
         install_libmcrypt
         install_mcrypt
         install_libzip
+        # Fixed PHP 7.4 installation in CentOS 6
+        if [[ "${php}" == "${php7_4_filename}" ]] && centosversion 6; then
+            install_php74_centos6
+        fi
     fi
 
     install_libiconv
     install_re2c
+}
+
+install_php74_centos6(){
+    local libdir=""
+    is_64bit && libdir="lib64" || libdir="lib"
+    # Fixed configure: error: Package requirements (sqlite3 > 3.7.4) were not met
+    install_sqlite3
+    cp -pv /usr/local/lib/pkgconfig/sqlite3.pc /usr/${libdir}/pkgconfig
+    # Fixed configure: error: Package requirements (icu-uc >= 50.1 icu-io icu-i18n) were not met
+    install_icu4c
+    cp -pv /usr/local/lib/pkgconfig/icu*.pc /usr/${libdir}/pkgconfig
+    # Fixed configure: error: Package requirements (krb5-gssapi krb5) were not met
+    export KERBEROS_LIBS="-L/usr/lib64 -lgssapi_krb5 -lkrb5 -lk5crypto"
+    export KERBEROS_CFLAGS="-I/usr/include"
+    # Fixed configure: error: Package requirements (libjpeg) were not met
+    cat > /usr/${libdir}/pkgconfig/libjpeg.pc <<EOF
+prefix=/usr
+exec_prefix=/usr
+libdir=/usr/lib64
+includedir=/usr/include
+
+Name: libjpeg
+Description: A SIMD-accelerated JPEG codec that provides the libjpeg API
+Version: 1.2.1
+Libs: -L\${libdir} -ljpeg
+Cflags: -I\${includedir}
+EOF
+    # Fixed configure: error: Package requirements (libsasl2) were not met
+    cat > /usr/${libdir}/pkgconfig/libsasl2.pc <<EOF
+libdir = /usr/lib64
+
+Name: Cyrus SASL
+Description: Cyrus SASL implementation
+URL: http://www.cyrussasl.org/
+Version: 2.1.23
+Libs: -L\${libdir} -lsasl2
+Libs.private:  -ldl -lresolv -lcrypt -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lkrb5support
+EOF
+    # Fixed configure: error: Package requirements (oniguruma) were not met
+    cat > /usr/${libdir}/pkgconfig/oniguruma.pc <<EOF
+prefix=/usr
+exec_prefix=/usr
+libdir=/usr/lib64
+includedir=/usr/include
+datarootdir=/usr/share
+datadir=/usr/share
+
+Name: oniguruma
+Description: Regular expression library
+Version: 5.9.1
+Requires:
+Libs: -L\${libdir} -lonig
+Cflags: -I\${includedir}
+EOF
+
+}
+
+install_sqlite3(){
+    if [ ! -e "/usr/local/bin/sqlite3" ]; then
+        cd ${cur_dir}/software/
+        _info "${sqlite3_filename} install start..."
+        download_file  "${sqlite3_filename}.tar.gz" "${sqlite3_filename_url}"
+        tar zxf ${sqlite3_filename}.tar.gz
+        cd ${sqlite3_filename}
+
+        error_detect "./configure"
+        error_detect "parallel_make"
+        error_detect "make install"
+        _info "${sqlite3_filename} install completed..."
+    fi
+}
+
+install_icu4c(){
+    if [ ! -e "/usr/local/bin/icu-config" ]; then
+        cd ${cur_dir}/software/
+        _info "${icu4c_filename} install start..."
+        download_file  "${icu4c_filename}.tgz" "${icu4c_filename_url}"
+        tar zxf ${icu4c_filename}.tgz
+        cd ${icu4c_filename}/source/
+
+        error_detect "./configure"
+        error_detect "parallel_make"
+        error_detect "make install"
+        _info "${icu4c_filename} install completed..."
+    fi
 }
 
 install_libiconv(){
