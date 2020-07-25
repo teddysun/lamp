@@ -169,18 +169,40 @@ install_php74_centos6(){
     is_64bit && libdir="lib64" || libdir="lib"
     # Fixed configure: error: Package requirements (sqlite3 > 3.7.4) were not met
     install_sqlite3
-    cp -pv /usr/local/lib/pkgconfig/sqlite3.pc /usr/${libdir}/pkgconfig
+    cp -pfv /usr/local/lib/pkgconfig/sqlite3.pc /usr/${libdir}/pkgconfig
     # Fixed configure: error: Package requirements (icu-uc >= 50.1 icu-io icu-i18n) were not met
     install_icu4c
-    cp -pv /usr/local/lib/pkgconfig/icu*.pc /usr/${libdir}/pkgconfig
+    cp -pfv /usr/local/lib/pkgconfig/icu*.pc /usr/${libdir}/pkgconfig
     # Fixed configure: error: Package requirements (krb5-gssapi krb5) were not met
-    export KERBEROS_LIBS="-L/usr/lib64 -lgssapi_krb5 -lkrb5 -lk5crypto"
-    export KERBEROS_CFLAGS="-I/usr/include"
+    cat > /usr/${libdir}/pkgconfig/krb5-gssapi.pc <<EOF
+prefix=/usr
+exec_prefix=/usr
+libdir=/usr/${libdir}
+includedir=/usr/include
+
+Name: krb5-gssapi
+Description: Kerberos implementation of the GSSAPI
+Version: 1.10.3
+Libs: -L\${libdir} -lgssapi_krb5
+Cflags: -I\${includedir}
+EOF
+    cat > /usr/${libdir}/pkgconfig/krb5.pc <<EOF
+prefix=/usr
+exec_prefix=/usr
+libdir=/usr/${libdir}
+includedir=/usr/include
+
+Name: krb5
+Description: An implementation of Kerberos network authentication
+Version: 1.10.3
+Libs: -L\${libdir} -lkrb5 -lk5crypto
+Cflags: -I\${includedir}
+EOF
     # Fixed configure: error: Package requirements (libjpeg) were not met
     cat > /usr/${libdir}/pkgconfig/libjpeg.pc <<EOF
 prefix=/usr
 exec_prefix=/usr
-libdir=/usr/lib64
+libdir=/usr/${libdir}
 includedir=/usr/include
 
 Name: libjpeg
@@ -191,7 +213,7 @@ Cflags: -I\${includedir}
 EOF
     # Fixed configure: error: Package requirements (libsasl2) were not met
     cat > /usr/${libdir}/pkgconfig/libsasl2.pc <<EOF
-libdir = /usr/lib64
+libdir = /usr/${libdir}
 
 Name: Cyrus SASL
 Description: Cyrus SASL implementation
@@ -204,7 +226,7 @@ EOF
     cat > /usr/${libdir}/pkgconfig/oniguruma.pc <<EOF
 prefix=/usr
 exec_prefix=/usr
-libdir=/usr/lib64
+libdir=/usr/${libdir}
 includedir=/usr/include
 datarootdir=/usr/share
 datadir=/usr/share
