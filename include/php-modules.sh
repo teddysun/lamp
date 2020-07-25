@@ -85,13 +85,12 @@ install_php_depends(){
         apt_depends=(
             autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev
             libldap-2.4-2 libldap2-dev libsasl2-dev libsasl2-modules-ldap libc-client2007e-dev libkrb5-dev
-            autoconf2.13 pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool libtidy-dev
+            autoconf2.13 pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool libtidy-dev libsqlite3-dev
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
         _info "Starting to install dependencies packages for PHP..."
-        for depend in ${apt_depends[@]}
-        do
+        for depend in ${apt_depends[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
         done
         _info "Install dependencies packages for PHP completed..."
@@ -139,13 +138,12 @@ install_php_depends(){
             openldap-devel libxslt-devel net-snmp net-snmp-devel krb5-devel
         )
         _info "Starting to install dependencies packages for PHP..."
-        for depend in ${yum_depends[@]}
-        do
+        for depend in ${yum_depends[@]}; do
             error_detect_depends "yum -y install ${depend}"
         done
-        if yum list | grep "libc-client-devel" > /dev/null 2>&1; then
+        if yum list | grep -q "libc-client-devel"; then
             error_detect_depends "yum -y install libc-client-devel"
-        elif yum list | grep "uw-imap-devel" > /dev/null 2>&1; then
+        elif yum list | grep -q "uw-imap-devel"; then
             error_detect_depends "yum -y install uw-imap-devel"
         else
             _error "There is no rpm package libc-client-devel or uw-imap-devel, please check it and try again."
