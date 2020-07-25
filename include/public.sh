@@ -818,6 +818,8 @@ last_confirm(){
         do
             echo "${a}"
         done
+    else
+        echo "Apache Additional Modules: do_not_install"
     fi
     echo
     echo "Database: ${mysql}"
@@ -837,6 +839,8 @@ last_confirm(){
         do
             echo "${a}"
         done
+    else
+        echo "Database Management Modules: do_not_install"
     fi
     echo
     echo "PHP: ${php}"
@@ -847,6 +851,8 @@ last_confirm(){
         do
             echo "${m}"
         done
+    else
+        echo "PHP Additional Extensions: do_not_install"
     fi
     echo
     echo "KodExplorer: ${kodexplorer}"
@@ -883,6 +889,8 @@ install_finally(){
         do
             echo "${a}"
         done
+    else
+        echo "Apache Additional Modules: do_not_install"
     fi
     echo
     echo "Database: ${mysql}"
@@ -904,6 +912,8 @@ install_finally(){
         do
             echo "${a}"
         done
+    else
+        echo "Database Management Modules: do_not_install"
     fi
     echo
     echo "PHP: ${php}"
@@ -914,6 +924,8 @@ install_finally(){
         do
             echo "${m}"
         done
+    else
+        echo "PHP Additional Extensions: do_not_install"
     fi
     echo
     echo "KodExplorer: ${kodexplorer}"
