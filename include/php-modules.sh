@@ -154,9 +154,17 @@ install_php_depends(){
         install_libmcrypt
         install_mcrypt
         install_libzip
-        # Fixed PHP 7.4 installation in CentOS 6
-        if [[ "${php}" == "${php7_4_filename}" ]] && centosversion 6; then
-            install_php74_centos6
+        # Fixed error: Autoconf version 2.68 or higher is required in CentOS 6
+        if centosversion 6; then
+            # Uninstall old autoconf
+            if rpm -qa | grep -q autoconf; then
+                rpm -e --nodeps autoconf-2.63
+            fi
+            install_autoconf
+            # Fixed PHP 7.4 installation in CentOS 6
+            if [[ "${php}" == "${php7_4_filename}" ]]; then
+                install_php74_centos6
+            fi
         fi
     fi
 
@@ -239,6 +247,19 @@ Libs: -L\${libdir} -lonig
 Cflags: -I\${includedir}
 EOF
 
+}
+
+install_autoconf(){
+    cd ${cur_dir}/software/
+    _info "${autoconf_filename} install start..."
+    download_file  "${autoconf_filename}.tar.gz" "${autoconf_filename_url}"
+    tar zxf ${autoconf_filename}.tar.gz
+    cd ${autoconf_filename}
+
+    error_detect "./configure --prefix=/usr"
+    error_detect "parallel_make"
+    error_detect "make install"
+    _info "${autoconf_filename} install completed..."
 }
 
 install_sqlite3(){

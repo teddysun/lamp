@@ -208,6 +208,9 @@ sqlite3_filename_url="${download_root_url}/sqlite-autoconf-3310000.tar.gz"
 #icu4c
 icu4c_filename="icu"
 icu4c_filename_url="https://github.com/unicode-org/icu/releases/download/release-50-2/icu4c-50_2-src.tgz"
+#autoconf
+autoconf_filename="autoconf-2.69"
+autoconf_filename_url="http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz"
 
 #software array setting
 apache_arr=(
