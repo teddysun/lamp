@@ -60,7 +60,6 @@ mysql_preinstall_settings(){
 
 #Install Database common
 common_install(){
-
     local apt_list=(libncurses5-dev cmake m4 bison libaio1 libaio-dev numactl)
     local yum_list=(ncurses-devel cmake m4 bison libaio libaio-devel numactl-devel libevent)
     if is_64bit; then
@@ -87,15 +86,13 @@ common_install(){
         else
             error_detect_depends "yum -y install perl-Data-Dumper"
         fi
-        if echo $(get_opsy) | grep -Eqi "fedora"; then
+        if centosversion 8 || echo $(get_opsy) | grep -Eqi "fedora"; then
             error_detect_depends "yum -y install ncurses-compat-libs"
         fi
     fi
     _info "Install dependencies packages for Database completed..."
-
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
-
     if echo "${mysql}" | grep -qi "mysql"; then
         mkdir -p ${mysql_location} ${mysql_data_location}
     elif echo "${mysql}" | grep -qi "mariadb"; then
@@ -218,7 +215,6 @@ common_setup(){
     rm -f /etc/ld.so.conf.d/mysql.conf
 
     if [ -d "${mysql_location}" ]; then
-
         local db_name="MySQL"
         local db_pass="${mysql_root_pass}"
         ln -s ${mysql_location}/bin/mysql /usr/bin/mysql
@@ -230,9 +226,7 @@ common_setup(){
         create_lib64_dir "${mysql_location}"
         echo "${mysql_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
         echo "${mysql_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
-
     elif [ -d "${mariadb_location}" ]; then
-
         local db_name="MariaDB"
         local db_pass="${mariadb_root_pass}"
         ln -s ${mariadb_location}/bin/mysql /usr/bin/mysql
@@ -244,7 +238,6 @@ common_setup(){
         create_lib64_dir "${mariadb_location}"
         echo "${mariadb_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
         echo "${mariadb_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
-
     fi
 
     ldconfig

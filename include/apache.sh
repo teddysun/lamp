@@ -302,7 +302,8 @@ install_mod_wsgi(){
     tar zxf ${mod_wsgi_filename}.tar.gz
     cd ${mod_wsgi_filename}
 
-    error_detect "./configure --with-apxs=${apache_location}/bin/apxs"
+    [ -e "/usr/libexec/platform-python" ] && mod_wsgi_configure="--with-python=/usr/libexec/platform-python" || mod_wsgi_configure=""
+    error_detect "./configure --with-apxs=${apache_location}/bin/apxs ${mod_wsgi_configure}"
     error_detect "make"
     error_detect "make install"
     # add mod_wsgi to httpd.conf

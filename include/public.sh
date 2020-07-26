@@ -288,21 +288,6 @@ display_os_info(){
     echo "---------------------------------------------------------------------"
 }
 
-check_command_exist(){
-    local cmd="$1"
-    if eval type type > /dev/null 2>&1; then
-        eval type "$cmd" > /dev/null 2>&1
-    elif command > /dev/null 2>&1; then
-        command -v "$cmd" > /dev/null 2>&1
-    else
-        which "$cmd" > /dev/null 2>&1
-    fi
-    rt=$?
-    if [ ${rt} -ne 0 ]; then
-        _error "$cmd is not installed, please install it and try again."
-    fi
-}
-
 check_installed(){
     local cmd="$1"
     local location="$2"
@@ -714,6 +699,19 @@ is_digit(){
     fi
 }
 
+is_exist(){
+    local cmd="$1"
+    if eval type type > /dev/null 2>&1; then
+        eval type "$cmd" > /dev/null 2>&1
+    elif command > /dev/null 2>&1; then
+        command -v "$cmd" > /dev/null 2>&1
+    else
+        which "$cmd" > /dev/null 2>&1
+    fi
+    local rt=$?
+    return ${rt}
+}
+
 if_in_array(){
     local element="$1"
     local array="$2"
@@ -739,8 +737,7 @@ firewall_set(){
 
     if centosversion 6; then
         if [ -e /etc/init.d/iptables ]; then
-            /etc/init.d/iptables status > /dev/null 2>&1
-            if [ $? -eq 0 ]; then
+            if /etc/init.d/iptables status > /dev/null 2>&1; then
                 iptables -L -n | grep -qi 80
                 if [ $? -ne 0 ]; then
                     iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
@@ -758,9 +755,8 @@ firewall_set(){
             _warn "iptables looks like not installed."
         fi
     else
-        systemctl status firewalld > /dev/null 2>&1
-        if [ $? -eq 0 ]; then
-            default_zone=$(firewall-cmd --get-default-zone)
+        if systemctl status firewalld > /dev/null 2>&1; then
+            default_zone="$(firewall-cmd --get-default-zone)"
             firewall-cmd --permanent --zone=${default_zone} --add-service=http > /dev/null 2>&1
             firewall-cmd --permanent --zone=${default_zone} --add-service=https > /dev/null 2>&1
             firewall-cmd --reload > /dev/null 2>&1
@@ -787,15 +783,13 @@ remove_packages(){
 
 sync_time(){
     _info "Starting to sync time..."
-    ntpdate -bv cn.pool.ntp.org
-    rm -f /etc/localtime
-    ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    is_exist "ntpdate" && ntpdate -bv cn.pool.ntp.org
+    rm -fv /etc/localtime
+    ln -sv /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
     _info "Sync time completed..."
-
     StartDate=$(date "+%Y-%m-%d %H:%M:%S")
     StartDateSecond=$(date +%s)
     _info "Start time: ${StartDate}"
-
 }
 
 start_install(){
@@ -1006,24 +1000,26 @@ install_tools(){
         done
     elif check_sys packageManager yum; then
         yum makecache > /dev/null 2>&1
-        yum_tools=(yum-utils gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools python python-devel crontabs ca-certificates ntpdate)
+        yum_tools=(yum-utils gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools crontabs ca-certificates)
         for tool in ${yum_tools[@]}; do
             error_detect_depends "yum -y install ${tool}"
         done
-        if centosversion 6 || centosversion 7; then
+        if centosversion 6 || centosversion 7 || centosversion 8; then
             error_detect_depends "yum -y install epel-release"
             yum-config-manager --enable epel > /dev/null 2>&1
+        fi
+        if centosversion 8; then
+            error_detect_depends "yum -y install python3-devel"
+            error_detect_depends "yum -y install chrony"
+            yum-config-manager --enable PowerTools > /dev/null 2>&1
+        else
+            error_detect_depends "yum -y install python"
+            error_detect_depends "yum -y install python-devel"
+            error_detect_depends "yum -y install ntpdate"
         fi
     fi
     _info "Install development tools completed..."
 
-    check_command_exist "gcc"
-    check_command_exist "g++"
-    check_command_exist "make"
-    check_command_exist "wget"
-    check_command_exist "perl"
-    check_command_exist "netstat"
-    check_command_exist "ntpdate"
 }
 
 #start install lamp
@@ -1032,10 +1028,7 @@ lamp_install(){
     install_tools
     sync_time
     remove_packages
-
-    if [ ! -d ${cur_dir}/software ]; then
-        mkdir -p ${cur_dir}/software
-    fi
+    [ ! -d ${cur_dir}/software ] && mkdir -p ${cur_dir}/software
     [ "${apache}" != "do_not_install" ] && check_installed "install_apache" "${apache_location}"
     [ "${apache_modules_install}" != "do_not_install" ] && install_apache_modules
     if echo "${mysql}" | grep -qi "mysql"; then
@@ -1047,7 +1040,6 @@ lamp_install(){
     [ "${phpmyadmin_install}" != "do_not_install" ] && install_phpmyadmin_modules
     [ "${kodexplorer}" != "do_not_install" ] && install_kodexplorer
     [ "${php_modules_install}" != "do_not_install" ] && install_php_modules "${phpConfig}"
-
     install_finally
 }
 
