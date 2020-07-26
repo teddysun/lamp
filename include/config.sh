@@ -103,9 +103,9 @@ mod_jk_filename="tomcat-connectors-1.2.46-src"
 mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.46-src.tar.gz"
 set_hint ${mod_jk_filename} "mod_jk-1.2.46"
 #mod_security
-mod_security_filename="modsecurity-v3.0.4"
-mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v3.0.4/modsecurity-v3.0.4.tar.gz"
-set_hint ${mod_security_filename} "mod_security-3.0.4"
+mod_security_filename="modsecurity-2.9.3"
+mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.3/modsecurity-2.9.3.tar.gz"
+set_hint ${mod_security_filename} "mod_security-2.9.3"
 #mhash
 mhash_filename="mhash-0.9.9.9"
 mhash_filename_url="https://sourceforge.net/projects/mhash/files/mhash/0.9.9.9/mhash-0.9.9.9.tar.gz/download"
@@ -184,8 +184,8 @@ php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
-redis_filename="redis-6.0.6"
-redis_filename_url="http://download.redis.io/releases/redis-6.0.6.tar.gz"
+redis_filename="redis-5.0.8"
+redis_filename_url="http://download.redis.io/releases/redis-5.0.8.tar.gz"
 #php-redis
 php_redis_filename="redis-4.3.0"
 php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
