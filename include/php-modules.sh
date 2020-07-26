@@ -83,7 +83,7 @@ install_phpmyadmin_modules(){
 install_php_depends(){
     if check_sys packageManager apt; then
         apt_depends=(
-            autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev
+            cmake autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev
             libldap-2.4-2 libldap2-dev libsasl2-dev libsasl2-modules-ldap libc-client2007e-dev libkrb5-dev
             autoconf2.13 pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool libtidy-dev libsqlite3-dev
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
@@ -131,7 +131,7 @@ install_php_depends(){
         fi
     elif check_sys packageManager yum; then
         yum_depends=(
-            autoconf patch m4 bison bzip2-devel pam-devel gmp-devel libicu-devel
+            cmake autoconf patch m4 bison bzip2-devel pam-devel gmp-devel libicu-devel
             curl-devel pcre-devel libtool-libs libtool-ltdl-devel libwebp-devel libXpm-devel
             libvpx-devel libjpeg-devel libpng-devel freetype-devel oniguruma-devel
             aspell-devel enchant-devel readline-devel libtidy-devel sqlite-devel
