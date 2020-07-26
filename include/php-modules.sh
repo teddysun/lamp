@@ -141,9 +141,9 @@ install_php_depends(){
         for depend in ${yum_depends[@]}; do
             error_detect_depends "yum -y install ${depend}"
         done
-        if yum list | grep -q "libc-client-devel"; then
+        if yum list 2>/dev/null | grep -q "libc-client-devel"; then
             error_detect_depends "yum -y install libc-client-devel"
-        elif yum list | grep -q "uw-imap-devel"; then
+        elif yum list 2>/dev/null | grep -q "uw-imap-devel"; then
             error_detect_depends "yum -y install uw-imap-devel"
         else
             _error "There is no rpm package libc-client-devel or uw-imap-devel, please check it and try again."
