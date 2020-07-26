@@ -993,13 +993,13 @@ install_tools(){
     _info "Installing development tools..."
     if check_sys packageManager apt; then
         apt-get -y update > /dev/null 2>&1
-        apt_tools=(gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates ntpdate)
+        apt_tools=(tar gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates ntpdate)
         for tool in ${apt_tools[@]}; do
             error_detect_depends "apt-get -y install ${tool}"
         done
     elif check_sys packageManager yum; then
         yum makecache > /dev/null 2>&1
-        yum_tools=(yum-utils gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools crontabs ca-certificates)
+        yum_tools=(yum-utils tar gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools crontabs ca-certificates)
         for tool in ${yum_tools[@]}; do
             error_detect_depends "yum -y install ${tool}"
         done
