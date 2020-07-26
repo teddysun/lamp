@@ -407,7 +407,7 @@ error_detect_depends(){
     local command="$1"
     local work_dir=$(pwd)
     local depend=$(echo "$1" | awk '{print $4}')
-    _info "Starting to install package ${depend}"
+    _info "Installing package ${depend}"
     ${command} > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         distro=$(get_opsy)
@@ -733,8 +733,7 @@ add_to_env(){
 }
 
 firewall_set(){
-    _info "Starting set Firewall..."
-
+    _info "Setting Firewall..."
     if centosversion 6; then
         if [ -e /etc/init.d/iptables ]; then
             if /etc/init.d/iptables status > /dev/null 2>&1; then
@@ -764,11 +763,11 @@ firewall_set(){
             _warn "firewalld looks like not running, please manually set if necessary."
         fi
     fi
-    _info "Firewall set completed..."
+    _info "Set Firewall completed..."
 }
 
 remove_packages(){
-    _info "Starting remove the conflict packages..."
+    _info "Removing the conflict packages..."
     if check_sys packageManager apt; then
         [ "${apache}" != "do_not_install" ] && apt-get -y remove --purge apache2 apache2-* &> /dev/null
         [ "${mysql}" != "do_not_install" ] && apt-get -y remove --purge mysql-client mysql-server mysql-common libmysqlclient18 &> /dev/null
@@ -782,7 +781,7 @@ remove_packages(){
 }
 
 sync_time(){
-    _info "Starting to sync time..."
+    _info "Sync time..."
     is_exist "ntpdate" && ntpdate -bv cn.pool.ntp.org
     rm -fv /etc/localtime
     ln -sv /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
@@ -858,7 +857,7 @@ last_confirm(){
 
 #Finally to do
 install_finally(){
-    _info "Starting clean up..."
+    _info "Cleaning up..."
     cd ${cur_dir}
     rm -rf ${cur_dir}/software
     _info "Clean up completed..."
@@ -991,7 +990,7 @@ EOF
 
 #Install tools
 install_tools(){
-    _info "Starting to install development tools..."
+    _info "Installing development tools..."
     if check_sys packageManager apt; then
         apt-get -y update > /dev/null 2>&1
         apt_tools=(gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates ntpdate)

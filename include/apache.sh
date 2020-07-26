@@ -32,7 +32,7 @@ install_apache(){
     --enable-modules=reallyall \
     --enable-mods-shared=reallyall"
 
-    _info "Starting to install dependencies packages for Apache..."
+    _info "Installing dependencies for Apache..."
     local apt_list=(zlib1g-dev openssl libssl-dev libxml2-dev lynx lua-expat-dev libjansson-dev)
     local yum_list=(zlib-devel openssl-devel libxml2-devel lynx expat-devel lua-devel lua jansson-devel)
     if check_sys packageManager apt; then
@@ -44,7 +44,7 @@ install_apache(){
             error_detect_depends "yum -y install ${depend}"
         done
     fi
-    _info "Install dependencies packages for Apache completed..."
+    _info "Install dependencies for Apache completed..."
 
     if ! grep -qE "^/usr/local/lib" /etc/ld.so.conf.d/*.conf; then
         echo "/usr/local/lib" > /etc/ld.so.conf.d/locallib.conf

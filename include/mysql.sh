@@ -67,7 +67,7 @@ common_install(){
     else
         local perl_data_dumper_url="${download_root_url}/perl-Data-Dumper-2.125-1.el6.rf.i686.rpm"
     fi
-    _info "Starting to install dependencies packages for Database..."
+    _info "Installing dependencies for Database..."
     if check_sys packageManager apt; then
         for depend in ${apt_list[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
@@ -79,7 +79,7 @@ common_install(){
         if centosversion 6; then
             rpm -q perl-Data-Dumper > /dev/null 2>&1
             if [ $? -ne 0 ]; then
-                _info "Starting to install package perl-Data-Dumper"
+                _info "Installing package perl-Data-Dumper"
                 rpm -Uvh ${perl_data_dumper_url} > /dev/null 2>&1
                 [ $? -ne 0 ] && _error "Install package perl-Data-Dumper failed"
             fi
@@ -90,7 +90,7 @@ common_install(){
             error_detect_depends "yum -y install ncurses-compat-libs"
         fi
     fi
-    _info "Install dependencies packages for Database completed..."
+    _info "Install dependencies for Database completed..."
     id -u mysql >/dev/null 2>&1
     [ $? -ne 0 ] && useradd -M -s /sbin/nologin mysql
     if echo "${mysql}" | grep -qi "mysql"; then

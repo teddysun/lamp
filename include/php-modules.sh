@@ -89,11 +89,11 @@ install_php_depends(){
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
-        _info "Starting to install dependencies packages for PHP..."
+        _info "Installing dependencies for PHP..."
         for depend in ${apt_depends[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
         done
-        _info "Install dependencies packages for PHP completed..."
+        _info "Install dependencies for PHP completed..."
 
         if is_64bit; then
             if [ ! -d /usr/lib64 ] && [ -d /usr/lib ]; then
@@ -137,7 +137,7 @@ install_php_depends(){
             aspell-devel enchant-devel readline-devel libtidy-devel sqlite-devel
             openldap-devel libxslt-devel net-snmp net-snmp-devel krb5-devel
         )
-        _info "Starting to install dependencies packages for PHP..."
+        _info "Installing dependencies for PHP..."
         for depend in ${yum_depends[@]}; do
             error_detect_depends "yum -y install ${depend}"
         done
@@ -148,7 +148,7 @@ install_php_depends(){
         else
             _error "There is no rpm package libc-client-devel or uw-imap-devel, please check it and try again."
         fi
-        _info "Install dependencies packages for PHP completed..."
+        _info "Install dependencies for PHP completed..."
 
         install_mhash
         install_libmcrypt
