@@ -91,21 +91,19 @@
 
 - If your server system: Amazon Linux/CentOS
 ```bash
-yum -y install wget screen git
+yum -y install wget git
 git clone https://github.com/teddysun/lamp.git
 cd lamp
 chmod 755 *.sh
-screen -S lamp
 ./lamp.sh
 ```
 
 - If your server system: Debian/Ubuntu
 ```bash
-apt-get -y install wget screen git
+apt-get -y install wget git
 git clone https://github.com/teddysun/lamp.git
 cd lamp
 chmod 755 *.sh
-screen -S lamp
 ./lamp.sh
 ```
 
