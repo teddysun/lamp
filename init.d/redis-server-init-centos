@@ -1,12 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 #
 # redis - this script starts and stops the redis-server daemon
 # Run level information:
 # chkconfig: 2345 99 99
 # description:  Redis is a persistent key-value database
 # processname:  redis-server
-# config:      /usr/local/redis/etc/redis.conf 
-# config:      /etc/sysconfig/redis
+# config:      /usr/local/redis/etc/redis.conf
 # pidfile:     /var/run/redis.pid
 
 # Source function library.
@@ -18,85 +17,48 @@
 # Check that networking is up.
 [ "$NETWORKING" = "no" ] && exit 0
 
-redis="/usr/local/redis/bin/redis-server"
-prog=$(basename $redis)
-
-REDIS_CONF_FILE="/usr/local/redis/etc/redis.conf"
-
-[ -f /etc/sysconfig/redis ] && . /etc/sysconfig/redis
-
-lockfile=/var/lock/subsys/redis
-
-start() {
-    [ -x $redis ] || exit 5
-    [ -f $REDIS_CONF_FILE ] || exit 6
-    echo -n $"Starting $prog: "
-    daemon $redis $REDIS_CONF_FILE
-    retval=$?
-    echo
-    [ $retval -eq 0 ] && touch $lockfile
-    return $retval
-}
-
-stop() {
-    echo -n $"Stopping $prog: "
-    killproc $prog -QUIT
-    retval=$?
-    echo
-    [ $retval -eq 0 ] && rm -f $lockfile
-    return $retval
-}
-
-restart() {
-    stop
-    start
-}
-
-reload() {
-    echo -n $"Reloading $prog: "
-    killproc $redis -HUP
-    RETVAL=$?
-    echo
-}
-
-force_reload() {
-    restart
-}
-
-rh_status() {
-    status $prog
-}
-
-rh_status_q() {
-    rh_status >/dev/null 2>&1
-}
+EXEC=/usr/local/redis/bin/redis-server
+CLIEXEC=/usr/local/redis/bin/redis-cli
+PIDFILE=/var/run/redis.pid
+CONF=/usr/local/redis/etc/redis.conf
+REDISPORT=6379
 
 case "$1" in
     start)
-        rh_status_q && exit 0
-        $1
+        if [ -f $PIDFILE ]; then
+            echo "$PIDFILE exists, process is already running or crashed"
+        else
+            echo "Starting Redis server..."
+            $EXEC $CONF
+        fi
         ;;
     stop)
-        rh_status_q || exit 0
-        $1
-        ;;
-    restart|configtest)
-        $1
-        ;;
-    reload)
-        rh_status_q || exit 7
-        $1
-        ;;
-    force-reload)
-        force_reload
+        if [ ! -f $PIDFILE ]; then
+            echo "$PIDFILE does not exist, process is not running"
+        else
+            PID=$(cat $PIDFILE)
+            echo "Stopping Redis server..."
+            $CLIEXEC -p $REDISPORT shutdown
+            while [ -d /proc/${PID} ]; do
+                echo "Waiting for Redis to shutdown..."
+                sleep 1
+            done
+            echo "Redis stopped"
+        fi
         ;;
     status)
-        rh_status
+        if [ ! -f $PIDFILE ]; then
+            echo 'Redis is not running'
+        else
+            PID=$(cat $PIDFILE)
+            echo "Redis is running ($PID)"
+        fi
         ;;
-    condrestart|try-restart)
-        rh_status_q || exit 0
+    restart)
+        $0 stop
+        $0 start
         ;;
     *)
-        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
-        exit 2
+        echo "Please use start, stop, restart or status as first argument"
+        ;;
 esac
