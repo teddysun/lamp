@@ -25,7 +25,8 @@
 
 - Amazon Linux 2018.03
 - CentOS-6.x
-- CentOS-7.x (recommend)
+- CentOS-7.x
+- CentOS-8.x (recommend)
 - Debian-8.x
 - Debian-9.x (recommend)
 - Ubuntu-16.x
@@ -50,7 +51,7 @@
 | nghttp2                     | 1.41.0                                             |
 | openssl                     | 1.1.1g                                             |
 | mod_wsgi                    | 4.7.1                                              |
-| mod_security2               | 3.0.4                                              |
+| mod_security2               | 2.9.3                                              |
 | mod_jk                      | 1.2.46                                             |
 
 | Database                    | Version                                            |
@@ -74,7 +75,7 @@
 | libmemcached                | 1.0.18                                             |
 | memcached extension(PHP 5.6)| 2.2.0                                              |
 | memcached extension(PHP 7)  | 3.1.5                                              |
-| redis                       | 6.0.6                                              |
+| redis                       | 5.0.8                                              |
 | redis extension(PHP 5.6)    | 4.3.0                                              |
 | redis extension(PHP 7)      | 5.3.1                                              |
 | mongodb extension           | 1.7.5                                              |
