@@ -48,7 +48,7 @@ install_php(){
     else
         with_pcre="--with-pcre-dir=${depends_prefix}/pcre"
         with_libxml="--with-libxml-dir"
-        with_icu="--with-icu-dir"
+        with_icu="--with-icu-dir=/usr"
         with_onig="--with-onig"
         enable_wddx="--enable-wddx"
         enable_zip="--enable-zip"
