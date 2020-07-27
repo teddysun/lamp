@@ -181,7 +181,11 @@ install_php_debian10(){
         chmod +x /usr/local/bin/freetype-config
     fi
     # Fixed configure: error: Unable to detect ICU prefix or /usr/bin/icu-config failed. Please verify ICU install prefix and make sure icu-config works.
-    cp -fv ${cur_dir}/conf/icu-config_debian10 /usr/bin/icu-config
+    if is_64bit; then
+        cp -fv ${cur_dir}/conf/icu-config_debian10_amd64 /usr/bin/icu-config
+    else
+        cp -fv ${cur_dir}/conf/icu-config_debian10_i386 /usr/bin/icu-config
+    fi
     chmod +x /usr/bin/icu-config
 }
 
