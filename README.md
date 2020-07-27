@@ -31,7 +31,8 @@
 - Debian-9.x
 - Debian-10.x (recommend)
 - Ubuntu-16.x
-- Ubuntu-18.x (recommend)
+- Ubuntu-18.x
+- Ubuntu-20.x (recommend)
 
 ## Supported Software
 
