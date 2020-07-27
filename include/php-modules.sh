@@ -83,7 +83,7 @@ install_phpmyadmin_modules(){
 install_php_depends(){
     if check_sys packageManager apt; then
         apt_depends=(
-            cmake autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev
+            cmake autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev libonig-dev
             libldap-2.4-2 libldap2-dev libsasl2-dev libsasl2-modules-ldap libc-client2007e-dev libkrb5-dev
             autoconf2.13 pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool libtidy-dev libsqlite3-dev
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
@@ -129,6 +129,8 @@ install_php_depends(){
                 ln -sf /usr/include/i386-linux-gnu/curl /usr/include/
             fi
         fi
+        # Fixed older PHP installation in Debian Buster
+        debianversion 10 && install_php_debian10
     elif check_sys packageManager yum; then
         yum_depends=(
             cmake autoconf patch m4 bison bzip2-devel pam-devel gmp-devel libicu-devel
@@ -170,6 +172,17 @@ install_php_depends(){
 
     install_libiconv
     install_re2c
+}
+
+install_php_debian10(){
+    # Fixed configure: error: freetype-config not found
+    if [ ! -f "/usr/local/bin/freetype-config" ] && [ ! -f "/usr/bin/freetype-config" ]; then
+        { echo '#!/bin/sh'; echo 'exec pkg-config "$@" freetype2'; } > /usr/local/bin/freetype-config
+        chmod +x /usr/local/bin/freetype-config
+    fi
+    # Fixed configure: error: Unable to detect ICU prefix or /usr/bin/icu-config failed. Please verify ICU install prefix and make sure icu-config works.
+    cp -fv ${cur_dir}/conf/icu-config_debian10 /usr/bin/icu-config
+    chmod +x /usr/bin/icu-config
 }
 
 install_php74_centos6(){

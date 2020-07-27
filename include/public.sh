@@ -771,7 +771,7 @@ remove_packages(){
     if check_sys packageManager apt; then
         [ "${apache}" != "do_not_install" ] && apt-get -y remove --purge apache2 apache2-* &> /dev/null
         [ "${mysql}" != "do_not_install" ] && apt-get -y remove --purge mysql-client mysql-server mysql-common libmysqlclient18 &> /dev/null
-        [ "${php}" != "do_not_install" ] && apt-get -y remove --purge php5 php5-* php7.0 php7.0-* php7.1 php7.1-* php7.2 php7.2-* php7.3 php7.3-* &> /dev/null
+        [ "${php}" != "do_not_install" ] && apt-get -y remove --purge php5 php5-* php7.0 php7.0-* php7.1 php7.1-* php7.2 php7.2-* php7.3 php7.3-* php7.4 php7.4-* &> /dev/null
     elif check_sys packageManager yum; then
         [ "${apache}" != "do_not_install" ] && yum -y remove httpd-* &> /dev/null
         [ "${mysql}" != "do_not_install" ] && yum -y remove mysql-* &> /dev/null
