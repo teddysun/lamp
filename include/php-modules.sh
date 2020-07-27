@@ -129,8 +129,10 @@ install_php_depends(){
                 ln -sf /usr/include/i386-linux-gnu/curl /usr/include/
             fi
         fi
-        # Fixed older PHP installation in Debian Buster
-        debianversion 10 && install_php_debian10
+        # Fixed older PHP installation in Debian 10 or Ubuntu 20
+        if debianversion 10 || ubuntuversion 20; then
+            install_older_php_pre
+        fi
     elif check_sys packageManager yum; then
         yum_depends=(
             cmake autoconf patch m4 bison bzip2-devel pam-devel gmp-devel libicu-devel
@@ -174,7 +176,7 @@ install_php_depends(){
     install_re2c
 }
 
-install_php_debian10(){
+install_older_php_pre(){
     # Fixed configure: error: freetype-config not found
     if [ ! -f "/usr/local/bin/freetype-config" ] && [ ! -f "/usr/bin/freetype-config" ]; then
         { echo '#!/bin/sh'; echo 'exec pkg-config "$@" freetype2'; } > /usr/local/bin/freetype-config
@@ -182,9 +184,11 @@ install_php_debian10(){
     fi
     # Fixed configure: error: Unable to detect ICU prefix or /usr/bin/icu-config failed. Please verify ICU install prefix and make sure icu-config works.
     if is_64bit; then
-        cp -fv ${cur_dir}/conf/icu-config_debian10_amd64 /usr/bin/icu-config
+        debianversion 10 && cp -fv ${cur_dir}/conf/icu-config_debian10_amd64 /usr/bin/icu-config
+        ubuntuversion 20 && cp -fv ${cur_dir}/conf/icu-config_ubuntu20_amd64 /usr/bin/icu-config
     else
-        cp -fv ${cur_dir}/conf/icu-config_debian10_i386 /usr/bin/icu-config
+        ubuntuversion 20 && cp -fv ${cur_dir}/conf/icu-config_debian10_i386 /usr/bin/icu-config
+        ubuntuversion 20 && cp -fv ${cur_dir}/conf/icu-config_ubuntu20_i386 /usr/bin/icu-config
     fi
     chmod +x /usr/bin/icu-config
 }
