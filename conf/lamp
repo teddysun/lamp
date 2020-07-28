@@ -22,20 +22,13 @@ mysql_location=/usr/local/mysql
 mariadb_location=/usr/local/mariadb
 web_root_dir=/data/www/default
 
-rootness(){
-    if [[ ${EUID} -ne 0 ]]; then
-        echo -e "\033[31mError:\033[0m This script must be run as root" 1>&2
-        exit 1
-    fi
-}
-
 vhost(){
     local action=$1
     case ${action} in
         add ) vhost_add;;
-        list ) vhost_list;;
         del ) vhost_del;;
-        *) echo "action ${action} not found";exit 1;;
+        list ) vhost_list;;
+        *) echo "action ${action} not found"; exit 1;;
     esac
 }
 
@@ -75,8 +68,7 @@ check_email(){
 filter_location(){
     local location=${1}
     if ! echo ${location} | grep -q "^/"; then
-        while true
-        do
+        while true; do
             read -p "Please enter a correct location: " location
             echo ${location} | grep -q "^/" && echo ${location} && break
         done
@@ -88,8 +80,7 @@ filter_location(){
 vhost_add(){
     set_apache_allow_syntax
 
-    while :
-    do
+    while true; do
         read -p "Please enter server names (for example: lamp.sh www.lamp.sh): " server_names
         for i in ${server_names}; do
             if apache_vhost_is_exist ${i}; then
@@ -117,8 +108,7 @@ vhost_add(){
         fi
     fi
 
-    while :
-    do
+    while true; do
         read -p "Please enter Administrator Email address: " email
         if [ -z "${email}" ]; then
             echo -e "\033[31mError:\033[0m Administrator Email address can not be empty."
@@ -131,8 +121,7 @@ vhost_add(){
         fi
     done
 
-    while :
-    do
+    while true; do
         read -p "Do you want to create a database and mysql user with same name? [y/n]:" create
         case ${create} in
         y|Y)
@@ -245,12 +234,10 @@ add_ssl_memu(){
     echo -e "\033[32m1.\033[0m Use your own SSL Certificate and Key"
     echo -e "\033[32m2.\033[0m Use Let's Encrypt CA to create SSL Certificate and Key"
     echo -e "\033[32m3.\033[0m Use Buypass.com CA to create SSL Certificate and Key"
-    while :
-    do
+    while true; do
         read -p "Please enter 1 or 2 or 3: " ssl_pick
         if [ "${ssl_pick}" = "1" ]; then
-            while :
-            do
+            while true; do
             read -p "Please enter full path to SSL Certificate file: " ssl_certificate
             if [ -z "${ssl_certificate}" ]; then
                 echo -e "\033[31mError:\033[0m SSL Certificate file can not be empty."
@@ -261,8 +248,7 @@ add_ssl_memu(){
             fi
             done
 
-            while :
-            do
+            while true; do
             read -p "Please enter full path to SSL Certificate Key file: " ssl_certificate_key
             if [ -z "${ssl_certificate_key}" ]; then
                 echo -e "\033[31mError:\033[0m SSL Certificate Key file can not be empty."
@@ -422,6 +408,7 @@ vhost_list(){
 
 vhost_del(){
     read -p "Please enter a domain you want to delete it (for example: www.lamp.sh): " domain
+    [ -z "${domain}" ] && echo -e "\033[31mError:\033[0m domain can not be empty." && exit 1
     if ! apache_vhost_is_exist "${domain}"; then
         echo -e "\033[31mError:\033[0m Virtual host [${domain}] not found."
         exit 1
@@ -450,27 +437,29 @@ apache_vhost_is_exist(){
 }
 
 display_usage(){
-printf "
-
-Usage: `basename $0` [ add | del | list ]
-add     Create a new Apache virtual host
-del     Delete a Apache virtual host
-list    List all of Apache virtual hosts
+    printf "
+Usage  : $(basename $0) [Options]
+Options:
+        add      Create a new Apache virtual host
+        del      Delete a Apache virtual host
+        list     List all of Apache virtual hosts
+        version  Print version and exit
 
 "
 }
 
-#Run it
-rootness
-if [ $# -ne 1 ]; then
-    display_usage
-    exit 1
-fi
+display_version(){
+    echo "Version: 20200715"
+}
 
+#Run it
+[ ${EUID} -ne 0 ] && echo "This script must be run as root" && exit 1
+[ $# -ne 1 ] && display_usage && exit 1
 action=$1
-case ${action} in
+case "${action}" in
     add)  vhost ${action} ;;
-    list) vhost ${action} ;;
     del)  vhost ${action} ;;
+    list) vhost ${action} ;;
+    version)  display_version ;;
     *)    display_usage   ;;
 esac
