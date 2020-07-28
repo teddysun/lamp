@@ -81,6 +81,7 @@ install_phpmyadmin_modules(){
 }
 
 install_php_depends(){
+    _info "Installing dependencies for PHP..."
     if check_sys packageManager apt; then
         apt_depends=(
             cmake autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev libonig-dev
@@ -89,30 +90,23 @@ install_php_depends(){
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
-        _info "Installing dependencies for PHP..."
         for depend in ${apt_depends[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
         done
-        _info "Install dependencies for PHP completed..."
-
         if is_64bit; then
             if [ ! -d /usr/lib64 ] && [ -d /usr/lib ]; then
                 ln -sf /usr/lib /usr/lib64
             fi
-
             if [ -f /usr/include/gmp-x86_64.h ]; then
                 ln -sf /usr/include/gmp-x86_64.h /usr/include/
             elif [ -f /usr/include/x86_64-linux-gnu/gmp.h ]; then
                 ln -sf /usr/include/x86_64-linux-gnu/gmp.h /usr/include/
             fi
-
             ln -sf /usr/lib/x86_64-linux-gnu/libldap* /usr/lib64/
             ln -sf /usr/lib/x86_64-linux-gnu/liblber* /usr/lib64/
-
             if [ -d /usr/include/x86_64-linux-gnu/curl ] && [ ! -d /usr/include/curl ]; then
                 ln -sf /usr/include/x86_64-linux-gnu/curl /usr/include/
             fi
-
             create_lib_link libc-client.a
             create_lib_link libc-client.so
         else
@@ -121,10 +115,8 @@ install_php_depends(){
             elif [ -f /usr/include/i386-linux-gnu/gmp.h ]; then
                 ln -sf /usr/include/i386-linux-gnu/gmp.h /usr/include/
             fi
-
             ln -sf /usr/lib/i386-linux-gnu/libldap* /usr/lib/
             ln -sf /usr/lib/i386-linux-gnu/liblber* /usr/lib/
-
             if [ -d /usr/include/i386-linux-gnu/curl ] && [ ! -d /usr/include/curl ]; then
                 ln -sf /usr/include/i386-linux-gnu/curl /usr/include/
             fi
@@ -141,7 +133,6 @@ install_php_depends(){
             aspell-devel enchant-devel readline-devel libtidy-devel sqlite-devel
             openldap-devel libxslt-devel net-snmp net-snmp-devel krb5-devel
         )
-        _info "Installing dependencies for PHP..."
         for depend in ${yum_depends[@]}; do
             error_detect_depends "yum -y install ${depend}"
         done
@@ -152,8 +143,6 @@ install_php_depends(){
         else
             _error "There is no rpm package libc-client-devel or uw-imap-devel, please check it and try again."
         fi
-        _info "Install dependencies for PHP completed..."
-
         install_mhash
         install_libmcrypt
         install_mcrypt
@@ -171,9 +160,9 @@ install_php_depends(){
             fi
         fi
     fi
-
     install_libiconv
     install_re2c
+    _info "Install dependencies for PHP completed..."
 }
 
 install_older_php_pre(){
@@ -184,11 +173,11 @@ install_older_php_pre(){
     fi
     # Fixed configure: error: Unable to detect ICU prefix or /usr/bin/icu-config failed. Please verify ICU install prefix and make sure icu-config works.
     if is_64bit; then
-        debianversion 10 && cp -fv ${cur_dir}/conf/icu-config_debian10_amd64 /usr/bin/icu-config
-        ubuntuversion 20 && cp -fv ${cur_dir}/conf/icu-config_ubuntu20_amd64 /usr/bin/icu-config
+        debianversion 10 && cp -f ${cur_dir}/conf/icu-config_debian10_amd64 /usr/bin/icu-config
+        ubuntuversion 20 && cp -f ${cur_dir}/conf/icu-config_ubuntu20_amd64 /usr/bin/icu-config
     else
-        ubuntuversion 20 && cp -fv ${cur_dir}/conf/icu-config_debian10_i386 /usr/bin/icu-config
-        ubuntuversion 20 && cp -fv ${cur_dir}/conf/icu-config_ubuntu20_i386 /usr/bin/icu-config
+        ubuntuversion 20 && cp -f ${cur_dir}/conf/icu-config_debian10_i386 /usr/bin/icu-config
+        ubuntuversion 20 && cp -f ${cur_dir}/conf/icu-config_ubuntu20_i386 /usr/bin/icu-config
     fi
     chmod +x /usr/bin/icu-config
 }
@@ -198,10 +187,10 @@ install_php74_centos6(){
     is_64bit && libdir="lib64" || libdir="lib"
     # Fixed configure: error: Package requirements (sqlite3 > 3.7.4) were not met
     install_sqlite3
-    cp -pfv /usr/local/lib/pkgconfig/sqlite3.pc /usr/${libdir}/pkgconfig
+    cp -pf /usr/local/lib/pkgconfig/sqlite3.pc /usr/${libdir}/pkgconfig
     # Fixed configure: error: Package requirements (icu-uc >= 50.1 icu-io icu-i18n) were not met
     install_icu4c
-    cp -pfv /usr/local/lib/pkgconfig/icu*.pc /usr/${libdir}/pkgconfig
+    cp -pf /usr/local/lib/pkgconfig/icu*.pc /usr/${libdir}/pkgconfig
     # Fixed configure: error: Package requirements (krb5-gssapi krb5) were not met
     cat > /usr/${libdir}/pkgconfig/krb5-gssapi.pc <<EOF
 prefix=/usr
