@@ -933,27 +933,27 @@ install_finally(){
     sed -i "s@^mysql_location=.*@mysql_location=${mysql_location}@" /usr/bin/lamp
     sed -i "s@^mariadb_location=.*@mariadb_location=${mariadb_location}@" /usr/bin/lamp
     sed -i "s@^web_root_dir=.*@web_root_dir=${web_root_dir}@" /usr/bin/lamp
-
     ldconfig
-
     # Add phpmyadmin Alias
-    if [ -d "${web_root_dir}/phpmyadmin" ]; then
-        cat >> ${apache_location}/conf/httpd.conf <<EOF
+    if [[ -d "${web_root_dir}/phpmyadmin" ]]; then
+        if [[ $(grep -Ec "^\s*Alias /phpmyadmin" ${apache_location}/conf/httpd.conf) -eq 0 ]]; then
+            cat >> ${apache_location}/conf/httpd.conf <<EOF
 <IfModule alias_module>
     Alias /phpmyadmin ${web_root_dir}/phpmyadmin
 </IfModule>
 EOF
+        fi
     fi
-
     # Add kodexplorer Alias
-    if [ -d "${web_root_dir}/kod" ]; then
-        cat >> ${apache_location}/conf/httpd.conf <<EOF
+    if [[ -d "${web_root_dir}/kod" ]]; then
+        if [[ $(grep -Ec "^\s*Alias /kod" ${apache_location}/conf/httpd.conf) -eq 0 ]]; then
+            cat >> ${apache_location}/conf/httpd.conf <<EOF
 <IfModule alias_module>
     Alias /kod ${web_root_dir}/kod
 </IfModule>
 EOF
+        fi
     fi
-
     if [ "${apache}" != "do_not_install" ]; then
         echo "Starting Apache..."
         /etc/init.d/httpd start > /dev/null 2>&1
@@ -962,19 +962,16 @@ EOF
         echo "Starting Database..."
         /etc/init.d/mysqld start > /dev/null 2>&1
     fi
-
     if if_in_array "${php_memcached_filename}" "${php_modules_install}" || if_in_array "${php_memcached_filename2}" "${php_modules_install}"; then
         echo "Starting Memcached..."
         /etc/init.d/memcached start > /dev/null 2>&1
     fi
-
     if if_in_array "${php_redis_filename}" "${php_modules_install}" || if_in_array "${php_redis_filename2}" "${php_modules_install}"; then
         echo "Starting Redis-server..."
         /etc/init.d/redis-server start > /dev/null 2>&1
     fi
-
     # Install phpmyadmin database
-    if [ -d "${web_root_dir}/phpmyadmin" ] && [ -f /usr/bin/mysql ]; then
+    if [ -d "${web_root_dir}/phpmyadmin" ] && [ -f "/usr/bin/mysql" ]; then
         /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql > /dev/null 2>&1
     fi
 
