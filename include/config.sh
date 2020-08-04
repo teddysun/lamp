@@ -184,8 +184,8 @@ php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
 set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
 set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
 #redis
-redis_filename="redis-5.0.8"
-redis_filename_url="http://download.redis.io/releases/redis-5.0.8.tar.gz"
+redis_filename="redis-5.0.9"
+redis_filename_url="http://download.redis.io/releases/redis-5.0.9.tar.gz"
 #php-redis
 php_redis_filename="redis-4.3.0"
 php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
