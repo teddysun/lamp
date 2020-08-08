@@ -40,8 +40,8 @@ nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.41
 openssl_filename="openssl-1.1.1g"
 openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1g.tar.gz"
 #apache2.4
-apache2_4_filename="httpd-2.4.43"
-apache2_4_filename_url="http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.43.tar.gz"
+apache2_4_filename="httpd-2.4.46"
+apache2_4_filename_url="http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.46.tar.gz"
 #mysql5.6
 mysql5_6_filename="mysql-5.6.49"
 #mysql5.7
