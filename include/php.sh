@@ -53,8 +53,10 @@ install_php(){
         enable_wddx="--enable-wddx"
         enable_zip="--enable-zip"
     fi
-    if [[ "${php}" == "${php7_2_filename}" || "${php}" == "${php7_3_filename}" || "${php}" == "${php7_4_filename}" ]]; then
-        other_options="--enable-zend-test"
+    if [[ "${php}" == "${php7_2_filename}" || \
+          "${php}" == "${php7_3_filename}" || \
+          "${php}" == "${php7_4_filename}" ]]; then
+        other_options="--with-password-argon2 --enable-zend-test"
     else
         other_options="--with-mcrypt --enable-gd-native-ttf"
     fi
@@ -91,7 +93,6 @@ install_php(){
     --with-tidy=/usr \
     --with-xmlrpc \
     --with-xsl \
-    --without-pear \
     ${other_options} \
     --enable-bcmath \
     --enable-calendar \
@@ -113,7 +114,6 @@ install_php(){
     install_php_depends
 
     cd ${cur_dir}/software/
-
     if [ "${php}" == "${php5_6_filename}" ]; then
         download_file  "${php5_6_filename}.tar.gz" "${php5_6_filename_url}"
         tar zxf ${php5_6_filename}.tar.gz
@@ -166,7 +166,7 @@ zend_extension=${extension_dir}/opcache.so
 opcache.enable_cli=1
 opcache.memory_consumption=128
 opcache.interned_strings_buffer=8
-opcache.max_accelerated_files=4000
+opcache.max_accelerated_files=10000
 opcache.revalidate_freq=60
 opcache.fast_shutdown=1
 opcache.save_comments=0
@@ -174,14 +174,12 @@ EOF
 
     cp -f ${cur_dir}/conf/ocp.php ${web_root_dir}/ocp.php
     chown apache:apache ${web_root_dir}/ocp.php
-
     if [[ -d "${mysql_data_location}" || -d "${mariadb_data_location}" ]]; then
         sock_location="/tmp/mysql.sock"
         sed -i "s#mysql.default_socket.*#mysql.default_socket = ${sock_location}#" ${php_location}/etc/php.ini
         sed -i "s#mysqli.default_socket.*#mysqli.default_socket = ${sock_location}#" ${php_location}/etc/php.ini
         sed -i "s#pdo_mysql.default_socket.*#pdo_mysql.default_socket = ${sock_location}#" ${php_location}/etc/php.ini
     fi
-
     if [[ -d "${apache_location}" ]]; then
         sed -i "s@AddType\(.*\)Z@AddType\1Z\n    AddType application/x-httpd-php .php .phtml\n    AddType appication/x-httpd-php-source .phps@" ${apache_location}/conf/httpd.conf
     fi

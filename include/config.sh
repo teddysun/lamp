@@ -211,6 +211,9 @@ icu4c_filename_url="https://github.com/unicode-org/icu/releases/download/release
 #autoconf
 autoconf_filename="autoconf-2.69"
 autoconf_filename_url="http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz"
+#argon2
+argon2_filename="argon2-20171227"
+argon2_filename_url="${download_root_url}/argon2-20171227.tar.gz"
 
 #software array setting
 apache_arr=(

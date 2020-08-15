@@ -65,16 +65,6 @@ upgrade_php(){
         if [ ! -d ${cur_dir}/software ]; then
             mkdir -p ${cur_dir}/software
         fi
-        cd ${cur_dir}/software
-
-        if [ ! -s php-${latest_php}.tar.gz ]; then
-            latest_php_link="https://www.php.net/distributions/php-${latest_php}.tar.gz"
-            backup_php_link="${download_root_url}/php-${latest_php}.tar.gz"
-            untar ${latest_php_link} ${backup_php_link}
-        else
-            tar zxf php-${latest_php}.tar.gz
-            cd php-${latest_php}/
-        fi
 
         if [[ "${php_version}" == "5.6" ]]; then
             with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
@@ -106,8 +96,11 @@ upgrade_php(){
             enable_wddx="--enable-wddx"
             enable_zip="--enable-zip"
         fi
-        if [[ "${php_version}" == "7.2" || "${php_version}" == "7.3" || "${php_version}" == "7.4" ]]; then
-            other_options="--enable-zend-test"
+        if [[ "${php_version}" == "7.2" || \
+              "${php_version}" == "7.3" || \
+              "${php_version}" == "7.4" ]]; then
+            other_options="--with-password-argon2 --enable-zend-test"
+            install_argon2
         else
             other_options="--with-mcrypt --enable-gd-native-ttf"
         fi
@@ -144,7 +137,6 @@ upgrade_php(){
         --with-tidy=/usr \
         --with-xmlrpc \
         --with-xsl \
-        --without-pear \
         ${other_options} \
         --enable-bcmath \
         --enable-calendar \
@@ -162,6 +154,17 @@ upgrade_php(){
         ${enable_zip} \
         ${disable_fileinfo}"
 
+        cd ${cur_dir}/software
+        if [ ! -s "php-${latest_php}.tar.gz" ]; then
+            latest_php_link="https://www.php.net/distributions/php-${latest_php}.tar.gz"
+            backup_php_link="${download_root_url}/php-${latest_php}.tar.gz"
+            untar ${latest_php_link} ${backup_php_link}
+        else
+            tar zxf php-${latest_php}.tar.gz
+            cd php-${latest_php}/
+        fi
+
+        ldconfig
         error_detect "./configure ${php_configure_args}"
         error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
         error_detect "make install"

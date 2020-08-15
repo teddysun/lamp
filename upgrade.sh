@@ -97,6 +97,7 @@ adminer                   --->Upgrade Adminer
 
 include config
 include public
+include php-modules
 include upgrade_apache
 include upgrade_db
 include upgrade_php

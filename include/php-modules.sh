@@ -162,6 +162,13 @@ install_php_depends(){
     fi
     install_libiconv
     install_re2c
+    # Support Argon2 Password Hash
+    # Reference URL: https://wiki.php.net/rfc/argon2_password_hash
+    if [[ "${php}" == "${php7_2_filename}" || \
+          "${php}" == "${php7_3_filename}" || \
+          "${php}" == "${php7_4_filename}" ]]; then
+        install_argon2
+    fi
     _info "Install dependencies for PHP completed..."
 }
 
@@ -257,6 +264,20 @@ Libs: -L\${libdir} -lonig
 Cflags: -I\${includedir}
 EOF
 
+}
+
+install_argon2(){
+    if [ ! -e "/usr/lib/libargon2.a" ]; then
+        cd ${cur_dir}/software/
+        _info "${argon2_filename} install start..."
+        download_file "${argon2_filename}.tar.gz" "${argon2_filename_url}"
+        tar zxf ${argon2_filename}.tar.gz
+        cd ${argon2_filename}
+
+        error_detect "make"
+        error_detect "make install"
+        _info "${argon2_filename} install completed..."
+    fi
 }
 
 install_autoconf(){
