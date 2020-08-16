@@ -64,8 +64,8 @@ Options:
 --db_root_pwd [password]        Database root password. for example: lamp.sh
 --php_option [1-7]              PHP version
 --php_extensions [ext name]     PHP extensions: 
-                                ioncube, xcache, imagick, gmagick, memcached,
-                                redis, mongodb, libsodium, swoole, yaf, xdebug
+                                ioncube, xcache, imagick, gmagick, memcached, redis
+                                mongodb, libsodium, swoole, yaf, phalcon, xdebug
 --db_manage_modules [mod name]  Database management modules: phpmyadmin, adminer
 --kodexplorer_option [1-2]      KodExplorer version
 
@@ -135,6 +135,7 @@ process(){
             [ -n "$(echo ${php_extensions} | grep -w libsodium)" ] && php_modules_install="${php_modules_install} ${php_libsodium_filename}"
             [ -n "$(echo ${php_extensions} | grep -w swoole)" ] && php_modules_install="${php_modules_install} ${swoole_filename}"
             [ -n "$(echo ${php_extensions} | grep -w yaf)" ] && php_modules_install="${php_modules_install} ${yaf_filename}"
+            [ -n "$(echo ${php_extensions} | grep -w phalcon)" ] && php_modules_install="${php_modules_install} ${phalcon_filename}"
             [ -n "$(echo ${php_extensions} | grep -w xdebug)" ] && php_modules_install="${php_modules_install} ${xdebug_filename}"
             ;;
         --db_option)
@@ -203,6 +204,7 @@ set_parameters(){
         if_in_array "${php_libsodium_filename}" "${php_modules_install}" && _error "${php_libsodium_filename} is not support ${php}, please remove php extension: libsodium"
         if_in_array "${swoole_filename}" "${php_modules_install}" && _error "${swoole_filename} is not support ${php}, please remove php extension: swoole"
         if_in_array "${yaf_filename}" "${php_modules_install}" && _error "${yaf_filename} is not support ${php}, please remove php extension: yaf"
+        if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, please remove php extension: phalcon"
     fi
     if [ -n "${php_modules_install}" ] && [ "${php}" != "${php5_6_filename}" ]; then
         if_in_array "${xcache_filename}" "${php_modules_install}" && _error "${xcache_filename} is not support ${php}, please remove php extension: xcache"
@@ -211,6 +213,9 @@ set_parameters(){
         php_modules_install=(${php_modules_install[@]/#${php_redis_filename}/${php_redis_filename2}})
         php_modules_install=(${php_modules_install[@]/#${php_memcached_filename}/${php_memcached_filename2}})
         php_modules_install=(${php_modules_install[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
+        # Phalcon v4 supports only PHP 7.2 and above
+        # Reference URL: https://docs.phalcon.io/4.0/en/installation
+        [[ "${php}" =~ ^php-7.[0-1].+$ ]] && php_modules_install=(${php_modules_install[@]#${phalcon_filename}})
         php_modules_install=${php_modules_install[@]}
     fi
 

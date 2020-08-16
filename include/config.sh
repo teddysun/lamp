@@ -214,6 +214,12 @@ autoconf_filename_url="http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz"
 #argon2
 argon2_filename="argon2-20171227"
 argon2_filename_url="${download_root_url}/argon2-20171227.tar.gz"
+#psr
+psr_filename="psr-1.0.0"
+psr_filename_url="https://pecl.php.net/get/psr-1.0.0.tgz"
+#phalcon
+phalcon_filename="phalcon-4.0.6"
+phalcon_filename_url=" https://pecl.php.net/get/phalcon-4.0.6.tgz"
 
 #software array setting
 apache_arr=(
@@ -272,6 +278,7 @@ ${php_mongo_filename}
 ${php_libsodium_filename}
 ${swoole_filename}
 ${yaf_filename}
+${phalcon_filename}
 ${xdebug_filename}
 do_not_install
 )

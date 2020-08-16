@@ -24,12 +24,18 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
             php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
             php_modules_arr=(${php_modules_arr[@]#${yaf_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
         else
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename}/${xdebug_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
+        fi
+        # Phalcon v4 supports only PHP 7.2 and above
+        # Reference URL: https://docs.phalcon.io/4.0/en/installation
+        if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
+            php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
         fi
         display_menu_multi php_modules last
     fi
@@ -58,20 +64,26 @@ install_php_modules(){
     if_in_array "${ionCube_filename}" "${php_modules_install}" && install_ionCube "${phpConfig}"
     if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && install_php_imagesmagick "${phpConfig}"
     if_in_array "${php_mongo_filename}" "${php_modules_install}" && install_php_mongo "${phpConfig}"
-    if [ "${php}" == "${php5_6_filename}" ]; then
-        if_in_array "${xcache_filename}" "${php_modules_install}" && install_xcache "${phpConfig}"
-        if_in_array "${xdebug_filename}" "${php_modules_install}" && install_xdebug "${phpConfig}"
-        if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
-        if_in_array "${php_redis_filename}" "${php_modules_install}" && install_php_redis "${phpConfig}"
-        if_in_array "${php_memcached_filename}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
-    else
-        if_in_array "${xdebug_filename2}" "${php_modules_install}" && install_xdebug "${phpConfig}"
-        if_in_array "${php_libsodium_filename}" "${php_modules_install}" && install_php_libsodium "${phpConfig}"
-        if_in_array "${php_graphicsmagick_filename2}" "${php_modules_install}" && install_php_graphicsmagick "${phpConfig}"
-        if_in_array "${php_redis_filename2}" "${php_modules_install}" && install_php_redis "${phpConfig}"
-        if_in_array "${php_memcached_filename2}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
-        if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
-        if_in_array "${yaf_filename}" "${php_modules_install}" && install_yaf "${phpConfig}"
+    if_in_array "${xcache_filename}" "${php_modules_install}" && install_xcache "${phpConfig}"
+    if_in_array "${php_libsodium_filename}" "${php_modules_install}" && install_php_libsodium "${phpConfig}"
+    if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
+    if_in_array "${yaf_filename}" "${php_modules_install}" && install_yaf "${phpConfig}"
+    if_in_array "${phalcon_filename}" "${php_modules_install}" && install_phalcon "${phpConfig}"
+    if  if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" || \
+        if_in_array "${php_graphicsmagick_filename2}" "${php_modules_install}"; then
+        install_php_graphicsmagick "${phpConfig}"
+    fi
+    if  if_in_array "${php_redis_filename}" "${php_modules_install}" || \
+        if_in_array "${php_redis_filename2}" "${php_modules_install}"; then
+        install_php_redis "${phpConfig}"
+    fi
+    if  if_in_array "${php_memcached_filename}" "${php_modules_install}" || \
+        if_in_array "${php_memcached_filename2}" "${php_modules_install}"; then
+        install_php_memcached "${phpConfig}"
+    fi
+    if  if_in_array "${xdebug_filename}" "${php_modules_install}" || \
+        if_in_array "${xdebug_filename2}" "${php_modules_install}"; then
+        install_xdebug "${phpConfig}"
     fi
 }
 
@@ -918,4 +930,43 @@ extension=yaf.so
 EOF
     fi
     _info "PHP extension yaf install completed..."
+}
+
+install_phalcon(){
+    local phpConfig=${1}
+
+    cd ${cur_dir}/software/
+    _info "PHP extension psr install start..."
+    download_file "${psr_filename}.tgz" "${psr_filename_url}"
+    tar zxf ${psr_filename}.tgz
+    cd ${psr_filename}
+    error_detect "${php_location}/bin/phpize"
+    error_detect "./configure --with-php-config=${phpConfig}"
+    error_detect "make"
+    error_detect "make install"
+    if [ ! -f "${php_location}/php.d/psr.ini" ]; then
+        _info "PHP extension psr configuration file not found, create it!"
+        cat > ${php_location}/php.d/psr.ini<<EOF
+[psr]
+extension=psr.so
+EOF
+    fi
+    _info "PHP extension psr install completed..."
+    cd ${cur_dir}/software/
+    _info "PHP extension phalcon install start..."
+    download_file "${phalcon_filename}.tgz" "${phalcon_filename_url}"
+    tar zxf ${phalcon_filename}.tgz
+    cd ${phalcon_filename}
+    error_detect "${php_location}/bin/phpize"
+    error_detect "./configure --with-php-config=${phpConfig}"
+    error_detect "make"
+    error_detect "make install"
+    if [ ! -f "${php_location}/php.d/phalcon.ini" ]; then
+        _info "PHP extension phalcon configuration file not found, create it!"
+        cat > ${php_location}/php.d/phalcon.ini<<EOF
+[phalcon]
+extension=phalcon.so
+EOF
+    fi
+    _info "PHP extension phalcon install completed..."
 }
