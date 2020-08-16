@@ -33,7 +33,7 @@ install_php(){
         with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
         with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
     fi
-    if [[ "${php}" == "${php7_3_filename}" || "${php}" == "${php7_4_filename}" ]]; then
+    if [[ "${php}" =~ ^php-7.[3-4].+$ ]]; then
         with_libmbfl=""
     else
         with_libmbfl="--with-libmbfl"
@@ -53,9 +53,7 @@ install_php(){
         enable_wddx="--enable-wddx"
         enable_zip="--enable-zip"
     fi
-    if [[ "${php}" == "${php7_2_filename}" || \
-          "${php}" == "${php7_3_filename}" || \
-          "${php}" == "${php7_4_filename}" ]]; then
+    if [[ "${php}" =~ ^php-7.[2-4].+$ ]]; then
         other_options="--with-password-argon2 --enable-zend-test"
     else
         other_options="--with-mcrypt --enable-gd-native-ttf"
@@ -158,11 +156,9 @@ config_php(){
     ln -s ${php_location}/bin/php /usr/bin/
     ln -s ${php_location}/bin/php-config /usr/bin/
     ln -s ${php_location}/bin/phpize /usr/bin/
-
-    extension_dir=$(php-config --extension-dir)
-    cat > ${php_location}/php.d/opcache.ini<<-EOF
+    cat > ${php_location}/php.d/opcache.ini<<EOF
 [opcache]
-zend_extension=${extension_dir}/opcache.so
+zend_extension=opcache.so
 opcache.enable_cli=1
 opcache.memory_consumption=128
 opcache.interned_strings_buffer=8

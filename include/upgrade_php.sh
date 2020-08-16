@@ -76,7 +76,7 @@ upgrade_php(){
             with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
-        if [[ "${php_version}" == "7.3" || "${php_version}" == "7.4" ]]; then
+        if [[ "${php_version}" =~ ^7.[3-4]$ ]]; then
             with_libmbfl=""
         else
             with_libmbfl="--with-libmbfl"
@@ -96,9 +96,7 @@ upgrade_php(){
             enable_wddx="--enable-wddx"
             enable_zip="--enable-zip"
         fi
-        if [[ "${php_version}" == "7.2" || \
-              "${php_version}" == "7.3" || \
-              "${php_version}" == "7.4" ]]; then
+        if [[ "${php_version}" =~ ^7.[2-4]$ ]]; then
             other_options="--with-password-argon2 --enable-zend-test"
             install_argon2
         else
