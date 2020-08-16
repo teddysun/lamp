@@ -334,7 +334,7 @@ install_icu4c(){
 }
 
 install_libiconv(){
-    if [ ! -e "/usr/local/bin/iconv" ]; then
+    if [ ! -e "${depends_prefix}/libiconv/bin/iconv" ]; then
         cd ${cur_dir}/software/
         _info "${libiconv_filename} install start..."
         download_file  "${libiconv_filename}.tar.gz" "${libiconv_filename_url}"
@@ -342,9 +342,10 @@ install_libiconv(){
         patch -d ${libiconv_filename} -p0 < ${cur_dir}/conf/libiconv-glibc-2.16.patch
         cd ${libiconv_filename}
 
-        error_detect "./configure"
+        error_detect "./configure --prefix=${depends_prefix}/libiconv"
         error_detect "parallel_make"
         error_detect "make install"
+        create_lib64_dir "${depends_prefix}/libiconv"
         _info "${libiconv_filename} install completed..."
     fi
 }

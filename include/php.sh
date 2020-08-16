@@ -58,6 +58,7 @@ install_php(){
     else
         other_options="--with-mcrypt --enable-gd-native-ttf"
     fi
+    with_iconv="--with-iconv-dir=${depends_prefix}/libiconv"
     is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
     php_configure_args="
     --prefix=${php_location} \
@@ -91,6 +92,7 @@ install_php(){
     --with-tidy=/usr \
     --with-xmlrpc \
     --with-xsl \
+    ${with_iconv} \
     ${other_options} \
     --enable-bcmath \
     --enable-calendar \
