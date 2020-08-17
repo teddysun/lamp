@@ -193,7 +193,7 @@ install_older_php_pre(){
         debianversion 10 && cp -f ${cur_dir}/conf/icu-config_debian10_amd64 /usr/bin/icu-config
         ubuntuversion 20 && cp -f ${cur_dir}/conf/icu-config_ubuntu20_amd64 /usr/bin/icu-config
     else
-        ubuntuversion 20 && cp -f ${cur_dir}/conf/icu-config_debian10_i386 /usr/bin/icu-config
+        debianversion 10 && cp -f ${cur_dir}/conf/icu-config_debian10_i386 /usr/bin/icu-config
         ubuntuversion 20 && cp -f ${cur_dir}/conf/icu-config_ubuntu20_i386 /usr/bin/icu-config
     fi
     chmod +x /usr/bin/icu-config
