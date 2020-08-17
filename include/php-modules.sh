@@ -339,7 +339,7 @@ install_libiconv(){
         _info "${libiconv_filename} install start..."
         download_file  "${libiconv_filename}.tar.gz" "${libiconv_filename_url}"
         tar zxf ${libiconv_filename}.tar.gz
-        patch -d ${libiconv_filename} -p0 < ${cur_dir}/conf/libiconv-glibc-2.16.patch
+        patch -d ${libiconv_filename} -p0 < ${cur_dir}/src/libiconv-glibc-2.16.patch
         cd ${libiconv_filename}
 
         error_detect "./configure --prefix=${depends_prefix}/libiconv"
@@ -728,7 +728,7 @@ install_php_memcached(){
     fi
     download_file "${libmemcached_filename}.tar.gz" "${libmemcached_filename_url}"
     tar zxf ${libmemcached_filename}.tar.gz
-    patch -d ${libmemcached_filename} -p0 < ${cur_dir}/conf/libmemcached-build.patch
+    patch -d ${libmemcached_filename} -p0 < ${cur_dir}/src/libmemcached-build.patch
     cd ${libmemcached_filename}
     error_detect "./configure --with-memcached=${depends_prefix}/memcached --enable-sasl"
     error_detect "make"
