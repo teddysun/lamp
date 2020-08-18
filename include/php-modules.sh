@@ -345,6 +345,7 @@ install_libiconv(){
         error_detect "./configure --prefix=${depends_prefix}/libiconv"
         error_detect "parallel_make"
         error_detect "make install"
+        add_to_env "${depends_prefix}/libiconv"
         create_lib64_dir "${depends_prefix}/libiconv"
         _info "${libiconv_filename} install completed..."
     fi

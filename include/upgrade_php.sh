@@ -102,7 +102,7 @@ upgrade_php(){
         else
             other_options="--with-mcrypt --enable-gd-native-ttf"
         fi
-        install_libiconv
+        [ ! -e "${depends_prefix}/libiconv/bin/iconv" ] && install_libiconv || add_to_env "${depends_prefix}/libiconv"
         with_iconv="--with-iconv-dir=${depends_prefix}/libiconv"
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
         php_configure_args="

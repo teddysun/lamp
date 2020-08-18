@@ -140,8 +140,6 @@ install_php(){
         cd ${php7_4_filename}
     fi
 
-    unset LD_LIBRARY_PATH
-    unset CPPFLAGS
     ldconfig
     error_detect "./configure ${php_configure_args}"
     error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
