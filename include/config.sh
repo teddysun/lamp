@@ -132,76 +132,9 @@ libzip_filename_url="https://libzip.org/download/libzip-1.7.3.tar.gz"
 #libiconv
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
-#swoole
-swoole_filename="swoole-4.5.2"
-swoole_filename_url="https://pecl.php.net/get/swoole-4.5.2.tgz"
-#yaf
-yaf_filename="yaf-3.2.5"
-yaf_filename_url="https://pecl.php.net/get/yaf-3.2.5.tgz"
-#xcache
-xcache_filename="xcache-3.2.0"
-xcache_filename_url="https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.gz"
-#xdebug
-xdebug_filename="xdebug-2.5.5"
-xdebug_filename_url="https://xdebug.org/files/xdebug-2.5.5.tgz"
-xdebug_filename2="xdebug-2.9.6"
-xdebug_filename2_url="https://xdebug.org/files/xdebug-2.9.6.tgz"
-#ImageMagick
-ImageMagick_filename="ImageMagick-7.0.10-27"
-ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-27.tar.gz"
-php_imagemagick_filename="imagick-3.4.4"
-php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
-set_hint ${php_imagemagick_filename} "php-${php_imagemagick_filename}"
-#GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.35"
-GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.35/GraphicsMagick-1.3.35.tar.gz/download"
-php_graphicsmagick_filename="gmagick-1.1.7RC3"
-php_graphicsmagick_filename_url="https://pecl.php.net/get/gmagick-1.1.7RC3.tgz"
-php_graphicsmagick_filename2="gmagick-2.0.5RC1"
-php_graphicsmagick_filename2_url="https://pecl.php.net/get/gmagick-2.0.5RC1.tgz"
-set_hint ${php_graphicsmagick_filename} "php-${php_graphicsmagick_filename}"
-set_hint ${php_graphicsmagick_filename2} "php-${php_graphicsmagick_filename2}"
-#ionCube
-ionCube_filename="ioncube_loaders"
-ionCube32_filename="ioncube_loaders_lin_x86"
-ionCube32_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz"
-ionCube64_filename="ioncube_loaders_lin_x86-64"
-ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"
 #libevent
 libevent_filename="libevent-2.1.12-stable"
 libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz"
-#memcached
-memcached_filename="memcached-1.6.6"
-memcached_filename_url="http://www.memcached.org/files/memcached-1.6.6.tar.gz"
-#libmemcached
-libmemcached_filename="libmemcached-1.0.18"
-libmemcached_filename_url="https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz"
-#php-memcached
-php_memcached_filename="memcached-2.2.0"
-php_memcached_filename_url="https://pecl.php.net/get/memcached-2.2.0.tgz"
-php_memcached_filename2="memcached-3.1.5"
-php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
-set_hint ${php_memcached_filename} "php-${php_memcached_filename}"
-set_hint ${php_memcached_filename2} "php-${php_memcached_filename2}"
-#redis
-redis_filename="redis-5.0.9"
-redis_filename_url="http://download.redis.io/releases/redis-5.0.9.tar.gz"
-#php-redis
-php_redis_filename="redis-4.3.0"
-php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
-php_redis_filename2="redis-5.3.1"
-php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.1.tgz"
-set_hint ${php_redis_filename} "php-${php_redis_filename}"
-set_hint ${php_redis_filename2} "php-${php_redis_filename2}"
-#php-mongodb
-php_mongo_filename="mongodb-1.7.5"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.7.5.tgz"
-set_hint ${php_mongo_filename} "php-${php_mongo_filename}"
-#php-libsodium
-libsodium_filename="libsodium-1.0.18"
-libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
-php_libsodium_filename="libsodium-php-2.0.22"
-php_libsodium_filename_url="https://github.com/jedisct1/libsodium-php/archive/2.0.22.tar.gz"
 #sqlite3
 sqlite3_filename="sqlite-autoconf-3310000"
 sqlite3_filename_url="${download_root_url}/sqlite-autoconf-3310000.tar.gz"
@@ -214,12 +147,92 @@ autoconf_filename_url="http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz"
 #argon2
 argon2_filename="argon2-20171227"
 argon2_filename_url="${download_root_url}/argon2-20171227.tar.gz"
-#psr
+#xcache
+xcache_filename="xcache-3.2.0"
+xcache_filename_url="https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.gz"
+#ionCube
+ionCube_filename="ioncube_loaders"
+ionCube32_filename="ioncube_loaders_lin_x86"
+ionCube32_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz"
+ionCube64_filename="ioncube_loaders_lin_x86-64"
+ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"
+#pdflib
+pdflib_filename="PDFlib"
+pdflib32_filename="PDFlib-9.3.0-Linux-x86-php"
+pdflib32_filename_url="https://www.pdflib.com/binaries/PDFlib/930/PDFlib-9.3.0-Linux-x86-php.tar.gz"
+pdflib64_filename="PDFlib-9.3.0-Linux-x86_64-php"
+pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/930/PDFlib-9.3.0-Linux-x86_64-php.tar.gz"
+#PECL packages
+#php extension swoole
+swoole_filename="swoole-4.5.2"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.5.2.tgz"
+#php extension xdebug
+xdebug_filename="xdebug-2.5.5"
+xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
+xdebug_filename2="xdebug-2.9.6"
+xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.6.tgz"
+#ImageMagick
+ImageMagick_filename="ImageMagick-7.0.10-27"
+ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-27.tar.gz"
+#php extension imagick
+php_imagemagick_filename="imagick-3.4.4"
+php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
+#GraphicsMagick
+GraphicsMagick_filename="GraphicsMagick-1.3.35"
+GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.35/GraphicsMagick-1.3.35.tar.gz/download"
+#php extension gmagick
+php_graphicsmagick_filename="gmagick-1.1.7RC3"
+php_graphicsmagick_filename_url="https://pecl.php.net/get/gmagick-1.1.7RC3.tgz"
+php_graphicsmagick_filename2="gmagick-2.0.5RC1"
+php_graphicsmagick_filename2_url="https://pecl.php.net/get/gmagick-2.0.5RC1.tgz"
+#memcached
+memcached_filename="memcached-1.6.6"
+memcached_filename_url="http://www.memcached.org/files/memcached-1.6.6.tar.gz"
+#libmemcached
+libmemcached_filename="libmemcached-1.0.18"
+libmemcached_filename_url="https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz"
+#php extension memcached
+php_memcached_filename="memcached-2.2.0"
+php_memcached_filename_url="https://pecl.php.net/get/memcached-2.2.0.tgz"
+php_memcached_filename2="memcached-3.1.5"
+php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
+#redis
+redis_filename="redis-5.0.9"
+redis_filename_url="http://download.redis.io/releases/redis-5.0.9.tar.gz"
+#php extension redis
+php_redis_filename="redis-4.3.0"
+php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
+php_redis_filename2="redis-5.3.1"
+php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.1.tgz"
+#php extension mongodb
+php_mongo_filename="mongodb-1.8.0"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.8.0.tgz"
+#php extension libsodium
+libsodium_filename="libsodium-1.0.18"
+libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
+php_libsodium_filename="libsodium-2.0.22"
+php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.22.tgz"
+#php extension yaf
+yaf_filename="yaf-3.2.5"
+yaf_filename_url="https://pecl.php.net/get/yaf-3.2.5.tgz"
+#php extension psr
 psr_filename="psr-1.0.0"
 psr_filename_url="https://pecl.php.net/get/psr-1.0.0.tgz"
-#phalcon
+#php extension phalcon
 phalcon_filename="phalcon-4.0.6"
-phalcon_filename_url=" https://pecl.php.net/get/phalcon-4.0.6.tgz"
+phalcon_filename_url="https://pecl.php.net/get/phalcon-4.0.6.tgz"
+#php extension apcu
+apcu_filename="apcu-5.1.18"
+apcu_filename_url="https://pecl.php.net/get/apcu-5.1.18.tgz"
+#php extension grpc
+grpc_filename="grpc-1.31.0"
+grpc_filename_url="https://pecl.php.net/get/grpc-1.31.0.tgz"
+#php extension msgpack
+msgpack_filename="msgpack-2.1.1"
+msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.1.tgz"
+#php extension yar
+yar_filename="yar-2.1.2"
+yar_filename_url="https://pecl.php.net/get/yar-2.1.2.tgz"
 
 #software array setting
 apache_arr=(
@@ -269,7 +282,9 @@ do_not_install
 
 php_modules_arr=(
 ${ionCube_filename}
+${pdflib_filename}
 ${xcache_filename}
+${apcu_filename}
 ${php_imagemagick_filename}
 ${php_graphicsmagick_filename}
 ${php_memcached_filename}
@@ -278,6 +293,8 @@ ${php_mongo_filename}
 ${php_libsodium_filename}
 ${swoole_filename}
 ${yaf_filename}
+${yar_filename}
+${grpc_filename}
 ${phalcon_filename}
 ${xdebug_filename}
 do_not_install

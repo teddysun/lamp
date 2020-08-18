@@ -24,6 +24,8 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
             php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
             php_modules_arr=(${php_modules_arr[@]#${yaf_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${yar_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${pdflib_filename}})
             php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
         else
             php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
@@ -32,9 +34,10 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         fi
-        # Phalcon v4 supports only PHP 7.2 and above
+        # PDFlib & Phalcon v4 supports only PHP 7.2 and above
         # Reference URL: https://docs.phalcon.io/4.0/en/installation
         if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
+            php_modules_arr=(${php_modules_arr[@]#${pdflib_filename}})
             php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
         fi
         display_menu_multi php_modules last
@@ -62,12 +65,16 @@ kodexplorer_preinstall_settings(){
 install_php_modules(){
     local phpConfig=${1}
     if_in_array "${ionCube_filename}" "${php_modules_install}" && install_ionCube "${phpConfig}"
+    if_in_array "${pdflib_filename}" "${php_modules_install}" && install_pdflib "${phpConfig}"
+    if_in_array "${apcu_filename}" "${php_modules_install}" && install_apcu "${phpConfig}"
     if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && install_php_imagesmagick "${phpConfig}"
     if_in_array "${php_mongo_filename}" "${php_modules_install}" && install_php_mongo "${phpConfig}"
     if_in_array "${xcache_filename}" "${php_modules_install}" && install_xcache "${phpConfig}"
     if_in_array "${php_libsodium_filename}" "${php_modules_install}" && install_php_libsodium "${phpConfig}"
     if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
     if_in_array "${yaf_filename}" "${php_modules_install}" && install_yaf "${phpConfig}"
+    if_in_array "${yar_filename}" "${php_modules_install}" && install_yar "${phpConfig}"
+    if_in_array "${grpc_filename}" "${php_modules_install}" && install_grpc "${phpConfig}"
     if_in_array "${phalcon_filename}" "${php_modules_install}" && install_phalcon "${phpConfig}"
     if  if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" || \
         if_in_array "${php_graphicsmagick_filename2}" "${php_modules_install}"; then
@@ -96,9 +103,9 @@ install_php_depends(){
     _info "Installing dependencies for PHP..."
     if check_sys packageManager apt; then
         apt_depends=(
-            cmake autoconf patch m4 bison libbz2-dev libgmp-dev libicu-dev libldb-dev libpam0g-dev libonig-dev
+            cmake autoconf patch m4 bison pkg-config autoconf2.13 libbz2-dev libgmp-dev libicu-dev libldb-dev
             libldap-2.4-2 libldap2-dev libsasl2-dev libsasl2-modules-ldap libc-client2007e-dev libkrb5-dev
-            autoconf2.13 pkg-config libxslt1-dev zlib1g-dev libpcre3-dev libtool libtidy-dev libsqlite3-dev
+            libpam0g-dev libonig-dev libxslt1-dev zlib1g-dev libpcre3-dev libtool libtidy-dev libsqlite3-dev
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
@@ -519,6 +526,33 @@ EOF
     _info "PHP extension ionCube Loader install completed..."
 }
 
+install_pdflib(){
+    local phpConfig=${1}
+    local php_version=$(get_php_version "${phpConfig}" | sed 's/\.//g')
+    local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
+
+    cd ${cur_dir}/software/
+    _info "PHP extension ${pdflib_filename} install start..."
+    if is_64bit; then
+        download_file "${pdflib64_filename}.tar.gz" "${pdflib64_filename_url}"
+        tar zxf ${pdflib64_filename}.tar.gz
+        cp -pf ${pdflib64_filename}/bind/php/php-${php_version}0/php_pdflib.so ${php_extension_dir}/
+    else
+        download_file "${pdflib32_filename}.tar.gz" "${pdflib32_filename_url}"
+        tar zxf ${pdflib32_filename}.tar.gz
+        cp -pf ${pdflib32_filename}/bind/php/php-${php_version}0/php_pdflib.so ${php_extension_dir}/
+    fi
+
+    if [ ! -f "${php_location}/php.d/pdflib.ini" ]; then
+        _info "PHP extension ${pdflib_filename} configuration file not found, create it!"
+        cat > ${php_location}/php.d/pdflib.ini<<EOF
+[pdflib]
+extension=php_pdflib.so
+EOF
+    fi
+    _info "PHP extension ${pdflib_filename} install completed..."
+}
+
 install_xcache(){
     local phpConfig=${1}
 
@@ -597,7 +631,7 @@ install_php_libsodium(){
 
     cd ${cur_dir}/software/
     download_file "${php_libsodium_filename}.tar.gz" "${php_libsodium_filename_url}"
-    tar zxf ${php_libsodium_filename}.tar.gz
+    tar zxf ${php_libsodium_filename}.tgz
     cd ${php_libsodium_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
@@ -934,6 +968,46 @@ EOF
     _info "PHP extension yaf install completed..."
 }
 
+install_yar(){
+    local phpConfig=${1}
+
+    cd ${cur_dir}/software/
+    _info "PHP extension msgpack install start..."
+    download_file "${msgpack_filename}.tgz" "${msgpack_filename_url}"
+    tar zxf ${msgpack_filename}.tgz
+    cd ${msgpack_filename}
+    error_detect "${php_location}/bin/phpize"
+    error_detect "./configure --with-php-config=${phpConfig}"
+    error_detect "make"
+    error_detect "make install"
+    if [ ! -f "${php_location}/php.d/msgpack.ini" ]; then
+        _info "PHP extension msgpack configuration file not found, create it!"
+        cat > ${php_location}/php.d/msgpack.ini<<EOF
+[msgpack]
+extension=msgpack.so
+EOF
+    fi
+    _info "PHP extension msgpack install completed..."
+    cd ${cur_dir}/software/
+    _info "PHP extension yar install start..."
+    download_file "${yar_filename}.tgz" "${yar_filename_url}"
+    tar zxf ${yar_filename}.tgz
+    cd ${yar_filename}
+    error_detect "${php_location}/bin/phpize"
+    error_detect "./configure --with-php-config=${phpConfig} --with-curl --enable-yar --enable-msgpack"
+    error_detect "make"
+    error_detect "make install"
+
+    if [ ! -f "${php_location}/php.d/yar.ini" ]; then
+        _info "PHP extension yar configuration file not found, create it!"
+        cat > ${php_location}/php.d/yar.ini<<EOF
+[yar]
+extension=yar.so
+EOF
+    fi
+    _info "PHP extension yar install completed..."
+}
+
 install_phalcon(){
     local phpConfig=${1}
 
@@ -971,4 +1045,50 @@ extension=phalcon.so
 EOF
     fi
     _info "PHP extension phalcon install completed..."
+}
+
+install_apcu(){
+    local phpConfig=${1}
+
+    cd ${cur_dir}/software/
+    _info "PHP extension apcu install start..."
+    download_file "${apcu_filename}.tgz" "${apcu_filename_url}"
+    tar zxf ${apcu_filename}.tgz
+    cd ${apcu_filename}
+    error_detect "${php_location}/bin/phpize"
+    error_detect "./configure --with-php-config=${phpConfig}"
+    error_detect "make"
+    error_detect "make install"
+
+    if [ ! -f "${php_location}/php.d/apcu.ini" ]; then
+        _info "PHP extension apcu configuration file not found, create it!"
+        cat > ${php_location}/php.d/apcu.ini<<EOF
+[apcu]
+extension=apcu.so
+EOF
+    fi
+    _info "PHP extension apcu install completed..."
+}
+
+install_grpc(){
+    local phpConfig=${1}
+
+    cd ${cur_dir}/software/
+    _info "PHP extension grpc install start..."
+    download_file "${grpc_filename}.tgz" "${grpc_filename_url}"
+    tar zxf ${grpc_filename}.tgz
+    cd ${grpc_filename}
+    error_detect "${php_location}/bin/phpize"
+    error_detect "./configure --with-php-config=${phpConfig} --enable-grpc"
+    error_detect "make"
+    error_detect "make install"
+
+    if [ ! -f "${php_location}/php.d/grpc.ini" ]; then
+        _info "PHP extension grpc configuration file not found, create it!"
+        cat > ${php_location}/php.d/grpc.ini<<EOF
+[grpc]
+extension=grpc.so
+EOF
+    fi
+    _info "PHP extension grpc install completed..."
 }
