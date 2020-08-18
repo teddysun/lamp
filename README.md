@@ -40,7 +40,7 @@
 - Apache Additional Modules: [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), [mod_security](https://github.com/SpiderLabs/ModSecurity), [mod_jk](https://tomcat.apache.org/download-connectors.cgi)
 - MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-10.1, MariaDB-10.2, MariaDB-10.3, MariaDB-10.4, MariaDB-10.5
 - PHP-5.6, PHP-7.0, PHP-7.1, PHP-7.2, PHP-7.3, PHP-7.4
-- PHP Additional extensions: [Zend OPcache](https://www.php.net/manual/en/book.opcache.php), [ionCube Loader](https://www.ioncube.com/loaders.php), [XCache](https://xcache.lighttpd.net/), [imagick](https://pecl.php.net/package/imagick), [gmagick](https://pecl.php.net/package/gmagick), [libsodium](https://github.com/jedisct1/libsodium-php), [memcached](https://github.com/php-memcached-dev/php-memcached), [redis](https://github.com/phpredis/phpredis), [mongodb](https://pecl.php.net/package/mongodb), [swoole](https://github.com/swoole/swoole-src), [yaf](https://github.com/laruence/yaf), [psr](https://github.com/jbboehr/php-psr), [phalcon](https://github.com/phalcon/cphalcon), [xdebug](https://github.com/xdebug/xdebug)
+- PHP Additional extensions: [Zend OPcache](https://www.php.net/manual/en/book.opcache.php), [ionCube Loader](https://www.ioncube.com/loaders.php), [PDFlib](https://www.pdflib.com/), [XCache](https://xcache.lighttpd.net/), [APCu](https://pecl.php.net/package/APCu), [imagick](https://pecl.php.net/package/imagick), [gmagick](https://pecl.php.net/package/gmagick), [libsodium](https://github.com/jedisct1/libsodium-php), [memcached](https://github.com/php-memcached-dev/php-memcached), [redis](https://github.com/phpredis/phpredis), [mongodb](https://pecl.php.net/package/mongodb), [swoole](https://github.com/swoole/swoole-src), [yaf](https://github.com/laruence/yaf), [yar](https://github.com/laruence/yar), [msgpack](https://pecl.php.net/package/msgpack), [psr](https://github.com/jbboehr/php-psr), [phalcon](https://github.com/phalcon/cphalcon), [grpc](https://github.com/grpc/grpc), [xdebug](https://github.com/xdebug/xdebug)
 - Other Software: [OpenSSL](https://github.com/openssl/openssl), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [GraphicsMagick](http://www.graphicsmagick.org/), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Adminer](https://github.com/vrana/adminer), [Redis](https://github.com/redis/redis), [re2c](https://github.com/skvadrik/re2c), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
 
 ## Software Version
@@ -65,7 +65,10 @@
 |-----------------------------|----------------------------------------------------|
 | PHP                         | 5.6.40, 7.0.33, 7.1.33, 7.2.33, 7.3.21, 7.4.9      |
 | ionCube Loader              | 10.4.1                                             |
+| PDFlib                      | 9.3.0                                              |
 | XCache(PHP 5.6 only)        | 3.2.0                                              |
+| APCu extension              | 5.1.18                                             |
+| gRPC extension              | 1.31.0                                             |
 | ImageMagick                 | 7.0.10-24                                          |
 | imagick extension           | 3.4.4                                              |
 | GraphicsMagick              | 1.3.35                                             |
@@ -83,12 +86,20 @@
 | mongodb extension           | 1.7.5                                              |
 | swoole extension(PHP 7.0+)  | 4.5.2                                              |
 | yaf extension(PHP 7.0+)     | 3.2.5                                              |
+| yar extension(PHP 7.0+)     | 2.1.2                                              |
+| msgpack extension(PHP 7.0+) | 2.1.1                                              |
 | psr extension(PHP 7.2+)     | 1.0.0                                              |
 | phalcon extension(PHP 7.2+) | 4.0.6                                              |
 | xdebug extension(PHP 5.6)   | 2.5.5                                              |
 | xdebug extension(PHP 7)     | 2.9.6                                              |
+
+| Database Management Tools   | Version                                            |
+|-----------------------------|----------------------------------------------------|
 | phpMyAdmin                  | 4.9.5                                              |
 | Adminer                     | 4.7.7                                              |
+
+| File Managerment Tool       | Version                                            |
+|-----------------------------|----------------------------------------------------|
 | KodExplorer                 | 4.35                                               |
 
 ## Installation
