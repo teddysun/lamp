@@ -99,9 +99,9 @@ apr_util_filename_url="http://ftp.jaist.ac.jp/pub/apache//apr/apr-util-1.6.1.tar
 mod_wsgi_filename="mod_wsgi-4.7.1"
 mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/4.7.1.tar.gz"
 #mod_jk
-mod_jk_filename="tomcat-connectors-1.2.46-src"
-mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.46-src.tar.gz"
-set_hint ${mod_jk_filename} "mod_jk-1.2.46"
+mod_jk_filename="tomcat-connectors-1.2.48-src"
+mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.48-src.tar.gz"
+set_hint ${mod_jk_filename} "mod_jk-1.2.48"
 #mod_security
 mod_security_filename="modsecurity-2.9.3"
 mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.3/modsecurity-2.9.3.tar.gz"
