@@ -45,62 +45,62 @@
 
 ## Software Version
 
-| Apache & Additional Modules | Version                                            |
-|-----------------------------|----------------------------------------------------|
-| httpd                       | 2.4.46                                             |
-| apr                         | 1.7.0                                              |
-| apr-util                    | 1.6.1                                              |
-| nghttp2                     | 1.41.0                                             |
-| openssl                     | 1.1.1g                                             |
-| mod_wsgi                    | 4.7.1                                              |
-| mod_security2               | 2.9.3                                              |
-| mod_jk                      | 1.2.48                                             |
+| Apache & Additional Modules   | Version                                            |
+|-------------------------------|----------------------------------------------------|
+| httpd                         | 2.4.46                                             |
+| apr                           | 1.7.0                                              |
+| apr-util                      | 1.6.1                                              |
+| nghttp2                       | 1.41.0                                             |
+| openssl                       | 1.1.1g                                             |
+| mod_wsgi                      | 4.7.1                                              |
+| mod_security2                 | 2.9.3                                              |
+| mod_jk                        | 1.2.48                                             |
 
-| Database                    | Version                                            |
-|-----------------------------|----------------------------------------------------|
-| MySQL                       | 5.6.49, 5.7.31, 8.0.21                             |
-| MariaDB                     | 10.1.46, 10.2.33, 10.3.24, 10.4.14, 10.5.5         |
+| Database                      | Version                                            |
+|-------------------------------|----------------------------------------------------|
+| MySQL                         | 5.6.49, 5.7.31, 8.0.21                             |
+| MariaDB                       | 10.1.46, 10.2.33, 10.3.24, 10.4.14, 10.5.5         |
 
-| PHP & Additional extensions | Version                                            |
-|-----------------------------|----------------------------------------------------|
-| PHP                         | 5.6.40, 7.0.33, 7.1.33, 7.2.33, 7.3.21, 7.4.9      |
-| ionCube Loader              | 10.4.1                                             |
-| PDFlib(PHP 7.2+)            | 9.3.0                                              |
-| XCache(PHP 5.6 only)        | 3.2.0                                              |
-| APCu extension              | 5.1.18                                             |
-| gRPC extension              | 1.31.0                                             |
-| ImageMagick                 | 7.0.10-27                                          |
-| imagick extension           | 3.4.4                                              |
-| GraphicsMagick              | 1.3.35                                             |
-| gmagick extension(PHP 5.6)  | 1.1.7RC3                                           |
-| gmagick extension(PHP 7)    | 2.0.5RC1                                           |
-| libsodium                   | 1.0.18                                             |
-| libsodium extension         | 2.0.22                                             |
-| memcached                   | 1.6.6                                              |
-| libmemcached                | 1.0.18                                             |
-| memcached extension(PHP 5.6)| 2.2.0                                              |
-| memcached extension(PHP 7)  | 3.1.5                                              |
-| redis                       | 5.0.9                                              |
-| redis extension(PHP 5.6)    | 4.3.0                                              |
-| redis extension(PHP 7)      | 5.3.1                                              |
-| mongodb extension           | 1.7.5                                              |
-| swoole extension(PHP 7.0+)  | 4.5.2                                              |
-| yaf extension(PHP 7.0+)     | 3.2.5                                              |
-| yar extension(PHP 7.0+)     | 2.1.2                                              |
-| msgpack extension(PHP 7.0+) | 2.1.1                                              |
-| psr extension(PHP 7.2+)     | 1.0.0                                              |
-| phalcon extension(PHP 7.2+) | 4.0.6                                              |
-| xdebug extension(PHP 5.6)   | 2.5.5                                              |
-| xdebug extension(PHP 7)     | 2.9.6                                              |
+| PHP & Additional extensions   | Version                                            |
+|-------------------------------|----------------------------------------------------|
+| PHP                           | 5.6.40, 7.0.33, 7.1.33, 7.2.33, 7.3.21, 7.4.9      |
+| ionCube Loader                | 10.4.1                                             |
+| PDFlib (PHP 7.2+)             | 9.3.0                                              |
+| XCache (PHP 5.6)              | 3.2.0                                              |
+| APCu extension                | 5.1.18                                             |
+| gRPC extension                | 1.31.0                                             |
+| ImageMagick                   | 7.0.10-28                                          |
+| imagick extension             | 3.4.4                                              |
+| GraphicsMagick                | 1.3.35                                             |
+| gmagick extension (PHP 5.6)   | 1.1.7RC3                                           |
+| gmagick extension (PHP 7.0+)  | 2.0.5RC1                                           |
+| libsodium                     | 1.0.18                                             |
+| libsodium extension           | 2.0.22                                             |
+| memcached                     | 1.6.6                                              |
+| libmemcached                  | 1.0.18                                             |
+| memcached extension (PHP 5.6) | 2.2.0                                              |
+| memcached extension (PHP 7.0+)| 3.1.5                                              |
+| redis                         | 5.0.9                                              |
+| redis extension (PHP 5.6)     | 4.3.0                                              |
+| redis extension (PHP 7.0+)    | 5.3.1                                              |
+| mongodb extension             | 1.7.5                                              |
+| swoole extension (PHP 7.0+)   | 4.5.2                                              |
+| yaf extension (PHP 7.0+)      | 3.2.5                                              |
+| yar extension (PHP 7.0+)      | 2.1.2                                              |
+| msgpack extension (PHP 7.0+)  | 2.1.1                                              |
+| psr extension (PHP 7.2+)      | 1.0.0                                              |
+| phalcon extension (PHP 7.2+)  | 4.0.6                                              |
+| xdebug extension (PHP 5.6)    | 2.5.5                                              |
+| xdebug extension (PHP 7.0+)   | 2.9.6                                              |
 
-| Database Management Tools   | Version                                            |
-|-----------------------------|----------------------------------------------------|
-| phpMyAdmin                  | 4.9.5                                              |
-| Adminer                     | 4.7.7                                              |
+| Database Management Tools     | Version                                            |
+|-------------------------------|----------------------------------------------------|
+| phpMyAdmin                    | 4.9.5                                              |
+| Adminer                       | 4.7.7                                              |
 
-| File Managerment Tool       | Version                                            |
-|-----------------------------|----------------------------------------------------|
-| KodExplorer                 | 4.35                                               |
+| File Managerment Tool         | Version                                            |
+|-------------------------------|----------------------------------------------------|
+| KodExplorer                   | 4.35                                               |
 
 ## Installation
 
