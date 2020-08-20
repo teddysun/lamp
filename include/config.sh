@@ -83,7 +83,7 @@ phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmi
 adminer_filename="adminer-4.7.7"
 adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.7.7/adminer-4.7.7.php"
 #kodexplorer
-kod_version=$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)
+kod_version="$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)"
 [ -z "${kod_version}" ] && kod_version="4.35"
 kodexplorer_filename="kodfile-${kod_version}"
 kodexplorer_filename_url="https://github.com/kalcaddle/kodfile/archive/${kod_version}.tar.gz"
@@ -172,8 +172,8 @@ xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
 xdebug_filename2="xdebug-2.9.6"
 xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.6.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.10-27"
-ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-27.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.10-28"
+ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-28.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
@@ -207,9 +207,10 @@ php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.1.tgz"
 #php extension mongodb
 php_mongo_filename="mongodb-1.8.0"
 php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.8.0.tgz"
-#php extension libsodium
+#libsodium
 libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
+#php extension libsodium
 php_libsodium_filename="libsodium-2.0.22"
 php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.22.tgz"
 #php extension yaf
