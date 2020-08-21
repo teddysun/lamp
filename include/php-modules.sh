@@ -49,6 +49,11 @@ phpmyadmin_preinstall_settings(){
     if [ "${php}" == "do_not_install" ]; then
         phpmyadmin="do_not_install"
     else
+        # phpMyAdmin 5.x removed support of old PHP versions (5.6, 7.0)
+        # Reference URL: https://www.phpmyadmin.net/news/2019/12/26/phpmyadmin-500-released/
+        if [[ "${php}" =~ ^php-7.[1-4].+$ ]]; then
+            phpmyadmin_arr=(${phpmyadmin_arr[@]/#${phpmyadmin_filename}/${phpmyadmin_filename2}})
+        fi
         display_menu_multi phpmyadmin 1
     fi
 }
@@ -95,7 +100,10 @@ install_php_modules(){
 }
 
 install_phpmyadmin_modules(){
-    if_in_array "${phpmyadmin_filename}" "${phpmyadmin_install}" && install_phpmyadmin
+    if if_in_array "${phpmyadmin_filename}" "${phpmyadmin_install}" || \
+       if_in_array "${phpmyadmin_filename2}" "${phpmyadmin_install}"; then
+       install_phpmyadmin
+    fi
     if_in_array "${adminer_filename}" "${phpmyadmin_install}" && install_adminer
 }
 
@@ -459,20 +467,27 @@ install_libzip(){
 }
 
 install_phpmyadmin(){
+    local pma_file=""
+    local pma_file_url=""
     if [ -d "${web_root_dir}/phpmyadmin" ]; then
         rm -rf ${web_root_dir}/phpmyadmin
     fi
-
+    if [[ "${php}" =~ ^php-7.[1-4].+$ ]]; then
+        pma_file=${phpmyadmin_filename2}
+        pma_file_url=${phpmyadmin_filename2_url}
+    else
+        pma_file=${phpmyadmin_filename}
+        pma_file_url=${phpmyadmin_filename_url}
+    fi
     cd ${cur_dir}/software
-
-    _info "${phpmyadmin_filename} install start..."
-    download_file "${phpmyadmin_filename}.tar.gz" "${phpmyadmin_filename_url}"
-    tar zxf ${phpmyadmin_filename}.tar.gz
-    mv ${phpmyadmin_filename} ${web_root_dir}/phpmyadmin
+    _info "${pma_file} install start..."
+    download_file "${pma_file}.tar.gz" "${pma_file_url}"
+    tar zxf ${pma_file}.tar.gz
+    mv ${pma_file} ${web_root_dir}/phpmyadmin
     cp -f ${cur_dir}/conf/config.inc.php ${web_root_dir}/phpmyadmin/config.inc.php
     mkdir -p ${web_root_dir}/phpmyadmin/{upload,save}
     chown -R apache:apache ${web_root_dir}/phpmyadmin
-    _info "${phpmyadmin_filename} install completed..."
+    _info "${pma_file} install completed..."
 }
 
 install_adminer(){

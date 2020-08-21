@@ -242,6 +242,12 @@ set_parameters(){
     [ "${php}" == "do_not_install" ] && phpmyadmin_install="do_not_install"
     if [ -n "${php}" ] && [ -n "${db_manage_modules}" ]; then
         phpmyadmin_install=(${phpmyadmin_install})
+        # phpMyAdmin 5.x removed support of old PHP versions (5.6, 7.0)
+        # Reference URL: https://www.phpmyadmin.net/news/2019/12/26/phpmyadmin-500-released/
+        if [[ "${php}" =~ ^php-7.[1-4].+$ ]]; then
+            phpmyadmin_install=(${phpmyadmin_install[@]/#${phpmyadmin_filename}/${phpmyadmin_filename2}})
+        fi
+        php_modules_install=${phpmyadmin_install[@]}
     fi
     [ -z "${kodexplorer_option}" ] && kodexplorer="do_not_install"
     [ "${php}" == "do_not_install" ] && kodexplorer="do_not_install"
