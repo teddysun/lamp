@@ -212,21 +212,22 @@ chmod 755 *.sh
 
 ## Process Management
 
-| Process     | Command                                                 |
-|-------------|---------------------------------------------------------|
-| Apache      | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
-| MySQL       | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
-| MariaDB     | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
-| Memcached   | /etc/init.d/memcached (start\|stop\|restart)            |
-| Redis-Server| /etc/init.d/redis-server (start\|stop\|restart)         |
+| Process      | Command                                                 |
+|--------------|---------------------------------------------------------|
+| Apache       | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
+| MySQL        | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
+| MariaDB      | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
+| Memcached    | /etc/init.d/memcached (start\|stop\|restart)            |
+| Redis-Server | /etc/init.d/redis-server (start\|stop\|restart)         |
 
 ## lamp Command
 
-| Command    | Description                     |
-|------------|---------------------------------|
-| lamp add   | create a virtual host           |
-| lamp list  | list all virtual host           |
-| lamp del   | remove a virtual host           |
+| Command      | Description                       |
+|--------------|-----------------------------------|
+| lamp add     | Create a new Apache virtual host  |
+| lamp del     | Delete a Apache virtual host      |
+| lamp list    | List all of Apache virtual hosts  |
+| lamp version | Print version and exit            |
 
 ## Bugs & Issues
 
