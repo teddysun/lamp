@@ -325,7 +325,7 @@ check_ram(){
     if [ ${ramsum} -lt 480 ]; then
         _error "Not enough memory. The LAMP installation needs memory: ${tram}MB*RAM + ${swap}MB*SWAP >= 480MB"
     fi
-    [ ${ramsum} -lt 600 ] && disable_fileinfo="--disable-fileinfo" || disable_fileinfo=""
+    [ ${ramsum} -lt 1025 ] && disable_fileinfo="--disable-fileinfo" || disable_fileinfo=""
 }
 
 #Check system

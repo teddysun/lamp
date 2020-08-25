@@ -21,7 +21,7 @@ upgrade_php(){
     local tram=$( free -m | awk '/Mem/ {print $2}' )
     local swap=$( free -m | awk '/Swap/ {print $2}' )
     local ramsum=$( expr $tram + $swap )
-    [ ${ramsum} -lt 600 ] && disable_fileinfo="--disable-fileinfo" || disable_fileinfo=""
+    [ ${ramsum} -lt 1025 ] && disable_fileinfo="--disable-fileinfo" || disable_fileinfo=""
 
     local phpConfig=${php_location}/bin/php-config
     local php_version=$(get_php_version "${phpConfig}")
