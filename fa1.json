@@ -6,7 +6,7 @@
       "Type": "AWS::EC2::Instance",
          "Properties":{
          "ImageId" : "ami-0ac80df6eff0e70b5",
-         "KeyName" : "sbk",
+         "KeyName" : "sbkxscxzvcxbcv",
          "InstanceType":"t2.micro",
          "SecurityGroups" : [ "sg-07142950944cc283c" ],
          "UserData" : {"Fn::Base64" : {"Fn::Join" : ["", [
