@@ -35,7 +35,7 @@ uninstall_lamp(){
         /etc/init.d/httpd stop > /dev/null 2>&1
     fi
     rm -f /etc/init.d/httpd
-    rm -rf ${apache_location} /usr/sbin/httpd /var/log/httpd /etc/logrotate.d/httpd /var/spool/mail/apache
+    rm -rf ${apache_location} ${apache_location}.bak /usr/sbin/httpd /var/log/httpd /etc/logrotate.d/httpd /var/spool/mail/apache
     _info "Success"
     echo
     _info "uninstalling MySQL or MariaDB"
@@ -43,22 +43,26 @@ uninstall_lamp(){
         /etc/init.d/mysqld stop > /dev/null 2>&1
     fi
     rm -f /etc/init.d/mysqld
-    rm -rf ${mysql_location} ${mariadb_location} /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
+    rm -rf ${mysql_location} ${mariadb_location} ${mysql_location}.bak ${mariadb_location}.bak /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
     _info "Success"
     echo
     _info "uninstalling PHP"
-    rm -rf ${php_location} /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
+    rm -rf ${php_location} ${php_location}.bak /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
     _info "Success"
     echo
     _info "uninstalling others software"
-    [ -f /etc/init.d/memcached ] && /etc/init.d/memcached stop > /dev/null 2>&1
+    if [ -f /etc/init.d/memcached ] && [ $(ps -ef | grep -v grep | grep -c "memcached") -gt 0 ]; then
+        /etc/init.d/memcached stop > /dev/null 2>&1
+    fi
     rm -f /etc/init.d/memcached
     rm -fr ${depends_prefix}/memcached /usr/bin/memcached
-    [ -f /etc/init.d/redis-server ] && /etc/init.d/redis-server stop > /dev/null 2>&1
+    if [ -f /etc/init.d/redis-server ] [ $(ps -ef | grep -v grep | grep -c "redis-server") -gt 0 ]; then
+        /etc/init.d/redis-server stop > /dev/null 2>&1
+    fi
     rm -f /etc/init.d/redis-server
     rm -rf ${depends_prefix}/redis
     rm -rf /usr/local/lib/libcharset* /usr/local/lib/libiconv* /usr/local/lib/charset.alias /usr/local/lib/preloadable_libiconv.so
-    rm -rf ${depends_prefix}/imap
+    rm -rf ${depends_prefix}/libiconv
     rm -rf ${depends_prefix}/pcre
     rm -rf ${depends_prefix}/cmake
     rm -rf ${openssl_location} /etc/ld.so.conf.d/openssl.conf
@@ -67,6 +71,7 @@ uninstall_lamp(){
     rm -rf /usr/local/lib/libmhash.*
     rm -rf /usr/local/bin/iconv
     rm -rf /usr/local/bin/re2c
+    rm -rf /usr/local/bin/re2go
     rm -rf /usr/local/bin/mcrypt
     rm -rf /usr/local/bin/mdecrypt
     rm -rf /etc/ld.so.conf.d/locallib.conf
@@ -83,8 +88,7 @@ include public
 load_config
 rootness
 
-while true
-do
+while true; do
     read -p "Are you sure uninstall LAMP? (Default: n) (y/n)" uninstall
     [ -z ${uninstall} ] && uninstall="n"
     uninstall=$(upcase_to_lowcase ${uninstall})
