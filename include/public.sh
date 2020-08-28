@@ -155,8 +155,7 @@ display_menu(){
     local vname
     local prompt="which ${soft} you'd select ${default_prompt}: "
 
-    while :
-    do
+    while true; do
         echo -e "\n-------------------------- ${soft} setting ---------------------------\n"
         for ((i=1;i<=${#arr[@]};i++ )); do
             vname="$(get_valid_valname ${arr[$i-1]})"
@@ -170,17 +169,14 @@ display_menu(){
             pick=${default}
             break
         fi
-
         if ! is_digit "$pick"; then
             prompt="Input error, please only input a number: "
             continue
         fi
-
         if [[ "$pick" -lt 1 || "$pick" -gt ${#arr[@]} ]]; then
             prompt="Input error, please input a number between 1 and ${#arr[@]}: "
             continue
         fi
-
         break
     done
 
@@ -220,8 +216,7 @@ display_menu_multi(){
         _info "$(_green ${i}). $hint"
     done
     echo
-    while true
-    do
+    while true; do
         read -p "${prompt}" pick
         pick=(${pick})
         eval unset ${soft}_install
@@ -235,8 +230,7 @@ display_menu_multi(){
             fi
         fi
 
-        for j in ${pick[@]}
-        do
+        for j in ${pick[@]}; do
             if ! is_digit "$j"; then
                 echo "Input error, please only input a number."
                 correct=false
@@ -498,18 +492,19 @@ untar(){
     case ${tarball_type} in
         gz|tgz)
             tar zxf ${cur_dir}/${software_name} -C ${cur_dir}/ && cd ${cur_dir}/${extracted_dir} || return 1
-        ;;
+            ;;
         bz2|tbz)
             tar jxf ${cur_dir}/${software_name} -C ${cur_dir}/ && cd ${cur_dir}/${extracted_dir} || return 1
-        ;;
+            ;;
         xz)
             tar Jxf ${cur_dir}/${software_name} -C ${cur_dir}/ && cd ${cur_dir}/${extracted_dir} || return 1
-        ;;
+            ;;
         tar|Z)
             tar xf ${cur_dir}/${software_name} -C ${cur_dir}/ && cd ${cur_dir}/${extracted_dir} || return 1
-        ;;
+            ;;
         *)
-        echo "${software_name} is wrong tarball type ! "
+            _info "${software_name} is wrong tarball type"
+            ;;
     esac
 }
 
@@ -783,8 +778,8 @@ remove_packages(){
 sync_time(){
     _info "Sync time..."
     is_exist "ntpdate" && ntpdate -bv cn.pool.ntp.org
-    rm -fv /etc/localtime
-    ln -sv /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    rm -f /etc/localtime
+    ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
     _info "Sync time completed..."
     StartDate=$(date "+%Y-%m-%d %H:%M:%S")
     StartDateSecond=$(date +%s)
