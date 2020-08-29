@@ -341,7 +341,7 @@ install_mariadb(){
 
     mariadb_filename="${mysql}-${glibc_flag}-${sys_bit_b}"
     if [ "$(get_ip_country)" == "CN" ]; then
-        mariadb_filename_url="http://mirrors.aliyun.com/mariadb/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mariadb_filename}.tar.gz"
+        mariadb_filename_url="https://mirrors.ustc.edu.cn/mariadb/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mariadb_filename}.tar.gz"
     else
         mariadb_filename_url="http://sfo1.mirrors.digitalocean.com/mariadb/${mysql}/bintar-${glibc_flag}-${sys_bit_a}/${mariadb_filename}.tar.gz"
     fi
