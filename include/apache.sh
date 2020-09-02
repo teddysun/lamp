@@ -248,7 +248,7 @@ install_pcre(){
     error_detect "make install"
     add_to_env "${depends_prefix}/pcre"
     create_lib64_dir "${depends_prefix}/pcre"
-    _info "Installing ${pcre_filename} completed..."
+    _info "Install ${pcre_filename} completed..."
 }
 
 install_nghttp2(){
