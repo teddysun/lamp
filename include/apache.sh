@@ -196,11 +196,10 @@ mod_xml2enc.so
         fi
     done
     # add mod_md to httpd.conf
-    if [[ $(grep -Ec "^\s*LoadModule md_module modules/mod_md.so" ${apache_location}/conf/httpd.conf) -eq 0 ]]; then
-        if [ -f "${apache_location}/modules/mod_md.so" ]; then
-            lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
-            sed -i "${lnum}aLoadModule md_module modules/mod_md.so" ${apache_location}/conf/httpd.conf
-        fi
+    if [[ $(grep -Ec "^\s*LoadModule md_module modules/mod_md.so" ${apache_location}/conf/httpd.conf) -eq 0 ]] && \
+       [[ -s "${apache_location}/modules/mod_md.so" ]]; then
+        lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
+        sed -i "${lnum}aLoadModule md_module modules/mod_md.so" ${apache_location}/conf/httpd.conf
     fi
 
     [ -d "${openssl_location}" ] && sed -i "s@^export LD_LIBRARY_PATH.*@export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${openssl_location}/lib@" ${apache_location}/bin/envvars
@@ -239,7 +238,7 @@ install_apache_modules(){
 
 install_pcre(){
     cd ${cur_dir}/software/
-    _info "${pcre_filename} install start..."
+    _info "Installing ${pcre_filename}..."
     download_file "${pcre_filename}.tar.gz" "${pcre_filename_url}"
     tar zxf ${pcre_filename}.tar.gz
     cd ${pcre_filename}
@@ -249,12 +248,12 @@ install_pcre(){
     error_detect "make install"
     add_to_env "${depends_prefix}/pcre"
     create_lib64_dir "${depends_prefix}/pcre"
-    _info "${pcre_filename} install completed..."
+    _info "Installing ${pcre_filename} completed..."
 }
 
 install_nghttp2(){
     cd ${cur_dir}/software/
-    _info "${nghttp2_filename} install start..."
+    _info "Installing ${nghttp2_filename}..."
     download_file "${nghttp2_filename}.tar.gz" "${nghttp2_filename_url}"
     tar zxf ${nghttp2_filename}.tar.gz
     cd ${nghttp2_filename}
@@ -267,7 +266,7 @@ install_nghttp2(){
     error_detect "parallel_make"
     error_detect "make install"
     unset OPENSSL_CFLAGS OPENSSL_LIBS
-    _info "${nghttp2_filename} install completed..."
+    _info "Install ${nghttp2_filename} completed..."
 }
 
 install_openssl(){
@@ -276,7 +275,7 @@ install_openssl(){
 
     if version_lt ${major_version} 1.1.1; then
         cd ${cur_dir}/software/
-        _info "${openssl_filename} install start..."
+        _info "Installing ${openssl_filename}..."
         download_file "${openssl_filename}.tar.gz" "${openssl_filename_url}"
         tar zxf ${openssl_filename}.tar.gz
         cd ${openssl_filename}
@@ -289,7 +288,7 @@ install_openssl(){
             echo "${openssl_location}/lib" > /etc/ld.so.conf.d/openssl.conf
         fi
         ldconfig
-        _info "${openssl_filename} install completed..."
+        _info "Install ${openssl_filename} completed..."
     else
         _info "OpenSSL version is greater than or equal to 1.1.1, installation skipped."
     fi
@@ -297,7 +296,7 @@ install_openssl(){
 
 install_mod_wsgi(){
     cd ${cur_dir}/software/
-    _info "${mod_wsgi_filename} install start..."
+    _info "Installing ${mod_wsgi_filename}..."
     download_file "${mod_wsgi_filename}.tar.gz" "${mod_wsgi_filename_url}"
     tar zxf ${mod_wsgi_filename}.tar.gz
     cd ${mod_wsgi_filename}
@@ -311,12 +310,12 @@ install_mod_wsgi(){
         lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
         sed -i "${lnum}aLoadModule wsgi_module modules/mod_wsgi.so" ${apache_location}/conf/httpd.conf
     fi
-    _info "${mod_wsgi_filename} install completed..."
+    _info "Install ${mod_wsgi_filename} completed..."
 }
 
 install_mod_jk(){
     cd ${cur_dir}/software/
-    _info "${mod_jk_filename} install start..."
+    _info "Installing ${mod_jk_filename}..."
     download_file "${mod_jk_filename}.tar.gz" "${mod_jk_filename_url}"
     tar zxf ${mod_jk_filename}.tar.gz
     cd ${mod_jk_filename}/native
@@ -329,12 +328,12 @@ install_mod_jk(){
         lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
         sed -i "${lnum}aLoadModule jk_module modules/mod_jk.so" ${apache_location}/conf/httpd.conf
     fi
-    _info "${mod_jk_filename} install completed..."
+    _info "Install ${mod_jk_filename} completed..."
 }
 
 install_mod_security(){
     cd ${cur_dir}/software/
-    _info "${mod_security_filename} install start..."
+    _info "Installing ${mod_security_filename}..."
     download_file "${mod_security_filename}.tar.gz" "${mod_security_filename_url}"
     tar zxf ${mod_security_filename}.tar.gz
     cd ${mod_security_filename}
@@ -348,5 +347,5 @@ install_mod_security(){
         lnum=$(sed -n '/LoadModule/=' ${apache_location}/conf/httpd.conf | tail -1)
         sed -i "${lnum}aLoadModule security2_module modules/mod_security2.so" ${apache_location}/conf/httpd.conf
     fi
-    _info "${mod_security_filename} install completed..."
+    _info "Install ${mod_security_filename} completed..."
 }
