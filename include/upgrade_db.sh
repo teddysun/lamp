@@ -82,11 +82,9 @@ upgrade_db(){
         fi
 
         read -p "Please input your ${db_name} root password:" mysql_root_password
-        /usr/bin/mysql -uroot -p${mysql_root_password} <<EOF
-exit
-EOF
+        /usr/bin/mysql -uroot -p${mysql_root_password} -e "exit" > /dev/null 2>&1
         if [ $? -ne 0 ]; then
-            _error "${db_name}  root password incorrect, Please check it and try again"
+            _error "${db_name} root password incorrect, Please check it and try again"
         fi
 
         _info "Starting backup all of databases, Please wait a moment..."
