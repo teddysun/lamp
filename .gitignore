@@ -4,6 +4,8 @@ upgrade_apache.log
 upgrade_db.log
 upgrade_php.log
 upgrade_phpmyadmin.log
+upgrade_adminer.log
 pmaversion.txt
 software/
 mysql_bkup/
+mariadb_bkup/
