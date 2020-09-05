@@ -48,8 +48,8 @@ show_help(){
     echo
     echo "+-------------------------------------------------------------------+"
     echo "| Auto Install LAMP(Linux + Apache + MySQL/MariaDB + PHP )          |"
-    echo "| Intro : https://lamp.sh                                           |"
-    echo "| Author: Teddysun <i@teddysun.com>                                 |"
+    echo "| Website: https://lamp.sh                                          |"
+    echo "| Author : Teddysun <i@teddysun.com>                                |"
     echo "+-------------------------------------------------------------------+"
     echo
     printf "

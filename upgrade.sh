@@ -9,8 +9,6 @@
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
-# System Required:  CentOS 6+ / Fedora28+ / Debian 8+ / Ubuntu 14+
-# Description:  Update LAMP(Linux + Apache + MySQL/MariaDB + PHP )
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp
 
@@ -34,8 +32,8 @@ upgrade_menu(){
     echo
     echo "+-------------------------------------------------------------------+"
     echo "| Auto Update LAMP(Linux + Apache + MySQL/MariaDB + PHP )           |"
-    echo "| Intro: https://lamp.sh                                            |"
-    echo "| Author: Teddysun <i@teddysun.com>                                 |"
+    echo "| Website: https://lamp.sh                                          |"
+    echo "| Author : Teddysun <i@teddysun.com>                                |"
     echo "+-------------------------------------------------------------------+"
     echo
 
