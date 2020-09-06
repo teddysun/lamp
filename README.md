@@ -64,7 +64,7 @@
 | PHP & Additional extensions   | Version                                            |
 |-------------------------------|----------------------------------------------------|
 | PHP                           | 5.6.40, 7.0.33, 7.1.33, 7.2.33, 7.3.22, 7.4.10     |
-| ionCube Loader                | 10.4.1                                             |
+| ionCube Loader                | 10.4.2                                             |
 | PDFlib (PHP 7.2+)             | 9.3.0                                              |
 | XCache (PHP 5.6)              | 3.2.0                                              |
 | APCu extension                | 5.1.18                                             |
