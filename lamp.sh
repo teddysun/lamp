@@ -53,7 +53,7 @@ show_help(){
     echo "+-------------------------------------------------------------------+"
     echo
     printf "
-Usage  : $0 [Options]...[Parameters]...
+Usage  : $0 [Options] [Parameters]
 Options:
 -h, --help                      Print this help text and exit
 -v, --version                   Print program version and exit
@@ -103,9 +103,9 @@ process(){
         --apache_option)
             apache_option="$2"
             if ! is_digit ${apache_option}; then
-                _error "apache_option input error, please only input a number"
+                _error "Option --apache_option input error, please only input a number"
             fi
-            [[ "${apache_option}" -lt 1 || "${apache_option}" -gt 2 ]] && _error "apache_option input error, please only input a number between 1 and 2"
+            [[ "${apache_option}" -lt 1 || "${apache_option}" -gt 2 ]] && _error "Option --apache_option input error, please only input a number between 1 and 2"
             eval apache=${apache_arr[${apache_option}-1]}
             ;;
         --apache_modules)
@@ -118,9 +118,9 @@ process(){
         --php_option)
             php_option="$2"
             if ! is_digit ${php_option}; then
-                _error "php_option input error, please only input a number"
+                _error "Option --php_option input error, please only input a number"
             fi
-            [[ "${php_option}" -lt 1 || "${php_option}" -gt 7 ]] && _error "php_option input error, please only input a number between 1 and 7"
+            [[ "${php_option}" -lt 1 || "${php_option}" -gt 7 ]] && _error "Option --php_option input error, please only input a number between 1 and 7"
             eval php=${php_arr[${php_option}-1]}
             ;;
         --php_extensions)
@@ -146,28 +146,28 @@ process(){
         --db_option)
             db_option="$2"
             if ! is_digit ${db_option}; then
-                _error "db_option input error, please only input a number"
+                _error "Option --db_option input error, please only input a number"
             fi
-            [[ "${db_option}" -lt 1 || "${db_option}" -gt 9 ]] && _error "db_option input error, please only input a number between 1 and 9"
+            [[ "${db_option}" -lt 1 || "${db_option}" -gt 9 ]] && _error "Option --db_option input error, please only input a number between 1 and 9"
             eval mysql=${mysql_arr[${db_option}-1]}
             if [[ "${mysql}" == "${mariadb10_3_filename}" || "${mysql}" == "${mariadb10_4_filename}" || "${mysql}" == "${mariadb10_5_filename}" ]] && version_lt $(get_libc_version) 2.14; then
-                _error "db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
+                _error "Option --db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
             fi
             ;;
         --db_data_path)
             db_data_path="$2"
             if ! echo ${db_data_path} | grep -q "^/"; then
-                _error "db_data_path input error, please input a correct location"
+                _error "Option --db_data_path input error, please input a correct location"
             fi
             ;;
         --db_root_pwd)
             db_root_pwd="$2"
             if printf '%s' "${db_root_pwd}" | LC_ALL=C grep -q '[^ -~]\+'; then
-                _error "db_root_pwd input error, must not contain non-ASCII characters"
+                _error "Option --db_root_pwd input error, please do not contain non-ASCII characters"
             fi
-            [ -n "$(echo ${db_root_pwd} | grep '[+|&]')" ] && _error "db_root_pwd input error, must not contain special characters like + and &"
+            [ -n "$(echo ${db_root_pwd} | grep '[+|&]')" ] && _error "Option --db_root_pwd input error, please do not contain special characters like + and &"
             if (( ${#db_root_pwd} < 5 )); then
-                _error "db_root_pwd input error, must more than 5 characters"
+                _error "Option --db_root_pwd input error, must more than 5 characters"
             fi
             ;;
         --db_manage_modules)
@@ -179,9 +179,9 @@ process(){
         --kodexplorer_option)
             kodexplorer_option="$2"
             if ! is_digit ${kodexplorer_option}; then
-                _error "kodexplorer_option input error, please only input a number"
+                _error "Option --kodexplorer_option input error, please only input a number"
             fi
-            [[ "${kodexplorer_option}" -lt 1 || "${kodexplorer_option}" -gt 2 ]] && _error "kodexplorer_option input error, please only input a number between 1 and 2"
+            [[ "${kodexplorer_option}" -lt 1 || "${kodexplorer_option}" -gt 2 ]] && _error "Option --kodexplorer_option input error, please only input a number between 1 and 2"
             eval kodexplorer=${kodexplorer_arr[${kodexplorer_option}-1]}
             ;;
         *)
