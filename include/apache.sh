@@ -205,7 +205,7 @@ mod_xml2enc.so
     [ -d "${openssl_location}" ] && sed -i "s@^export LD_LIBRARY_PATH.*@export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${openssl_location}/lib@" ${apache_location}/bin/envvars
     sed -i 's/Allow from All/Require all granted/' ${apache_location}/conf/extra/httpd-vhosts.conf
     sed -i 's/Require host .example.com/Require host localhost/g' ${apache_location}/conf/extra/httpd-info.conf
-    cp -f ${cur_dir}/conf/httpd24-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
+    cp -f ${cur_dir}/conf/httpd-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
     rm -f /etc/init.d/httpd
     if centosversion 6; then
         cp -f ${cur_dir}/init.d/httpd-init-centos6 /etc/init.d/httpd
