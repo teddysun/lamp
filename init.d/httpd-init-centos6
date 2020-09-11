@@ -71,18 +71,18 @@ fi
 
 # check for 1.3 configuration
 check13 () {
-	CONFFILE=${apache_location}/conf/httpd.conf
-	GONE="(ServerType|BindAddress|Port|AddModule|ClearModuleList|"
-	GONE="${GONE}AgentLog|RefererLog|RefererIgnore|FancyIndexing|"
-	GONE="${GONE}AccessConfig|ResourceConfig)"
-	if grep -Eiq "^[[:space:]]*($GONE)" $CONFFILE; then
-		echo
-		echo 1>&2 " Apache 1.3 configuration directives found"
-		echo 1>&2 " please read @docdir@/migration.html"
-		failure "Apache 1.3 config directives test"
-		echo
-		exit 1
-	fi
+    CONFFILE=${apache_location}/conf/httpd.conf
+    GONE="(ServerType|BindAddress|Port|AddModule|ClearModuleList|"
+    GONE="${GONE}AgentLog|RefererLog|RefererIgnore|FancyIndexing|"
+    GONE="${GONE}AccessConfig|ResourceConfig)"
+    if grep -Eiq "^[[:space:]]*($GONE)" $CONFFILE; then
+        echo
+        echo 1>&2 " Apache 1.3 configuration directives found"
+        echo 1>&2 " please read @docdir@/migration.html"
+        failure "Apache 1.3 config directives test"
+        echo
+        exit 1
+    fi
 }
 
 # The semantics of these two functions differ from the way apachectl does
@@ -90,37 +90,37 @@ check13 () {
 # when not running is also a failure.  So we just do it the way init scripts
 # are expected to behave here.
 start() {
-        echo -n $"Starting $prog: "
-        check13 || exit 1
-        LANG=$HTTPD_LANG daemon --pidfile=${pidfile} $httpd $OPTIONS
-        RETVAL=$?
-        echo
-        [ $RETVAL = 0 ] && touch ${lockfile}
-        return $RETVAL
+    echo -n $"Starting $prog: "
+    check13 || exit 1
+    LANG=$HTTPD_LANG daemon --pidfile=${pidfile} $httpd $OPTIONS
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] && touch ${lockfile}
+    return $RETVAL
 }
 stop() {
-	echo -n $"Stopping $prog: "
-	killproc -p ${pidfile} -d 10 $httpd
-	RETVAL=$?
-	echo
-	[ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
+    echo -n $"Stopping $prog: "
+    killproc -p ${pidfile} -d 10 $httpd
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
 }
 reload() {
-	echo -n $"Reloading $prog: "
-	check13 || exit 1
-	killproc -p ${pidfile} $httpd -HUP
-	RETVAL=$?
-	echo
+    echo -n $"Reloading $prog: "
+    check13 || exit 1
+    killproc -p ${pidfile} $httpd -HUP
+    RETVAL=$?
+    echo
 }
 
 # See how we were called.
 case "$1" in
   start)
-	start
-	;;
+    start
+    ;;
   stop)
-	stop
-	;;
+    stop
+    ;;
   status)
         if ! test -f ${pidfile}; then
             echo $prog is stopped
@@ -131,18 +131,18 @@ case "$1" in
         fi
         ;;
   restart)
-	stop
-	start
-	;;
+    stop
+    start
+    ;;
   condrestart)
-	if test -f ${pidfile} && status -p ${pidfile} $httpd >&/dev/null; then
-		stop
-		start
-	fi
-	;;
+    if test -f ${pidfile} && status -p ${pidfile} $httpd >&/dev/null; then
+        stop
+        start
+    fi
+    ;;
   reload)
         reload
-	;;
+    ;;
   configtest)
         LANG=$HTTPD_LANG $httpd $OPTIONS -t
         RETVAL=$?
@@ -154,8 +154,8 @@ case "$1" in
         echo
         ;;
   *)
-	echo $"Usage: $prog {start|stop|restart|condrestart|reload|status|graceful|help|configtest}"
-	exit 1
+    echo $"Usage: $prog {start|stop|restart|condrestart|reload|status|graceful|help|configtest}"
+    exit 1
 esac
 
 exit $RETVAL

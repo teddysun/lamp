@@ -51,6 +51,7 @@
 # When multiple arguments are given, only the error from the _last_
 # one is reported.  Run "apachectl help" for usage info
 #
+ACMD="$1"
 ARGV="$@"
 #
 # |||||||||||||||||||| START CONFIGURATION SECTION  ||||||||||||||||||||
@@ -64,10 +65,12 @@ HTTPD=${apache_location}/bin/httpd
 if test -f ${apache_location}/bin/envvars; then
   . ${apache_location}/bin/envvars
 fi
+# the default pid file path
+httpd_pid_file_path=${apache_location}/logs/httpd.pid
 #
 # a command that outputs a formatted text version of the HTML at the
 # url given on the command line.  Designed for lynx, however other
-# programs may work.  
+# programs may work.
 LYNX="lynx -dump"
 #
 # the URL to your server's mod_status status page.  If you do not
@@ -92,7 +95,7 @@ if [ "x$ARGV" = "x" ] ; then
     ARGV="-h"
 fi
 
-case $ARGV in
+case $ACMD in
 start|stop|restart|graceful|graceful-stop)
     $HTTPD -k $ARGV
     ERROR=$?
@@ -108,15 +111,37 @@ configtest)
     ERROR=$?
     ;;
 status)
-    $LYNX $STATUSURL | awk ' /process$/ { print; exit } { print } '
+    # First, check to see if pid file exists
+    if test -s "$httpd_pid_file_path" ; then 
+        read httpd_pid < "$httpd_pid_file_path"
+        if kill -0 $httpd_pid 2>/dev/null ; then 
+            echo "httpd (pid $httpd_pid) is running"
+            ERROR=0
+        else
+            echo "httpd is not running, but PID file ($httpd_pid_file_path) exists"
+            ERROR=1
+        fi
+    else
+        # Try to find appropriate httpd process
+        httpd_pid=$(pidof httpd)
+        # test if multiple pids exist
+        pid_count=$(echo $httpd_pid | wc -w)
+        if test $pid_count -gt 1 ; then
+            echo "httpd is running but PID file ($httpd_pid_file_path) could not be found"
+            ERROR=4
+        elif test -z $httpd_pid ; then 
+            echo "httpd is not running"
+            ERROR=3
+        fi
+    fi
     ;;
 fullstatus)
     $LYNX $STATUSURL
     ;;
 *)
-    $HTTPD $ARGV
-    ERROR=$?
+    echo $"Usage: $0 {start|stop|restart|graceful|graceful-stop|configtest|status|fullstatus}"
+    ERROR=1
+    ;;
 esac
 
 exit $ERROR
-
