@@ -468,7 +468,7 @@ Options:
 }
 
 display_version(){
-    echo "Version: 20200815"
+    echo "Version: 20200915"
 }
 
 #Run it
