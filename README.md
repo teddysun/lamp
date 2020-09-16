@@ -68,7 +68,7 @@
 | PDFlib (PHP 7.2+)             | 9.3.0                                              |
 | XCache (PHP 5.6)              | 3.2.0                                              |
 | APCu extension                | 5.1.18                                             |
-| gRPC extension                | 1.31.1                                             |
+| gRPC extension                | 1.32.0                                             |
 | ImageMagick                   | 7.0.10-29                                          |
 | imagick extension             | 3.4.4                                              |
 | GraphicsMagick                | 1.3.35                                             |
@@ -84,7 +84,7 @@
 | redis extension (PHP 5.6)     | 4.3.0                                              |
 | redis extension (PHP 7.0+)    | 5.3.1                                              |
 | mongodb extension             | 1.7.5                                              |
-| swoole extension (PHP 7.0+)   | 4.5.3                                              |
+| swoole extension (PHP 7.0+)   | 4.5.4                                              |
 | yaf extension (PHP 7.0+)      | 3.2.5                                              |
 | yar extension (PHP 7.0+)      | 2.1.2                                              |
 | msgpack extension (PHP 7.0+)  | 2.1.1                                              |
