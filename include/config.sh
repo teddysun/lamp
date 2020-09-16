@@ -166,8 +166,8 @@ pdflib64_filename="PDFlib-9.3.0-Linux-x86_64-php"
 pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/930/PDFlib-9.3.0-Linux-x86_64-php.tar.gz"
 #PECL packages
 #php extension swoole
-swoole_filename="swoole-4.5.3"
-swoole_filename_url="https://pecl.php.net/get/swoole-4.5.3.tgz"
+swoole_filename="swoole-4.5.4"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.5.4.tgz"
 #php extension xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
@@ -228,8 +228,8 @@ phalcon_filename_url="https://pecl.php.net/get/phalcon-4.0.6.tgz"
 apcu_filename="apcu-5.1.18"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.18.tgz"
 #php extension grpc
-grpc_filename="grpc-1.31.1"
-grpc_filename_url="https://pecl.php.net/get/grpc-1.31.1.tgz"
+grpc_filename="grpc-1.32.0"
+grpc_filename_url="https://pecl.php.net/get/grpc-1.32.0.tgz"
 #php extension msgpack
 msgpack_filename="msgpack-2.1.1"
 msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.1.tgz"
