@@ -644,7 +644,7 @@ install_php_libsodium(){
 
     cd ${cur_dir}/software/
     _info "Installing PHP extension sodium..."
-    download_file "${php_libsodium_filename}.tar.gz" "${php_libsodium_filename_url}"
+    download_file "${php_libsodium_filename}.tgz" "${php_libsodium_filename_url}"
     tar zxf ${php_libsodium_filename}.tgz
     cd ${php_libsodium_filename}
     error_detect "${php_location}/bin/phpize"
@@ -910,8 +910,8 @@ install_swoole(){
 
     cd ${cur_dir}/software/
     _info "Installing PHP extension swoole..."
-    download_file "${swoole_filename}.tar.gz" "${swoole_filename_url}"
-    tar zxf ${swoole_filename}.tar.gz
+    download_file "${swoole_filename}.tgz" "${swoole_filename_url}"
+    tar zxf ${swoole_filename}.tgz
     cd ${swoole_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
