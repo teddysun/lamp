@@ -68,14 +68,14 @@ php7_0_filename_url="https://www.php.net/distributions/php-7.0.33.tar.gz"
 php7_1_filename="php-7.1.33"
 php7_1_filename_url="https://www.php.net/distributions/php-7.1.33.tar.gz"
 #php7.2
-php7_2_filename="php-7.2.33"
-php7_2_filename_url="https://www.php.net/distributions/php-7.2.33.tar.gz"
+php7_2_filename="php-7.2.34"
+php7_2_filename_url="https://www.php.net/distributions/php-7.2.34.tar.gz"
 #php7.3
-php7_3_filename="php-7.3.22"
-php7_3_filename_url="https://www.php.net/distributions/php-7.3.22.tar.gz"
+php7_3_filename="php-7.3.23"
+php7_3_filename_url="https://www.php.net/distributions/php-7.3.23.tar.gz"
 #php7.4
-php7_4_filename="php-7.4.10"
-php7_4_filename_url="https://www.php.net/distributions/php-7.4.10.tar.gz"
+php7_4_filename="php-7.4.11"
+php7_4_filename_url="https://www.php.net/distributions/php-7.4.11.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.9.5-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.tar.gz"
@@ -174,8 +174,8 @@ xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
 xdebug_filename2="xdebug-2.9.6"
 xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.6.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.10-30"
-ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-30.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.10-31"
+ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-31.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
