@@ -37,8 +37,8 @@ parallel_compile=1
 nghttp2_filename="nghttp2-1.41.0"
 nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.41.0/nghttp2-1.41.0.tar.gz"
 #openssl
-openssl_filename="openssl-1.1.1g"
-openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1g.tar.gz"
+openssl_filename="openssl-1.1.1h"
+openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1h.tar.gz"
 #apache2.4
 apache2_4_filename="httpd-2.4.46"
 apache2_4_filename_url="http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.46.tar.gz"
@@ -166,8 +166,8 @@ pdflib64_filename="PDFlib-9.3.0-Linux-x86_64-php"
 pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/930/PDFlib-9.3.0-Linux-x86_64-php.tar.gz"
 #PECL packages
 #php extension swoole
-swoole_filename="swoole-4.5.4"
-swoole_filename_url="https://pecl.php.net/get/swoole-4.5.4.tgz"
+swoole_filename="swoole-4.5.5"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.5.5.tgz"
 #php extension xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
