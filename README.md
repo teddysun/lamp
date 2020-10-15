@@ -91,7 +91,7 @@
 | psr extension (PHP 7.2+)      | 1.0.0                                              |
 | phalcon extension (PHP 7.2+)  | 4.0.6                                              |
 | xdebug extension (PHP 5.6)    | 2.5.5                                              |
-| xdebug extension (PHP 7.0+)   | 2.9.6                                              |
+| xdebug extension (PHP 7.0+)   | 2.9.8                                              |
 
 | Database Management Tools     | Version                                            |
 |-------------------------------|----------------------------------------------------|
