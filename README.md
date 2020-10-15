@@ -51,7 +51,7 @@
 | apr                           | 1.7.0                                              |
 | apr-util                      | 1.6.1                                              |
 | nghttp2                       | 1.41.0                                             |
-| openssl                       | 1.1.1g                                             |
+| openssl                       | 1.1.1h                                             |
 | mod_wsgi                      | 4.7.1                                              |
 | mod_security2                 | 2.9.3                                              |
 | mod_jk                        | 1.2.48                                             |
@@ -84,7 +84,7 @@
 | redis extension (PHP 5.6)     | 4.3.0                                              |
 | redis extension (PHP 7.0+)    | 5.3.1                                              |
 | mongodb extension             | 1.7.5                                              |
-| swoole extension (PHP 7.0+)   | 4.5.4                                              |
+| swoole extension (PHP 7.0+)   | 4.5.5                                              |
 | yaf extension (PHP 7.0+)      | 3.2.5                                              |
 | yar extension (PHP 7.0+)      | 2.1.2                                              |
 | msgpack extension (PHP 7.0+)  | 2.1.1                                              |
