@@ -171,8 +171,8 @@ swoole_filename_url="https://pecl.php.net/get/swoole-4.5.5.tgz"
 #php extension xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
-xdebug_filename2="xdebug-2.9.6"
-xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.6.tgz"
+xdebug_filename2="xdebug-2.9.8"
+xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
 #ImageMagick
 ImageMagick_filename="ImageMagick-7.0.10-34"
 ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-34.tar.gz"
