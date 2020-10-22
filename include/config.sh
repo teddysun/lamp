@@ -228,8 +228,8 @@ phalcon_filename_url="https://pecl.php.net/get/phalcon-4.0.6.tgz"
 apcu_filename="apcu-5.1.18"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.18.tgz"
 #php extension grpc
-grpc_filename="grpc-1.32.0"
-grpc_filename_url="https://pecl.php.net/get/grpc-1.32.0.tgz"
+grpc_filename="grpc-1.33.1"
+grpc_filename_url="https://pecl.php.net/get/grpc-1.33.1.tgz"
 #php extension msgpack
 msgpack_filename="msgpack-2.1.1"
 msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.1.tgz"
