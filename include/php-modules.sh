@@ -914,7 +914,7 @@ install_swoole(){
     tar zxf ${swoole_filename}.tgz
     cd ${swoole_filename}
     error_detect "${php_location}/bin/phpize"
-    error_detect "./configure --with-php-config=${phpConfig}"
+    error_detect "./configure --with-php-config=${phpConfig} --enable-http2 --enable-swoole-json"
     error_detect "make"
     error_detect "make install"
 
