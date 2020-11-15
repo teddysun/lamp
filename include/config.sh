@@ -207,8 +207,8 @@ php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
 php_redis_filename2="redis-5.3.2"
 php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.2.tgz"
 #php extension mongodb
-php_mongo_filename="mongodb-1.8.0"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.8.0.tgz"
+php_mongo_filename="mongodb-1.8.2"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.8.2.tgz"
 #libsodium
 libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
@@ -219,11 +219,11 @@ php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.22.tgz"
 yaf_filename="yaf-3.2.5"
 yaf_filename_url="https://pecl.php.net/get/yaf-3.2.5.tgz"
 #php extension psr
-psr_filename="psr-1.0.0"
-psr_filename_url="https://pecl.php.net/get/psr-1.0.0.tgz"
+psr_filename="psr-1.0.1"
+psr_filename_url="https://pecl.php.net/get/psr-1.0.1.tgz"
 #php extension phalcon
-phalcon_filename="phalcon-4.0.6"
-phalcon_filename_url="https://pecl.php.net/get/phalcon-4.0.6.tgz"
+phalcon_filename="phalcon-4.1.0"
+phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.0.tgz"
 #php extension apcu
 apcu_filename="apcu-5.1.19"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.19.tgz"
