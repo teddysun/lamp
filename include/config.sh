@@ -166,16 +166,16 @@ pdflib64_filename="PDFlib-9.3.0-Linux-x86_64-php"
 pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/930/PDFlib-9.3.0-Linux-x86_64-php.tar.gz"
 #PECL packages
 #php extension swoole
-swoole_filename="swoole-4.5.7"
-swoole_filename_url="https://pecl.php.net/get/swoole-4.5.7.tgz"
+swoole_filename="swoole-4.5.8"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.5.8.tgz"
 #php extension xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
 xdebug_filename2="xdebug-2.9.8"
 xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.10-38"
-ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-38.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.10-39"
+ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-39.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
