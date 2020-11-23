@@ -408,11 +408,8 @@ add_ssl_cert(){
     fi
 
     create_ssl_config
-    check_lets_cron
-
-    if [ "${force_ssl}" = "y" ] || [ "${force_ssl}" = "Y" ]; then
-        create_ssl_htaccess
-    fi
+    [ "${ssl_pick}" = "2" -o "${ssl_pick}" = "3" ] && check_lets_cron
+    [ "${force_ssl}" = "y" -o "${force_ssl}" = "Y" ] && create_ssl_htaccess
 }
 
 vhost_list(){
