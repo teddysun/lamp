@@ -50,7 +50,7 @@
 | httpd                         | 2.4.46                                             |
 | apr                           | 1.7.0                                              |
 | apr-util                      | 1.6.1                                              |
-| nghttp2                       | 1.41.0                                             |
+| nghttp2                       | 1.42.0                                             |
 | openssl                       | 1.1.1h                                             |
 | mod_wsgi                      | 4.7.1                                              |
 | mod_security2                 | 2.9.3                                              |
@@ -69,7 +69,7 @@
 | XCache (PHP 5.6)              | 3.2.0                                              |
 | APCu extension                | 5.1.19                                             |
 | gRPC extension                | 1.33.1                                             |
-| ImageMagick                   | 7.0.10-39                                          |
+| ImageMagick                   | 7.0.10-43                                          |
 | imagick extension             | 3.4.4                                              |
 | GraphicsMagick                | 1.3.35                                             |
 | gmagick extension (PHP 5.6)   | 1.1.7RC3                                           |
