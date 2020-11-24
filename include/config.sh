@@ -34,8 +34,8 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.41.0"
-nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.41.0/nghttp2-1.41.0.tar.gz"
+nghttp2_filename="nghttp2-1.42.0"
+nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.42.0/nghttp2-1.42.0.tar.gz"
 #openssl
 openssl_filename="openssl-1.1.1h"
 openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1h.tar.gz"
@@ -174,8 +174,8 @@ xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
 xdebug_filename2="xdebug-2.9.8"
 xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.10-39"
-ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-39.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.10-43"
+ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-43.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
