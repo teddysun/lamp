@@ -84,7 +84,7 @@
 | redis extension (PHP 5.6)     | 4.3.0                                              |
 | redis extension (PHP 7.0+)    | 5.3.2                                              |
 | mongodb extension             | 1.8.2                                              |
-| swoole extension (PHP 7.0+)   | 4.5.8                                              |
+| swoole extension (PHP 7.0+)   | 4.5.9                                              |
 | yaf extension (PHP 7.0+)      | 3.2.5                                              |
 | yar extension (PHP 7.0+)      | 2.1.2                                              |
 | msgpack extension (PHP 7.0+)  | 2.1.1                                              |
