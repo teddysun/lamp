@@ -64,12 +64,12 @@
 | PHP & Additional extensions   | Version                                            |
 |-------------------------------|----------------------------------------------------|
 | PHP                           | 5.6.40, 7.0.33, 7.1.33, 7.2.34, 7.3.25, 7.4.13     |
-| ionCube Loader                | 10.4.4                                             |
+| ionCube Loader                | 10.4.5                                             |
 | PDFlib (PHP 7.2+)             | 9.3.0                                              |
 | XCache (PHP 5.6)              | 3.2.0                                              |
 | APCu extension                | 5.1.19                                             |
 | gRPC extension                | 1.33.1                                             |
-| ImageMagick                   | 7.0.10-43                                          |
+| ImageMagick                   | 7.0.10-45                                          |
 | imagick extension             | 3.4.4                                              |
 | GraphicsMagick                | 1.3.35                                             |
 | gmagick extension (PHP 5.6)   | 1.1.7RC3                                           |
