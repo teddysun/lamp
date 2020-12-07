@@ -68,14 +68,14 @@
 | PDFlib (PHP 7.2+)             | 9.3.0                                              |
 | XCache (PHP 5.6)              | 3.2.0                                              |
 | APCu extension                | 5.1.19                                             |
-| gRPC extension                | 1.33.1                                             |
-| ImageMagick                   | 7.0.10-45                                          |
+| gRPC extension                | 1.34.0                                             |
+| ImageMagick                   | 7.0.10-46                                          |
 | imagick extension             | 3.4.4                                              |
 | GraphicsMagick                | 1.3.35                                             |
 | gmagick extension (PHP 5.6)   | 1.1.7RC3                                           |
 | gmagick extension (PHP 7.0+)  | 2.0.5RC1                                           |
 | libsodium                     | 1.0.18                                             |
-| libsodium extension           | 2.0.22                                             |
+| libsodium extension           | 2.0.23                                             |
 | memcached                     | 1.6.6                                              |
 | libmemcached                  | 1.0.18                                             |
 | memcached extension (PHP 5.6) | 2.2.0                                              |
@@ -83,11 +83,11 @@
 | redis                         | 5.0.10                                             |
 | redis extension (PHP 5.6)     | 4.3.0                                              |
 | redis extension (PHP 7.0+)    | 5.3.2                                              |
-| mongodb extension             | 1.8.2                                              |
+| mongodb extension             | 1.9.0                                              |
 | swoole extension (PHP 7.0+)   | 4.5.9                                              |
 | yaf extension (PHP 7.0+)      | 3.2.5                                              |
 | yar extension (PHP 7.0+)      | 2.1.2                                              |
-| msgpack extension (PHP 7.0+)  | 2.1.1                                              |
+| msgpack extension (PHP 7.0+)  | 2.1.2                                              |
 | psr extension (PHP 7.2+)      | 1.0.1                                              |
 | phalcon extension (PHP 7.2+)  | 4.1.0                                              |
 | xdebug extension (PHP 5.6)    | 2.5.5                                              |
@@ -97,7 +97,7 @@
 |-------------------------------|----------------------------------------------------|
 | phpMyAdmin (PHP 5.6, PHP 7.0) | 4.9.7                                              |
 | phpMyAdmin (PHP 7.1+)         | 5.0.4                                              |
-| Adminer                       | 4.7.7                                              |
+| Adminer                       | 4.7.8                                              |
 
 | File Managerment Tool         | Version                                            |
 |-------------------------------|----------------------------------------------------|
