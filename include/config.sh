@@ -82,8 +82,8 @@ phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.7/phpMyAdmi
 phpmyadmin_filename2="phpMyAdmin-5.0.4-all-languages"
 phpmyadmin_filename2_url="https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz"
 #Adminer
-adminer_filename="adminer-4.7.7"
-adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.7.7/adminer-4.7.7.php"
+adminer_filename="adminer-4.7.8"
+adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.7.8/adminer-4.7.8.php"
 #kodexplorer
 kod_version="$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)"
 [ -z "${kod_version}" ] && kod_version="4.35"
@@ -207,14 +207,14 @@ php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
 php_redis_filename2="redis-5.3.2"
 php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.2.tgz"
 #php extension mongodb
-php_mongo_filename="mongodb-1.8.2"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.8.2.tgz"
+php_mongo_filename="mongodb-1.9.0"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.9.0.tgz"
 #libsodium
 libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
 #php extension libsodium
-php_libsodium_filename="libsodium-2.0.22"
-php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.22.tgz"
+php_libsodium_filename="libsodium-2.0.23"
+php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.23.tgz"
 #php extension yaf
 yaf_filename="yaf-3.2.5"
 yaf_filename_url="https://pecl.php.net/get/yaf-3.2.5.tgz"
@@ -228,11 +228,11 @@ phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.0.tgz"
 apcu_filename="apcu-5.1.19"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.19.tgz"
 #php extension grpc
-grpc_filename="grpc-1.33.1"
-grpc_filename_url="https://pecl.php.net/get/grpc-1.33.1.tgz"
+grpc_filename="grpc-1.34.0"
+grpc_filename_url="https://pecl.php.net/get/grpc-1.34.0.tgz"
 #php extension msgpack
-msgpack_filename="msgpack-2.1.1"
-msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.1.tgz"
+msgpack_filename="msgpack-2.1.2"
+msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.2.tgz"
 #php extension yar
 yar_filename="yar-2.1.2"
 yar_filename_url="https://pecl.php.net/get/yar-2.1.2.tgz"
