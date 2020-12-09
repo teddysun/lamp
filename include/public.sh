@@ -999,6 +999,10 @@ install_tools(){
             error_detect_depends "yum -y install epel-release"
             yum-config-manager --enable epel > /dev/null 2>&1
         fi
+        # Install epel-release in Amazon Linux 2
+        if is_exist "amazon-linux-extras"; then
+            amazon-linux-extras install -y epel > /dev/null 2>&1
+        fi
         if centosversion 8; then
             error_detect_depends "yum -y install python3-devel"
             error_detect_depends "yum -y install chrony"
