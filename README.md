@@ -24,6 +24,7 @@
 ## Supported System
 
 - Amazon Linux 2018.03
+- Amazon Linux 2
 - CentOS-6.x
 - CentOS-7.x
 - CentOS-8.x (recommend)
