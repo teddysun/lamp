@@ -76,6 +76,9 @@ php7_3_filename_url="https://www.php.net/distributions/php-7.3.25.tar.gz"
 #php7.4
 php7_4_filename="php-7.4.13"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.13.tar.gz"
+#php8.0
+php8_0_filename="php-8.0.0"
+php8_0_filename_url="https://www.php.net/distributions/php-8.0.0.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.9.7-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.7/phpMyAdmin-4.9.7-all-languages.tar.gz"
@@ -84,6 +87,8 @@ phpmyadmin_filename2_url="https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdm
 #Adminer
 adminer_filename="adminer-4.7.8"
 adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.7.8/adminer-4.7.8.php"
+#X-Prober
+x_prober_url="https://github.com/kmvan/x-prober/releases/latest/download/prober.php"
 #kodexplorer
 kod_version="$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)"
 [ -z "${kod_version}" ] && kod_version="4.35"
@@ -173,6 +178,8 @@ xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
 xdebug_filename2="xdebug-2.9.8"
 xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
+xdebug_filename3="xdebug-3.0.1"
+xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.1.tgz"
 #ImageMagick
 ImageMagick_filename="ImageMagick-7.0.10-46"
 ImageMagick_filename_url="https://www.imagemagick.org/download/releases/ImageMagick-7.0.10-46.tar.gz"
@@ -269,6 +276,7 @@ ${php7_1_filename}
 ${php7_2_filename}
 ${php7_3_filename}
 ${php7_4_filename}
+${php8_0_filename}
 do_not_install
 )
 

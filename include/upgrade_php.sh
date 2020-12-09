@@ -39,13 +39,16 @@ upgrade_php(){
             latest_php="7.1.33"
             ;;
         7.2)
-            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.2')"
+            latest_php="7.2.34"
             ;;
         7.3)
             latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.3')"
             ;;
         7.4)
             latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.4')"
+            ;;
+        8.0)
+            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.0')"
             ;;
         *)
         # do nothing
@@ -69,19 +72,19 @@ upgrade_php(){
         if [[ "${php_version}" == "5.6" ]]; then
             with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
-        elif [ "${php_version}" == "7.4" ]; then
+        elif [[ "${php_version}" == "7.4" ]] || [[ "${php_version}" == "8.0" ]]; then
             with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             with_gd="--enable-gd --with-webp --with-jpeg --with-xpm --with-freetype"
         else
             with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
             with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
         fi
-        if [[ "${php_version}" =~ ^7.[3-4]$ ]]; then
+        if [[ "${php_version}" =~ ^7.[3-4]$ ]] || [[ "${php_version}" =~ ^8.0.+$ ]]; then
             with_libmbfl=""
         else
             with_libmbfl="--with-libmbfl"
         fi
-        if [[ "${php_version}" == "7.4" ]]; then
+        if [[ "${php_version}" == "7.4" ]] || [[ "${php_version}" == "8.0" ]]; then
             with_pcre="--with-pcre-jit"
             with_libxml=""
             with_icu=""
@@ -96,14 +99,21 @@ upgrade_php(){
             enable_wddx="--enable-wddx"
             enable_zip="--enable-zip"
         fi
-        if [[ "${php_version}" =~ ^7.[2-4]$ ]]; then
+        if [[ "${php_version}" =~ ^7.[2-4]$ ]] || [[ "${php_version}" =~ ^8.0.+$ ]]; then
             other_options="--with-password-argon2 --enable-zend-test"
             install_argon2
         else
             other_options="--with-mcrypt --enable-gd-native-ttf"
         fi
-        [ ! -e "${depends_prefix}/libiconv/bin/iconv" ] && install_libiconv || add_to_env "${depends_prefix}/libiconv"
-        with_iconv="--with-iconv-dir=${depends_prefix}/libiconv"
+        if [[ "${php_version}" =~ ^8.0.+$ ]]; then
+            with_xmlrpc=""
+        else
+            with_xmlrpc="--with-xmlrpc"
+        fi
+        [ ! -e "${depends_prefix}/libiconv/bin/iconv" ] && install_libiconv
+        if ! grep -qE "^${depends_prefix}/libiconv/lib" /etc/ld.so.conf.d/*.conf; then
+            echo "${depends_prefix}/libiconv/lib" > /etc/ld.so.conf.d/libiconvlib.conf
+        fi
         is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
         php_configure_args="
         --prefix=${php_location} \
@@ -135,9 +145,8 @@ upgrade_php(){
         --with-enchant=/usr \
         --with-readline \
         --with-tidy=/usr \
-        --with-xmlrpc \
+        ${with_xmlrpc} \
         --with-xsl \
-        ${with_iconv} \
         ${other_options} \
         --enable-bcmath \
         --enable-calendar \
@@ -156,18 +165,19 @@ upgrade_php(){
         ${disable_fileinfo}"
 
         cd ${cur_dir}/software
-        if [ ! -s "php-${latest_php}.tar.gz" ]; then
+        if [ -s "php-${latest_php}.tar.gz" ]; then
+            rm -fr php-${latest_php}/
+            tar zxf php-${latest_php}.tar.gz
+            cd php-${latest_php}/
+        else
             latest_php_link="https://www.php.net/distributions/php-${latest_php}.tar.gz"
             backup_php_link="${download_root_url}/php-${latest_php}.tar.gz"
             untar ${latest_php_link} ${backup_php_link}
-        else
-            tar zxf php-${latest_php}.tar.gz
-            cd php-${latest_php}/
         fi
 
         ldconfig
         error_detect "./configure ${php_configure_args}"
-        error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
+        error_detect "parallel_make"
         error_detect "make install"
 
         mkdir -p ${php_location}/{etc,php.d}
@@ -176,12 +186,16 @@ upgrade_php(){
         if [ $(ls ${php_location}.bak/php.d/ | wc -l) -gt 0 ]; then
             cp -pf ${php_location}.bak/php.d/* ${php_location}/php.d/
         fi
+        _info "Restart Apache..."
+        /etc/init.d/httpd stop > /dev/null 2>&1
+        sleep 3
+        /etc/init.d/httpd start > /dev/null 2>&1
         _info "Clear up start..."
         cd ${cur_dir}/software
         rm -rf php-${latest_php}/
         rm -f php-${latest_php}.tar.gz
         _info "Clear up completed..."
-        /etc/init.d/httpd restart > /dev/null 2>&1
+        echo
         _info "PHP upgrade completed..."
     else
         _info "PHP upgrade cancelled, nothing to do..."

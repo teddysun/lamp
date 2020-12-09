@@ -62,7 +62,7 @@ Options:
 --db_option [1-9]               Database version
 --db_data_path [location]       Database Data Location. for example: /data/db
 --db_root_pwd [password]        Database root password. for example: lamp.sh
---php_option [1-7]              PHP version
+--php_option [1-8]              PHP version
 --php_extensions [ext name]     PHP extensions:
                                 apcu, xcache, ioncube, pdflib, imagick, gmagick
                                 memcached, redis, mongodb, libsodium, swoole
@@ -76,7 +76,7 @@ Parameters:
     show_parameters apache
     echo "--db_option [1-9], please select a available Database version"
     show_parameters mysql
-    echo "--php_option [1-7], please select a available PHP version"
+    echo "--php_option [1-8], please select a available PHP version"
     show_parameters php
     echo "--kodexplorer_option [1-2], please select a available KodExplorer version"
     show_parameters kodexplorer
@@ -120,7 +120,7 @@ process(){
             if ! is_digit ${php_option}; then
                 _error "Option --php_option input error, please only input a number"
             fi
-            [[ "${php_option}" -lt 1 || "${php_option}" -gt 7 ]] && _error "Option --php_option input error, please only input a number between 1 and 7"
+            [[ "${php_option}" -lt 1 || "${php_option}" -gt 8 ]] && _error "Option --php_option input error, please only input a number between 1 and 8"
             eval php=${php_arr[${php_option}-1]}
             ;;
         --php_extensions)
@@ -215,14 +215,29 @@ set_parameters(){
     fi
     if [ -n "${php_modules_install}" ] && [ "${php}" != "${php5_6_filename}" ]; then
         if_in_array "${xcache_filename}" "${php_modules_install}" && _error "${xcache_filename} is not support ${php}, only PHP 5.6, please remove php extension: xcache"
-        # PDFlib & Phalcon v4 supports only PHP 7.2 and above
+        # PDFlib & Phalcon v4 supports only PHP 7.2+ (except PHP 8.0 now)
         # Reference URL: https://docs.phalcon.io/4.0/en/installation
         if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
             if_in_array "${pdflib_filename}" "${php_modules_install}" && _error "${pdflib_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: pdflib"
             if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: phalcon"
         fi
+        if [[ "${php}" =~ ^php-8.0.+$ ]]; then
+            if_in_array "${pdflib_filename}" "${php_modules_install}" && _error "${pdflib_filename} is not support ${php}, please remove php extension: pdflib"
+            if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, please remove php extension: phalcon"
+            if_in_array "${ionCube_filename}" "${php_modules_install}" && _error "${ionCube_filename} is not support ${php} now, please remove php extension: ioncube"
+            if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && _error "${php_imagemagick_filename} is not support ${php} now, please remove php extension: imagick"
+            if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" && _error "${php_graphicsmagick_filename} is not support ${php} now, please remove php extension: gmagick"
+            if_in_array "${php_memcached_filename}" "${php_modules_install}" && _error "${php_memcached_filename} is not support ${php} now, please remove php extension: memcached"
+            if_in_array "${yar_filename}" "${php_modules_install}" && _error "${yar_filename} is not support ${php} now, please remove php extension: yar"
+            if_in_array "${yaf_filename}" "${php_modules_install}" && _error "${yaf_filename} is not support ${php} now, please remove php extension: yaf"
+            
+        fi
         php_modules_install=(${php_modules_install})
-        php_modules_install=(${php_modules_install[@]/#${xdebug_filename}/${xdebug_filename2}})
+        if [[ "${php}" =~ ^php-8.0.+$ ]]; then
+            php_modules_install=(${php_modules_install[@]/#${xdebug_filename}/${xdebug_filename3}})
+        else
+            php_modules_install=(${php_modules_install[@]/#${xdebug_filename}/${xdebug_filename2}})
+        fi
         php_modules_install=(${php_modules_install[@]/#${php_redis_filename}/${php_redis_filename2}})
         php_modules_install=(${php_modules_install[@]/#${php_memcached_filename}/${php_memcached_filename2}})
         php_modules_install=(${php_modules_install[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
@@ -244,13 +259,14 @@ set_parameters(){
         phpmyadmin_install=(${phpmyadmin_install})
         # phpMyAdmin 5.x removed support of old PHP versions (5.6, 7.0)
         # Reference URL: https://www.phpmyadmin.net/news/2019/12/26/phpmyadmin-500-released/
-        if [[ "${php}" =~ ^php-7.[1-4].+$ ]]; then
+        if [[ "${php}" =~ ^php-7.[1-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
             phpmyadmin_install=(${phpmyadmin_install[@]/#${phpmyadmin_filename}/${phpmyadmin_filename2}})
         fi
         php_modules_install=${phpmyadmin_install[@]}
     fi
     [ -z "${kodexplorer_option}" ] && kodexplorer="do_not_install"
     [ "${php}" == "do_not_install" ] && kodexplorer="do_not_install"
+    [[ "${php}" =~ ^php-8.0.+$ ]] && kodexplorer="do_not_install"
 
     phpConfig=${php_location}/bin/php-config
 }

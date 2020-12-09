@@ -19,7 +19,7 @@ php_modules_preinstall_settings(){
         phpConfig=${php_location}/bin/php-config
         echo
         echo "${php} available modules:"
-        # delete some modules & change some module version
+        # Delete some modules & change some module version
         if [ "${php}" == "${php5_6_filename}" ]; then
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
             php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
@@ -34,11 +34,21 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         fi
-        # PDFlib & Phalcon v4 supports only PHP 7.2 and above
+        # PDFlib & Phalcon v4 supports only PHP 7.2+ (except PHP 8.0 now)
         # Reference URL: https://docs.phalcon.io/4.0/en/installation
-        if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
+        if [[ "${php}" =~ ^php-7.[0-1].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
             php_modules_arr=(${php_modules_arr[@]#${pdflib_filename}})
             php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
+        fi
+        # Delete some modules (PHP 8.0 not support now) & change some module version
+        if [[ "${php}" =~ ^php-8.0.+$ ]]; then
+            php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename2}/${xdebug_filename3}})
+            php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${php_imagemagick_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${php_graphicsmagick_filename2}})
+            php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename2}})
+            php_modules_arr=(${php_modules_arr[@]#${yar_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${yaf_filename}})
         fi
         display_menu_multi php_modules last
     fi
@@ -51,7 +61,7 @@ phpmyadmin_preinstall_settings(){
     else
         # phpMyAdmin 5.x removed support of old PHP versions (5.6, 7.0)
         # Reference URL: https://www.phpmyadmin.net/news/2019/12/26/phpmyadmin-500-released/
-        if [[ "${php}" =~ ^php-7.[1-4].+$ ]]; then
+        if [[ "${php}" =~ ^php-7.[1-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
             phpmyadmin_arr=(${phpmyadmin_arr[@]/#${phpmyadmin_filename}/${phpmyadmin_filename2}})
         fi
         display_menu_multi phpmyadmin 1
@@ -60,7 +70,7 @@ phpmyadmin_preinstall_settings(){
 
 #Pre-installation kodexplorer
 kodexplorer_preinstall_settings(){
-    if [ "${php}" == "do_not_install" ]; then
+    if [ "${php}" == "do_not_install" ] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
         kodexplorer="do_not_install"
     else
         display_menu kodexplorer 1
@@ -94,7 +104,8 @@ install_php_modules(){
         install_php_memcached "${phpConfig}"
     fi
     if  if_in_array "${xdebug_filename}" "${php_modules_install}" || \
-        if_in_array "${xdebug_filename2}" "${php_modules_install}"; then
+        if_in_array "${xdebug_filename2}" "${php_modules_install}" || \
+        if_in_array "${xdebug_filename3}" "${php_modules_install}"; then
         install_xdebug "${phpConfig}"
     fi
 }
@@ -181,8 +192,8 @@ install_php_depends(){
                 rpm -e --nodeps autoconf-2.63
             fi
             install_autoconf
-            # Fixed PHP 7.4 installation in CentOS 6
-            if [[ "${php}" == "${php7_4_filename}" ]]; then
+            # Fixed PHP 7.4+ installation in CentOS 6
+            if [[ "${php}" == "${php7_4_filename}" ]] || [[ "${php}" == "${php8_0_filename}" ]]; then
                 install_php74_centos6
             fi
         fi
@@ -191,7 +202,7 @@ install_php_depends(){
     install_re2c
     # Support Argon2 Password Hash (Only PHP 7.2+)
     # Reference URL: https://wiki.php.net/rfc/argon2_password_hash
-    if [[ "${php}" =~ ^php-7.[2-4].+$ ]]; then
+    if [[ "${php}" =~ ^php-7.[2-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
         install_argon2
     fi
     _info "Install dependencies for PHP completed..."
@@ -360,8 +371,10 @@ install_libiconv(){
         error_detect "./configure --prefix=${depends_prefix}/libiconv"
         error_detect "parallel_make"
         error_detect "make install"
-        add_to_env "${depends_prefix}/libiconv"
         create_lib64_dir "${depends_prefix}/libiconv"
+        if ! grep -qE "^${depends_prefix}/libiconv/lib" /etc/ld.so.conf.d/*.conf; then
+            echo "${depends_prefix}/libiconv/lib" > /etc/ld.so.conf.d/libiconvlib.conf
+        fi
         _info "Install ${libiconv_filename} completed..."
     fi
 }
@@ -472,7 +485,7 @@ install_phpmyadmin(){
     if [ -d "${web_root_dir}/phpmyadmin" ]; then
         rm -rf ${web_root_dir}/phpmyadmin
     fi
-    if [[ "${php}" =~ ^php-7.[1-4].+$ ]]; then
+    if [[ "${php}" =~ ^php-7.[1-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
         pma_file=${phpmyadmin_filename2}
         pma_file_url=${phpmyadmin_filename2_url}
     else
@@ -936,6 +949,10 @@ install_xdebug(){
         download_file "${xdebug_filename}.tgz" "${xdebug_filename_url}"
         tar zxf ${xdebug_filename}.tgz
         cd ${xdebug_filename}
+    elif [ "$php" == "${php8_0_filename}" ]; then
+        download_file "${xdebug_filename3}.tgz" "${xdebug_filename3_url}"
+        tar zxf ${xdebug_filename3}.tgz
+        cd ${xdebug_filename3}
     else
         download_file "${xdebug_filename2}.tgz" "${xdebug_filename2_url}"
         tar zxf ${xdebug_filename2}.tgz

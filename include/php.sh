@@ -26,19 +26,19 @@ install_php(){
     if [[ "${php}" == "${php5_6_filename}" ]]; then
         with_mysql="--enable-mysqlnd --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
         with_gd="--with-gd --with-vpx-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
-    elif [ "${php}" == "${php7_4_filename}" ]; then
+    elif [[ "${php}" == "${php7_4_filename}" ]] || [[ "${php}" == "${php8_0_filename}" ]]; then
         with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
         with_gd="--enable-gd --with-webp --with-jpeg --with-xpm --with-freetype"
     else
         with_mysql="--enable-mysqlnd --with-mysqli=mysqlnd --with-mysql-sock=/tmp/mysql.sock --with-pdo-mysql=mysqlnd"
         with_gd="--with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir"
     fi
-    if [[ "${php}" =~ ^php-7.[3-4].+$ ]]; then
+    if [[ "${php}" =~ ^php-7.[3-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
         with_libmbfl=""
     else
         with_libmbfl="--with-libmbfl"
     fi
-    if [[ "${php}" == "${php7_4_filename}" ]]; then
+    if [[ "${php}" == "${php7_4_filename}" ]] || [[ "${php}" == "${php8_0_filename}" ]]; then
         with_pcre="--with-pcre-jit"
         with_libxml=""
         with_icu=""
@@ -53,12 +53,16 @@ install_php(){
         enable_wddx="--enable-wddx"
         enable_zip="--enable-zip"
     fi
-    if [[ "${php}" =~ ^php-7.[2-4].+$ ]]; then
+    if [[ "${php}" =~ ^php-7.[2-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
         other_options="--with-password-argon2 --enable-zend-test"
     else
         other_options="--with-mcrypt --enable-gd-native-ttf"
     fi
-    with_iconv="--with-iconv-dir=${depends_prefix}/libiconv"
+    if [[ "${php}" == "${php8_0_filename}" ]]; then
+        with_xmlrpc=""
+    else
+        with_xmlrpc="--with-xmlrpc"
+    fi
     is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
     php_configure_args="
     --prefix=${php_location} \
@@ -90,9 +94,8 @@ install_php(){
     --with-enchant=/usr \
     --with-readline \
     --with-tidy=/usr \
-    --with-xmlrpc \
+    ${with_xmlrpc} \
     --with-xsl \
-    ${with_iconv} \
     ${other_options} \
     --enable-bcmath \
     --enable-calendar \
@@ -138,11 +141,15 @@ install_php(){
         download_file  "${php7_4_filename}.tar.gz" "${php7_4_filename_url}"
         tar zxf ${php7_4_filename}.tar.gz
         cd ${php7_4_filename}
+    elif [ "${php}" == "${php8_0_filename}" ]; then
+        download_file  "${php8_0_filename}.tar.gz" "${php8_0_filename_url}"
+        tar zxf ${php8_0_filename}.tar.gz
+        cd ${php8_0_filename}
     fi
 
     ldconfig
     error_detect "./configure ${php_configure_args}"
-    error_detect "parallel_make ZEND_EXTRA_LIBS='-liconv'"
+    error_detect "parallel_make"
     error_detect "make install"
 
     mkdir -p ${php_location}/{etc,php.d}
@@ -168,8 +175,15 @@ opcache.fast_shutdown=1
 opcache.save_comments=0
 EOF
 
-    cp -f ${cur_dir}/conf/ocp.php ${web_root_dir}/ocp.php
-    chown apache:apache ${web_root_dir}/ocp.php
+    cp -f ${cur_dir}/conf/ocp.php ${web_root_dir}
+    cp -f ${cur_dir}/conf/jquery.js ${web_root_dir}
+    cp -f ${cur_dir}/conf/phpinfo.php ${web_root_dir}
+    wget -O ${web_root_dir}/p.php ${x_prober_url} > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        cp -f ${cur_dir}/conf/p.php ${web_root_dir}
+    fi
+    chown -R apache.apache ${web_root_dir}
+
     if [[ -d "${mysql_data_location}" || -d "${mariadb_data_location}" ]]; then
         sock_location="/tmp/mysql.sock"
         sed -i "s#mysql.default_socket.*#mysql.default_socket = ${sock_location}#" ${php_location}/etc/php.ini
