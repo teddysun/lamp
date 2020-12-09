@@ -225,8 +225,9 @@ EOF
         _info "Restart ${db_name}..."
         /etc/init.d/mysqld restart > /dev/null 2>&1
         _info "Restart Apache..."
-        /etc/init.d/httpd restart > /dev/null 2>&1
-
+        /etc/init.d/httpd stop > /dev/null 2>&1
+        sleep 3
+        /etc/init.d/httpd start > /dev/null 2>&1
         _info "Clear up start..."
         cd ${cur_dir}/software
         rm -rf mysql-* mariadb-*
