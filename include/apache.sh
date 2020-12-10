@@ -33,8 +33,8 @@ install_apache(){
     --enable-mods-shared=reallyall"
 
     _info "Installing dependencies for Apache..."
-    local apt_list=(zlib1g-dev openssl libssl-dev libxml2-dev lynx lua-expat-dev libjansson-dev)
-    local yum_list=(zlib-devel openssl-devel libxml2-devel lynx expat-devel lua-devel lua jansson-devel)
+    local apt_list=(zlib1g-dev openssl libssl-dev libxml2-dev lua-expat-dev libjansson-dev)
+    local yum_list=(zlib-devel openssl-devel libxml2-devel expat-devel lua-devel lua jansson-devel)
     if check_sys packageManager apt; then
         for depend in ${apt_list[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
