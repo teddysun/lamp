@@ -70,7 +70,7 @@
 | XCache (PHP 5.6)              | 3.2.0                                                     |
 | APCu extension                | 5.1.19                                                    |
 | gRPC extension                | 1.34.0                                                    |
-| ImageMagick                   | 7.0.10-46                                                 |
+| ImageMagick                   | 7.0.10-53                                                 |
 | imagick extension             | 3.4.4                                                     |
 | GraphicsMagick                | 1.3.35                                                    |
 | gmagick extension (PHP 5.6)   | 1.1.7RC3                                                  |
@@ -85,7 +85,7 @@
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
 | redis extension (PHP 7.0+)    | 5.3.2                                                     |
 | mongodb extension             | 1.9.0                                                     |
-| swoole extension (PHP 7.0+)   | 4.5.9                                                     |
+| swoole extension (PHP 7.0+)   | 4.5.10                                                    |
 | yaf extension (PHP 7.0+)      | 3.2.5                                                     |
 | yar extension (PHP 7.0+)      | 2.1.2                                                     |
 | msgpack extension (PHP 7.0+)  | 2.1.2                                                     |
