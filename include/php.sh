@@ -180,7 +180,7 @@ EOF
     cp -f ${cur_dir}/conf/phpinfo.php ${web_root_dir}
     wget -O ${web_root_dir}/p.php ${x_prober_url} > /dev/null 2>&1
     if [ $? -ne 0 ]; then
-        cp -f ${cur_dir}/conf/p.php ${web_root_dir}
+        _warn "Download X-Prober failed, please manually download from ${x_prober_url} if necessary."
     fi
     chown -R apache.apache ${web_root_dir}
 
