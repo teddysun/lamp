@@ -1006,7 +1006,7 @@ install_tools(){
         if centosversion 8; then
             error_detect_depends "yum -y install python3-devel"
             error_detect_depends "yum -y install chrony"
-            yum config-manager --set-enabled powertools > /dev/null 2>&1
+            yum-config-manager --enable PowerTools > /dev/null 2>&1 || yum-config-manager --enable powertools > /dev/null 2>&1
         else
             error_detect_depends "yum -y install python"
             error_detect_depends "yum -y install python-devel"
