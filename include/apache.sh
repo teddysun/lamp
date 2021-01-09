@@ -86,6 +86,7 @@ config_apache(){
         cp -f ${apache_location}/conf/httpd.conf ${apache_location}/conf/httpd.conf.bak
     fi
     mv ${apache_location}/conf/extra/httpd-vhosts.conf ${apache_location}/conf/extra/httpd-vhosts.conf.bak
+    mkdir -p ${apache_location}/conf/ssl/
     mkdir -p ${apache_location}/conf/vhost/
     grep -qE "^\s*#\s*Include conf/extra/httpd-vhosts.conf" ${apache_location}/conf/httpd.conf && \
     sed -i 's#^\s*\#\s*Include conf/extra/httpd-vhosts.conf#Include conf/extra/httpd-vhosts.conf#' ${apache_location}/conf/httpd.conf || \
