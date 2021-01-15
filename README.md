@@ -70,7 +70,7 @@
 | XCache (PHP 5.6)              | 3.2.0                                                     |
 | APCu extension                | 5.1.19                                                    |
 | gRPC extension                | 1.34.0                                                    |
-| ImageMagick                   | 7.0.10-56                                                 |
+| ImageMagick                   | 7.0.10-57                                                 |
 | imagick extension             | 3.4.4                                                     |
 | GraphicsMagick                | 1.3.35                                                    |
 | gmagick extension (PHP 5.6)   | 1.1.7RC3                                                  |
@@ -85,15 +85,15 @@
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
 | redis extension (PHP 7.0+)    | 5.3.2                                                     |
 | mongodb extension             | 1.9.0                                                     |
-| swoole extension (PHP 7.0+)   | 4.5.10                                                    |
-| yaf extension (PHP 7.0+)      | 3.2.5                                                     |
-| yar extension (PHP 7.0+)      | 2.1.2                                                     |
+| swoole extension (PHP 7.0+)   | 4.5.11                                                    |
+| yaf extension (PHP 7.0+)      | 3.3.0                                                     |
+| yar extension (PHP 7.0+)      | 2.2.0                                                     |
 | msgpack extension (PHP 7.0+)  | 2.1.2                                                     |
 | psr extension (PHP 7.2+)      | 1.0.1                                                     |
 | phalcon extension (PHP 7.2+)  | 4.1.0                                                     |
 | xdebug extension (PHP 5.6)    | 2.5.5                                                     |
 | xdebug extension (PHP 7.0+)   | 2.9.8                                                     |
-| xdebug extension (PHP 8.0+)   | 3.0.1                                                     |
+| xdebug extension (PHP 8.0+)   | 3.0.2                                                     |
 
 | Database Management Tools     | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
@@ -172,64 +172,64 @@ chmod 755 *.sh
 
 ## Default Installation Location
 
-| Apache Location            | Path                                           |
-|----------------------------|------------------------------------------------|
-| Install Prefix             | /usr/local/apache                              |
-| Web root location          | /data/www/default                              |
-| Main Configuration File    | /usr/local/apache/conf/httpd.conf              |
-| Default Virtual Host conf  | /usr/local/apache/conf/vhost/default.conf      |
-| Virtual Host conf          | /usr/local/apache/conf/vhost/virtual_host.conf |
-| Virtual Host location      | /data/www/your_virtual_host_names              |
-| Virtual Host log location  | /data/wwwlog/your_virtual_host_names           |
+| Apache Location            | Path                                                |
+|----------------------------|-----------------------------------------------------|
+| Install prefix             | /usr/local/apache                                   |
+| Web root location          | /data/www/default                                   |
+| Main configuration File    | /usr/local/apache/conf/httpd.conf                   |
+| Default virtual host conf  | /usr/local/apache/conf/vhost/default.conf           |
+| Virtual host conf          | /usr/local/apache/conf/vhost/your_virtual_host.conf |
+| Virtual host SSL location  | /usr/local/apache/conf/ssl/your_virtual_host        |
+| Virtual host location      | /data/www/your_virtual_host_names                   |
+| Virtual host log location  | /data/wwwlog/your_virtual_host_names                |
 
-| phpMyAdmin Location        | Path                                           |
-|----------------------------|------------------------------------------------|
-| Installation location      | /data/www/default/phpmyadmin                   |
+| phpMyAdmin Location        | Path                                                |
+|----------------------------|-----------------------------------------------------|
+| Installation location      | /data/www/default/phpmyadmin                        |
 
-| Adminer Location           | Path                                           |
-|----------------------------|------------------------------------------------|
-| Installation location      | /data/www/default/adminer.php                  |
+| Adminer Location           | Path                                                |
+|----------------------------|-----------------------------------------------------|
+| Installation location      | /data/www/default/adminer.php                       |
 
-| KodExplorer Location       | Path                                           |
-|----------------------------|------------------------------------------------|
-| Installation location      | /data/www/default/kod                          |
+| KodExplorer Location       | Path                                                |
+|----------------------------|-----------------------------------------------------|
+| Installation location      | /data/www/default/kod                               |
 
-| PHP Location               | Path                                           |
-|----------------------------|------------------------------------------------|
-| Install Prefix             | /usr/local/php                                 |
-| Configuration File         | /usr/local/php/etc/php.ini                     |
-| ini additional location    | /usr/local/php/php.d                           |
+| PHP Location               | Path                                                |
+|----------------------------|-----------------------------------------------------|
+| Install prefix             | /usr/local/php                                      |
+| Configuration file         | /usr/local/php/etc/php.ini                          |
+| ini additional location    | /usr/local/php/php.d                                |
 
-| MySQL Location             | Path                                           |
-|----------------------------|------------------------------------------------|
-| Install Prefix             | /usr/local/mysql                               |
-| Default Data Location      | /usr/local/mysql/data                          |
-| my.cnf Configuration File  | /etc/my.cnf                                    |
+| MySQL Location             | Path                                                |
+|----------------------------|-----------------------------------------------------|
+| Install prefix             | /usr/local/mysql                                    |
+| Default data location      | /usr/local/mysql/data                               |
+| my.cnf configuration File  | /etc/my.cnf                                         |
 
-| MariaDB Location           | Path                                           |
-|----------------------------|------------------------------------------------|
-| Install Prefix             | /usr/local/mariadb                             |
-| Default Data Location      | /usr/local/mariadb/data                        |
-| my.cnf Configuration File  | /etc/my.cnf                                    |
+| MariaDB Location           | Path                                                |
+|----------------------------|-----------------------------------------------------|
+| Install prefix             | /usr/local/mariadb                                  |
+| Default data location      | /usr/local/mariadb/data                             |
+| my.cnf configuration file  | /etc/my.cnf                                         |
 
 ## Process Management
 
-| Process      | Command                                                 |
-|--------------|---------------------------------------------------------|
-| Apache       | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
-| MySQL        | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
-| MariaDB      | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
-| Memcached    | /etc/init.d/memcached (start\|stop\|restart)            |
-| Redis-Server | /etc/init.d/redis-server (start\|stop\|restart)         |
+| Process       | Command                                                 |
+|---------------|---------------------------------------------------------|
+| Apache        | /etc/init.d/httpd  (start\|stop\|status\|restart)       |
+| MySQL/MariaDB | /etc/init.d/mysqld (start\|stop\|status\|restart)       |
+| Memcached     | /etc/init.d/memcached (start\|stop\|restart)            |
+| Redis-Server  | /etc/init.d/redis-server (start\|stop\|restart)         |
 
 ## lamp Command
 
-| Command      | Description                       |
-|--------------|-----------------------------------|
-| lamp add     | Create a new Apache virtual host  |
-| lamp del     | Delete a Apache virtual host      |
-| lamp list    | List all of Apache virtual hosts  |
-| lamp version | Print version and exit            |
+| Command       | Description                       |
+|---------------|-----------------------------------|
+| lamp add      | Create a new Apache virtual host  |
+| lamp del      | Delete a Apache virtual host      |
+| lamp list     | List all of Apache virtual hosts  |
+| lamp version  | Print version and exit            |
 
 ## Bugs & Issues
 
