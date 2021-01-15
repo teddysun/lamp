@@ -171,18 +171,18 @@ pdflib64_filename="PDFlib-9.3.0-Linux-x86_64-php"
 pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/930/PDFlib-9.3.0-Linux-x86_64-php.tar.gz"
 #PECL packages
 #php extension swoole
-swoole_filename="swoole-4.5.10"
-swoole_filename_url="https://pecl.php.net/get/swoole-4.5.10.tgz"
+swoole_filename="swoole-4.5.11"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.5.11.tgz"
 #php extension xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
 xdebug_filename2="xdebug-2.9.8"
 xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
-xdebug_filename3="xdebug-3.0.1"
-xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.1.tgz"
+xdebug_filename3="xdebug-3.0.2"
+xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.2.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.10-56"
-ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.10-56.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.10-57"
+ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.10-57.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
@@ -223,7 +223,7 @@ libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsod
 php_libsodium_filename="libsodium-2.0.23"
 php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.23.tgz"
 #php extension yaf
-yaf_filename="yaf-3.2.5"
+yaf_filename="yaf-3.3.0"
 yaf_filename_url="https://pecl.php.net/get/yaf-3.2.5.tgz"
 #php extension psr
 psr_filename="psr-1.0.1"
@@ -241,8 +241,8 @@ grpc_filename_url="https://pecl.php.net/get/grpc-1.34.0.tgz"
 msgpack_filename="msgpack-2.1.2"
 msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.2.tgz"
 #php extension yar
-yar_filename="yar-2.1.2"
-yar_filename_url="https://pecl.php.net/get/yar-2.1.2.tgz"
+yar_filename="yar-2.2.0"
+yar_filename_url="https://pecl.php.net/get/yar-2.2.0.tgz"
 
 #software array setting
 apache_arr=(

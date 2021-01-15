@@ -228,9 +228,6 @@ set_parameters(){
             if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && _error "${php_imagemagick_filename} is not support ${php} now, please remove php extension: imagick"
             if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" && _error "${php_graphicsmagick_filename} is not support ${php} now, please remove php extension: gmagick"
             if_in_array "${php_memcached_filename}" "${php_modules_install}" && _error "${php_memcached_filename} is not support ${php} now, please remove php extension: memcached"
-            if_in_array "${yar_filename}" "${php_modules_install}" && _error "${yar_filename} is not support ${php} now, please remove php extension: yar"
-            if_in_array "${yaf_filename}" "${php_modules_install}" && _error "${yaf_filename} is not support ${php} now, please remove php extension: yaf"
-            
         fi
         php_modules_install=(${php_modules_install})
         if [[ "${php}" =~ ^php-8.0.+$ ]]; then

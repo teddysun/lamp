@@ -47,8 +47,6 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]#${php_imagemagick_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_graphicsmagick_filename2}})
             php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename2}})
-            php_modules_arr=(${php_modules_arr[@]#${yar_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${yaf_filename}})
         fi
         display_menu_multi php_modules last
     fi
