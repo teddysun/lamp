@@ -43,11 +43,11 @@ openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1i.tar.gz"
 apache2_4_filename="httpd-2.4.46"
 apache2_4_filename_url="http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.46.tar.gz"
 #mysql5.6
-mysql5_6_filename="mysql-5.6.50"
+mysql5_6_filename="mysql-5.6.51"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.32"
+mysql5_7_filename="mysql-5.7.33"
 #mysql8.0
-mysql8_0_filename="mysql-8.0.22"
+mysql8_0_filename="mysql-8.0.23"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.48"
 #mariadb10.2
