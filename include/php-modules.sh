@@ -34,14 +34,17 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         fi
-        # PDFlib & Phalcon v4 supports only PHP 7.2+ (except PHP 8.0 now)
+        # Swoole, PDFlib, Phalcon supports only PHP 7.2+
         # Reference URL: https://docs.phalcon.io/4.0/en/installation
-        if [[ "${php}" =~ ^php-7.[0-1].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
+        if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
             php_modules_arr=(${php_modules_arr[@]#${pdflib_filename}})
             php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
         fi
         # Delete some modules (PHP 8.0 not support now) & change some module version
         if [[ "${php}" =~ ^php-8.0.+$ ]]; then
+            php_modules_arr=(${php_modules_arr[@]#${pdflib_filename}})
+            php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
             php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename2}/${xdebug_filename3}})
             php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_imagemagick_filename}})

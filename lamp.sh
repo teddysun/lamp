@@ -207,7 +207,7 @@ set_parameters(){
     [ "${php}" == "do_not_install" ] && php_modules_install="do_not_install"
     if [ -n "${php_modules_install}" ] && [ "${php}" == "${php5_6_filename}" ]; then
         if_in_array "${php_libsodium_filename}" "${php_modules_install}" && _error "${php_libsodium_filename} is not support ${php}, only PHP 7.0 and above, please remove php extension: libsodium"
-        if_in_array "${swoole_filename}" "${php_modules_install}" && _error "${swoole_filename} is not support ${php}, only PHP 7.0 and above, please remove php extension: swoole"
+        if_in_array "${swoole_filename}" "${php_modules_install}" && _error "${swoole_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: swoole"
         if_in_array "${yaf_filename}" "${php_modules_install}" && _error "${yaf_filename} is not support ${php}, only PHP 7.0 and above, please remove php extension: yaf"
         if_in_array "${yar_filename}" "${php_modules_install}" && _error "${yar_filename} is not support ${php}, only PHP 7.0 and above, please remove php extension: yar"
         if_in_array "${pdflib_filename}" "${php_modules_install}" && _error "${pdflib_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: pdflib"
@@ -215,11 +215,12 @@ set_parameters(){
     fi
     if [ -n "${php_modules_install}" ] && [ "${php}" != "${php5_6_filename}" ]; then
         if_in_array "${xcache_filename}" "${php_modules_install}" && _error "${xcache_filename} is not support ${php}, only PHP 5.6, please remove php extension: xcache"
-        # PDFlib & Phalcon v4 supports only PHP 7.2+ (except PHP 8.0 now)
+        # Swoole, PDFlib, Phalcon v4 supports only PHP 7.2+
         # Reference URL: https://docs.phalcon.io/4.0/en/installation
         if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
             if_in_array "${pdflib_filename}" "${php_modules_install}" && _error "${pdflib_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: pdflib"
             if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: phalcon"
+            if_in_array "${swoole_filename}" "${php_modules_install}" && _error "${swoole_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: swoole"
         fi
         if [[ "${php}" =~ ^php-8.0.+$ ]]; then
             if_in_array "${pdflib_filename}" "${php_modules_install}" && _error "${pdflib_filename} is not support ${php}, please remove php extension: pdflib"
