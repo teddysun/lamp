@@ -16,7 +16,7 @@ php_preinstall_settings(){
     if [ "${apache}" == "do_not_install" ]; then
         php="do_not_install"
     else
-        display_menu php 5
+        display_menu php 6
     fi
 }
 
