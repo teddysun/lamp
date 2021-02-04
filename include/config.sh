@@ -34,8 +34,8 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.42.0"
-nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.42.0/nghttp2-1.42.0.tar.gz"
+nghttp2_filename="nghttp2-1.43.0"
+nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.43.0/nghttp2-1.43.0.tar.gz"
 #openssl
 openssl_filename="openssl-1.1.1i"
 openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1i.tar.gz"
