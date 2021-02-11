@@ -351,7 +351,7 @@ add_letsencrypt(){
     fi
     _info "Starting create Let's Encrypt SSL Certificate..."
     . /usr/local/acme.sh/acme.sh.env
-    /usr/local/acme.sh/acme.sh --issue ${letsdomain} -w ${website_root}
+    /usr/local/acme.sh/acme.sh --issue --server letsencrypt ${letsdomain} -w ${website_root}
     if [ $? -eq 0 ]; then
         ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
         ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
@@ -368,7 +368,7 @@ add_buypass(){
     fi
     _info "Starting create Buypass.com SSL Certificate..."
     . /usr/local/acme.sh/acme.sh.env
-    /usr/local/acme.sh/acme.sh -m ${email} --issue ${letsdomain} -w ${website_root} --days 170 --server 'https://api.buypass.com/acme/directory'
+    /usr/local/acme.sh/acme.sh -m ${email} --issue --server buypass ${letsdomain} -w ${website_root} --days 170
     if [ $? -eq 0 ]; then
         ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
         ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
