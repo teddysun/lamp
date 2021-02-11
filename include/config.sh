@@ -85,8 +85,8 @@ phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.7/phpMyAdmi
 phpmyadmin_filename2="phpMyAdmin-5.0.4-all-languages"
 phpmyadmin_filename2_url="https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz"
 #Adminer
-adminer_filename="adminer-4.7.9"
-adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.7.9/adminer-4.7.9.php"
+adminer_filename="adminer-4.8.0"
+adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.8.0/adminer-4.8.0.php"
 #X-Prober
 x_prober_url="https://github.com/kmvan/x-prober/releases/latest/download/prober.php"
 #kodexplorer
@@ -171,8 +171,8 @@ pdflib64_filename="PDFlib-9.3.0-Linux-x86_64-php"
 pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/930/PDFlib-9.3.0-Linux-x86_64-php.tar.gz"
 #PECL packages
 #php extension swoole
-swoole_filename="swoole-4.6.2"
-swoole_filename_url="https://pecl.php.net/get/swoole-4.6.2.tgz"
+swoole_filename="swoole-4.6.3"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.6.3.tgz"
 #php extension xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
@@ -181,8 +181,8 @@ xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
 xdebug_filename3="xdebug-3.0.2"
 xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.2.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.10-60"
-ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.10-60.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.10-62"
+ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.10-62.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
