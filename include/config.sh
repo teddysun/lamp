@@ -51,13 +51,13 @@ mysql8_0_filename="mysql-8.0.23"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.48"
 #mariadb10.2
-mariadb10_2_filename="mariadb-10.2.36"
+mariadb10_2_filename="mariadb-10.2.37"
 #mariadb10.3
-mariadb10_3_filename="mariadb-10.3.27"
+mariadb10_3_filename="mariadb-10.3.28"
 #mariadb10.4
-mariadb10_4_filename="mariadb-10.4.17"
+mariadb10_4_filename="mariadb-10.4.18"
 #mariadb10.5
-mariadb10_5_filename="mariadb-10.5.8"
+mariadb10_5_filename="mariadb-10.5.9"
 #php5.6
 php5_6_filename="php-5.6.40"
 php5_6_filename_url="https://www.php.net/distributions/php-5.6.40.tar.gz"
@@ -206,8 +206,8 @@ php_memcached_filename_url="https://pecl.php.net/get/memcached-2.2.0.tgz"
 php_memcached_filename2="memcached-3.1.5"
 php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
 #redis
-redis_filename="redis-5.0.10"
-redis_filename_url="http://download.redis.io/releases/redis-5.0.10.tar.gz"
+redis_filename="redis-5.0.11"
+redis_filename_url="http://download.redis.io/releases/redis-5.0.11.tar.gz"
 #php extension redis
 php_redis_filename="redis-4.3.0"
 php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
