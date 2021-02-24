@@ -98,7 +98,7 @@
 | Database Management Tools     | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
 | phpMyAdmin (PHP 5.6, PHP 7.0) | 4.9.7                                                     |
-| phpMyAdmin (PHP 7.1+)         | 5.0.4                                                     |
+| phpMyAdmin (PHP 7.1+)         | 5.1.0                                                     |
 | Adminer                       | 4.8.0                                                     |
 
 | File Managerment Tool         | Version                                                   |
