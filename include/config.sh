@@ -82,8 +82,8 @@ php8_0_filename_url="https://www.php.net/distributions/php-8.0.2.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.9.7-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.7/phpMyAdmin-4.9.7-all-languages.tar.gz"
-phpmyadmin_filename2="phpMyAdmin-5.0.4-all-languages"
-phpmyadmin_filename2_url="https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz"
+phpmyadmin_filename2="phpMyAdmin-5.1.0-all-languages"
+phpmyadmin_filename2_url="https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.tar.gz"
 #Adminer
 adminer_filename="adminer-4.8.0"
 adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.8.0/adminer-4.8.0.php"
