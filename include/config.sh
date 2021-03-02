@@ -206,8 +206,8 @@ php_memcached_filename_url="https://pecl.php.net/get/memcached-2.2.0.tgz"
 php_memcached_filename2="memcached-3.1.5"
 php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
 #redis
-redis_filename="redis-5.0.11"
-redis_filename_url="http://download.redis.io/releases/redis-5.0.11.tar.gz"
+redis_filename="redis-5.0.12"
+redis_filename_url="http://download.redis.io/releases/redis-5.0.12.tar.gz"
 #php extension redis
 php_redis_filename="redis-4.3.0"
 php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
@@ -235,8 +235,8 @@ phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.0.tgz"
 apcu_filename="apcu-5.1.19"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.19.tgz"
 #php extension grpc
-grpc_filename="grpc-1.35.0"
-grpc_filename_url="https://pecl.php.net/get/grpc-1.35.0.tgz"
+grpc_filename="grpc-1.36.0"
+grpc_filename_url="https://pecl.php.net/get/grpc-1.36.0.tgz"
 #php extension msgpack
 msgpack_filename="msgpack-2.1.2"
 msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.2.tgz"
