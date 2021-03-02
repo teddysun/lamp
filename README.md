@@ -69,7 +69,7 @@
 | PDFlib (PHP 7.2+)             | 9.3.0                                                     |
 | XCache (PHP 5.6)              | 3.2.0                                                     |
 | APCu extension                | 5.1.19                                                    |
-| gRPC extension                | 1.35.0                                                    |
+| gRPC extension                | 1.36.0                                                    |
 | ImageMagick                   | 7.0.10-62                                                 |
 | imagick extension             | 3.4.4                                                     |
 | GraphicsMagick                | 1.3.35                                                    |
@@ -81,7 +81,7 @@
 | libmemcached                  | 1.0.18                                                    |
 | memcached extension (PHP 5.6) | 2.2.0                                                     |
 | memcached extension (PHP 7.0+)| 3.1.5                                                     |
-| redis                         | 5.0.11                                                    |
+| redis                         | 5.0.12                                                    |
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
 | redis extension (PHP 7.0+)    | 5.3.2                                                     |
 | mongodb extension             | 1.9.0                                                     |
