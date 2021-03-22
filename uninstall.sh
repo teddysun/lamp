@@ -56,7 +56,7 @@ uninstall_lamp(){
     fi
     rm -f /etc/init.d/memcached
     rm -fr ${depends_prefix}/memcached /usr/bin/memcached
-    if [ -f /etc/init.d/redis-server ] [ $(ps -ef | grep -v grep | grep -c "redis-server") -gt 0 ]; then
+    if [ -f /etc/init.d/redis-server ] && [ $(ps -ef | grep -v grep | grep -c "redis-server") -gt 0 ]; then
         /etc/init.d/redis-server stop > /dev/null 2>&1
     fi
     rm -f /etc/init.d/redis-server
