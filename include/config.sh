@@ -126,8 +126,8 @@ mcrypt_filename_url="https://sourceforge.net/projects/mcrypt/files/MCrypt/2.6.8/
 pcre_filename="pcre-8.44"
 pcre_filename_url="https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz"
 #re2c
-re2c_filename="re2c-2.0.3"
-re2c_filename_url="${download_root_url}/re2c-2.0.3.tar.gz"
+re2c_filename="re2c-2.1"
+re2c_filename_url="${download_root_url}/re2c-2.1.tar.gz"
 #cmake
 cmake_filename="cmake-3.18.0"
 cmake_filename_url="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0.tar.gz"
@@ -178,11 +178,11 @@ xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
 xdebug_filename2="xdebug-2.9.8"
 xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
-xdebug_filename3="xdebug-3.0.2"
-xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.2.tgz"
+xdebug_filename3="xdebug-3.0.3"
+xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.3.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.11-3"
-ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.11-3.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.11-4"
+ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.11-4.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
@@ -232,8 +232,8 @@ psr_filename_url="https://pecl.php.net/get/psr-1.0.1.tgz"
 phalcon_filename="phalcon-4.1.0"
 phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.0.tgz"
 #php extension apcu
-apcu_filename="apcu-5.1.19"
-apcu_filename_url="https://pecl.php.net/get/apcu-5.1.19.tgz"
+apcu_filename="apcu-5.1.20"
+apcu_filename_url="https://pecl.php.net/get/apcu-5.1.20.tgz"
 #php extension grpc
 grpc_filename="grpc-1.36.0"
 grpc_filename_url="https://pecl.php.net/get/grpc-1.36.0.tgz"
