@@ -181,8 +181,8 @@ xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
 xdebug_filename3="xdebug-3.0.3"
 xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.3.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.0.11-4"
-ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.11-4.tar.gz"
+ImageMagick_filename="ImageMagick-7.0.11-5"
+ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.11-5.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
