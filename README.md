@@ -84,7 +84,7 @@
 | redis                         | 5.0.12                                                    |
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
 | redis extension (PHP 7.0+)    | 5.3.2                                                     |
-| mongodb extension             | 1.9.0                                                     |
+| mongodb extension             | 1.9.1                                                     |
 | swoole extension (PHP 7.2+)   | 4.6.5                                                     |
 | yaf extension (PHP 7.0+)      | 3.3.0                                                     |
 | yar extension (PHP 7.0+)      | 2.2.0                                                     |
@@ -93,7 +93,7 @@
 | phalcon extension (PHP 7.2+)  | 4.1.0                                                     |
 | xdebug extension (PHP 5.6)    | 2.5.5                                                     |
 | xdebug extension (PHP 7.0+)   | 2.9.8                                                     |
-| xdebug extension (PHP 8.0+)   | 3.0.3                                                     |
+| xdebug extension (PHP 8.0+)   | 3.0.4                                                     |
 
 | Database Management Tools     | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
