@@ -164,11 +164,11 @@ ionCube32_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_l
 ionCube64_filename="ioncube_loaders_lin_x86-64"
 ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"
 #pdflib
-pdflib_filename="pdflib-9.3.0"
-pdflib32_filename="PDFlib-9.3.0-Linux-x86-php"
-pdflib32_filename_url="https://www.pdflib.com/binaries/PDFlib/930/PDFlib-9.3.0-Linux-x86-php.tar.gz"
-pdflib64_filename="PDFlib-9.3.0-Linux-x86_64-php"
-pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/930/PDFlib-9.3.0-Linux-x86_64-php.tar.gz"
+pdflib_filename="pdflib-9.3.1"
+pdflib32_filename="PDFlib-9.3.1-Linux-x86-php"
+pdflib32_filename_url="https://www.pdflib.com/binaries/PDFlib/931/PDFlib-9.3.1-Linux-x86-php.tar.gz"
+pdflib64_filename="PDFlib-9.3.1-Linux-x64-php"
+pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/931/PDFlib-9.3.1-Linux-x64-php.tar.gz"
 #PECL packages
 #php extension swoole
 swoole_filename="swoole-4.6.6"
