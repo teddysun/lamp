@@ -229,7 +229,6 @@ set_parameters(){
             if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, please remove php extension: phalcon"
             if_in_array "${ionCube_filename}" "${php_modules_install}" && _error "${ionCube_filename} is not support ${php} now, please remove php extension: ioncube"
             if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && _error "${php_imagemagick_filename} is not support ${php} now, please remove php extension: imagick"
-            if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" && _error "${php_graphicsmagick_filename} is not support ${php} now, please remove php extension: gmagick"
             if_in_array "${php_memcached_filename}" "${php_modules_install}" && _error "${php_memcached_filename} is not support ${php} now, please remove php extension: memcached"
         fi
         php_modules_install=(${php_modules_install})

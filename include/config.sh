@@ -187,13 +187,13 @@ ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/
 php_imagemagick_filename="imagick-3.4.4"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.4.4.tgz"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.35"
-GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.35/GraphicsMagick-1.3.35.tar.gz/download"
+GraphicsMagick_filename="GraphicsMagick-1.3.36"
+GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.36/GraphicsMagick-1.3.36.tar.gz/download"
 #php extension gmagick
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
 php_graphicsmagick_filename_url="https://pecl.php.net/get/gmagick-1.1.7RC3.tgz"
-php_graphicsmagick_filename2="gmagick-2.0.5RC1"
-php_graphicsmagick_filename2_url="https://pecl.php.net/get/gmagick-2.0.5RC1.tgz"
+php_graphicsmagick_filename2="gmagick-2.0.6RC1"
+php_graphicsmagick_filename2_url="https://pecl.php.net/get/gmagick-2.0.6RC1.tgz"
 #memcached
 memcached_filename="memcached-1.6.6"
 memcached_filename_url="http://www.memcached.org/files/memcached-1.6.6.tar.gz"
