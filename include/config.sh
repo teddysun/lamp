@@ -229,8 +229,8 @@ yaf_filename_url="https://pecl.php.net/get/yaf-3.3.0.tgz"
 psr_filename="psr-1.0.1"
 psr_filename_url="https://pecl.php.net/get/psr-1.0.1.tgz"
 #php extension phalcon
-phalcon_filename="phalcon-4.1.0"
-phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.0.tgz"
+phalcon_filename="phalcon-4.1.2"
+phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.2.tgz"
 #php extension apcu
 apcu_filename="apcu-5.1.20"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.20.tgz"

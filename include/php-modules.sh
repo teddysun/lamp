@@ -34,14 +34,15 @@ php_modules_preinstall_settings(){
             php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
             php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
         fi
-        # Swoole, Phalcon supports only PHP 7.2+
-        # Reference URL: https://docs.phalcon.io/4.0/en/installation
+        # Swoole supports only PHP 7.2+
         if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
-            php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
             php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
         fi
         # PDFlib supports only PHP 7.3+
+        # Phalcon supports only PHP 7.3+
+        # Reference URL: https://github.com/phalcon/cphalcon/releases/tag/v4.1.2
         if [[ "${php}" =~ ^php-7.[0-2].+$ ]]; then
+            php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
             php_modules_arr=(${php_modules_arr[@]#${pdflib_filename}})
         fi
         # Delete some modules (PHP 8.0 not support now) & change some module version

@@ -215,14 +215,15 @@ set_parameters(){
     fi
     if [ -n "${php_modules_install}" ] && [ "${php}" != "${php5_6_filename}" ]; then
         if_in_array "${xcache_filename}" "${php_modules_install}" && _error "${xcache_filename} is not support ${php}, only PHP 5.6, please remove php extension: xcache"
-        # Swoole, Phalcon v4 supports only PHP 7.2+
-        # Reference URL: https://docs.phalcon.io/4.0/en/installation
+        # Swoole supports only PHP 7.2+
         if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
-            if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: phalcon"
             if_in_array "${swoole_filename}" "${php_modules_install}" && _error "${swoole_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: swoole"
         fi
         # PDFlib supports only PHP 7.3+
+        # Phalcon supports only PHP 7.3+
+        # Reference URL: https://github.com/phalcon/cphalcon/releases/tag/v4.1.2
         if [[ "${php}" =~ ^php-7.[0-2].+$ ]]; then
+            if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, only PHP 7.3 and above, please remove php extension: phalcon"
             if_in_array "${pdflib_filename}" "${php_modules_install}" && _error "${pdflib_filename} is not support ${php}, only PHP 7.3 and above, please remove php extension: pdflib"
         fi
         if [[ "${php}" =~ ^php-8.0.+$ ]]; then

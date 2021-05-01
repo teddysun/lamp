@@ -90,7 +90,7 @@
 | yar extension (PHP 7.0+)      | 2.2.0                                                     |
 | msgpack extension (PHP 7.0+)  | 2.1.2                                                     |
 | psr extension (PHP 7.2+)      | 1.0.1                                                     |
-| phalcon extension (PHP 7.2+)  | 4.1.0                                                     |
+| phalcon extension (PHP 7.3+)  | 4.1.2                                                     |
 | xdebug extension (PHP 5.6)    | 2.5.5                                                     |
 | xdebug extension (PHP 7.0+)   | 2.9.8                                                     |
 | xdebug extension (PHP 8.0+)   | 3.0.4                                                     |
