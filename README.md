@@ -83,7 +83,7 @@
 | memcached extension (PHP 7.0+)| 3.1.5                                                     |
 | redis                         | 5.0.12                                                    |
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
-| redis extension (PHP 7.0+)    | 5.3.2                                                     |
+| redis extension (PHP 7.0+)    | 5.3.4                                                     |
 | mongodb extension             | 1.9.1                                                     |
 | swoole extension (PHP 7.2+)   | 4.6.6                                                     |
 | yaf extension (PHP 7.0+)      | 3.3.0                                                     |

@@ -211,8 +211,8 @@ redis_filename_url="http://download.redis.io/releases/redis-5.0.12.tar.gz"
 #php extension redis
 php_redis_filename="redis-4.3.0"
 php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
-php_redis_filename2="redis-5.3.2"
-php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.2.tgz"
+php_redis_filename2="redis-5.3.4"
+php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.4.tgz"
 #php extension mongodb
 php_mongo_filename="mongodb-1.9.1"
 php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.9.1.tgz"
