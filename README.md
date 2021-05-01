@@ -86,7 +86,7 @@
 | redis extension (PHP 7.0+)    | 5.3.4                                                     |
 | mongodb extension             | 1.9.1                                                     |
 | swoole extension (PHP 7.2+)   | 4.6.6                                                     |
-| yaf extension (PHP 7.0+)      | 3.3.0                                                     |
+| yaf extension (PHP 7.0+)      | 3.3.2                                                     |
 | yar extension (PHP 7.0+)      | 2.2.0                                                     |
 | msgpack extension (PHP 7.0+)  | 2.1.2                                                     |
 | psr extension (PHP 7.2+)      | 1.0.1                                                     |

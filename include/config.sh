@@ -223,8 +223,8 @@ libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsod
 php_libsodium_filename="libsodium-2.0.23"
 php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.23.tgz"
 #php extension yaf
-yaf_filename="yaf-3.3.0"
-yaf_filename_url="https://pecl.php.net/get/yaf-3.3.0.tgz"
+yaf_filename="yaf-3.3.2"
+yaf_filename_url="https://pecl.php.net/get/yaf-3.3.2.tgz"
 #php extension psr
 psr_filename="psr-1.0.1"
 psr_filename_url="https://pecl.php.net/get/psr-1.0.1.tgz"
