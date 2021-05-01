@@ -69,7 +69,7 @@
 | PDFlib (PHP 7.3+)             | 9.3.1                                                     |
 | XCache (PHP 5.6)              | 3.2.0                                                     |
 | APCu extension                | 5.1.20                                                    |
-| gRPC extension                | 1.36.0                                                    |
+| gRPC extension                | 1.37.1                                                    |
 | ImageMagick                   | 7.0.11-6                                                  |
 | imagick extension             | 3.4.4                                                     |
 | GraphicsMagick                | 1.3.35                                                    |
