@@ -51,13 +51,13 @@ mysql8_0_filename="mysql-8.0.24"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.48"
 #mariadb10.2
-mariadb10_2_filename="mariadb-10.2.37"
+mariadb10_2_filename="mariadb-10.2.38"
 #mariadb10.3
-mariadb10_3_filename="mariadb-10.3.28"
+mariadb10_3_filename="mariadb-10.3.29"
 #mariadb10.4
-mariadb10_4_filename="mariadb-10.4.18"
+mariadb10_4_filename="mariadb-10.4.19"
 #mariadb10.5
-mariadb10_5_filename="mariadb-10.5.9"
+mariadb10_5_filename="mariadb-10.5.10"
 #php5.6
 php5_6_filename="php-5.6.40"
 php5_6_filename_url="https://www.php.net/distributions/php-5.6.40.tar.gz"
