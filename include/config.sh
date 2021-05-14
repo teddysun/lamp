@@ -85,8 +85,8 @@ phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.7/phpMyAdmi
 phpmyadmin_filename2="phpMyAdmin-5.1.0-all-languages"
 phpmyadmin_filename2_url="https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.tar.gz"
 #Adminer
-adminer_filename="adminer-4.8.0"
-adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.8.0/adminer-4.8.0.php"
+adminer_filename="adminer-4.8.1"
+adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php"
 #X-Prober
 x_prober_url="https://github.com/kmvan/x-prober/releases/latest/download/prober.php"
 #kodexplorer
