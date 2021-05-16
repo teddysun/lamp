@@ -262,7 +262,7 @@ set_parameters(){
         if [[ "${php}" =~ ^php-7.[1-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
             phpmyadmin_install=(${phpmyadmin_install[@]/#${phpmyadmin_filename}/${phpmyadmin_filename2}})
         fi
-        php_modules_install=${phpmyadmin_install[@]}
+        phpmyadmin_install=${phpmyadmin_install[@]}
     fi
     [ -z "${kodexplorer_option}" ] && kodexplorer="do_not_install"
     [ "${php}" == "do_not_install" ] && kodexplorer="do_not_install"
