@@ -70,7 +70,7 @@
 | XCache (PHP 5.6)              | 3.2.0                                                     |
 | APCu extension                | 5.1.20                                                    |
 | gRPC extension                | 1.37.1                                                    |
-| ImageMagick                   | 7.0.11-12                                                 |
+| ImageMagick                   | 7.0.11-13                                                 |
 | imagick extension             | 3.4.4                                                     |
 | GraphicsMagick                | 1.3.36                                                    |
 | gmagick extension (PHP 5.6)   | 1.1.7RC3                                                  |
