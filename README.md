@@ -71,7 +71,7 @@
 | APCu extension                | 5.1.20                                                    |
 | gRPC extension                | 1.38.0                                                    |
 | ImageMagick                   | 7.0.11-13                                                 |
-| imagick extension             | 3.4.4                                                     |
+| imagick extension             | 3.5.0                                                     |
 | GraphicsMagick                | 1.3.36                                                    |
 | gmagick extension (PHP 5.6)   | 1.1.7RC3                                                  |
 | gmagick extension (PHP 7.0+)  | 2.0.6RC1                                                  |
