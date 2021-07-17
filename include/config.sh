@@ -90,10 +90,9 @@ adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.8.1/
 #X-Prober
 x_prober_url="https://github.com/kmvan/x-prober/releases/latest/download/prober.php"
 #kodexplorer
-kod_version="$(wget --no-check-certificate -qO- https://api.github.com/repos/kalcaddle/kodfile/releases/latest | grep 'tag_name' | cut -d\" -f4)"
-[ -z "${kod_version}" ] && kod_version="4.35"
+kod_version="4.46"
 kodexplorer_filename="kodfile-${kod_version}"
-kodexplorer_filename_url="https://github.com/kalcaddle/kodfile/archive/${kod_version}.tar.gz"
+kodexplorer_filename_url="${download_root_url}/kodfile-${kod_version}.tar.gz"
 set_hint ${kodexplorer_filename} "kodexplorer-${kod_version}"
 
 #apr
@@ -214,8 +213,8 @@ php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
 php_redis_filename2="redis-5.3.4"
 php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.4.tgz"
 #php extension mongodb
-php_mongo_filename="mongodb-1.9.1"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.9.1.tgz"
+php_mongo_filename="mongodb-1.9.2"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.9.2.tgz"
 #libsodium
 libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
@@ -223,11 +222,11 @@ libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsod
 php_libsodium_filename="libsodium-2.0.23"
 php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.23.tgz"
 #php extension yaf
-yaf_filename="yaf-3.3.2"
-yaf_filename_url="https://pecl.php.net/get/yaf-3.3.2.tgz"
+yaf_filename="yaf-3.3.3"
+yaf_filename_url="https://pecl.php.net/get/yaf-3.3.3.tgz"
 #php extension psr
-psr_filename="psr-1.0.1"
-psr_filename_url="https://pecl.php.net/get/psr-1.0.1.tgz"
+psr_filename="psr-1.1.0"
+psr_filename_url="https://pecl.php.net/get/psr-1.1.0.tgz"
 #php extension phalcon
 phalcon_filename="phalcon-4.1.2"
 phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.2.tgz"

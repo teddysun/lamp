@@ -84,12 +84,12 @@
 | redis                         | 5.0.12                                                    |
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
 | redis extension (PHP 7.0+)    | 5.3.4                                                     |
-| mongodb extension             | 1.9.1                                                     |
+| mongodb extension             | 1.9.2                                                     |
 | swoole extension (PHP 7.2+)   | 4.6.7                                                     |
-| yaf extension (PHP 7.0+)      | 3.3.2                                                     |
+| yaf extension (PHP 7.0+)      | 3.3.3                                                     |
 | yar extension (PHP 7.0+)      | 2.2.0                                                     |
 | msgpack extension (PHP 7.0+)  | 2.1.2                                                     |
-| psr extension (PHP 7.2+)      | 1.0.1                                                     |
+| psr extension (PHP 7.2+)      | 1.1.0                                                     |
 | phalcon extension (PHP 7.3+)  | 4.1.2                                                     |
 | xdebug extension (PHP 5.6)    | 2.5.5                                                     |
 | xdebug extension (PHP 7.0+)   | 2.9.8                                                     |
@@ -103,7 +103,7 @@
 
 | File Managerment Tool         | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| KodExplorer                   | 4.35                                                      |
+| KodExplorer                   | 4.46                                                      |
 
 ## Installation
 
