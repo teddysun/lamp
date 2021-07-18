@@ -51,7 +51,7 @@
 | httpd                         | 2.4.48                                                    |
 | apr                           | 1.7.0                                                     |
 | apr-util                      | 1.6.1                                                     |
-| nghttp2                       | 1.43.0                                                    |
+| nghttp2                       | 1.44.0                                                    |
 | openssl                       | 1.1.1k                                                    |
 | mod_wsgi                      | 4.8.0                                                     |
 | mod_security2                 | 2.9.4                                                     |
