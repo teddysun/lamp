@@ -45,9 +45,9 @@ apache2_4_filename_url="http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.48.ta
 #mysql5.6
 mysql5_6_filename="mysql-5.6.51"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.34"
+mysql5_7_filename="mysql-5.7.35"
 #mysql8.0
-mysql8_0_filename="mysql-8.0.25"
+mysql8_0_filename="mysql-8.0.26"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.48"
 #mariadb10.2
