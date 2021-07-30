@@ -168,7 +168,7 @@ EOF
             log "MySQL root password is incorrect. Please check it and try again"
             exit 1
         fi
-        if [ "${MYSQL_DATABASE_NAME[@]}" == "" ]; then
+        if [[ "${MYSQL_DATABASE_NAME[@]}" == "" ]]; then
             mysqldump -u root -p"${MYSQL_ROOT_PASSWORD}" --all-databases > "${SQLFILE}" 2>/dev/null
             if [ $? -ne 0 ]; then
                 log "MySQL all databases backup failed"
