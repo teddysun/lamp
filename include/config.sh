@@ -125,8 +125,8 @@ mcrypt_filename_url="https://sourceforge.net/projects/mcrypt/files/MCrypt/2.6.8/
 pcre_filename="pcre-8.44"
 pcre_filename_url="https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz"
 #re2c
-re2c_filename="re2c-2.1.1"
-re2c_filename_url="${download_root_url}/re2c-2.1.1.tar.gz"
+re2c_filename="re2c-2.2"
+re2c_filename_url="${download_root_url}/re2c-2.2.tar.gz"
 #cmake
 cmake_filename="cmake-3.18.0"
 cmake_filename_url="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0.tar.gz"
