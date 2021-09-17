@@ -56,7 +56,7 @@ upgrade_apache(){
         tar zxf ${apr_util_filename}.tar.gz
 
         if [ ! -s httpd-${latest_apache24}.tar.gz ]; then
-            latest_apache_link="https://www-us.apache.org/dist//httpd/httpd-${latest_apache24}.tar.gz"
+            latest_apache_link="hhttps://dlcdn.apache.org//httpd/httpd-${latest_apache24}.tar.gz"
             backup_apache_link="${download_root_url}/httpd-${latest_apache24}.tar.gz"
             untar ${latest_apache_link} ${backup_apache_link}
         else
