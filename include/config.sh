@@ -27,7 +27,7 @@ depends_prefix=/usr/local
 web_root_dir=/data/www/default
 
 #Download root URL
-download_root_url="https://dl.lamp.sh/files/"
+download_root_url="https://dl.lamp.sh/files"
 
 #parallel compile option,1:enable,0:disable
 parallel_compile=1

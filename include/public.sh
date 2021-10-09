@@ -667,7 +667,7 @@ download_file(){
         else
             rm -f "$1"
             _info "$1 download failed, retrying download from secondary url..."
-            wget --no-check-certificate -cv -t3 -T60 -O "$1" "${download_root_url}${1}"
+            wget --no-check-certificate -cv -t3 -T60 -O "$1" "${download_root_url}/${1}"
             if [ $? -eq 0 ]; then
                 _info "$1 download completed..."
             else
