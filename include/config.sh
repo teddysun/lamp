@@ -180,8 +180,8 @@ xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
 xdebug_filename3="xdebug-3.0.4"
 xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.4.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.1.0-8"
-ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.1.0-8.tar.gz"
+ImageMagick_filename="ImageMagick-7.1.0-9"
+ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.1.0-9.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.5.1"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.5.1.tgz"
@@ -205,8 +205,8 @@ php_memcached_filename_url="https://pecl.php.net/get/memcached-2.2.0.tgz"
 php_memcached_filename2="memcached-3.1.5"
 php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
 #redis
-redis_filename="redis-5.0.13"
-redis_filename_url="http://download.redis.io/releases/redis-5.0.13.tar.gz"
+redis_filename="redis-5.0.14"
+redis_filename_url="http://download.redis.io/releases/redis-5.0.14.tar.gz"
 #php extension redis
 php_redis_filename="redis-4.3.0"
 php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
@@ -231,8 +231,8 @@ psr_filename_url="https://pecl.php.net/get/psr-1.1.0.tgz"
 phalcon_filename="phalcon-4.1.2"
 phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.2.tgz"
 #php extension apcu
-apcu_filename="apcu-5.1.20"
-apcu_filename_url="https://pecl.php.net/get/apcu-5.1.20.tgz"
+apcu_filename="apcu-5.1.21"
+apcu_filename_url="https://pecl.php.net/get/apcu-5.1.21.tgz"
 #php extension grpc
 grpc_filename="grpc-1.39.0"
 grpc_filename_url="https://pecl.php.net/get/grpc-1.39.0.tgz"

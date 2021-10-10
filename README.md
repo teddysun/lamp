@@ -67,9 +67,9 @@
 | ionCube Loader                | 10.4.5                                                    |
 | PDFlib (PHP 7.3+)             | 9.3.1                                                     |
 | XCache (PHP 5.6)              | 3.2.0                                                     |
-| APCu extension                | 5.1.20                                                    |
+| APCu extension                | 5.1.21                                                    |
 | gRPC extension                | 1.39.0                                                    |
-| ImageMagick                   | 7.1.0-8                                                   |
+| ImageMagick                   | 7.1.0-9                                                   |
 | imagick extension             | 3.5.1                                                     |
 | GraphicsMagick                | 1.3.36                                                    |
 | gmagick extension (PHP 5.6)   | 1.1.7RC3                                                  |
@@ -81,7 +81,7 @@
 | memcached extension (PHP 5.6) | 2.2.0                                                     |
 | memcached extension (PHP 7.0+)| 3.1.5                                                     |
 | re2c                          | 2.2                                                       |
-| redis                         | 5.0.13                                                    |
+| redis                         | 5.0.14                                                    |
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
 | redis extension (PHP 7.0+)    | 5.3.4                                                     |
 | mongodb extension             | 1.9.2                                                     |
