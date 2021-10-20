@@ -34,8 +34,8 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.45.1"
-nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.45.1/nghttp2-1.45.1.tar.gz"
+nghttp2_filename="nghttp2-1.46.0"
+nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.46.0/nghttp2-1.46.0.tar.gz"
 #openssl
 openssl_filename="openssl-1.1.1l"
 openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1l.tar.gz"
@@ -45,9 +45,9 @@ apache2_4_filename_url="https://dlcdn.apache.org//httpd/httpd-2.4.51.tar.gz"
 #mysql5.6
 mysql5_6_filename="mysql-5.6.51"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.35"
+mysql5_7_filename="mysql-5.7.36"
 #mysql8.0
-mysql8_0_filename="mysql-8.0.26"
+mysql8_0_filename="mysql-8.0.27"
 #mariadb10.1
 mariadb10_1_filename="mariadb-10.1.48"
 #mariadb10.2
