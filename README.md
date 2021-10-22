@@ -63,7 +63,7 @@
 
 | PHP & Additional extensions   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| PHP                           | 5.6.40, 7.0.33, 7.1.33, 7.2.34, 7.3.31, 7.4.24, 8.0.11    |
+| PHP                           | 5.6.40, 7.0.33, 7.1.33, 7.2.34, 7.3.31, 7.4.25, 8.0.12    |
 | ionCube Loader                | 10.4.5                                                    |
 | PDFlib (PHP 7.3+)             | 9.3.1                                                     |
 | XCache (PHP 5.6)              | 3.2.0                                                     |
@@ -85,7 +85,7 @@
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
 | redis extension (PHP 7.0+)    | 5.3.4                                                     |
 | mongodb extension             | 1.9.2                                                     |
-| swoole extension (PHP 7.2+)   | 4.7.1                                                     |
+| swoole extension (PHP 7.2+)   | 4.8.0                                                     |
 | yaf extension (PHP 7.0+)      | 3.3.3                                                     |
 | yar extension (PHP 7.0+)      | 2.2.0                                                     |
 | msgpack extension (PHP 7.0+)  | 2.1.2                                                     |

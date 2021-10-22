@@ -74,11 +74,11 @@ php7_2_filename_url="https://www.php.net/distributions/php-7.2.34.tar.gz"
 php7_3_filename="php-7.3.31"
 php7_3_filename_url="https://www.php.net/distributions/php-7.3.31.tar.gz"
 #php7.4
-php7_4_filename="php-7.4.24"
-php7_4_filename_url="https://www.php.net/distributions/php-7.4.24.tar.gz"
+php7_4_filename="php-7.4.25"
+php7_4_filename_url="https://www.php.net/distributions/php-7.4.25.tar.gz"
 #php8.0
-php8_0_filename="php-8.0.11"
-php8_0_filename_url="https://www.php.net/distributions/php-8.0.11.tar.gz"
+php8_0_filename="php-8.0.12"
+php8_0_filename_url="https://www.php.net/distributions/php-8.0.12.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-4.9.7-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.7/phpMyAdmin-4.9.7-all-languages.tar.gz"
@@ -170,8 +170,8 @@ pdflib64_filename="PDFlib-9.3.1-Linux-x64-php"
 pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/931/PDFlib-9.3.1-Linux-x64-php.tar.gz"
 #PECL packages
 #php extension swoole
-swoole_filename="swoole-4.7.1"
-swoole_filename_url="https://pecl.php.net/get/swoole-4.7.1.tgz"
+swoole_filename="swoole-4.8.0"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.8.0.tgz"
 #php extension xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
