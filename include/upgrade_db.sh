@@ -51,15 +51,15 @@ upgrade_db(){
         elif [ "${mariadb_ver}" == "10.0" ]; then
             latest_mariadb="10.0.38"
         elif [ "${mariadb_ver}" == "10.1" ]; then
-            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.1/{print $3}')"
+            latest_mariadb="10.1.48"
         elif [ "${mariadb_ver}" == "10.2" ]; then
-            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.2/{print $3}')"
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep textwidget | grep -oE  "10.2.[0-9.]+" | head -1)"
         elif [ "${mariadb_ver}" == "10.3" ]; then
-            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.3/{print $3}')"
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep textwidget | grep -oE  "10.3.[0-9.]+" | head -1)"
         elif [ "${mariadb_ver}" == "10.4" ]; then
-            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.4/{print $3}')"
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep textwidget | grep -oE  "10.4.[0-9.]+" | head -1)"
         elif [ "${mariadb_ver}" == "10.5" ]; then
-            latest_mariadb="$(curl -4s https://downloads.mariadb.org/ | awk -F/ '/\/mariadb\/10.5/{print $3}')"
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep textwidget | grep -oE  "10.5.[0-9.]+" | head -1)"
         fi
 
         _info "Latest version of MariaDB   : $(_red ${latest_mariadb})"
