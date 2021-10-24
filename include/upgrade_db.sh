@@ -28,9 +28,9 @@ upgrade_db(){
         installed_mysql="$(${mysql_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
         mysql_ver="$(echo ${installed_mysql} | cut -d. -f1-2)"
         if   [ "${mysql_ver}" == "5.5" ]; then
-            latest_mysql="$(curl -4s https://dev.mysql.com/downloads/mysql/5.5.html | awk '/MySQL Community Server/{print $4}' | grep '5.5')"
+            latest_mysql="5.5.62"
         elif [ "${mysql_ver}" == "5.6" ]; then
-            latest_mysql="$(curl -4s https://dev.mysql.com/downloads/mysql/5.6.html | awk '/MySQL Community Server/{print $4}' | grep '5.6')"
+            latest_mysql="5.6.51"
         elif [ "${mysql_ver}" == "5.7" ]; then
             latest_mysql="$(curl -4s https://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7')"
         elif [ "${mysql_ver}" == "8.0" ]; then
