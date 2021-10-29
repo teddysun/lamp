@@ -71,8 +71,8 @@ php7_1_filename_url="https://www.php.net/distributions/php-7.1.33.tar.gz"
 php7_2_filename="php-7.2.34"
 php7_2_filename_url="https://www.php.net/distributions/php-7.2.34.tar.gz"
 #php7.3
-php7_3_filename="php-7.3.31"
-php7_3_filename_url="https://www.php.net/distributions/php-7.3.31.tar.gz"
+php7_3_filename="php-7.3.32"
+php7_3_filename_url="https://www.php.net/distributions/php-7.3.32.tar.gz"
 #php7.4
 php7_4_filename="php-7.4.25"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.25.tar.gz"
