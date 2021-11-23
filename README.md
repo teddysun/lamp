@@ -53,7 +53,7 @@
 | nghttp2                       | 1.46.0                                                    |
 | openssl                       | 1.1.1l                                                    |
 | mod_wsgi                      | 4.9.0                                                     |
-| mod_security2                 | 2.9.4                                                     |
+| mod_security2                 | 2.9.5                                                     |
 | mod_jk                        | 1.2.48                                                    |
 
 | Database                      | Version                                                   |
@@ -69,7 +69,7 @@
 | XCache (PHP 5.6)              | 3.2.0                                                     |
 | APCu extension                | 5.1.21                                                    |
 | gRPC extension                | 1.41.0                                                    |
-| ImageMagick                   | 7.1.0-15                                                  |
+| ImageMagick                   | 7.1.0-16                                                  |
 | imagick extension             | 3.6.0                                                     |
 | GraphicsMagick                | 1.3.36                                                    |
 | gmagick extension (PHP 5.6)   | 1.1.7RC3                                                  |

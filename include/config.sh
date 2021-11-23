@@ -109,9 +109,9 @@ mod_jk_filename="tomcat-connectors-1.2.48-src"
 mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.48-src.tar.gz"
 set_hint ${mod_jk_filename} "mod_jk-1.2.48"
 #mod_security
-mod_security_filename="modsecurity-2.9.4"
-mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.4/modsecurity-2.9.4.tar.gz"
-set_hint ${mod_security_filename} "mod_security-2.9.4"
+mod_security_filename="modsecurity-2.9.5"
+mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.5/modsecurity-2.9.5.tar.gz"
+set_hint ${mod_security_filename} "mod_security-2.9.5"
 #mhash
 mhash_filename="mhash-0.9.9.9"
 mhash_filename_url="https://sourceforge.net/projects/mhash/files/mhash/0.9.9.9/mhash-0.9.9.9.tar.gz/download"
@@ -180,8 +180,8 @@ xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
 xdebug_filename3="xdebug-3.0.4"
 xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.4.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.1.0-15"
-ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.1.0-15.tar.gz"
+ImageMagick_filename="ImageMagick-7.1.0-16"
+ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.1.0-16.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.6.0"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.6.0.tgz"
