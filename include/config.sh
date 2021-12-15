@@ -170,8 +170,8 @@ pdflib64_filename="PDFlib-9.3.1-Linux-x64-php"
 pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/931/PDFlib-9.3.1-Linux-x64-php.tar.gz"
 #PECL packages
 #php extension swoole
-swoole_filename="swoole-4.8.2"
-swoole_filename_url="https://pecl.php.net/get/swoole-4.8.2.tgz"
+swoole_filename="swoole-4.8.3"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.8.3.tgz"
 #php extension xdebug
 xdebug_filename="xdebug-2.5.5"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
