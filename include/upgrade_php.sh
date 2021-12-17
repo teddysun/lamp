@@ -42,7 +42,7 @@ upgrade_php(){
             latest_php="7.2.34"
             ;;
         7.3)
-            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.3')"
+            latest_php="7.3.33"
             ;;
         7.4)
             latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.4')"
