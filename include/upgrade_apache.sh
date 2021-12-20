@@ -19,7 +19,7 @@ upgrade_apache(){
     fi
 
     local installed_apache="$(${apache_location}/bin/httpd -v | grep 'version' | awk -F/ '{print $2}' | cut -d' ' -f1)"
-    local latest_apache24="$(curl -s http://httpd.apache.org/download.cgi | awk '/#apache24/{print $2}' | head -n 1 | awk -F'>' '{print $2}' | cut -d'<' -f1)"
+    local latest_apache24="$(curl -s https://httpd.apache.org/download.cgi | awk '/#apache24/{print $2}' | head -n 1 | awk -F'>' '{print $2}' | cut -d'<' -f1)"
 
     _info "Latest version of Apache   : $(_red ${latest_apache24})"
     _info "Installed version of Apache: $(_red ${installed_apache})"
