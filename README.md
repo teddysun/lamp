@@ -239,6 +239,6 @@ Support(Chinese only): https://lamp.sh/support.html
 
 ## License
 
-Copyright (C) 2013 - 2021 [Teddysun](https://teddysun.com/)
+Copyright (C) 2013 - 2022 [Teddysun](https://teddysun.com/)
 
 Licensed under the [GPLv3](LICENSE) License.
