@@ -103,7 +103,7 @@
 
 | File Managerment Tool         | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| KodExplorer                   | 4.46                                                      |
+| KodExplorer                   | 4.47                                                      |
 
 ## Installation
 
