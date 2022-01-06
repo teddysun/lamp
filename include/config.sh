@@ -122,8 +122,8 @@ libmcrypt_filename_url="https://sourceforge.net/projects/mcrypt/files/Libmcrypt/
 mcrypt_filename="mcrypt-2.6.8"
 mcrypt_filename_url="https://sourceforge.net/projects/mcrypt/files/MCrypt/2.6.8/mcrypt-2.6.8.tar.gz/download"
 #pcre
-pcre_filename="pcre-8.44"
-pcre_filename_url="https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz"
+pcre_filename="pcre-8.45"
+pcre_filename_url="https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz/download"
 #re2c
 re2c_filename="re2c-2.2"
 re2c_filename_url="${download_root_url}/re2c-2.2.tar.gz"
