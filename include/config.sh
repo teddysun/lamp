@@ -213,8 +213,8 @@ php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
 php_redis_filename2="redis-5.3.4"
 php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.4.tgz"
 #php extension mongodb
-php_mongo_filename="mongodb-1.9.2"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.9.2.tgz"
+php_mongo_filename="mongodb-1.12.0"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.12.0.tgz"
 #libsodium
 libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
@@ -222,11 +222,11 @@ libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsod
 php_libsodium_filename="libsodium-2.0.23"
 php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.23.tgz"
 #php extension yaf
-yaf_filename="yaf-3.3.3"
-yaf_filename_url="https://pecl.php.net/get/yaf-3.3.3.tgz"
+yaf_filename="yaf-3.3.4"
+yaf_filename_url="https://pecl.php.net/get/yaf-3.3.4.tgz"
 #php extension psr
-psr_filename="psr-1.1.0"
-psr_filename_url="https://pecl.php.net/get/psr-1.1.0.tgz"
+psr_filename="psr-1.2.0"
+psr_filename_url="https://pecl.php.net/get/psr-1.2.0.tgz"
 #php extension phalcon
 phalcon_filename="phalcon-4.1.2"
 phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.2.tgz"
@@ -234,14 +234,14 @@ phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.2.tgz"
 apcu_filename="apcu-5.1.21"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.21.tgz"
 #php extension grpc
-grpc_filename="grpc-1.41.0"
-grpc_filename_url="https://pecl.php.net/get/grpc-1.41.0.tgz"
+grpc_filename="grpc-1.43.0"
+grpc_filename_url="https://pecl.php.net/get/grpc-1.43.0.tgz"
 #php extension msgpack
 msgpack_filename="msgpack-2.1.2"
 msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.2.tgz"
 #php extension yar
-yar_filename="yar-2.2.0"
-yar_filename_url="https://pecl.php.net/get/yar-2.2.0.tgz"
+yar_filename="yar-2.2.1"
+yar_filename_url="https://pecl.php.net/get/yar-2.2.1.tgz"
 
 #software array setting
 apache_arr=(

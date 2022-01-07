@@ -68,7 +68,7 @@
 | PDFlib (PHP 7.3+)             | 9.3.1                                                     |
 | XCache (PHP 5.6)              | 3.2.0                                                     |
 | APCu extension                | 5.1.21                                                    |
-| gRPC extension                | 1.41.0                                                    |
+| gRPC extension                | 1.43.0                                                    |
 | ImageMagick                   | 7.1.0-19                                                  |
 | imagick extension             | 3.6.0                                                     |
 | GraphicsMagick                | 1.3.36                                                    |
@@ -84,12 +84,12 @@
 | redis                         | 5.0.14                                                    |
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
 | redis extension (PHP 7.0+)    | 5.3.4                                                     |
-| mongodb extension             | 1.9.2                                                     |
+| mongodb extension             | 1.12.0                                                    |
 | swoole extension (PHP 7.2+)   | 4.8.5                                                     |
-| yaf extension (PHP 7.0+)      | 3.3.3                                                     |
-| yar extension (PHP 7.0+)      | 2.2.0                                                     |
+| yaf extension (PHP 7.0+)      | 3.3.4                                                     |
+| yar extension (PHP 7.0+)      | 2.2.1                                                     |
 | msgpack extension (PHP 7.0+)  | 2.1.2                                                     |
-| psr extension (PHP 7.2+)      | 1.1.0                                                     |
+| psr extension (PHP 7.2+)      | 1.2.0                                                     |
 | phalcon extension (PHP 7.3+)  | 4.1.2                                                     |
 | xdebug extension (PHP 5.6)    | 2.5.5                                                     |
 | xdebug extension (PHP 7.0+)   | 2.9.8                                                     |
