@@ -183,11 +183,11 @@ xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.4.tgz"
 ImageMagick_filename="ImageMagick-7.1.0-19"
 ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.1.0-19.tar.gz"
 #php extension imagick
-php_imagemagick_filename="imagick-3.6.0"
-php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.6.0.tgz"
+php_imagemagick_filename="imagick-3.7.0"
+php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.7.0.tgz"
 #GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.36"
-GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.36/GraphicsMagick-1.3.36.tar.gz/download"
+GraphicsMagick_filename="GraphicsMagick-1.3.37"
+GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.37/GraphicsMagick-1.3.37.tar.gz/download"
 #php extension gmagick
 php_graphicsmagick_filename="gmagick-1.1.7RC3"
 php_graphicsmagick_filename_url="https://pecl.php.net/get/gmagick-1.1.7RC3.tgz"
