@@ -30,7 +30,7 @@ include(){
 }
 
 version(){
-    _info "Version: $(_green 20211215)"
+    _info "Version: $(_green 20220115)"
 }
 
 show_parameters(){
