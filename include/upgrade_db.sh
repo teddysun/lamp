@@ -35,6 +35,8 @@ upgrade_db(){
             latest_mysql="$(curl -4s https://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7')"
         elif [ "${mysql_ver}" == "8.0" ]; then
             latest_mysql="$(curl -4s https://dev.mysql.com/downloads/mysql/8.0.html | awk '/MySQL Community Server/{print $4}' | grep '8.0')"
+        else
+            _error "There is no update available for ${db_name} ${installed_mysql}"
         fi
 
         _info "Latest version of MySQL   : $(_red ${latest_mysql})"
@@ -60,6 +62,10 @@ upgrade_db(){
             latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest MariaDB releases" | grep -oE  "10.4.[0-9.]+" | head -1)"
         elif [ "${mariadb_ver}" == "10.5" ]; then
             latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest MariaDB releases" | grep -oE  "10.5.[0-9.]+" | head -1)"
+        elif [ "${mariadb_ver}" == "10.6" ]; then
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest MariaDB releases" | grep -oE  "10.6.[0-9.]+" | head -1)"
+        else
+            _error "There is no update available for ${db_name} ${installed_mariadb}"
         fi
 
         _info "Latest version of MariaDB   : $(_red ${latest_mariadb})"
@@ -157,10 +163,13 @@ upgrade_db(){
             mkdir -p ${mariadb_location}
             [ ! -d ${datalocation} ] && mkdir -p ${datalocation}
 
-            if [ "${mariadb_ver}" == "10.5" ] || version_lt $(get_libc_version) 2.14; then
+            if version_lt $(get_libc_version) 2.14; then
                 glibc_flag=linux
             else
                 glibc_flag=linux-glibc_214
+                if [ "${mariadb_ver}" == "10.5" ] || [ "${mariadb_ver}" == "10.6" ]; then
+                    glibc_flag=linux-systemd
+                fi
             fi
             is_64bit && sys_bit_a=x86_64 || sys_bit_a=x86
             is_64bit && sys_bit_b=x86_64 || sys_bit_b=i686
@@ -195,6 +204,7 @@ upgrade_db(){
         fi
         _info "Starting ${db_name}..."
         /etc/init.d/mysqld start > /dev/null 2>&1
+        sleep 1
         if [ $? -ne 0 ]; then
             _error "Starting ${db_name} failed, Please check it and try again"
         fi

@@ -18,7 +18,10 @@ mysql_preinstall_settings(){
         mysql_arr=(${mysql_arr[@]#${mariadb10_3_filename}})
         mysql_arr=(${mysql_arr[@]#${mariadb10_4_filename}})
         mysql_arr=(${mysql_arr[@]#${mariadb10_5_filename}})
+        mysql_arr=(${mysql_arr[@]#${mariadb10_6_filename}})
     fi
+    # mariadb 10.6 not support 32 bit
+    is_64bit || mysql_arr=(${mysql_arr[@]#${mariadb10_6_filename}})
     display_menu mysql 2
 
     if [ "${mysql}" != "do_not_install" ];then
@@ -246,15 +249,17 @@ common_setup(){
 
     _info "Starting ${db_name}..."
     /etc/init.d/mysqld start > /dev/null 2>&1
-    if [ "${mysql}" == "${mysql8_0_filename}" ]; then
-        /usr/bin/mysql -uroot -hlocalhost -e "create user root@'127.0.0.1' identified by \"${db_pass}\";"
-        /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'127.0.0.1' with grant option;"
-        /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'localhost' with grant option;"
-        /usr/bin/mysql -uroot -hlocalhost -e "alter user root@'localhost' identified by \"${db_pass}\";"
-    else
-        /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${db_pass}\" with grant option;"
-        /usr/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${db_pass}\" with grant option;"
-        /usr/bin/mysql -uroot -p${db_pass} <<EOF
+    sleep 1
+    if [ $? -eq 0 ]; then
+        if [ "${mysql}" == "${mysql8_0_filename}" ]; then
+            /usr/bin/mysql -uroot -hlocalhost -e "create user root@'127.0.0.1' identified by \"${db_pass}\";"
+            /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'127.0.0.1' with grant option;"
+            /usr/bin/mysql -uroot -hlocalhost -e "grant all privileges on *.* to root@'localhost' with grant option;"
+            /usr/bin/mysql -uroot -hlocalhost -e "alter user root@'localhost' identified by \"${db_pass}\";"
+        else
+            /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${db_pass}\" with grant option;"
+            /usr/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${db_pass}\" with grant option;"
+            /usr/bin/mysql -uroot -p${db_pass} <<EOF
 drop database if exists test;
 delete from mysql.db where user='';
 delete from mysql.user where user='';
@@ -262,6 +267,9 @@ delete from mysql.user where user='mysql';
 flush privileges;
 exit
 EOF
+        fi
+    else
+        _warn "${mysql} looks like not running, please manually grant privileges for root user if necessary."
     fi
 
     _info "Shutting down ${db_name}..."
@@ -330,10 +338,13 @@ install_mariadb(){
 
     common_install
 
-    if [ "${mysql}" == "${mariadb10_5_filename}" ] || version_lt $(get_libc_version) 2.14; then
+    if version_lt $(get_libc_version) 2.14; then
         glibc_flag=linux
     else
         glibc_flag=linux-glibc_214
+        if [ "${mysql}" == "${mariadb10_5_filename}" ] || [ "${mysql}" == "${mariadb10_6_filename}" ]; then
+            glibc_flag=linux-systemd
+        fi
     fi
 
     is_64bit && sys_bit_a=x86_64 || sys_bit_a=x86

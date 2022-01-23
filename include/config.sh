@@ -48,8 +48,6 @@ mysql5_6_filename="mysql-5.6.51"
 mysql5_7_filename="mysql-5.7.37"
 #mysql8.0
 mysql8_0_filename="mysql-8.0.28"
-#mariadb10.1
-mariadb10_1_filename="mariadb-10.1.48"
 #mariadb10.2
 mariadb10_2_filename="mariadb-10.2.41"
 #mariadb10.3
@@ -58,6 +56,8 @@ mariadb10_3_filename="mariadb-10.3.32"
 mariadb10_4_filename="mariadb-10.4.22"
 #mariadb10.5
 mariadb10_5_filename="mariadb-10.5.13"
+#mariadb10.6
+mariadb10_6_filename="mariadb-10.6.5"
 #php5.6
 php5_6_filename="php-5.6.40"
 php5_6_filename_url="https://www.php.net/distributions/php-5.6.40.tar.gz"
@@ -260,11 +260,11 @@ mysql_arr=(
 ${mysql5_6_filename}
 ${mysql5_7_filename}
 ${mysql8_0_filename}
-${mariadb10_1_filename}
 ${mariadb10_2_filename}
 ${mariadb10_3_filename}
 ${mariadb10_4_filename}
 ${mariadb10_5_filename}
+${mariadb10_6_filename}
 do_not_install
 )
 

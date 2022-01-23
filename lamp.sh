@@ -150,7 +150,14 @@ process(){
             fi
             [[ "${db_option}" -lt 1 || "${db_option}" -gt 9 ]] && _error "Option --db_option input error, please only input a number between 1 and 9"
             eval mysql=${mysql_arr[${db_option}-1]}
-            if [[ "${mysql}" == "${mariadb10_3_filename}" || "${mysql}" == "${mariadb10_4_filename}" || "${mysql}" == "${mariadb10_5_filename}" ]] && version_lt $(get_libc_version) 2.14; then
+            if [[ "${mysql}" == "${mariadb10_3_filename}" || \
+                  "${mysql}" == "${mariadb10_4_filename}" || \
+                  "${mysql}" == "${mariadb10_5_filename}" || \
+                  "${mysql}" == "${mariadb10_6_filename}" ]] \
+                  && version_lt $(get_libc_version) 2.14; then
+                _error "Option --db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
+            fi
+            if ! is_64bit && [[ "${mysql}" == "${mariadb10_6_filename}" ]]; then
                 _error "Option --db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
             fi
             ;;
