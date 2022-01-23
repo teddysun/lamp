@@ -80,8 +80,8 @@ php7_4_filename_url="https://www.php.net/distributions/php-7.4.27.tar.gz"
 php8_0_filename="php-8.0.15"
 php8_0_filename_url="https://www.php.net/distributions/php-8.0.15.tar.gz"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.9.8-all-languages"
-phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.8/phpMyAdmin-4.9.8-all-languages.tar.gz"
+phpmyadmin_filename="phpMyAdmin-4.9.9-all-languages"
+phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.9/phpMyAdmin-4.9.9-all-languages.tar.gz"
 phpmyadmin_filename2="phpMyAdmin-5.1.2-all-languages"
 phpmyadmin_filename2_url="https://files.phpmyadmin.net/phpMyAdmin/5.1.2/phpMyAdmin-5.1.2-all-languages.tar.gz"
 #Adminer
