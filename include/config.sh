@@ -37,8 +37,8 @@ parallel_compile=1
 nghttp2_filename="nghttp2-1.46.0"
 nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.46.0/nghttp2-1.46.0.tar.gz"
 #openssl
-openssl_filename="openssl-1.1.1l"
-openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1l.tar.gz"
+openssl_filename="openssl-1.1.1m"
+openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1m.tar.gz"
 #apache2.4
 apache2_4_filename="httpd-2.4.52"
 apache2_4_filename_url="https://dlcdn.apache.org//httpd/httpd-2.4.52.tar.gz"
