@@ -79,7 +79,7 @@
 | libmemcached                  | 1.0.18                                                    |
 | memcached extension (PHP 5.6) | 2.2.0                                                     |
 | memcached extension (PHP 7.0+)| 3.1.5                                                     |
-| re2c                          | 2.2                                                       |
+| re2c                          | 3.0                                                       |
 | redis                         | 5.0.14                                                    |
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
 | redis extension (PHP 7.0+)    | 5.3.4                                                     |
