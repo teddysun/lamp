@@ -82,7 +82,7 @@
 | re2c                          | 3.0                                                       |
 | redis                         | 5.0.14                                                    |
 | redis extension (PHP 5.6)     | 4.3.0                                                     |
-| redis extension (PHP 7.0+)    | 5.3.4                                                     |
+| redis extension (PHP 7.0+)    | 5.3.7                                                     |
 | mongodb extension             | 1.12.0                                                    |
 | swoole extension (PHP 7.2+)   | 4.8.6                                                     |
 | yaf extension (PHP 7.0+)      | 3.3.4                                                     |
