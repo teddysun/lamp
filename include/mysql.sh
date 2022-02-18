@@ -64,12 +64,7 @@ mysql_preinstall_settings(){
 #Install Database common
 common_install(){
     local apt_list=(libncurses5 libncurses5-dev cmake m4 bison libaio1 libaio-dev numactl)
-    local yum_list=(ncurses-devel cmake m4 bison libaio libaio-devel numactl-devel libevent)
-    if is_64bit; then
-        local perl_data_dumper_url="${download_root_url}/perl-Data-Dumper-2.125-1.el6.rf.x86_64.rpm"
-    else
-        local perl_data_dumper_url="${download_root_url}/perl-Data-Dumper-2.125-1.el6.rf.i686.rpm"
-    fi
+    local yum_list=(ncurses-devel cmake m4 bison libaio libaio-devel numactl-devel libevent perl-Data-Dumper)
     _info "Installing dependencies for Database..."
     if check_sys packageManager apt; then
         for depend in ${apt_list[@]}; do
@@ -79,16 +74,6 @@ common_install(){
         for depend in ${yum_list[@]}; do
             error_detect_depends "yum -y install ${depend}"
         done
-        if centosversion 6; then
-            rpm -q perl-Data-Dumper > /dev/null 2>&1
-            if [ $? -ne 0 ]; then
-                _info "Installing package perl-Data-Dumper"
-                rpm -Uvh ${perl_data_dumper_url} > /dev/null 2>&1
-                [ $? -ne 0 ] && _error "Install package perl-Data-Dumper failed"
-            fi
-        else
-            error_detect_depends "yum -y install perl-Data-Dumper"
-        fi
         if centosversion 8 || echo ${opsy} | grep -Eqi "fedora" || echo ${opsy} | grep -Eqi "amazon"; then
             error_detect_depends "yum -y install ncurses-compat-libs"
         fi

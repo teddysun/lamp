@@ -188,18 +188,6 @@ install_php_depends(){
         install_libmcrypt
         install_mcrypt
         install_libzip
-        # Fixed error: Autoconf version 2.68 or higher is required in CentOS 6
-        if centosversion 6; then
-            # Uninstall old autoconf
-            if rpm -qa | grep -q autoconf; then
-                rpm -e --nodeps autoconf-2.63
-            fi
-            install_autoconf
-            # Fixed PHP 7.4+ installation in CentOS 6
-            if [[ "${php}" == "${php7_4_filename}" ]] || [[ "${php}" == "${php8_0_filename}" ]]; then
-                install_php74_centos6
-            fi
-        fi
     fi
     install_libiconv
     install_re2c
@@ -228,83 +216,6 @@ install_older_php_pre(){
     chmod +x /usr/bin/icu-config
 }
 
-install_php74_centos6(){
-    local libdir=""
-    is_64bit && libdir="lib64" || libdir="lib"
-    # Fixed configure: error: Package requirements (sqlite3 > 3.7.4) were not met
-    install_sqlite3
-    cp -pf /usr/local/lib/pkgconfig/sqlite3.pc /usr/${libdir}/pkgconfig
-    # Fixed configure: error: Package requirements (icu-uc >= 50.1 icu-io icu-i18n) were not met
-    install_icu4c
-    cp -pf /usr/local/lib/pkgconfig/icu*.pc /usr/${libdir}/pkgconfig
-    # Fixed configure: error: Package requirements (krb5-gssapi krb5) were not met
-    cat > /usr/${libdir}/pkgconfig/krb5-gssapi.pc <<EOF
-prefix=/usr
-exec_prefix=/usr
-libdir=/usr/${libdir}
-includedir=/usr/include
-
-Name: krb5-gssapi
-Description: Kerberos implementation of the GSSAPI
-Version: 1.10.3
-Libs: -L\${libdir} -lgssapi_krb5
-Cflags: -I\${includedir}
-EOF
-    cat > /usr/${libdir}/pkgconfig/krb5.pc <<EOF
-prefix=/usr
-exec_prefix=/usr
-libdir=/usr/${libdir}
-includedir=/usr/include
-
-Name: krb5
-Description: An implementation of Kerberos network authentication
-Version: 1.10.3
-Libs: -L\${libdir} -lkrb5 -lk5crypto
-Cflags: -I\${includedir}
-EOF
-    # Fixed configure: error: Package requirements (libjpeg) were not met
-    cat > /usr/${libdir}/pkgconfig/libjpeg.pc <<EOF
-prefix=/usr
-exec_prefix=/usr
-libdir=/usr/${libdir}
-includedir=/usr/include
-
-Name: libjpeg
-Description: A SIMD-accelerated JPEG codec that provides the libjpeg API
-Version: 1.2.1
-Libs: -L\${libdir} -ljpeg
-Cflags: -I\${includedir}
-EOF
-    # Fixed configure: error: Package requirements (libsasl2) were not met
-    cat > /usr/${libdir}/pkgconfig/libsasl2.pc <<EOF
-libdir = /usr/${libdir}
-
-Name: Cyrus SASL
-Description: Cyrus SASL implementation
-URL: http://www.cyrussasl.org/
-Version: 2.1.23
-Libs: -L\${libdir} -lsasl2
-Libs.private:  -ldl -lresolv -lcrypt -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lkrb5support
-EOF
-    # Fixed configure: error: Package requirements (oniguruma) were not met
-    cat > /usr/${libdir}/pkgconfig/oniguruma.pc <<EOF
-prefix=/usr
-exec_prefix=/usr
-libdir=/usr/${libdir}
-includedir=/usr/include
-datarootdir=/usr/share
-datadir=/usr/share
-
-Name: oniguruma
-Description: Regular expression library
-Version: 5.9.1
-Requires:
-Libs: -L\${libdir} -lonig
-Cflags: -I\${includedir}
-EOF
-
-}
-
 install_argon2(){
     if [ ! -e "/usr/lib/libargon2.a" ]; then
         cd ${cur_dir}/software/
@@ -316,49 +227,6 @@ install_argon2(){
         error_detect "make"
         error_detect "make install"
         _info "Install ${argon2_filename} completed..."
-    fi
-}
-
-install_autoconf(){
-    cd ${cur_dir}/software/
-    _info "Installing ${autoconf_filename}..."
-    download_file  "${autoconf_filename}.tar.gz" "${autoconf_filename_url}"
-    tar zxf ${autoconf_filename}.tar.gz
-    cd ${autoconf_filename}
-
-    error_detect "./configure --prefix=/usr"
-    error_detect "parallel_make"
-    error_detect "make install"
-    _info "Install ${autoconf_filename} completed..."
-}
-
-install_sqlite3(){
-    if [ ! -e "/usr/local/bin/sqlite3" ]; then
-        cd ${cur_dir}/software/
-        _info "Installing ${sqlite3_filename}..."
-        download_file  "${sqlite3_filename}.tar.gz" "${sqlite3_filename_url}"
-        tar zxf ${sqlite3_filename}.tar.gz
-        cd ${sqlite3_filename}
-
-        error_detect "./configure"
-        error_detect "parallel_make"
-        error_detect "make install"
-        _info "Install ${sqlite3_filename} completed..."
-    fi
-}
-
-install_icu4c(){
-    if [ ! -e "/usr/local/bin/icu-config" ]; then
-        cd ${cur_dir}/software/
-        _info "Installing ${icu4c_filename}..."
-        download_file  "${icu4c_filename}.tgz" "${icu4c_filename_url}"
-        tar zxf ${icu4c_filename}.tgz
-        cd ${icu4c_filename}/source/
-
-        error_detect "./configure"
-        error_detect "parallel_make"
-        error_detect "make install"
-        _info "Install ${icu4c_filename} completed..."
     fi
 }
 

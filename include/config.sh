@@ -141,15 +141,6 @@ libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz
 #libevent
 libevent_filename="libevent-2.1.12-stable"
 libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz"
-#sqlite3
-sqlite3_filename="sqlite-autoconf-3310000"
-sqlite3_filename_url="${download_root_url}/sqlite-autoconf-3310000.tar.gz"
-#icu4c
-icu4c_filename="icu"
-icu4c_filename_url="https://github.com/unicode-org/icu/releases/download/release-50-2/icu4c-50_2-src.tgz"
-#autoconf
-autoconf_filename="autoconf-2.69"
-autoconf_filename_url="http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz"
 #argon2
 argon2_filename="argon2-20171227"
 argon2_filename_url="${download_root_url}/argon2-20171227.tar.gz"

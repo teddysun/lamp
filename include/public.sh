@@ -296,21 +296,21 @@ check_installed(){
 check_os(){
     is_support_flg=0
     if check_sys packageManager yum || check_sys packageManager apt; then
-        # Not support CentOS prior to 6 & Debian prior to 8 & Ubuntu prior to 14 versions
-        if [ -n "$(get_centosversion)" ] && [ $(get_centosversion) -lt 6 ]; then
+        # Not support CentOS prior to 7 & Debian prior to 9 & Ubuntu prior to 18 versions
+        if [ -n "$(get_centosversion)" ] && [ $(get_centosversion) -lt 7 ]; then
             is_support_flg=1
         fi
-        if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -lt 8 ]; then
+        if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -lt 9 ]; then
             is_support_flg=1
         fi
-        if [ -n "$(get_ubuntuversion)" ] && [ $(get_ubuntuversion) -lt 14 ]; then
+        if [ -n "$(get_ubuntuversion)" ] && [ $(get_ubuntuversion) -lt 18 ]; then
             is_support_flg=1
         fi
     else
         is_support_flg=1
     fi
     if [ ${is_support_flg} -eq 1 ]; then
-        _error "Not supported OS, please change OS to CentOS 6+ or Debian 8+ or Ubuntu 14+ and try again."
+        _error "Not supported OS, please change OS to CentOS 7+ or Debian 9+ or Ubuntu 18+ and try again."
     fi
 }
 
@@ -995,7 +995,7 @@ install_tools(){
         for tool in ${yum_tools[@]}; do
             error_detect_depends "yum -y install ${tool}"
         done
-        if centosversion 6 || centosversion 7 || centosversion 8; then
+        if centosversion 7 || centosversion 8; then
             error_detect_depends "yum -y install epel-release"
             yum-config-manager --enable epel > /dev/null 2>&1
         fi

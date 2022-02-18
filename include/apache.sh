@@ -208,11 +208,7 @@ mod_xml2enc.so
     sed -i 's/Require host .example.com/Require host localhost/g' ${apache_location}/conf/extra/httpd-info.conf
     cp -f ${cur_dir}/conf/httpd-ssl.conf ${apache_location}/conf/extra/httpd-ssl.conf
     rm -f /etc/init.d/httpd
-    if centosversion 6; then
-        cp -f ${cur_dir}/init.d/httpd-init-centos6 /etc/init.d/httpd
-    else
-        cp -f ${cur_dir}/init.d/httpd-init /etc/init.d/httpd
-    fi
+    cp -f ${cur_dir}/init.d/httpd-init /etc/init.d/httpd
     sed -i "s#^apache_location=.*#apache_location=${apache_location}#" /etc/init.d/httpd
     chmod +x /etc/init.d/httpd
     rm -fr /var/log/httpd /usr/sbin/httpd
