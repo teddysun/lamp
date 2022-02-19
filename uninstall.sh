@@ -72,6 +72,7 @@ uninstall_lamp(){
     rm -rf /usr/local/bin/iconv
     rm -rf /usr/local/bin/re2c
     rm -rf /usr/local/bin/re2go
+    rm -rf /usr/local/bin/re2rust
     rm -rf /usr/local/bin/mcrypt
     rm -rf /usr/local/bin/mdecrypt
     rm -rf /etc/ld.so.conf.d/locallib.conf

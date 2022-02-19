@@ -42,8 +42,6 @@ openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1m.tar.gz"
 #apache2.4
 apache2_4_filename="httpd-2.4.52"
 apache2_4_filename_url="https://dlcdn.apache.org//httpd/httpd-2.4.52.tar.gz"
-#mysql5.6
-mysql5_6_filename="mysql-5.6.51"
 #mysql5.7
 mysql5_7_filename="mysql-5.7.37"
 #mysql8.0
@@ -58,6 +56,8 @@ mariadb10_4_filename="mariadb-10.4.24"
 mariadb10_5_filename="mariadb-10.5.15"
 #mariadb10.6
 mariadb10_6_filename="mariadb-10.6.7"
+#mariadb10.7
+mariadb10_7_filename="mariadb-10.7.3"
 #php7.4
 php7_4_filename="php-7.4.28"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.28.tar.gz"
@@ -215,7 +215,6 @@ do_not_install
 )
 
 mysql_arr=(
-${mysql5_6_filename}
 ${mysql5_7_filename}
 ${mysql8_0_filename}
 ${mariadb10_2_filename}
@@ -223,6 +222,7 @@ ${mariadb10_3_filename}
 ${mariadb10_4_filename}
 ${mariadb10_5_filename}
 ${mariadb10_6_filename}
+${mariadb10_7_filename}
 do_not_install
 )
 

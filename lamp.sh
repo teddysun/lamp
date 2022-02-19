@@ -152,10 +152,11 @@ process(){
                   "${mysql}" == "${mariadb10_4_filename}" || \
                   "${mysql}" == "${mariadb10_5_filename}" || \
                   "${mysql}" == "${mariadb10_6_filename}" ]] \
+                  "${mysql}" == "${mariadb10_7_filename}" ]] \
                   && version_lt $(get_libc_version) 2.14; then
                 _error "Option --db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
             fi
-            if ! is_64bit && [[ "${mysql}" == "${mariadb10_6_filename}" ]]; then
+            if ! is_64bit && [[ "${mysql}" == "${mariadb10_6_filename}" || "${mysql}" == "${mariadb10_7_filename}" ]]; then
                 _error "Option --db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
             fi
             ;;

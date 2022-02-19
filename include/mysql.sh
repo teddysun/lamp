@@ -19,10 +19,12 @@ mysql_preinstall_settings(){
         mysql_arr=(${mysql_arr[@]#${mariadb10_4_filename}})
         mysql_arr=(${mysql_arr[@]#${mariadb10_5_filename}})
         mysql_arr=(${mysql_arr[@]#${mariadb10_6_filename}})
+        mysql_arr=(${mysql_arr[@]#${mariadb10_7_filename}})
     fi
-    # mariadb 10.6 not support 32 bit
+    # mariadb 10.6, 10.7 not support 32 bit
     is_64bit || mysql_arr=(${mysql_arr[@]#${mariadb10_6_filename}})
-    display_menu mysql 2
+    is_64bit || mysql_arr=(${mysql_arr[@]#${mariadb10_7_filename}})
+    display_menu mysql 1
 
     if [ "${mysql}" != "do_not_install" ];then
         if echo "${mysql}" | grep -qi "mysql"; then
@@ -308,11 +310,7 @@ config_mysql(){
     if [ "${version}" == "8.0" ]; then
         echo "default_authentication_plugin  = mysql_native_password" >> /etc/my.cnf
     fi
-    if [ "${version}" == "5.5" ] || [ "${version}" == "5.6" ]; then
-        ${mysql_location}/scripts/mysql_install_db --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
-    elif [ "${version}" == "5.7" ] || [ "${version}" == "8.0" ]; then
-        ${mysql_location}/bin/mysqld --initialize-insecure --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
-    fi
+    ${mysql_location}/bin/mysqld --initialize-insecure --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
 
     common_setup
 
@@ -327,7 +325,9 @@ install_mariadb(){
         glibc_flag=linux
     else
         glibc_flag=linux-glibc_214
-        if [ "${mysql}" == "${mariadb10_5_filename}" ] || [ "${mysql}" == "${mariadb10_6_filename}" ]; then
+        if [[ "${mysql}" == "${mariadb10_5_filename}" || \
+              "${mysql}" == "${mariadb10_6_filename}" || \
+              "${mysql}" == "${mariadb10_7_filename}" ]]; then
             glibc_flag=linux-systemd
         fi
     fi
