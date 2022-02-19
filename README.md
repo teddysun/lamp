@@ -24,19 +24,23 @@
 ## Supported System
 
 - Amazon Linux 2
-- CentOS-7.x
-- CentOS-8.x (recommend)
-- Debian-9.x
-- Debian-10.x (recommend)
-- Ubuntu-18.x
-- Ubuntu-20.x (recommend)
+- CentOS 7
+- CentOS 8
+- CentOS Stream 8
+- Rocky Linux 8 (recommend)
+- AlmaLinux 8
+- Debian 9
+- Debian 10
+- Debian 11 (recommend)
+- Ubuntu 18.04
+- Ubuntu 20.04 (recommend)
 
 ## Supported Software
 
 - Apache-2.4 (Include HTTP/2 module: [nghttp2](https://github.com/nghttp2/nghttp2), [mod_http2](https://httpd.apache.org/docs/2.4/mod/mod_http2.html))
 - Apache Additional Modules: [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), [mod_security](https://github.com/SpiderLabs/ModSecurity), [mod_jk](https://tomcat.apache.org/download-connectors.cgi)
 - MySQL-5.6, MySQL-5.7, MySQL-8.0, MariaDB-10.2, MariaDB-10.3, MariaDB-10.4, MariaDB-10.5, MariaDB-10.6
-- PHP-5.6, PHP-7.0, PHP-7.1, PHP-7.2, PHP-7.3, PHP-7.4, PHP-8.0
+- PHP-7.4, PHP-8.0, PHP-8.1
 - PHP Additional extensions: [Zend OPcache](https://www.php.net/manual/en/book.opcache.php), [ionCube Loader](https://www.ioncube.com/loaders.php), [PDFlib](https://www.pdflib.com/), [XCache](https://xcache.lighttpd.net/), [APCu](https://pecl.php.net/package/APCu), [imagick](https://pecl.php.net/package/imagick), [gmagick](https://pecl.php.net/package/gmagick), [libsodium](https://github.com/jedisct1/libsodium-php), [memcached](https://github.com/php-memcached-dev/php-memcached), [redis](https://github.com/phpredis/phpredis), [mongodb](https://pecl.php.net/package/mongodb), [swoole](https://github.com/swoole/swoole-src), [yaf](https://github.com/laruence/yaf), [yar](https://github.com/laruence/yar), [msgpack](https://pecl.php.net/package/msgpack), [psr](https://github.com/jbboehr/php-psr), [phalcon](https://github.com/phalcon/cphalcon), [grpc](https://github.com/grpc/grpc), [xdebug](https://github.com/xdebug/xdebug)
 - Other Software: [OpenSSL](https://github.com/openssl/openssl), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [GraphicsMagick](http://www.graphicsmagick.org/), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Adminer](https://github.com/vrana/adminer), [Redis](https://github.com/redis/redis), [re2c](https://github.com/skvadrik/re2c), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
 
@@ -60,42 +64,33 @@
 
 | PHP & Additional extensions   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| PHP                           | 5.6.40, 7.0.33, 7.1.33, 7.2.34, 7.3.33, 7.4.28, 8.0.16    |
+| PHP                           | 7.4.28, 8.0.16, 8.1.3                                     |
 | ionCube Loader                | 11.0.1                                                    |
-| PDFlib (PHP 7.3+)             | 9.3.1                                                     |
-| XCache (PHP 5.6)              | 3.2.0                                                     |
+| PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
 | gRPC extension                | 1.43.0                                                    |
 | ImageMagick                   | 7.1.0-25                                                  |
 | imagick extension             | 3.7.0                                                     |
-| GraphicsMagick                | 1.3.37                                                    |
-| gmagick extension (PHP 5.6)   | 1.1.7RC3                                                  |
-| gmagick extension (PHP 7.0+)  | 2.0.6RC1                                                  |
 | libsodium                     | 1.0.18                                                    |
 | libsodium extension           | 2.0.23                                                    |
 | memcached                     | 1.6.6                                                     |
 | libmemcached                  | 1.0.18                                                    |
-| memcached extension (PHP 5.6) | 2.2.0                                                     |
-| memcached extension (PHP 7.0+)| 3.1.5                                                     |
+| memcached extension           | 3.1.5                                                     |
 | re2c                          | 3.0                                                       |
 | redis                         | 5.0.14                                                    |
-| redis extension (PHP 5.6)     | 4.3.0                                                     |
-| redis extension (PHP 7.0+)    | 5.3.7                                                     |
+| redis extension               | 5.3.7                                                     |
 | mongodb extension             | 1.12.0                                                    |
-| swoole extension (PHP 7.2+)   | 4.8.6                                                     |
-| yaf extension (PHP 7.0+)      | 3.3.4                                                     |
-| yar extension (PHP 7.0+)      | 2.2.1                                                     |
-| msgpack extension (PHP 7.0+)  | 2.1.2                                                     |
-| psr extension (PHP 7.2+)      | 1.2.0                                                     |
-| phalcon extension (PHP 7.3+)  | 4.1.2                                                     |
-| xdebug extension (PHP 5.6)    | 2.5.5                                                     |
-| xdebug extension (PHP 7.0+)   | 2.9.8                                                     |
-| xdebug extension (PHP 8.0+)   | 3.0.4                                                     |
+| swoole extension              | 4.8.6                                                     |
+| yaf extension                 | 3.3.4                                                     |
+| yar extension                 | 2.2.1                                                     |
+| msgpack extension             | 2.1.2                                                     |
+| psr extension                 | 1.2.0                                                     |
+| phalcon extension             | 4.1.2                                                     |
+| xdebug extension              | 3.1.3                                                     |
 
 | Database Management Tools     | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| phpMyAdmin (PHP 5.6, PHP 7.0) | 4.9.10                                                    |
-| phpMyAdmin (PHP 7.1+)         | 5.1.3                                                     |
+| phpMyAdmin                    | 5.1.3                                                     |
 | Adminer                       | 4.8.1                                                     |
 
 | File Managerment Tool         | Version                                                   |
@@ -104,7 +99,7 @@
 
 ## Installation
 
-- If your server system: Amazon Linux/CentOS/RedHat
+- If your server system: Amazon Linux 2/CentOS/Rocky Linux
 ```bash
 yum -y install wget git
 git clone https://github.com/teddysun/lamp.git

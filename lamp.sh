@@ -62,11 +62,11 @@ Options:
 --db_option [1-9]               Database version
 --db_data_path [location]       Database Data Location. for example: /data/db
 --db_root_pwd [password]        Database root password. for example: lamp.sh
---php_option [1-8]              PHP version
+--php_option [1-4]              PHP version
 --php_extensions [ext name]     PHP extensions:
-                                apcu, xcache, ioncube, pdflib, imagick, gmagick
+                                apcu, ioncube, pdflib, imagick, xdebug
                                 memcached, redis, mongodb, libsodium, swoole
-                                yaf, yar, phalcon, grpc, xdebug
+                                yaf, yar, phalcon, grpc
 --db_manage_modules [mod name]  Database management modules: phpmyadmin, adminer
 --kodexplorer_option [1-2]      KodExplorer version
 
@@ -76,7 +76,7 @@ Parameters:
     show_parameters apache
     echo "--db_option [1-9], please select a available Database version"
     show_parameters mysql
-    echo "--php_option [1-8], please select a available PHP version"
+    echo "--php_option [1-4], please select a available PHP version"
     show_parameters php
     echo "--kodexplorer_option [1-2], please select a available KodExplorer version"
     show_parameters kodexplorer
@@ -120,7 +120,7 @@ process(){
             if ! is_digit ${php_option}; then
                 _error "Option --php_option input error, please only input a number"
             fi
-            [[ "${php_option}" -lt 1 || "${php_option}" -gt 8 ]] && _error "Option --php_option input error, please only input a number between 1 and 8"
+            [[ "${php_option}" -lt 1 || "${php_option}" -gt 4 ]] && _error "Option --php_option input error, please only input a number between 1 and 4"
             eval php=${php_arr[${php_option}-1]}
             ;;
         --php_extensions)
@@ -128,9 +128,7 @@ process(){
             php_modules_install=""
             [ -n "$(echo ${php_extensions} | grep -w ioncube)" ] && php_modules_install="${ionCube_filename}"
             [ -n "$(echo ${php_extensions} | grep -w pdflib)" ] && php_modules_install="${php_modules_install} ${pdflib_filename}"
-            [ -n "$(echo ${php_extensions} | grep -w xcache)" ] && php_modules_install="${php_modules_install} ${xcache_filename}"
             [ -n "$(echo ${php_extensions} | grep -w imagick)" ] && php_modules_install="${php_modules_install} ${php_imagemagick_filename}"
-            [ -n "$(echo ${php_extensions} | grep -w gmagick)" ] && php_modules_install="${php_modules_install} ${php_graphicsmagick_filename}"
             [ -n "$(echo ${php_extensions} | grep -w memcached)" ] && php_modules_install="${php_modules_install} ${php_memcached_filename}"
             [ -n "$(echo ${php_extensions} | grep -w redis)" ] && php_modules_install="${php_modules_install} ${php_redis_filename}"
             [ -n "$(echo ${php_extensions} | grep -w mongodb)" ] && php_modules_install="${php_modules_install} ${php_mongo_filename}"
@@ -212,43 +210,16 @@ set_parameters(){
     [ -z "${php_extensions}" ] && php_modules_install="do_not_install"
     [ -z "${php_modules_install}" ] && php_modules_install="do_not_install"
     [ "${php}" == "do_not_install" ] && php_modules_install="do_not_install"
-    if [ -n "${php_modules_install}" ] && [ "${php}" == "${php5_6_filename}" ]; then
-        if_in_array "${php_libsodium_filename}" "${php_modules_install}" && _error "${php_libsodium_filename} is not support ${php}, only PHP 7.0 and above, please remove php extension: libsodium"
-        if_in_array "${swoole_filename}" "${php_modules_install}" && _error "${swoole_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: swoole"
-        if_in_array "${yaf_filename}" "${php_modules_install}" && _error "${yaf_filename} is not support ${php}, only PHP 7.0 and above, please remove php extension: yaf"
-        if_in_array "${yar_filename}" "${php_modules_install}" && _error "${yar_filename} is not support ${php}, only PHP 7.0 and above, please remove php extension: yar"
-        if_in_array "${pdflib_filename}" "${php_modules_install}" && _error "${pdflib_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: pdflib"
-        if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: phalcon"
-    fi
-    if [ -n "${php_modules_install}" ] && [ "${php}" != "${php5_6_filename}" ]; then
-        if_in_array "${xcache_filename}" "${php_modules_install}" && _error "${xcache_filename} is not support ${php}, only PHP 5.6, please remove php extension: xcache"
-        # Swoole supports only PHP 7.2+
-        if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
-            if_in_array "${swoole_filename}" "${php_modules_install}" && _error "${swoole_filename} is not support ${php}, only PHP 7.2 and above, please remove php extension: swoole"
-        fi
-        # PDFlib supports only PHP 7.3+
-        # Phalcon supports only PHP 7.3+
-        # Reference URL: https://github.com/phalcon/cphalcon/releases/tag/v4.1.2
-        if [[ "${php}" =~ ^php-7.[0-2].+$ ]]; then
-            if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, only PHP 7.3 and above, please remove php extension: phalcon"
-            if_in_array "${pdflib_filename}" "${php_modules_install}" && _error "${pdflib_filename} is not support ${php}, only PHP 7.3 and above, please remove php extension: pdflib"
-        fi
-        if [[ "${php}" =~ ^php-8.0.+$ ]]; then
+    if [ -n "${php_modules_install}" ]; then
+        if [[ "${php}" =~ ^php-8.[0-1].+$ ]]; then
             if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php}, please remove php extension: phalcon"
             if_in_array "${ionCube_filename}" "${php_modules_install}" && _error "${ionCube_filename} is not support ${php} now, please remove php extension: ioncube"
-            if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && _error "${php_imagemagick_filename} is not support ${php} now, please remove php extension: imagick"
             if_in_array "${php_memcached_filename}" "${php_modules_install}" && _error "${php_memcached_filename} is not support ${php} now, please remove php extension: memcached"
         fi
-        php_modules_install=(${php_modules_install})
-        if [[ "${php}" =~ ^php-8.0.+$ ]]; then
-            php_modules_install=(${php_modules_install[@]/#${xdebug_filename}/${xdebug_filename3}})
-        else
-            php_modules_install=(${php_modules_install[@]/#${xdebug_filename}/${xdebug_filename2}})
+        if [[ "${php}" =~ ^php-8.1.+$ ]]; then
+            if_in_array "${php_libsodium_filename}" "${php_modules_install}" && _error "${php_libsodium_filename} is not support ${php}, please remove php extension: libsodium"
         fi
-        php_modules_install=(${php_modules_install[@]/#${php_redis_filename}/${php_redis_filename2}})
-        php_modules_install=(${php_modules_install[@]/#${php_memcached_filename}/${php_memcached_filename2}})
-        php_modules_install=(${php_modules_install[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
-        php_modules_install=${php_modules_install[@]}
+        php_modules_install=(${php_modules_install})
     fi
 
     [ -z "${db_option}" ] && mysql="do_not_install"
@@ -264,16 +235,9 @@ set_parameters(){
     [ "${php}" == "do_not_install" ] && phpmyadmin_install="do_not_install"
     if [ -n "${php}" ] && [ -n "${db_manage_modules}" ]; then
         phpmyadmin_install=(${phpmyadmin_install})
-        # phpMyAdmin 5.x removed support of old PHP versions (5.6, 7.0)
-        # Reference URL: https://www.phpmyadmin.net/news/2019/12/26/phpmyadmin-500-released/
-        if [[ "${php}" =~ ^php-7.[1-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
-            phpmyadmin_install=(${phpmyadmin_install[@]/#${phpmyadmin_filename}/${phpmyadmin_filename2}})
-        fi
-        phpmyadmin_install=${phpmyadmin_install[@]}
     fi
     [ -z "${kodexplorer_option}" ] && kodexplorer="do_not_install"
     [ "${php}" == "do_not_install" ] && kodexplorer="do_not_install"
-    [[ "${php}" =~ ^php-8.0.+$ ]] && kodexplorer="do_not_install"
 
     phpConfig=${php_location}/bin/php-config
 }

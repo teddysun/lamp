@@ -58,32 +58,18 @@ mariadb10_4_filename="mariadb-10.4.24"
 mariadb10_5_filename="mariadb-10.5.15"
 #mariadb10.6
 mariadb10_6_filename="mariadb-10.6.7"
-#php5.6
-php5_6_filename="php-5.6.40"
-php5_6_filename_url="https://www.php.net/distributions/php-5.6.40.tar.gz"
-#php7.0
-php7_0_filename="php-7.0.33"
-php7_0_filename_url="https://www.php.net/distributions/php-7.0.33.tar.gz"
-#php7.1
-php7_1_filename="php-7.1.33"
-php7_1_filename_url="https://www.php.net/distributions/php-7.1.33.tar.gz"
-#php7.2
-php7_2_filename="php-7.2.34"
-php7_2_filename_url="https://www.php.net/distributions/php-7.2.34.tar.gz"
-#php7.3
-php7_3_filename="php-7.3.33"
-php7_3_filename_url="https://www.php.net/distributions/php-7.3.33.tar.gz"
 #php7.4
 php7_4_filename="php-7.4.28"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.28.tar.gz"
 #php8.0
 php8_0_filename="php-8.0.16"
 php8_0_filename_url="https://www.php.net/distributions/php-8.0.16.tar.gz"
+#php8.1
+php8_1_filename="php-8.1.3"
+php8_1_filename_url="https://www.php.net/distributions/php-8.1.3.tar.gz"
 #phpMyAdmin
-phpmyadmin_filename="phpMyAdmin-4.9.10-all-languages"
-phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/4.9.10/phpMyAdmin-4.9.10-all-languages.tar.gz"
-phpmyadmin_filename2="phpMyAdmin-5.1.3-all-languages"
-phpmyadmin_filename2_url="https://files.phpmyadmin.net/phpMyAdmin/5.1.3/phpMyAdmin-5.1.3-all-languages.tar.gz"
+phpmyadmin_filename="phpMyAdmin-5.1.3-all-languages"
+phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.1.3/phpMyAdmin-5.1.3-all-languages.tar.gz"
 #Adminer
 adminer_filename="adminer-4.8.1"
 adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php"
@@ -144,9 +130,6 @@ libevent_filename_url="https://github.com/libevent/libevent/releases/download/re
 #argon2
 argon2_filename="argon2-20171227"
 argon2_filename_url="${download_root_url}/argon2-20171227.tar.gz"
-#xcache
-xcache_filename="xcache-3.2.0"
-xcache_filename_url="https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.gz"
 #ionCube
 ionCube_filename="ioncube_loaders"
 ionCube32_filename="ioncube_loaders_lin_x86"
@@ -154,36 +137,24 @@ ionCube32_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_l
 ionCube64_filename="ioncube_loaders_lin_x86-64"
 ionCube64_filename_url="https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"
 #pdflib
-pdflib_filename="pdflib-9.3.1"
-pdflib32_filename="PDFlib-9.3.1-Linux-x86-php"
-pdflib32_filename_url="https://www.pdflib.com/binaries/PDFlib/931/PDFlib-9.3.1-Linux-x86-php.tar.gz"
-pdflib64_filename="PDFlib-9.3.1-Linux-x64-php"
-pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/931/PDFlib-9.3.1-Linux-x64-php.tar.gz"
+pdflib_filename="pdflib-10.0.0p1"
+pdflib32_filename="PDFlib-10.0.0p1-Linux-x86-php.tar.gz"
+pdflib32_filename_url="https://www.pdflib.com/binaries/PDFlib/1000/PDFlib-10.0.0p1-Linux-x86-php.tar.gz"
+pdflib64_filename="PDFlib-10.0.0p1-Linux-x64-php"
+pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/1000/PDFlib-10.0.0p1-Linux-x64-php.tar.gz"
 #PECL packages
 #php extension swoole
 swoole_filename="swoole-4.8.6"
 swoole_filename_url="https://pecl.php.net/get/swoole-4.8.6.tgz"
 #php extension xdebug
-xdebug_filename="xdebug-2.5.5"
-xdebug_filename_url="https://pecl.php.net/get/xdebug-2.5.5.tgz"
-xdebug_filename2="xdebug-2.9.8"
-xdebug_filename2_url="https://pecl.php.net/get/xdebug-2.9.8.tgz"
-xdebug_filename3="xdebug-3.0.4"
-xdebug_filename3_url="https://pecl.php.net/get/xdebug-3.0.4.tgz"
+xdebug_filename="xdebug-3.1.3"
+xdebug_filename_url="https://pecl.php.net/get/xdebug-3.1.3.tgz"
 #ImageMagick
 ImageMagick_filename="ImageMagick-7.1.0-25"
 ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.1.0-25.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.7.0"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.7.0.tgz"
-#GraphicsMagick
-GraphicsMagick_filename="GraphicsMagick-1.3.37"
-GraphicsMagick_filename_url="https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/1.3.37/GraphicsMagick-1.3.37.tar.gz/download"
-#php extension gmagick
-php_graphicsmagick_filename="gmagick-1.1.7RC3"
-php_graphicsmagick_filename_url="https://pecl.php.net/get/gmagick-1.1.7RC3.tgz"
-php_graphicsmagick_filename2="gmagick-2.0.6RC1"
-php_graphicsmagick_filename2_url="https://pecl.php.net/get/gmagick-2.0.6RC1.tgz"
 #memcached
 memcached_filename="memcached-1.6.6"
 memcached_filename_url="http://www.memcached.org/files/memcached-1.6.6.tar.gz"
@@ -191,18 +162,14 @@ memcached_filename_url="http://www.memcached.org/files/memcached-1.6.6.tar.gz"
 libmemcached_filename="libmemcached-1.0.18"
 libmemcached_filename_url="https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz"
 #php extension memcached
-php_memcached_filename="memcached-2.2.0"
-php_memcached_filename_url="https://pecl.php.net/get/memcached-2.2.0.tgz"
-php_memcached_filename2="memcached-3.1.5"
-php_memcached_filename2_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
+php_memcached_filename="memcached-3.1.5"
+php_memcached_filename_url="https://pecl.php.net/get/memcached-3.1.5.tgz"
 #redis
 redis_filename="redis-5.0.14"
 redis_filename_url="http://download.redis.io/releases/redis-5.0.14.tar.gz"
 #php extension redis
-php_redis_filename="redis-4.3.0"
-php_redis_filename_url="https://pecl.php.net/get/redis-4.3.0.tgz"
-php_redis_filename2="redis-5.3.7"
-php_redis_filename2_url="https://pecl.php.net/get/redis-5.3.7.tgz"
+php_redis_filename="redis-5.3.7"
+php_redis_filename_url="https://pecl.php.net/get/redis-5.3.7.tgz"
 #php extension mongodb
 php_mongo_filename="mongodb-1.12.0"
 php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.12.0.tgz"
@@ -260,13 +227,9 @@ do_not_install
 )
 
 php_arr=(
-${php5_6_filename}
-${php7_0_filename}
-${php7_1_filename}
-${php7_2_filename}
-${php7_3_filename}
 ${php7_4_filename}
 ${php8_0_filename}
+${php8_1_filename}
 do_not_install
 )
 
@@ -284,10 +247,8 @@ do_not_install
 php_modules_arr=(
 ${ionCube_filename}
 ${pdflib_filename}
-${xcache_filename}
 ${apcu_filename}
 ${php_imagemagick_filename}
-${php_graphicsmagick_filename}
 ${php_memcached_filename}
 ${php_redis_filename}
 ${php_mongo_filename}

@@ -19,39 +19,14 @@ php_modules_preinstall_settings(){
         phpConfig=${php_location}/bin/php-config
         echo
         echo "${php} available modules:"
-        # Delete some modules & change some module version
-        if [ "${php}" == "${php5_6_filename}" ]; then
-            php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${yaf_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${yar_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${pdflib_filename}})
+        # Delete some modules (PHP 8 not support now) & change some module version
+        if [[ "${php}" =~ ^php-8.[0-1].+$ ]]; then
             php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
-        else
-            php_modules_arr=(${php_modules_arr[@]#${xcache_filename}})
-            php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename}/${xdebug_filename2}})
-            php_modules_arr=(${php_modules_arr[@]/#${php_redis_filename}/${php_redis_filename2}})
-            php_modules_arr=(${php_modules_arr[@]/#${php_memcached_filename}/${php_memcached_filename2}})
-            php_modules_arr=(${php_modules_arr[@]/#${php_graphicsmagick_filename}/${php_graphicsmagick_filename2}})
-        fi
-        # Swoole supports only PHP 7.2+
-        if [[ "${php}" =~ ^php-7.[0-1].+$ ]]; then
-            php_modules_arr=(${php_modules_arr[@]#${swoole_filename}})
-        fi
-        # PDFlib supports only PHP 7.3+
-        # Phalcon supports only PHP 7.3+
-        # Reference URL: https://github.com/phalcon/cphalcon/releases/tag/v4.1.2
-        if [[ "${php}" =~ ^php-7.[0-2].+$ ]]; then
-            php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${pdflib_filename}})
-        fi
-        # Delete some modules (PHP 8.0 not support now) & change some module version
-        if [[ "${php}" =~ ^php-8.0.+$ ]]; then
-            php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
-            php_modules_arr=(${php_modules_arr[@]/#${xdebug_filename2}/${xdebug_filename3}})
             php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${php_imagemagick_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename2}})
+            php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
+        fi
+        if [[ "${php}" =~ ^php-8.1.+$ ]]; then
+            php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
         fi
         display_menu_multi php_modules last
     fi
@@ -62,18 +37,13 @@ phpmyadmin_preinstall_settings(){
     if [ "${php}" == "do_not_install" ]; then
         phpmyadmin="do_not_install"
     else
-        # phpMyAdmin 5.x removed support of old PHP versions (5.6, 7.0)
-        # Reference URL: https://www.phpmyadmin.net/news/2019/12/26/phpmyadmin-500-released/
-        if [[ "${php}" =~ ^php-7.[1-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
-            phpmyadmin_arr=(${phpmyadmin_arr[@]/#${phpmyadmin_filename}/${phpmyadmin_filename2}})
-        fi
         display_menu_multi phpmyadmin 1
     fi
 }
 
 #Pre-installation kodexplorer
 kodexplorer_preinstall_settings(){
-    if [ "${php}" == "do_not_install" ] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
+    if [ "${php}" == "do_not_install" ]; then
         kodexplorer="do_not_install"
     else
         display_menu kodexplorer 1
@@ -87,37 +57,19 @@ install_php_modules(){
     if_in_array "${apcu_filename}" "${php_modules_install}" && install_apcu "${phpConfig}"
     if_in_array "${php_imagemagick_filename}" "${php_modules_install}" && install_php_imagesmagick "${phpConfig}"
     if_in_array "${php_mongo_filename}" "${php_modules_install}" && install_php_mongo "${phpConfig}"
-    if_in_array "${xcache_filename}" "${php_modules_install}" && install_xcache "${phpConfig}"
     if_in_array "${php_libsodium_filename}" "${php_modules_install}" && install_php_libsodium "${phpConfig}"
     if_in_array "${swoole_filename}" "${php_modules_install}" && install_swoole "${phpConfig}"
     if_in_array "${yaf_filename}" "${php_modules_install}" && install_yaf "${phpConfig}"
     if_in_array "${yar_filename}" "${php_modules_install}" && install_yar "${phpConfig}"
     if_in_array "${grpc_filename}" "${php_modules_install}" && install_grpc "${phpConfig}"
     if_in_array "${phalcon_filename}" "${php_modules_install}" && install_phalcon "${phpConfig}"
-    if  if_in_array "${php_graphicsmagick_filename}" "${php_modules_install}" || \
-        if_in_array "${php_graphicsmagick_filename2}" "${php_modules_install}"; then
-        install_php_graphicsmagick "${phpConfig}"
-    fi
-    if  if_in_array "${php_redis_filename}" "${php_modules_install}" || \
-        if_in_array "${php_redis_filename2}" "${php_modules_install}"; then
-        install_php_redis "${phpConfig}"
-    fi
-    if  if_in_array "${php_memcached_filename}" "${php_modules_install}" || \
-        if_in_array "${php_memcached_filename2}" "${php_modules_install}"; then
-        install_php_memcached "${phpConfig}"
-    fi
-    if  if_in_array "${xdebug_filename}" "${php_modules_install}" || \
-        if_in_array "${xdebug_filename2}" "${php_modules_install}" || \
-        if_in_array "${xdebug_filename3}" "${php_modules_install}"; then
-        install_xdebug "${phpConfig}"
-    fi
+    if_in_array "${php_redis_filename}" "${php_modules_install}" && install_php_redis "${phpConfig}"
+    if_in_array "${php_memcached_filename}" "${php_modules_install}" && install_php_memcached "${phpConfig}"
+    if_in_array "${xdebug_filename}" "${php_modules_install}" && install_xdebug "${phpConfig}"
 }
 
 install_phpmyadmin_modules(){
-    if if_in_array "${phpmyadmin_filename}" "${phpmyadmin_install}" || \
-       if_in_array "${phpmyadmin_filename2}" "${phpmyadmin_install}"; then
-       install_phpmyadmin
-    fi
+    if_in_array "${phpmyadmin_filename}" "${phpmyadmin_install}" && install_phpmyadmin
     if_in_array "${adminer_filename}" "${phpmyadmin_install}" && install_adminer
 }
 
@@ -131,6 +83,7 @@ install_php_depends(){
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
+        debianversion 11 && apt_depends=(${apt_depends[@]/#libenchant-dev/libenchant-2-dev})
         for depend in ${apt_depends[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
         done
@@ -184,6 +137,10 @@ install_php_depends(){
         else
             _error "There is no rpm package libc-client-devel or uw-imap-devel, please check it and try again."
         fi
+        # Fixed No rule to make target '/usr/include/libpng15/png.h', needed by 'ext/gd/libgd/gd_png.lo'.
+        if [ ! -d "/usr/include/libpng15" ] && [ -d "/usr/include/libpng16" ]; then
+            ln -sf /usr/include/libpng16/ /usr/include/libpng15
+        fi
         install_mhash
         install_libmcrypt
         install_mcrypt
@@ -191,11 +148,7 @@ install_php_depends(){
     fi
     install_libiconv
     install_re2c
-    # Support Argon2 Password Hash (Only PHP 7.2+)
-    # Reference URL: https://wiki.php.net/rfc/argon2_password_hash
-    if [[ "${php}" =~ ^php-7.[2-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
-        install_argon2
-    fi
+    install_argon2
     _info "Install dependencies for PHP completed..."
 }
 
@@ -218,6 +171,7 @@ install_older_php_pre(){
 
 install_argon2(){
     if [ ! -e "/usr/lib/libargon2.a" ]; then
+        local libargon2_path=""
         cd ${cur_dir}/software/
         _info "Installing ${argon2_filename}..."
         download_file "${argon2_filename}.tar.gz" "${argon2_filename_url}"
@@ -226,6 +180,26 @@ install_argon2(){
 
         error_detect "make"
         error_detect "make install"
+        if check_sys packageManager apt; then
+            is_64bit && libargon2_path="/usr/lib/x86_64-linux-gnu/pkgconfig/libargon2.pc" || libargon2_path="/usr/lib/i386-linux-gnu/pkgconfig/libargon2.pc"
+        elif check_sys packageManager yum; then
+            is_64bit && libargon2_path="/usr/lib64/pkgconfig/libargon2.pc" || libargon2_path="/usr/lib/pkgconfig/libargon2.pc"
+        fi
+        cat > ${libargon2_path} <<EOF
+# libargon2 info for pkg-config
+
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libargon2
+Description: Development libraries for libargon2
+Version: 20171227
+Libs: -L${libdir} -largon2 -lrt -ldl
+Cflags:
+URL: https://github.com/P-H-C/phc-winner-argon2
+EOF
         _info "Install ${argon2_filename} completed..."
     fi
 }
@@ -259,7 +233,7 @@ install_re2c(){
         cd ${re2c_filename}
 
         error_detect "./configure"
-        error_detect "make"
+        error_detect "parallel_make"
         error_detect "make install"
         _info "Install ${re2c_filename} completed..."
     fi
@@ -356,13 +330,8 @@ install_phpmyadmin(){
     if [ -d "${web_root_dir}/phpmyadmin" ]; then
         rm -rf ${web_root_dir}/phpmyadmin
     fi
-    if [[ "${php}" =~ ^php-7.[1-4].+$ ]] || [[ "${php}" =~ ^php-8.0.+$ ]]; then
-        pma_file=${phpmyadmin_filename2}
-        pma_file_url=${phpmyadmin_filename2_url}
-    else
-        pma_file=${phpmyadmin_filename}
-        pma_file_url=${phpmyadmin_filename_url}
-    fi
+    pma_file=${phpmyadmin_filename}
+    pma_file_url=${phpmyadmin_filename_url}
     cd ${cur_dir}/software
     _info "Installing ${pma_file}..."
     download_file "${pma_file}.tar.gz" "${pma_file_url}"
@@ -370,7 +339,7 @@ install_phpmyadmin(){
     mv ${pma_file} ${web_root_dir}/phpmyadmin
     cp -f ${cur_dir}/conf/config.inc.php ${web_root_dir}/phpmyadmin/config.inc.php
     mkdir -p ${web_root_dir}/phpmyadmin/{upload,save}
-    chown -R apache:apache ${web_root_dir}/phpmyadmin
+    chown -R apache.apache ${web_root_dir}/phpmyadmin
     _info "Install ${pma_file} completed..."
 }
 
@@ -389,7 +358,6 @@ install_kodexplorer(){
     fi
 
     cd ${cur_dir}/software
-
     _info "Installing ${kodexplorer_filename}..."
     download_file "${kodexplorer_filename}.tar.gz" "${kodexplorer_filename_url}"
     tar zxf ${kodexplorer_filename}.tar.gz
@@ -450,69 +418,6 @@ EOF
     _info "Install PHP extension pdflib completed..."
 }
 
-install_xcache(){
-    local phpConfig=${1}
-
-    _info "Installing PHP extension XCache..."
-    cd ${cur_dir}/software/
-    download_file "${xcache_filename}.tar.gz" "${xcache_filename_url}"
-    tar zxf ${xcache_filename}.tar.gz
-    cd ${xcache_filename}
-    error_detect "${php_location}/bin/phpize"
-    error_detect "./configure --enable-xcache --enable-xcache-constant --with-php-config=${phpConfig}"
-    error_detect "make"
-    error_detect "make install"
-
-    rm -rf ${web_root_dir}/xcache
-    cp -r htdocs/ ${web_root_dir}/xcache
-    chown -R apache:apache ${web_root_dir}/xcache
-    rm -rf /tmp/{pcov,phpcore}
-    mkdir /tmp/{pcov,phpcore}
-    chown -R apache:apache /tmp/{pcov,phpcore}
-    chmod 700 /tmp/{pcov,phpcore}
-
-    if [ ! -f "${php_location}/php.d/xcache.ini" ]; then
-        cat > ${php_location}/php.d/xcache.ini<<EOF
-[xcache-common]
-extension=xcache.so
-
-[xcache.admin]
-xcache.admin.enable_auth = On
-xcache.admin.user = "admin"
-xcache.admin.pass = "e10adc3949ba59abbe56e057f20f883e"
-
-[xcache]
-xcache.shm_scheme = "mmap"
-xcache.size = 64M
-xcache.count = 1
-xcache.slots = 8K
-xcache.ttl = 3600
-xcache.gc_interval = 60
-xcache.var_size = 16M
-xcache.var_count = 1
-xcache.var_slots = 8K
-xcache.var_ttl = 3600
-xcache.var_maxttl = 0
-xcache.var_gc_interval = 300
-xcache.readonly_protection = Off
-xcache.mmap_path = "/dev/zero"
-xcache.coredump_directory = "/tmp/phpcore"
-xcache.coredump_type = 0
-xcache.disable_on_crash = Off
-xcache.experimental = Off
-xcache.cacher = On
-xcache.stat = On
-xcache.optimizer = Off
-
-[xcache.coverager]
-xcache.coverager = Off
-xcache.coverager_autostart =  On
-xcache.coveragedump_directory = "/tmp/pcov"
-EOF
-    fi
-    _info "Install PHP extension XCache completed..."
-}
-
 install_php_libsodium(){
     local phpConfig=${1}
 
@@ -522,7 +427,7 @@ install_php_libsodium(){
     tar zxf ${libsodium_filename}.tar.gz
     cd ${libsodium_filename}
     error_detect "./configure --prefix=/usr"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
     _info "Install ${libsodium_filename} completed..."
 
@@ -554,7 +459,7 @@ install_php_imagesmagick(){
     tar zxf ${ImageMagick_filename}.tar.gz
     cd ${ImageMagick_filename}
     error_detect "./configure"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
     _info "Install ${ImageMagick_filename} completed..."
 
@@ -575,45 +480,6 @@ extension=imagick.so
 EOF
     fi
     _info "Install PHP extension imagick completed..."
-}
-
-install_php_graphicsmagick(){
-    local phpConfig=${1}
-
-    cd ${cur_dir}/software/
-    _info "Installing ${GraphicsMagick_filename}..."
-    download_file "${GraphicsMagick_filename}.tar.gz" "${GraphicsMagick_filename_url}"
-    tar zxf ${GraphicsMagick_filename}.tar.gz
-    cd ${GraphicsMagick_filename}
-    error_detect "./configure --enable-shared"
-    error_detect "make"
-    error_detect "make install"
-    _info "Install ${GraphicsMagick_filename} completed..."
-
-    cd ${cur_dir}/software/
-    _info "Installing PHP extension gmagick install start..."
-    if [ "$php" == "${php5_6_filename}" ]; then
-        download_file "${php_graphicsmagick_filename}.tgz" "${php_graphicsmagick_filename_url}"
-        tar zxf ${php_graphicsmagick_filename}.tgz
-        cd ${php_graphicsmagick_filename}
-    else
-        download_file "${php_graphicsmagick_filename2}.tgz" "${php_graphicsmagick_filename2_url}"
-        tar zxf ${php_graphicsmagick_filename2}.tgz
-        cd ${php_graphicsmagick_filename2}
-    fi
-
-    error_detect "${php_location}/bin/phpize"
-    error_detect "./configure --with-php-config=${phpConfig}"
-    error_detect "make"
-    error_detect "make install"
-
-    if [ ! -f "${php_location}/php.d/gmagick.ini" ]; then
-        cat > ${php_location}/php.d/gmagick.ini<<EOF
-[gmagick]
-extension=gmagick.so
-EOF
-    fi
-    _info "Install PHP extension gmagick completed..."
 }
 
 install_php_memcached(){
@@ -671,15 +537,9 @@ install_php_memcached(){
 
     cd ${cur_dir}/software
     _info "Installing PHP extension memcached..."
-    if [ "$php" == "${php5_6_filename}" ]; then
-        download_file "${php_memcached_filename}.tgz" "${php_memcached_filename_url}"
-        tar zxf ${php_memcached_filename}.tgz
-        cd ${php_memcached_filename}
-    else
-        download_file "${php_memcached_filename2}.tgz" "${php_memcached_filename2_url}"
-        tar zxf ${php_memcached_filename2}.tgz
-        cd ${php_memcached_filename2}
-    fi
+    download_file "${php_memcached_filename}.tgz" "${php_memcached_filename_url}"
+    tar zxf ${php_memcached_filename}.tgz
+    cd ${php_memcached_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
     error_detect "make"
@@ -742,15 +602,9 @@ install_php_redis(){
     if [ ${RT} -eq 0 ]; then
         cd ${cur_dir}/software/
         _info "Installing PHP extension redis..."
-        if [ "$php" == "${php5_6_filename}" ]; then
-            download_file  "${php_redis_filename}.tgz" "${php_redis_filename_url}"
-            tar zxf ${php_redis_filename}.tgz
-            cd ${php_redis_filename}
-        else
-            download_file  "${php_redis_filename2}.tgz" "${php_redis_filename2_url}"
-            tar zxf ${php_redis_filename2}.tgz
-            cd ${php_redis_filename2}
-        fi
+        download_file  "${php_redis_filename}.tgz" "${php_redis_filename_url}"
+        tar zxf ${php_redis_filename}.tgz
+        cd ${php_redis_filename}
 
         error_detect "${php_location}/bin/phpize"
         error_detect "./configure --enable-redis --with-php-config=${phpConfig}"
@@ -777,7 +631,7 @@ install_php_mongo(){
     cd ${php_mongo_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/mongodb.ini" ]; then
@@ -799,7 +653,7 @@ install_swoole(){
     cd ${swoole_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig} --enable-http2 --enable-swoole-json"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/swoole.ini" ]; then
@@ -816,22 +670,13 @@ install_xdebug(){
 
     cd ${cur_dir}/software/
     _info "Installing PHP extension xdebug..."
-    if [ "$php" == "${php5_6_filename}" ]; then
-        download_file "${xdebug_filename}.tgz" "${xdebug_filename_url}"
-        tar zxf ${xdebug_filename}.tgz
-        cd ${xdebug_filename}
-    elif [ "$php" == "${php8_0_filename}" ]; then
-        download_file "${xdebug_filename3}.tgz" "${xdebug_filename3_url}"
-        tar zxf ${xdebug_filename3}.tgz
-        cd ${xdebug_filename3}
-    else
-        download_file "${xdebug_filename2}.tgz" "${xdebug_filename2_url}"
-        tar zxf ${xdebug_filename2}.tgz
-        cd ${xdebug_filename2}
-    fi
+    download_file "${xdebug_filename}.tgz" "${xdebug_filename_url}"
+    tar zxf ${xdebug_filename}.tgz
+    cd ${xdebug_filename}
+
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --enable-xdebug --with-php-config=${phpConfig}"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/xdebug.ini" ]; then
@@ -853,7 +698,7 @@ install_yaf(){
     cd ${yaf_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/yaf.ini" ]; then
@@ -875,7 +720,7 @@ install_yar(){
     cd ${msgpack_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
     if [ ! -f "${php_location}/php.d/msgpack.ini" ]; then
         cat > ${php_location}/php.d/msgpack.ini<<EOF
@@ -891,7 +736,7 @@ EOF
     cd ${yar_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig} --with-curl --enable-yar --enable-msgpack"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/yar.ini" ]; then
@@ -913,7 +758,7 @@ install_phalcon(){
     cd ${psr_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
     if [ ! -f "${php_location}/php.d/psr.ini" ]; then
         cat > ${php_location}/php.d/psr.ini<<EOF
@@ -929,7 +774,7 @@ EOF
     cd ${phalcon_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
     if [ ! -f "${php_location}/php.d/phalcon.ini" ]; then
         cat > ${php_location}/php.d/phalcon.ini<<EOF
@@ -950,7 +795,7 @@ install_apcu(){
     cd ${apcu_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig}"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/apcu.ini" ]; then
@@ -972,7 +817,7 @@ install_grpc(){
     cd ${grpc_filename}
     error_detect "${php_location}/bin/phpize"
     error_detect "./configure --with-php-config=${phpConfig} --enable-grpc"
-    error_detect "make"
+    error_detect "parallel_make"
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/grpc.ini" ]; then
