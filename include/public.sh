@@ -130,7 +130,7 @@ set_hint(){
 }
 
 disable_selinux(){
-    if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
+    if [ -s /etc/selinux/config ] && grep -q 'SELINUX=enforcing' /etc/selinux/config; then
         sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
         setenforce 0
     fi
@@ -292,6 +292,7 @@ check_installed(){
 }
 
 check_os(){
+    get_os_info
     is_support_flg=0
     if check_sys packageManager yum || check_sys packageManager apt; then
         # Not support CentOS prior to 7 & Debian prior to 9 & Ubuntu prior to 18 versions
@@ -313,7 +314,6 @@ check_os(){
 }
 
 check_ram(){
-    get_os_info
     if [ ${ramsum} -lt 480 ]; then
         _error "Not enough memory. The LAMP installation needs memory: ${tram}MB*RAM + ${swap}MB*SWAP >= 480MB"
     fi
@@ -400,7 +400,7 @@ error_detect_depends(){
     local work_dir=$(pwd)
     local depend=$(echo "$1" | awk '{print $4}')
     _info "Installing package ${depend}"
-    ${command} > /dev/null 2>&1
+    ${command} &> /dev/null
     if [ $? -ne 0 ]; then
         distro=$(get_opsy)
         version=$(cat /proc/version)
@@ -694,12 +694,12 @@ is_digit(){
 
 is_exist(){
     local cmd="$1"
-    if eval type type > /dev/null 2>&1; then
-        eval type "$cmd" > /dev/null 2>&1
-    elif command > /dev/null 2>&1; then
-        command -v "$cmd" > /dev/null 2>&1
+    if eval type type &> /dev/null; then
+        eval type "$cmd" &> /dev/null
+    elif command &> /dev/null; then
+        command -v "$cmd" &> /dev/null
     else
-        which "$cmd" > /dev/null 2>&1
+        which "$cmd" &> /dev/null
     fi
     local rt=$?
     return ${rt}
@@ -755,6 +755,7 @@ remove_packages(){
 sync_time(){
     _info "Sync time..."
     is_exist "ntpdate" && ntpdate -b cn.pool.ntp.org &> /dev/null
+    is_exist "chronyd" && chronyd -q 'server cn.pool.ntp.org iburst' &> /dev/null
     _info "Sync time completed..."
     StartDate=$(date "+%Y-%m-%d %H:%M:%S")
     StartDateSecond=$(date +%s)
@@ -926,23 +927,23 @@ EOF
     fi
     if [ "${apache}" != "do_not_install" ]; then
         echo "Starting Apache..."
-        /etc/init.d/httpd start > /dev/null 2>&1
+        /etc/init.d/httpd start &> /dev/null
     fi
     if [ "${mysql}" != "do_not_install" ]; then
         echo "Starting Database..."
-        /etc/init.d/mysqld start > /dev/null 2>&1
+        /etc/init.d/mysqld start &> /dev/null
     fi
-    if if_in_array "${php_memcached_filename}" "${php_modules_install}" || if_in_array "${php_memcached_filename2}" "${php_modules_install}"; then
+    if if_in_array "${php_memcached_filename}" "${php_modules_install}"; then
         echo "Starting Memcached..."
-        /etc/init.d/memcached start > /dev/null 2>&1
+        /etc/init.d/memcached start &> /dev/null
     fi
-    if if_in_array "${php_redis_filename}" "${php_modules_install}" || if_in_array "${php_redis_filename2}" "${php_modules_install}"; then
+    if if_in_array "${php_redis_filename}" "${php_modules_install}"; then
         echo "Starting Redis-server..."
-        /etc/init.d/redis-server start > /dev/null 2>&1
+        /etc/init.d/redis-server start &> /dev/null
     fi
     # Install phpmyadmin database
     if [ -d "${web_root_dir}/phpmyadmin" ] && [ -f "/usr/bin/mysql" ]; then
-        /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql > /dev/null 2>&1
+        /usr/bin/mysql -uroot -p${dbrootpwd} < ${web_root_dir}/phpmyadmin/sql/create_tables.sql &> /dev/null
     fi
 
     sleep 1
@@ -959,29 +960,29 @@ EOF
 install_tools(){
     _info "Installing development tools..."
     if check_sys packageManager apt; then
-        apt-get -y update > /dev/null 2>&1
-        apt_tools=(tar gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates ntpdate)
+        apt-get -y update &> /dev/null
+        apt_tools=(xz-utils tar gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates ntpdate)
         for tool in ${apt_tools[@]}; do
             error_detect_depends "apt-get -y install ${tool}"
         done
     elif check_sys packageManager yum; then
-        yum makecache > /dev/null 2>&1
+        yum makecache &> /dev/null
         yum_tools=(yum-utils tar gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools crontabs ca-certificates)
         for tool in ${yum_tools[@]}; do
             error_detect_depends "yum -y install ${tool}"
         done
         if centosversion 7 || centosversion 8; then
             error_detect_depends "yum -y install epel-release"
-            yum-config-manager --enable epel > /dev/null 2>&1
+            yum-config-manager --enable epel &> /dev/null
         fi
         # Install epel-release in Amazon Linux 2
         if is_exist "amazon-linux-extras"; then
-            amazon-linux-extras install -y epel > /dev/null 2>&1
+            amazon-linux-extras install -y epel &> /dev/null
         fi
         if centosversion 8; then
             error_detect_depends "yum -y install python3-devel"
             error_detect_depends "yum -y install chrony"
-            yum-config-manager --enable PowerTools > /dev/null 2>&1 || yum-config-manager --enable powertools > /dev/null 2>&1
+            yum-config-manager --enable PowerTools &> /dev/null || yum-config-manager --enable powertools &> /dev/null
         else
             error_detect_depends "yum -y install python"
             error_detect_depends "yum -y install python-devel"
