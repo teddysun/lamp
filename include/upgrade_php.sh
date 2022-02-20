@@ -90,7 +90,7 @@ upgrade_php(){
         fi
 
         # Fixed a libenchant-2 error in PHP 7.4 for Debian or Ubuntu
-        if [ "${php_version}" == "7.4" ] && apt-cache show libenchant-2-dev 2> /dev/null | grep -q "libenchant-2-dev"; then
+        if [ "${php_version}" == "7.4" ] && dpkg -l 2>/dev/null | grep -q "libenchant-2-dev"; then
             patch -p1 < ${cur_dir}/src/remove-deprecated-call-and-deprecate-function.patch
             patch -p1 < ${cur_dir}/src/use-libenchant-2-when-available.patch
             ./buildconf -f
