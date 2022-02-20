@@ -727,34 +727,13 @@ add_to_env(){
 
 firewall_set(){
     _info "Setting Firewall..."
-    if centosversion 6; then
-        if [ -e /etc/init.d/iptables ]; then
-            if /etc/init.d/iptables status > /dev/null 2>&1; then
-                iptables -L -n | grep -qi 80
-                if [ $? -ne 0 ]; then
-                    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
-                fi
-                iptables -L -n | grep -qi 443
-                if [ $? -ne 0 ]; then
-                    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
-                fi
-                /etc/init.d/iptables save > /dev/null 2>&1
-                /etc/init.d/iptables restart > /dev/null 2>&1
-            else
-                _warn "iptables looks like not running, please manually set if necessary."
-            fi
-        else
-            _warn "iptables looks like not installed."
-        fi
+    if systemctl status firewalld &> /dev/null; then
+        default_zone="$(firewall-cmd --get-default-zone)"
+        firewall-cmd --permanent --zone=${default_zone} --add-service=http &> /dev/null
+        firewall-cmd --permanent --zone=${default_zone} --add-service=https &> /dev/null
+        firewall-cmd --reload &> /dev/null
     else
-        if systemctl status firewalld > /dev/null 2>&1; then
-            default_zone="$(firewall-cmd --get-default-zone)"
-            firewall-cmd --permanent --zone=${default_zone} --add-service=http > /dev/null 2>&1
-            firewall-cmd --permanent --zone=${default_zone} --add-service=https > /dev/null 2>&1
-            firewall-cmd --reload > /dev/null 2>&1
-        else
-            _warn "firewalld looks like not running, please manually set if necessary."
-        fi
+        _warn "firewalld looks like not running, please manually set if necessary."
     fi
     _info "Set Firewall completed..."
 }
@@ -763,8 +742,8 @@ remove_packages(){
     _info "Removing the conflict packages..."
     if check_sys packageManager apt; then
         [ "${apache}" != "do_not_install" ] && apt-get -y remove --purge apache2 apache2-* &> /dev/null
-        [ "${mysql}" != "do_not_install" ] && apt-get -y remove --purge mysql-client mysql-server mysql-common libmysqlclient18 &> /dev/null
-        [ "${php}" != "do_not_install" ] && apt-get -y remove --purge php5 php5-* php7.0 php7.0-* php7.1 php7.1-* php7.2 php7.2-* php7.3 php7.3-* php7.4 php7.4-* &> /dev/null
+        [ "${mysql}" != "do_not_install" ] && apt-get -y remove --purge mysql-client mysql-server mysql-common libmysqlclient20 libmysqlclient21 &> /dev/null
+        [ "${php}" != "do_not_install" ] && apt-get -y remove --purge php7.4 php7.4-* php8.0 php8.0-* php8.1 php8.1-* &> /dev/null
     elif check_sys packageManager yum; then
         [ "${apache}" != "do_not_install" ] && yum -y remove httpd-* &> /dev/null
         [ "${mysql}" != "do_not_install" ] && yum -y remove mysql-* &> /dev/null
@@ -775,9 +754,7 @@ remove_packages(){
 
 sync_time(){
     _info "Sync time..."
-    is_exist "ntpdate" && ntpdate -bv cn.pool.ntp.org
-    rm -f /etc/localtime
-    ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    is_exist "ntpdate" && ntpdate -b cn.pool.ntp.org &> /dev/null
     _info "Sync time completed..."
     StartDate=$(date "+%Y-%m-%d %H:%M:%S")
     StartDateSecond=$(date +%s)
