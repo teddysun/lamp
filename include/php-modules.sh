@@ -78,12 +78,15 @@ install_php_depends(){
     if check_sys packageManager apt; then
         apt_depends=(
             cmake autoconf patch m4 bison pkg-config autoconf2.13 libbz2-dev libgmp-dev libicu-dev libldb-dev
-            libldap-2.4-2 libldap2-dev libsasl2-dev libsasl2-modules-ldap libc-client2007e-dev libkrb5-dev
+            libldap2-dev libsasl2-dev libsasl2-modules-ldap libc-client2007e-dev libkrb5-dev
             libpam0g-dev libonig-dev libxslt1-dev zlib1g-dev libpcre3-dev libtool libtidy-dev libsqlite3-dev
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
-        debianversion 11 && apt_depends=(${apt_depends[@]/#libenchant-dev/libenchant-2-dev})
+        # Install libenchant-2-dev package first if it is found for Debian or Ubuntu
+        if apt-cache show libenchant-2-dev 2> /dev/null | grep -q "libenchant-2-dev"; then
+            apt_depends=(${apt_depends[@]/#libenchant-dev/libenchant-2-dev})
+        fi
         for depend in ${apt_depends[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
         done
@@ -121,18 +124,14 @@ install_php_depends(){
             curl-devel pcre-devel libtool-libs libtool-ltdl-devel libwebp-devel libXpm-devel
             libvpx-devel libjpeg-devel libpng-devel freetype-devel oniguruma-devel
             aspell-devel enchant-devel readline-devel libtidy-devel sqlite-devel
-            openldap-devel libxslt-devel net-snmp net-snmp-devel krb5-devel
+            openldap-devel libxslt-devel net-snmp net-snmp-devel krb5-devel libc-client-devel
         )
+        if yum list 2>/dev/null | grep -q "uw-imap-devel"; then
+            yum_depends=(${yum_depends[@]/#libc-client-devel/uw-imap-devel})
+        fi
         for depend in ${yum_depends[@]}; do
             error_detect_depends "yum -y install ${depend}"
         done
-        if yum list 2>/dev/null | grep -q "libc-client-devel"; then
-            error_detect_depends "yum -y install libc-client-devel"
-        elif yum list 2>/dev/null | grep -q "uw-imap-devel"; then
-            error_detect_depends "yum -y install uw-imap-devel"
-        else
-            _error "There is no rpm package libc-client-devel or uw-imap-devel, please check it and try again."
-        fi
         # Fixed No rule to make target '/usr/include/libpng15/png.h', needed by 'ext/gd/libgd/gd_png.lo'.
         if [ ! -d "/usr/include/libpng15" ] && [ -d "/usr/include/libpng16" ]; then
             ln -sf /usr/include/libpng16/ /usr/include/libpng15

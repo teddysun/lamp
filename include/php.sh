@@ -83,8 +83,8 @@ install_php(){
         download_file  "${php7_4_filename}.tar.gz" "${php7_4_filename_url}"
         tar zxf ${php7_4_filename}.tar.gz
         cd ${php7_4_filename}
-        # Fixed libenchant-2 error in Debian 11
-        if debianversion 11; then
+        # Fixed a libenchant-2 error in PHP 7.4 for Debian or Ubuntu
+        if apt-cache show libenchant-2-dev 2> /dev/null | grep -q "libenchant-2-dev"; then
             patch -p1 < ${cur_dir}/src/remove-deprecated-call-and-deprecate-function.patch
             patch -p1 < ${cur_dir}/src/use-libenchant-2-when-available.patch
             ./buildconf -f
