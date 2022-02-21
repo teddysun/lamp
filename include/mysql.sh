@@ -246,7 +246,7 @@ common_setup(){
         else
             /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${db_pass}\" with grant option;"
             /usr/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${db_pass}\" with grant option;"
-            /usr/bin/mysql -uroot -p${db_pass} <<EOF
+            /usr/bin/mysql -uroot -p${db_pass} 2>/dev/null <<EOF
 drop database if exists test;
 delete from mysql.db where user='';
 delete from mysql.user where user='';

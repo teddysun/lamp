@@ -218,7 +218,7 @@ upgrade_db(){
         else
             /usr/bin/mysql -e "grant all privileges on *.* to root@'127.0.0.1' identified by \"${mysql_root_password}\" with grant option;"
             /usr/bin/mysql -e "grant all privileges on *.* to root@'localhost' identified by \"${mysql_root_password}\" with grant option;"
-            /usr/bin/mysql -uroot -p${mysql_root_password} <<EOF
+            /usr/bin/mysql -uroot -p${mysql_root_password} 2>/dev/null <<EOF
 drop database if exists test;
 delete from mysql.db where user='';
 delete from mysql.user where user='';
