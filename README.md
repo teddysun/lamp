@@ -24,16 +24,17 @@
 ## Supported System
 
 - Amazon Linux 2
+- AlmaLinux 8
 - CentOS 7
 - CentOS 8
 - CentOS Stream 8
 - Rocky Linux 8 (recommend)
-- AlmaLinux 8
 - Debian 9
 - Debian 10
 - Debian 11 (recommend)
 - Ubuntu 18.04
 - Ubuntu 20.04 (recommend)
+- Ubuntu 21.10
 
 ## Supported Software
 
