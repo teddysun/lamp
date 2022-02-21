@@ -96,7 +96,7 @@ upgrade_db(){
         fi
 
         _info "Starting backup all of databases, Please wait a moment..."
-        /usr/bin/mysqldump -uroot -p${mysql_root_password} --all-databases > ${mysql_dump}
+        /usr/bin/mysqldump -uroot -p${mysql_root_password} --all-databases 2>/dev/null > ${mysql_dump}
         if [ $? -eq 0 ]; then
             _info "${db_name} all of databases backup success"
         else
