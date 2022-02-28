@@ -150,8 +150,8 @@ swoole_filename_url="https://pecl.php.net/get/swoole-4.8.6.tgz"
 xdebug_filename="xdebug-3.1.3"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-3.1.3.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.1.0-25"
-ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.1.0-25.tar.gz"
+ImageMagick_filename="ImageMagick-7.1.0-26"
+ImageMagick_filename_url="https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.1.0-26.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.7.0"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.7.0.tgz"
@@ -192,8 +192,8 @@ phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.2.tgz"
 apcu_filename="apcu-5.1.21"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.21.tgz"
 #php extension grpc
-grpc_filename="grpc-1.43.0"
-grpc_filename_url="https://pecl.php.net/get/grpc-1.43.0.tgz"
+grpc_filename="grpc-1.44.0"
+grpc_filename_url="https://pecl.php.net/get/grpc-1.44.0.tgz"
 #php extension msgpack
 msgpack_filename="msgpack-2.1.2"
 msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.2.tgz"

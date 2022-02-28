@@ -69,8 +69,8 @@
 | ionCube Loader                | 11.0.1                                                    |
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
-| gRPC extension                | 1.43.0                                                    |
-| ImageMagick                   | 7.1.0-25                                                  |
+| gRPC extension                | 1.44.0                                                    |
+| ImageMagick                   | 7.1.0-26                                                  |
 | imagick extension             | 3.7.0                                                     |
 | libsodium                     | 1.0.18                                                    |
 | libsodium extension           | 2.0.23                                                    |
