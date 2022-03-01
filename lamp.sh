@@ -202,9 +202,6 @@ set_parameters(){
     [ -z "${apache_option}" ] && apache="do_not_install"
     [ -z "${apache_modules_install}" ] && apache_modules_install="do_not_install"
     [ "${apache}" == "do_not_install" ] && apache_modules_install="do_not_install"
-    if [ -n "${apache_option}" ] && [ -n "${apache_modules_install}" ]; then
-        apache_modules_install=(${apache_modules_install})
-    fi
 
     [ -z "${php_option}" ] && php="do_not_install"
     [ "${apache}" == "do_not_install" ] && php="do_not_install"
@@ -220,7 +217,6 @@ set_parameters(){
         if [[ "${php}" =~ ^php-8.1.+$ ]]; then
             if_in_array "${php_libsodium_filename}" "${php_modules_install}" && _error "${php_libsodium_filename} is not support ${php}, please remove php extension: libsodium"
         fi
-        php_modules_install=(${php_modules_install})
     fi
 
     [ -z "${db_option}" ] && mysql="do_not_install"
@@ -234,9 +230,6 @@ set_parameters(){
 
     [ -z "${db_manage_modules}" ] && phpmyadmin_install="do_not_install"
     [ "${php}" == "do_not_install" ] && phpmyadmin_install="do_not_install"
-    if [ -n "${php}" ] && [ -n "${db_manage_modules}" ]; then
-        phpmyadmin_install=(${phpmyadmin_install})
-    fi
     [ -z "${kodexplorer_option}" ] && kodexplorer="do_not_install"
     [ "${php}" == "do_not_install" ] && kodexplorer="do_not_install"
 
