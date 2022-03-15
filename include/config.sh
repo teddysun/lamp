@@ -40,8 +40,8 @@ nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.47
 openssl_filename="openssl-1.1.1m"
 openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1m.tar.gz"
 #apache2.4
-apache2_4_filename="httpd-2.4.52"
-apache2_4_filename_url="https://dlcdn.apache.org//httpd/httpd-2.4.52.tar.gz"
+apache2_4_filename="httpd-2.4.53"
+apache2_4_filename_url="https://dlcdn.apache.org//httpd/httpd-2.4.53.tar.gz"
 #mysql5.7
 mysql5_7_filename="mysql-5.7.37"
 #mysql8.0
