@@ -37,8 +37,8 @@ parallel_compile=1
 nghttp2_filename="nghttp2-1.47.0"
 nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.47.0/nghttp2-1.47.0.tar.gz"
 #openssl
-openssl_filename="openssl-1.1.1m"
-openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1m.tar.gz"
+openssl_filename="openssl-1.1.1n"
+openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1n.tar.gz"
 #apache2.4
 apache2_4_filename="httpd-2.4.53"
 apache2_4_filename_url="https://dlcdn.apache.org//httpd/httpd-2.4.53.tar.gz"
@@ -62,11 +62,11 @@ mariadb10_7_filename="mariadb-10.7.3"
 php7_4_filename="php-7.4.28"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.28.tar.gz"
 #php8.0
-php8_0_filename="php-8.0.16"
-php8_0_filename_url="https://www.php.net/distributions/php-8.0.16.tar.gz"
+php8_0_filename="php-8.0.17"
+php8_0_filename_url="https://www.php.net/distributions/php-8.0.17.tar.gz"
 #php8.1
-php8_1_filename="php-8.1.3"
-php8_1_filename_url="https://www.php.net/distributions/php-8.1.3.tar.gz"
+php8_1_filename="php-8.1.4"
+php8_1_filename_url="https://www.php.net/distributions/php-8.1.4.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-5.1.3-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.1.3/phpMyAdmin-5.1.3-all-languages.tar.gz"

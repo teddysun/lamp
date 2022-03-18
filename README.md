@@ -53,7 +53,7 @@
 | apr                           | 1.7.0                                                     |
 | apr-util                      | 1.6.1                                                     |
 | nghttp2                       | 1.47.0                                                    |
-| openssl                       | 1.1.1m                                                    |
+| openssl                       | 1.1.1n                                                    |
 | mod_wsgi                      | 4.9.0                                                     |
 | mod_security2                 | 2.9.5                                                     |
 | mod_jk                        | 1.2.48                                                    |
@@ -65,7 +65,7 @@
 
 | PHP & Additional extensions   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| PHP                           | 7.4.28, 8.0.16, 8.1.3                                     |
+| PHP                           | 7.4.28, 8.0.17, 8.1.4                                     |
 | ionCube Loader                | 11.0.1                                                    |
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
