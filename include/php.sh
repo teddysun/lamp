@@ -22,7 +22,8 @@ php_preinstall_settings(){
 
 #Intall PHP
 install_php(){
-
+    local openssl_version=$(openssl version -v)
+    local major_version=$(echo ${openssl_version} | awk '{print $2}' | grep -oE "[0-9.]+")
     is_64bit && with_libdir="--with-libdir=lib64" || with_libdir=""
     php_configure_args="
     --prefix=${php_location} \
@@ -90,15 +91,17 @@ install_php(){
             ./buildconf -f
         fi
         # Fixed build with OpenSSL 3.0 with disabling useless RSA_SSLV23_PADDING
-        local openssl_version=$(openssl version -v)
-        local major_version=$(echo ${openssl_version} | awk '{print $2}' | grep -oE "[0-9.]+")
         if version_ge ${major_version} 3.0.0; then
-            patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0.patch
+            patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0_php7.4.patch
         fi
     elif [ "${php}" == "${php8_0_filename}" ]; then
         download_file  "${php8_0_filename}.tar.gz" "${php8_0_filename_url}"
         tar zxf ${php8_0_filename}.tar.gz
         cd ${php8_0_filename}
+        # Fixed build with OpenSSL 3.0 with disabling useless RSA_SSLV23_PADDING
+        if version_ge ${major_version} 3.0.0; then
+            patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0_php8.0.patch
+        fi
     elif [ "${php}" == "${php8_1_filename}" ]; then
         download_file  "${php8_1_filename}.tar.gz" "${php8_1_filename_url}"
         tar zxf ${php8_1_filename}.tar.gz
