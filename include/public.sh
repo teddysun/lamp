@@ -961,10 +961,17 @@ install_tools(){
     _info "Installing development tools..."
     if check_sys packageManager apt; then
         apt-get -y update &> /dev/null
-        apt_tools=(xz-utils tar gcc g++ make wget perl curl bzip2 libreadline-dev net-tools python python-dev cron ca-certificates ntpdate)
+        apt_tools=(xz-utils tar gcc g++ make wget perl curl bzip2 libreadline-dev net-tools cron ca-certificates ntpdate)
         for tool in ${apt_tools[@]}; do
             error_detect_depends "apt-get -y install ${tool}"
         done
+        if ubuntuversion 22; then
+            error_detect_depends "apt-get -y install python3"
+            error_detect_depends "apt-get -y install python3-dev"
+        else
+            error_detect_depends "apt-get -y install python"
+            error_detect_depends "apt-get -y install python-dev"
+        fi
     elif check_sys packageManager yum; then
         yum makecache &> /dev/null
         yum_tools=(yum-utils tar gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools crontabs ca-certificates)

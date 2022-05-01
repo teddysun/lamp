@@ -34,7 +34,7 @@
 - Debian 11 (recommend)
 - Ubuntu 18.04
 - Ubuntu 20.04 (recommend)
-- Ubuntu 21.10
+- Ubuntu 22.04
 
 ## Supported Software
 

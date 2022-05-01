@@ -89,6 +89,12 @@ install_php(){
             patch -p1 < ${cur_dir}/src/use-libenchant-2-when-available.patch
             ./buildconf -f
         fi
+        # Fixed build with OpenSSL 3.0 with disabling useless RSA_SSLV23_PADDING
+        local openssl_version=$(openssl version -v)
+        local major_version=$(echo ${openssl_version} | awk '{print $2}' | grep -oE "[0-9.]+")
+        if version_ge ${major_version} 3.0.0; then
+            patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0.patch
+        fi
     elif [ "${php}" == "${php8_0_filename}" ]; then
         download_file  "${php8_0_filename}.tar.gz" "${php8_0_filename_url}"
         tar zxf ${php8_0_filename}.tar.gz
