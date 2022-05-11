@@ -295,7 +295,11 @@ install_mod_wsgi(){
     cd ${mod_wsgi_filename}
 
     [ -e "/usr/libexec/platform-python" ] && mod_wsgi_configure="--with-python=/usr/libexec/platform-python" || mod_wsgi_configure=""
-    [ -e "/usr/bin/python3" ] && mod_wsgi_configure="--with-python=/usr/bin/python3" || mod_wsgi_configure=""
+    if [ ! -e "/usr/bin/python" ] && [ -e "/usr/bin/python3" ]; then
+        mod_wsgi_configure="--with-python=/usr/bin/python3"
+    else
+        mod_wsgi_configure=""
+    fi
     error_detect "./configure --with-apxs=${apache_location}/bin/apxs ${mod_wsgi_configure}"
     error_detect "make"
     error_detect "make install"
