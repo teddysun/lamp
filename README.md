@@ -91,7 +91,7 @@
 
 | Database Management Tools     | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| phpMyAdmin                    | 5.1.3                                                     |
+| phpMyAdmin                    | 5.2.0                                                     |
 | Adminer                       | 4.8.1                                                     |
 
 | File Managerment Tool         | Version                                                   |
