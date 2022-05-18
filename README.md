@@ -70,7 +70,7 @@
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
 | gRPC extension                | 1.45.0                                                    |
-| ImageMagick                   | 7.1.0-34                                                  |
+| ImageMagick                   | 7.1.0-35                                                  |
 | imagick extension             | 3.7.0                                                     |
 | libsodium                     | 1.0.18                                                    |
 | libsodium extension           | 2.0.23                                                    |
