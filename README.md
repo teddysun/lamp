@@ -69,8 +69,8 @@
 | ionCube Loader                | 11.0.1                                                    |
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
-| gRPC extension                | 1.44.0                                                    |
-| ImageMagick                   | 7.1.0-33                                                  |
+| gRPC extension                | 1.45.0                                                    |
+| ImageMagick                   | 7.1.0-34                                                  |
 | imagick extension             | 3.7.0                                                     |
 | libsodium                     | 1.0.18                                                    |
 | libsodium extension           | 2.0.23                                                    |
@@ -83,7 +83,7 @@
 | mongodb extension             | 1.12.0                                                    |
 | swoole extension              | 4.8.9                                                     |
 | yaf extension                 | 3.3.4                                                     |
-| yar extension                 | 2.2.1                                                     |
+| yar extension                 | 2.3.2                                                     |
 | msgpack extension             | 2.1.2                                                     |
 | psr extension                 | 1.2.0                                                     |
 | phalcon extension             | 4.1.2                                                     |
