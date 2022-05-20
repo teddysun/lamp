@@ -96,7 +96,7 @@
 
 | File Managerment Tool         | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| KodExplorer                   | 4.47                                                      |
+| KodExplorer                   | 4.48                                                      |
 
 ## Installation
 
