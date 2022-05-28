@@ -28,6 +28,8 @@ upgrade_php(){
     local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
     local installed_php=$(${php_location}/bin/php -r 'echo PHP_VERSION;' 2>/dev/null)
     local configure_options=$(${phpConfig} --configure-options)
+    local openssl_version=$(openssl version -v)
+    local major_version=$(echo ${openssl_version} | awk '{print $2}' | grep -oE "[0-9.]+")
 
     case "${php_version}" in
         5.6)
@@ -94,6 +96,13 @@ upgrade_php(){
             patch -p1 < ${cur_dir}/src/remove-deprecated-call-and-deprecate-function.patch
             patch -p1 < ${cur_dir}/src/use-libenchant-2-when-available.patch
             ./buildconf -f
+        fi
+        # Fixed build with OpenSSL 3.0 with disabling useless RSA_SSLV23_PADDING
+        if [ "${php_version}" == "7.4" ] && version_ge ${major_version} 3.0.0; then
+            patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0_php7.4.patch
+        fi
+        if [ "${php_version}" == "8.0" ] && version_ge ${major_version} 3.0.0; then
+            patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0_php8.0.patch
         fi
         ldconfig
         error_detect "./configure ${configure_options}"
