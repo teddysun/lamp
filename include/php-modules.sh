@@ -129,9 +129,19 @@ install_php_depends(){
         if yum list 2>/dev/null | grep -q "uw-imap-devel"; then
             yum_depends=(${yum_depends[@]/#libc-client-devel/uw-imap-devel})
         fi
+        if centosversion 9; then
+            yum_depends=(${yum_depends[@]#libc-client-devel})
+            yum_depends=(${yum_depends[@]#uw-imap-devel})
+        fi
         for depend in ${yum_depends[@]}; do
             error_detect_depends "yum -y install ${depend}"
         done
+        if centosversion 9; then
+            if ! rpm -qa | grep -q "libc-client-2007f" || ! rpm -qa | grep -q "uw-imap-devel"; then
+                error_detect "rpm -ivh ${download_root_url}/libc-client-2007f-30.el9.remi.x86_64.rpm"
+                error_detect "rpm -ivh ${download_root_url}/uw-imap-devel-2007f-30.el9.remi.x86_64.rpm"
+            fi
+        fi
         # Fixed No rule to make target '/usr/include/libpng15/png.h', needed by 'ext/gd/libgd/gd_png.lo'.
         if [ ! -d "/usr/include/libpng15" ] && [ -d "/usr/include/libpng16" ]; then
             ln -sf /usr/include/libpng16/ /usr/include/libpng15

@@ -94,6 +94,8 @@ install_php(){
         if version_ge ${major_version} 3.0.0; then
             patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0_php7.4.patch
         fi
+        # Fixed PHP extension snmp build without DES
+        patch -p1 < ${cur_dir}/src/php-7.4-snmp.patch
     elif [ "${php}" == "${php8_0_filename}" ]; then
         download_file  "${php8_0_filename}.tar.gz" "${php8_0_filename_url}"
         tar zxf ${php8_0_filename}.tar.gz
@@ -108,6 +110,9 @@ install_php(){
         cd ${php8_1_filename}
     fi
 
+    if ! grep -qE "^/usr/local/lib64" /etc/ld.so.conf.d/*.conf && [ -d "/usr/local/lib64" ]; then
+        echo "/usr/local/lib64" > /etc/ld.so.conf.d/locallib64.conf
+    fi
     ldconfig
     error_detect "./configure ${php_configure_args}"
     error_detect "parallel_make"

@@ -79,6 +79,22 @@ common_install(){
         if centosversion 8 || echo ${opsy} | grep -Eqi "fedora" || echo ${opsy} | grep -Eqi "amazon"; then
             error_detect_depends "yum -y install ncurses-compat-libs"
         fi
+        # Fixed libncurses.so.5: cannot open shared object file: No such file or directory
+        if is_64bit; then
+            if [ ! -e "/usr/lib64/libncurses.so.5" ] && [ -e "/usr/lib64/libncurses.so.6" ]; then
+                ln -sf /usr/lib64/libncurses.so.6 /usr/lib64/libncurses.so.5
+            fi
+            if [ ! -e "/usr/lib64/libtinfo.so.5" ] && [ -e "/usr/lib64/libtinfo.so.6" ]; then
+                ln -sf /usr/lib64/libtinfo.so.6 /usr/lib64/libtinfo.so.5
+            fi
+        else
+            if [ ! -e "/usr/lib/libncurses.so.5" ] && [ -e "/usr/lib/libncurses.so.6" ]; then
+                ln -sf /usr/lib/libncurses.so.6 /usr/lib/libncurses.so.5
+            fi
+            if [ ! -e "/usr/lib/libtinfo.so.5" ] && [ -e "/usr/lib/libtinfo.so.6" ]; then
+                ln -sf /usr/lib/libtinfo.so.6 /usr/lib/libtinfo.so.5
+            fi
+        fi
     fi
     _info "Install dependencies for Database completed..."
     id -u mysql >/dev/null 2>&1

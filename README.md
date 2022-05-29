@@ -25,9 +25,11 @@
 
 - Amazon Linux 2
 - AlmaLinux 8
+- AlmaLinux 9
 - CentOS 7
 - CentOS 8
 - CentOS Stream 8
+- CentOS Stream 9
 - Rocky Linux 8 (recommend)
 - Debian 9
 - Debian 10

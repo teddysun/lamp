@@ -659,7 +659,7 @@ download_file(){
         _info "$1 [found]"
     else
         _info "$1 not found, download now..."
-        wget --no-check-certificate -cv -t3 -T60 -O ${1} ${2}
+        wget --no-check-certificate -cv -t3 -T10 -O ${1} ${2}
         if [ $? -eq 0 ]; then
             _info "$1 download completed..."
         else
@@ -974,14 +974,15 @@ install_tools(){
         fi
     elif check_sys packageManager yum; then
         yum makecache &> /dev/null
-        yum_tools=(yum-utils tar gcc gcc-c++ make wget perl curl bzip2 readline readline-devel net-tools crontabs ca-certificates)
+        yum_tools=(yum-utils tar gcc gcc-c++ make wget perl chkconfig curl bzip2 readline readline-devel net-tools crontabs ca-certificates epel-release)
+        # libcurl-minimal and curl-minimal will be installed by default instead of libcurl and curl
+        if rpm -qa | grep -q curl-minimal; then
+            yum_tools=(${yum_tools[@]#curl})
+        fi
         for tool in ${yum_tools[@]}; do
             error_detect_depends "yum -y install ${tool}"
         done
-        if centosversion 7 || centosversion 8; then
-            error_detect_depends "yum -y install epel-release"
-            yum-config-manager --enable epel &> /dev/null
-        fi
+        yum-config-manager --enable epel &> /dev/null
         # Install epel-release in Amazon Linux 2
         if is_exist "amazon-linux-extras"; then
             amazon-linux-extras install -y epel &> /dev/null
@@ -990,6 +991,10 @@ install_tools(){
             error_detect_depends "yum -y install python3-devel"
             error_detect_depends "yum -y install chrony"
             yum-config-manager --enable PowerTools &> /dev/null || yum-config-manager --enable powertools &> /dev/null
+        elif centosversion 9; then
+            error_detect_depends "yum -y install python3-devel"
+            error_detect_depends "yum -y install chrony"
+            yum-config-manager --enable crb &> /dev/null
         else
             error_detect_depends "yum -y install python"
             error_detect_depends "yum -y install python-devel"
