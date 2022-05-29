@@ -1,0 +1,24 @@
+--- a/ext/snmp/snmp.c
++++ b/ext/snmp/snmp.c
+@@ -1225,15 +1225,19 @@ static int netsnmp_session_set_auth_prot
+    Set the security protocol in the snmpv3 session */
+ static int netsnmp_session_set_sec_protocol(struct snmp_session *s, char *prot)
+ {
++#ifndef NETSNMP_DISABLE_DES
+ 	if (!strcasecmp(prot, "DES")) {
+ 		s->securityPrivProto = usmDESPrivProtocol;
+ 		s->securityPrivProtoLen = USM_PRIV_PROTO_DES_LEN;
++	} else
++#endif
+ #ifdef HAVE_AES
+-	} else if (!strcasecmp(prot, "AES128") || !strcasecmp(prot, "AES")) {
++	if (!strcasecmp(prot, "AES128") || !strcasecmp(prot, "AES")) {
+ 		s->securityPrivProto = usmAESPrivProtocol;
+ 		s->securityPrivProtoLen = USM_PRIV_PROTO_AES_LEN;
++	} else
+ #endif
+-	} else {
++	{
+ 		php_error_docref(NULL, E_WARNING, "Unknown security protocol '%s'", prot);
+ 		return (-1);
+ 	}
