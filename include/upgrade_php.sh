@@ -97,6 +97,10 @@ upgrade_php(){
             patch -p1 < ${cur_dir}/src/use-libenchant-2-when-available.patch
             ./buildconf -f
         fi
+        # Fixed PHP extension snmp build without DES
+        if [ "${php_version}" == "7.4" ]; then
+            patch -p1 < ${cur_dir}/src/php-7.4-snmp.patch
+        fi
         # Fixed build with OpenSSL 3.0 with disabling useless RSA_SSLV23_PADDING
         if [ "${php_version}" == "7.4" ] && version_ge ${major_version} 3.0.0; then
             patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0_php7.4.patch
