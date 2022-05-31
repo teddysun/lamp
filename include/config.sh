@@ -88,8 +88,8 @@ apr_filename_url="http://ftp.jaist.ac.jp/pub/apache//apr/apr-1.7.0.tar.gz"
 apr_util_filename="apr-util-1.6.1"
 apr_util_filename_url="http://ftp.jaist.ac.jp/pub/apache//apr/apr-util-1.6.1.tar.gz"
 #mod_wsgi
-mod_wsgi_filename="mod_wsgi-4.9.1"
-mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/refs/tags/4.9.1.tar.gz"
+mod_wsgi_filename="mod_wsgi-4.9.2"
+mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/refs/tags/4.9.2.tar.gz"
 #mod_jk
 mod_jk_filename="tomcat-connectors-1.2.48-src"
 mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.48-src.tar.gz"
