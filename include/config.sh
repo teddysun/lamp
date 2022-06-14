@@ -119,8 +119,8 @@ cmake_filename_url="https://github.com/Kitware/CMake/releases/download/v3.18.0/c
 cmake_filename2="cmake-3.18.0-Linux-x86_64"
 cmake_filename_url2="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0-Linux-x86_64.tar.gz"
 #libzip
-libzip_filename="libzip-1.8.0"
-libzip_filename_url="https://libzip.org/download/libzip-1.8.0.tar.gz"
+libzip_filename="libzip-1.9.0"
+libzip_filename_url="https://libzip.org/download/libzip-1.9.0.tar.gz"
 #libiconv
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
