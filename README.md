@@ -82,7 +82,7 @@
 | redis                         | 5.0.14                                                    |
 | redis extension               | 5.3.7                                                     |
 | mongodb extension             | 1.12.0                                                    |
-| swoole extension              | 4.8.9                                                     |
+| swoole extension              | 4.8.10                                                    |
 | yaf extension                 | 3.3.5                                                     |
 | yar extension                 | 2.3.2                                                     |
 | msgpack extension             | 2.1.2                                                     |
