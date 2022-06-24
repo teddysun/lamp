@@ -54,7 +54,7 @@
 | apr                           | 1.7.0                                                     |
 | apr-util                      | 1.6.1                                                     |
 | nghttp2                       | 1.48.0                                                    |
-| openssl                       | 1.1.1o                                                    |
+| openssl                       | 1.1.1p                                                    |
 | mod_wsgi                      | 4.9.2                                                     |
 | mod_security2                 | 2.9.5                                                     |
 | mod_jk                        | 1.2.48                                                    |
