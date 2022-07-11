@@ -81,7 +81,7 @@
 | re2c                          | 3.0                                                       |
 | redis                         | 5.0.14                                                    |
 | redis extension               | 5.3.7                                                     |
-| mongodb extension             | 1.12.0                                                    |
+| mongodb extension             | 1.13.0                                                    |
 | swoole extension              | 4.8.10                                                    |
 | yaf extension                 | 3.3.5                                                     |
 | yar extension                 | 2.3.2                                                     |

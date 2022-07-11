@@ -171,8 +171,8 @@ redis_filename_url="http://download.redis.io/releases/redis-5.0.14.tar.gz"
 php_redis_filename="redis-5.3.7"
 php_redis_filename_url="https://pecl.php.net/get/redis-5.3.7.tgz"
 #php extension mongodb
-php_mongo_filename="mongodb-1.12.0"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.12.0.tgz"
+php_mongo_filename="mongodb-1.13.0"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.13.0.tgz"
 #libsodium
 libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
