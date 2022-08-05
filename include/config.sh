@@ -62,11 +62,11 @@ mariadb10_7_filename="mariadb-10.7.4"
 php7_4_filename="php-7.4.30"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.30.tar.gz"
 #php8.0
-php8_0_filename="php-8.0.21"
-php8_0_filename_url="https://www.php.net/distributions/php-8.0.21.tar.gz"
+php8_0_filename="php-8.0.22"
+php8_0_filename_url="https://www.php.net/distributions/php-8.0.22.tar.gz"
 #php8.1
-php8_1_filename="php-8.1.8"
-php8_1_filename_url="https://www.php.net/distributions/php-8.1.8.tar.gz"
+php8_1_filename="php-8.1.9"
+php8_1_filename_url="https://www.php.net/distributions/php-8.1.9.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-5.2.0-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.0/phpMyAdmin-5.2.0-all-languages.tar.gz"
