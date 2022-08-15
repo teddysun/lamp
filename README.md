@@ -24,7 +24,7 @@
 ## Supported System
 
 - Amazon Linux 2
-- AlmaLinux 8
+- AlmaLinux 8 (recommend)
 - AlmaLinux 9
 - CentOS 7
 - CentOS Stream 8
