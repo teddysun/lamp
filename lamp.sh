@@ -59,7 +59,7 @@ Options:
 -v, --version                   Print program version and exit
 --apache_option [1-2]           Apache server version
 --apache_modules [mod name]     Apache modules: mod_wsgi, mod_security, mod_jk
---db_option [1-9]               Database version
+--db_option [1-8]               Database version
 --db_data_path [location]       Database Data Location. for example: /data/db
 --db_root_pwd [password]        Database root password. for example: lamp.sh
 --php_option [1-4]              PHP version
@@ -74,7 +74,7 @@ Parameters:
 "
     echo "--apache_option [1-2], please select a available Apache version"
     show_parameters apache
-    echo "--db_option [1-9], please select a available Database version"
+    echo "--db_option [1-8], please select a available Database version"
     show_parameters mysql
     echo "--php_option [1-4], please select a available PHP version"
     show_parameters php
@@ -146,7 +146,7 @@ process(){
             if ! is_digit ${db_option}; then
                 _error "Option --db_option input error, please only input a number"
             fi
-            [[ "${db_option}" -lt 1 || "${db_option}" -gt 9 ]] && _error "Option --db_option input error, please only input a number between 1 and 9"
+            [[ "${db_option}" -lt 1 || "${db_option}" -gt 8 ]] && _error "Option --db_option input error, please only input a number between 1 and 8"
             eval mysql=${mysql_arr[${db_option}-1]}
             if [[ "${mysql}" == "${mariadb10_3_filename}" || \
                   "${mysql}" == "${mariadb10_4_filename}" || \

@@ -55,7 +55,7 @@ upgrade_db(){
         elif [ "${mariadb_ver}" == "10.1" ]; then
             latest_mariadb="10.1.48"
         elif [ "${mariadb_ver}" == "10.2" ]; then
-            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.2.[0-9.]+" | head -1)"
+            latest_mariadb="10.2.44"
         elif [ "${mariadb_ver}" == "10.3" ]; then
             latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.3.[0-9.]+" | head -1)"
         elif [ "${mariadb_ver}" == "10.4" ]; then
