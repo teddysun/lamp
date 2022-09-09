@@ -93,9 +93,9 @@ mod_jk_filename="tomcat-connectors-1.2.48-src"
 mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.48-src.tar.gz"
 set_hint ${mod_jk_filename} "mod_jk-1.2.48"
 #mod_security
-mod_security_filename="modsecurity-2.9.5"
-mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.5/modsecurity-2.9.5.tar.gz"
-set_hint ${mod_security_filename} "mod_security-2.9.5"
+mod_security_filename="modsecurity-2.9.6"
+mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.6/modsecurity-2.9.6.tar.gz"
+set_hint ${mod_security_filename} "mod_security-2.9.6"
 #mhash
 mhash_filename="mhash-0.9.9.9"
 mhash_filename_url="https://sourceforge.net/projects/mhash/files/mhash/0.9.9.9/mhash-0.9.9.9.tar.gz/download"

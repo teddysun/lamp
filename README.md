@@ -57,7 +57,7 @@
 | nghttp2                       | 1.49.0                                                    |
 | openssl                       | 1.1.1q                                                    |
 | mod_wsgi                      | 4.9.3                                                     |
-| mod_security2                 | 2.9.5                                                     |
+| mod_security2                 | 2.9.6                                                     |
 | mod_jk                        | 1.2.48                                                    |
 
 | Database                      | Version                                                   |
