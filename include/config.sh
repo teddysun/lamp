@@ -86,8 +86,8 @@ apr_filename_url="http://ftp.jaist.ac.jp/pub/apache//apr/apr-1.7.0.tar.gz"
 apr_util_filename="apr-util-1.6.1"
 apr_util_filename_url="http://ftp.jaist.ac.jp/pub/apache//apr/apr-util-1.6.1.tar.gz"
 #mod_wsgi
-mod_wsgi_filename="mod_wsgi-4.9.3"
-mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/refs/tags/4.9.3.tar.gz"
+mod_wsgi_filename="mod_wsgi-4.9.4"
+mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/refs/tags/4.9.4.tar.gz"
 #mod_jk
 mod_jk_filename="tomcat-connectors-1.2.48-src"
 mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.48-src.tar.gz"
@@ -148,8 +148,8 @@ swoole_filename_url="https://pecl.php.net/get/swoole-4.8.11.tgz"
 xdebug_filename="xdebug-3.1.3"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-3.1.3.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.1.0-45"
-ImageMagick_filename_url="https://imagemagick.org/archive/ImageMagick-7.1.0-45.tar.gz"
+ImageMagick_filename="ImageMagick-7.1.0-48"
+ImageMagick_filename_url="https://imagemagick.org/archive/ImageMagick-7.1.0-48.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.7.0"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.7.0.tgz"

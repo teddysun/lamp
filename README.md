@@ -56,7 +56,7 @@
 | apr-util                      | 1.6.1                                                     |
 | nghttp2                       | 1.49.0                                                    |
 | openssl                       | 1.1.1q                                                    |
-| mod_wsgi                      | 4.9.3                                                     |
+| mod_wsgi                      | 4.9.4                                                     |
 | mod_security2                 | 2.9.6                                                     |
 | mod_jk                        | 1.2.48                                                    |
 
@@ -72,7 +72,7 @@
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
 | gRPC extension                | 1.45.0                                                    |
-| ImageMagick                   | 7.1.0-45                                                  |
+| ImageMagick                   | 7.1.0-48                                                  |
 | imagick extension             | 3.7.0                                                     |
 | libsodium                     | 1.0.18                                                    |
 | libsodium extension           | 2.0.23                                                    |
