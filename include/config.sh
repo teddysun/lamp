@@ -53,9 +53,9 @@ mariadb10_4_filename="mariadb-10.4.26"
 #mariadb10.5
 mariadb10_5_filename="mariadb-10.5.17"
 #mariadb10.6
-mariadb10_6_filename="mariadb-10.6.9"
+mariadb10_6_filename="mariadb-10.6.10"
 #mariadb10.7
-mariadb10_7_filename="mariadb-10.7.5"
+mariadb10_7_filename="mariadb-10.7.6"
 #php7.4
 php7_4_filename="php-7.4.30"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.30.tar.gz"
