@@ -72,7 +72,7 @@
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
 | gRPC extension                | 1.45.0                                                    |
-| ImageMagick                   | 7.1.0-48                                                  |
+| ImageMagick                   | 7.1.0-49                                                  |
 | imagick extension             | 3.7.0                                                     |
 | libsodium                     | 1.0.18                                                    |
 | libsodium extension           | 2.0.23                                                    |
@@ -83,7 +83,7 @@
 | redis                         | 5.0.14                                                    |
 | redis extension               | 5.3.7                                                     |
 | mongodb extension             | 1.13.0                                                    |
-| swoole extension              | 4.8.11                                                    |
+| swoole extension              | 4.8.12                                                    |
 | yaf extension                 | 3.3.5                                                     |
 | yar extension                 | 2.3.2                                                     |
 | msgpack extension             | 2.1.2                                                     |

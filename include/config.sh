@@ -142,14 +142,14 @@ pdflib64_filename="PDFlib-10.0.0p1-Linux-x64-php"
 pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/1000/PDFlib-10.0.0p1-Linux-x64-php.tar.gz"
 #PECL packages
 #php extension swoole
-swoole_filename="swoole-4.8.11"
-swoole_filename_url="https://pecl.php.net/get/swoole-4.8.11.tgz"
+swoole_filename="swoole-4.8.12"
+swoole_filename_url="https://pecl.php.net/get/swoole-4.8.12.tgz"
 #php extension xdebug
 xdebug_filename="xdebug-3.1.3"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-3.1.3.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.1.0-48"
-ImageMagick_filename_url="https://imagemagick.org/archive/ImageMagick-7.1.0-48.tar.gz"
+ImageMagick_filename="ImageMagick-7.1.0-49"
+ImageMagick_filename_url="https://imagemagick.org/archive/ImageMagick-7.1.0-49.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.7.0"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.7.0.tgz"
