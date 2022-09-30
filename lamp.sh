@@ -243,6 +243,7 @@ lamp_auto(){
     display_os_info
     last_confirm
     lamp_install
+    
 }
 
 main() {
