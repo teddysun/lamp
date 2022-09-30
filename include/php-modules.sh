@@ -82,7 +82,6 @@ install_php_depends(){
             libpam0g-dev libonig-dev libxslt1-dev zlib1g-dev libpcre3-dev libtool libtidy-dev libsqlite3-dev
             libjpeg-dev libpng-dev libfreetype6-dev libpspell-dev libmhash-dev libenchant-dev libmcrypt-dev
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev #libzip-dev
-            gd curl exif
         )
         # Install libenchant-2-dev package first if it is found for Debian or Ubuntu
         if apt-cache show libenchant-2-dev 2> /dev/null | grep -q "libenchant-2-dev"; then
