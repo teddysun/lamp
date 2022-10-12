@@ -148,8 +148,8 @@ swoole_filename_url="https://pecl.php.net/get/swoole-4.8.12.tgz"
 xdebug_filename="xdebug-3.1.3"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-3.1.3.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.1.0-49"
-ImageMagick_filename_url="https://imagemagick.org/archive/ImageMagick-7.1.0-49.tar.gz"
+ImageMagick_filename="ImageMagick-7.1.0-50"
+ImageMagick_filename_url="https://imagemagick.org/archive/ImageMagick-7.1.0-50.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.7.0"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.7.0.tgz"
