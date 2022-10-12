@@ -43,9 +43,9 @@ openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1q.tar.gz"
 apache2_4_filename="httpd-2.4.54"
 apache2_4_filename_url="https://dlcdn.apache.org//httpd/httpd-2.4.54.tar.gz"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.39"
+mysql5_7_filename="mysql-5.7.40"
 #mysql8.0
-mysql8_0_filename="mysql-8.0.30"
+mysql8_0_filename="mysql-8.0.31"
 #mariadb10.3
 mariadb10_3_filename="mariadb-10.3.36"
 #mariadb10.4
