@@ -138,7 +138,7 @@ opcache.interned_strings_buffer=8
 opcache.max_accelerated_files=10000
 opcache.revalidate_freq=60
 opcache.fast_shutdown=1
-opcache.save_comments=0
+opcache.save_comments=1
 EOF
 
     cp -f ${cur_dir}/conf/ocp.php ${web_root_dir}
