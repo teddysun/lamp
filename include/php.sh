@@ -124,9 +124,10 @@ install_php(){
 }
 
 config_php(){
-    rm -f /etc/php.ini /usr/bin/php /usr/bin/php-config /usr/bin/phpize
+    rm -f /etc/php.ini /usr/bin/php /usr/bin/php-cgi /usr/bin/php-config /usr/bin/phpize
     ln -s ${php_location}/etc/php.ini /etc/php.ini
     ln -s ${php_location}/bin/php /usr/bin/
+    ln -s ${php_location}/bin/php-cgi /usr/bin/
     ln -s ${php_location}/bin/php-config /usr/bin/
     ln -s ${php_location}/bin/phpize /usr/bin/
     cat > ${php_location}/php.d/opcache.ini<<EOF
