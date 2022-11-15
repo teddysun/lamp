@@ -21,11 +21,13 @@ php_modules_preinstall_settings(){
         echo "${php} available modules:"
         # Delete some modules (PHP 8 not support now) & change some module version
         if [[ "${php}" =~ ^php-8.[0-1].+$ ]]; then
-            php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
-            php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_memcached_filename}})
         fi
+        if [[ "${php}" =~ ^php-8.0.+$ ]]; then
+            php_modules_arr=(${php_modules_arr[@]#${ionCube_filename}})
+        fi
         if [[ "${php}" =~ ^php-8.1.+$ ]]; then
+            php_modules_arr=(${php_modules_arr[@]#${phalcon_filename}})
             php_modules_arr=(${php_modules_arr[@]#${php_libsodium_filename}})
         fi
         display_menu_multi php_modules last

@@ -68,11 +68,11 @@
 | PHP & Additional extensions   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
 | PHP                           | 7.4.33, 8.0.25, 8.1.12                                    |
-| ionCube Loader                | 12.0.1                                                    |
+| ionCube Loader                | 12.0.2                                                    |
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
 | gRPC extension                | 1.45.0                                                    |
-| ImageMagick                   | 7.1.0-50                                                  |
+| ImageMagick                   | 7.1.0-52                                                  |
 | imagick extension             | 3.7.0                                                     |
 | libsodium                     | 1.0.18                                                    |
 | libsodium extension           | 2.0.23                                                    |
@@ -82,14 +82,14 @@
 | re2c                          | 3.0                                                       |
 | redis                         | 5.0.14                                                    |
 | redis extension               | 5.3.7                                                     |
-| mongodb extension             | 1.13.0                                                    |
+| mongodb extension             | 1.14.2                                                    |
 | swoole extension              | 4.8.12                                                    |
 | yaf extension                 | 3.3.5                                                     |
 | yar extension                 | 2.3.2                                                     |
 | msgpack extension             | 2.1.2                                                     |
 | psr extension                 | 1.2.0                                                     |
-| phalcon extension             | 4.1.2                                                     |
-| xdebug extension              | 3.1.3                                                     |
+| phalcon extension             | 5.1.1                                                     |
+| xdebug extension              | 3.1.6                                                     |
 
 | Database Management Tools     | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|

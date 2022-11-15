@@ -482,7 +482,7 @@ Options:
 }
 
 display_version(){
-    echo "Version: $(_green 20221015)"
+    echo "Version: $(_green 20221115)"
 }
 
 #Run it

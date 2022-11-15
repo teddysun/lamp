@@ -145,11 +145,11 @@ pdflib64_filename_url="https://www.pdflib.com/binaries/PDFlib/1000/PDFlib-10.0.0
 swoole_filename="swoole-4.8.12"
 swoole_filename_url="https://pecl.php.net/get/swoole-4.8.12.tgz"
 #php extension xdebug
-xdebug_filename="xdebug-3.1.3"
-xdebug_filename_url="https://pecl.php.net/get/xdebug-3.1.3.tgz"
+xdebug_filename="xdebug-3.1.6"
+xdebug_filename_url="https://pecl.php.net/get/xdebug-3.1.6.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.1.0-50"
-ImageMagick_filename_url="https://imagemagick.org/archive/ImageMagick-7.1.0-50.tar.gz"
+ImageMagick_filename="ImageMagick-7.1.0-52"
+ImageMagick_filename_url="https://imagemagick.org/archive/ImageMagick-7.1.0-52.tar.gz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.7.0"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.7.0.tgz"
@@ -169,8 +169,8 @@ redis_filename_url="http://download.redis.io/releases/redis-5.0.14.tar.gz"
 php_redis_filename="redis-5.3.7"
 php_redis_filename_url="https://pecl.php.net/get/redis-5.3.7.tgz"
 #php extension mongodb
-php_mongo_filename="mongodb-1.13.0"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.13.0.tgz"
+php_mongo_filename="mongodb-1.14.2"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.14.2.tgz"
 #libsodium
 libsodium_filename="libsodium-1.0.18"
 libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
@@ -184,8 +184,8 @@ yaf_filename_url="https://pecl.php.net/get/yaf-3.3.5.tgz"
 psr_filename="psr-1.2.0"
 psr_filename_url="https://pecl.php.net/get/psr-1.2.0.tgz"
 #php extension phalcon
-phalcon_filename="phalcon-4.1.2"
-phalcon_filename_url="https://pecl.php.net/get/phalcon-4.1.2.tgz"
+phalcon_filename="phalcon-5.1.1"
+phalcon_filename_url="https://pecl.php.net/get/phalcon-5.1.1.tgz"
 #php extension apcu
 apcu_filename="apcu-5.1.21"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.21.tgz"
