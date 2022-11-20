@@ -46,7 +46,7 @@ install_apache(){
     fi
     _info "Install dependencies for Apache completed..."
 
-    if ! grep -qE "^/usr/local/lib" /etc/ld.so.conf.d/*.conf; then
+    if ! grep -q -w -E "^/usr/local/lib" /etc/ld.so.conf.d/*.conf && [ -d "/usr/local/lib" ]; then
         echo "/usr/local/lib" > /etc/ld.so.conf.d/locallib.conf
     fi
     ldconfig

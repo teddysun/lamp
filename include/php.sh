@@ -110,7 +110,7 @@ install_php(){
         cd ${php8_1_filename}
     fi
 
-    if ! grep -qE "^/usr/local/lib64" /etc/ld.so.conf.d/*.conf && [ -d "/usr/local/lib64" ]; then
+    if ! grep -q -w -E "^/usr/local/lib64" /etc/ld.so.conf.d/*.conf && [ -d "/usr/local/lib64" ]; then
         echo "/usr/local/lib64" > /etc/ld.so.conf.d/locallib64.conf
     fi
     ldconfig

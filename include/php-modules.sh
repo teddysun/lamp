@@ -207,7 +207,7 @@ install_libiconv(){
         error_detect "parallel_make"
         error_detect "make install"
         create_lib64_dir "${depends_prefix}/libiconv"
-        if ! grep -qE "^${depends_prefix}/libiconv/lib" /etc/ld.so.conf.d/*.conf; then
+        if ! grep -q -w -E "^${depends_prefix}/libiconv/lib" /etc/ld.so.conf.d/*.conf; then
             echo "${depends_prefix}/libiconv/lib" > /etc/ld.so.conf.d/libiconvlib.conf
         fi
         _info "Install ${libiconv_filename} completed..."

@@ -76,7 +76,7 @@ upgrade_php(){
         fi
 
         [ ! -e "${depends_prefix}/libiconv/bin/iconv" ] && install_libiconv
-        if ! grep -qE "^${depends_prefix}/libiconv/lib" /etc/ld.so.conf.d/*.conf; then
+        if ! grep -q -w -E "^${depends_prefix}/libiconv/lib" /etc/ld.so.conf.d/*.conf; then
             echo "${depends_prefix}/libiconv/lib" > /etc/ld.so.conf.d/libiconvlib.conf
         fi
 
