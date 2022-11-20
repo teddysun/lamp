@@ -47,7 +47,7 @@ uninstall_lamp(){
     _info "Success"
     echo
     _info "uninstalling PHP"
-    rm -rf ${php_location} ${php_location}.bak /usr/bin/php /usr/bin/php-config /usr/bin/phpize /etc/php.ini
+    rm -rf ${php_location} ${php_location}.bak /usr/bin/php /usr/bin/php-config /usr/bin/phpize /usr/bin/php-cgi /etc/php.ini
     _info "Success"
     echo
     _info "uninstalling others software"
@@ -67,6 +67,7 @@ uninstall_lamp(){
     rm -rf ${depends_prefix}/cmake
     rm -rf ${openssl_location} /etc/ld.so.conf.d/openssl.conf
     rm -rf /usr/lib/libnghttp2.*
+    rm -rf /usr/lib/libargon2.*
     rm -rf /usr/local/lib/libmcrypt.*
     rm -rf /usr/local/lib/libmhash.*
     rm -rf /usr/local/bin/iconv
