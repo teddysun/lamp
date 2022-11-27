@@ -474,17 +474,17 @@ untar(){
     if [ -n ${1} ]; then
         software_name=$(echo $1 | awk -F/ '{print $NF}')
         tarball_type=$(echo $1 | awk -F. '{print $NF}')
-        wget --no-check-certificate -cv -t3 -T60 ${1} -P ${cur_dir}/
+        wget --no-check-certificate --progress=bar -cv -t3 -T60 ${1} -P ${cur_dir}/
         if [ $? -ne 0 ]; then
             rm -rf ${cur_dir}/${software_name}
-            wget --no-check-certificate -cv -t3 -T60 ${2} -P ${cur_dir}/
+            wget --no-check-certificate --progress=bar -cv -t3 -T60 ${2} -P ${cur_dir}/
             software_name=$(echo ${2} | awk -F/ '{print $NF}')
             tarball_type=$(echo ${2} | awk -F. '{print $NF}')
         fi
     else
         software_name=$(echo ${2} | awk -F/ '{print $NF}')
         tarball_type=$(echo ${2} | awk -F. '{print $NF}')
-        wget --no-check-certificate -cv -t3 -T60 ${2} -P ${cur_dir}/ || exit
+        wget --no-check-certificate --progress=bar -cv -t3 -T60 ${2} -P ${cur_dir}/ || exit
     fi
     extracted_dir=$(tar tf ${cur_dir}/${software_name} | tail -n 1 | awk -F/ '{print $1}')
     case ${tarball_type} in
@@ -659,13 +659,13 @@ download_file(){
         _info "$1 [found]"
     else
         _info "$1 not found, download now..."
-        wget --no-check-certificate -cv -t3 -T10 -O ${1} ${2}
+        wget --no-check-certificate --progress=bar -cv -t3 -T10 -O ${1} ${2}
         if [ $? -eq 0 ]; then
             _info "$1 download completed..."
         else
             rm -f "$1"
             _info "$1 download failed, retrying download from secondary url..."
-            wget --no-check-certificate -cv -t3 -T60 -O "$1" "${download_root_url}/${1}"
+            wget --no-check-certificate --progress=bar -cv -t3 -T60 -O "$1" "${download_root_url}/${1}"
             if [ $? -eq 0 ]; then
                 _info "$1 download completed..."
             else
