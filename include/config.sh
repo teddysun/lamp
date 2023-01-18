@@ -40,12 +40,12 @@ nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.51
 openssl_filename="openssl-1.1.1s"
 openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1s.tar.gz"
 #apache2.4
-apache2_4_filename="httpd-2.4.54"
-apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.54.tar.gz"
+apache2_4_filename="httpd-2.4.55"
+apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.55.tar.gz"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.40"
+mysql5_7_filename="mysql-5.7.41"
 #mysql8.0
-mysql8_0_filename="mysql-8.0.31"
+mysql8_0_filename="mysql-8.0.32"
 #mariadb10.3
 mariadb10_3_filename="mariadb-10.3.37"
 #mariadb10.4
