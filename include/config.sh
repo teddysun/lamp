@@ -40,8 +40,8 @@ nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.52
 openssl_filename="openssl-1.1.1t"
 openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1t.tar.gz"
 #apache2.4
-apache2_4_filename="httpd-2.4.56"
-apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.56.tar.gz"
+apache2_4_filename="httpd-2.4.57"
+apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.57.tar.gz"
 #mysql5.7
 mysql5_7_filename="mysql-5.7.41"
 #mysql8.0
@@ -80,8 +80,8 @@ kodexplorer_filename_url="${download_root_url}/kodfile-${kod_version}.tar.gz"
 set_hint ${kodexplorer_filename} "kodexplorer-${kod_version}"
 
 #apr
-apr_filename="apr-1.7.2"
-apr_filename_url="http://ftp.jaist.ac.jp/pub/apache/apr/apr-1.7.2.tar.gz"
+apr_filename="apr-1.7.3"
+apr_filename_url="http://ftp.jaist.ac.jp/pub/apache/apr/apr-1.7.3.tar.gz"
 #apr-util
 apr_util_filename="apr-util-1.6.3"
 apr_util_filename_url="http://ftp.jaist.ac.jp/pub/apache/apr/apr-util-1.6.3.tar.gz"
