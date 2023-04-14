@@ -32,23 +32,8 @@ upgrade_php(){
     local major_version=$(echo ${openssl_version} | awk '{print $2}' | grep -oE "[0-9.]+")
 
     case "${php_version}" in
-        5.6)
-            latest_php="5.6.40"
-            ;;
-        7.0)
-            latest_php="7.0.33"
-            ;;
-        7.1)
-            latest_php="7.1.33"
-            ;;
-        7.2)
-            latest_php="7.2.34"
-            ;;
-        7.3)
-            latest_php="7.3.33"
-            ;;
         7.4)
-            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '7.4')"
+            latest_php="7.4.33"
             ;;
         8.0)
             latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.0')"
