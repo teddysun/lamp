@@ -80,8 +80,8 @@ kodexplorer_filename_url="${download_root_url}/kodfile-${kod_version}.tar.gz"
 set_hint ${kodexplorer_filename} "kodexplorer-${kod_version}"
 
 #apr
-apr_filename="apr-1.7.3"
-apr_filename_url="http://ftp.jaist.ac.jp/pub/apache/apr/apr-1.7.3.tar.gz"
+apr_filename="apr-1.7.4"
+apr_filename_url="http://ftp.jaist.ac.jp/pub/apache/apr/apr-1.7.4.tar.gz"
 #apr-util
 apr_util_filename="apr-util-1.6.3"
 apr_util_filename_url="http://ftp.jaist.ac.jp/pub/apache/apr/apr-util-1.6.3.tar.gz"
