@@ -65,7 +65,9 @@ upgrade_db(){
         elif [ "${mariadb_ver}" == "10.6" ]; then
             latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.6.[0-9.]+" | head -1)"
         elif [ "${mariadb_ver}" == "10.7" ]; then
-            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.7.[0-9.]+" | head -1)"
+            latest_mariadb="10.7.8"
+        elif [ "${mariadb_ver}" == "10.11" ]; then
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.11.[0-9.]+" | head -1)"
         else
             _error "There is no update available for ${db_name} ${installed_mariadb}"
         fi
@@ -169,7 +171,7 @@ upgrade_db(){
                 glibc_flag=linux
             else
                 glibc_flag=linux-glibc_214
-                if [[ "${mariadb_ver}" == "10.5" || "${mariadb_ver}" == "10.6" || "${mariadb_ver}" == "10.7" ]]; then
+                if [[ "${mariadb_ver}" == "10.5" || "${mariadb_ver}" == "10.6" || "${mariadb_ver}" == "10.7" || "${mariadb_ver}" == "10.11" ]]; then
                     glibc_flag=linux-systemd
                 fi
             fi

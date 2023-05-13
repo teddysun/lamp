@@ -19,11 +19,11 @@ mysql_preinstall_settings(){
         mysql_arr=(${mysql_arr[@]#${mariadb10_4_filename}})
         mysql_arr=(${mysql_arr[@]#${mariadb10_5_filename}})
         mysql_arr=(${mysql_arr[@]#${mariadb10_6_filename}})
-        mysql_arr=(${mysql_arr[@]#${mariadb10_7_filename}})
+        mysql_arr=(${mysql_arr[@]#${mariadb10_11_filename}})
     fi
-    # mariadb 10.6, 10.7 not support 32 bit
+    # mariadb 10.6, 10.11 not support 32 bit
     is_64bit || mysql_arr=(${mysql_arr[@]#${mariadb10_6_filename}})
-    is_64bit || mysql_arr=(${mysql_arr[@]#${mariadb10_7_filename}})
+    is_64bit || mysql_arr=(${mysql_arr[@]#${mariadb10_11_filename}})
     display_menu mysql 1
 
     if [ "${mysql}" != "do_not_install" ];then
@@ -343,7 +343,7 @@ install_mariadb(){
         glibc_flag=linux-glibc_214
         if [[ "${mysql}" == "${mariadb10_5_filename}" || \
               "${mysql}" == "${mariadb10_6_filename}" || \
-              "${mysql}" == "${mariadb10_7_filename}" ]]; then
+              "${mysql}" == "${mariadb10_11_filename}" ]]; then
             glibc_flag=linux-systemd
         fi
     fi
