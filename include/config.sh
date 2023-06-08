@@ -34,11 +34,11 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.53.0"
-nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.53.0/nghttp2-1.53.0.tar.gz"
+nghttp2_filename="nghttp2-1.54.0"
+nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.54.0/nghttp2-1.54.0.tar.gz"
 #openssl
-openssl_filename="openssl-1.1.1t"
-openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1t.tar.gz"
+openssl_filename="openssl-1.1.1u"
+openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1u.tar.gz"
 #apache2.4
 apache2_4_filename="httpd-2.4.57"
 apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.57.tar.gz"
@@ -49,13 +49,13 @@ mysql8_0_filename="mysql-8.0.33"
 #mariadb10.3
 mariadb10_3_filename="mariadb-10.3.39"
 #mariadb10.4
-mariadb10_4_filename="mariadb-10.4.29"
+mariadb10_4_filename="mariadb-10.4.30"
 #mariadb10.5
-mariadb10_5_filename="mariadb-10.5.20"
+mariadb10_5_filename="mariadb-10.5.21"
 #mariadb10.6
-mariadb10_6_filename="mariadb-10.6.13"
+mariadb10_6_filename="mariadb-10.6.14"
 #mariadb10.11
-mariadb10_11_filename="mariadb-10.11.3"
+mariadb10_11_filename="mariadb-10.11.4"
 #php7.4
 php7_4_filename="php-7.4.33"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.33.tar.gz"
@@ -63,8 +63,8 @@ php7_4_filename_url="https://www.php.net/distributions/php-7.4.33.tar.gz"
 php8_0_filename="php-8.0.28"
 php8_0_filename_url="https://www.php.net/distributions/php-8.0.28.tar.gz"
 #php8.1
-php8_1_filename="php-8.1.19"
-php8_1_filename_url="https://www.php.net/distributions/php-8.1.19.tar.gz"
+php8_1_filename="php-8.1.20"
+php8_1_filename_url="https://www.php.net/distributions/php-8.1.20.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
