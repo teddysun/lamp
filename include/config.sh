@@ -60,8 +60,8 @@ mariadb10_11_filename="mariadb-10.11.4"
 php7_4_filename="php-7.4.33"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.33.tar.gz"
 #php8.0
-php8_0_filename="php-8.0.28"
-php8_0_filename_url="https://www.php.net/distributions/php-8.0.28.tar.gz"
+php8_0_filename="php-8.0.29"
+php8_0_filename_url="https://www.php.net/distributions/php-8.0.29.tar.gz"
 #php8.1
 php8_1_filename="php-8.1.20"
 php8_1_filename_url="https://www.php.net/distributions/php-8.1.20.tar.gz"
