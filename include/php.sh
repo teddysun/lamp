@@ -16,7 +16,7 @@ php_preinstall_settings(){
     if [ "${apache}" == "do_not_install" ]; then
         php="do_not_install"
     else
-        display_menu php 1
+        display_menu php 3
     fi
 }
 
@@ -108,6 +108,10 @@ install_php(){
         download_file  "${php8_1_filename}.tar.gz" "${php8_1_filename_url}"
         tar zxf ${php8_1_filename}.tar.gz
         cd ${php8_1_filename}
+    elif [ "${php}" == "${php8_2_filename}" ]; then
+        download_file  "${php8_2_filename}.tar.gz" "${php8_2_filename_url}"
+        tar zxf ${php8_2_filename}.tar.gz
+        cd ${php8_2_filename}
     fi
 
     if ! grep -q -w -E "^/usr/local/lib64" /etc/ld.so.conf.d/*.conf && [ -d "/usr/local/lib64" ]; then

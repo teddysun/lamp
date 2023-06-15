@@ -65,6 +65,9 @@ php8_0_filename_url="https://www.php.net/distributions/php-8.0.29.tar.gz"
 #php8.1
 php8_1_filename="php-8.1.20"
 php8_1_filename_url="https://www.php.net/distributions/php-8.1.20.tar.gz"
+#php8.2
+php8_2_filename="php-8.2.7"
+php8_2_filename_url="https://www.php.net/distributions/php-8.2.7.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
@@ -227,6 +230,7 @@ php_arr=(
 ${php7_4_filename}
 ${php8_0_filename}
 ${php8_1_filename}
+${php8_2_filename}
 do_not_install
 )
 

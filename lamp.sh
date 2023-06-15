@@ -209,13 +209,13 @@ set_parameters(){
     [ -z "${php_modules_install}" ] && php_modules_install="do_not_install"
     [ "${php}" == "do_not_install" ] && php_modules_install="do_not_install"
     if [ -n "${php_modules_install}" ]; then
-        if [[ "${php}" =~ ^php-8.[0-1].+$ ]]; then
+        if [[ "${php}" =~ ^php-8.[0-2].+$ ]]; then
             if_in_array "${php_memcached_filename}" "${php_modules_install}" && _error "${php_memcached_filename} is not support ${php} now, please remove php extension: memcached"
         fi
-        if [[ "${php}" =~ ^php-8.0.+$ ]]; then
+        if [[ "${php}" =~ ^php-8.[0|2].+$ ]]; then
             if_in_array "${ionCube_filename}" "${php_modules_install}" && _error "${ionCube_filename} is not support ${php} now, please remove php extension: ioncube"
         fi
-        if [[ "${php}" =~ ^php-8.1.+$ ]]; then
+        if [[ "${php}" =~ ^php-8.[1-2].+$ ]]; then
             if_in_array "${phalcon_filename}" "${php_modules_install}" && _error "${phalcon_filename} is not support ${php} now, please remove php extension: phalcon"
             if_in_array "${php_libsodium_filename}" "${php_modules_install}" && _error "${php_libsodium_filename} is not support ${php} now, please remove php extension: libsodium"
         fi

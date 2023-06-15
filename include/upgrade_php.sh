@@ -41,6 +41,9 @@ upgrade_php(){
         8.1)
             latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.1')"
             ;;
+        8.2)
+            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.2')"
+            ;;
         *)
         # do nothing
     esac
