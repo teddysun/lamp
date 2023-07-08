@@ -63,11 +63,11 @@ php7_4_filename_url="https://www.php.net/distributions/php-7.4.33.tar.gz"
 php8_0_filename="php-8.0.29"
 php8_0_filename_url="https://www.php.net/distributions/php-8.0.29.tar.gz"
 #php8.1
-php8_1_filename="php-8.1.20"
-php8_1_filename_url="https://www.php.net/distributions/php-8.1.20.tar.gz"
+php8_1_filename="php-8.1.21"
+php8_1_filename_url="https://www.php.net/distributions/php-8.1.21.tar.gz"
 #php8.2
-php8_2_filename="php-8.2.7"
-php8_2_filename_url="https://www.php.net/distributions/php-8.2.7.tar.gz"
+php8_2_filename="php-8.2.8"
+php8_2_filename_url="https://www.php.net/distributions/php-8.2.8.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
