@@ -445,8 +445,8 @@ install_php_imagesmagick(){
 
     cd ${cur_dir}/software/
     _info "Installing ${ImageMagick_filename}..."
-    download_file "${ImageMagick_filename}.tar.gz" "${ImageMagick_filename_url}"
-    tar zxf ${ImageMagick_filename}.tar.gz
+    download_file "${ImageMagick_filename}.tar.xz" "${ImageMagick_filename_url}"
+    tar Jxf ${ImageMagick_filename}.tar.xz
     cd ${ImageMagick_filename}
     error_detect "./configure"
     error_detect "parallel_make"

@@ -54,27 +54,27 @@
 | httpd                         | 2.4.57                                                    |
 | apr                           | 1.7.4                                                     |
 | apr-util                      | 1.6.3                                                     |
-| nghttp2                       | 1.54.0                                                    |
-| openssl                       | 1.1.1u                                                    |
+| nghttp2                       | 1.56.0                                                    |
+| openssl                       | 1.1.1w                                                    |
 | mod_wsgi                      | 4.9.4                                                     |
 | mod_security2                 | 2.9.6                                                     |
 | mod_jk                        | 1.2.48                                                    |
 
 | Database                      | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| MySQL                         | 5.7.42, 8.0.33                                            |
-| MariaDB                       | 10.3.39, 10.4.30, 10.5.21, 10.6.14, 10.11.4               |
+| MySQL                         | 5.7.43, 8.0.34                                            |
+| MariaDB                       | 10.3.39, 10.4.31, 10.5.22, 10.6.15, 10.11.5               |
 
 | PHP & Additional extensions   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| PHP                           | 7.4.33, 8.0.29, 8.1.21, 8.2.8                             |
-| ionCube Loader                | 12.0.5                                                    |
+| PHP                           | 7.4.33, 8.0.30, 8.1.23, 8.2.10                            |
+| ionCube Loader                | 13.0.2                                                    |
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
-| gRPC extension                | 1.45.0                                                    |
-| ImageMagick                   | 7.1.0-60                                                  |
+| gRPC extension                | 1.58.0                                                    |
+| ImageMagick                   | 7.1.0-62                                                  |
 | imagick extension             | 3.7.0                                                     |
-| libsodium                     | 1.0.18                                                    |
+| libsodium                     | 1.0.19                                                    |
 | libsodium extension           | 2.0.23                                                    |
 | memcached                     | 1.6.6                                                     |
 | libmemcached                  | 1.0.18                                                    |
@@ -82,13 +82,13 @@
 | re2c                          | 3.0                                                       |
 | redis                         | 5.0.14                                                    |
 | redis extension               | 5.3.7                                                     |
-| mongodb extension             | 1.14.2                                                    |
+| mongodb extension             | 1.16.2                                                    |
 | swoole extension              | 4.8.12                                                    |
 | yaf extension                 | 3.3.5                                                     |
 | yar extension                 | 2.3.2                                                     |
 | msgpack extension             | 2.1.2                                                     |
 | psr extension                 | 1.2.0                                                     |
-| phalcon extension             | 5.1.1                                                     |
+| phalcon extension             | 5.3.1                                                     |
 | xdebug extension              | 3.1.6                                                     |
 
 | Database Management Tools     | Version                                                   |

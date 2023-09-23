@@ -34,40 +34,40 @@ parallel_compile=1
 
 ##Software version
 #nghttp2
-nghttp2_filename="nghttp2-1.54.0"
-nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.54.0/nghttp2-1.54.0.tar.gz"
+nghttp2_filename="nghttp2-1.56.0"
+nghttp2_filename_url="https://github.com/nghttp2/nghttp2/releases/download/v1.56.0/nghttp2-1.56.0.tar.gz"
 #openssl
-openssl_filename="openssl-1.1.1u"
-openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1u.tar.gz"
+openssl_filename="openssl-1.1.1w"
+openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1w.tar.gz"
 #apache2.4
 apache2_4_filename="httpd-2.4.57"
 apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.57.tar.gz"
 #mysql5.7
-mysql5_7_filename="mysql-5.7.42"
+mysql5_7_filename="mysql-5.7.43"
 #mysql8.0
-mysql8_0_filename="mysql-8.0.33"
+mysql8_0_filename="mysql-8.0.34"
 #mariadb10.3
 mariadb10_3_filename="mariadb-10.3.39"
 #mariadb10.4
-mariadb10_4_filename="mariadb-10.4.30"
+mariadb10_4_filename="mariadb-10.4.31"
 #mariadb10.5
-mariadb10_5_filename="mariadb-10.5.21"
+mariadb10_5_filename="mariadb-10.5.22"
 #mariadb10.6
-mariadb10_6_filename="mariadb-10.6.14"
+mariadb10_6_filename="mariadb-10.6.15"
 #mariadb10.11
-mariadb10_11_filename="mariadb-10.11.4"
+mariadb10_11_filename="mariadb-10.11.5"
 #php7.4
 php7_4_filename="php-7.4.33"
 php7_4_filename_url="https://www.php.net/distributions/php-7.4.33.tar.gz"
 #php8.0
-php8_0_filename="php-8.0.29"
-php8_0_filename_url="https://www.php.net/distributions/php-8.0.29.tar.gz"
+php8_0_filename="php-8.0.30"
+php8_0_filename_url="https://www.php.net/distributions/php-8.0.30.tar.gz"
 #php8.1
-php8_1_filename="php-8.1.21"
-php8_1_filename_url="https://www.php.net/distributions/php-8.1.21.tar.gz"
+php8_1_filename="php-8.1.23"
+php8_1_filename_url="https://www.php.net/distributions/php-8.1.23.tar.gz"
 #php8.2
-php8_2_filename="php-8.2.8"
-php8_2_filename_url="https://www.php.net/distributions/php-8.2.8.tar.gz"
+php8_2_filename="php-8.2.10"
+php8_2_filename_url="https://www.php.net/distributions/php-8.2.10.tar.gz"
 #phpMyAdmin
 phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
 phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
@@ -120,8 +120,8 @@ cmake_filename_url="https://github.com/Kitware/CMake/releases/download/v3.18.0/c
 cmake_filename2="cmake-3.18.0-Linux-x86_64"
 cmake_filename_url2="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0-Linux-x86_64.tar.gz"
 #libzip
-libzip_filename="libzip-1.9.2"
-libzip_filename_url="https://libzip.org/download/libzip-1.9.2.tar.gz"
+libzip_filename="libzip-1.10.1"
+libzip_filename_url="https://libzip.org/download/libzip-1.10.1.tar.gz"
 #libiconv
 libiconv_filename="libiconv-1.16"
 libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
@@ -151,8 +151,8 @@ swoole_filename_url="https://pecl.php.net/get/swoole-4.8.12.tgz"
 xdebug_filename="xdebug-3.1.6"
 xdebug_filename_url="https://pecl.php.net/get/xdebug-3.1.6.tgz"
 #ImageMagick
-ImageMagick_filename="ImageMagick-7.1.0-60"
-ImageMagick_filename_url="https://imagemagick.org/archive/releases/ImageMagick-7.1.0-60.tar.gz"
+ImageMagick_filename="ImageMagick-7.1.0-62"
+ImageMagick_filename_url="https://imagemagick.org/archive/releases/ImageMagick-7.1.0-62.tar.xz"
 #php extension imagick
 php_imagemagick_filename="imagick-3.7.0"
 php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.7.0.tgz"
@@ -172,11 +172,11 @@ redis_filename_url="http://download.redis.io/releases/redis-5.0.14.tar.gz"
 php_redis_filename="redis-5.3.7"
 php_redis_filename_url="https://pecl.php.net/get/redis-5.3.7.tgz"
 #php extension mongodb
-php_mongo_filename="mongodb-1.14.2"
-php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.14.2.tgz"
+php_mongo_filename="mongodb-1.16.2"
+php_mongo_filename_url="https://pecl.php.net/get/mongodb-1.16.2.tgz"
 #libsodium
-libsodium_filename="libsodium-1.0.18"
-libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz"
+libsodium_filename="libsodium-1.0.19"
+libsodium_filename_url="https://download.libsodium.org/libsodium/releases/libsodium-1.0.19.tar.gz"
 #php extension libsodium
 php_libsodium_filename="libsodium-2.0.23"
 php_libsodium_filename_url="https://pecl.php.net/get/libsodium-2.0.23.tgz"
@@ -187,14 +187,14 @@ yaf_filename_url="https://pecl.php.net/get/yaf-3.3.5.tgz"
 psr_filename="psr-1.2.0"
 psr_filename_url="https://pecl.php.net/get/psr-1.2.0.tgz"
 #php extension phalcon
-phalcon_filename="phalcon-5.1.1"
-phalcon_filename_url="https://pecl.php.net/get/phalcon-5.1.1.tgz"
+phalcon_filename="phalcon-5.3.1"
+phalcon_filename_url="https://pecl.php.net/get/phalcon-5.3.1.tgz"
 #php extension apcu
 apcu_filename="apcu-5.1.21"
 apcu_filename_url="https://pecl.php.net/get/apcu-5.1.21.tgz"
 #php extension grpc
-grpc_filename="grpc-1.45.0"
-grpc_filename_url="https://pecl.php.net/get/grpc-1.45.0.tgz"
+grpc_filename="grpc-1.58.0"
+grpc_filename_url="https://pecl.php.net/get/grpc-1.58.0.tgz"
 #php extension msgpack
 msgpack_filename="msgpack-2.1.2"
 msgpack_filename_url="https://pecl.php.net/get/msgpack-2.1.2.tgz"
