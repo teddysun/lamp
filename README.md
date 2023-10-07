@@ -40,7 +40,7 @@
 
 ## Supported Software
 
-- Apache-2.4 (Include HTTP/2 module: [nghttp2](https://github.com/nghttp2/nghttp2), [mod_http2](https://httpd.apache.org/docs/2.4/mod/mod_http2.html))
+- Apache-2.4 (Include HTTP/2 module: [mod_http2](https://httpd.apache.org/docs/2.4/mod/mod_http2.html))
 - Apache Additional Modules: [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), [mod_security](https://github.com/SpiderLabs/ModSecurity), [mod_jk](https://tomcat.apache.org/download-connectors.cgi)
 - MySQL-5.7, MySQL-8.0, MariaDB-10.3, MariaDB-10.4, MariaDB-10.5, MariaDB-10.6, MariaDB-10.11
 - PHP-7.4, PHP-8.0, PHP-8.1, PHP-8.2
@@ -54,7 +54,6 @@
 | httpd                         | 2.4.57                                                    |
 | apr                           | 1.7.4                                                     |
 | apr-util                      | 1.6.3                                                     |
-| nghttp2                       | 1.56.0                                                    |
 | openssl                       | 1.1.1w                                                    |
 | mod_wsgi                      | 4.9.4                                                     |
 | mod_security2                 | 2.9.6                                                     |
@@ -67,7 +66,7 @@
 
 | PHP & Additional extensions   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| PHP                           | 7.4.33, 8.0.30, 8.1.23, 8.2.10                            |
+| PHP                           | 7.4.33, 8.0.30, 8.1.24, 8.2.11                            |
 | ionCube Loader                | 13.0.2                                                    |
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
