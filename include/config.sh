@@ -109,8 +109,8 @@ load_config() {
     pcre_filename="pcre-8.45"
     pcre_filename_url="https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz/download"
     #re2c
-    re2c_filename="re2c-3.0"
-    re2c_filename_url="${download_root_url}/re2c-3.0.tar.gz"
+    re2c_filename="re2c-3.1"
+    re2c_filename_url="https://github.com/skvadrik/re2c/releases/download/3.1/re2c-3.1.tar.xz"
     #cmake
     cmake_filename="cmake-3.18.0"
     cmake_filename_url="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0.tar.gz"
