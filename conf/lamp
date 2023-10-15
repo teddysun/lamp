@@ -353,8 +353,14 @@ add_letsencrypt() {
     . /usr/local/acme.sh/acme.sh.env
     /usr/local/acme.sh/acme.sh --issue --server letsencrypt ${letsdomain} -w ${website_root}
     if [ $? -eq 0 ]; then
-        ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
-        ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
+        if [ -s "${apache_location}/conf/ssl/${main_domain}/fullchain.cer" ]; then
+            ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
+            ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
+        fi
+        if [ -s "${apache_location}/conf/ssl/${main_domain}_ecc/fullchain.cer" ]; then
+            ssl_certificate="${apache_location}/conf/ssl/${main_domain}_ecc/fullchain.cer"
+            ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}_ecc/${main_domain}.key"
+        fi
         _info "Created Let's Encrypt SSL Certificate success"
     else
         _error "Error: Create Let's Encrypt SSL Certificate failed"
@@ -370,8 +376,14 @@ add_buypass() {
     . /usr/local/acme.sh/acme.sh.env
     /usr/local/acme.sh/acme.sh -m ${email} --issue --server buypass ${letsdomain} -w ${website_root} --days 170
     if [ $? -eq 0 ]; then
-        ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
-        ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
+        if [ -s "${apache_location}/conf/ssl/${main_domain}/fullchain.cer" ]; then
+            ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
+            ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
+        fi
+        if [ -s "${apache_location}/conf/ssl/${main_domain}_ecc/fullchain.cer" ]; then
+            ssl_certificate="${apache_location}/conf/ssl/${main_domain}_ecc/fullchain.cer"
+            ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}_ecc/${main_domain}.key"
+        fi
         _info "Created Buypass.com SSL Certificate success"
     else
         _error "Error: Create Buypass.com SSL Certificate failed"
@@ -482,7 +494,7 @@ Options:
 }
 
 display_version() {
-    echo "Version: $(_green 20230615)"
+    echo "Version: $(_green 20231015)"
 }
 
 #Run it
