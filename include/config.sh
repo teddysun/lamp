@@ -37,8 +37,8 @@ load_config() {
     openssl_filename="openssl-1.1.1w"
     openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1w.tar.gz"
     #apache2.4
-    apache2_4_filename="httpd-2.4.57"
-    apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.57.tar.gz"
+    apache2_4_filename="httpd-2.4.58"
+    apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.58.tar.gz"
     #mysql5.7
     mysql5_7_filename="mysql-5.7.43"
     #mysql8.0
