@@ -79,7 +79,7 @@
 | memcached                     | 1.6.6                                                     |
 | libmemcached                  | 1.0.18                                                    |
 | memcached extension           | 3.1.5                                                     |
-| re2c                          | 3.1                                                       |
+| re2c                          | 3.0                                                       |
 | redis                         | 5.0.14                                                    |
 | redis extension               | 5.3.7                                                     |
 | mongodb extension             | 1.16.2                                                    |
