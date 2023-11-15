@@ -30,7 +30,7 @@ include() {
 }
 
 version() {
-    _info "Version: $(_green 20231015)"
+    _info "Version: $(_green 20231115)"
 }
 
 show_parameters() {
@@ -59,10 +59,10 @@ Options:
 -v, --version                   Print program version and exit
 --apache_option [1-2]           Apache server version
 --apache_modules [mod name]     Apache modules: mod_wsgi, mod_security, mod_jk
---db_option [1-8]               Database version
+--db_option [1-7]               Database version
 --db_data_path [location]       Database Data Location. for example: /data/db
 --db_root_pwd [password]        Database root password. for example: lamp.sh
---php_option [1-4]              PHP version
+--php_option [1-5]              PHP version
 --php_extensions [ext name]     PHP extensions:
                                 apcu, ioncube, pdflib, imagick, xdebug
                                 memcached, redis, mongodb, libsodium, swoole
@@ -74,9 +74,9 @@ Parameters:
 "
     echo "--apache_option [1-2], please select a available Apache version"
     show_parameters apache
-    echo "--db_option [1-8], please select a available Database version"
+    echo "--db_option [1-7], please select a available Database version"
     show_parameters mysql
-    echo "--php_option [1-4], please select a available PHP version"
+    echo "--php_option [1-5], please select a available PHP version"
     show_parameters php
     echo "--kodexplorer_option [1-2], please select a available KodExplorer version"
     show_parameters kodexplorer
@@ -120,7 +120,7 @@ process() {
             if ! is_digit ${php_option}; then
                 _error "Option --php_option input error, please only input a number"
             fi
-            [[ "${php_option}" -lt 1 || "${php_option}" -gt 4 ]] && _error "Option --php_option input error, please only input a number between 1 and 4"
+            [[ "${php_option}" -lt 1 || "${php_option}" -gt 5 ]] && _error "Option --php_option input error, please only input a number between 1 and 5"
             eval php=${php_arr[${php_option} - 1]}
             ;;
         --php_extensions)
@@ -146,17 +146,16 @@ process() {
             if ! is_digit ${db_option}; then
                 _error "Option --db_option input error, please only input a number"
             fi
-            [[ "${db_option}" -lt 1 || "${db_option}" -gt 8 ]] && _error "Option --db_option input error, please only input a number between 1 and 8"
+            [[ "${db_option}" -lt 1 || "${db_option}" -gt 7 ]] && _error "Option --db_option input error, please only input a number between 1 and 7"
             eval mysql=${mysql_arr[${db_option} - 1]}
-            if [[ "${mysql}" == "${mariadb10_3_filename}" || \
-                "${mysql}" == "${mariadb10_4_filename}" || \
+            if [[ "${mysql}" == "${mariadb10_4_filename}" || \
                 "${mysql}" == "${mariadb10_5_filename}" || \
                 "${mysql}" == "${mariadb10_6_filename}" || \
                 "${mysql}" == "${mariadb10_11_filename}" ]] && version_lt $(get_libc_version) 2.14; then
-                _error "Option --db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
+                _error "Option --db_option input error, ${mysql} is not be supported your OS, please input a correct number"
             fi
             if ! is_64bit && [[ "${mysql}" == "${mariadb10_6_filename}" || "${mysql}" == "${mariadb10_11_filename}" ]]; then
-                _error "Option --db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
+                _error "Option --db_option input error, ${mysql} is not be supported 32bit OS, please input a correct number"
             fi
             ;;
         --db_data_path)

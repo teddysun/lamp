@@ -43,16 +43,14 @@ load_config() {
     mysql5_7_filename="mysql-5.7.44"
     #mysql8.0
     mysql8_0_filename="mysql-8.0.35"
-    #mariadb10.3
-    mariadb10_3_filename="mariadb-10.3.39"
     #mariadb10.4
-    mariadb10_4_filename="mariadb-10.4.31"
+    mariadb10_4_filename="mariadb-10.4.32"
     #mariadb10.5
-    mariadb10_5_filename="mariadb-10.5.22"
+    mariadb10_5_filename="mariadb-10.5.23"
     #mariadb10.6
-    mariadb10_6_filename="mariadb-10.6.15"
+    mariadb10_6_filename="mariadb-10.6.16"
     #mariadb10.11
-    mariadb10_11_filename="mariadb-10.11.5"
+    mariadb10_11_filename="mariadb-10.11.6"
     #php7.4
     php7_4_filename="php-7.4.33"
     php7_4_filename_url="https://www.php.net/distributions/php-7.4.33.tar.gz"
@@ -215,7 +213,6 @@ load_config() {
     mysql_arr=(
         ${mysql5_7_filename}
         ${mysql8_0_filename}
-        ${mariadb10_3_filename}
         ${mariadb10_4_filename}
         ${mariadb10_5_filename}
         ${mariadb10_6_filename}
