@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -22,27 +22,27 @@ mysql_location=/usr/local/mysql
 mariadb_location=/usr/local/mariadb
 web_root_dir=/data/www/default
 
-_red(){
+_red() {
     printf '\033[1;31;31m%b\033[0m' "$1"
     printf "\n"
 }
 
-_green(){
+_green() {
     printf '\033[1;31;32m%b\033[0m' "$1"
 }
 
-_yellow(){
+_yellow() {
     printf '\033[1;31;33m%b\033[0m' "$1"
     printf "\n"
 }
 
-_printargs(){
+_printargs() {
     printf -- "%s" "[$(date)] "
     printf -- "%s" "$1"
     printf "\n"
 }
 
-_info(){
+_info() {
     _printargs "$@"
 }
 
@@ -52,24 +52,24 @@ _error() {
     exit 1
 }
 
-vhost(){
+vhost() {
     case "$1" in
-        add)
-            vhost_add
-            ;;
-        del)
-            vhost_del
-            ;;
-        list)
-            vhost_list
-            ;;
-        *)
-            _error "action ${action} not found"
-            ;;
+    add)
+        vhost_add
+        ;;
+    del)
+        vhost_del
+        ;;
+    list)
+        vhost_list
+        ;;
+    *)
+        _error "action ${action} not found"
+        ;;
     esac
 }
 
-db_name(){
+db_name() {
     if [ -d "${mysql_location}" ]; then
         echo "MySQL"
     elif [ -d "${mariadb_location}" ]; then
@@ -79,7 +79,7 @@ db_name(){
     fi
 }
 
-set_apache_allow_syntax(){
+set_apache_allow_syntax() {
     if [ -s /usr/sbin/httpd ]; then
         if /usr/sbin/httpd -v | grep -q "Apache/2.4"; then
             allow_from_all="Require all granted"
@@ -91,7 +91,7 @@ set_apache_allow_syntax(){
     fi
 }
 
-check_email(){
+check_email() {
     regex="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?\$"
     if [[ ${1} =~ ${regex} ]]; then
         return 0
@@ -100,7 +100,7 @@ check_email(){
     fi
 }
 
-vhost_add(){
+vhost_add() {
     set_apache_allow_syntax
     while true; do
         read -p "[$(date)] Please enter server names (for example: lamp.sh www.lamp.sh): " server_names
@@ -157,20 +157,20 @@ vhost_add(){
     while true; do
         read -p "[$(date)] Do you want to create a database and user with same name? [y/n]: " create
         case "${create}" in
-        y|Y)
+        y | Y)
             if [ ! "$(command -v "mysql")" ]; then
                 _error "Error: $(db_name) is not installed, please check it and try again"
             fi
             mysql_count=$(ps -ef | grep -v grep | grep -c "mysqld")
             if [ ${mysql_count} -eq 0 ]; then
                 _info "$(_yellow "Warning: $(db_name) looks like not running, Try to starting $(db_name)...")"
-                /etc/init.d/mysqld start > /dev/null 2>&1
+                /etc/init.d/mysqld start >/dev/null 2>&1
                 if [ $? -ne 0 ]; then
                     _error "Error: $(db_name) starting failed"
                 fi
             fi
             read -p "[$(date)] Please enter your $(db_name) root password: " mysqlroot_passwd
-            mysql -uroot -p${mysqlroot_passwd} > /dev/null 2>&1 <<EOF
+            mysql -uroot -p${mysqlroot_passwd} >/dev/null 2>&1 <<EOF
 exit
 EOF
             if [ $? -ne 0 ]; then
@@ -183,7 +183,7 @@ EOF
             create="y"
             break
             ;;
-        n|N)
+        n | N)
             _info "You chosen do not create a database"
             create="n"
             break
@@ -196,7 +196,7 @@ EOF
 
     mkdir -p /data/wwwlog/${main_domain} ${website_root}
 
-    cat > ${apache_location}/conf/vhost/${main_domain}.conf << EOF
+    cat >${apache_location}/conf/vhost/${main_domain}.conf <<EOF
 <VirtualHost *:80>
     ServerAdmin ${email}
     ${php_admin_value}
@@ -230,7 +230,7 @@ EOF
     fi
 
     _info "Reloading the Apache config file..."
-    if ${apache_location}/bin/apachectl -t > /dev/null 2>&1; then
+    if ${apache_location}/bin/apachectl -t >/dev/null 2>&1; then
         /etc/init.d/httpd restart
         _info "Reload success"
     else
@@ -242,7 +242,7 @@ EOF
         add_ssl_memu
         add_ssl_cert
         _info "Reloading the Apache config file..."
-        if ${apache_location}/bin/apachectl -t > /dev/null 2>&1; then
+        if ${apache_location}/bin/apachectl -t >/dev/null 2>&1; then
             /etc/init.d/httpd restart
             _info "Reload success"
         else
@@ -255,7 +255,7 @@ EOF
     _info "All done"
 }
 
-add_ssl_memu(){
+add_ssl_memu() {
     _info "$(_green 1). Use your own SSL Certificate and Key"
     _info "$(_green 2). Use Let's Encrypt CA to create SSL Certificate and Key"
     _info "$(_green 3). Use Buypass.com CA to create SSL Certificate and Key"
@@ -304,9 +304,9 @@ add_ssl_memu(){
     fi
 }
 
-create_ssl_config(){
+create_ssl_config() {
     sed -i 's@#Include conf/extra/httpd-ssl.conf@Include conf/extra/httpd-ssl.conf@g' ${apache_location}/conf/httpd.conf
-    cat >> ${apache_location}/conf/vhost/${main_domain}.conf << EOF
+    cat >>${apache_location}/conf/vhost/${main_domain}.conf <<EOF
 <VirtualHost *:443>
     ServerAdmin ${email}
     ${php_admin_value}
@@ -334,8 +334,8 @@ create_ssl_config(){
 EOF
 }
 
-create_ssl_htaccess(){
-    cat > ${website_root}/.htaccess << EOF
+create_ssl_htaccess() {
+    cat >${website_root}/.htaccess <<EOF
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteCond %{HTTPS} off
@@ -344,7 +344,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
 EOF
 }
 
-add_letsencrypt(){
+add_letsencrypt() {
     if [ -d "${apache_location}/conf/ssl/${main_domain}" ]; then
         _info "Removing exist domain certificate..."
         rm -rf ${apache_location}/conf/ssl/${main_domain}
@@ -353,15 +353,21 @@ add_letsencrypt(){
     . /usr/local/acme.sh/acme.sh.env
     /usr/local/acme.sh/acme.sh --issue --server letsencrypt ${letsdomain} -w ${website_root}
     if [ $? -eq 0 ]; then
-        ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
-        ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
+        if [ -s "${apache_location}/conf/ssl/${main_domain}/fullchain.cer" ]; then
+            ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
+            ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
+        fi
+        if [ -s "${apache_location}/conf/ssl/${main_domain}_ecc/fullchain.cer" ]; then
+            ssl_certificate="${apache_location}/conf/ssl/${main_domain}_ecc/fullchain.cer"
+            ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}_ecc/${main_domain}.key"
+        fi
         _info "Created Let's Encrypt SSL Certificate success"
     else
         _error "Error: Create Let's Encrypt SSL Certificate failed"
     fi
 }
 
-add_buypass(){
+add_buypass() {
     if [ -d "${apache_location}/conf/ssl/${main_domain}" ]; then
         _info "Removing exist domain certificate..."
         rm -rf ${apache_location}/conf/ssl/${main_domain}
@@ -370,15 +376,21 @@ add_buypass(){
     . /usr/local/acme.sh/acme.sh.env
     /usr/local/acme.sh/acme.sh -m ${email} --issue --server buypass ${letsdomain} -w ${website_root} --days 170
     if [ $? -eq 0 ]; then
-        ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
-        ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
+        if [ -s "${apache_location}/conf/ssl/${main_domain}/fullchain.cer" ]; then
+            ssl_certificate="${apache_location}/conf/ssl/${main_domain}/fullchain.cer"
+            ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}/${main_domain}.key"
+        fi
+        if [ -s "${apache_location}/conf/ssl/${main_domain}_ecc/fullchain.cer" ]; then
+            ssl_certificate="${apache_location}/conf/ssl/${main_domain}_ecc/fullchain.cer"
+            ssl_certificate_key="${apache_location}/conf/ssl/${main_domain}_ecc/${main_domain}.key"
+        fi
         _info "Created Buypass.com SSL Certificate success"
     else
         _error "Error: Create Buypass.com SSL Certificate failed"
     fi
 }
 
-install_check_acme(){
+install_check_acme() {
     if [ -s "/usr/local/acme.sh/acme.sh" ]; then
         _info "/usr/local/acme.sh/acme.sh [found]"
     else
@@ -387,7 +399,7 @@ install_check_acme(){
         ./acme.sh --install --log --home /usr/local/acme.sh --certhome /usr/local/apache/conf/ssl
         cd .. && rm -rf acmesh-*
         sed -i 's/cat "\$CERT_PATH"$/#cat "\$CERT_PATH"/g' /usr/local/acme.sh/acme.sh
-        cat > /usr/local/acme.sh/upgrade.sh<<EOF
+        cat >/usr/local/acme.sh/upgrade.sh <<EOF
 #!/bin/bash
 
 . /usr/local/acme.sh/acme.sh.env
@@ -405,7 +417,7 @@ EOF
     [ ! -d "${apache_location}/conf/ssl" ] && mkdir -p "${apache_location}/conf/ssl"
 }
 
-add_ssl_cert(){
+add_ssl_cert() {
     if [ -z "${email}" ] || [ -z "${website_root}" ]; then
         _error "Error: parameters must be specified"
     fi
@@ -430,7 +442,7 @@ add_ssl_cert(){
     _info "Added SSL certificate for virtual host [$(_green ${main_domain})] success"
 }
 
-vhost_list(){
+vhost_list() {
     if [ $(ls ${apache_location}/conf/vhost/ | grep ".conf$" | grep -v "none" | grep -v "default" | wc -l) -gt 0 ]; then
         printf "%s\n" "ServerName"
         printf "%s\n" "----------"
@@ -440,7 +452,7 @@ vhost_list(){
     fi
 }
 
-vhost_del(){
+vhost_del() {
     read -p "[$(date)] Please enter a domain you want to delete it (for example: www.lamp.sh): " domain
     [ -z "${domain}" ] && _error "Error: domain can not be empty"
     if ! apache_vhost_is_exist "${domain}"; then
@@ -452,7 +464,7 @@ vhost_del(){
         _info "But website root directory [$(_green ${dir})] still exists"
         _info "You can delete it manually if necessary"
         _info "Reloading the Apache config file..."
-        if ${apache_location}/bin/apachectl -t > /dev/null 2>&1; then
+        if ${apache_location}/bin/apachectl -t >/dev/null 2>&1; then
             /etc/init.d/httpd restart
             _info "Reload success"
         else
@@ -461,7 +473,7 @@ vhost_del(){
     fi
 }
 
-apache_vhost_is_exist(){
+apache_vhost_is_exist() {
     if [ -f "${apache_location}/conf/vhost/$1.conf" ]; then
         return 0
     else
@@ -469,7 +481,7 @@ apache_vhost_is_exist(){
     fi
 }
 
-display_usage(){
+display_usage() {
     printf "
 Usage  : $(basename $0) [Options]
 Options:
@@ -481,8 +493,8 @@ Options:
 "
 }
 
-display_version(){
-    echo "Version: $(_green 20230615)"
+display_version() {
+    echo "Version: $(_green 20231115)"
 }
 
 #Run it
@@ -490,19 +502,19 @@ display_version(){
 [ $# -ne 1 ] && display_usage && exit 1
 action=$1
 case "${action}" in
-    add)
-        vhost ${action}
-        ;;
-    del)
-        vhost ${action}
-        ;;
-    list)
-        vhost ${action}
-        ;;
-    version)
-        display_version
-        ;;
-    *)
-        display_usage
-        ;;
+add)
+    vhost ${action}
+    ;;
+del)
+    vhost ${action}
+    ;;
+list)
+    vhost ${action}
+    ;;
+version)
+    display_version
+    ;;
+*)
+    display_usage
+    ;;
 esac

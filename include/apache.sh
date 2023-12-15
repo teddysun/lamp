@@ -1,8 +1,8 @@
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -12,7 +12,7 @@
 # Github:   https://github.com/teddysun/lamp
 
 #Pre-installation apache
-apache_preinstall_settings(){
+apache_preinstall_settings() {
     display_menu apache 1
     if [ "${apache}" == "do_not_install" ]; then
         apache_modules_install="do_not_install"
@@ -22,7 +22,7 @@ apache_preinstall_settings(){
 }
 
 #Install apache
-install_apache(){
+install_apache() {
     apache_configure_args="--prefix=${apache_location} \
     --with-pcre=${depends_prefix}/pcre \
     --with-mpm=event \
@@ -33,8 +33,8 @@ install_apache(){
     --enable-mods-shared=reallyall"
 
     _info "Installing dependencies for Apache..."
-    local apt_list=(zlib1g-dev openssl libssl-dev libxml2-dev lua-expat-dev libjansson-dev)
-    local yum_list=(zlib-devel openssl-devel libxml2-devel expat-devel lua-devel lua jansson-devel)
+    local apt_list=(libnghttp2-dev zlib1g-dev openssl libssl-dev libxml2-dev lua-expat-dev libjansson-dev)
+    local yum_list=(libnghttp2-devel zlib-devel openssl-devel libxml2-devel expat-devel lua-devel lua jansson-devel)
     if check_sys packageManager apt; then
         for depend in ${apt_list[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
@@ -47,13 +47,12 @@ install_apache(){
     _info "Install dependencies for Apache completed..."
 
     if ! grep -q -w -E "^/usr/local/lib" /etc/ld.so.conf.d/*.conf && [ -d "/usr/local/lib" ]; then
-        echo "/usr/local/lib" > /etc/ld.so.conf.d/locallib.conf
+        echo "/usr/local/lib" >/etc/ld.so.conf.d/locallib.conf
     fi
     ldconfig
 
     check_installed "install_pcre" "${depends_prefix}/pcre"
     check_installed "install_openssl" "${openssl_location}"
-    install_nghttp2
 
     cd ${cur_dir}/software/
     download_file "${apr_filename}.tar.gz" "${apr_filename_url}"
@@ -77,8 +76,7 @@ install_apache(){
     config_apache
 }
 
-
-config_apache(){
+config_apache() {
     id -u apache >/dev/null 2>&1
     [ $? -ne 0 ] && groupadd apache && useradd -M -s /sbin/nologin -g apache apache
     [ ! -d "${web_root_dir}" ] && mkdir -p ${web_root_dir} && chmod -R 755 ${web_root_dir}
@@ -89,8 +87,8 @@ config_apache(){
     mkdir -p ${apache_location}/conf/ssl/
     mkdir -p ${apache_location}/conf/vhost/
     grep -qE "^\s*#\s*Include conf/extra/httpd-vhosts.conf" ${apache_location}/conf/httpd.conf && \
-    sed -i 's#^\s*\#\s*Include conf/extra/httpd-vhosts.conf#Include conf/extra/httpd-vhosts.conf#' ${apache_location}/conf/httpd.conf || \
-    sed -i '$aInclude conf/extra/httpd-vhosts.conf' ${apache_location}/conf/httpd.conf
+        sed -i 's#^\s*\#\s*Include conf/extra/httpd-vhosts.conf#Include conf/extra/httpd-vhosts.conf#' ${apache_location}/conf/httpd.conf || \
+        sed -i '$aInclude conf/extra/httpd-vhosts.conf' ${apache_location}/conf/httpd.conf
     sed -i 's/^User.*/User apache/i' ${apache_location}/conf/httpd.conf
     sed -i 's/^Group.*/Group apache/i' ${apache_location}/conf/httpd.conf
     sed -i 's/^#ServerName www.example.com:80/ServerName 0.0.0.0:80/' ${apache_location}/conf/httpd.conf
@@ -99,10 +97,10 @@ config_apache(){
     sed -i 's@DirectoryIndex index.html@DirectoryIndex index.html index.php@' ${apache_location}/conf/httpd.conf
     sed -i "s@^DocumentRoot.*@DocumentRoot \"${web_root_dir}\"@" ${apache_location}/conf/httpd.conf
     sed -i "s@^<Directory \"${apache_location}/htdocs\">@<Directory \"${web_root_dir}\">@" ${apache_location}/conf/httpd.conf
-    echo "ServerTokens ProductOnly" >> ${apache_location}/conf/httpd.conf
-    echo "ProtocolsHonorOrder On" >> ${apache_location}/conf/httpd.conf
-    echo "Protocols h2 http/1.1" >> ${apache_location}/conf/httpd.conf
-    cat > /etc/logrotate.d/httpd <<EOF
+    echo "ServerTokens ProductOnly" >>${apache_location}/conf/httpd.conf
+    echo "ProtocolsHonorOrder On" >>${apache_location}/conf/httpd.conf
+    echo "Protocols h2 http/1.1" >>${apache_location}/conf/httpd.conf
+    cat >/etc/logrotate.d/httpd <<EOF
 ${apache_location}/logs/*log {
     daily
     rotate 14
@@ -115,10 +113,10 @@ ${apache_location}/logs/*log {
     endscript
 }
 EOF
-    cat > ${apache_location}/conf/extra/httpd-vhosts.conf <<EOF
+    cat >${apache_location}/conf/extra/httpd-vhosts.conf <<EOF
 Include ${apache_location}/conf/vhost/*.conf
 EOF
-    cat > ${apache_location}/conf/vhost/default.conf <<EOF
+    cat >${apache_location}/conf/vhost/default.conf <<EOF
 <VirtualHost _default_:80>
 ServerName localhost
 DocumentRoot ${web_root_dir}
@@ -133,63 +131,63 @@ DocumentRoot ${web_root_dir}
 </VirtualHost>
 EOF
 
-# httpd modules array
-httpd_mod_list=(
-mod_actions.so
-mod_auth_digest.so
-mod_auth_form.so
-mod_authn_anon.so
-mod_authn_dbd.so
-mod_authn_dbm.so
-mod_authn_socache.so
-mod_authnz_fcgi.so
-mod_authz_dbd.so
-mod_authz_dbm.so
-mod_authz_owner.so
-mod_buffer.so
-mod_cache.so
-mod_cache_socache.so
-mod_case_filter.so
-mod_case_filter_in.so
-mod_charset_lite.so
-mod_data.so
-mod_dav.so
-mod_dav_fs.so
-mod_dav_lock.so
-mod_deflate.so
-mod_echo.so
-mod_expires.so
-mod_ext_filter.so
-mod_http2.so
-mod_include.so
-mod_info.so
-mod_proxy.so
-mod_proxy_connect.so
-mod_proxy_fcgi.so
-mod_proxy_ftp.so
-mod_proxy_html.so
-mod_proxy_http.so
-mod_proxy_http2.so
-mod_proxy_scgi.so
-mod_ratelimit.so
-mod_reflector.so
-mod_request.so
-mod_rewrite.so
-mod_sed.so
-mod_session.so
-mod_session_cookie.so
-mod_socache_dbm.so
-mod_socache_memcache.so
-mod_socache_shmcb.so
-mod_speling.so
-mod_ssl.so
-mod_substitute.so
-mod_suexec.so
-mod_unique_id.so
-mod_userdir.so
-mod_vhost_alias.so
-mod_xml2enc.so
-)
+    # httpd modules array
+    httpd_mod_list=(
+        mod_actions.so
+        mod_auth_digest.so
+        mod_auth_form.so
+        mod_authn_anon.so
+        mod_authn_dbd.so
+        mod_authn_dbm.so
+        mod_authn_socache.so
+        mod_authnz_fcgi.so
+        mod_authz_dbd.so
+        mod_authz_dbm.so
+        mod_authz_owner.so
+        mod_buffer.so
+        mod_cache.so
+        mod_cache_socache.so
+        mod_case_filter.so
+        mod_case_filter_in.so
+        mod_charset_lite.so
+        mod_data.so
+        mod_dav.so
+        mod_dav_fs.so
+        mod_dav_lock.so
+        mod_deflate.so
+        mod_echo.so
+        mod_expires.so
+        mod_ext_filter.so
+        mod_http2.so
+        mod_include.so
+        mod_info.so
+        mod_proxy.so
+        mod_proxy_connect.so
+        mod_proxy_fcgi.so
+        mod_proxy_ftp.so
+        mod_proxy_html.so
+        mod_proxy_http.so
+        mod_proxy_http2.so
+        mod_proxy_scgi.so
+        mod_ratelimit.so
+        mod_reflector.so
+        mod_request.so
+        mod_rewrite.so
+        mod_sed.so
+        mod_session.so
+        mod_session_cookie.so
+        mod_socache_dbm.so
+        mod_socache_memcache.so
+        mod_socache_shmcb.so
+        mod_speling.so
+        mod_ssl.so
+        mod_substitute.so
+        mod_suexec.so
+        mod_unique_id.so
+        mod_userdir.so
+        mod_vhost_alias.so
+        mod_xml2enc.so
+    )
     # enable some modules by default
     for mod in ${httpd_mod_list[@]}; do
         if [ -s "${apache_location}/modules/${mod}" ]; then
@@ -223,13 +221,13 @@ mod_xml2enc.so
 
 }
 
-install_apache_modules(){
+install_apache_modules() {
     if_in_array "${mod_wsgi_filename}" "${apache_modules_install}" && install_mod_wsgi
     if_in_array "${mod_security_filename}" "${apache_modules_install}" && install_mod_security
     if_in_array "${mod_jk_filename}" "${apache_modules_install}" && install_mod_jk
 }
 
-install_pcre(){
+install_pcre() {
     cd ${cur_dir}/software/
     _info "Installing ${pcre_filename}..."
     download_file "${pcre_filename}.tar.gz" "${pcre_filename_url}"
@@ -244,25 +242,7 @@ install_pcre(){
     _info "Install ${pcre_filename} completed..."
 }
 
-install_nghttp2(){
-    cd ${cur_dir}/software/
-    _info "Installing ${nghttp2_filename}..."
-    download_file "${nghttp2_filename}.tar.gz" "${nghttp2_filename_url}"
-    tar zxf ${nghttp2_filename}.tar.gz
-    cd ${nghttp2_filename}
-
-    if [ -d "${openssl_location}" ]; then
-        export OPENSSL_CFLAGS="-I${openssl_location}/include"
-        export OPENSSL_LIBS="-L${openssl_location}/lib -lssl -lcrypto"
-    fi
-    error_detect "./configure --prefix=/usr --enable-lib-only"
-    error_detect "parallel_make"
-    error_detect "make install"
-    unset OPENSSL_CFLAGS OPENSSL_LIBS
-    _info "Install ${nghttp2_filename} completed..."
-}
-
-install_openssl(){
+install_openssl() {
     local openssl_version=$(openssl version -v)
     local major_version=$(echo ${openssl_version} | awk '{print $2}' | grep -oE "[0-9.]+")
 
@@ -278,7 +258,7 @@ install_openssl(){
         error_detect "make install"
 
         if ! grep -qE "^${openssl_location}/lib" /etc/ld.so.conf.d/*.conf; then
-            echo "${openssl_location}/lib" > /etc/ld.so.conf.d/openssl.conf
+            echo "${openssl_location}/lib" >/etc/ld.so.conf.d/openssl.conf
         fi
         ldconfig
         _info "Install ${openssl_filename} completed..."
@@ -287,7 +267,7 @@ install_openssl(){
     fi
 }
 
-install_mod_wsgi(){
+install_mod_wsgi() {
     cd ${cur_dir}/software/
     _info "Installing ${mod_wsgi_filename}..."
     download_file "${mod_wsgi_filename}.tar.gz" "${mod_wsgi_filename_url}"
@@ -311,7 +291,7 @@ install_mod_wsgi(){
     _info "Install ${mod_wsgi_filename} completed..."
 }
 
-install_mod_jk(){
+install_mod_jk() {
     cd ${cur_dir}/software/
     _info "Installing ${mod_jk_filename}..."
     download_file "${mod_jk_filename}.tar.gz" "${mod_jk_filename_url}"
@@ -329,7 +309,7 @@ install_mod_jk(){
     _info "Install ${mod_jk_filename} completed..."
 }
 
-install_mod_security(){
+install_mod_security() {
     cd ${cur_dir}/software/
     _info "Installing ${mod_security_filename}..."
     download_file "${mod_security_filename}.tar.gz" "${mod_security_filename_url}"

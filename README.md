@@ -24,25 +24,26 @@
 ## Supported System
 
 - Amazon Linux 2
-- AlmaLinux 8 (recommend)
-- AlmaLinux 9
+- AlmaLinux 8
+- AlmaLinux 9 (recommend)
 - CentOS 7
 - CentOS Stream 8
 - CentOS Stream 9
-- Rocky Linux 8 (recommend)
-- Rocky Linux 9
+- Rocky Linux 8
+- Rocky Linux 9 (recommend)
 - Debian 9
 - Debian 10
-- Debian 11 (recommend)
+- Debian 11
+- Debian 12 (recommend)
 - Ubuntu 18.04
-- Ubuntu 20.04 (recommend)
-- Ubuntu 22.04
+- Ubuntu 20.04
+- Ubuntu 22.04 (recommend)
 
 ## Supported Software
 
-- Apache-2.4 (Include HTTP/2 module: [nghttp2](https://github.com/nghttp2/nghttp2), [mod_http2](https://httpd.apache.org/docs/2.4/mod/mod_http2.html))
+- Apache-2.4 (Include HTTP/2 module: [mod_http2](https://httpd.apache.org/docs/2.4/mod/mod_http2.html))
 - Apache Additional Modules: [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), [mod_security](https://github.com/SpiderLabs/ModSecurity), [mod_jk](https://tomcat.apache.org/download-connectors.cgi)
-- MySQL-5.7, MySQL-8.0, MariaDB-10.3, MariaDB-10.4, MariaDB-10.5, MariaDB-10.6, MariaDB-10.11
+- MySQL-5.7, MySQL-8.0, MariaDB-10.4, MariaDB-10.5, MariaDB-10.6, MariaDB-10.11
 - PHP-7.4, PHP-8.0, PHP-8.1, PHP-8.2
 - PHP Additional extensions: [Zend OPcache](https://www.php.net/manual/en/book.opcache.php), [ionCube Loader](https://www.ioncube.com/loaders.php), [PDFlib](https://www.pdflib.com/), [APCu](https://pecl.php.net/package/APCu), [imagick](https://pecl.php.net/package/imagick), [libsodium](https://github.com/jedisct1/libsodium-php), [memcached](https://github.com/php-memcached-dev/php-memcached), [redis](https://github.com/phpredis/phpredis), [mongodb](https://pecl.php.net/package/mongodb), [swoole](https://github.com/swoole/swoole-src), [yaf](https://github.com/laruence/yaf), [yar](https://github.com/laruence/yar), [msgpack](https://pecl.php.net/package/msgpack), [psr](https://github.com/jbboehr/php-psr), [phalcon](https://github.com/phalcon/cphalcon), [grpc](https://github.com/grpc/grpc), [xdebug](https://github.com/xdebug/xdebug)
 - Other Software: [OpenSSL](https://github.com/openssl/openssl), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [Memcached](https://github.com/memcached/memcached), [phpMyAdmin](https://github.com/phpmyadmin/phpmyadmin), [Adminer](https://github.com/vrana/adminer), [Redis](https://github.com/redis/redis), [re2c](https://github.com/skvadrik/re2c), [KodExplorer](https://github.com/kalcaddle/KodExplorer)
@@ -51,30 +52,29 @@
 
 | Apache & Additional Modules   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| httpd                         | 2.4.57                                                    |
+| httpd                         | 2.4.58                                                    |
 | apr                           | 1.7.4                                                     |
 | apr-util                      | 1.6.3                                                     |
-| nghttp2                       | 1.54.0                                                    |
-| openssl                       | 1.1.1u                                                    |
+| openssl                       | 1.1.1w                                                    |
 | mod_wsgi                      | 4.9.4                                                     |
 | mod_security2                 | 2.9.6                                                     |
 | mod_jk                        | 1.2.48                                                    |
 
 | Database                      | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| MySQL                         | 5.7.42, 8.0.33                                            |
-| MariaDB                       | 10.3.39, 10.4.30, 10.5.21, 10.6.14, 10.11.4               |
+| MySQL                         | 5.7.44, 8.0.35                                            |
+| MariaDB                       | 10.4.32, 10.5.23, 10.6.16, 10.11.6                        |
 
 | PHP & Additional extensions   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| PHP                           | 7.4.33, 8.0.29, 8.1.21, 8.2.8                             |
-| ionCube Loader                | 12.0.5                                                    |
+| PHP                           | 7.4.33, 8.0.30, 8.1.25, 8.2.12                            |
+| ionCube Loader                | 13.0.2                                                    |
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
-| gRPC extension                | 1.45.0                                                    |
-| ImageMagick                   | 7.1.0-60                                                  |
+| gRPC extension                | 1.58.0                                                    |
+| ImageMagick                   | 7.1.0-62                                                  |
 | imagick extension             | 3.7.0                                                     |
-| libsodium                     | 1.0.18                                                    |
+| libsodium                     | 1.0.19                                                    |
 | libsodium extension           | 2.0.23                                                    |
 | memcached                     | 1.6.6                                                     |
 | libmemcached                  | 1.0.18                                                    |
@@ -82,13 +82,13 @@
 | re2c                          | 3.0                                                       |
 | redis                         | 5.0.14                                                    |
 | redis extension               | 5.3.7                                                     |
-| mongodb extension             | 1.14.2                                                    |
+| mongodb extension             | 1.16.2                                                    |
 | swoole extension              | 4.8.12                                                    |
 | yaf extension                 | 3.3.5                                                     |
 | yar extension                 | 2.3.2                                                     |
 | msgpack extension             | 2.1.2                                                     |
 | psr extension                 | 1.2.0                                                     |
-| phalcon extension             | 5.1.1                                                     |
+| phalcon extension             | 5.3.1                                                     |
 | xdebug extension              | 3.1.6                                                     |
 
 | Database Management Tools     | Version                                                   |

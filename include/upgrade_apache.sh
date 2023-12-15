@@ -1,8 +1,8 @@
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -12,7 +12,7 @@
 # Github:   https://github.com/teddysun/lamp
 
 #upgrade apache
-upgrade_apache(){
+upgrade_apache() {
 
     if [ ! -d "${apache_location}" ]; then
         _error "Apache looks like not installed, please check it and try again."
@@ -28,7 +28,7 @@ upgrade_apache(){
     if [[ "${upgrade_apache}" = "y" || "${upgrade_apache}" = "Y" ]]; then
         _info "Apache upgrade start..."
         if [ $(ps -ef | grep -v grep | grep -c "httpd") -gt 0 ]; then
-            /etc/init.d/httpd stop > /dev/null 2>&1
+            /etc/init.d/httpd stop >/dev/null 2>&1
         fi
 
         if [[ -d "${apache_location}".bak && -d "${apache_location}" ]]; then
@@ -36,7 +36,7 @@ upgrade_apache(){
         fi
         mv ${apache_location} ${apache_location}.bak
 
-        if [ ! -d ${cur_dir}/software ];then
+        if [ ! -d ${cur_dir}/software ]; then
             mkdir -p ${cur_dir}/software
         fi
         cd ${cur_dir}/software
@@ -56,7 +56,7 @@ upgrade_apache(){
         tar zxf ${apr_util_filename}.tar.gz
 
         if [ ! -s httpd-${latest_apache24}.tar.gz ]; then
-            latest_apache_link="https://dlcdn.apache.org//httpd/httpd-${latest_apache24}.tar.gz"
+            latest_apache_link="https://dlcdn.apache.org/httpd/httpd-${latest_apache24}.tar.gz"
             backup_apache_link="${download_root_url}/httpd-${latest_apache24}.tar.gz"
             untar ${latest_apache_link} ${backup_apache_link}
         else

@@ -1,8 +1,8 @@
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -12,15 +12,15 @@
 # Github:   https://github.com/teddysun/lamp
 
 #upgrade php
-upgrade_php(){
+upgrade_php() {
 
     if [ ! -d "${php_location}" ]; then
         _error "PHP looks like not installed, please check it and try again."
     fi
 
-    local tram=$( free -m | awk '/Mem/ {print $2}' )
-    local swap=$( free -m | awk '/Swap/ {print $2}' )
-    local ramsum=$( expr $tram + $swap )
+    local tram=$(free -m | awk '/Mem/ {print $2}')
+    local swap=$(free -m | awk '/Swap/ {print $2}')
+    local ramsum=$(expr $tram + $swap)
     [ ${ramsum} -lt 1025 ] && disable_fileinfo="--disable-fileinfo" || disable_fileinfo=""
 
     local phpConfig=${php_location}/bin/php-config
@@ -32,19 +32,19 @@ upgrade_php(){
     local major_version=$(echo ${openssl_version} | awk '{print $2}' | grep -oE "[0-9.]+")
 
     case "${php_version}" in
-        7.4)
-            latest_php="7.4.33"
-            ;;
-        8.0)
-            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.0')"
-            ;;
-        8.1)
-            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.1')"
-            ;;
-        8.2)
-            latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.2')"
-            ;;
-        *)
+    7.4)
+        latest_php="7.4.33"
+        ;;
+    8.0)
+        latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.0')"
+        ;;
+    8.1)
+        latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.1')"
+        ;;
+    8.2)
+        latest_php="$(curl -4s https://www.php.net/downloads.php | awk '/Changelog/{print $2}' | grep '8.2')"
+        ;;
+    *) ;;
         # do nothing
     esac
 
@@ -65,7 +65,7 @@ upgrade_php(){
 
         [ ! -e "${depends_prefix}/libiconv/bin/iconv" ] && install_libiconv
         if ! grep -q -w -E "^${depends_prefix}/libiconv/lib" /etc/ld.so.conf.d/*.conf; then
-            echo "${depends_prefix}/libiconv/lib" > /etc/ld.so.conf.d/libiconvlib.conf
+            echo "${depends_prefix}/libiconv/lib" >/etc/ld.so.conf.d/libiconvlib.conf
         fi
 
         cd ${cur_dir}/software
@@ -81,20 +81,20 @@ upgrade_php(){
 
         # Fixed a libenchant-2 error in PHP 7.4 for Debian or Ubuntu
         if [ "${php_version}" == "7.4" ] && dpkg -l 2>/dev/null | grep -q "libenchant-2-dev"; then
-            patch -p1 < ${cur_dir}/src/remove-deprecated-call-and-deprecate-function.patch
-            patch -p1 < ${cur_dir}/src/use-libenchant-2-when-available.patch
+            patch -p1 <${cur_dir}/src/remove-deprecated-call-and-deprecate-function.patch
+            patch -p1 <${cur_dir}/src/use-libenchant-2-when-available.patch
             ./buildconf -f
         fi
         # Fixed PHP extension snmp build without DES
         if [ "${php_version}" == "7.4" ]; then
-            patch -p1 < ${cur_dir}/src/php-7.4-snmp.patch
+            patch -p1 <${cur_dir}/src/php-7.4-snmp.patch
         fi
         # Fixed build with OpenSSL 3.0 with disabling useless RSA_SSLV23_PADDING
         if [ "${php_version}" == "7.4" ] && version_ge ${major_version} 3.0.0; then
-            patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0_php7.4.patch
+            patch -p1 <${cur_dir}/src/minimal_fix_for_openssl_3.0_php7.4.patch
         fi
         if [ "${php_version}" == "8.0" ] && version_ge ${major_version} 3.0.0; then
-            patch -p1 < ${cur_dir}/src/minimal_fix_for_openssl_3.0_php8.0.patch
+            patch -p1 <${cur_dir}/src/minimal_fix_for_openssl_3.0_php8.0.patch
         fi
         ldconfig
         error_detect "./configure ${configure_options}"
@@ -108,9 +108,9 @@ upgrade_php(){
             cp -pf ${php_location}.bak/php.d/* ${php_location}/php.d/
         fi
         _info "Restart Apache..."
-        /etc/init.d/httpd stop > /dev/null 2>&1
+        /etc/init.d/httpd stop >/dev/null 2>&1
         sleep 3
-        /etc/init.d/httpd start > /dev/null 2>&1
+        /etc/init.d/httpd start >/dev/null 2>&1
         _info "Clear up start..."
         cd ${cur_dir}/software
         rm -rf php-${latest_php}/

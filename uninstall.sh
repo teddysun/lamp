@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -19,7 +19,7 @@ export PATH
 
 cur_dir=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 
-include(){
+include() {
     local include=$1
     if [[ -s ${cur_dir}/include/${include}.sh ]]; then
         . ${cur_dir}/include/${include}.sh
@@ -29,10 +29,10 @@ include(){
     fi
 }
 
-uninstall_lamp(){
+uninstall_lamp() {
     _info "uninstalling Apache"
     if [ -f /etc/init.d/httpd ] && [ $(ps -ef | grep -v grep | grep -c "httpd") -gt 0 ]; then
-        /etc/init.d/httpd stop > /dev/null 2>&1
+        /etc/init.d/httpd stop >/dev/null 2>&1
     fi
     rm -f /etc/init.d/httpd
     rm -rf ${apache_location} ${apache_location}.bak /usr/sbin/httpd /var/log/httpd /etc/logrotate.d/httpd /var/spool/mail/apache
@@ -40,7 +40,7 @@ uninstall_lamp(){
     echo
     _info "uninstalling MySQL or MariaDB"
     if [ -f /etc/init.d/mysqld ] && [ $(ps -ef | grep -v grep | grep -c "mysqld") -gt 0 ]; then
-        /etc/init.d/mysqld stop > /dev/null 2>&1
+        /etc/init.d/mysqld stop >/dev/null 2>&1
     fi
     rm -f /etc/init.d/mysqld
     rm -rf ${mysql_location} ${mariadb_location} ${mysql_location}.bak ${mariadb_location}.bak /usr/bin/mysqldump /usr/bin/mysql /etc/my.cnf /etc/ld.so.conf.d/mysql.conf
@@ -52,12 +52,12 @@ uninstall_lamp(){
     echo
     _info "uninstalling others software"
     if [ -f /etc/init.d/memcached ] && [ $(ps -ef | grep -v grep | grep -c "memcached") -gt 0 ]; then
-        /etc/init.d/memcached stop > /dev/null 2>&1
+        /etc/init.d/memcached stop >/dev/null 2>&1
     fi
     rm -f /etc/init.d/memcached
     rm -fr ${depends_prefix}/memcached /usr/bin/memcached
     if [ -f /etc/init.d/redis-server ] && [ $(ps -ef | grep -v grep | grep -c "redis-server") -gt 0 ]; then
-        /etc/init.d/redis-server stop > /dev/null 2>&1
+        /etc/init.d/redis-server stop >/dev/null 2>&1
     fi
     rm -f /etc/init.d/redis-server
     rm -rf ${depends_prefix}/redis
@@ -96,8 +96,14 @@ while true; do
     [ -z ${uninstall} ] && uninstall="n"
     uninstall=$(upcase_to_lowcase ${uninstall})
     case ${uninstall} in
-        y) uninstall_lamp ; break;;
-        n) _info "Uninstall cancelled, nothing to do" ; break;;
-        *) _warn "Input error, Please only input y or n";;
+    y)
+        uninstall_lamp
+        break
+        ;;
+    n)
+        _info "Uninstall cancelled, nothing to do"
+        break
+        ;;
+    *) _warn "Input error, Please only input y or n" ;;
     esac
 done

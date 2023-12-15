@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -19,9 +19,9 @@ export PATH
 
 cur_dir=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 
-include(){
+include() {
     local include=${1}
-    if [[ -s ${cur_dir}/include/${include}.sh ]];then
+    if [[ -s ${cur_dir}/include/${include}.sh ]]; then
         . ${cur_dir}/include/${include}.sh
     else
         echo "Error: ${cur_dir}/include/${include}.sh not found, shell can not be executed."
@@ -29,22 +29,22 @@ include(){
     fi
 }
 
-version(){
-    _info "Version: $(_green 20230615)"
+version() {
+    _info "Version: $(_green 20231115)"
 }
 
-show_parameters(){
+show_parameters() {
     local soft=${1}
     eval local arr=(\${${soft}_arr[@]})
-    for ((i=1;i<=${#arr[@]};i++ )); do
-        vname="$(get_valid_valname ${arr[$i-1]})"
+    for ((i = 1; i <= ${#arr[@]}; i++)); do
+        vname="$(get_valid_valname ${arr[$i - 1]})"
         hint="$(get_hint $vname)"
-        [[ "$hint" == "" ]] && hint="${arr[$i-1]}"
+        [[ "$hint" == "" ]] && hint="${arr[$i - 1]}"
         echo -e "  ${i}. ${hint}"
     done
 }
 
-show_help(){
+show_help() {
     echo
     echo "+-------------------------------------------------------------------+"
     echo "| Auto Install LAMP(Linux + Apache + MySQL/MariaDB + PHP )          |"
@@ -59,10 +59,10 @@ Options:
 -v, --version                   Print program version and exit
 --apache_option [1-2]           Apache server version
 --apache_modules [mod name]     Apache modules: mod_wsgi, mod_security, mod_jk
---db_option [1-8]               Database version
+--db_option [1-7]               Database version
 --db_data_path [location]       Database Data Location. for example: /data/db
 --db_root_pwd [password]        Database root password. for example: lamp.sh
---php_option [1-4]              PHP version
+--php_option [1-5]              PHP version
 --php_extensions [ext name]     PHP extensions:
                                 apcu, ioncube, pdflib, imagick, xdebug
                                 memcached, redis, mongodb, libsodium, swoole
@@ -74,15 +74,15 @@ Parameters:
 "
     echo "--apache_option [1-2], please select a available Apache version"
     show_parameters apache
-    echo "--db_option [1-8], please select a available Database version"
+    echo "--db_option [1-7], please select a available Database version"
     show_parameters mysql
-    echo "--php_option [1-4], please select a available PHP version"
+    echo "--php_option [1-5], please select a available PHP version"
     show_parameters php
     echo "--kodexplorer_option [1-2], please select a available KodExplorer version"
     show_parameters kodexplorer
 }
 
-process(){
+process() {
     apache_option=""
     apache_modules=""
     php_option=""
@@ -94,10 +94,10 @@ process(){
     kodexplorer_option=""
     while [ ${#} -gt 0 ]; do
         case "$1" in
-        -h|--help)
+        -h | --help)
             show_help && exit 0
             ;;
-        -v|--version)
+        -v | --version)
             version && exit 0
             ;;
         --apache_option)
@@ -106,7 +106,7 @@ process(){
                 _error "Option --apache_option input error, please only input a number"
             fi
             [[ "${apache_option}" -lt 1 || "${apache_option}" -gt 2 ]] && _error "Option --apache_option input error, please only input a number between 1 and 2"
-            eval apache=${apache_arr[${apache_option}-1]}
+            eval apache=${apache_arr[${apache_option} - 1]}
             ;;
         --apache_modules)
             apache_modules="$2"
@@ -120,8 +120,8 @@ process(){
             if ! is_digit ${php_option}; then
                 _error "Option --php_option input error, please only input a number"
             fi
-            [[ "${php_option}" -lt 1 || "${php_option}" -gt 4 ]] && _error "Option --php_option input error, please only input a number between 1 and 4"
-            eval php=${php_arr[${php_option}-1]}
+            [[ "${php_option}" -lt 1 || "${php_option}" -gt 5 ]] && _error "Option --php_option input error, please only input a number between 1 and 5"
+            eval php=${php_arr[${php_option} - 1]}
             ;;
         --php_extensions)
             php_extensions="$2"
@@ -146,18 +146,16 @@ process(){
             if ! is_digit ${db_option}; then
                 _error "Option --db_option input error, please only input a number"
             fi
-            [[ "${db_option}" -lt 1 || "${db_option}" -gt 8 ]] && _error "Option --db_option input error, please only input a number between 1 and 8"
-            eval mysql=${mysql_arr[${db_option}-1]}
-            if [[ "${mysql}" == "${mariadb10_3_filename}" || \
-                  "${mysql}" == "${mariadb10_4_filename}" || \
-                  "${mysql}" == "${mariadb10_5_filename}" || \
-                  "${mysql}" == "${mariadb10_6_filename}" || \
-                  "${mysql}" == "${mariadb10_11_filename}" ]] \
-                  && version_lt $(get_libc_version) 2.14; then
-                _error "Option --db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
+            [[ "${db_option}" -lt 1 || "${db_option}" -gt 7 ]] && _error "Option --db_option input error, please only input a number between 1 and 7"
+            eval mysql=${mysql_arr[${db_option} - 1]}
+            if [[ "${mysql}" == "${mariadb10_4_filename}" || \
+                "${mysql}" == "${mariadb10_5_filename}" || \
+                "${mysql}" == "${mariadb10_6_filename}" || \
+                "${mysql}" == "${mariadb10_11_filename}" ]] && version_lt $(get_libc_version) 2.14; then
+                _error "Option --db_option input error, ${mysql} is not be supported your OS, please input a correct number"
             fi
             if ! is_64bit && [[ "${mysql}" == "${mariadb10_6_filename}" || "${mysql}" == "${mariadb10_11_filename}" ]]; then
-                _error "Option --db_option input error, ${mysql} is not be supported in your OS, please input a correct number"
+                _error "Option --db_option input error, ${mysql} is not be supported 32bit OS, please input a correct number"
             fi
             ;;
         --db_data_path)
@@ -172,7 +170,7 @@ process(){
                 _error "Option --db_root_pwd input error, please do not contain non-ASCII characters"
             fi
             [ -n "$(echo ${db_root_pwd} | grep '[+|&]')" ] && _error "Option --db_root_pwd input error, please do not contain special characters like + and &"
-            if (( ${#db_root_pwd} < 5 )); then
+            if ((${#db_root_pwd} < 5)); then
                 _error "Option --db_root_pwd input error, must more than 5 characters"
             fi
             ;;
@@ -188,7 +186,7 @@ process(){
                 _error "Option --kodexplorer_option input error, please only input a number"
             fi
             [[ "${kodexplorer_option}" -lt 1 || "${kodexplorer_option}" -gt 2 ]] && _error "Option --kodexplorer_option input error, please only input a number between 1 and 2"
-            eval kodexplorer=${kodexplorer_arr[${kodexplorer_option}-1]}
+            eval kodexplorer=${kodexplorer_arr[${kodexplorer_option} - 1]}
             ;;
         *)
             _error "unknown argument: $1"
@@ -198,7 +196,7 @@ process(){
     done
 }
 
-set_parameters(){
+set_parameters() {
     [ -z "${apache_option}" ] && apache="do_not_install"
     [ -z "${apache_modules_install}" ] && apache_modules_install="do_not_install"
     [ "${apache}" == "do_not_install" ] && apache_modules_install="do_not_install"
@@ -239,7 +237,7 @@ set_parameters(){
 }
 
 #lamp auto process
-lamp_auto(){
+lamp_auto() {
     check_os
     check_ram
     display_os_info

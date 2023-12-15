@@ -1,8 +1,8 @@
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -12,7 +12,7 @@
 # Github:   https://github.com/teddysun/lamp
 
 #Pre-installation mysql or mariadb
-mysql_preinstall_settings(){
+mysql_preinstall_settings() {
 
     if version_lt $(get_libc_version) 2.14; then
         mysql_arr=(${mysql_arr[@]#${mariadb10_3_filename}})
@@ -26,7 +26,7 @@ mysql_preinstall_settings(){
     is_64bit || mysql_arr=(${mysql_arr[@]#${mariadb10_11_filename}})
     display_menu mysql 1
 
-    if [ "${mysql}" != "do_not_install" ];then
+    if [ "${mysql}" != "do_not_install" ]; then
         if echo "${mysql}" | grep -qi "mysql"; then
             #mysql data
             echo
@@ -64,7 +64,7 @@ mysql_preinstall_settings(){
 }
 
 #Install Database common
-common_install(){
+common_install() {
     local apt_list=(libncurses5 libncurses5-dev cmake m4 bison libaio1 libaio-dev numactl)
     local yum_list=(ncurses-devel cmake m4 bison libaio libaio-devel numactl-devel libevent perl-Data-Dumper)
     _info "Installing dependencies for Database..."
@@ -107,7 +107,7 @@ common_install(){
 }
 
 #create mysql cnf
-create_mysql_my_cnf(){
+create_mysql_my_cnf() {
 
     local mysqlDataLocation=${1}
     local binlog=${2}
@@ -136,15 +136,63 @@ create_mysql_my_cnf(){
     fi
 
     case ${memory} in
-        256M)innodb_log_file_size=32M;innodb_buffer_pool_size=64M;open_files_limit=512;table_open_cache=200;max_connections=64;;
-        512M)innodb_log_file_size=32M;innodb_buffer_pool_size=128M;open_files_limit=512;table_open_cache=200;max_connections=128;;
-        1G)innodb_log_file_size=64M;innodb_buffer_pool_size=256M;open_files_limit=1024;table_open_cache=400;max_connections=256;;
-        2G)innodb_log_file_size=64M;innodb_buffer_pool_size=512M;open_files_limit=1024;table_open_cache=400;max_connections=300;;
-        4G)innodb_log_file_size=128M;innodb_buffer_pool_size=1G;open_files_limit=2048;table_open_cache=800;max_connections=400;;
-        8G)innodb_log_file_size=256M;innodb_buffer_pool_size=2G;open_files_limit=4096;table_open_cache=1600;max_connections=400;;
-        16G)innodb_log_file_size=512M;innodb_buffer_pool_size=4G;open_files_limit=8192;table_open_cache=2000;max_connections=512;;
-        32G)innodb_log_file_size=512M;innodb_buffer_pool_size=8G;open_files_limit=65535;table_open_cache=2048;max_connections=1024;;
-        *) echo "input error, please input a number";;
+    256M)
+        innodb_log_file_size=32M
+        innodb_buffer_pool_size=64M
+        open_files_limit=512
+        table_open_cache=200
+        max_connections=64
+        ;;
+    512M)
+        innodb_log_file_size=32M
+        innodb_buffer_pool_size=128M
+        open_files_limit=512
+        table_open_cache=200
+        max_connections=128
+        ;;
+    1G)
+        innodb_log_file_size=64M
+        innodb_buffer_pool_size=256M
+        open_files_limit=1024
+        table_open_cache=400
+        max_connections=256
+        ;;
+    2G)
+        innodb_log_file_size=64M
+        innodb_buffer_pool_size=512M
+        open_files_limit=1024
+        table_open_cache=400
+        max_connections=300
+        ;;
+    4G)
+        innodb_log_file_size=128M
+        innodb_buffer_pool_size=1G
+        open_files_limit=2048
+        table_open_cache=800
+        max_connections=400
+        ;;
+    8G)
+        innodb_log_file_size=256M
+        innodb_buffer_pool_size=2G
+        open_files_limit=4096
+        table_open_cache=1600
+        max_connections=400
+        ;;
+    16G)
+        innodb_log_file_size=512M
+        innodb_buffer_pool_size=4G
+        open_files_limit=8192
+        table_open_cache=2000
+        max_connections=512
+        ;;
+    32G)
+        innodb_log_file_size=512M
+        innodb_buffer_pool_size=8G
+        open_files_limit=65535
+        table_open_cache=2048
+        max_connections=1024
+        ;;
+    *) echo "input error, please input a number" ;;
     esac
 
     if ${binlog}; then
@@ -214,8 +262,7 @@ EOF
 
 }
 
-
-common_setup(){
+common_setup() {
 
     rm -f /usr/bin/mysql /usr/bin/mysqldump /usr/bin/mysqladmin
     rm -f /etc/ld.so.conf.d/mysql.conf
@@ -230,8 +277,8 @@ common_setup(){
         sed -i "s:^basedir=.*:basedir=${mysql_location}:g" /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=${mysql_data_location}:g" /etc/init.d/mysqld
         create_lib64_dir "${mysql_location}"
-        echo "${mysql_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
-        echo "${mysql_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
+        echo "${mysql_location}/lib" >>/etc/ld.so.conf.d/mysql.conf
+        echo "${mysql_location}/lib64" >>/etc/ld.so.conf.d/mysql.conf
     elif [ -d "${mariadb_location}" ]; then
         local db_name="MariaDB"
         local db_pass="${mariadb_root_pass}"
@@ -242,8 +289,8 @@ common_setup(){
         sed -i "s:^basedir=.*:basedir=${mariadb_location}:g" /etc/init.d/mysqld
         sed -i "s:^datadir=.*:datadir=${mariadb_data_location}:g" /etc/init.d/mysqld
         create_lib64_dir "${mariadb_location}"
-        echo "${mariadb_location}/lib" >> /etc/ld.so.conf.d/mysql.conf
-        echo "${mariadb_location}/lib64" >> /etc/ld.so.conf.d/mysql.conf
+        echo "${mariadb_location}/lib" >>/etc/ld.so.conf.d/mysql.conf
+        echo "${mariadb_location}/lib64" >>/etc/ld.so.conf.d/mysql.conf
     fi
 
     ldconfig
@@ -251,7 +298,7 @@ common_setup(){
     boot_start mysqld
 
     _info "Starting ${db_name}..."
-    /etc/init.d/mysqld start > /dev/null 2>&1
+    /etc/init.d/mysqld start >/dev/null 2>&1
     sleep 1
     if [ $? -eq 0 ]; then
         if [ "${mysql}" == "${mysql8_0_filename}" ]; then
@@ -276,12 +323,12 @@ EOF
     fi
 
     _info "Shutting down ${db_name}..."
-    /etc/init.d/mysqld stop > /dev/null 2>&1
+    /etc/init.d/mysqld stop >/dev/null 2>&1
 
 }
 
 #Install mysql server
-install_mysqld(){
+install_mysqld() {
 
     common_install
 
@@ -310,10 +357,10 @@ install_mysqld(){
 }
 
 #Configuration mysql
-config_mysql(){
+config_mysql() {
     local version=${1}
 
-    if [ -f /etc/my.cnf ];then
+    if [ -f /etc/my.cnf ]; then
         mv /etc/my.cnf /etc/my.cnf.bak
     fi
     [ -d '/etc/mysql' ] && mv /etc/mysql{,_bk}
@@ -324,7 +371,7 @@ config_mysql(){
     create_mysql_my_cnf "${mysql_data_location}" "false" "false" "/etc/my.cnf"
 
     if [ "${version}" == "8.0" ]; then
-        echo "default_authentication_plugin  = mysql_native_password" >> /etc/my.cnf
+        echo "default_authentication_plugin  = mysql_native_password" >>/etc/my.cnf
     fi
     ${mysql_location}/bin/mysqld --initialize-insecure --basedir=${mysql_location} --datadir=${mysql_data_location} --user=mysql
 
@@ -333,7 +380,7 @@ config_mysql(){
 }
 
 #Install mariadb server
-install_mariadb(){
+install_mariadb() {
 
     common_install
 
@@ -372,9 +419,9 @@ install_mariadb(){
 }
 
 #Configuration mariadb
-config_mariadb(){
+config_mariadb() {
 
-    if [ -f /etc/my.cnf ];then
+    if [ -f /etc/my.cnf ]; then
         mv /etc/my.cnf /etc/my.cnf.bak
     fi
     [ -d '/etc/mysql' ] && mv /etc/mysql{,_bk}

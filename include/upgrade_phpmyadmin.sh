@@ -1,8 +1,8 @@
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -12,7 +12,7 @@
 # Github:   https://github.com/teddysun/lamp
 
 #upgrade phpmyadmin
-upgrade_phpmyadmin(){
+upgrade_phpmyadmin() {
 
     if [ -d "${web_root_dir}/phpmyadmin" ]; then
         installed_pma="$(awk '/Version/{print $2}' ${web_root_dir}/phpmyadmin/README)"
@@ -20,7 +20,7 @@ upgrade_phpmyadmin(){
         if [ -s "$cur_dir/pmaversion.txt" ]; then
             installed_pma="$(awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt)"
         else
-            echo -e "phpmyadmin\t0" > ${cur_dir}/pmaversion.txt
+            echo -e "phpmyadmin\t0" >${cur_dir}/pmaversion.txt
             installed_pma="$(awk '/phpmyadmin/{print $2}' ${cur_dir}/pmaversion.txt)"
         fi
     fi
@@ -36,7 +36,7 @@ upgrade_phpmyadmin(){
     _info "Installed version of phpmyadmin: $(_red ${installed_pma})"
     read -p "Do you want to upgrade phpMyAdmin? (y/n) (Default: n):" upgrade_pma
     [ -z "${upgrade_pma}" ] && upgrade_pma="n"
-    if [[ "${upgrade_pma}" = "y" || "${upgrade_pma}" = "Y" ]];then
+    if [[ "${upgrade_pma}" = "y" || "${upgrade_pma}" = "Y" ]]; then
         _info "phpMyAdmin upgrade start..."
         if [ -d "${web_root_dir}/phpmyadmin" ]; then
             mv ${web_root_dir}/phpmyadmin/config.inc.php ${cur_dir}/config.inc.php
@@ -68,7 +68,7 @@ upgrade_phpmyadmin(){
             cp -f ${web_root_dir}/phpmyadmin/sql/create_tables.sql ${web_root_dir}/phpmyadmin/upload/
         fi
         chown -R apache:apache ${web_root_dir}/phpmyadmin
-        echo -e "phpmyadmin\t${latest_pma}" > ${cur_dir}/pmaversion.txt
+        echo -e "phpmyadmin\t${latest_pma}" >${cur_dir}/pmaversion.txt
         _info "Clear up start..."
         cd ${cur_dir}/software
         rm -rf phpMyAdmin-${latest_pma}-all-languages/

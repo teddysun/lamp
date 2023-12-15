@@ -1,8 +1,8 @@
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -12,7 +12,7 @@
 # Github:   https://github.com/teddysun/lamp
 
 #Pre-installation php modules
-php_modules_preinstall_settings(){
+php_modules_preinstall_settings() {
     if [ "${php}" == "do_not_install" ]; then
         php_modules_install="do_not_install"
     else
@@ -35,7 +35,7 @@ php_modules_preinstall_settings(){
 }
 
 #Pre-installation phpmyadmin
-phpmyadmin_preinstall_settings(){
+phpmyadmin_preinstall_settings() {
     if [ "${php}" == "do_not_install" ]; then
         phpmyadmin="do_not_install"
     else
@@ -44,7 +44,7 @@ phpmyadmin_preinstall_settings(){
 }
 
 #Pre-installation kodexplorer
-kodexplorer_preinstall_settings(){
+kodexplorer_preinstall_settings() {
     if [ "${php}" == "do_not_install" ]; then
         kodexplorer="do_not_install"
     else
@@ -52,7 +52,7 @@ kodexplorer_preinstall_settings(){
     fi
 }
 
-install_php_modules(){
+install_php_modules() {
     local phpConfig=${1}
     if_in_array "${ionCube_filename}" "${php_modules_install}" && install_ionCube "${phpConfig}"
     if_in_array "${pdflib_filename}" "${php_modules_install}" && install_pdflib "${phpConfig}"
@@ -70,12 +70,12 @@ install_php_modules(){
     if_in_array "${xdebug_filename}" "${php_modules_install}" && install_xdebug "${phpConfig}"
 }
 
-install_phpmyadmin_modules(){
+install_phpmyadmin_modules() {
     if_in_array "${phpmyadmin_filename}" "${phpmyadmin_install}" && install_phpmyadmin
     if_in_array "${adminer_filename}" "${phpmyadmin_install}" && install_adminer
 }
 
-install_php_depends(){
+install_php_depends() {
     _info "Installing dependencies for PHP..."
     if check_sys packageManager apt; then
         apt_depends=(
@@ -86,7 +86,7 @@ install_php_depends(){
             libcurl4-gnutls-dev libwebp-dev libxpm-dev libvpx-dev libreadline-dev snmp libsnmp-dev libzip-dev
         )
         # Install libenchant-2-dev package first if it is found for Debian or Ubuntu
-        if apt-cache show libenchant-2-dev 2> /dev/null | grep -q "libenchant-2-dev"; then
+        if apt-cache show libenchant-2-dev 2>/dev/null | grep -q "libenchant-2-dev"; then
             apt_depends=(${apt_depends[@]/#libenchant-dev/libenchant-2-dev})
         fi
         for depend in ${apt_depends[@]}; do
@@ -159,7 +159,7 @@ install_php_depends(){
     _info "Install dependencies for PHP completed..."
 }
 
-install_argon2(){
+install_argon2() {
     if [ ! -e "/usr/lib/libargon2.a" ]; then
         local libargon2_path=""
         cd ${cur_dir}/software/
@@ -175,7 +175,7 @@ install_argon2(){
         elif check_sys packageManager yum; then
             is_64bit && libargon2_path="/usr/lib64/pkgconfig/libargon2.pc" || libargon2_path="/usr/lib/pkgconfig/libargon2.pc"
         fi
-        cat > ${libargon2_path} <<EOF
+        cat >${libargon2_path} <<EOF
 # libargon2 info for pkg-config
 
 prefix=/usr
@@ -194,13 +194,13 @@ EOF
     fi
 }
 
-install_libiconv(){
+install_libiconv() {
     if [ ! -e "${depends_prefix}/libiconv/bin/iconv" ]; then
         cd ${cur_dir}/software/
         _info "Installing ${libiconv_filename}..."
-        download_file  "${libiconv_filename}.tar.gz" "${libiconv_filename_url}"
+        download_file "${libiconv_filename}.tar.gz" "${libiconv_filename_url}"
         tar zxf ${libiconv_filename}.tar.gz
-        patch -d ${libiconv_filename} -p0 < ${cur_dir}/src/libiconv-glibc-2.16.patch
+        patch -d ${libiconv_filename} -p0 <${cur_dir}/src/libiconv-glibc-2.16.patch
         cd ${libiconv_filename}
 
         error_detect "./configure --prefix=${depends_prefix}/libiconv"
@@ -208,18 +208,18 @@ install_libiconv(){
         error_detect "make install"
         create_lib64_dir "${depends_prefix}/libiconv"
         if ! grep -q -w -E "^${depends_prefix}/libiconv/lib" /etc/ld.so.conf.d/*.conf; then
-            echo "${depends_prefix}/libiconv/lib" > /etc/ld.so.conf.d/libiconvlib.conf
+            echo "${depends_prefix}/libiconv/lib" >/etc/ld.so.conf.d/libiconvlib.conf
         fi
         _info "Install ${libiconv_filename} completed..."
     fi
 }
 
-install_re2c(){
+install_re2c() {
     if [ ! -e "/usr/local/bin/re2c" ]; then
         cd ${cur_dir}/software/
         _info "Installing ${re2c_filename}..."
-        download_file "${re2c_filename}.tar.gz" "${re2c_filename_url}"
-        tar zxf ${re2c_filename}.tar.gz
+        download_file "${re2c_filename}.tar.xz" "${re2c_filename_url}"
+        tar Jxf ${re2c_filename}.tar.xz
         cd ${re2c_filename}
 
         error_detect "./configure"
@@ -229,7 +229,7 @@ install_re2c(){
     fi
 }
 
-install_mhash(){
+install_mhash() {
     if [ ! -e "/usr/local/lib/libmhash.a" ]; then
         cd ${cur_dir}/software/
         _info "Installing ${mhash_filename}..."
@@ -244,7 +244,7 @@ install_mhash(){
     fi
 }
 
-install_mcrypt(){
+install_mcrypt() {
     if [ ! -e "/usr/local/bin/mcrypt" ]; then
         cd ${cur_dir}/software/
         _info "Installing ${mcrypt_filename}..."
@@ -260,7 +260,7 @@ install_mcrypt(){
     fi
 }
 
-install_libmcrypt(){
+install_libmcrypt() {
     if [ ! -e "/usr/local/lib/libmcrypt.la" ]; then
         cd ${cur_dir}/software/
         _info "Installing ${libmcrypt_filename}..."
@@ -275,7 +275,7 @@ install_libmcrypt(){
     fi
 }
 
-install_libzip(){
+install_libzip() {
     local cmake_bin="$(command -v cmake)"
     local cmake_ver="$(${cmake_bin} --version | head -1 | grep -oE "[0-9.]+")"
     if version_lt ${cmake_ver} 3.0.2; then
@@ -314,7 +314,7 @@ install_libzip(){
     fi
 }
 
-install_phpmyadmin(){
+install_phpmyadmin() {
     local pma_file=""
     local pma_file_url=""
     if [ -d "${web_root_dir}/phpmyadmin" ]; then
@@ -333,7 +333,7 @@ install_phpmyadmin(){
     _info "Install ${pma_file} completed..."
 }
 
-install_adminer(){
+install_adminer() {
     _info "Installing ${adminer_filename}..."
     cd ${cur_dir}/software
     download_file "${adminer_filename}.php" "${adminer_filename_url}"
@@ -342,7 +342,7 @@ install_adminer(){
     _info "Install ${adminer_filename} completed..."
 }
 
-install_kodexplorer(){
+install_kodexplorer() {
     if [ -d "${web_root_dir}/kod" ]; then
         rm -rf ${web_root_dir}/kod
     fi
@@ -356,7 +356,7 @@ install_kodexplorer(){
     _info "Install ${kodexplorer_filename} completed..."
 }
 
-install_ionCube(){
+install_ionCube() {
     local phpConfig=${1}
     local php_version=$(get_php_version "${phpConfig}")
     local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
@@ -374,7 +374,7 @@ install_ionCube(){
     fi
 
     if [ ! -f "${php_location}/php.d/ioncube.ini" ]; then
-        cat > ${php_location}/php.d/ioncube.ini<<EOF
+        cat >${php_location}/php.d/ioncube.ini <<EOF
 [ionCube Loader]
 zend_extension=ioncube_loader_lin_${php_version}_ts.so
 EOF
@@ -382,7 +382,7 @@ EOF
     _info "Install PHP extension ionCube Loader completed..."
 }
 
-install_pdflib(){
+install_pdflib() {
     local phpConfig=${1}
     local php_version=$(get_php_version "${phpConfig}" | sed 's/\.//g')
     local php_extension_dir=$(get_php_extension_dir "${phpConfig}")
@@ -400,7 +400,7 @@ install_pdflib(){
     fi
 
     if [ ! -f "${php_location}/php.d/pdflib.ini" ]; then
-        cat > ${php_location}/php.d/pdflib.ini<<EOF
+        cat >${php_location}/php.d/pdflib.ini <<EOF
 [pdflib]
 extension=php_pdflib.so
 EOF
@@ -408,7 +408,7 @@ EOF
     _info "Install PHP extension pdflib completed..."
 }
 
-install_php_libsodium(){
+install_php_libsodium() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
@@ -432,7 +432,7 @@ install_php_libsodium(){
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/sodium.ini" ]; then
-        cat > ${php_location}/php.d/sodium.ini<<EOF
+        cat >${php_location}/php.d/sodium.ini <<EOF
 [sodium]
 extension=sodium.so
 EOF
@@ -440,13 +440,13 @@ EOF
     _info "Install PHP extension sodium completed..."
 }
 
-install_php_imagesmagick(){
+install_php_imagesmagick() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
     _info "Installing ${ImageMagick_filename}..."
-    download_file "${ImageMagick_filename}.tar.gz" "${ImageMagick_filename_url}"
-    tar zxf ${ImageMagick_filename}.tar.gz
+    download_file "${ImageMagick_filename}.tar.xz" "${ImageMagick_filename_url}"
+    tar Jxf ${ImageMagick_filename}.tar.xz
     cd ${ImageMagick_filename}
     error_detect "./configure"
     error_detect "parallel_make"
@@ -464,7 +464,7 @@ install_php_imagesmagick(){
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/imagick.ini" ]; then
-        cat > ${php_location}/php.d/imagick.ini<<EOF
+        cat >${php_location}/php.d/imagick.ini <<EOF
 [imagick]
 extension=imagick.so
 EOF
@@ -472,7 +472,7 @@ EOF
     _info "Install PHP extension imagick completed..."
 }
 
-install_php_memcached(){
+install_php_memcached() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software
@@ -518,7 +518,7 @@ install_php_memcached(){
     fi
     download_file "${libmemcached_filename}.tar.gz" "${libmemcached_filename_url}"
     tar zxf ${libmemcached_filename}.tar.gz
-    patch -d ${libmemcached_filename} -p0 < ${cur_dir}/src/libmemcached-build.patch
+    patch -d ${libmemcached_filename} -p0 <${cur_dir}/src/libmemcached-build.patch
     cd ${libmemcached_filename}
     error_detect "./configure --with-memcached=${depends_prefix}/memcached --enable-sasl"
     error_detect "make"
@@ -536,7 +536,7 @@ install_php_memcached(){
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/memcached.ini" ]; then
-        cat > ${php_location}/php.d/memcached.ini<<EOF
+        cat >${php_location}/php.d/memcached.ini <<EOF
 [memcached]
 extension=memcached.so
 memcached.use_sasl = 1
@@ -545,11 +545,11 @@ EOF
     _info "Install PHP extension memcached completed..."
 }
 
-install_php_redis(){
+install_php_redis() {
     local phpConfig=${1}
     local redis_install_dir=${depends_prefix}/redis
-    local tram=$( free -m | awk '/Mem/ {print $2}' )
-    local swap=$( free -m | awk '/Swap/ {print $2}' )
+    local tram=$(free -m | awk '/Mem/ {print $2}')
+    local swap=$(free -m | awk '/Swap/ {print $2}')
     local Mem=$(expr $tram + $swap)
     local RT=0
 
@@ -592,7 +592,7 @@ install_php_redis(){
     if [ ${RT} -eq 0 ]; then
         cd ${cur_dir}/software/
         _info "Installing PHP extension redis..."
-        download_file  "${php_redis_filename}.tgz" "${php_redis_filename_url}"
+        download_file "${php_redis_filename}.tgz" "${php_redis_filename_url}"
         tar zxf ${php_redis_filename}.tgz
         cd ${php_redis_filename}
 
@@ -602,7 +602,7 @@ install_php_redis(){
         error_detect "make install"
 
         if [ ! -f "${php_location}/php.d/redis.ini" ]; then
-            cat > ${php_location}/php.d/redis.ini<<EOF
+            cat >${php_location}/php.d/redis.ini <<EOF
 [redis]
 extension=redis.so
 EOF
@@ -611,7 +611,7 @@ EOF
     fi
 }
 
-install_php_mongo(){
+install_php_mongo() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
@@ -625,7 +625,7 @@ install_php_mongo(){
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/mongodb.ini" ]; then
-        cat > ${php_location}/php.d/mongodb.ini<<EOF
+        cat >${php_location}/php.d/mongodb.ini <<EOF
 [mongodb]
 extension=mongodb.so
 EOF
@@ -633,7 +633,7 @@ EOF
     _info "Install PHP extension mongodb completed..."
 }
 
-install_swoole(){
+install_swoole() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
@@ -647,7 +647,7 @@ install_swoole(){
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/swoole.ini" ]; then
-        cat > ${php_location}/php.d/swoole.ini<<EOF
+        cat >${php_location}/php.d/swoole.ini <<EOF
 [swoole]
 extension=swoole.so
 EOF
@@ -655,7 +655,7 @@ EOF
     _info "Install PHP extension swoole completed..."
 }
 
-install_xdebug(){
+install_xdebug() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
@@ -670,7 +670,7 @@ install_xdebug(){
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/xdebug.ini" ]; then
-        cat > ${php_location}/php.d/xdebug.ini<<EOF
+        cat >${php_location}/php.d/xdebug.ini <<EOF
 [xdebug]
 zend_extension=xdebug.so
 EOF
@@ -678,7 +678,7 @@ EOF
     _info "Install PHP extension xdebug completed..."
 }
 
-install_yaf(){
+install_yaf() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
@@ -692,7 +692,7 @@ install_yaf(){
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/yaf.ini" ]; then
-        cat > ${php_location}/php.d/yaf.ini<<EOF
+        cat >${php_location}/php.d/yaf.ini <<EOF
 [yaf]
 extension=yaf.so
 EOF
@@ -700,7 +700,7 @@ EOF
     _info "Install PHP extension yaf completed..."
 }
 
-install_yar(){
+install_yar() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
@@ -713,7 +713,7 @@ install_yar(){
     error_detect "parallel_make"
     error_detect "make install"
     if [ ! -f "${php_location}/php.d/msgpack.ini" ]; then
-        cat > ${php_location}/php.d/msgpack.ini<<EOF
+        cat >${php_location}/php.d/msgpack.ini <<EOF
 [msgpack]
 extension=msgpack.so
 EOF
@@ -730,7 +730,7 @@ EOF
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/yar.ini" ]; then
-        cat > ${php_location}/php.d/yar.ini<<EOF
+        cat >${php_location}/php.d/yar.ini <<EOF
 [yar]
 extension=yar.so
 EOF
@@ -738,7 +738,7 @@ EOF
     _info "Install PHP extension yar completed..."
 }
 
-install_phalcon(){
+install_phalcon() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
@@ -751,7 +751,7 @@ install_phalcon(){
     error_detect "parallel_make"
     error_detect "make install"
     if [ ! -f "${php_location}/php.d/psr.ini" ]; then
-        cat > ${php_location}/php.d/psr.ini<<EOF
+        cat >${php_location}/php.d/psr.ini <<EOF
 [psr]
 extension=psr.so
 EOF
@@ -767,7 +767,7 @@ EOF
     error_detect "parallel_make"
     error_detect "make install"
     if [ ! -f "${php_location}/php.d/phalcon.ini" ]; then
-        cat > ${php_location}/php.d/phalcon.ini<<EOF
+        cat >${php_location}/php.d/phalcon.ini <<EOF
 [phalcon]
 extension=phalcon.so
 EOF
@@ -775,7 +775,7 @@ EOF
     _info "Install PHP extension phalcon completed..."
 }
 
-install_apcu(){
+install_apcu() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
@@ -789,7 +789,7 @@ install_apcu(){
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/apcu.ini" ]; then
-        cat > ${php_location}/php.d/apcu.ini<<EOF
+        cat >${php_location}/php.d/apcu.ini <<EOF
 [apcu]
 extension=apcu.so
 EOF
@@ -797,7 +797,7 @@ EOF
     _info "Install PHP extension apcu completed..."
 }
 
-install_grpc(){
+install_grpc() {
     local phpConfig=${1}
 
     cd ${cur_dir}/software/
@@ -811,7 +811,7 @@ install_grpc(){
     error_detect "make install"
 
     if [ ! -f "${php_location}/php.d/grpc.ini" ]; then
-        cat > ${php_location}/php.d/grpc.ini<<EOF
+        cat >${php_location}/php.d/grpc.ini <<EOF
 [grpc]
 extension=grpc.so
 EOF

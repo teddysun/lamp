@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -109,7 +109,7 @@ SQLFILE="${TEMPDIR}mysql_${BACKUPDATE}.sql"
 
 log() {
     echo "$(date "+%Y-%m-%d %H:%M:%S")" "$1"
-    echo -e "$(date "+%Y-%m-%d %H:%M:%S")" "$1" >> ${LOGFILE}
+    echo -e "$(date "+%Y-%m-%d %H:%M:%S")" "$1" >>${LOGFILE}
 }
 
 # Check for list of mandatory binaries
@@ -117,9 +117,9 @@ check_commands() {
     # This section checks for all of the binaries used in the backup
     # Do not check mysql command if you do not want to backup the MySQL database
     if [ -z "${MYSQL_ROOT_PASSWORD}" ]; then
-        BINARIES=( cat cd du date dirname echo openssl pwd rm tar )
+        BINARIES=(cat cd du date dirname echo openssl pwd rm tar)
     else
-        BINARIES=( cat cd du date dirname echo openssl mysql mysqldump pwd rm tar )
+        BINARIES=(cat cd du date dirname echo openssl mysql mysqldump pwd rm tar)
     fi
 
     # Iterate over the list of binaries, and if one isn't found, abort
@@ -169,7 +169,7 @@ EOF
             exit 1
         fi
         if [[ "${MYSQL_DATABASE_NAME[@]}" == "" ]]; then
-            mysqldump -u root -p"${MYSQL_ROOT_PASSWORD}" --all-databases > "${SQLFILE}" 2>/dev/null
+            mysqldump -u root -p"${MYSQL_ROOT_PASSWORD}" --all-databases >"${SQLFILE}" 2>/dev/null
             if [ $? -ne 0 ]; then
                 log "MySQL all databases backup failed"
                 exit 1
@@ -181,7 +181,7 @@ EOF
             for db in ${MYSQL_DATABASE_NAME[@]}; do
                 unset DBFILE
                 DBFILE="${TEMPDIR}${db}_${BACKUPDATE}.sql"
-                mysqldump -u root -p"${MYSQL_ROOT_PASSWORD}" ${db} > "${DBFILE}" 2>/dev/null
+                mysqldump -u root -p"${MYSQL_ROOT_PASSWORD}" ${db} >"${DBFILE}" 2>/dev/null
                 if [ $? -ne 0 ]; then
                     log "MySQL database name [${db}] backup failed, please check database name is correct and try again"
                     exit 1
@@ -218,7 +218,7 @@ start_backup() {
     fi
 
     # Delete MySQL temporary dump file
-    for sql in $(ls ${TEMPDIR}*.sql 2> /dev/null); do
+    for sql in $(ls ${TEMPDIR}*.sql 2>/dev/null); do
         log "Delete MySQL temporary dump file: ${sql}"
         rm -f ${sql}
     done
@@ -238,14 +238,14 @@ rclone_upload() {
     if ${RCLONE_FLG} && ${RCLONE_COMMAND}; then
         [ -z "${RCLONE_NAME}" ] && log "Error: RCLONE_NAME can not be empty!" && return 1
         if [ -n "${RCLONE_FOLDER}" ]; then
-            rclone ls ${RCLONE_NAME}:${RCLONE_FOLDER} 2>&1 > /dev/null
+            rclone ls ${RCLONE_NAME}:${RCLONE_FOLDER} 2>&1 >/dev/null
             if [ $? -ne 0 ]; then
                 log "Create the path ${RCLONE_NAME}:${RCLONE_FOLDER}"
                 rclone mkdir ${RCLONE_NAME}:${RCLONE_FOLDER}
             fi
         fi
         log "Tranferring backup file: ${OUT_FILE} to Google Drive"
-        rclone copy ${OUT_FILE} ${RCLONE_NAME}:${RCLONE_FOLDER} >> ${LOGFILE}
+        rclone copy ${OUT_FILE} ${RCLONE_NAME}:${RCLONE_FOLDER} >>${LOGFILE}
         if [ $? -ne 0 ]; then
             log "Error: Tranferring backup file: ${OUT_FILE} to Google Drive failed"
             return 1
@@ -263,7 +263,7 @@ ftp_upload() {
         [ -z "${FTP_DIR}" ] && log "Error: FTP_DIR can not be empty!" && return 1
         local FTP_OUT_FILE=$(basename ${OUT_FILE})
         log "Tranferring backup file: ${FTP_OUT_FILE} to FTP server"
-        ftp -in ${FTP_HOST} 2>&1 >> ${LOGFILE} <<EOF
+        ftp -in ${FTP_HOST} 2>&1 >>${LOGFILE} <<EOF
 user $FTP_USER $FTP_PASS
 binary
 lcd $LOCALDIR
@@ -282,15 +282,15 @@ EOF
 # Get file date
 get_file_date() {
     #Approximate a 30-day month and 365-day year
-    DAYS=$(( $((10#${YEAR}*365)) + $((10#${MONTH}*30)) + $((10#${DAY})) ))
+    DAYS=$(($((10#${YEAR} * 365)) + $((10#${MONTH} * 30)) + $((10#${DAY}))))
     unset FILEYEAR FILEMONTH FILEDAY FILEDAYS FILEAGE
     FILEYEAR=$(echo "$1" | cut -d_ -f2 | cut -c 1-4)
     FILEMONTH=$(echo "$1" | cut -d_ -f2 | cut -c 5-6)
     FILEDAY=$(echo "$1" | cut -d_ -f2 | cut -c 7-8)
     if [[ "${FILEYEAR}" && "${FILEMONTH}" && "${FILEDAY}" ]]; then
         #Approximate a 30-day month and 365-day year
-        FILEDAYS=$(( $((10#${FILEYEAR}*365)) + $((10#${FILEMONTH}*30)) + $((10#${FILEDAY})) ))
-        FILEAGE=$(( 10#${DAYS} - 10#${FILEDAYS} ))
+        FILEDAYS=$(($((10#${FILEYEAR} * 365)) + $((10#${FILEMONTH} * 30)) + $((10#${FILEDAY}))))
+        FILEAGE=$((10#${DAYS} - 10#${FILEDAYS}))
         return 0
     fi
     return 1
@@ -300,9 +300,9 @@ get_file_date() {
 delete_gdrive_file() {
     local FILENAME=$1
     if ${DELETE_REMOTE_FILE_FLG} && ${RCLONE_COMMAND}; then
-        rclone ls ${RCLONE_NAME}:${RCLONE_FOLDER}/${FILENAME} 2>&1 > /dev/null
+        rclone ls ${RCLONE_NAME}:${RCLONE_FOLDER}/${FILENAME} 2>&1 >/dev/null
         if [ $? -eq 0 ]; then
-            rclone delete ${RCLONE_NAME}:${RCLONE_FOLDER}/${FILENAME} >> ${LOGFILE}
+            rclone delete ${RCLONE_NAME}:${RCLONE_FOLDER}/${FILENAME} >>${LOGFILE}
             if [ $? -eq 0 ]; then
                 log "Google Drive's old backup file: ${FILENAME} has been deleted"
             else
@@ -318,7 +318,7 @@ delete_gdrive_file() {
 delete_ftp_file() {
     local FILENAME=$1
     if ${DELETE_REMOTE_FILE_FLG} && ${FTP_FLG}; then
-        ftp -in ${FTP_HOST} 2>&1 >> ${LOGFILE} <<EOF
+        ftp -in ${FTP_HOST} 2>&1 >>${LOGFILE} <<EOF
 user $FTP_USER $FTP_PASS
 cd $FTP_DIR
 del $FILENAME
@@ -336,9 +336,9 @@ EOF
 clean_up_files() {
     cd ${LOCALDIR} || exit
     if ${ENCRYPTFLG}; then
-        LS=($(ls *.enc 2> /dev/null))
+        LS=($(ls *.enc 2>/dev/null))
     else
-        LS=($(ls *.tgz 2> /dev/null))
+        LS=($(ls *.tgz 2>/dev/null))
     fi
     for f in ${LS[@]}; do
         get_file_date ${f}

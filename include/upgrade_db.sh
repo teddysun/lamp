@@ -1,8 +1,8 @@
 # Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
-# 
+#
 # This file is part of the LAMP script.
 #
-# LAMP is a powerful bash script for the installation of 
+# LAMP is a powerful bash script for the installation of
 # Apache + PHP + MySQL/MariaDB and so on.
 # You can install Apache + PHP + MySQL/MariaDB in an very easy way.
 # Just need to input numbers to choose what you want to install before installation.
@@ -12,7 +12,7 @@
 # Github:   https://github.com/teddysun/lamp
 
 #upgrade database
-upgrade_db(){
+upgrade_db() {
 
     if [ ! -d "${mysql_location}" ] && [ ! -d "${mariadb_location}" ]; then
         _error "MySQL or MariaDB looks like not installed, please check it and try again"
@@ -27,7 +27,7 @@ upgrade_db(){
         mysql_dump="${bkup_dir}/mysql_all_backup_${update_date}.dump"
         installed_mysql="$(${mysql_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
         mysql_ver="$(echo ${installed_mysql} | cut -d. -f1-2)"
-        if   [ "${mysql_ver}" == "5.5" ]; then
+        if [ "${mysql_ver}" == "5.5" ]; then
             latest_mysql="5.5.62"
         elif [ "${mysql_ver}" == "5.6" ]; then
             latest_mysql="5.6.51"
@@ -48,7 +48,7 @@ upgrade_db(){
         mysql_dump="${bkup_dir}/mariadb_all_backup_${update_date}.dump"
         installed_mariadb="$(${mariadb_location}/bin/mysql -V | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
         mariadb_ver="$(echo ${installed_mariadb} | cut -d. -f1-2)"
-        if   [ "${mariadb_ver}" == "5.5" ]; then
+        if [ "${mariadb_ver}" == "5.5" ]; then
             latest_mariadb="5.5.68"
         elif [ "${mariadb_ver}" == "10.0" ]; then
             latest_mariadb="10.0.38"
@@ -57,17 +57,17 @@ upgrade_db(){
         elif [ "${mariadb_ver}" == "10.2" ]; then
             latest_mariadb="10.2.44"
         elif [ "${mariadb_ver}" == "10.3" ]; then
-            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.3.[0-9.]+" | head -1)"
+            latest_mariadb="10.3.39"
         elif [ "${mariadb_ver}" == "10.4" ]; then
-            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.4.[0-9.]+" | head -1)"
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE "10.4.[0-9.]+" | head -1)"
         elif [ "${mariadb_ver}" == "10.5" ]; then
-            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.5.[0-9.]+" | head -1)"
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE "10.5.[0-9.]+" | head -1)"
         elif [ "${mariadb_ver}" == "10.6" ]; then
-            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.6.[0-9.]+" | head -1)"
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE "10.6.[0-9.]+" | head -1)"
         elif [ "${mariadb_ver}" == "10.7" ]; then
             latest_mariadb="10.7.8"
         elif [ "${mariadb_ver}" == "10.11" ]; then
-            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE  "10.11.[0-9.]+" | head -1)"
+            latest_mariadb="$(curl -4s https://mariadb.org/download/ | grep "Latest releases" | grep -oE "10.11.[0-9.]+" | head -1)"
         else
             _error "There is no update available for ${db_name} ${installed_mariadb}"
         fi
@@ -81,7 +81,7 @@ upgrade_db(){
         _info "${db_name} upgrade start..."
         if [ $(ps -ef | grep -v grep | grep -c "mysqld") -eq 0 ]; then
             _info "${db_name} looks like not running, Try to starting ${db_name}..."
-            /etc/init.d/mysqld start > /dev/null 2>&1
+            /etc/init.d/mysqld start >/dev/null 2>&1
             if [ $? -ne 0 ]; then
                 _error "Starting ${db_name} failed"
             fi
@@ -92,20 +92,20 @@ upgrade_db(){
         fi
 
         read -p "Please input your ${db_name} root password:" mysql_root_password
-        /usr/bin/mysql -uroot -p${mysql_root_password} -e "exit" > /dev/null 2>&1
+        /usr/bin/mysql -uroot -p${mysql_root_password} -e "exit" >/dev/null 2>&1
         if [ $? -ne 0 ]; then
             _error "${db_name} root password incorrect, Please check it and try again"
         fi
 
         _info "Starting backup all of databases, Please wait a moment..."
-        /usr/bin/mysqldump -uroot -p${mysql_root_password} --all-databases 2>/dev/null > ${mysql_dump}
+        /usr/bin/mysqldump -uroot -p${mysql_root_password} --all-databases 2>/dev/null >${mysql_dump}
         if [ $? -eq 0 ]; then
             _info "${db_name} all of databases backup success"
         else
             _error "${db_name} all of databases backup failed, Please check it and try again"
         fi
         _info "Stopping ${db_name}..."
-        /etc/init.d/mysqld stop > /dev/null 2>&1
+        /etc/init.d/mysqld stop >/dev/null 2>&1
         if [ $? -eq 0 ]; then
             _info "${db_name} stop success"
         else
@@ -207,7 +207,7 @@ upgrade_db(){
             ulimit -s unlimited
         fi
         _info "Starting ${db_name}..."
-        /etc/init.d/mysqld start > /dev/null 2>&1
+        /etc/init.d/mysqld start >/dev/null 2>&1
         sleep 1
         if [ $? -ne 0 ]; then
             _error "Starting ${db_name} failed, Please check it and try again"
@@ -230,18 +230,18 @@ exit
 EOF
         fi
         _info "Starting restore all of databases, Please wait a moment..."
-        /usr/bin/mysql -uroot -p${mysql_root_password} < ${mysql_dump} > /dev/null 2>&1
+        /usr/bin/mysql -uroot -p${mysql_root_password} <${mysql_dump} >/dev/null 2>&1
         if [ $? -eq 0 ]; then
             _info "${db_name} all of databases restore success"
         else
             _warn "${db_name} all of databases restore failed, Please restore it manually"
         fi
         _info "Restart ${db_name}..."
-        /etc/init.d/mysqld restart > /dev/null 2>&1
+        /etc/init.d/mysqld restart >/dev/null 2>&1
         _info "Restart Apache..."
-        /etc/init.d/httpd stop > /dev/null 2>&1
+        /etc/init.d/httpd stop >/dev/null 2>&1
         sleep 3
-        /etc/init.d/httpd start > /dev/null 2>&1
+        /etc/init.d/httpd start >/dev/null 2>&1
         _info "Clear up start..."
         cd ${cur_dir}/software
         rm -rf mysql-* mariadb-*
