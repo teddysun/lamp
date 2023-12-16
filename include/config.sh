@@ -72,7 +72,7 @@ load_config() {
     #X-Prober
     x_prober_url="https://github.com/kmvan/x-prober/releases/latest/download/prober.php"
     #kodexplorer
-    kod_version="4.51"
+    kod_version="4.52"
     kodexplorer_filename="kodfile-${kod_version}"
     kodexplorer_filename_url="${download_root_url}/kodfile-${kod_version}.tar.gz"
     set_hint ${kodexplorer_filename} "kodexplorer-${kod_version}"
