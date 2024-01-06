@@ -1,4 +1,4 @@
-# Copyright (C) 2013 - 2023 Teddysun <i@teddysun.com>
+# Copyright (C) 2013 - 2024 Teddysun <i@teddysun.com>
 #
 # This file is part of the LAMP script.
 #

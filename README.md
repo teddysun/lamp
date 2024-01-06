@@ -67,7 +67,7 @@
 
 | PHP & Additional extensions   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| PHP                           | 7.4.33, 8.0.30, 8.1.26, 8.2.13                            |
+| PHP                           | 7.4.33, 8.0.30, 8.1.27, 8.2.14                            |
 | ionCube Loader                | 13.0.2                                                    |
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
@@ -234,6 +234,6 @@ Support(Chinese only): https://lamp.sh/support.html
 
 ## License
 
-Copyright (C) 2013 - 2023 [Teddysun](https://teddysun.com/)
+Copyright (C) 2013 - 2024 [Teddysun](https://teddysun.com/)
 
 Licensed under the [GPLv3](LICENSE) License.
