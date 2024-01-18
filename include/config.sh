@@ -42,7 +42,7 @@ load_config() {
     #mysql5.7
     mysql5_7_filename="mysql-5.7.44"
     #mysql8.0
-    mysql8_0_filename="mysql-8.0.35"
+    mysql8_0_filename="mysql-8.0.36"
     #mariadb10.4
     mariadb10_4_filename="mariadb-10.4.32"
     #mariadb10.5
@@ -61,8 +61,8 @@ load_config() {
     php8_1_filename="php-8.1.27"
     php8_1_filename_url="https://www.php.net/distributions/php-8.1.27.tar.gz"
     #php8.2
-    php8_2_filename="php-8.2.14"
-    php8_2_filename_url="https://www.php.net/distributions/php-8.2.14.tar.gz"
+    php8_2_filename="php-8.2.15"
+    php8_2_filename_url="https://www.php.net/distributions/php-8.2.15.tar.gz"
     #phpMyAdmin
     phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
     phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
