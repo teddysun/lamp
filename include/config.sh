@@ -44,13 +44,13 @@ load_config() {
     #mysql8.0
     mysql8_0_filename="mysql-8.0.36"
     #mariadb10.4
-    mariadb10_4_filename="mariadb-10.4.32"
+    mariadb10_4_filename="mariadb-10.4.33"
     #mariadb10.5
-    mariadb10_5_filename="mariadb-10.5.23"
+    mariadb10_5_filename="mariadb-10.5.24"
     #mariadb10.6
-    mariadb10_6_filename="mariadb-10.6.16"
+    mariadb10_6_filename="mariadb-10.6.17"
     #mariadb10.11
-    mariadb10_11_filename="mariadb-10.11.6"
+    mariadb10_11_filename="mariadb-10.11.7"
     #php7.4
     php7_4_filename="php-7.4.33"
     php7_4_filename_url="https://www.php.net/distributions/php-7.4.33.tar.gz"
