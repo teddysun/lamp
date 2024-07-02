@@ -37,20 +37,20 @@ load_config() {
     openssl_filename="openssl-1.1.1w"
     openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1w.tar.gz"
     #apache2.4
-    apache2_4_filename="httpd-2.4.59"
-    apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.59.tar.gz"
+    apache2_4_filename="httpd-2.4.60"
+    apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.60.tar.gz"
     #mysql5.7
     mysql5_7_filename="mysql-5.7.44"
     #mysql8.0
-    mysql8_0_filename="mysql-8.0.36"
+    mysql8_0_filename="mysql-8.0.38"
     #mariadb10.4
     mariadb10_4_filename="mariadb-10.4.33"
     #mariadb10.5
-    mariadb10_5_filename="mariadb-10.5.24"
+    mariadb10_5_filename="mariadb-10.5.25"
     #mariadb10.6
-    mariadb10_6_filename="mariadb-10.6.17"
+    mariadb10_6_filename="mariadb-10.6.18"
     #mariadb10.11
-    mariadb10_11_filename="mariadb-10.11.7"
+    mariadb10_11_filename="mariadb-10.11.8"
     #php7.4
     php7_4_filename="php-7.4.33"
     php7_4_filename_url="https://www.php.net/distributions/php-7.4.33.tar.gz"
@@ -58,11 +58,11 @@ load_config() {
     php8_0_filename="php-8.0.30"
     php8_0_filename_url="https://www.php.net/distributions/php-8.0.30.tar.gz"
     #php8.1
-    php8_1_filename="php-8.1.28"
-    php8_1_filename_url="https://www.php.net/distributions/php-8.1.28.tar.gz"
+    php8_1_filename="php-8.1.29"
+    php8_1_filename_url="https://www.php.net/distributions/php-8.1.29.tar.gz"
     #php8.2
-    php8_2_filename="php-8.2.18"
-    php8_2_filename_url="https://www.php.net/distributions/php-8.2.18.tar.gz"
+    php8_2_filename="php-8.2.20"
+    php8_2_filename_url="https://www.php.net/distributions/php-8.2.20.tar.gz"
     #phpMyAdmin
     phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
     phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
