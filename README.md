@@ -129,6 +129,11 @@ chmod 755 *.sh
 ```bash
 ./lamp.sh --apache_option 1 --apache_modules mod_wsgi,mod_security --db_option 1 --db_root_pwd teddysun.com --php_option 1 --php_extensions apcu,ioncube,imagick,redis,mongodb,libsodium,swoole --db_manage_modules phpmyadmin,adminer --kodexplorer_option 1
 ```
+- Start the Services (Don't forget)
+```bash 
+/etc/init.d/httpd start
+/etc/init.d/mysqld start 
+```
 
 ## Upgrade
 
@@ -229,6 +234,7 @@ chmod 755 *.sh
 ## Bugs & Issues
 
 Please feel free to report any bugs or issues to us, email to: i@teddysun.com or [open issues](https://github.com/teddysun/lamp/issues) on Github.
+If you encounter Syntax error about Cannot load http2 module, just comment out the line from httpd.conf file that loads http/2 module. 
 
 Support(Chinese only): https://lamp.sh/support.html
 
