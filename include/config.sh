@@ -50,7 +50,7 @@ load_config() {
     #mariadb10.6
     mariadb10_6_filename="mariadb-10.6.18"
     #mariadb10.11
-    mariadb10_11_filename="mariadb-10.11.8"
+    mariadb10_11_filename="mariadb-10.11.9"
     #php7.4
     php7_4_filename="php-7.4.33"
     php7_4_filename_url="https://www.php.net/distributions/php-7.4.33.tar.gz"
