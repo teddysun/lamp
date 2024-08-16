@@ -46,9 +46,9 @@ load_config() {
     #mariadb10.4
     mariadb10_4_filename="mariadb-10.4.33"
     #mariadb10.5
-    mariadb10_5_filename="mariadb-10.5.25"
+    mariadb10_5_filename="mariadb-10.5.26"
     #mariadb10.6
-    mariadb10_6_filename="mariadb-10.6.18"
+    mariadb10_6_filename="mariadb-10.6.19"
     #mariadb10.11
     mariadb10_11_filename="mariadb-10.11.9"
     #php7.4
