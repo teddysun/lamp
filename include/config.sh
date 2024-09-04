@@ -43,8 +43,6 @@ load_config() {
     mysql5_7_filename="mysql-5.7.44"
     #mysql8.0
     mysql8_0_filename="mysql-8.0.39"
-    #mariadb10.4
-    mariadb10_4_filename="mariadb-10.4.33"
     #mariadb10.5
     mariadb10_5_filename="mariadb-10.5.26"
     #mariadb10.6
@@ -61,8 +59,8 @@ load_config() {
     php8_1_filename="php-8.1.29"
     php8_1_filename_url="https://www.php.net/distributions/php-8.1.29.tar.gz"
     #php8.2
-    php8_2_filename="php-8.2.22"
-    php8_2_filename_url="https://www.php.net/distributions/php-8.2.22.tar.gz"
+    php8_2_filename="php-8.2.23"
+    php8_2_filename_url="https://www.php.net/distributions/php-8.2.23.tar.gz"
     #phpMyAdmin
     phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
     phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
@@ -78,8 +76,8 @@ load_config() {
     set_hint ${kodexplorer_filename} "kodexplorer-${kod_version}"
 
     #apr
-    apr_filename="apr-1.7.4"
-    apr_filename_url="http://ftp.jaist.ac.jp/pub/apache/apr/apr-1.7.4.tar.gz"
+    apr_filename="apr-1.7.5"
+    apr_filename_url="http://ftp.jaist.ac.jp/pub/apache/apr/apr-1.7.5.tar.gz"
     #apr-util
     apr_util_filename="apr-util-1.6.3"
     apr_util_filename_url="http://ftp.jaist.ac.jp/pub/apache/apr/apr-util-1.6.3.tar.gz"
@@ -87,9 +85,9 @@ load_config() {
     mod_wsgi_filename="mod_wsgi-4.9.4"
     mod_wsgi_filename_url="https://github.com/GrahamDumpleton/mod_wsgi/archive/refs/tags/4.9.4.tar.gz"
     #mod_jk
-    mod_jk_filename="tomcat-connectors-1.2.48-src"
-    mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.48-src.tar.gz"
-    set_hint ${mod_jk_filename} "mod_jk-1.2.48"
+    mod_jk_filename="tomcat-connectors-1.2.50-src"
+    mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.50-src.tar.gz"
+    set_hint ${mod_jk_filename} "mod_jk-1.2.50"
     #mod_security
     mod_security_filename="modsecurity-2.9.6"
     mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.6/modsecurity-2.9.6.tar.gz"
@@ -146,8 +144,8 @@ load_config() {
     xdebug_filename="xdebug-3.1.6"
     xdebug_filename_url="https://pecl.php.net/get/xdebug-3.1.6.tgz"
     #ImageMagick
-    ImageMagick_filename="ImageMagick-7.1.0-62"
-    ImageMagick_filename_url="https://imagemagick.org/archive/releases/ImageMagick-7.1.0-62.tar.xz"
+    ImageMagick_filename="ImageMagick-7.1.1-38"
+    ImageMagick_filename_url="https://imagemagick.org/archive/releases/ImageMagick-7.1.1-38.tar.xz"
     #php extension imagick
     php_imagemagick_filename="imagick-3.7.0"
     php_imagemagick_filename_url="https://pecl.php.net/get/imagick-3.7.0.tgz"
@@ -213,7 +211,6 @@ load_config() {
     mysql_arr=(
         ${mysql5_7_filename}
         ${mysql8_0_filename}
-        ${mariadb10_4_filename}
         ${mariadb10_5_filename}
         ${mariadb10_6_filename}
         ${mariadb10_11_filename}
