@@ -35,7 +35,7 @@ load_config() {
     ##Software version
     #openssl
     openssl_filename="openssl-1.1.1w"
-    openssl_filename_url="https://www.openssl.org/source/openssl-1.1.1w.tar.gz"
+    openssl_filename_url="https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz"
     #apache2.4
     apache2_4_filename="httpd-2.4.62"
     apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.62.tar.gz"
@@ -89,9 +89,9 @@ load_config() {
     mod_jk_filename_url="http://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.50-src.tar.gz"
     set_hint ${mod_jk_filename} "mod_jk-1.2.50"
     #mod_security
-    mod_security_filename="modsecurity-2.9.6"
-    mod_security_filename_url="https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.6/modsecurity-2.9.6.tar.gz"
-    set_hint ${mod_security_filename} "mod_security-2.9.6"
+    mod_security_filename="modsecurity-2.9.7"
+    mod_security_filename_url="https://github.com/owasp-modsecurity/ModSecurity/releases/download/v2.9.7/modsecurity-2.9.7.tar.gz"
+    set_hint ${mod_security_filename} "mod_security-2.9.7"
     #mhash
     mhash_filename="mhash-0.9.9.9"
     mhash_filename_url="https://sourceforge.net/projects/mhash/files/mhash/0.9.9.9/mhash-0.9.9.9.tar.gz/download"
