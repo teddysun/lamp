@@ -56,11 +56,11 @@ load_config() {
     php8_0_filename="php-8.0.30"
     php8_0_filename_url="https://www.php.net/distributions/php-8.0.30.tar.gz"
     #php8.1
-    php8_1_filename="php-8.1.29"
-    php8_1_filename_url="https://www.php.net/distributions/php-8.1.29.tar.gz"
+    php8_1_filename="php-8.1.30"
+    php8_1_filename_url="https://www.php.net/distributions/php-8.1.30.tar.gz"
     #php8.2
-    php8_2_filename="php-8.2.23"
-    php8_2_filename_url="https://www.php.net/distributions/php-8.2.23.tar.gz"
+    php8_2_filename="php-8.2.24"
+    php8_2_filename_url="https://www.php.net/distributions/php-8.2.24.tar.gz"
     #phpMyAdmin
     phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
     phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
@@ -113,11 +113,11 @@ load_config() {
     cmake_filename2="cmake-3.18.0-Linux-x86_64"
     cmake_filename_url2="https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0-Linux-x86_64.tar.gz"
     #libzip
-    libzip_filename="libzip-1.10.1"
-    libzip_filename_url="https://libzip.org/download/libzip-1.10.1.tar.gz"
+    libzip_filename="libzip-1.11.1"
+    libzip_filename_url="https://libzip.org/download/libzip-1.11.1.tar.gz"
     #libiconv
-    libiconv_filename="libiconv-1.16"
-    libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
+    libiconv_filename="libiconv-1.17"
+    libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz"
     #libevent
     libevent_filename="libevent-2.1.12-stable"
     libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz"
