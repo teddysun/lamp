@@ -67,6 +67,12 @@ common_install() {
     local yum_list=(ncurses-devel cmake m4 bison libaio libaio-devel numactl-devel libevent perl-Data-Dumper)
     _info "Installing dependencies for Database..."
     if check_sys packageManager apt; then
+        # Replace some dependencies on Ubuntu 24.04
+        if ubuntuversion 24; then
+            apt_list=(${apt_list[@]/#libncurses5/libncurses6})
+            apt_list=(${apt_list[@]/#libncurses5-dev/libncurses-dev})
+            apt_list=(${apt_list[@]/#libaio1/libaio1t64})
+        fi
         for depend in ${apt_list[@]}; do
             error_detect_depends "apt-get -y install ${depend}"
         done
