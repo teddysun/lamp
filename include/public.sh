@@ -956,7 +956,7 @@ install_tools() {
         for tool in ${apt_tools[@]}; do
             error_detect_depends "apt-get -y install ${tool}"
         done
-        if ubuntuversion 22 || debianversion 12; then
+        if ubuntuversion 22 || ubuntuversion 24 || debianversion 12; then
             error_detect_depends "apt-get -y install python3"
             error_detect_depends "apt-get -y install python3-dev"
         else
