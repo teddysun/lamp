@@ -42,7 +42,7 @@ load_config() {
     #mysql5.7
     mysql5_7_filename="mysql-5.7.44"
     #mysql8.0
-    mysql8_0_filename="mysql-8.0.39"
+    mysql8_0_filename="mysql-8.0.40"
     #mariadb10.5
     mariadb10_5_filename="mariadb-10.5.26"
     #mariadb10.6
