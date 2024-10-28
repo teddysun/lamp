@@ -59,8 +59,8 @@ load_config() {
     php8_1_filename="php-8.1.30"
     php8_1_filename_url="https://www.php.net/distributions/php-8.1.30.tar.gz"
     #php8.2
-    php8_2_filename="php-8.2.24"
-    php8_2_filename_url="https://www.php.net/distributions/php-8.2.24.tar.gz"
+    php8_2_filename="php-8.2.25"
+    php8_2_filename_url="https://www.php.net/distributions/php-8.2.25.tar.gz"
     #phpMyAdmin
     phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
     phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
