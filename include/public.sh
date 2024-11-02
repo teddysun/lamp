@@ -294,21 +294,21 @@ check_os() {
     get_os_info
     is_support_flg=0
     if check_sys packageManager yum || check_sys packageManager apt; then
-        # Not support CentOS prior to 7 & Debian prior to 9 & Ubuntu prior to 18 versions
-        if [ -n "$(get_centosversion)" ] && [ $(get_centosversion) -lt 7 ]; then
+        # Not support CentOS prior to 8 & Debian prior to 10 & Ubuntu prior to 20 versions
+        if [ -n "$(get_centosversion)" ] && [ $(get_centosversion) -lt 8 ]; then
             is_support_flg=1
         fi
-        if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -lt 9 ]; then
+        if [ -n "$(get_debianversion)" ] && [ $(get_debianversion) -lt 10 ]; then
             is_support_flg=1
         fi
-        if [ -n "$(get_ubuntuversion)" ] && [ $(get_ubuntuversion) -lt 18 ]; then
+        if [ -n "$(get_ubuntuversion)" ] && [ $(get_ubuntuversion) -lt 20 ]; then
             is_support_flg=1
         fi
     else
         is_support_flg=1
     fi
     if [ ${is_support_flg} -eq 1 ]; then
-        _error "Not supported OS, please change OS to CentOS 7+ or Debian 9+ or Ubuntu 18+ and try again."
+        _error "Not supported OS, please change OS to CentOS 8+ or Debian 10+ or Ubuntu 20+ and try again."
     fi
 }
 
@@ -740,7 +740,7 @@ remove_packages() {
     if check_sys packageManager apt; then
         [ "${apache}" != "do_not_install" ] && apt-get -y remove --purge apache2 apache2-* &>/dev/null
         [ "${mysql}" != "do_not_install" ] && apt-get -y remove --purge mysql-client mysql-server mysql-common libmysqlclient20 libmysqlclient21 &>/dev/null
-        [ "${php}" != "do_not_install" ] && apt-get -y remove --purge php7.4 php7.4-* php8.0 php8.0-* php8.1 php8.1-* &>/dev/null
+        [ "${php}" != "do_not_install" ] && apt-get -y remove --purge php7.4 php7.4-* php8.0 php8.0-* php8.1 php8.1-* php8.2 php8.2-* &>/dev/null
     elif check_sys packageManager yum; then
         [ "${apache}" != "do_not_install" ] && yum -y remove httpd-* &>/dev/null
         [ "${mysql}" != "do_not_install" ] && yum -y remove mysql-* &>/dev/null
