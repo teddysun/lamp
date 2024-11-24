@@ -25,17 +25,17 @@
 
 - Amazon Linux 2
 - AlmaLinux 8
-- AlmaLinux 9 (recommend)
+- AlmaLinux 9
 - CentOS Stream 8
 - CentOS Stream 9
 - Rocky Linux 8
-- Rocky Linux 9 (recommend)
+- Rocky Linux 9
 - Debian 10
 - Debian 11
-- Debian 12 (recommend)
+- Debian 12
 - Ubuntu 20.04
 - Ubuntu 22.04
-- Ubuntu 24.04 (recommend)
+- Ubuntu 24.04
 
 ## Supported Software
 
@@ -65,7 +65,7 @@
 
 | PHP & Additional extensions   | Version                                                   |
 |-------------------------------|-----------------------------------------------------------|
-| PHP                           | 7.4.33, 8.0.30, 8.1.30, 8.2.25                            |
+| PHP                           | 7.4.33, 8.0.30, 8.1.31, 8.2.26                            |
 | ionCube Loader                | 13.3.1                                                    |
 | PDFlib                        | 10.0.0                                                    |
 | APCu extension                | 5.1.21                                                    |
