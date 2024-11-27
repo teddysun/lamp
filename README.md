@@ -39,15 +39,18 @@ And all things will be done in a few minutes.
 
 ## Supported Software
 
-- Apache
+- Apache 2.4
 - MariaDB 10.11, 11.4
 - PHP 7.4, 8.0, 8.1, 8.2, 8.3, 8.4
 
-※ Details
-
 - Apache packages provided by [Teddysun Repository](https://dl.lamp.sh/linux/)
 - MariaDB packages provided by [MariaDB Repository](https://downloads.mariadb.com/MariaDB/)
-- PHP packages provided by [remi Repository](https://rpms.remirepo.net/)
+- PHP packages provided by [Remi Repository](https://rpms.remirepo.net/)
+
+## Supported Architecture
+
+- x86_64
+- aarch64 (arm64)
 
 ## Installation
 
@@ -101,8 +104,8 @@ dnf remove -y php-*
 | Process     | Command                                                    |
 |-------------|------------------------------------------------------------|
 | Apache      | systemctl [start\|stop\|status\|restart] httpd             |
-| PHP (rpm)   | systemctl [start\|stop\|status\|restart] php-fpm           |
 | MariaDB     | systemctl [start\|stop\|status\|restart] mariadb           |
+| PHP         | systemctl [start\|stop\|status\|restart] php-fpm           |
 
 ## lamp Command
 
