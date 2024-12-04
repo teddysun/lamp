@@ -46,7 +46,7 @@ And all things will be done in a few minutes.
 
 ## Supported Architecture
 
-- x86_64
+- x86_64 (amd64)
 - aarch64 (arm64)
 
 ## Installation
