@@ -464,9 +464,9 @@ _error_detect "cp -f ${cur_dir}/conf/lamp /usr/bin/"
 _error_detect "chmod 755 /usr/bin/lamp"
 _error_detect "chown -R www-data:www-data /data/www /data/wwwlog"
 _error_detect "cp -f ${cur_dir}/conf/php.conf /etc/apache2/mods-available/"
-pushd /etc/apache2/mods-enabled/
+pushd /etc/apache2/mods-enabled/ >/dev/null 2>&1
 ln -s ../mods-available/php.conf php.conf
-popd
+popd >/dev/null 2>&1
 _error_detect "systemctl daemon-reload"
 _error_detect "systemctl start ${php_fpm}"
 _error_detect "systemctl start apache2"
