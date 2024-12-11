@@ -475,10 +475,17 @@ _error_detect "systemctl restart ${php_fpm}"
 sleep 1
 _error_detect "systemctl restart apache2"
 sleep 1
-if [ -f "/etc/mysql/debian-start" ]; then
-    cat >/etc/mysql/debian-start <<EOF
-#!/bin/bash
-exit 0
+if [ -f "/etc/mysql/debian.cnf" ]; then
+    cp -p /etc/mysql/debian.cnf /etc/mysql/debian.cnf.bak
+    cat >/etc/mysql/debian.cnf <<EOF
+[client]
+host     = localhost
+user     = root
+password = '${db_pass}'
+[mysql_upgrade]
+host     = localhost
+user     = root
+password = '${db_pass}'
 EOF
 fi
 _error_detect "systemctl restart mariadb"
