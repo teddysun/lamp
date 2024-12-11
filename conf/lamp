@@ -467,19 +467,19 @@ del_vhost() {
 }
 
 make_temp_mycnf() {
-    cat >~/.my.cnf<<EOF
+    cat >/root/.my.cnf<<EOF
 [client]
 user=root
 password='$1'
 EOF
-    chmod 600 ~/.my.cnf
+    chmod 600 /root/.my.cnf
 }
 
 clean_temp_mycnf() {
-    if [ -s ~/.my.cnf ]; then
-        rm -f ~/.my.cnf
+    if [ -s "/root/.my.cnf" ]; then
+        rm -f /root/.my.cnf
     fi
-    if [ -s /tmp/.mysql.tmp ]; then
+    if [ -s "/tmp/.mysql.tmp" ]; then
         rm -f /tmp/.mysql.tmp
     fi
 }
@@ -487,7 +487,7 @@ clean_temp_mycnf() {
 do_query() {
     echo "$1" >/tmp/.mysql.tmp
     chmod 600 /tmp/.mysql.tmp
-    /usr/bin/mariadb --defaults-file=~/.my.cnf </tmp/.mysql.tmp
+    /usr/bin/mariadb --defaults-file="/root/.my.cnf" </tmp/.mysql.tmp
     return $?
 }
 
@@ -536,7 +536,7 @@ GRANT ALL PRIVILEGES ON \`${database_name}\`.* TO '${database_name}'@'localhost'
 GRANT ALL PRIVILEGES ON \`${database_name}\`.* TO '${database_name}'@'127.0.0.1';
 FLUSH PRIVILEGES;
 EOF
-    if /usr/bin/mariadb --defaults-file=~/.my.cnf </tmp/.add_mysql.sql >/dev/null 2>&1; then
+    if /usr/bin/mariadb --defaults-file="/root/.my.cnf" </tmp/.add_mysql.sql >/dev/null 2>&1; then
         _info "Add database $(_green "${database_name}") sucessfully."
     else
         _info "Add database $(_red "${database_name}") failed."
@@ -545,7 +545,7 @@ EOF
 }
 
 list_database() {
-    if /usr/bin/mariadb --defaults-file=~/.my.cnf -e "SHOW DATABASES;"; then
+    if /usr/bin/mariadb --defaults-file="/root/.my.cnf" -e "SHOW DATABASES;"; then
         _info "List all databases sucessfully."
     else
         _info "List all databases failed."
@@ -567,7 +567,7 @@ DROP USER '${database_name}'@'localhost';
 DROP DATABASE \`${database_name}\`;
 FLUSH PRIVILEGES;
 EOF
-    if /usr/bin/mariadb --defaults-file=~/.my.cnf </tmp/.del.mysql.sql; then
+    if /usr/bin/mariadb --defaults-file="/root/.my.cnf" </tmp/.del.mysql.sql; then
         _info "Delete database $(_green "${database_name}") sucessfully."
     else
         _info "Delete database $(_red "${database_name}") failed."
