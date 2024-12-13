@@ -21,7 +21,7 @@ And all things will be done in a few minutes.
 - [Uninstall](#uninstall)
 - [Default Location](#default-location)
 - [Process Management](#process-management)
-- [lcmp command](#lcmp-command)
+- [lamp command](#lamp-command)
 - [Bugs & Issues](#bugs--issues)
 - [License](#license)
 
