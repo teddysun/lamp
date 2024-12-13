@@ -8,7 +8,7 @@
 
 LAMP (Linux + Apache + MariaDB + PHP) is a powerful bash script for the installation of Apache + MariaDB + PHP and so on.
 
-You can install Apache + MariaDB + PHP in a smaller memory VPS by yum(dnf) command, Just need to input numbers to choose what you want to install before installation.
+You can install Apache + MariaDB + PHP in a smaller memory VPS by `yum` or `dnf` command, Just need to input numbers to choose what you want to install before installation.
 
 And all things will be done in a few minutes.
 
@@ -21,7 +21,7 @@ And all things will be done in a few minutes.
 - [Uninstall](#uninstall)
 - [Default Location](#default-location)
 - [Process Management](#process-management)
-- [lcmp command](#lcmp-command)
+- [lamp command](#lamp-command)
 - [Bugs & Issues](#bugs--issues)
 - [License](#license)
 
