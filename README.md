@@ -51,7 +51,6 @@ And all things will be done in a few minutes.
 
 ## Installation
 
-- If your server's OS: Enterprise Linux 8 / 9
 ```bash
 dnf -y install wget git
 git clone -b rpm https://github.com/teddysun/lamp.git
@@ -62,7 +61,6 @@ chmod 755 *.sh
 
 ## Upgrade
 
-- If your server's OS: Enterprise Linux 8 / 9
 ```bash
 dnf update -y httpd
 dnf update -y MariaDB-*
@@ -71,7 +69,6 @@ dnf update -y php-*
 
 ## Uninstall
 
-- If your server's OS: Enterprise Linux 8 / 9
 ```bash
 dnf remove -y httpd
 dnf remove -y MariaDB-*
