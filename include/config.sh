@@ -116,8 +116,8 @@ load_config() {
     libzip_filename="libzip-1.11.2"
     libzip_filename_url="https://libzip.org/download/libzip-1.11.2.tar.gz"
     #libiconv
-    libiconv_filename="libiconv-1.17"
-    libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz"
+    libiconv_filename="libiconv-1.18"
+    libiconv_filename_url="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.18.tar.gz"
     #libevent
     libevent_filename="libevent-2.1.12-stable"
     libevent_filename_url="https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz"
