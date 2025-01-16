@@ -7,7 +7,7 @@
 # Enterprise Linux 8 (CentOS 8, RHEL 8, Rocky Linux 8, AlmaLinux 8, Oracle Linux 8)
 # Enterprise Linux 9 (CentOS 9, RHEL 9, Rocky Linux 9, AlmaLinux 9, Oracle Linux 9)
 #
-# Copyright (C) 2013 - 2024 Teddysun <i@teddysun.com>
+# Copyright (C) 2013 - 2025 Teddysun <i@teddysun.com>
 #
 trap _exit INT QUIT TERM
 
