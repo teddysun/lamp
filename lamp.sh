@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (C) 2013 - 2024 Teddysun <i@teddysun.com>
+# Copyright (C) 2013 - 2025 Teddysun <i@teddysun.com>
 #
 # This file is part of the LAMP script.
 #
@@ -9,7 +9,7 @@
 # Just need to input numbers to choose what you want to install before installation.
 # And all things will be done in a few minutes.
 #
-# System Required:  CentOS 7+ / Debian 9+ / Ubuntu 18+
+# System Required:  CentOS 8+ / Debian 10+ / Ubuntu 20+
 # Description:  Install LAMP(Linux + Apache + MySQL/MariaDB + PHP )
 # Website:  https://lamp.sh
 # Github:   https://github.com/teddysun/lamp

@@ -1,4 +1,4 @@
-# Copyright (C) 2013 - 2024 Teddysun <i@teddysun.com>
+# Copyright (C) 2013 - 2025 Teddysun <i@teddysun.com>
 #
 # This file is part of the LAMP script.
 #
@@ -32,7 +32,7 @@ upgrade_db() {
         elif [ "${mysql_ver}" == "5.6" ]; then
             latest_mysql="5.6.51"
         elif [ "${mysql_ver}" == "5.7" ]; then
-            latest_mysql="$(curl -4s https://dev.mysql.com/downloads/mysql/5.7.html | awk '/MySQL Community Server/{print $4}' | grep '5.7')"
+            latest_mysql="5.7.44"
         elif [ "${mysql_ver}" == "8.0" ]; then
             latest_mysql="$(curl -4s https://dev.mysql.com/downloads/mysql/8.0.html | awk '/MySQL Community Server/{print $4}' | grep '8.0')"
         else
