@@ -62,8 +62,8 @@ load_config() {
     php8_2_filename="php-8.2.27"
     php8_2_filename_url="https://www.php.net/distributions/php-8.2.27.tar.gz"
     #phpMyAdmin
-    phpmyadmin_filename="phpMyAdmin-5.2.1-all-languages"
-    phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.gz"
+    phpmyadmin_filename="phpMyAdmin-5.2.2-all-languages"
+    phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.2/phpMyAdmin-5.2.2-all-languages.tar.gz"
     #Adminer
     adminer_filename="adminer-4.8.1"
     adminer_filename_url="https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php"
