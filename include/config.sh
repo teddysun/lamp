@@ -37,12 +37,12 @@ load_config() {
     openssl_filename="openssl-1.1.1w"
     openssl_filename_url="https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz"
     #apache2.4
-    apache2_4_filename="httpd-2.4.62"
-    apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.62.tar.gz"
+    apache2_4_filename="httpd-2.4.63"
+    apache2_4_filename_url="https://dlcdn.apache.org/httpd/httpd-2.4.63.tar.gz"
     #mysql5.7
     mysql5_7_filename="mysql-5.7.44"
     #mysql8.0
-    mysql8_0_filename="mysql-8.0.40"
+    mysql8_0_filename="mysql-8.0.41"
     #mariadb10.5
     mariadb10_5_filename="mariadb-10.5.27"
     #mariadb10.6
