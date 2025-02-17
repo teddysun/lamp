@@ -131,12 +131,13 @@ upgrade_db() {
             is_64bit && sys_bit=x86_64 || sys_bit=i686
             _info "Downloading and Extracting MySQL files..."
 
-            mysql_filename="mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}"
             if [ "${mysql_ver}" == "8.0" ]; then
+                mysql_filename="mysql-${latest_mysql}-linux-glibc2.17-${sys_bit}"
                 mysql_filename_url="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql_filename}.tar.xz"
                 download_file "${mysql_filename}.tar.xz" "${mysql_filename_url}"
                 tar Jxf ${mysql_filename}.tar.xz
             else
+                mysql_filename="mysql-${latest_mysql}-linux-glibc2.12-${sys_bit}"
                 mysql_filename_url="https://cdn.mysql.com/Downloads/MySQL-${mysql_ver}/${mysql_filename}.tar.gz"
                 download_file "${mysql_filename}.tar.gz" "${mysql_filename_url}"
                 tar zxf ${mysql_filename}.tar.gz
