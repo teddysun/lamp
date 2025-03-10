@@ -65,8 +65,8 @@ load_config() {
     phpmyadmin_filename="phpMyAdmin-5.2.2-all-languages"
     phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.2/phpMyAdmin-5.2.2-all-languages.tar.gz"
     #Adminer
-    adminer_filename="adminer-5.0.1"
-    adminer_filename_url="https://github.com/vrana/adminer/releases/download/v5.0.1/adminer-5.0.1.php"
+    adminer_filename="adminer-5.0.2"
+    adminer_filename_url="https://github.com/vrana/adminer/releases/download/v5.0.2/adminer-5.0.2.php"
     #X-Prober
     x_prober_url="https://github.com/kmvan/x-prober/releases/latest/download/prober.php"
     #kodexplorer
