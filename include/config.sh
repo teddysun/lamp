@@ -56,17 +56,17 @@ load_config() {
     php8_0_filename="php-8.0.30"
     php8_0_filename_url="https://www.php.net/distributions/php-8.0.30.tar.gz"
     #php8.1
-    php8_1_filename="php-8.1.31"
-    php8_1_filename_url="https://www.php.net/distributions/php-8.1.31.tar.gz"
+    php8_1_filename="php-8.1.32"
+    php8_1_filename_url="https://www.php.net/distributions/php-8.1.32.tar.gz"
     #php8.2
-    php8_2_filename="php-8.2.27"
-    php8_2_filename_url="https://www.php.net/distributions/php-8.2.27.tar.gz"
+    php8_2_filename="php-8.2.28"
+    php8_2_filename_url="https://www.php.net/distributions/php-8.2.28.tar.gz"
     #phpMyAdmin
     phpmyadmin_filename="phpMyAdmin-5.2.2-all-languages"
     phpmyadmin_filename_url="https://files.phpmyadmin.net/phpMyAdmin/5.2.2/phpMyAdmin-5.2.2-all-languages.tar.gz"
     #Adminer
-    adminer_filename="adminer-5.0.4"
-    adminer_filename_url="https://github.com/vrana/adminer/releases/download/v5.0.4/adminer-5.0.4.php"
+    adminer_filename="adminer-5.0.5"
+    adminer_filename_url="https://github.com/vrana/adminer/releases/download/v5.0.5/adminer-5.0.5.php"
     #X-Prober
     x_prober_url="https://github.com/kmvan/x-prober/releases/latest/download/prober.php"
     #kodexplorer
