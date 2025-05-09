@@ -203,8 +203,8 @@ while true; do
     _info "Please choose a version of the MariaDB:"
     _info "$(_green 1). MariaDB 10.11"
     _info "$(_green 2). MariaDB 11.4"
-    read -r -p "[$(date)] Please input a number: (Default 1) " mariadb_version
-    [ -z "${mariadb_version}" ] && mariadb_version=1
+    read -r -p "[$(date)] Please input a number: (Default 2) " mariadb_version
+    [ -z "${mariadb_version}" ] && mariadb_version=2
     case "${mariadb_version}" in
     1)
         mariadb_ver="10.11"
@@ -242,8 +242,8 @@ while true; do
     _info "$(_green 4). PHP 8.2"
     _info "$(_green 5). PHP 8.3"
     _info "$(_green 6). PHP 8.4"
-    read -r -p "[$(date)] Please input a number: (Default 4) " php_version
-    [ -z "${php_version}" ] && php_version=4
+    read -r -p "[$(date)] Please input a number: (Default 5) " php_version
+    [ -z "${php_version}" ] && php_version=5
     case "${php_version}" in
     1)
         php_ver="7.4"
@@ -284,24 +284,24 @@ char=$(get_char)
 _info "Initialization start"
 _error_detect "rm -f /etc/localtime"
 _error_detect "ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime"
-_error_detect "yum install -yq yum-utils epel-release"
-_error_detect "yum-config-manager --enable epel"
+_error_detect "dnf install -yq yum-utils epel-release"
+_error_detect "dnf config-manager --enable epel"
 if get_rhelversion 8; then
-    yum-config-manager --enable powertools >/dev/null 2>&1 || yum-config-manager --enable PowerTools >/dev/null 2>&1
+    dnf config-manager --enable powertools >/dev/null 2>&1 || dnf config-manager --enable PowerTools >/dev/null 2>&1
     _info "Set enable PowerTools Repository completed"
-    _error_detect "yum install -yq https://dl.lamp.sh/linux/rhel/el8/x86_64/teddysun-release-1.0-1.el8.noarch.rpm"
+    _error_detect "dnf install -yq https://dl.lamp.sh/linux/rhel/el8/x86_64/teddysun-release-1.0-1.el8.noarch.rpm"
 fi
 if get_rhelversion 9; then
-    _error_detect "yum-config-manager --enable crb"
+    _error_detect "dnf config-manager --enable crb"
     _info "Set enable CRB Repository completed"
     echo "set enable-bracketed-paste off" >>/etc/inputrc
-    _error_detect "yum install -y https://dl.lamp.sh/linux/rhel/el9/x86_64/teddysun-release-1.0-1.el9.noarch.rpm"
+    _error_detect "dnf install -y https://dl.lamp.sh/linux/rhel/el9/x86_64/teddysun-release-1.0-1.el9.noarch.rpm"
 fi
-_error_detect "yum makecache"
-_error_detect "yum install -yq vim tar zip unzip net-tools bind-utils screen git virt-what wget whois firewalld mtr traceroute iftop htop jq tree"
-_error_detect "yum install -yq libnghttp2 libnghttp2-devel"
+_error_detect "dnf makecache"
+_error_detect "dnf install -yq vim tar zip unzip net-tools bind-utils screen git virt-what wget whois firewalld mtr traceroute iftop htop jq tree"
+_error_detect "dnf install -yq libnghttp2 libnghttp2-devel"
 # Replaced local curl from teddysun linux Repository
-_error_detect "yum install -yq curl libcurl libcurl-devel"
+_error_detect "dnf install -yq curl libcurl libcurl-devel"
 if [ -s "/etc/selinux/config" ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
     sed -i 's@^SELINUX.*@SELINUX=disabled@g' /etc/selinux/config
     setenforce 0
@@ -354,7 +354,7 @@ sleep 3
 clear
 _info "LAMP (Linux + Apache + MariaDB + PHP) installation start"
 _info "Apache installation start"
-_error_detect "yum install -y httpd mod_ssl mod_http2 mod_session mod_lua pcre"
+_error_detect "dnf install -y httpd mod_ssl mod_http2 mod_session mod_lua pcre2"
 _info "Apache installation completed"
 
 _info "Setting up Apache"
@@ -389,13 +389,13 @@ _error_detect "chown -R apache:apache /data/www /data/wwwlog"
 _info "Apache setup completed"
 
 _info "MariaDB installation start"
-_error_detect "wget -qO mariadb_repo_setup.sh https://downloads.mariadb.com/MariaDB/mariadb_repo_setup"
+_error_detect "wget -qO mariadb_repo_setup.sh https://dl.lamp.sh/files/mariadb_repo_setup.sh"
 _error_detect "chmod +x mariadb_repo_setup.sh"
 _info "./mariadb_repo_setup.sh --mariadb-server-version=mariadb-${mariadb_ver}"
 ./mariadb_repo_setup.sh --mariadb-server-version=mariadb-${mariadb_ver} >/dev/null 2>&1
 _error_detect "rm -f mariadb_repo_setup.sh"
-_error_detect "yum config-manager --disable mariadb-maxscale"
-_error_detect "yum install -y MariaDB-common MariaDB-server MariaDB-client MariaDB-shared MariaDB-backup"
+_error_detect "dnf config-manager --disable mariadb-maxscale"
+_error_detect "dnf install -y MariaDB-common MariaDB-server MariaDB-client MariaDB-shared MariaDB-backup"
 mariadb_cnf="/etc/my.cnf.d/server.cnf"
 _info "MariaDB installation completed"
 
@@ -433,17 +433,17 @@ php_fpm="php-fpm"
 php_sock="unix//run/php-fpm/www.sock"
 sock_location="/var/lib/mysql/mysql.sock"
 if get_rhelversion 8; then
-    _error_detect "yum install -yq https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
+    _error_detect "dnf install -yq https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
 fi
 if get_rhelversion 9; then
-    _error_detect "yum install -yq https://rpms.remirepo.net/enterprise/remi-release-9.rpm"
+    _error_detect "dnf install -yq https://rpms.remirepo.net/enterprise/remi-release-9.rpm"
 fi
-_error_detect "yum module reset -yq php"
-_error_detect "yum module install -yq php:remi-${php_ver}"
-_error_detect "yum install -yq php-common php-fpm php-cli php-bcmath php-embedded php-gd php-imap php-mysqlnd php-dba php-pdo php-pdo-dblib"
-_error_detect "yum install -yq php-pgsql php-odbc php-enchant php-gmp php-intl php-ldap php-snmp php-soap php-tidy php-opcache php-process"
-_error_detect "yum install -yq php-pspell php-shmop php-sodium php-ffi php-brotli php-lz4 php-xz php-zstd php-pecl-rar"
-_error_detect "yum install -yq php-pecl-imagick-im7 php-pecl-zip php-pecl-mongodb php-pecl-grpc php-pecl-yaml php-pecl-uuid composer"
+_error_detect "dnf module reset -yq php"
+_error_detect "dnf module install -yq php:remi-${php_ver}"
+_error_detect "dnf install -yq php-common php-fpm php-cli php-bcmath php-embedded php-gd php-imap php-mysqlnd php-dba php-pdo php-pdo-dblib"
+_error_detect "dnf install -yq php-pgsql php-odbc php-enchant php-gmp php-intl php-ldap php-snmp php-soap php-tidy php-opcache php-process"
+_error_detect "dnf install -yq php-pspell php-shmop php-sodium php-ffi php-brotli php-lz4 php-xz php-zstd php-pecl-rar"
+_error_detect "dnf install -yq php-pecl-imagick-im7 php-pecl-zip php-pecl-mongodb php-pecl-grpc php-pecl-yaml php-pecl-uuid composer"
 _info "PHP installation completed"
 
 _info "Setting up PHP"
