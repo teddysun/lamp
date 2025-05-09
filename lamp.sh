@@ -207,8 +207,8 @@ while true; do
     _info "Please choose a version of the MariaDB:"
     _info "$(_green 1). MariaDB 10.11"
     _info "$(_green 2). MariaDB 11.4"
-    read -r -p "[$(date)] Please input a number: (Default 1) " mariadb_version
-    [ -z "${mariadb_version}" ] && mariadb_version=1
+    read -r -p "[$(date)] Please input a number: (Default 2) " mariadb_version
+    [ -z "${mariadb_version}" ] && mariadb_version=2
     case "${mariadb_version}" in
     1)
         mariadb_ver="10.11"
@@ -246,8 +246,8 @@ while true; do
     _info "$(_green 4). PHP 8.2"
     _info "$(_green 5). PHP 8.3"
     _info "$(_green 6). PHP 8.4"
-    read -r -p "[$(date)] Please input a number: (Default 4) " php_version
-    [ -z "${php_version}" ] && php_version=4
+    read -r -p "[$(date)] Please input a number: (Default 5) " php_version
+    [ -z "${php_version}" ] && php_version=5
     case "${php_version}" in
     1)
         php_ver="7.4"
@@ -339,7 +339,7 @@ _error_detect "a2enmod cache*"
 _error_detect "a2enmod dav*"
 _error_detect "a2enmod proxy*"
 _error_detect "a2enmod session*"
-sed -i "s@^ServerTokens.*@ServerTokens Prod@" "/etc/apache2/conf-available/security.conf"
+sed -i "s@^ServerTokens.*@ServerTokens Minimal@" "/etc/apache2/conf-available/security.conf"
 sed -i "s@^ServerSignature.*@ServerSignature Off@" "/etc/apache2/conf-available/security.conf"
 _info "Apache installation completed"
 
@@ -370,7 +370,7 @@ EOF
 _info "Apache setup completed"
 
 _info "MariaDB installation start"
-_error_detect "wget -qO mariadb_repo_setup.sh https://downloads.mariadb.com/MariaDB/mariadb_repo_setup"
+_error_detect "wget -qO mariadb_repo_setup.sh https://dl.lamp.sh/files/mariadb_repo_setup.sh"
 _error_detect "chmod +x mariadb_repo_setup.sh"
 _info "./mariadb_repo_setup.sh --mariadb-server-version=mariadb-${mariadb_ver}"
 ./mariadb_repo_setup.sh --mariadb-server-version=mariadb-${mariadb_ver} >/dev/null 2>&1
@@ -412,10 +412,12 @@ php_ini="/etc/php/${php_ver}/fpm/php.ini"
 php_fpm="php${php_ver}-fpm"
 php_sock="unix//run/php/php-fpm.sock"
 sock_location="/run/mysqld/mysqld.sock"
+# https://packages.sury.org/php/
 if check_sys debian; then
     _error_detect "curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg"
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" >/etc/apt/sources.list.d/php.list
 fi
+# https://launchpad.net/~ondrej/+archive/ubuntu/php
 if check_sys ubuntu; then
     _error_detect "add-apt-repository -y ppa:ondrej/php"
 fi
