@@ -41,7 +41,7 @@ And all things will be done in a few minutes.
 ## Supported Software
 
 - Apache 2.4  ※ Apache packages provided by [Teddysun Repository](https://dl.lamp.sh/linux/)
-- MariaDB 10.11, 11.4  ※ MariaDB packages provided by [MariaDB Repository](https://downloads.mariadb.com/MariaDB/)
+- MariaDB 10.11, 11.4  ※ MariaDB packages provided by [MariaDB Repository](https://dlm.mariadb.com/browse/mariadb_server/)
 - PHP 7.4, 8.0, 8.1, 8.2, 8.3, 8.4  ※ PHP packages provided by [Remi Repository](https://rpms.remirepo.net/)
 
 ## Supported Architecture
