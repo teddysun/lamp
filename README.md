@@ -27,8 +27,9 @@ And all things will be done in a few minutes.
 
 ## Supported System
 
-- Enterprise Linux 8 (CentOS Stream 8, RHEL 8, Rocky Linux 8, AlmaLinux 8, Oracle Linux 8)
+- Enterprise Linux 8 (RHEL 8, Rocky Linux 8, AlmaLinux 8, Oracle Linux 8)
 - Enterprise Linux 9 (CentOS Stream 9, RHEL 9, Rocky Linux 9, AlmaLinux 9, Oracle Linux 9)
+- Enterprise Linux 10 (CentOS Stream 10, RHEL 10, Rocky Linux 10, AlmaLinux 10, Oracle Linux 10)
 
 ## System requirements
 
@@ -41,7 +42,7 @@ And all things will be done in a few minutes.
 ## Supported Software
 
 - Apache 2.4  ※ Apache packages provided by [Teddysun Repository](https://dl.lamp.sh/linux/)
-- MariaDB 10.11, 11.4  ※ MariaDB packages provided by [MariaDB Repository](https://dlm.mariadb.com/browse/mariadb_server/)
+- MariaDB 10.11, 11.4, 11.8  ※ MariaDB packages provided by [MariaDB Repository](https://dlm.mariadb.com/browse/mariadb_server/)
 - PHP 7.4, 8.0, 8.1, 8.2, 8.3, 8.4  ※ PHP packages provided by [Remi Repository](https://rpms.remirepo.net/)
 
 ## Supported Architecture
