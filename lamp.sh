@@ -6,6 +6,7 @@
 # Supported OS:
 # Debian 11
 # Debian 12
+# Debian 13
 # Ubuntu 20.04
 # Ubuntu 22.04
 # Ubuntu 24.04
@@ -115,7 +116,7 @@ get_char() {
 }
 
 get_opsy() {
-    [ -f /etc/redhat-release ] && awk '{print ($1,$3~/^[0-9]/?$3:$4)}' /etc/redhat-release && return
+    [ -f /etc/redhat-release ] && awk '{print $0}' /etc/redhat-release && return
     [ -f /etc/os-release ] && awk -F'[= "]' '/PRETTY_NAME/{print $3,$4,$5}' /etc/os-release && return
     [ -f /etc/lsb-release ] && awk -F'[="]+' '/DESCRIPTION/{print $2}' /etc/lsb-release && return
 }
@@ -183,6 +184,7 @@ check_kernel_version() {
     fi
 }
 
+# Check BBR status
 check_bbr_status() {
     local param
     param=$(sysctl net.ipv4.tcp_congestion_control | awk '{print $3}')
@@ -193,13 +195,65 @@ check_bbr_status() {
     fi
 }
 
+initialize_deb() {
+    _error_detect "apt-get update"
+    _error_detect "apt-get -yq install lsb-release ca-certificates curl gnupg"
+    _error_detect "apt-get -yq install vim tar zip unzip net-tools bind9-utils screen git virt-what wget whois mtr traceroute iftop htop jq tree"
+    if ufw status >/dev/null 2>&1; then
+        _error_detect "ufw allow http"
+        _error_detect "ufw allow https"
+        _error_detect "ufw allow 443/udp"
+    else
+        _warn "ufw is not running, skipped firewall configuration"
+    fi
+}
+
+# Configure BBR
+configure_bbr() {
+    if check_kernel_version; then
+        if ! check_bbr_status; then
+            sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
+            sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+            sed -i '/net.core.rmem_max/d' /etc/sysctl.conf
+            cat >>"/etc/sysctl.conf" <<EOF
+net.core.default_qdisc = fq
+net.ipv4.tcp_congestion_control = bbr
+net.core.rmem_max = 2500000
+EOF
+            sysctl -p >/dev/null 2>&1
+            _info "BBR configured"
+        else
+            _info "BBR is already enabled, skipping configuration"
+        fi
+    else
+        _warn "Kernel version is below 4.9, skipping BBR configuration"
+    fi
+}
+
+# Configure systemd-journald
+configure_journald() {
+    local journald_config
+    if systemctl status systemd-journald >/dev/null 2>&1; then
+        if [ -s "/etc/systemd/journald.conf" ]; then
+            journald_config="/etc/systemd/journald.conf"
+        elif [ -s "/usr/lib/systemd/journald.conf" ]; then
+            journald_config="/usr/lib/systemd/journald.conf"
+        fi
+        sed -i 's/^#\?Storage=.*/Storage=volatile/' ${journald_config}
+        sed -i 's/^#\?SystemMaxUse=.*/SystemMaxUse=16M/' ${journald_config}
+        sed -i 's/^#\?RuntimeMaxUse=.*/RuntimeMaxUse=16M/' ${journald_config}
+        _error_detect "systemctl restart systemd-journald"
+        _info "systemd-journald configuration completed"
+    fi
+}
+
 # Check user
 [ ${EUID} -ne 0 ] && _red "This script must be run as root!\n" && exit 1
 
 # Check OS
-if ! get_debianversion 11 && ! get_debianversion 12 &&
+if ! get_debianversion 11 && ! get_debianversion 12 && ! get_debianversion 13 &&
    ! get_ubuntuversion 20.04 && ! get_ubuntuversion 22.04 && ! get_ubuntuversion 24.04; then
-    _error "Not supported OS, please change OS to Debian 11+ or Ubuntu 20.04+ and try again."
+    _error "Unsupported OS. Please switch to Debian 11+, or Ubuntu 20.04+ and try again."
 fi
 
 # Choose MariaDB version
@@ -207,6 +261,7 @@ while true; do
     _info "Please choose a version of the MariaDB:"
     _info "$(_green 1). MariaDB 10.11"
     _info "$(_green 2). MariaDB 11.4"
+    _info "$(_green 3). MariaDB 11.8"
     read -r -p "[$(date)] Please input a number: (Default 2) " mariadb_version
     [ -z "${mariadb_version}" ] && mariadb_version=2
     case "${mariadb_version}" in
@@ -218,8 +273,12 @@ while true; do
         mariadb_ver="11.4"
         break
         ;;
+    3)
+        mariadb_ver="11.8"
+        break
+        ;;
     *)
-        _info "Input error! Please only input a number 1 2"
+        _info "Input error. Please input a number between 1 and 3"
         ;;
     esac
 done
@@ -274,7 +333,7 @@ while true; do
         break
         ;;
     *)
-        _info "Input error! Please only input a number 1 2 3 4 5 6"
+        _info "Input error. Please input a number between 1 and 6"
         ;;
     esac
 done
@@ -286,42 +345,9 @@ _info "Press any key to start...or Press Ctrl+C to cancel"
 char=$(get_char)
 
 _info "Initialization start"
-_error_detect "rm -f /etc/localtime"
-_error_detect "ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime"
-_error_detect "apt-get update"
-_error_detect "apt-get -yq install lsb-release ca-certificates curl gnupg"
-_error_detect "apt-get -yq install vim tar zip unzip net-tools bind9-utils screen git virt-what wget whois mtr traceroute iftop htop jq tree"
-if ufw status >/dev/null 2>&1; then
-    _error_detect "ufw allow http"
-    _error_detect "ufw allow https"
-    _error_detect "ufw allow 443/udp"
-else
-    _warn "ufw looks like not running, skip setting up firewall"
-fi
-
-if check_kernel_version; then
-    if ! check_bbr_status; then
-        sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
-        sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
-        sed -i '/net.core.rmem_max/d' /etc/sysctl.conf
-        cat >>/etc/sysctl.conf <<EOF
-net.core.default_qdisc = fq
-net.ipv4.tcp_congestion_control = bbr
-net.core.rmem_max = 2500000
-EOF
-        sysctl -p >/dev/null 2>&1
-        _info "Set bbr completed"
-    fi
-fi
-
-if systemctl status systemd-journald >/dev/null 2>&1; then
-    sed -i 's/^#\?Storage=.*/Storage=volatile/' /etc/systemd/journald.conf
-    sed -i 's/^#\?SystemMaxUse=.*/SystemMaxUse=16M/' /etc/systemd/journald.conf
-    sed -i 's/^#\?RuntimeMaxUse=.*/RuntimeMaxUse=16M/' /etc/systemd/journald.conf
-    _error_detect "systemctl restart systemd-journald"
-    _info "Set systemd-journald completed"
-fi
-
+configure_bbr
+configure_journald
+initialize_deb
 echo
 netstat -nxtulpe
 echo
@@ -367,7 +393,7 @@ DocumentRoot /data/www/default
 </Directory>
 </VirtualHost>
 EOF
-_info "Apache setup completed"
+_info "Apache configuration completed"
 
 _info "MariaDB installation start"
 _error_detect "wget -qO mariadb_repo_setup.sh https://dl.lamp.sh/files/mariadb_repo_setup.sh"
@@ -398,13 +424,37 @@ delete from mysql.user where user='PUBLIC';
 flush privileges;
 exit
 EOF
+
+if [ -x "/etc/mysql/debian-start" ]; then
+    # Add root password of MariaDB to file: /etc/mysql/debian.cnf
+    cat >"/etc/mysql/debian.cnf" <<EOF
+# THIS FILE IS OBSOLETE. STOP USING IT IF POSSIBLE.
+# This file exists only for backwards compatibility for
+# tools that run '--defaults-file=/etc/mysql/debian.cnf'
+# and have root level access to the local filesystem.
+# With those permissions one can run 'mariadb' directly
+# anyway thanks to unix socket authentication and hence
+# this file is useless. See package README for more info.
+[client]
+host     = localhost
+user     = root
+password = '${db_pass}'
+[mysql_upgrade]
+host     = localhost
+user     = root
+password = '${db_pass}'
+# THIS FILE WILL BE REMOVED IN A FUTURE DEBIAN RELEASE.
+EOF
+    chmod 600 /etc/mysql/debian.cnf
+fi
+
 # Install phpMyAdmin
 _error_detect "wget -qO pma.tar.gz https://dl.lamp.sh/files/pma.tar.gz"
 _error_detect "tar zxf pma.tar.gz -C /data/www/default/"
 _error_detect "rm -f pma.tar.gz"
 _info "/usr/bin/mariadb -uroot -p 2>/dev/null < /data/www/default/pma/sql/create_tables.sql"
 /usr/bin/mariadb -uroot -p"${db_pass}" 2>/dev/null </data/www/default/pma/sql/create_tables.sql
-_info "MariaDB setup completed"
+_info "MariaDB configuration completed"
 
 _info "PHP installation start"
 php_conf="/etc/php/${php_ver}/fpm/pool.d/www.conf"
@@ -460,7 +510,7 @@ sed -i "s@^short_open_tag.*@short_open_tag = On@" "${php_ini}"
 sed -i "s#mysqli.default_socket.*#mysqli.default_socket = ${sock_location}#" "${php_ini}"
 sed -i "s#pdo_mysql.default_socket.*#pdo_mysql.default_socket = ${sock_location}#" "${php_ini}"
 _error_detect "chown root:www-data /var/lib/php/{session,wsdlcache,opcache}"
-_info "PHP setup completed"
+_info "PHP configuration completed"
 
 _error_detect "cp -f ${cur_dir}/conf/lamp /usr/bin/"
 _error_detect "chmod 755 /usr/bin/lamp"
@@ -477,19 +527,6 @@ _error_detect "systemctl restart ${php_fpm}"
 sleep 1
 _error_detect "systemctl restart apache2"
 sleep 1
-if [ -f "/etc/mysql/debian.cnf" ]; then
-    cp -p /etc/mysql/debian.cnf /etc/mysql/debian.cnf.bak
-    cat >/etc/mysql/debian.cnf <<EOF
-[client]
-host     = localhost
-user     = root
-password = '${db_pass}'
-[mysql_upgrade]
-host     = localhost
-user     = root
-password = '${db_pass}'
-EOF
-fi
 _error_detect "systemctl restart mariadb"
 sleep 1
 _info "systemctl enable mariadb"
