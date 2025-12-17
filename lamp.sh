@@ -305,8 +305,8 @@ while true; do
     _info "$(_green 4). PHP 8.2"
     _info "$(_green 5). PHP 8.3"
     _info "$(_green 6). PHP 8.4"
-    read -r -p "[$(date)] Please input a number: (Default 5) " php_version
-    [ -z "${php_version}" ] && php_version=5
+    read -r -p "[$(date)] Please input a number: (Default 6) " php_version
+    [ -z "${php_version}" ] && php_version=6
     case "${php_version}" in
     1)
         php_ver="7.4"
