@@ -496,7 +496,8 @@ do_query() {
 verify_db_password() {
     status=1
     while [ ${status} -eq 1 ]; do
-        read -r -p "[$(date)] Please input current root password of Database (password will not shown): " db_root_password
+        read -s -r -p "[$(date)] Please input current root password of Database (password will not shown): " db_root_password
+        echo
         if ! /usr/bin/mariadb -uroot -p"${db_root_password}" -e "exit" >/dev/null 2>&1; then
             _red "MariaDB root password incorrect, Please check it and try again.\n"
         fi
@@ -520,10 +521,11 @@ enter_database_name() {
 add_database_menu() {
     enter_database_name
     _info "Your will create a MariaDB database and a user with same name: $(_green "${database_name}")"
-    read -r -p "[$(date)] Please input password for MariaDB user ${database_name}: " mysql_password
+    read -s -r -p "[$(date)] Please input password for MariaDB user ${database_name} (password will not shown): " mysql_password
     if [ -z "${mysql_password}" ]; then
         mysql_password="${database_name}"
     fi
+    echo
     _info "MariaDB database $(_green "${database_name}")'s password: ${mysql_password}"
 }
 
@@ -587,9 +589,9 @@ edit_database() {
         fi
     done
     while true; do
-        read -r -p "[$(date)] Please input NEW password: " database_username_passwd
+        read -s -r -p "[$(date)] Please input NEW password (password will not shown): " database_username_passwd
         if [ -z "${database_username_passwd}" ]; then
-            _red "Database NEW password can not be empty!\n"
+            _red "NEW password can not be empty!\n"
         else
             break
         fi
@@ -651,7 +653,7 @@ check_env() {
         php_ver="$(/usr/bin/php -v | head -n1 | awk '{print $2}' | cut -d. -f1-2)"
         php_fpm="php${php_ver}-fpm"
     else
-        _error "Not supported OS, please change OS to Debian 11+ or Ubuntu 20.04+ and try again."
+        _error "Unsupported OS, please switch to Debian 11+ or Ubuntu 20.04+ and try again."
     fi
 }
 
