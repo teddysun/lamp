@@ -345,10 +345,11 @@ _info "---------------------------"
 
 # Set MariaDB root password
 _info "Please input the root password of MariaDB:"
-read -r -p "[$(date)] (Default password: Teddysun.com):" db_pass
+read -s -r -p "[$(date)] (Default password: Teddysun.com) (password will not shown):" db_pass
 if [ -z "${db_pass}" ]; then
     db_pass="Teddysun.com"
 fi
+echo
 _info "---------------------------"
 _info "Password = $(_red "${db_pass}")"
 _info "---------------------------"
