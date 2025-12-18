@@ -560,7 +560,7 @@ del_database() {
     list_database
     enter_database_name
     if [[ "${database_name}" == "information_schema" || "${database_name}" == "mysql" || "${database_name}" == "performance_schema" || "${database_name}" == "sys" ]]; then
-        _error "MariaDB System Database $(_red "${database_name}") can not be delete."
+        _error "MariaDB system database $(_red "${database_name}") cannot be deleted."
     fi
     _info "Your will delete a MariaDB database and a user with same name: ${database_name}"
     _info "Wait 10 seconds, Press Ctrl+c to cancel ..."
@@ -568,7 +568,7 @@ del_database() {
     cat >/tmp/.del.mysql.sql<<EOF
 DROP USER '${database_name}'@'127.0.0.1';
 DROP USER '${database_name}'@'localhost';
-DROP DATABASE \`${database_name}\`;
+DROP DATABASE \`${database_name}\` IF EXISTS;
 FLUSH PRIVILEGES;
 EOF
     if /usr/bin/mariadb --defaults-file="/tmp/.my.cnf" </tmp/.del.mysql.sql; then
@@ -596,6 +596,7 @@ edit_database() {
             break
         fi
     done
+    echo
     do_query "SET PASSWORD FOR '${database_username}'@'127.0.0.1' = PASSWORD('${database_username_passwd}');"
     RT1=$?
     do_query "SET PASSWORD FOR '${database_username}'@'localhost' = PASSWORD('${database_username_passwd}');"
