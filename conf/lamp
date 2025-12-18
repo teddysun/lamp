@@ -565,7 +565,7 @@ del_database() {
     cat >/tmp/.del.mysql.sql<<EOF
 DROP USER '${database_name}'@'127.0.0.1';
 DROP USER '${database_name}'@'localhost';
-DROP DATABASE \`${database_name}\` IF EXISTS;
+DROP DATABASE IF EXISTS \`${database_name}\`;
 FLUSH PRIVILEGES;
 EOF
     if /usr/bin/mariadb --defaults-file="/tmp/.my.cnf" </tmp/.del.mysql.sql; then
