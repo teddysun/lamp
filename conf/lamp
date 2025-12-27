@@ -637,13 +637,13 @@ lamp_status() {
 }
 
 lamp_version() {
-    _info "Apache version:"
+    _info "$(_green "Apache") version:"
     /usr/sbin/apache2 -V
     echo
-    _info "MariaDB version:"
+    _info "$(_green "MariaDB") version:"
     /usr/bin/mariadb --version
     echo
-    _info "PHP version:"
+    _info "$(_green "PHP") version:"
     /usr/bin/php -v
 }
 
