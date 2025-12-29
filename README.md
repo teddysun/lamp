@@ -46,7 +46,7 @@ And all things will be done in a few minutes.
 
 - Apache 2.4  ※ Apache packages provided by Official Repository
 - MariaDB 10.11, 11.4, 11.8  ※ MariaDB packages provided by [MariaDB Repository](https://dlm.mariadb.com/browse/mariadb_server/)
-- PHP 7.4, 8.0, 8.1, 8.2, 8.3, 8.4  ※ PHP packages provided by [deb.sury.org](https://deb.sury.org/)
+- PHP 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5  ※ PHP packages provided by [deb.sury.org](https://deb.sury.org/)
 
 ## Supported Architecture
 
@@ -68,8 +68,8 @@ chmod 755 *.sh
 ```bash
 apt-get install --only-upgrade -y apache2
 apt-get install --only-upgrade -y mariadb-*
-# for example: php_ver=[7.4|8.0|8.1|8.2|8.3|8.4]
-php_ver="8.3"
+# for example: php_ver=[7.4|8.0|8.1|8.2|8.3|8.4|8.5]
+php_ver="8.4"
 apt-get install --only-upgrade -y php${php_ver}-*
 ```
 
@@ -78,8 +78,8 @@ apt-get install --only-upgrade -y php${php_ver}-*
 ```bash
 apt-get remove -y apache2
 apt-get remove -y mariadb-*
-# for example: php_ver=[7.4|8.0|8.1|8.2|8.3|8.4]
-php_ver="8.3"
+# for example: php_ver=[7.4|8.0|8.1|8.2|8.3|8.4|8.5]
+php_ver="8.4"
 apt-get remove -y php${php_ver}-*
 ```
 
