@@ -198,7 +198,7 @@ check_bbr_status() {
 initialize_deb() {
     _error_detect "apt-get update"
     _error_detect "apt-get -yq install lsb-release ca-certificates curl gnupg"
-    _error_detect "apt-get -yq install vim tar zip unzip net-tools bind9-utils screen git virt-what wget whois mtr traceroute iftop htop jq tree"
+    _error_detect "apt-get -yq install vim nano tar zip unzip net-tools screen git virt-what wget mtr traceroute iftop htop jq tree"
     if ufw status >/dev/null 2>&1; then
         _error_detect "ufw allow http"
         _error_detect "ufw allow https"
@@ -223,10 +223,10 @@ EOF
             sysctl -p >/dev/null 2>&1
             _info "BBR configured"
         else
-            _info "BBR is already enabled, skipping configuration"
+            _info "BBR is already enabled, skipped configuration"
         fi
     else
-        _warn "Kernel version is below 4.9, skipping BBR configuration"
+        _warn "Kernel version is below 4.9, skipped BBR configuration"
     fi
 }
 
