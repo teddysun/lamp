@@ -363,6 +363,7 @@ while true; do
     _info "$(_green 4). PHP 8.2"
     _info "$(_green 5). PHP 8.3"
     _info "$(_green 6). PHP 8.4"
+    _info "$(_green 7). PHP 8.5"
     read -r -p "[$(date)] Please input a number: (Default 6) " php_version
     [ -z "${php_version}" ] && php_version=6
     case "${php_version}" in
@@ -390,8 +391,12 @@ while true; do
         php_ver="8.4"
         break
         ;;
+    7)
+        php_ver="8.5"
+        break
+        ;;
     *)
-        _info "Input error. Please input a number between 1 and 6"
+        _info "Input error. Please input a number between 1 and 7"
         ;;
     esac
 done
@@ -493,20 +498,20 @@ php_fpm="php-fpm"
 php_sock="unix//run/php-fpm/www.sock"
 sock_location="/var/lib/mysql/mysql.sock"
 if get_rhelversion 8; then
-    _error_detect "dnf install -yq https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
+    _error_detect "dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
 fi
 if get_rhelversion 9; then
-    _error_detect "dnf install -yq https://rpms.remirepo.net/enterprise/remi-release-9.rpm"
+    _error_detect "dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm"
 fi
 if get_rhelversion 10; then
-    _error_detect "dnf install -yq https://rpms.remirepo.net/enterprise/remi-release-10.rpm"
+    _error_detect "dnf install -y https://rpms.remirepo.net/enterprise/remi-release-10.rpm"
 fi
-_error_detect "dnf module reset -yq php"
-_error_detect "dnf module install -yq php:remi-${php_ver}"
-_error_detect "dnf install -yq php-common php-fpm php-cli php-bcmath php-embedded php-gd php-imap php-mysqlnd php-dba php-pdo php-pdo-dblib"
-_error_detect "dnf install -yq php-pgsql php-odbc php-enchant php-gmp php-intl php-ldap php-snmp php-soap php-tidy php-opcache php-process"
-_error_detect "dnf install -yq php-pspell php-shmop php-sodium php-ffi php-brotli php-lz4 php-xz php-zstd php-pecl-rar php-pecl-swoole6"
-_error_detect "dnf install -yq php-pecl-imagick-im7 php-pecl-zip php-pecl-mongodb php-pecl-grpc php-pecl-yaml php-pecl-uuid composer"
+_error_detect "dnf module reset -y php"
+_error_detect "dnf module install -y php:remi-${php_ver}"
+_error_detect "dnf install -y php-common php-fpm php-cli php-bcmath php-embedded php-gd php-imap php-mysqlnd php-dba php-pdo php-pdo-dblib"
+_error_detect "dnf install -y php-pgsql php-odbc php-enchant php-gmp php-intl php-ldap php-snmp php-soap php-tidy php-opcache php-process"
+_error_detect "dnf install -y php-pspell php-shmop php-sodium php-ffi php-brotli php-lz4 php-xz php-zstd"
+_error_detect "dnf install -y php-pecl-imagick-im7 php-pecl-zip php-pecl-rar php-pecl-grpc php-pecl-yaml php-pecl-uuid"
 _info "PHP installation completed"
 
 _info "Setting up PHP"
