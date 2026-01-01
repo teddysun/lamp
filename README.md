@@ -126,6 +126,6 @@ Please feel free to report any bugs or issues to us, email to: i@teddysun.com or
 
 ## License
 
-Copyright (C) 2013 - 2025 [Teddysun](https://teddysun.com/)
+Copyright (C) 2013 - 2026 [Teddysun](https://teddysun.com/)
 
 Licensed under the [GPLv3](LICENSE) License.
