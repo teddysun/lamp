@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAMP stack installation scripts by Teddysun</title>
+    <meta name="keywords" content="LAMP, LAMP stack installation scripts">
+    <meta name="description" content="LAMP install successfully">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 50px 40px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-link {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-link:hover {
+            transform: scale(1.03);
+        }
+
+        .logo-link img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .content {
+            margin-top: 30px;
+        }
+
+        .description {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 25px;
+        }
+
+        .description p {
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #555;
+        }
+
+        .description p:last-child {
+            margin-bottom: 0;
+        }
+
+        .repositories {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .repositories h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .repo-list {
+            list-style: none;
+        }
+
+        .repo-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .repo-list li:last-child {
+            border-bottom: none;
+        }
+
+        .repo-list li::before {
+            content: "📦";
+            font-size: 14px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        a:hover {
+            color: #764ba2;
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+        .github-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .github-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #24292e 0%, #000000 100%);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .github-btn::after {
+            display: none;
+        }
+
+        .github-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .github-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #e9ecef;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .footer a {
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .success-badge {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+
+            .description {
+                padding: 15px;
+            }
+
+            .repositories {
+                padding: 20px;
+            }
+
+            .github-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="success-badge">🎉 Congratulations. LAMP is installed successfully!</div>
+            
+            <a href="https://lamp.sh/" target="_blank" class="logo-link">
+                <img src="./lamp.png" alt="LAMP stack installation scripts" style="width: 100%; max-width: 600px; height: auto;">
+            </a>
+        </div>
+
+        <div class="content">
+            <div class="description">
+                <p><strong>LAMP</strong> (Linux + Apache + MariaDB + PHP) is a powerful bash script for the installation of Apache + MariaDB + PHP and so on.</p>
+                <p>You can install Apache + MariaDB + PHP in a smaller memory VPS by <strong>dnf / apt-get</strong> command. Just need to input numbers to choose what you want to install before installation.</p>
+                <p>And all things will be done in a few minutes.</p>
+            </div>
+
+            <div class="repositories">
+                <h3>📋 Package Sources</h3>
+                <ul class="repo-list">
+                    <li>
+                        <span><strong>Apache</strong> rpm packages provided by <a href="https://dl.lamp.sh/linux/" target="_blank">Teddysun Repository</a>, deb packages provided by Official Repository.</span>
+                    </li>
+                    <li>
+                        <span><strong>MariaDB</strong> packages provided by <a href="https://downloads.mariadb.com/MariaDB/" target="_blank">MariaDB Repository</a>.</span>
+                    </li>
+                    <li>
+                        <span><strong>PHP</strong> rpm packages provided by <a href="https://rpms.remirepo.net/" target="_blank">Remi Repository</a>, deb packages provided by <a href="https://deb.sury.org/" target="_blank">deb.sury.org</a>.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="github-section">
+                <a href="https://github.com/teddysun/lamp" target="_blank" class="github-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>LAMP stack installation scripts by <a href="https://lamp.sh/" target="_blank">Teddysun</a></p>
+        </div>
+    </div>
+</body>
+
+</html>

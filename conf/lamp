@@ -1,0 +1,770 @@
+#!/bin/bash
+#
+# This is a Shell script for Manager
+# LAMP (Linux + Apache + MariaDB + PHP) environment
+#
+# Supported OS:
+#   - Enterprise Linux 8/9/10 (CentOS Stream, RHEL, Rocky Linux, AlmaLinux, Oracle Linux)
+#   - Debian 11/12/13
+#   - Ubuntu 20.04/22.04/24.04
+#
+# Copyright (C) 2013 - 2026 Teddysun <i@teddysun.com>
+
+set -euo pipefail
+shopt -s inherit_errexit 2>/dev/null || true
+
+trap _exit INT QUIT TERM
+
+_red() {
+    printf '\033[1;31;31m%b\033[0m' "$1"
+}
+
+_green() {
+    printf '\033[1;31;32m%b\033[0m' "$1"
+}
+
+_yellow() {
+    printf '\033[1;31;33m%b\033[0m' "$1"
+}
+
+_printargs() {
+    printf -- "%s" "[$(date)] "
+    printf -- "%s" "$1"
+    printf "\n"
+}
+
+_info() {
+    _printargs "$@"
+}
+
+_warn() {
+    printf -- "%s" "[$(date)] "
+    _yellow "$1"
+    printf "\n"
+}
+
+_error() {
+    printf -- "%s" "[$(date)] "
+    _red "$1"
+    printf "\n"
+    exit 2
+}
+
+_exit() {
+    printf "\n"
+    _red "$0 has been terminated."
+    printf "\n"
+    exit 1
+}
+
+# Check if a command exists
+_exists() {
+    command -v "$1" &>/dev/null
+}
+
+_error_detect() {
+    local cmd="$1"
+    _info "${cmd}"
+    if ! eval "${cmd}" 1>/dev/null; then
+        _error "Execution command (${cmd}) failed, please check it and try again."
+    fi
+}
+
+_sleep_sec() {
+    local seconds=$1
+    while [[ "${seconds}" -ge "0" ]]; do
+      echo -ne "\r     \r"
+      _green "${seconds}"
+      seconds=$((seconds - 1))
+      sleep 1
+    done
+    echo -ne "\r"
+}
+
+# Get OS ID from /etc/os-release
+_get_os_id() {
+    if [[ -f /etc/os-release ]]; then
+        awk -F= '/^ID=/{gsub(/"/, ""); print $2}' /etc/os-release
+    fi
+}
+
+# Check OS type
+_check_sys() {
+    local os_type="$1"
+    local os_id
+    os_id=$(_get_os_id)
+    case "${os_type}" in
+        rhel)
+            [[ "${os_id}" =~ ^(centos|rhel|rocky|almalinux|ol|fedora)$ ]] || \
+            [[ -f /etc/redhat-release ]]
+            ;;
+        debian)
+            [[ "${os_id}" == "debian" ]]
+            ;;
+        ubuntu)
+            [[ "${os_id}" == "ubuntu" ]]
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+_check_email() {
+    local regex="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?\$"
+    if [[ ${1} =~ ${regex} ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+vhost() {
+    case "$1" in
+        [aA][dD][dD])
+            add_vhost
+            ;;
+        [lL][iI][sS][tT])
+            list_vhost
+            ;;
+        [dD][eE][lL])
+            del_vhost
+            ;;
+        *)
+            _error "Usage: lamp vhost [add|list|del]"
+            ;;
+    esac
+}
+
+database() {
+    case "$1" in
+        [aA][dD][dD])
+            add_database_menu
+            add_database
+            ;;
+        [lL][iI][sS][tT])
+            list_database
+            ;;
+        [dD][eE][lL])
+            del_database
+            ;;
+        [eE][dD][iI][tT])
+            edit_database
+            ;;
+        *)
+            _error "Usage: lamp db [add|list|del|edit]"
+            ;;
+    esac
+}
+
+add_vhost() {
+    local domain email vhostdir create_database
+
+    while true; do
+        read -r -p "[$(date)] Please input a domain (Example: www.lamp.sh): " domain
+        if [[ -n "${domain}" ]] && [[ "${domain}" == "${domain%[[:space:]]*}" ]]; then
+            if [[ -f "${vhost_dir}/${domain}.conf" ]]; then
+                _error "Domain name ${domain} is exist, please check it and try again."
+            else
+                _info "Domain name: $(_green "${domain}")"
+            fi
+            break
+        else
+            _red "Domain name can not be empty or contain space.\n"
+        fi
+    done
+
+    while true; do
+        read -r -p "[$(date)] Please enter Administrator Email address: " email
+        if [[ -z "${email}" ]]; then
+            _info "$(_red "Error: Administrator Email address can not be empty")"
+        elif _check_email "${email}"; then
+            _info "Administrator Email address: ${email}"
+            break
+        else
+            _info "$(_red "Error: ${email} is not a correct email address")"
+        fi
+    done
+
+    read -r -p "[$(date)] Please input a directory for domain ${domain} (Default directory: /data/www/${domain}): " vhostdir
+    if [[ -z "${vhostdir}" ]]; then
+        vhostdir="/data/www/${domain}"
+    fi
+    _info "Virtual host directory: $(_green "${vhostdir}")"
+
+    read -r -p "[$(date)] Create a MariaDB database and a user with same name (y/n): " create_database
+    if [[ "${create_database}" == "y" ]] || [[ "${create_database}" == "Y" ]]; then
+        verify_db_password
+        add_database_menu
+    fi
+    add_vhost_config "${domain}" "${email}" "${vhostdir}"
+    _info "Create Virtual Host directory"
+    _error_detect "mkdir -p ${vhostdir}"
+    _info "Create Virtual Host log directory"
+    _error_detect "mkdir -p /data/wwwlog/${domain}"
+    if [[ "${create_database}" == "y" ]] || [[ "${create_database}" == "Y" ]]; then
+        add_database
+    fi
+    _info "Virtual Host Infomation:"
+    _info "Domain Name: $(_green "${domain}")"
+    _info "Virtual Host directory: $(_green "${vhostdir}")"
+    _info "Virtual Host log directory: $(_green "/data/wwwlog/${domain}")"
+    _info "Virtual Host config file: $(_green "${vhost_dir}/${domain}.conf")"
+    list_vhost
+    if [[ "${create_database}" == "y" ]] || [[ "${create_database}" == "Y" ]]; then
+        _info "Database username: ${database_name}"
+        _info "Database userpassword: ${mysql_password}"
+        _info "Database name: ${database_name}"
+    fi
+    _info "Reloading the Apache config file..."
+    _error_detect "systemctl restart ${apache_service}"
+    read -r -p "[$(date)] Do you want to add a SSL certificate? [y/n]: " create_ssl
+    if [[ "${create_ssl}" == "y" ]] || [[ "${create_ssl}" == "Y" ]]; then
+        add_ssl_menu "${domain}"
+        add_ssl_cert "${domain}" "${email}" "${vhostdir}"
+        _info "Reloading the Apache config file..."
+        if ${apache_cmd} -t >/dev/null 2>&1; then
+            _error_detect "systemctl restart ${apache_service}"
+            _info "Reload success"
+        else
+            _error "Error: Reload failed. Apache config file had an error, please fixed it and try again"
+        fi
+    else
+        _info "You chosen do not add a SSL certificate"
+    fi
+    _info "Set permissions of Virtual Host directory"
+    _error_detect "chown -R ${web_user}:${web_group} ${vhostdir} /data/wwwlog/${domain}"
+    _info "All done"
+}
+
+add_ssl_menu() {
+    local domain="$1"
+
+    _info "$(_green "1"). Use your own SSL Certificate and Key"
+    _info "$(_green "2"). Use Let's Encrypt CA to create SSL Certificate and Key"
+    _info "$(_green "3"). Use Buypass.com CA to create SSL Certificate and Key"
+    while true; do
+        read -r -p "[$(date)] Please enter 1 or 2 or 3: " ssl_pick
+        if [[ "${ssl_pick}" == "1" ]]; then
+            while true; do
+                read -r -p "[$(date)] Please enter full path to SSL Certificate file: " ssl_certificate
+                if [[ -z "${ssl_certificate}" ]]; then
+                    _info "$(_red "Error: SSL Certificate file can not be empty")"
+                elif [[ -s "${ssl_certificate}" ]]; then
+                    break
+                else
+                    _info "$(_red "Error: ${ssl_certificate} does not exist or is not a file")"
+                fi
+            done
+            while true; do
+                read -r -p "[$(date)] Please enter full path to SSL Certificate Key file: " ssl_certificate_key
+                if [[ -z "${ssl_certificate_key}" ]]; then
+                    _info "$(_red "Error: SSL Certificate Key file can not be empty")"
+                elif [[ -s "${ssl_certificate_key}" ]]; then
+                    break
+                else
+                    _info "$(_red "Error: ${ssl_certificate_key} does not exist or is not a file")"
+                fi
+            done
+            break
+        elif [[ "${ssl_pick}" == "2" ]]; then
+            _info "You chosen Let's Encrypt CA, and it will be processed automatically"
+            break
+        elif [[ "${ssl_pick}" == "3" ]]; then
+            _info "You chosen Buypass.com CA, and it will be processed automatically"
+            break
+        else
+            _info "$(_red "Error: Please only enter 1 or 2 or 3")"
+        fi
+    done
+
+    read -r -p "[$(date)] Do you want force redirection from HTTP to HTTPS? [y/n]: " force_ssl
+    if [[ "${force_ssl}" == "y" ]] || [[ "${force_ssl}" == "Y" ]]; then
+        _info "You chosen force redirection from HTTP to HTTPS, and it will be processed automatically"
+    else
+        _info "Do not force redirection from HTTP to HTTPS"
+    fi
+}
+
+add_vhost_config() {
+    local domain="$1"
+    local email="$2"
+    local vhostdir="$3"
+
+    cat > "${vhost_dir}/${domain}.conf" <<EOF
+<VirtualHost *:80>
+    ServerAdmin ${email}
+    ServerName ${domain}
+    DocumentRoot ${vhostdir}
+    <Directory ${vhostdir}>
+        SetOutputFilter DEFLATE
+        Options FollowSymLinks
+        AllowOverride All
+        Order Deny,Allow
+        Require all granted
+        DirectoryIndex index.html index.htm index.php
+    </Directory>
+    ErrorLog /data/wwwlog/${domain}/error.log
+    CustomLog /data/wwwlog/${domain}/access.log combined
+</VirtualHost>
+EOF
+}
+
+create_ssl_config() {
+    local domain="$1"
+    local email="$2"
+    local vhostdir="$3"
+    local ssl_certificate="$4"
+    local ssl_certificate_key="$5"
+
+    cat >> "${vhost_dir}/${domain}.conf" <<EOF
+<VirtualHost *:443>
+    ServerAdmin ${email}
+    DocumentRoot ${vhostdir}
+    ServerName ${domain}
+    SSLEngine on
+    SSLCertificateFile ${ssl_certificate}
+    SSLCertificateKeyFile ${ssl_certificate_key}
+    <Directory ${vhostdir}>
+        SetOutputFilter DEFLATE
+        Options FollowSymLinks
+        AllowOverride All
+        Order Deny,Allow
+        Require all granted
+        DirectoryIndex index.html index.htm index.php
+    </Directory>
+    Header always set Strict-Transport-Security "max-age=31536000; preload"
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options SAMEORIGIN
+    ErrorLog  /data/wwwlog/${domain}/ssl_error.log
+    CustomLog  /data/wwwlog/${domain}/ssl_access.log combined
+</VirtualHost>
+EOF
+}
+
+create_ssl_htaccess() {
+    local vhostdir="$1"
+
+    cat > "${vhostdir}/.htaccess" <<EOF
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+</IfModule>
+EOF
+}
+
+add_letsencrypt() {
+    local domain="$1"
+    local vhostdir="$2"
+    local ledsdomain="$3"
+
+    if [[ -d "${ssl_dir}/${domain}" ]]; then
+        _info "Removing exist domain certificate..."
+        rm -rf "${ssl_dir}/${domain}"
+    fi
+    _info "Starting create Let's Encrypt SSL Certificate..."
+    . /usr/local/acme.sh/acme.sh.env
+    /usr/local/acme.sh/acme.sh --issue --server letsencrypt "${letsdomain}" -w "${vhostdir}"
+    if [[ $? -eq 0 ]]; then
+        if [[ -s "${ssl_dir}/${domain}/fullchain.cer" ]]; then
+            ssl_certificate="${ssl_dir}/${domain}/fullchain.cer"
+            ssl_certificate_key="${ssl_dir}/${domain}/${domain}.key"
+        fi
+        if [[ -s "${ssl_dir}/${domain}_ecc/fullchain.cer" ]]; then
+            ssl_certificate="${ssl_dir}/${domain}_ecc/fullchain.cer"
+            ssl_certificate_key="${ssl_dir}/${domain}_ecc/${domain}.key"
+        fi
+        _info "Created Let's Encrypt SSL Certificate success"
+    else
+        _error "Error: Create Let's Encrypt SSL Certificate failed"
+    fi
+}
+
+add_buypass() {
+    local domain="$1"
+    local vhostdir="$2"
+    local ledsdomain="$3"
+    local email="$4"
+
+    if [[ -d "${ssl_dir}/${domain}" ]]; then
+        _info "Removing exist domain certificate..."
+        rm -rf "${ssl_dir}/${domain}"
+    fi
+    _info "Starting create Buypass.com SSL Certificate..."
+    . /usr/local/acme.sh/acme.sh.env
+    /usr/local/acme.sh/acme.sh -m "${email}" --issue --server buypass "${letsdomain}" -w "${vhostdir}" --days 170
+    if [[ $? -eq 0 ]]; then
+        if [[ -s "${ssl_dir}/${domain}/fullchain.cer" ]]; then
+            ssl_certificate="${ssl_dir}/${domain}/fullchain.cer"
+            ssl_certificate_key="${ssl_dir}/${domain}/${domain}.key"
+        fi
+        if [[ -s "${ssl_dir}/${domain}_ecc/fullchain.cer" ]]; then
+            ssl_certificate="${ssl_dir}/${domain}_ecc/fullchain.cer"
+            ssl_certificate_key="${ssl_dir}/${domain}_ecc/${domain}.key"
+        fi
+        _info "Created Buypass.com SSL Certificate success"
+    else
+        _error "Error: Create Buypass.com SSL Certificate failed"
+    fi
+}
+
+install_check_acme() {
+    if [[ -s "/usr/local/acme.sh/acme.sh" ]]; then
+        _info "/usr/local/acme.sh/acme.sh [found]"
+    else
+        wget --no-check-certificate -qO- https://github.com/acmesh-official/acme.sh/tarball/master | tar xz
+        cd acmesh-* || _error "Error: Download acme.sh failed, Please check it and try again"
+        ./acme.sh --install --log --home /usr/local/acme.sh --certhome "${ssl_dir}"
+        cd .. && rm -rf acmesh-*
+        sed -i 's/cat "\$CERT_PATH"$/#cat "\$CERT_PATH"/g' /usr/local/acme.sh/acme.sh
+        cat >/usr/local/acme.sh/upgrade.sh <<EOF
+#!/bin/bash
+
+. /usr/local/acme.sh/acme.sh.env
+/usr/local/acme.sh/acme.sh --upgrade
+sed -i 's/cat "\\\$CERT_PATH"\$/#cat "\\\$CERT_PATH"/g' /usr/local/acme.sh/acme.sh
+EOF
+        chmod +x /usr/local/acme.sh/upgrade.sh
+        if crontab -l | grep -q "/usr/local/acme.sh/upgrade.sh"; then
+            _info "acme.sh upgrade crontab rule is existed"
+        else
+            (crontab -l ; echo '0 3 */7 * * /usr/local/acme.sh/upgrade.sh') | crontab -
+            _info "create cron job for automatic upgrade acme.sh success"
+        fi
+    fi
+}
+
+add_ssl_cert() {
+    local domain="$1"
+    local email="$2"
+    local vhostdir="$3"
+
+    if [[ -z "${email}" ]] || [[ -z "${vhostdir}" ]]; then
+        _error "Error: parameters must be specified"
+    fi
+    if [[ ! -d "${vhostdir}" ]]; then
+        _error "Error: ${vhostdir} does not exist or is not a directory"
+    fi
+    local ledsdomain="-d ${domain}"
+    install_check_acme
+    if [[ "${ssl_pick}" == "2" ]]; then
+        add_letsencrypt "${domain}" "${vhostdir}" "${letsdomain}"
+    elif [[ "${ssl_pick}" == "3" ]]; then
+        add_buypass "${domain}" "${vhostdir}" "${letsdomain}" "${email}"
+    fi
+    create_ssl_config "${domain}" "${email}" "${vhostdir}" "${ssl_certificate}" "${ssl_certificate_key}"
+    [[ "${force_ssl}" == "y" || "${force_ssl}" == "Y" ]] && create_ssl_htaccess "${vhostdir}"
+    _info "Added SSL certificate for virtual host [$(_green "${domain}")] success"
+}
+
+list_vhost() {
+    _info "Apache virtual host list:"
+    local vhosts=()
+    while IFS=' ' read -r line; do vhosts+=("${line}"); done < <(find "${vhost_dir}/" -name "*.conf" -type f -printf "%f\n" | sed 's/.conf//g' | grep -v "default")
+    if [[ "${#vhosts[@]}" -gt 0 ]]; then
+        for i in "${vhosts[@]}"; do
+            _info "  $(_green "${i}")"
+        done
+    else
+        _info "Apache virtual host not found. You can create a new Apache virtual host with command: $(_green "lamp vhost add")"
+    fi
+}
+
+del_vhost() {
+    list_vhost
+    local domain
+    while true; do
+        read -r -p "[$(date)] Please enter domain you want to delete: " domain
+        if [[ -z "${domain}" ]]; then
+            _red "Domain name can not be empty.\n"
+        else
+            break
+        fi
+    done
+    if [[ -f "${vhost_dir}/${domain}.conf" ]]; then
+        rm -f "${vhost_dir}/${domain}.conf"
+        _info "Domain $(_red "${domain}") has been deleted."
+        _info "Website files will not be delete for security reasons."
+        _info "You need to manually delete the website files."
+        systemctl restart "${apache_service}" >/dev/null 2>&1
+    else
+        _error "Domain: ${domain} was not exist."
+    fi
+}
+
+make_temp_mycnf() {
+    cat >/tmp/.my.cnf <<EOF
+[client]
+host     = localhost
+user     = root
+password = '$1'
+EOF
+    chmod 600 /tmp/.my.cnf
+}
+
+clean_temp_mycnf() {
+    if [[ -s "/tmp/.my.cnf" ]]; then
+        rm -f /tmp/.my.cnf
+    fi
+    if [[ -s "/tmp/.mysql.tmp" ]]; then
+        rm -f /tmp/.mysql.tmp
+    fi
+}
+
+do_query() {
+    echo "$1" >/tmp/.mysql.tmp
+    chmod 600 /tmp/.mysql.tmp
+    /usr/bin/mariadb --defaults-file="/tmp/.my.cnf" </tmp/.mysql.tmp
+    return $?
+}
+
+verify_db_password() {
+    local status=1
+    while [[ ${status} -eq 1 ]]; do
+        read -s -r -p "[$(date)] Please input current root password of Database (password will not shown): " db_root_password
+        echo
+        if ! /usr/bin/mariadb -uroot -p"${db_root_password}" -e "exit" >/dev/null 2>&1; then
+            _red "MariaDB root password is incorrect, Please check it and try again.\n"
+        fi
+        make_temp_mycnf "${db_root_password}"
+        do_query "exit"
+        status=$?
+    done
+}
+
+enter_database_name() {
+    while true; do
+        read -r -p "[$(date)] Please input database name: " database_name
+        if [[ -z "${database_name}" ]]; then
+            _red "Database name can not be empty!\n"
+        else
+            break
+        fi
+    done
+}
+
+add_database_menu() {
+    enter_database_name
+    _info "Your will create a MariaDB database and a user with same name: $(_green "${database_name}")"
+    read -s -r -p "[$(date)] Please input password for MariaDB user ${database_name} (password will not shown): " mysql_password
+    if [[ -z "${mysql_password}" ]]; then
+        mysql_password="${database_name}"
+    fi
+    echo
+    _info "MariaDB database $(_green "${database_name}")'s password: ${mysql_password}"
+}
+
+add_database() {
+    cat >/tmp/.add_mysql.sql <<EOF
+CREATE USER '${database_name}'@'localhost' IDENTIFIED BY '${mysql_password}';
+CREATE USER '${database_name}'@'127.0.0.1' IDENTIFIED BY '${mysql_password}';
+GRANT USAGE ON *.* TO '${database_name}'@'localhost' IDENTIFIED BY '${mysql_password}';
+GRANT USAGE ON *.* TO '${database_name}'@'127.0.0.1' IDENTIFIED BY '${mysql_password}';
+CREATE DATABASE IF NOT EXISTS \`${database_name}\`;
+GRANT ALL PRIVILEGES ON \`${database_name}\`.* TO '${database_name}'@'localhost';
+GRANT ALL PRIVILEGES ON \`${database_name}\`.* TO '${database_name}'@'127.0.0.1';
+FLUSH PRIVILEGES;
+EOF
+    if /usr/bin/mariadb --defaults-file="/tmp/.my.cnf" </tmp/.add_mysql.sql >/dev/null 2>&1; then
+        _info "Add database $(_green "${database_name}") sucessfully."
+    else
+        _info "Add database $(_red "${database_name}") failed."
+    fi
+    rm -f /tmp/.add_mysql.sql
+}
+
+list_database() {
+    if /usr/bin/mariadb --defaults-file="/tmp/.my.cnf" -e "SHOW DATABASES;"; then
+        _info "List all databases sucessfully."
+    else
+        _info "List all databases failed."
+    fi
+}
+
+del_database() {
+    list_database
+    enter_database_name
+    if [[ "${database_name}" == "information_schema" || "${database_name}" == "mysql" || "${database_name}" == "performance_schema" || "${database_name}" == "sys" ]]; then
+        _error "MariaDB system database $(_red "${database_name}") cannot be deleted."
+    fi
+    _info "Your will delete a MariaDB database and a user with same name: ${database_name}"
+    _info "Wait 10 seconds, Press Ctrl+c to cancel ..."
+    _sleep_sec 10
+    cat >/tmp/.del.mysql.sql <<EOF
+DROP USER '${database_name}'@'127.0.0.1';
+DROP USER '${database_name}'@'localhost';
+DROP DATABASE IF EXISTS \`${database_name}\`;
+FLUSH PRIVILEGES;
+EOF
+    if /usr/bin/mariadb --defaults-file="/tmp/.my.cnf" </tmp/.del.mysql.sql; then
+        _info "Delete database $(_green "${database_name}") sucessfully."
+    else
+        _info "Delete database $(_red "${database_name}") failed."
+    fi
+    rm -f /tmp/.del.mysql.sql
+}
+
+edit_database() {
+    local database_username database_username_passwd
+
+    while true; do
+        read -r -p "[$(date)] Please input database username: " database_username
+        if [[ -z "${database_username}" ]]; then
+            _red "Database username can not be empty!\n"
+        else
+            break
+        fi
+    done
+    while true; do
+        read -s -r -p "[$(date)] Please input NEW password (password will not shown): " database_username_passwd
+        if [[ -z "${database_username_passwd}" ]]; then
+            _red "NEW password can not be empty!\n"
+        else
+            break
+        fi
+    done
+    echo
+    do_query "SET PASSWORD FOR '${database_username}'@'127.0.0.1' = PASSWORD('${database_username_passwd}');"
+    local RT1=$?
+    do_query "SET PASSWORD FOR '${database_username}'@'localhost' = PASSWORD('${database_username_passwd}');"
+    local RT2=$?
+    if [[ $((RT1 + RT2)) -eq 0 ]]; then
+        _info "Edit user $(_green "${database_username}")'s password sucessfully."
+    else
+        _info "Edit user $(_red "${database_username}")'s password failed."
+    fi
+    do_query "FLUSH PRIVILEGES;"
+}
+
+lamp_start() {
+    _info "Starting LAMP..."
+    _error_detect "systemctl start ${apache_service}"
+    _error_detect "systemctl start mariadb"
+    _error_detect "systemctl start ${php_fpm}"
+    _info "Start LAMP completed"
+}
+
+lamp_stop() {
+    _info "Stoping LAMP..."
+    _error_detect "systemctl stop ${apache_service}"
+    _error_detect "systemctl stop mariadb"
+    _error_detect "systemctl stop ${php_fpm}"
+    _info "Stop LAMP completed"
+}
+
+lamp_status() {
+    _info "systemctl status ${apache_service}"
+    systemctl --no-pager -l status "${apache_service}"
+    echo
+    _info "systemctl status mariadb"
+    systemctl --no-pager -l status mariadb
+    echo
+    _info "systemctl status ${php_fpm}"
+    systemctl --no-pager -l status "${php_fpm}"
+}
+
+lamp_version() {
+    _info "$(_green "Apache") version:"
+    ${apache_cmd} -V
+    echo
+    _info "$(_green "MariaDB") version:"
+    /usr/bin/mariadb --version
+    echo
+    _info "$(_green "PHP") version:"
+    /usr/bin/php -v
+}
+
+check_env() {
+    if _check_sys rhel; then
+        is_rhel="true"
+        apache_service="httpd"
+        apache_cmd="/usr/sbin/httpd"
+        vhost_dir="/etc/httpd/conf.d/vhost"
+        ssl_dir="/etc/httpd/ssl"
+        web_user="apache"
+        web_group="apache"
+        php_sock="unix//run/php-fpm/www.sock"
+        php_fpm="php-fpm"
+    elif _check_sys debian || _check_sys ubuntu; then
+        is_rhel="false"
+        apache_service="apache2"
+        apache_cmd="/usr/sbin/apache2"
+        vhost_dir="/etc/apache2/sites-enabled"
+        ssl_dir="/etc/apache2/ssl"
+        web_user="www-data"
+        web_group="www-data"
+        [[ -f "/etc/apache2/envvars" ]] && . /etc/apache2/envvars
+        php_sock="unix//run/php/php-fpm.sock"
+        php_ver="$(/usr/bin/php -v | head -n1 | awk '{print $2}' | cut -d. -f1-2)"
+        php_fpm="php${php_ver}-fpm"
+    else
+        _error "Unsupported OS. Please use Enterprise Linux 8+, Debian 11+, or Ubuntu 20.04+"
+    fi
+}
+
+main() {
+
+    # Check user
+    if [[ ${EUID} -ne 0 ]]; then
+        _red "This script must be run as root!\n"
+        exit 1
+    fi
+
+    local arg1="${1:-}"
+    local arg2="${2:-}"
+
+    _info "+-------------------------------------------+"
+    _info "|    Manager for LAMP, Written by Teddysun  |"
+    _info "+-------------------------------------------+"
+    _info "|    $(_green "https://github.com/teddysun/lamp")       |"
+    _info "+-------------------------------------------+"
+
+    check_env
+
+    case "${arg1}" in
+        start)
+            lamp_start
+            ;;
+        stop)
+            lamp_stop
+            ;;
+        restart)
+            lamp_stop
+            sleep 1
+            lamp_start
+            ;;
+        status)
+            lamp_status
+            ;;
+        version)
+            lamp_version
+            ;;
+        vhost)
+            vhost "${arg2}"
+            ;;
+        db)
+            verify_db_password
+            database "${arg2}"
+            clean_temp_mycnf
+            ;;
+        *)
+            _info "Usage:"
+            _info "  $(_green "lamp start")      Start all of LAMP services"
+            _info "  $(_green "lamp stop")       Stop all of LAMP services"
+            _info "  $(_green "lamp restart")    Restart all of LAMP services"
+            _info "  $(_green "lamp status")     Check all of LAMP services status"
+            _info "  $(_green "lamp version")    Print all of LAMP software version"
+            _info "  $(_green "lamp vhost add")  Create a new Apache virtual host"
+            _info "  $(_green "lamp vhost list") List all of Apache virtual hosts"
+            _info "  $(_green "lamp vhost del")  Delete a Apache virtual host"
+            _info "  $(_green "lamp db add")     Create a MariaDB database and a user with same name"
+            _info "  $(_green "lamp db list")    List all of MariaDB databases"
+            _info "  $(_green "lamp db del")     Delete a MariaDB database and a user with same name"
+            _info "  $(_green "lamp db edit")    Update a MariaDB database username's password"
+            ;;
+    esac
+}
+
+# Run main function
+main "$@"
