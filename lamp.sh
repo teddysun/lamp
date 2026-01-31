@@ -749,6 +749,7 @@ install_mariadb() {
         fi
         _error_detect "apt-get update"
         _error_detect "DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-common mariadb-server mariadb-client mariadb-backup"
+        # shellcheck disable=SC2034
         cnf_path_ref="/etc/mysql/mariadb.conf.d/50-server.cnf"
     fi
 
@@ -757,13 +758,9 @@ install_mariadb() {
 
 install_php() {
     local php_ver="$1"
-    # shellcheck disable=SC2034
     local -n php_conf_ref="$2"
-    # shellcheck disable=SC2034
     local -n php_ini_ref="$3"
-    # shellcheck disable=SC2034
     local -n php_fpm_ref="$4"
-    # shellcheck disable=SC2034
     local -n sock_location_ref="$5"
 
     local is_rhel="false"
@@ -778,6 +775,7 @@ install_php() {
     elif _check_sys debian || _check_sys ubuntu; then
         php_conf_ref="/etc/php/${php_ver}/fpm/pool.d/www.conf"
         php_ini_ref="/etc/php/${php_ver}/fpm/php.ini"
+        # shellcheck disable=SC2034
         php_fpm_ref="php${php_ver}-fpm"
         sock_location_ref="/run/mysqld/mysqld.sock"
         configure_php_deb "${php_ver}"
