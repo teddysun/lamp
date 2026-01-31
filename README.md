@@ -91,12 +91,12 @@ You can install Apache + MariaDB + PHP in a smaller memory VPS by package manage
 dnf -y install wget git
 
 # Clone repository
-git clone -b rpm https://github.com/teddysun/lamp.git
+git clone https://github.com/teddysun/lamp.git
 cd lamp
 
 # Make scripts executable and run
 chmod 755 *.sh
-./lamp.sh 2>&1 | tee lamp.log
+./lamp.sh
 ```
 
 ### Debian 11 ~ 13 / Ubuntu 20.04 ~ 24.04
@@ -106,12 +106,12 @@ chmod 755 *.sh
 apt-get -y install wget git
 
 # Clone repository
-git clone -b deb https://github.com/teddysun/lamp.git
+git clone https://github.com/teddysun/lamp.git
 cd lamp
 
 # Make scripts executable and run
 chmod 755 *.sh
-./lamp.sh 2>&1 | tee lamp.log
+./lamp.sh
 ```
 
 ---
