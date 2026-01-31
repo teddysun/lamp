@@ -39,13 +39,11 @@
 
 You can install Apache + MariaDB + PHP in a smaller memory VPS by package manager command (`dnf` for Enterprise Linux, `apt-get` for Debian/Ubuntu). Just need to input numbers to choose what you want to install before installation.
 
-> ⚡ All things will be done in a few minutes.
+⚡ All things will be done in a few minutes.
 
 ---
 
 ## 🖥️ Supported System
-
-### Enterprise Linux (RPM)
 
 | Distribution | Versions |
 |-------------|----------|
