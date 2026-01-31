@@ -700,6 +700,9 @@ install_apache() {
     if [[ -f "${SCRIPT_DIR}/conf/lamp.png" ]]; then
         _error_detect "cp -f ${SCRIPT_DIR}/conf/lamp.png /data/www/default/"
     fi
+    if [[ -f "${SCRIPT_DIR}/conf/phpinfo.php" ]]; then
+        _error_detect "cp -f ${SCRIPT_DIR}/conf/phpinfo.php /data/www/default/"
+    fi
 
     _info "Apache configuration completed"
 }
@@ -949,6 +952,7 @@ main() {
     netstat -nxtulpe 2>/dev/null || ss -tunlp
     echo
     _info "LAMP (Linux + Apache + MariaDB + PHP) installation completed"
+    _info "Intro: $(_green "https://github.com/teddysun/lamp")"
     _info "Log file: ${LOG_FILE}"
 }
 
