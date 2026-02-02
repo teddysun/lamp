@@ -704,13 +704,13 @@ lamp_stop() {
 
 lamp_status() {
     _info "systemctl status ${apache_service}"
-    systemctl --no-pager -l status "${apache_service}"
+    systemctl --no-pager -l status "${apache_service}" || true
     echo
     _info "systemctl status mariadb"
-    systemctl --no-pager -l status mariadb
+    systemctl --no-pager -l status mariadb || true
     echo
     _info "systemctl status ${php_fpm}"
-    systemctl --no-pager -l status "${php_fpm}"
+    systemctl --no-pager -l status "${php_fpm}" || true
 }
 
 lamp_version() {
