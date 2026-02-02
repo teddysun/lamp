@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This is a Shell script for Manager
+# This is a shell script for managing
 # LAMP (Linux + Apache + MariaDB + PHP) environment
 #
 # Supported OS:
@@ -66,7 +66,7 @@ _error_detect() {
     local cmd="$1"
     _info "${cmd}"
     if ! eval "${cmd}" 1>/dev/null; then
-        _error "Execution command (${cmd}) failed, please check it and try again."
+        _error "Executing command (${cmd}) failed. Please check it and try again."
     fi
 }
 
@@ -163,11 +163,11 @@ add_vhost() {
     while true; do
         read -r -p "[$(date)] Please input a domain (example: www.lamp.sh): " domain
         if [[ -z "${domain}" ]]; then
-            _red "Domain name can not be empty.\n"
+            _red "Domain name cannot be empty.\n"
             continue
         fi
         if [[ "${domain}" =~ [[:space:]] ]]; then
-            _red "Domain name can not contain space.\n"
+            _red "Domain name cannot contain spaces.\n"
             continue
         fi
         if [[ ! "${domain}" =~ ^[a-zA-Z0-9][-a-zA-Z0-9.]*[a-zA-Z0-9]$ ]]; then
@@ -175,7 +175,7 @@ add_vhost() {
             continue
         fi
         if [[ -f "${vhost_dir}/${domain}.conf" ]]; then
-            _red "Domain name ${domain} is exist, please check it and try again.\n"
+            _red "Domain name ${domain} already exists. Please check and try again.\n"
             continue
         else
             _info "Domain name: $(_green "${domain}")"
@@ -186,12 +186,12 @@ add_vhost() {
     while true; do
         read -r -p "[$(date)] Please enter Administrator Email address: " email
         if [[ -z "${email}" ]]; then
-            _red "Error: Administrator Email address can not be empty.\n"
+            _red "Error: Administrator Email address cannot be empty.\n"
         elif _check_email "${email}"; then
             _info "Administrator Email address: ${email}"
             break
         else
-            _red "Error: ${email} is not a correct email address.\n"
+            _red "Error: ${email} is not a valid email address.\n"
         fi
     done
 
@@ -206,7 +206,7 @@ add_vhost() {
             continue
         fi
         if [[ "${vhostdir}" =~ [[:space:]] ]]; then
-            _red "Directory can not contain whitespace characters.\n"
+            _red "Directory cannot contain whitespace characters.\n"
             continue
         fi
         if [[ "${vhostdir}" == *[:\;*?\"\<\>\|]* ]]; then
@@ -250,12 +250,12 @@ add_vhost() {
         _info "Reloading the Apache config file..."
         if ${apache_cmd} -t >/dev/null 2>&1; then
             _error_detect "systemctl restart ${apache_service}"
-            _info "Reload success"
+            _info "Reloaded successfully"
         else
-            _error "Error: Reload failed. Apache config file had an error, please fixed it and try again"
+            _error "Error: Reload failed. Apache config file had an error, please fix it and try again"
         fi
     else
-        _info "You chosen do not add a SSL certificate"
+        _info "You have chosen not to add an SSL certificate"
     fi
     _info "Set permissions of Virtual Host directory"
     _error_detect "chown -R ${web_user}:${web_group} ${vhostdir} /data/wwwlog/${domain}"
@@ -274,7 +274,7 @@ add_ssl_menu() {
             while true; do
                 read -r -p "[$(date)] Please enter full path to SSL Certificate file: " ssl_certificate
                 if [[ -z "${ssl_certificate}" ]]; then
-                    _info "$(_red "Error: SSL Certificate file can not be empty")"
+                    _info "$(_red "Error: SSL Certificate file cannot be empty")"
                 elif [[ -s "${ssl_certificate}" ]]; then
                     break
                 else
@@ -284,7 +284,7 @@ add_ssl_menu() {
             while true; do
                 read -r -p "[$(date)] Please enter full path to SSL Certificate Key file: " ssl_certificate_key
                 if [[ -z "${ssl_certificate_key}" ]]; then
-                    _info "$(_red "Error: SSL Certificate Key file can not be empty")"
+                    _info "$(_red "Error: SSL Certificate Key file cannot be empty")"
                 elif [[ -s "${ssl_certificate_key}" ]]; then
                     break
                 else
@@ -293,21 +293,21 @@ add_ssl_menu() {
             done
             break
         elif [[ "${ssl_pick}" == "2" ]]; then
-            _info "You chosen Let's Encrypt CA, and it will be processed automatically"
+            _info "You have chosen Let's Encrypt CA. It will be processed automatically"
             break
         elif [[ "${ssl_pick}" == "3" ]]; then
-            _info "You chosen Buypass.com CA, and it will be processed automatically"
+            _info "You have chosen Buypass.com CA. It will be processed automatically"
             break
         else
             _info "$(_red "Error: Please only enter 1 or 2 or 3")"
         fi
     done
 
-    read -r -p "[$(date)] Do you want force redirection from HTTP to HTTPS? [y/n]: " force_ssl
+    read -r -p "[$(date)] Do you want to force redirection from HTTP to HTTPS? [y/n]: " force_ssl
     if [[ "${force_ssl}" == "y" ]] || [[ "${force_ssl}" == "Y" ]]; then
-        _info "You chosen force redirection from HTTP to HTTPS, and it will be processed automatically"
+        _info "You have chosen to force redirection from HTTP to HTTPS. It will be processed automatically"
     else
-        _info "Do not force redirection from HTTP to HTTPS"
+        _info "You have chosen not to force redirection from HTTP to HTTPS"
     fi
 }
 
@@ -400,7 +400,7 @@ add_letsencrypt() {
             ssl_certificate="${ssl_dir}/${domain}_ecc/fullchain.cer"
             ssl_certificate_key="${ssl_dir}/${domain}_ecc/${domain}.key"
         fi
-        _info "Created Let's Encrypt SSL Certificate success"
+        _info "Created Let's Encrypt SSL Certificate successfully"
     else
         _error "Error: Create Let's Encrypt SSL Certificate failed"
     fi
@@ -428,7 +428,7 @@ add_buypass() {
             ssl_certificate="${ssl_dir}/${domain}_ecc/fullchain.cer"
             ssl_certificate_key="${ssl_dir}/${domain}_ecc/${domain}.key"
         fi
-        _info "Created Buypass.com SSL Certificate success"
+        _info "Created Buypass.com SSL Certificate successfully"
     else
         _error "Error: Create Buypass.com SSL Certificate failed"
     fi
@@ -439,7 +439,7 @@ install_check_acme() {
         _info "/usr/local/acme.sh/acme.sh [found]"
     else
         wget --no-check-certificate -qO- https://github.com/acmesh-official/acme.sh/tarball/master | tar xz
-        cd acmesh-* || _error "Error: Download acme.sh failed, Please check it and try again"
+        cd acmesh-* || _error "Failed to download acme.sh. Please check and try again"
         ./acme.sh --install --log --home /usr/local/acme.sh --certhome "${ssl_dir}"
         cd .. && rm -rf acmesh-*
         sed -i 's/cat "\$CERT_PATH"$/#cat "\$CERT_PATH"/g' /usr/local/acme.sh/acme.sh
@@ -452,10 +452,10 @@ sed -i 's/cat "\\\$CERT_PATH"\$/#cat "\\\$CERT_PATH"/g' /usr/local/acme.sh/acme.
 EOF
         chmod +x /usr/local/acme.sh/upgrade.sh
         if crontab -l | grep -q "/usr/local/acme.sh/upgrade.sh"; then
-            _info "acme.sh upgrade crontab rule is existed"
+            _info "acme.sh upgrade crontab rule already exists"
         else
             (crontab -l ; echo '0 3 */7 * * /usr/local/acme.sh/upgrade.sh') | crontab -
-            _info "create cron job for automatic upgrade acme.sh success"
+            _info "Created cron job for automatic acme.sh upgrade successfully"
         fi
     fi
 }
@@ -480,7 +480,7 @@ add_ssl_cert() {
     fi
     create_ssl_config "${domain}" "${email}" "${vhostdir}" "${ssl_certificate}" "${ssl_certificate_key}"
     [[ "${force_ssl}" == "y" || "${force_ssl}" == "Y" ]] && create_ssl_htaccess "${vhostdir}"
-    _info "Added SSL certificate for virtual host [$(_green "${domain}")] success"
+    _info "Added SSL certificate for virtual host [$(_green "${domain}")] successfully "
 }
 
 list_vhost() {
@@ -492,29 +492,44 @@ list_vhost() {
             _info "  $(_green "${i}")"
         done
     else
-        _info "Apache virtual host not found. You can create a new Apache virtual host with command: $(_green "lamp vhost add")"
+        _info "No Apache virtual host found. You can create a new Apache virtual host using the command: $(_green "lamp vhost add")"
     fi
 }
 
 del_vhost() {
     list_vhost
     local domain
+    local vhostdir
     while true; do
-        read -r -p "[$(date)] Please enter domain you want to delete: " domain
+        read -r -p "[$(date)] Please enter a domain you want to delete: " domain
         if [[ -z "${domain}" ]]; then
             _red "Domain name can not be empty.\n"
-        else
-            break
+            continue
         fi
+        if [[ "${domain}" =~ [[:space:]] ]]; then
+            _red "Domain name can not contain space.\n"
+            continue
+        fi
+        if [[ ! "${domain}" =~ ^[a-zA-Z0-9][-a-zA-Z0-9.]*[a-zA-Z0-9]$ ]]; then
+            _red "Domain name is invalid. Only letters, numbers, hyphen and dot are allowed.\n"
+            continue
+        fi
+        _info "Domain name: $(_green "${domain}")"
+        break
     done
     if [[ -f "${vhost_dir}/${domain}.conf" ]]; then
-        rm -f "${vhost_dir}/${domain}.conf"
+        vhostdir=$(grep "DocumentRoot" "${vhost_dir}/${domain}.conf" | tail -n1 | awk '{print $2}')
+        _error_detect "rm -f ${vhost_dir}/${domain}.conf"
         _info "Domain $(_red "${domain}") has been deleted."
-        _info "Website files will not be delete for security reasons."
+        if [[ -n "${vhostdir}" ]]; then
+            _info "Website directory $(_red "${vhostdir}") will not be deleted for security reasons."
+        else
+            _info "Website directory will not be deleted for security reasons."
+        fi
         _info "You need to manually delete the website files."
         systemctl restart "${apache_service}" >/dev/null 2>&1
     else
-        _error "Domain: ${domain} was not exist."
+        _error "Domain: ${domain} does not exist."
     fi
 }
 
@@ -562,7 +577,7 @@ enter_database_name() {
     while true; do
         read -r -p "[$(date)] Please input database name: " database_name
         if [[ -z "${database_name}" ]]; then
-            _red "Database name can not be empty!\n"
+            _red "Database name cannot be empty!\n"
         else
             break
         fi
@@ -571,7 +586,7 @@ enter_database_name() {
 
 add_database_menu() {
     enter_database_name
-    _info "Your will create a MariaDB database and a user with same name: $(_green "${database_name}")"
+    _info "You will create a MariaDB database and a user with the same name: $(_green "${database_name}")"
     read -s -r -p "[$(date)] Please input password for MariaDB user ${database_name} (password will not shown): " mysql_password
     if [[ -z "${mysql_password}" ]]; then
         mysql_password="${database_name}"
@@ -592,18 +607,18 @@ GRANT ALL PRIVILEGES ON \`${database_name}\`.* TO '${database_name}'@'127.0.0.1'
 FLUSH PRIVILEGES;
 EOF
     if /usr/bin/mariadb --defaults-file="/tmp/.my.cnf" </tmp/.add_mysql.sql >/dev/null 2>&1; then
-        _info "Add database $(_green "${database_name}") sucessfully."
+        _info "Added database $(_green "${database_name}") successfully."
     else
-        _info "Add database $(_red "${database_name}") failed."
+        _info "Failed to add database $(_red "${database_name}")."
     fi
     rm -f /tmp/.add_mysql.sql
 }
 
 list_database() {
     if /usr/bin/mariadb --defaults-file="/tmp/.my.cnf" -e "SHOW DATABASES;"; then
-        _info "List all databases sucessfully."
+        _info "Listed all databases successfully."
     else
-        _info "List all databases failed."
+        _info "Failed to list all databases."
     fi
 }
 
@@ -613,7 +628,7 @@ del_database() {
     if [[ "${database_name}" == "information_schema" || "${database_name}" == "mysql" || "${database_name}" == "performance_schema" || "${database_name}" == "sys" ]]; then
         _error "MariaDB system database $(_red "${database_name}") cannot be deleted."
     fi
-    _info "Your will delete a MariaDB database and a user with same name: ${database_name}"
+    _info "You will delete a MariaDB database and a user with the same name: ${database_name}"
     _info "Wait 10 seconds, Press Ctrl+c to cancel ..."
     _sleep_sec 10
     cat >/tmp/.del.mysql.sql <<EOF
@@ -623,9 +638,9 @@ DROP DATABASE IF EXISTS \`${database_name}\`;
 FLUSH PRIVILEGES;
 EOF
     if /usr/bin/mariadb --defaults-file="/tmp/.my.cnf" </tmp/.del.mysql.sql; then
-        _info "Delete database $(_green "${database_name}") sucessfully."
+        _info "Deleted database $(_green "${database_name}") successfully ."
     else
-        _info "Delete database $(_red "${database_name}") failed."
+        _info "Failed to delete database $(_red "${database_name}")."
     fi
     rm -f /tmp/.del.mysql.sql
 }
@@ -636,7 +651,7 @@ edit_database() {
     while true; do
         read -r -p "[$(date)] Please input database username: " database_username
         if [[ -z "${database_username}" ]]; then
-            _red "Database username can not be empty!\n"
+            _red "Database username cannot be empty!\n"
         else
             break
         fi
@@ -644,7 +659,7 @@ edit_database() {
     while true; do
         read -s -r -p "[$(date)] Please input NEW password (password will not shown): " database_username_passwd
         if [[ -z "${database_username_passwd}" ]]; then
-            _red "NEW password can not be empty!\n"
+            _red "NEW password cannot be empty!\n"
         else
             break
         fi
@@ -655,9 +670,9 @@ edit_database() {
     do_query "SET PASSWORD FOR '${database_username}'@'localhost' = PASSWORD('${database_username_passwd}');"
     local RT2=$?
     if [[ $((RT1 + RT2)) -eq 0 ]]; then
-        _info "Edit user $(_green "${database_username}")'s password sucessfully."
+        _info "Updated password for user $(_green "${database_username}") successfully."
     else
-        _info "Edit user $(_red "${database_username}")'s password failed."
+        _info "Failed to update password for user $(_red "${database_username}")."
     fi
     do_query "FLUSH PRIVILEGES;"
 }
@@ -671,7 +686,7 @@ lamp_start() {
 }
 
 lamp_stop() {
-    _info "Stoping LAMP..."
+    _info "Stopping LAMP..."
     _error_detect "systemctl stop ${apache_service}"
     _error_detect "systemctl stop mariadb"
     _error_detect "systemctl stop ${php_fpm}"
@@ -779,7 +794,7 @@ main() {
             _info "  $(_green "lamp stop")       Stop all of LAMP services"
             _info "  $(_green "lamp restart")    Restart all of LAMP services"
             _info "  $(_green "lamp status")     Check all of LAMP services status"
-            _info "  $(_green "lamp version")    Print all of LAMP software version"
+            _info "  $(_green "lamp version")    Print all LAMP software versions"
             _info "  $(_green "lamp vhost add")  Create a new Apache virtual host"
             _info "  $(_green "lamp vhost list") List all of Apache virtual hosts"
             _info "  $(_green "lamp vhost del")  Delete a Apache virtual host"
