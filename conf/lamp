@@ -243,7 +243,7 @@ add_vhost() {
     fi
     _info "Reloading the Apache config file..."
     _error_detect "systemctl restart ${apache_service}"
-    read -r -p "[$(date)] Do you want to add a SSL certificate? [y/n]: " create_ssl
+    read -r -p "[$(date)] Do you want to add an SSL certificate? [y/n]: " create_ssl
     if [[ "${create_ssl}" == "y" ]] || [[ "${create_ssl}" == "Y" ]]; then
         add_ssl_menu "${domain}"
         add_ssl_cert "${domain}" "${email}" "${vhostdir}"
@@ -382,16 +382,20 @@ EOF
 add_letsencrypt() {
     local domain="$1"
     local vhostdir="$2"
-    local ledsdomain="$3"
+    local letsdomain="$3"
 
     if [[ -d "${ssl_dir}/${domain}" ]]; then
         _info "Removing exist domain certificate..."
-        rm -rf "${ssl_dir}/${domain}"
+        rm -rf "${ssl_dir:?}/${domain}"
+    fi
+    if [[ -d "${ssl_dir}/${domain}_ecc" ]]; then
+        _info "Removing exist domain certificate..."
+        rm -rf "${ssl_dir:?}/${domain}_ecc"
     fi
     _info "Starting create Let's Encrypt SSL Certificate..."
+    # shellcheck disable=SC1091
     . /usr/local/acme.sh/acme.sh.env
-    /usr/local/acme.sh/acme.sh --issue --server letsencrypt "${letsdomain}" -w "${vhostdir}"
-    if [[ $? -eq 0 ]]; then
+    if /usr/local/acme.sh/acme.sh --issue --server letsencrypt "${letsdomain}" -w "${vhostdir}"; then
         if [[ -s "${ssl_dir}/${domain}/fullchain.cer" ]]; then
             ssl_certificate="${ssl_dir}/${domain}/fullchain.cer"
             ssl_certificate_key="${ssl_dir}/${domain}/${domain}.key"
@@ -409,17 +413,21 @@ add_letsencrypt() {
 add_buypass() {
     local domain="$1"
     local vhostdir="$2"
-    local ledsdomain="$3"
+    local letsdomain="$3"
     local email="$4"
 
     if [[ -d "${ssl_dir}/${domain}" ]]; then
         _info "Removing exist domain certificate..."
-        rm -rf "${ssl_dir}/${domain}"
+        rm -rf "${ssl_dir:?}/${domain}"
+    fi
+    if [[ -d "${ssl_dir}/${domain}_ecc" ]]; then
+        _info "Removing exist domain certificate..."
+        rm -rf "${ssl_dir:?}/${domain}_ecc"
     fi
     _info "Starting create Buypass.com SSL Certificate..."
+    # shellcheck disable=SC1091
     . /usr/local/acme.sh/acme.sh.env
-    /usr/local/acme.sh/acme.sh -m "${email}" --issue --server buypass "${letsdomain}" -w "${vhostdir}" --days 170
-    if [[ $? -eq 0 ]]; then
+    if /usr/local/acme.sh/acme.sh -m "${email}" --issue --server buypass "${letsdomain}" -w "${vhostdir}" --days 170; then
         if [[ -s "${ssl_dir}/${domain}/fullchain.cer" ]]; then
             ssl_certificate="${ssl_dir}/${domain}/fullchain.cer"
             ssl_certificate_key="${ssl_dir}/${domain}/${domain}.key"
@@ -442,6 +450,7 @@ install_check_acme() {
         cd acmesh-* || _error "Failed to download acme.sh. Please check and try again"
         ./acme.sh --install --log --home /usr/local/acme.sh --certhome "${ssl_dir}"
         cd .. && rm -rf acmesh-*
+        # shellcheck disable=SC2016
         sed -i 's/cat "\$CERT_PATH"$/#cat "\$CERT_PATH"/g' /usr/local/acme.sh/acme.sh
         cat >/usr/local/acme.sh/upgrade.sh <<EOF
 #!/bin/bash
@@ -471,7 +480,7 @@ add_ssl_cert() {
     if [[ ! -d "${vhostdir}" ]]; then
         _error "Error: ${vhostdir} does not exist or is not a directory"
     fi
-    local ledsdomain="-d ${domain}"
+    local letsdomain="-d ${domain}"
     install_check_acme
     if [[ "${ssl_pick}" == "2" ]]; then
         add_letsencrypt "${domain}" "${vhostdir}" "${letsdomain}"
@@ -717,25 +726,22 @@ lamp_version() {
 
 check_env() {
     if _check_sys rhel; then
-        is_rhel="true"
         apache_service="httpd"
         apache_cmd="/usr/sbin/httpd"
         vhost_dir="/etc/httpd/conf.d/vhost"
         ssl_dir="/etc/httpd/ssl"
         web_user="apache"
         web_group="apache"
-        php_sock="unix//run/php-fpm/www.sock"
         php_fpm="php-fpm"
     elif _check_sys debian || _check_sys ubuntu; then
-        is_rhel="false"
         apache_service="apache2"
         apache_cmd="/usr/sbin/apache2"
         vhost_dir="/etc/apache2/sites-enabled"
         ssl_dir="/etc/apache2/ssl"
         web_user="www-data"
         web_group="www-data"
+        # shellcheck disable=SC1091
         [[ -f "/etc/apache2/envvars" ]] && . /etc/apache2/envvars
-        php_sock="unix//run/php/php-fpm.sock"
         php_ver="$(/usr/bin/php -v | head -n1 | awk '{print $2}' | cut -d. -f1-2)"
         php_fpm="php${php_ver}-fpm"
     else
@@ -744,7 +750,6 @@ check_env() {
 }
 
 main() {
-
     # Check user
     if [[ ${EUID} -ne 0 ]]; then
         _red "This script must be run as root!\n"
