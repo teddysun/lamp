@@ -161,35 +161,60 @@ add_vhost() {
     local domain email vhostdir create_database
 
     while true; do
-        read -r -p "[$(date)] Please input a domain (Example: www.lamp.sh): " domain
-        if [[ -n "${domain}" ]] && [[ "${domain}" == "${domain%[[:space:]]*}" ]]; then
-            if [[ -f "${vhost_dir}/${domain}.conf" ]]; then
-                _error "Domain name ${domain} is exist, please check it and try again."
-            else
-                _info "Domain name: $(_green "${domain}")"
-            fi
-            break
+        read -r -p "[$(date)] Please input a domain (example: www.lamp.sh): " domain
+        if [[ -z "${domain}" ]]; then
+            _red "Domain name can not be empty.\n"
+            continue
+        fi
+        if [[ "${domain}" =~ [[:space:]] ]]; then
+            _red "Domain name can not contain space.\n"
+            continue
+        fi
+        if [[ ! "${domain}" =~ ^[a-zA-Z0-9][-a-zA-Z0-9.]*[a-zA-Z0-9]$ ]]; then
+            _red "Domain name is invalid. Only letters, numbers, hyphen and dot are allowed.\n"
+            continue
+        fi
+        if [[ -f "${vhost_dir}/${domain}.conf" ]]; then
+            _red "Domain name ${domain} is exist, please check it and try again.\n"
+            continue
         else
-            _red "Domain name can not be empty or contain space.\n"
+            _info "Domain name: $(_green "${domain}")"
+            break
         fi
     done
 
     while true; do
         read -r -p "[$(date)] Please enter Administrator Email address: " email
         if [[ -z "${email}" ]]; then
-            _info "$(_red "Error: Administrator Email address can not be empty")"
+            _red "Error: Administrator Email address can not be empty.\n"
         elif _check_email "${email}"; then
             _info "Administrator Email address: ${email}"
             break
         else
-            _info "$(_red "Error: ${email} is not a correct email address")"
+            _red "Error: ${email} is not a correct email address.\n"
         fi
     done
 
-    read -r -p "[$(date)] Please input a directory for domain ${domain} (Default directory: /data/www/${domain}): " vhostdir
-    if [[ -z "${vhostdir}" ]]; then
-        vhostdir="/data/www/${domain}"
-    fi
+    while true; do
+        read -r -p "[$(date)] Please input a directory for domain ${domain} (default directory: /data/www/${domain}): " vhostdir
+        if [[ -z "${vhostdir}" ]]; then
+            vhostdir="/data/www/${domain}"
+            break
+        fi
+        if [[ "${vhostdir}" != "/"* ]]; then
+            _red "Directory must be an absolute path (start with /).\n"
+            continue
+        fi
+        if [[ "${vhostdir}" =~ [[:space:]] ]]; then
+            _red "Directory can not contain whitespace characters.\n"
+            continue
+        fi
+        if [[ "${vhostdir}" == *[:\;*?\"\<\>\|]* ]]; then
+            _red "Directory contains invalid characters.\n"
+            continue
+        fi
+        break
+    done
     _info "Virtual host directory: $(_green "${vhostdir}")"
 
     read -r -p "[$(date)] Create a MariaDB database and a user with same name (y/n): " create_database
