@@ -8,9 +8,9 @@
 #   - Ubuntu 20.04/22.04/24.04
 #
 # Copyright (C) 2013 - 2026 Teddysun <i@teddysun.com>
-
-set -euo pipefail
+set -uo pipefail
 shopt -s inherit_errexit 2>/dev/null || true
+trap _exit_handler INT QUIT TERM
 
 #==============================================================================
 # Configuration & Constants
@@ -19,6 +19,9 @@ SCRIPT_DIR="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 readonly SCRIPT_DIR
 readonly DEFAULT_DB_PASS="Teddysun.com"
 readonly LOG_FILE="/var/log/lamp-install.log"
+
+# Package manager type
+PM_TYPE=""
 
 #==============================================================================
 # Color Output Functions
@@ -52,7 +55,6 @@ _exit_handler() {
     printf "\n"
     exit 1
 }
-trap _exit_handler INT QUIT TERM
 
 #==============================================================================
 # Utility Functions
@@ -77,6 +79,29 @@ _version_ge() {
     local ver1="$1"
     local ver2="$2"
     printf '%s\n%s\n' "${ver1}" "${ver2}" | sort -rV | head -n1 | grep -qx "${ver1}"
+}
+
+# Detect and set package manager type
+_detect_package_manager() {
+    if _check_sys rhel; then
+        PM_TYPE="dnf"
+    elif _check_sys debian || _check_sys ubuntu; then
+        PM_TYPE="apt"
+    else
+        _error "Unable to detect package manager for this OS"
+    fi
+}
+
+# Update package cache
+_update_package_cache() {
+    case "${PM_TYPE}" in
+        dnf)
+            _error_detect "dnf makecache"
+            ;;
+        apt)
+            _error_detect "apt-get update"
+            ;;
+    esac
 }
 
 #==============================================================================
@@ -198,7 +223,6 @@ get_char() {
 #==============================================================================
 # RHEL Initialization
 #==============================================================================
-
 set_rhel_inputrc() {
     local ver="$1"
     if [[ "${ver}" =~ ^(9|10)$ ]]; then
@@ -240,9 +264,9 @@ initialize_rhel() {
     _error_detect "dnf install -y https://dl.lamp.sh/linux/rhel/el${rhel_ver}/x86_64/teddysun-release-1.0-1.el${rhel_ver}.noarch.rpm"
 
     # Update cache and install base packages
-    _error_detect "dnf makecache"
-    _error_detect "dnf install -y vim nano tar zip unzip net-tools screen git virt-what wget mtr traceroute iftop htop jq tree"
-    _error_detect "dnf install -y libnghttp2 libnghttp2-devel c-ares c-ares-devel curl libcurl libcurl-devel"
+    _update_package_cache
+    install_packages "vim" "nano" "tar" "zip" "unzip" "net-tools" "screen" "git" "virt-what" "wget" "mtr" "traceroute" "iftop" "htop" "jq" "tree"
+    install_packages "libnghttp2" "libnghttp2-devel" "c-ares" "c-ares-devel" "curl" "libcurl" "libcurl-devel"
 
     # Disable SELinux
     if [[ -s "/etc/selinux/config" ]] && grep -q 'SELINUX=enforcing' /etc/selinux/config; then
@@ -276,11 +300,10 @@ initialize_rhel() {
 #==============================================================================
 # Debian/Ubuntu Initialization
 #==============================================================================
-
 initialize_deb() {
-    _error_detect "apt-get update"
-    _error_detect "apt-get -y install lsb-release ca-certificates curl gnupg"
-    _error_detect "apt-get -y install vim nano tar zip unzip net-tools screen git virt-what wget mtr traceroute iftop htop jq tree"
+    _update_package_cache
+    install_packages "lsb-release" "ca-certificates" "curl" "gnupg"
+    install_packages "vim" "nano" "tar" "zip" "unzip" "net-tools" "screen" "git" "virt-what" "wget" "mtr" "traceroute" "iftop" "htop" "jq" "tree"
 
     # Configure UFW
     if ufw status &>/dev/null; then
@@ -295,7 +318,6 @@ initialize_deb() {
 #==============================================================================
 # System Initialization
 #==============================================================================
-
 initialize_system() {
     if _check_sys rhel; then
         initialize_rhel
@@ -309,7 +331,6 @@ initialize_system() {
 #==============================================================================
 # BBR Configuration
 #==============================================================================
-
 configure_bbr() {
     if ! check_kernel_version; then
         _warn "Kernel version < 4.9, skipping BBR configuration"
@@ -344,7 +365,6 @@ EOF
 #==============================================================================
 # Journald Configuration
 #==============================================================================
-
 configure_journald() {
     local journald_config=""
 
@@ -367,6 +387,9 @@ configure_journald() {
     _error_detect "systemctl restart systemd-journald"
 }
 
+#==============================================================================
+# Version Selection Functions
+#==============================================================================
 select_mariadb_version() {
     local choice
 
@@ -426,6 +449,9 @@ read_db_password() {
     _info "---------------------------"
 }
 
+#==============================================================================
+# MariaDB Configuration
+#==============================================================================
 setup_debian_cnf() {
     local db_pass="$1"
     [[ ! -x "/etc/mysql/debian-start" ]] && return 0
@@ -484,6 +510,119 @@ EOF
     _info "MariaDB configuration completed"
 }
 
+#==============================================================================
+# PHP Configuration
+#==============================================================================
+
+# PHP pool configuration for RHEL using associative array
+configure_php_rhel_pool() {
+    local php_conf="$1"
+    
+    # Define RHEL pool settings using associative array
+    declare -A rhel_pool_settings=(
+        ["user"]="apache"
+        ["group"]="apache"
+        ["listen.acl_users"]="apache,nginx"
+    )
+    
+    # Apply settings
+    sed -i "s@^user.*@user = ${rhel_pool_settings[user]}@" "${php_conf}"
+    sed -i "s@^group.*@group = ${rhel_pool_settings[group]}@" "${php_conf}"
+    sed -i "s@^listen.acl_users.*@listen.acl_users = ${rhel_pool_settings[listen.acl_users]}@" "${php_conf}"
+    sed -i "s@^;php_value\[opcache.file_cache\].*@php_value[opcache.file_cache] = /var/lib/php/opcache@" "${php_conf}"
+}
+
+# PHP pool configuration for Debian/Ubuntu using associative array
+configure_php_deb_pool() {
+    local php_conf="$1"
+    
+    # Define Debian pool settings using associative array
+    declare -A deb_pool_settings=(
+        ["user"]="www-data"
+        ["group"]="www-data"
+        ["listen.acl_users"]="www-data"
+        ["listen.allowed_clients"]="127.0.0.1"
+        ["pm.max_children"]="50"
+        ["pm.start_servers"]="5"
+        ["pm.min_spare_servers"]="5"
+        ["pm.max_spare_servers"]="35"
+        ["slowlog"]="/var/log/www-slow.log"
+        ["php_admin_value[error_log]"]="/var/log/www-error.log"
+    )
+    
+    # Apply settings
+    sed -i "s@^user.*@user = ${deb_pool_settings[user]}@" "${php_conf}"
+    sed -i "s@^group.*@group = ${deb_pool_settings[group]}@" "${php_conf}"
+    sed -i "s@^listen.owner.*@;&@" "${php_conf}"
+    sed -i "s@^listen.group.*@;&@" "${php_conf}"
+    sed -i "s@^;listen.acl_users.*@listen.acl_users = ${deb_pool_settings[listen.acl_users]}@" "${php_conf}"
+    sed -i "s@^;listen.allowed_clients.*@listen.allowed_clients = ${deb_pool_settings[listen.allowed_clients]}@" "${php_conf}"
+    sed -i "s@^pm.max_children.*@pm.max_children = ${deb_pool_settings[pm.max_children]}@" "${php_conf}"
+    sed -i "s@^pm.start_servers.*@pm.start_servers = ${deb_pool_settings[pm.start_servers]}@" "${php_conf}"
+    sed -i "s@^pm.min_spare_servers.*@pm.min_spare_servers = ${deb_pool_settings[pm.min_spare_servers]}@" "${php_conf}"
+    sed -i "s@^pm.max_spare_servers.*@pm.max_spare_servers = ${deb_pool_settings[pm.max_spare_servers]}@" "${php_conf}"
+    sed -i "s@^;slowlog.*@slowlog = ${deb_pool_settings[slowlog]}@" "${php_conf}"
+    sed -i "s@^;php_admin_value\[error_log\].*@php_admin_value[error_log] = ${deb_pool_settings[php_admin_value[error_log]]}@" "${php_conf}"
+    sed -i "s@^;php_admin_flag\[log_errors\].*@php_admin_flag[log_errors] = on@" "${php_conf}"
+
+    cat >> "${php_conf}" << EOF
+php_value[session.save_handler] = files
+php_value[session.save_path]    = /var/lib/php/session
+php_value[soap.wsdl_cache_dir]  = /var/lib/php/wsdlcache
+php_value[opcache.file_cache]   = /var/lib/php/opcache
+EOF
+}
+
+# PHP ini configuration using associative array
+configure_php_ini() {
+    local php_ini="$1"
+    local sock_location="$2"
+    
+    # Define php.ini settings using associative array
+    declare -A php_ini_settings=(
+        ["disable_functions"]="passthru,exec,shell_exec,system,chroot,chgrp,chown,proc_open,proc_get_status,ini_alter,ini_restore"
+        ["max_execution_time"]="300"
+        ["max_input_time"]="300"
+        ["post_max_size"]="128M"
+        ["upload_max_filesize"]="128M"
+        ["expose_php"]="Off"
+        ["short_open_tag"]="On"
+    )
+    
+    # Apply settings
+    sed -i "s@^disable_functions.*@disable_functions = ${php_ini_settings[disable_functions]}@" "${php_ini}"
+    sed -i "s@^max_execution_time.*@max_execution_time = ${php_ini_settings[max_execution_time]}@" "${php_ini}"
+    sed -i "s@^max_input_time.*@max_input_time = ${php_ini_settings[max_input_time]}@" "${php_ini}"
+    sed -i "s@^post_max_size.*@post_max_size = ${php_ini_settings[post_max_size]}@" "${php_ini}"
+    sed -i "s@^upload_max_filesize.*@upload_max_filesize = ${php_ini_settings[upload_max_filesize]}@" "${php_ini}"
+    sed -i "s@^expose_php.*@expose_php = ${php_ini_settings[expose_php]}@" "${php_ini}"
+    sed -i "s@^short_open_tag.*@short_open_tag = ${php_ini_settings[short_open_tag]}@" "${php_ini}"
+    sed -i "s#mysqli.default_socket.*#mysqli.default_socket = ${sock_location}#" "${php_ini}"
+    sed -i "s#pdo_mysql.default_socket.*#pdo_mysql.default_socket = ${sock_location}#" "${php_ini}"
+}
+
+# Main PHP configuration dispatcher
+configure_php_settings() {
+    local php_conf="$1"
+    local php_ini="$2"
+    local sock_location="$3"
+    local is_rhel="$4"
+
+    if [[ "${is_rhel}" == "true" ]]; then
+        configure_php_rhel_pool "${php_conf}"
+    else
+        configure_php_deb_pool "${php_conf}"
+    fi
+
+    # Configure php.ini (common for both)
+    configure_php_ini "${php_ini}" "${sock_location}"
+
+    _info "PHP configuration completed"
+}
+
+#==============================================================================
+# PHP Installation
+#==============================================================================
 configure_php_rhel() {
     local php_ver="$1"
 
@@ -500,10 +639,14 @@ configure_php_rhel() {
     _error_detect "dnf module install -y php:remi-${php_ver}"
 
     # Install PHP packages
-    _error_detect "dnf install -y php-common php-fpm php-cli php-bcmath php-embedded php-gd php-imap php-mysqlnd php-dba php-pdo php-pdo-dblib"
-    _error_detect "dnf install -y php-pgsql php-odbc php-enchant php-gmp php-intl php-ldap php-snmp php-soap php-tidy php-opcache php-process"
-    _error_detect "dnf install -y php-pspell php-shmop php-sodium php-ffi php-brotli php-lz4 php-xz php-zstd"
-    _error_detect "dnf install -y php-pecl-imagick-im7 php-pecl-zip php-pecl-rar php-pecl-grpc php-pecl-yaml php-pecl-uuid"
+    install_packages \
+        "php-common" "php-fpm" "php-cli" "php-bcmath" "php-embedded" \
+        "php-gd" "php-imap" "php-mysqlnd" "php-dba" "php-pdo" "php-pdo-dblib" \
+        "php-pgsql" "php-odbc" "php-enchant" "php-gmp" "php-intl" "php-ldap" \
+        "php-snmp" "php-soap" "php-tidy" "php-opcache" "php-process" \
+        "php-pspell" "php-shmop" "php-sodium" "php-ffi" "php-brotli" \
+        "php-lz4" "php-xz" "php-zstd" "php-pecl-imagick-im7" "php-pecl-zip" \
+        "php-pecl-rar" "php-pecl-grpc" "php-pecl-yaml" "php-pecl-uuid"
 }
 
 configure_php_deb() {
@@ -517,14 +660,22 @@ configure_php_deb() {
         _error_detect "add-apt-repository -y ppa:ondrej/php"
     fi
 
-    _error_detect "apt-get update"
+    _update_package_cache
 
     # Install PHP packages
-    _error_detect "apt-get install -y php-common php${php_ver}-common php${php_ver}-cli php${php_ver}-fpm php${php_ver}-opcache php${php_ver}-readline"
-    _error_detect "apt-get install -y libphp${php_ver}-embed php${php_ver}-bcmath php${php_ver}-gd php${php_ver}-imap php${php_ver}-mysql php${php_ver}-dba php${php_ver}-mongodb php${php_ver}-sybase"
-    _error_detect "apt-get install -y php${php_ver}-pgsql php${php_ver}-odbc php${php_ver}-enchant php${php_ver}-gmp php${php_ver}-intl php${php_ver}-ldap php${php_ver}-snmp php${php_ver}-soap"
-    _error_detect "apt-get install -y php${php_ver}-mbstring php${php_ver}-curl php${php_ver}-pspell php${php_ver}-xml php${php_ver}-zip php${php_ver}-bz2 php${php_ver}-lz4 php${php_ver}-zstd"
-    _error_detect "apt-get install -y php${php_ver}-tidy php${php_ver}-sqlite3 php${php_ver}-imagick php${php_ver}-grpc php${php_ver}-yaml php${php_ver}-uuid"
+    install_packages \
+        "php-common" "php${php_ver}-common" "php${php_ver}-cli" "php${php_ver}-fpm" \
+        "php${php_ver}-opcache" "php${php_ver}-readline" "libphp${php_ver}-embed" \
+        "php${php_ver}-bcmath" "php${php_ver}-gd" "php${php_ver}-imap" \
+        "php${php_ver}-mysql" "php${php_ver}-dba" "php${php_ver}-mongodb" \
+        "php${php_ver}-sybase" "php${php_ver}-pgsql" "php${php_ver}-odbc" \
+        "php${php_ver}-enchant" "php${php_ver}-gmp" "php${php_ver}-intl" \
+        "php${php_ver}-ldap" "php${php_ver}-snmp" "php${php_ver}-soap" \
+        "php${php_ver}-mbstring" "php${php_ver}-curl" "php${php_ver}-pspell" \
+        "php${php_ver}-xml" "php${php_ver}-zip" "php${php_ver}-bz2" \
+        "php${php_ver}-lz4" "php${php_ver}-zstd" "php${php_ver}-tidy" \
+        "php${php_ver}-sqlite3" "php${php_ver}-imagick" "php${php_ver}-grpc" \
+        "php${php_ver}-yaml" "php${php_ver}-uuid"
 
     # Create PHP directories
     _error_detect "mkdir -m770 /var/lib/php/{session,wsdlcache,opcache}"
@@ -536,63 +687,14 @@ configure_php_deb() {
         ln -sf ../mods-available/php.conf php.conf
         popd >/dev/null 2>&1
     fi
-
 }
 
-configure_php_settings() {
-    local php_conf="$1"
-    local php_ini="$2"
-    local sock_location="$3"
-    local is_rhel="$4"
-
-    if [[ "${is_rhel}" == "true" ]]; then
-        # RHEL specific settings
-        sed -i "s@^user.*@user = apache@" "${php_conf}"
-        sed -i "s@^group.*@group = apache@" "${php_conf}"
-        sed -i "s@^listen.acl_users.*@listen.acl_users = apache,nginx@" "${php_conf}"
-        sed -i "s@^;php_value\[opcache.file_cache\].*@php_value[opcache.file_cache] = /var/lib/php/opcache@" "${php_conf}"
-    else
-        # Debian/Ubuntu specific settings
-        sed -i "s@^user.*@user = www-data@" "${php_conf}"
-        sed -i "s@^group.*@group = www-data@" "${php_conf}"
-        sed -i "s@^listen.owner.*@;&@" "${php_conf}"
-        sed -i "s@^listen.group.*@;&@" "${php_conf}"
-        sed -i "s@^;listen.acl_users.*@listen.acl_users = www-data@" "${php_conf}"
-        sed -i "s@^;listen.allowed_clients.*@listen.allowed_clients = 127.0.0.1@" "${php_conf}"
-        sed -i "s@^pm.max_children.*@pm.max_children = 50@" "${php_conf}"
-        sed -i "s@^pm.start_servers.*@pm.start_servers = 5@" "${php_conf}"
-        sed -i "s@^pm.min_spare_servers.*@pm.min_spare_servers = 5@" "${php_conf}"
-        sed -i "s@^pm.max_spare_servers.*@pm.max_spare_servers = 35@" "${php_conf}"
-        sed -i "s@^;slowlog.*@slowlog = /var/log/www-slow.log@" "${php_conf}"
-        sed -i "s@^;php_admin_value\[error_log\].*@php_admin_value[error_log] = /var/log/www-error.log@" "${php_conf}"
-        sed -i "s@^;php_admin_flag\[log_errors\].*@php_admin_flag[log_errors] = on@" "${php_conf}"
-
-        cat >> "${php_conf}" << EOF
-php_value[session.save_handler] = files
-php_value[session.save_path]    = /var/lib/php/session
-php_value[soap.wsdl_cache_dir]  = /var/lib/php/wsdlcache
-php_value[opcache.file_cache]   = /var/lib/php/opcache
-EOF
-    fi
-
-    # Update php.ini
-    sed -i "s@^disable_functions.*@disable_functions = passthru,exec,shell_exec,system,chroot,chgrp,chown,proc_open,proc_get_status,ini_alter,ini_restore@" "${php_ini}"
-    sed -i "s@^max_execution_time.*@max_execution_time = 300@" "${php_ini}"
-    sed -i "s@^max_input_time.*@max_input_time = 300@" "${php_ini}"
-    sed -i "s@^post_max_size.*@post_max_size = 128M@" "${php_ini}"
-    sed -i "s@^upload_max_filesize.*@upload_max_filesize = 128M@" "${php_ini}"
-    sed -i "s@^expose_php.*@expose_php = Off@" "${php_ini}"
-    sed -i "s@^short_open_tag.*@short_open_tag = On@" "${php_ini}"
-    sed -i "s#mysqli.default_socket.*#mysqli.default_socket = ${sock_location}#" "${php_ini}"
-    sed -i "s#pdo_mysql.default_socket.*#pdo_mysql.default_socket = ${sock_location}#" "${php_ini}"
-
-    _info "PHP configuration completed"
-}
-
+#==============================================================================
+# Apache Installation
+#==============================================================================
 install_apache_rhel() {
-
     # Install Apache
-    _error_detect "dnf install -y httpd mod_ssl mod_http2 mod_md mod_session mod_lua pcre2"
+    install_packages "httpd" "mod_ssl" "mod_http2" "mod_md" "mod_session" "mod_lua" "pcre2"
     _info "Apache installation completed"
 
     # Create directories
@@ -636,10 +738,9 @@ EOF
 }
 
 install_apache_deb() {
-
     # Install Apache
-    _error_detect "apt-get install -y apache2 libapache2-mod-perl2 libapache2-mod-md"
-    _error_detect "systemctl stop apache2"
+    install_packages "apache2" "libapache2-mod-perl2" "libapache2-mod-md"
+    manage_apache_service "stop" "false"
     _error_detect "a2enmod ssl http2 brotli data unique_id vhost_alias echo expires info"
     _error_detect "a2enmod headers perl rewrite lua request md mime_magic remoteip userdir"
     _error_detect "a2enmod auth*"
@@ -681,6 +782,56 @@ DocumentRoot /data/www/default
 EOF
 }
 
+# Unified package installation function
+# Usage: install_packages "pkg1" "pkg2" ...
+install_packages() {
+    local packages=("$@")
+    
+    if [[ ${#packages[@]} -eq 0 ]]; then
+        return 0
+    fi
+    
+    case "${PM_TYPE}" in
+        dnf)
+            _error_detect "dnf install -y ${packages[*]}"
+            ;;
+        apt)
+            _error_detect "DEBIAN_FRONTEND=noninteractive apt-get install -y ${packages[*]}"
+            ;;
+        *)
+            _error "Unknown package manager: ${PM_TYPE}"
+            ;;
+    esac
+}
+
+# Unified Apache service management
+# Usage: manage_apache_service <action> [is_rhel]
+# action: start, stop, restart, enable, status
+manage_apache_service() {
+    local action="$1"
+    local is_rhel="${2:-false}"
+    local service_name
+    
+    if [[ "${is_rhel}" == "true" ]]; then
+        service_name="httpd"
+    else
+        service_name="apache2"
+    fi
+    
+    case "${action}" in
+        start|stop|restart|enable)
+            _error_detect "systemctl ${action} ${service_name}"
+            ;;
+        status)
+            _info "systemctl --no-pager -l status ${service_name}"
+            systemctl --no-pager -l status "${service_name}" || true
+            ;;
+        *)
+            _error "Unknown Apache service action: ${action}"
+            ;;
+    esac
+}
+
 install_apache() {
     local is_rhel="$1"
 
@@ -707,6 +858,9 @@ install_apache() {
     _info "Apache configuration completed"
 }
 
+#==============================================================================
+# phpMyAdmin Installation
+#==============================================================================
 install_phpmyadmin() {
     local db_pass="$1"
 
@@ -723,6 +877,9 @@ install_phpmyadmin() {
     _info "phpMyAdmin installation completed"
 }
 
+#==============================================================================
+# MariaDB Installation
+#==============================================================================
 install_mariadb() {
     local mariadb_ver="$1"
     # shellcheck disable=SC2034
@@ -744,14 +901,14 @@ install_mariadb() {
 
     if _check_sys rhel; then
         _error_detect "dnf config-manager --disable mariadb-maxscale"
-        _error_detect "dnf install -y MariaDB-common MariaDB-server MariaDB-client MariaDB-shared MariaDB-backup"
+        install_packages "MariaDB-common" "MariaDB-server" "MariaDB-client" "MariaDB-shared" "MariaDB-backup"
         cnf_path_ref="/etc/my.cnf.d/server.cnf"
     elif _check_sys debian || _check_sys ubuntu; then
         if [[ -f "/etc/apt/sources.list.d/mariadb.list" ]]; then
             sed -i 's|^deb \[arch=amd64,arm64\] https://dlm.mariadb.com/repo/maxscale/latest/apt|#&|' /etc/apt/sources.list.d/mariadb.list
         fi
-        _error_detect "apt-get update"
-        _error_detect "DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-common mariadb-server mariadb-client mariadb-backup"
+        _update_package_cache
+        install_packages "mariadb-common" "mariadb-server" "mariadb-client" "mariadb-backup"
         # shellcheck disable=SC2034
         cnf_path_ref="/etc/mysql/mariadb.conf.d/50-server.cnf"
     fi
@@ -759,6 +916,9 @@ install_mariadb() {
     _info "MariaDB installation completed"
 }
 
+#==============================================================================
+# PHP Installation
+#==============================================================================
 install_php() {
     local php_ver="$1"
     local -n php_conf_ref="$2"
@@ -789,19 +949,27 @@ install_php() {
     configure_php_settings "${php_conf_ref}" "${php_ini_ref}" "${sock_location_ref}" "${is_rhel}"
 }
 
+#==============================================================================
+# Permissions Setup
+#==============================================================================
 set_permissions() {
     local is_rhel="$1"
 
     if [[ "${is_rhel}" == "true" ]]; then
         _error_detect "chown -R apache:apache /data/www /data/wwwlog"
-        _error_detect "chown -R apache:apache /var/lib/php/opcache"
+        _error_detect "chown root:apache /var/lib/php/{session,wsdlcache,opcache}"
     else
         _error_detect "chown -R www-data:www-data /data/www /data/wwwlog"
         _error_detect "chown root:www-data /var/lib/php/{session,wsdlcache,opcache}"
     fi
 }
 
-main() {
+#==============================================================================
+# Main Function - Refactored into Phase Functions
+#==============================================================================
+
+# Phase 1: Check prerequisites
+_check_prerequisites() {
 
     # Check root
     if [[ ${EUID} -ne 0 ]]; then
@@ -811,9 +979,17 @@ main() {
 
     # Initialize log
     mkdir -p "$(dirname "${LOG_FILE}")"
-    if [[ ! -f "${LOG_FILE}" ]]; then touch "${LOG_FILE}"; fi
+    if [[ ! -f "${LOG_FILE}" ]]; then
+        touch "${LOG_FILE}"
+    fi
     chmod 600 "${LOG_FILE}"
+    
+    # Detect package manager
+    _detect_package_manager
+}
 
+# Phase 2: Show banner
+_show_banner() {
     _info "+-------------------------------------------+"
     _info "|   LAMP Installation, Written by Teddysun  |"
     _info "+-------------------------------------------+"
@@ -821,10 +997,13 @@ main() {
     _info "Arch: $(uname -m)"
     _info "Kernel: $(uname -r)"
     _info "Starting LAMP installation script"
+}
 
-    # Check OS support
+# Phase 3: Check OS support
+_check_os_support() {
     local supported="false"
-    local is_rhel="false"
+    is_rhel="false"
+
     if _check_sys rhel; then
         for ver in 8 9 10; do
             get_rhelversion "${ver}" && supported="true" && break
@@ -842,36 +1021,45 @@ main() {
         done
     fi
 
-    [[ "${supported}" != "true" ]] && _error "Unsupported OS. Please use Enterprise Linux 8+, Debian 11+, or Ubuntu 20.04+"
+    [[ "${supported}" == "false" ]] && _error "Unsupported OS. Please use Enterprise Linux 8+, Debian 11+, or Ubuntu 20.04+"
 
-    # Get user input
+}
+
+# Phase 4: Get user input
+_get_user_input() {
     select_mariadb_version
     read_db_password
     select_php_version
-
     _info "---------------------------"
     _info "MariaDB version: $(_green "${mariadb_ver}")"
     _info "PHP version: $(_green "${php_ver}")"
     _info "---------------------------"
+}
 
-    # Confirm installation
+# Phase 5: Confirm installation
+_confirm_installation() {
     _info "Press any key to start installation, or Ctrl+C to cancel"
     get_char > /dev/null
+}
 
-    # System initialization
+# Phase 6: Run system initialization
+_run_system_init() {
     _info "Starting system initialization"
     configure_bbr
     configure_journald
     initialize_system
-
     echo
     netstat -nxtulpe 2>/dev/null || ss -tunlp
     echo
     _info "System initialization completed"
     sleep 3
     clear
+}
 
-    # LAMP Installation
+# Phase 7: Install LAMP stack
+_install_lamp_stack() {
+    local is_rhel="$1"
+
     _info "Starting LAMP (Linux + Apache + MariaDB + PHP) installation"
 
     # Install Apache
@@ -896,56 +1084,49 @@ main() {
 
     # Set permissions
     set_permissions "${is_rhel}"
+}
+
+# Phase 8: Install lamp helper
+_install_lamp_helper() {
 
     # Install lamp helper script
     if [[ -f "${SCRIPT_DIR}/conf/lamp" ]]; then
         _error_detect "cp -f ${SCRIPT_DIR}/conf/lamp /usr/bin/"
         _error_detect "chmod +x /usr/bin/lamp"
     fi
+}
 
-    # Start services
+# Phase 9: Start and enable services
+_start_and_enable_services() {
+    local is_rhel="$1"
+    local php_fpm="$2"
     _error_detect "systemctl daemon-reload"
     _error_detect "systemctl start ${php_fpm}"
-    if [[ "${is_rhel}" == "true" ]]; then
-        _error_detect "systemctl start httpd"
-    else
-        _error_detect "systemctl start apache2"
-    fi
+    manage_apache_service "start" "${is_rhel}"
     sleep 3
     _error_detect "systemctl restart ${php_fpm}"
     _error_detect "systemctl restart mariadb"
-    if [[ "${is_rhel}" == "true" ]]; then
-        _error_detect "systemctl restart httpd"
-    else
-        _error_detect "systemctl restart apache2"
-    fi
+    manage_apache_service "restart" "${is_rhel}"
     sleep 1
-
     # Enable services
     _error_detect "systemctl enable mariadb"
     _error_detect "systemctl enable ${php_fpm}"
-    if [[ "${is_rhel}" == "true" ]]; then
-        _error_detect "systemctl enable httpd"
-    else
-        _error_detect "systemctl enable apache2"
-    fi
-
-    # Cleanup
+    manage_apache_service "enable" "${is_rhel}"
+    # Clean up
     pkill -9 gpg-agent 2>/dev/null || true
+}
 
-    # Show status
+# Phase 10: Show final status
+_show_final_status() {
+    local is_rhel="$1"
+    local php_fpm="$2"
+
     echo
     _info "systemctl --no-pager -l status mariadb"
     systemctl --no-pager -l status mariadb || true
     _info "systemctl --no-pager -l status ${php_fpm}"
     systemctl --no-pager -l status "${php_fpm}" || true
-    if [[ "${is_rhel}" == "true" ]]; then
-        _info "systemctl --no-pager -l status httpd"
-        systemctl --no-pager -l status httpd || true
-    else
-        _info "systemctl --no-pager -l status apache2"
-        systemctl --no-pager -l status apache2 || true
-    fi
+    manage_apache_service "status" "${is_rhel}"
 
     echo
     _info "netstat -nxtulpe"
@@ -954,6 +1135,31 @@ main() {
     _info "LAMP (Linux + Apache + MariaDB + PHP) installation completed"
     _info "Intro: $(_green "https://github.com/teddysun/lamp")"
     _info "Log file: ${LOG_FILE}"
+}
+
+# Main entry point
+main() {
+
+    # Phase 1: Check prerequisites
+    _check_prerequisites
+    # Phase 2: Show banner
+    _show_banner
+    # Phase 3: Check OS support
+    _check_os_support
+    # Phase 4: Get user input
+    _get_user_input
+    # Phase 5: Confirm installation
+    _confirm_installation
+    # Phase 6: Run system initialization
+    _run_system_init
+    # Phase 7: Install LAMP stack
+    _install_lamp_stack "${is_rhel}"
+    # Phase 8: Install lamp helper
+    _install_lamp_helper
+    # Phase 9: Start and enable services
+    _start_and_enable_services "${is_rhel}" "${php_fpm}"
+    # Phase 10: Show final status
+    _show_final_status "${is_rhel}" "${php_fpm}"
 }
 
 # Run main function
